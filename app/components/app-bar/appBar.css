@@ -1,0 +1,15 @@
+.meInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0067C5;
+    margin: 1em;
+}
+
+.infotekst {
+    border-radius: 50%;
+    color: var(--a-surface-action);
+    border: 2px solid var(--a-surface-action);
+    width: 1.5rem;
+    height: 1.5rem;
+}

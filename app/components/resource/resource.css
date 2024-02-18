@@ -1,0 +1,27 @@
+ul {
+    list-style-type: none;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    columns: 3;
+    list-style-position: inside;
+    background-color: white;
+}
+
+li {
+    padding: 1em;
+}
+
+hr {
+    border-top: 1px solid black;
+    width: 30%;
+}
+
+.infoIconSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.objectTypeLink:hover {
+    background-color: var(--a-blue-50);
+}

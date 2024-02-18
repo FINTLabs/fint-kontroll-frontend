@@ -1,0 +1,48 @@
+{
+  "name": "remix",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev --manual",
+    "start": "remix-serve ./build/index.js",
+    "typecheck": "tsc",
+    "port-forward-user": "kubectl -n fintlabs-no port-forward services/fint-kontroll-user-catalog 8062:8080",
+    "port-forward-org": "kubectl -n fintlabs-no port-forward services/fint-kontroll-orgunit-catalog 8060:8080",
+    "port-forward-assignments": "kubectl -n fintlabs-no port-forward services/fint-kontroll-assignment-catalog 8061:8080",
+    "port-forward-resources": "kubectl -n fintlabs-no port-forward services/fint-kontroll-resource-catalog 8063:8080",
+    "port-forward-roles": "kubectl -n fintlabs-no port-forward services/fint-kontroll-role-catalog 8064:8080"
+  },
+  "dependencies": {
+    "@navikt/ds-css": "^5.11.4",
+    "@navikt/ds-react": "^5.11.4",
+    "@remix-run/css-bundle": "^2.3.1",
+    "@remix-run/node": "^2.3.1",
+    "@remix-run/react": "^2.3.1",
+    "@remix-run/serve": "^2.3.1",
+    "axios": "^1.6.2",
+    "cypress": "^13.6.3",
+    "isbot": "^3.6.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@navikt/aksel-stylelint": "^5.11.4",
+    "@remix-run/dev": "^2.3.1",
+    "@remix-run/eslint-config": "^2.3.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "eslint": "^8.38.0",
+    "msw": "^2.2.0",
+    "stylelint": "^15.11.0",
+    "typescript": "^5.1.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "stylelint": {
+    "extends": [
+      "@navikt/aksel-stylelint/recommended"
+    ]
+  }
+}

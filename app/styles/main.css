@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+}
+
+.main {
+    height: 100vh;
+}
+
+.blueSection {
+    background-color: var(--a-blue-50);
+}
+
+.content {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filters {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.searchField {
+    margin-left: 1em;
+}
+
+.heading {
+    margin-bottom: 1.5em;
+}
+
+.paginationWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2em;
+}
+
+table {
+    background-color: white;
+}
+
+.footer {
+    background-color: var(--a-blue-50);
+}
+
+.WelcomeSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem;
+    margin-top: 5rem;
+    background-color: #F2F3F5;
+}
+
+.buttonOutlined {
+    color: var(--a-nav-red);
+    box-shadow: inset 0 0 0 2px var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
+}
+.buttonOutlined:hover {
+     color: var(--ac-button-danger-text, var(--a-text-on-danger));
+     background-color: var(--ac-button-danger-hover-bg, var(--a-surface-danger-hover));
+ }
+
+.SelectObjectType {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+    padding: 0.6em;
+    margin-top: 0.4em;
+}
+
+
+
