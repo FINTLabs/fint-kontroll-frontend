@@ -17,7 +17,7 @@
     "@navikt/ds-css": "^5.11.4",
     "@navikt/ds-react": "^5.11.4",
     "@remix-run/css-bundle": "^2.3.1",
-    "@remix-run/node": "^2.3.1",
+    "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.3.1",
     "@remix-run/serve": "^2.3.1",
     "axios": "^1.6.2",
