@@ -19,7 +19,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
 
     return (
         <>
-            <Table>
+            <Table id={"userTable"}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
@@ -60,6 +60,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
 
             <Form className={"paginationWrapper"}>
                 <Select
+                    id={"selectNumberOfRows"}
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"

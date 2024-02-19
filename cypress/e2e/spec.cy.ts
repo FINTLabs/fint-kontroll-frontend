@@ -16,49 +16,36 @@ Cypress.on("uncaught:exception", (err) => {
 describe('My First Test', () => {
     it('Visits the app', () => {
         cy.visit('http://localhost:3000'
-
-   );
+        );
     });
 })
 
+describe('User table Test', () => {
 
-
-/*
-    describe('Check the user page with no backend', () => {
-   // const searchText = 'TEST';
-
-    beforeEach(() => {
-        const baseUrl = "http://localhost:3000";
-       cy.interceptAndReturnFile("GET", `${baseUrl}/users/?size=5`, "users.json");
-       // cy.interceptAndReturnFile("GET", `${baseUrl}/users`, "users.json");
-    });
-
-    it('Connect to localhost', () => {
-        cy.goToHome();
-    })
-
-    /!*it('Check type in searchField, and clear input', () => {
-        cy.goToHome();
-        cy.get('#outlined-search').should('exist')
-        cy.get('#outlined-search').should('have.value', '')
-        cy.get('#showClearIcon').should('not.be.visible')
-        cy.get('#outlined-search').type(searchText).should('have.value', searchText)
-        cy.wait(1000)
-        cy.get('#showClearIcon').should('be.visible')
-        cy.get('#outlined-search').should('be.visible')
-        cy.wait(1000)
-        cy.get('#showClearIcon').click();
-        cy.wait(1000)
-        cy.get('#outlined-search').should('have.value', '')
-    })
-
-    it('Check table (exists, has 5 rows)', () => {
-        cy.goToHome();
+    it('Check user table (exists, has 10 rows)', () => {
+        cy.visit('http://localhost:3000/users?size=10')
         cy.get('#userTable')
             .should('be.visible')
-        // .find('tbody tr')
-        // .should('have.length', 5);
-    });*!/
+            .find('tbody tr')
+            .should('have.length', 10)
+    });
 
-*/
-//})
+    it('Pagination (select number of rows in table)', () => {
+        cy.visit('http://localhost:3000/users?size=10')
+        cy.get('#pagination').should('exist')
+        cy.get('#selectNumberOfRows').should('be.visible')
+        cy.get('#selectNumberOfRows').should('have.value', '10')
+        cy.wait(3000)
+        cy.get('#selectNumberOfRows').select('5')
+        cy.wait(3000)
+    });
+
+    it('Pagination (check if number of pages in table is correct)', () => {
+        cy.visit('http://localhost:3000/users?size=10')
+        cy.get('#pagination').should('exist')
+       // cy.get('#pagination ul>li').first().should('have.text', 'Forrige').should('be.disabled')
+        cy.get('#pagination ul>li').last().should('have.text', 'Neste')
+        cy.get('#pagination ul li').should('have.text', 'Forrige12345...10Neste')
+        cy.wait(3000)
+    });
+})
