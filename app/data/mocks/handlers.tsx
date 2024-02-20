@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import {http, HttpResponse} from 'msw';
 
 export const handlers = [
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
@@ -7,9 +7,10 @@ export const handlers = [
             "lastName": "testesen",
             "organisationId": "novari.no",
             "mail": "linda.loftsgarden@novari.no"
-        } );
+        });
     }),
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users?size=10&page=0&search=', () => {
+
+    http.get('http://localhost:8062/beta/fintlabs-no/api/users*', () => {
         return HttpResponse.json({
             "users": [
                 {
@@ -82,55 +83,11 @@ export const handlers = [
                     "organisationUnitId": "30",
                     "userType": "EMPLOYEE"
                 },
-        ],
+            ],
             "currentPage": 0,
             "totalPages": 10,
             "totalItems": 100
-        } );
-    }),
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users?size=5&page=0&search=', () => {
-        return HttpResponse.json({
-            "users": [
-                {
-                    "id": 1129,
-                    "fullName": "Ada Andersen",
-                    "organisationUnitName": "INFRA Vei- og geofag",
-                    "organisationUnitId": "89",
-                    "userType": "EMPLOYEE"
-                },
-                {
-                    "id": 1044,
-                    "fullName": "Andreas Andersen",
-                    "organisationUnitName": "KOMP Fag- og yrkesopplæring",
-                    "organisationUnitId": "161",
-                    "userType": "EMPLOYEE"
-                },
-                {
-                    "id": 1562,
-                    "fullName": "Astrid Andersen",
-                    "organisationUnitName": "VGMIDT Midtbyen videregående skole",
-                    "organisationUnitId": "194",
-                    "userType": "STUDENT"
-                },
-                {
-                    "id": 873,
-                    "fullName": "Edvard Andersen",
-                    "organisationUnitName": "VGSTOR Administrasjon",
-                    "organisationUnitId": "205",
-                    "userType": "EMPLOYEE"
-                },
-                {
-                    "id": 1505,
-                    "fullName": "Elisabeth Andersen",
-                    "organisationUnitName": "VGMIDT Midtbyen videregående skole",
-                    "organisationUnitId": "194",
-                    "userType": "STUDENT"
-                }
-            ],
-            "currentPage": 0,
-            "totalPages": 1,
-            "totalItems": 5
-        } );
+        });
     }),
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources?size=3&page=0&search=Adobe', () => {
         return HttpResponse.json({
@@ -174,7 +131,7 @@ export const handlers = [
             "currentPage": 0,
             "totalPages": 1,
             "totalItems": 5
-        } );
+        });
     }),
 ];
 

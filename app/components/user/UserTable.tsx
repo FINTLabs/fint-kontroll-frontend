@@ -36,6 +36,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell align="right">
                                 <Button
+                                    id={`userInfoButton-${user.id}`}
                                     icon={
                                         <InformationSquareIcon
                                             title="Informasjonsikon"
