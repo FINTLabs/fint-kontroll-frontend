@@ -57,6 +57,22 @@ export interface IRolePage {
     roles: IRoleItem[];
 }
 
+export interface IMemberPage {
+    totalItems: number;
+    totalPages: number | any;
+    currentPage: number;
+    size: number;
+    members: IMemberItem[];
+}
+
+export interface IMemberItem {
+    id: number;
+    firstName: string;
+    lastName: string;
+    userType: string;
+    userName?: null;
+}
+
 export interface IAssignmentPage {
     totalItems: number;
     totalPages: number | any;
