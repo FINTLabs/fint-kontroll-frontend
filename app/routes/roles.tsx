@@ -7,6 +7,7 @@ import type {IRolePage} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
+import {RoleSearch} from "~/components/role/RoleSearch";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -39,7 +40,7 @@ export default function Roles() {
                         </Button>
                     </div>
                     <div>
-                        {/*<UserSearch/>*/}
+                        <RoleSearch/>
                     </div>
                 </Box>
             </div>
