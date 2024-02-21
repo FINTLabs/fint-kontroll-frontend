@@ -62,7 +62,7 @@ export function AppBar (props: {me: IMeInfo}) {
                                 <LinkPanel.Title><PersonIcon title="a11y-title" fontSize="1.5rem" /> Brukere</LinkPanel.Title>
                             </LinkPanel>
 
-                            <LinkPanel border={false} href="/#">
+                            <LinkPanel border={false} href="/roles">
                                 <LinkPanel.Title><PersonGroupIcon title="a11y-title" fontSize="1.5rem" /> Grupper</LinkPanel.Title>
                             </LinkPanel>
 
