@@ -20,7 +20,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     return json(await response.json());
 }
 
-export default function Roles() {
+export default function Roles_index() {
     const rolePage = useLoaderData<IRolePage>();
 
     return (
