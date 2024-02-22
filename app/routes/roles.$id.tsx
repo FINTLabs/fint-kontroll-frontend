@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Heading, Tabs} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
-import type {IMemberPage, IRole} from "~/data/types";
+import {Outlet, useLoaderData, useNavigate} from "@remix-run/react";
+import type {IRole} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchMembers, fetchRoleById} from "~/data/fetch-roles";
+import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
-import {MemberTable} from "~/components/role/MemberTable";
 import styles from "~/components/user/user.css";
 
 export function links() {
@@ -13,28 +12,23 @@ export function links() {
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
-    const page = url.searchParams.get("page") ?? "0";
-    const search = url.searchParams.get("search") ?? "";
-
-    const [role, members] = await Promise.all([
-        fetchRoleById(request.headers.get("Authorization"), params.id),
-        fetchMembers(request.headers.get("Authorization"), params.id, size, page, search)
-    ]);
-    return json({
-        role: await role.json(),
-        members: await members.json()
-    })
+    const response = await fetchRoleById(request.headers.get("Authorization"), params.id);
+    return json(await response.json());
 }
 
 export default function RolesId() {
-    const data = useLoaderData<{ role: IRole, members: IMemberPage }>();
+    const role = useLoaderData<IRole>()
+    const [selectedTab, setSelectedTab] = useState("members")
+    const navigate = useNavigate();
 
+    const handleTabChange = (value: string) => {
+        setSelectedTab(value);
+        navigate(value)
+    };
     return (
         <section className={"content"}>
-            <Heading level={"1"} size={"xlarge"}>{data.role.roleName}</Heading>
-            <Tabs defaultValue="members">
+            <Heading level={"1"} size={"xlarge"}>{role.roleName}</Heading>
+            <Tabs defaultValue={"members"} value={selectedTab} onChange={handleTabChange}>
                 <div style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Tabs.List>
                         <Tabs.Tab
@@ -42,18 +36,12 @@ export default function RolesId() {
                             label="Medlemmer"
                         />
                         <Tabs.Tab
-                            value="resources"
+                            value="assignments"
                             label="Ressurser"
                         />
                     </Tabs.List>
                 </div>
-                <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
-                <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                    <MemberTable memberPage={data.members}/>
-                </Tabs.Panel>
-                <Tabs.Panel value="resources" className="h-24 w-full bg-gray-50 p-4">
-                    Tildelte ressurser
-                </Tabs.Panel>
+                <Outlet/>
             </Tabs>
         </section>
     );

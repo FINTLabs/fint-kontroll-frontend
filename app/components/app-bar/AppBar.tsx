@@ -23,7 +23,7 @@ export function AppBar (props: {me: IMeInfo}) {
                 <HStack as="nav" justify="space-between" align="center">
                     <HStack align="center">
                     {/*<img src={logo} alt={"Logo"} style={{height: '6em', width: '6em'}}/>*/}
-                    <BodyShort weight="semibold" truncate size="large" style={{color: '#0067C5'}}>
+                    <BodyShort className={"kontroll"} weight="semibold" size={"large"}>
                         Kontroll
                     </BodyShort>
                     </HStack>
@@ -32,7 +32,7 @@ export function AppBar (props: {me: IMeInfo}) {
                             <Button
                                 ref={buttonRef}
                                 icon={menuOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
-                                variant="tertiary"
+                                variant="tertiary-neutral"
                                 onClick={() => setMenuOpen(!menuOpen)}
                             >
                                 Meny

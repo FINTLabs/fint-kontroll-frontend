@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #0067C5;
     margin: 1em;
 }
 
@@ -12,4 +11,8 @@
     border: 2px solid var(--a-surface-action);
     width: 1.5rem;
     height: 1.5rem;
+}
+
+.kontroll {
+    font-size: x-large;
 }

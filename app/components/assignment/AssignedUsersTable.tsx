@@ -33,7 +33,7 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.firstName} {user.lastName}</Table.HeaderCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
-                            <Table.DataCell>Ola Normann</Table.DataCell>
+                            <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 <Button
                                     className={"buttonOutlined"}
