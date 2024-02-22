@@ -74,13 +74,13 @@ export function AppBar (props: {me: IMeInfo}) {
                             <LinkPanel border={false} href="/access">
                                 <LinkPanel.Title>
                                     <ClipboardCheckmarkIcon title="a11y-title" fontSize="1.5rem" />
-                                    Ressursstyringsadministrator
+                                    Ressursmoduladministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
-                            <LinkPanel border={false} href="/tools">
+                            <LinkPanel border={false} href="/resource-admin">
                                 <LinkPanel.Title>
                                     <TasklistIcon title="a11y-title" fontSize="1.5rem" />
-                                    Applikasjonsadministrator
+                                    Ressursadministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
                         </Box>

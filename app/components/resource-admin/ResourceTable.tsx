@@ -42,7 +42,7 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
                                     }
                                     iconPosition={"right"}
                                     onClick={() =>
-                                        navigate(`/resources/${resource.id}/all-assignments`)
+                                        navigate(`/resource-admin/${resource.id}`)
                                     }
                                     // id={`resource-${i}`}
                                     variant={"secondary"}
