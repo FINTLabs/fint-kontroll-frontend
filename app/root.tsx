@@ -81,7 +81,7 @@ export default function App() {
                 </Box>
             }
         >
-            <Box as="header" style={{borderBottom: '1px solid #99C3FF'}}>
+            <Box className={"footer"} as="header">
                 <Page.Block width="2xl">
                     <AppBar me={me}/>
                 </Page.Block>

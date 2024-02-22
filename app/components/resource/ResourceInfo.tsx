@@ -16,8 +16,12 @@ export const ResourceInfo: any = (props: { resource: IResource }) => {
                 <Box>
                     <List as="ul">
                         <li>
-                            <Heading size="small" level="3">Ressurs:</Heading>
-                            <BodyShort textColor="subtle">{props.resource.resourceName}</BodyShort>
+                            <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
+                            <BodyShort textColor="subtle">{props.resource.identityProviderGroupName}</BodyShort>
+                        </li>
+                        <li>
+                            <Heading size="small" level="3">KildesystemID:</Heading>
+                            <BodyShort textColor="subtle">{props.resource.resourceId}</BodyShort>
                         </li>
                         <li>
                             <Heading size="small" level="3">Ressurstype:</Heading>

@@ -3,8 +3,8 @@ import type {IAssignmentPage} from "~/data/types";
 import {Form, useSearchParams} from "@remix-run/react";
 import React from "react";
 
-export const AssignmentsForUserTable: any = (props: {
-    assignmentsForUser: IAssignmentPage,
+export const AssignmentsForRoleTable: any = (props: {
+    assignmentsForRole: IAssignmentPage,
     size: string,
     page: string
 }) => {
@@ -30,7 +30,7 @@ export const AssignmentsForUserTable: any = (props: {
                 </Table.Header>
                 <Table.Body>
 
-                    {props.assignmentsForUser.resources.map((resource) => (
+                    {props.assignmentsForRole.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
@@ -55,14 +55,14 @@ export const AssignmentsForUserTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.assignmentsForUser.currentPage + 1}
+                    page={props.assignmentsForRole.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.assignmentsForUser.totalPages}
+                    count={props.assignmentsForRole.totalPages}
                     size="small"
                     prevNextTexts
                 />

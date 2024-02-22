@@ -45,7 +45,7 @@ export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page:
                                     }
                                     iconPosition={"right"}
                                     onClick={() =>
-                                        navigate(`/roles/${role.id}`)
+                                        navigate(`/roles/${role.id}/members`)
                                     }
                                     // id={`resource-${i}`}
                                     variant={"secondary"}
