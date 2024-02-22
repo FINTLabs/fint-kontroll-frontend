@@ -25,7 +25,7 @@ export default function AssignmentsForRole() {
     return (
         <section>
             <Tabs value={"assignments"}>
-                <Heading className={"heading"} level={"2"} size={"large"}>Tildelinger</Heading>
+                <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
                 <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
                     <AssignmentsForRoleTable assignmentsForRole={assignments}/>
                 </Tabs.Panel>
