@@ -1,3 +1,19 @@
+export interface IAssignment {
+    user: IUser | null
+    accessRoleId: string
+    scopeId: number
+    orgUnits: IOrgUnit[]
+}
+
+export interface IOrgUnit {
+    id: number
+    name: string
+    organisationUnitId: string
+    parentRef: string
+    parentName: null | string
+    childrenRef: string[]
+}
+
 export interface IMeInfo {
     "firstName": string;
     "lastName": string;
