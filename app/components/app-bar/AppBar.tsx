@@ -71,7 +71,7 @@ export function AppBar (props: {me: IMeInfo}) {
                             </LinkPanel>
                         </Box>
                         <Box>
-                            <LinkPanel border={false} href="/access">
+                            <LinkPanel border={false} href="/resource-module-admin/tildel">
                                 <LinkPanel.Title>
                                     <ClipboardCheckmarkIcon title="a11y-title" fontSize="1.5rem" />
                                     Ressursmoduladministrator
