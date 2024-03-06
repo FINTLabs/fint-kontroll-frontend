@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Heading, Tabs} from "@navikt/ds-react";
-import {Outlet, useLoaderData, useNavigate} from "@remix-run/react";
+import {Outlet, useLoaderData, useLocation, useNavigate} from "@remix-run/react";
 import type {IRole} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
@@ -17,8 +17,11 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export default function RolesId() {
-    const role = useLoaderData<IRole>()
-    const [selectedTab, setSelectedTab] = useState("members")
+    const role = useLoaderData<IRole>();
+    const pathname = useLocation();
+    const tabList = ["members", "assignments"];
+    const currentTab = tabList.find(tab => pathname.pathname.includes(tab))
+    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "members");
     const navigate = useNavigate();
 
     const handleTabChange = (value: string) => {
