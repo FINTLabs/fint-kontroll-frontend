@@ -2,6 +2,7 @@ import {cssBundleHref} from "@remix-run/css-bundle";
 import type {LinksFunction, MetaFunction} from "@remix-run/node";
 import {json} from "@remix-run/node";
 import navStyles from "@navikt/ds-css/dist/index.css";
+import "react-toastify/dist/ReactToastify.css"
 import {
     Links,
     LiveReload,
@@ -19,6 +20,8 @@ import type {IMeInfo} from "~/data/types";
 import {fetchMeInfo} from "~/data/fetch-me-info";
 import meStyles from "~/components/app-bar/appBar.css";
 import type {LoaderFunctionArgs} from "@remix-run/router";
+import {ToastContainer} from "react-toastify";
+
 //import {err} from "@remix-run/dev/dist/result";
 
 
@@ -72,6 +75,7 @@ export default function App() {
             <Links/>
         </head>
         <body>
+        <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
         <Page
             footer={
                 <Box className={"footer"} padding="8" as="footer">

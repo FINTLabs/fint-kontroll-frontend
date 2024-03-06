@@ -25,12 +25,41 @@ export interface IUser {
     "id": number;
     "firstName": string;
     "lastName": string;
+    "fullName": string;
     "userType": string;
     "assignmentRef": number;
     "assignerUsername": string;
     "assignerDisplayname": string;
     "organisationUnitId": string;
     "organisationUnitName": string;
+    roles?: IUserRole[] // Optional to allow use of same type
+}
+
+// -----------------------
+export interface IUserRole {
+    roleId: string
+    roleName: string
+    scopes: IScope[] // Optional to allow use of same type
+}
+
+export interface IScope {
+    objectType: string
+    orgUnits: IOrgUnitForScope[]
+    scopeId: string
+}
+
+export interface IOrgUnitForScope {
+    name: string
+    orgUnitId: string
+    shortName: string
+}
+// -----------------------
+export interface IUserPage {
+    totalItems: number;
+    totalPages: number | any;
+    currentPage: number;
+    size: string;
+    users: IUser[];
 }
 
 export interface IUserItem {
@@ -39,14 +68,6 @@ export interface IUserItem {
     "organisationUnitName": string;
     "organisationUnitId": string;
     "userType": string;
-}
-
-export interface IUserPage {
-    totalItems: number;
-    totalPages: number | any;
-    currentPage: number;
-    size: string;
-    users: IUserItem[];
 }
 
 export interface IRole {

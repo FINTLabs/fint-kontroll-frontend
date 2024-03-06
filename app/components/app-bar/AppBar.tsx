@@ -71,7 +71,7 @@ export function AppBar (props: {me: IMeInfo}) {
                             </LinkPanel>
                         </Box>
                         <Box>
-                            <LinkPanel border={false} href="/resource-module-admin/tildel">
+                            <LinkPanel border={false} href="/resource-module-admin">
                                 <LinkPanel.Title>
                                     <ClipboardCheckmarkIcon title="a11y-title" fontSize="1.5rem" />
                                     Ressursmoduladministrator
@@ -81,6 +81,12 @@ export function AppBar (props: {me: IMeInfo}) {
                                 <LinkPanel.Title>
                                     <TasklistIcon title="a11y-title" fontSize="1.5rem" />
                                     Ressursadministrator
+                                </LinkPanel.Title>
+                            </LinkPanel>
+                            <LinkPanel border={false} href="/kontroll-admin/define-role">
+                                <LinkPanel.Title>
+                                    <TasklistIcon title="a11y-title" fontSize="1.5rem" />
+                                    Kontrolladministrasjon
                                 </LinkPanel.Title>
                             </LinkPanel>
                         </Box>

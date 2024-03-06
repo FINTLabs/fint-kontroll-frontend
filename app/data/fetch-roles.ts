@@ -14,7 +14,6 @@ export const fetchRoles = async (token: string | null, size: string, page: strin
         throw new Error("Påloggingen din er utløpt")
     }
     throw new Error("Det virker ikke som om du er pålogget")
-
 }
 
 export const fetchRoleById = async (token: string | null, id: string | undefined) => {

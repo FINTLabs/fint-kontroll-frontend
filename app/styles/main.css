@@ -84,5 +84,12 @@ table {
     margin-top: 0.4em;
 }
 
+.navds-radio-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
 
-
+.center-checkbox-in-table {
+    margin: 0 auto;
+}
