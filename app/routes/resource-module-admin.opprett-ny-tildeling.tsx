@@ -35,7 +35,7 @@ export default function ResourceModuleAdminTabTildel() {
     const [newAssignment, setNewAssignment] = useState<IAssignment>({user: null, accessRoleId: "", scopeId: 0, orgUnits:[]})
 
     return (
-        <section>
+        <section className={"content"}>
             <Heading className={"heading"} level={"2"} size={"large"}>Tildel rettigheter</Heading>
             Innhold kommer
         </section>
