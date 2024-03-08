@@ -137,3 +137,32 @@ export type IResponse<T> = {
     data: T;
     errorMessage: string | undefined;
 }
+
+export interface IOrgUnit {
+    "id": number;
+    "name": string;
+    "organisationUnitId": string;
+}
+
+export interface IOrgUnitPage {
+    orgUnits: IOrgUnit[];
+    totalItems: number;
+    totalPages: number | any;
+    currentPage: number;
+}
+
+export interface IUnitItem {
+    id: number;
+    name: string;
+    organisationUnitId: string;
+    parentName: string | null;
+    parentRef: string;
+    childrenRef: string[];
+}
+
+export interface IUnitTree {
+    totalItems: number;
+    totalPages: number | any;
+    currentPage: number;
+    orgUnits: IUnitItem[];
+}

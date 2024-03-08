@@ -1,38 +1,28 @@
-/*
 import React from "react"
 
-import { Accordion, Checkbox } from "@navikt/ds-react"
-import { useOrgUnits } from "../../data/OrgUnitContext"
-import { IOrgUnit } from "../../data/types"
-import styled from "styled-components"
+import {Accordion, Checkbox} from "@navikt/ds-react"
+import type {IUnitItem} from "~/data/types";
 
-const StyledAccordion = styled(Accordion)`
-	* {
-		border: none !important;
-		box-shadow: none !important;
-		padding-top: 0 !important;
-		padding-bottom: 0 !important;
-		height: inherit;
-	}
-`
 
 interface OrgUnitTreeProps {
-    selectedOrgUnits: IOrgUnit[]
-    nodes?: IOrgUnit
-    setSelectedOrgUnits: (newSelected: any) => void
+    orgUnitList: IUnitItem[]
+    selectedOrgUnits: IUnitItem[]
+    nodes?: IUnitItem
+    setSelectedOrgUnits: (newSelected: IUnitItem[]) => void
     aggregated: boolean
 }
 
-const OrgUnitTreeWithUserConnectionOrganism = ({
-                                                   selectedOrgUnits,
-                                                   setSelectedOrgUnits,
-                                                   aggregated
-                                               }: OrgUnitTreeProps) => {
-    const { orgUnitsData } = useOrgUnits()
+const OrgUnitTree = ({
+                         orgUnitList,
+                         selectedOrgUnits,
+                         setSelectedOrgUnits,
+                         aggregated
+                     }: OrgUnitTreeProps) => {
 
-    const toggleOrgUnit = (orgUnit: IOrgUnit) => {
+
+    const toggleOrgUnit = (orgUnit: IUnitItem) => {
         const isSelected = selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)
-        let newSelected: IOrgUnit[]
+        let newSelected: IUnitItem[]
 
         if (isSelected) {
             newSelected = selectedOrgUnits.filter((unit) => unit.organisationUnitId !== orgUnit.organisationUnitId)
@@ -47,7 +37,7 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
         setSelectedOrgUnits(newSelected) // Updates list of selected org units
     }
 
-    const toggleOrgUnitAndChildren = (orgUnit: IOrgUnit) => {
+    const toggleOrgUnitAndChildren = (orgUnit: IUnitItem) => {
         const isSelected = selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)
         let newSelected = [...selectedOrgUnits]
 
@@ -73,13 +63,13 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
         setSelectedOrgUnits(newSelected) // Updates list of selected org units
     }
 
-    const findChildrenOrgUnits = (orgUnit: IOrgUnit): IOrgUnit[] => {
-        const childrenOrgUnits: IOrgUnit[] = []
+    const findChildrenOrgUnits = (orgUnit: IUnitItem): IUnitItem[] => {
+        const childrenOrgUnits: IUnitItem[] = []
 
-        const findChildren = (node: IOrgUnit) => {
+        const findChildren = (node: IUnitItem) => {
             if (Array.isArray(node.childrenRef)) {
                 for (const nodeId of node.childrenRef) {
-                    const childNode = orgUnitsData?.orgUnits.find((n) => n.organisationUnitId === nodeId)
+                    const childNode = orgUnitList.find((n) => n.organisationUnitId === nodeId)
                     if (childNode) {
                         childrenOrgUnits.push(childNode)
                         findChildren(childNode)
@@ -92,7 +82,7 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
         return childrenOrgUnits
     }
 
-    const handleCheckboxClick = (orgUnit: IOrgUnit) => {
+    const handleCheckboxClick = (orgUnit: IUnitItem) => {
         if (aggregated) {
             toggleOrgUnitAndChildren(orgUnit)
         } else {
@@ -100,7 +90,7 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
         }
     }
 
-    const renderTree = (node: IOrgUnit) => {
+    const renderTree = (node: IUnitItem) => {
         return (
             <Accordion.Item key={node.id + " " + node.organisationUnitId}>
                 <Accordion.Header>
@@ -117,7 +107,7 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
                 <Accordion.Content>
                     {Array.isArray(node.childrenRef)
                         ? node.childrenRef.map((nodeId: string) => {
-                            const node = orgUnitsData?.orgUnits.find((n) => n.organisationUnitId === nodeId)
+                            const node = orgUnitList.find((n) => n.organisationUnitId === nodeId)
                             if (node) {
                                 return renderTree(node)
                             }
@@ -132,16 +122,15 @@ const OrgUnitTreeWithUserConnectionOrganism = ({
     return (
         <>
             <b>Velg orgenheter</b>
-            {orgUnitsData?.orgUnits?.map((node: IOrgUnit) => {
+            {orgUnitList.map((node: IUnitItem) => {
                 if (node.parentRef !== node.organisationUnitId) {
                     return null
                 }
 
-                return <StyledAccordion key={node.organisationUnitId}>{renderTree(node)}</StyledAccordion>
+                return <Accordion className={"styled-accordion"}
+                                  key={node.organisationUnitId}>{renderTree(node)}</Accordion>
             })}
         </>
     )
 }
-
-export default OrgUnitTreeWithUserConnectionOrganism
-*/
+export default OrgUnitTree;

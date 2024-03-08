@@ -1,29 +1,19 @@
-/*
-import { Button, Modal, Switch } from "@navikt/ds-react"
-import React, { useRef, useState } from "react"
-import { Buldings3Icon } from "@navikt/aksel-icons"
-import styled from "styled-components"
-import { IOrgUnit } from "../../../../data/types"
-import OrgUnitTreeWithUserConnectionOrganism from "../../../../organisms/orgUnitTree/OrgUnitTreeWithUserConnectionOrganism"
-
-const ModalBodyStyled = styled(Modal.Body)`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-
-	.select-wrapper {
-		width: fit-content;
-	}
-`
+import {Button, Modal, Switch} from "@navikt/ds-react"
+import React, {useRef, useState} from "react"
+import {Buldings3Icon} from "@navikt/aksel-icons"
+import type {IUnitItem} from "~/data/types";
+import OrgUnitTree from "~/components/org-unit-filter/OrgUnitTree";
+import {useSearchParams} from "@remix-run/react";
 
 interface OrgUnitFilterModalProps {
-    handleChangeOrgUnitFilter: (stringifiedOrgUnits: string[]) => void
+    orgUnitList: IUnitItem[]
 }
 
-const OrgUnitFilterModal = ({ handleChangeOrgUnitFilter }: OrgUnitFilterModalProps) => {
+const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     const ref = useRef<HTMLDialogElement>(null)
     const [aggregated, setAggregated] = useState(false)
-    const [orgUnitsFilter, setOrgUnitsFilter] = useState<IOrgUnit[]>([])
+    const [orgUnitsFilter, setOrgUnitsFilter] = useState<IUnitItem[]>([])
+    const [URLSearchParams, SetURLSearchParams] = useSearchParams()
 
     const handleOpen = () => {
         ref.current?.showModal()
@@ -34,7 +24,12 @@ const OrgUnitFilterModal = ({ handleChangeOrgUnitFilter }: OrgUnitFilterModalPro
 
     const handleSubmit = () => {
         const orgUnitsToString: string[] = orgUnitsFilter.flatMap((orgUnit) => String(orgUnit.id))
-        handleChangeOrgUnitFilter(orgUnitsToString)
+        SetURLSearchParams((prev) => {
+            prev.set("orgUnits", `${[orgUnitsToString]}`);
+
+            return prev;
+        });
+        // setOrgUnitFilter(orgUnitsToString)
         ref.current?.close()
         reset()
     }
@@ -49,7 +44,7 @@ const OrgUnitFilterModal = ({ handleChangeOrgUnitFilter }: OrgUnitFilterModalPro
             <Button
                 variant={"secondary"}
                 iconPosition="right"
-                icon={<Buldings3Icon aria-hidden />}
+                icon={<Buldings3Icon aria-hidden/>}
                 onClick={handleOpen}
             >
                 Orgenhetsfilter
@@ -57,23 +52,24 @@ const OrgUnitFilterModal = ({ handleChangeOrgUnitFilter }: OrgUnitFilterModalPro
 
             <Modal
                 ref={ref}
-                header={{ heading: "Filtrer brukere på orgenheter valgt her" }}
+                header={{heading: "Filtrer brukere på orgenheter valgt her"}}
                 onAbort={handleClose}
                 onCancel={handleClose}
             >
-                <ModalBodyStyled>
+                <Modal.Body className={"modal-body"}>
                     <>
                         <Switch onClick={() => setAggregated(!aggregated)} checked={aggregated}>
                             Inkluder underliggende enheter
                         </Switch>
 
-                        <OrgUnitTreeWithUserConnectionOrganism
+                        <OrgUnitTree
+                            orgUnitList={orgUnitList}
                             selectedOrgUnits={orgUnitsFilter}
                             setSelectedOrgUnits={setOrgUnitsFilter}
                             aggregated={aggregated}
                         />
                     </>
-                </ModalBodyStyled>
+                </Modal.Body>
 
                 <Modal.Footer>
                     <Button type="button" onClick={handleSubmit}>
@@ -89,4 +85,3 @@ const OrgUnitFilterModal = ({ handleChangeOrgUnitFilter }: OrgUnitFilterModalPro
 }
 
 export default OrgUnitFilterModal
-*/

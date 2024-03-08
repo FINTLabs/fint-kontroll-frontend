@@ -17,8 +17,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     // const url = new URL(request.url);
     // const size = url.searchParams.get("size") ?? "10";
     // const page = url.searchParams.get("page") ?? "0"
-    // const pageRole = url.searchParams.get("pageRole") ?? "0"
-
 
     const [resource/*, assignedUsers, assignedRoles*/] = await Promise.all([
         fetchResourceById(request.headers.get("Authorization"), params.id),

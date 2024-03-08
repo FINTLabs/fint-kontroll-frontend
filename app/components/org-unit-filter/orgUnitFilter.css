@@ -1,0 +1,18 @@
+.styled-accordion {
+    border: none !important;
+    box-shadow: none !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    height: inherit;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.select-wrapper {
+    width: fit-content;
+}
+
