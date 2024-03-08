@@ -7,14 +7,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
 import styles from "~/components/kontroll-admin/kontroll-admin.css";
+import {toast} from "react-toastify";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const url = new URL(request.url);
     const auth = request.headers.get("Authorization")
-
     const response = await fetchFeaturesInRole(auth, params.id);
-    const accessRoleId = params.id ?? "ata"
-    return json( await response.json());
+    const data = await response.json()
+    return json(data);
 }
 
 export function links() {
@@ -24,17 +23,30 @@ export function links() {
 export async function action({request}: ActionFunctionArgs) {
     const formData = await request.formData()
     const auth = request.headers.get("Authorization")
-    await putPermissionDataForRole(auth, formData.get("dataForForm"))
-
-    return json({ ok: true });
+    const response = await putPermissionDataForRole(auth, formData.get("dataForForm"))
+    response.ok ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
+    return {didUpdate: !!response.status}
 }
 
 export default () => {
+    const loaderData = useLoaderData<typeof loader>()
+    const didUpdate = useActionData<typeof action>()
     const params = useParams()
 
-    const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>(useLoaderData<typeof loader>())
+    const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>(loaderData)
+    if(didUpdate !== undefined) {
+        // console.log("e")
+        didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
+    }
 
     const [currentOperations, setCurrentOperations] = useState<string[][]>([])
+
+    console.log("endring i state lokalt", modifiedPermissionDataForRole.accessRoleId)
+
+    useEffect(() => {
+        // setModifiedPermissionDataForRole(loaderData)
+        // console.log(loaderData)
+    }, [loaderData]);
 
     useEffect(() => {
         const operationsList: string[][] = []

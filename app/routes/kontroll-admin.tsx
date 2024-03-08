@@ -16,11 +16,11 @@ export function links() {
 }
 
 export default function KontrollAdmin() {
-    const tabsList = ["define", "featureRole"]
+    const tabsList = ["define-role", "features-to-role"]
     const location = useLocation()
     const currentTab = tabsList.find(tab => location.pathname.includes(tab))
 
-    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "define")
+    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "define-role")
     const navigate = useNavigate();
 
     const handleTabChange = (value: string) => {
@@ -36,13 +36,13 @@ export default function KontrollAdmin() {
                 <div style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Tabs.List>
                         <Tabs.Tab
-                            value="define"
+                            value="define-role"
                             label="Definer rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"define-role-tab"}
                         />
                         <Tabs.Tab
-                            value="featureRole"
+                            value="features-to-role"
                             label="Knytt features til roller"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"feature-role-tab"}

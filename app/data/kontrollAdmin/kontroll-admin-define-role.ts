@@ -37,10 +37,13 @@ export const fetchFeaturesInRole = async (token: string | null, roleId: string |
 
 export const putPermissionDataForRole = async (token: string | null, updatedPermissionRole: any) => {
     const response = await fetch(`http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accesspermission`, {
-        headers: {Authorization: token ?? ""},
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
         method: "PUT",
         body: updatedPermissionRole,
-    });
+});
     if (response.ok) {
         return response;
     }
