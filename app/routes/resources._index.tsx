@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {Box, Button, Heading} from "@navikt/ds-react";
-import {Buldings3Icon} from "@navikt/aksel-icons";
+import React from 'react';
+import {Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
@@ -9,7 +8,11 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import styles from "~/components/org-unit-filter/orgUnitFilter.css"
 
+export function links() {
+    return [{rel: 'stylesheet', href: styles}]
+}
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -19,7 +22,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-console.log(orgUnits)
+    console.log(orgUnits)
     const [responseResource, responseOrgUnits] = await Promise.all([
         fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization"))
@@ -42,26 +45,16 @@ export default function Resource() {
         orgUnitList: IUnitItem[]
     }>();
     console.log(data.resourceList)
-    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     return (
         <div className={"content"}>
-            <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
+
             <div className={"toolbar"}>
                 <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
                 <Box className={"filters"} paddingBlock={"4 16"}>
                     <div>
-                        <Button
-                            variant={"secondary"}
-                            icon={<Buldings3Icon title="a11y-title" fontSize="1.5rem"/>}
-                            iconPosition={"right"}
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            Velg orgenhet
-                        </Button>
+                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
                     </div>
-
-
                     <div>
                         <ResourceSearch/>
                     </div>

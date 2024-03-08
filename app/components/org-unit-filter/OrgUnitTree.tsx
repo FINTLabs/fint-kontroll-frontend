@@ -1,8 +1,6 @@
 import React from "react"
-
 import {Accordion, Checkbox} from "@navikt/ds-react"
 import type {IUnitItem} from "~/data/types";
-
 
 interface OrgUnitTreeProps {
     orgUnitList: IUnitItem[]
@@ -92,8 +90,8 @@ const OrgUnitTree = ({
 
     const renderTree = (node: IUnitItem) => {
         return (
-            <Accordion.Item key={node.id + " " + node.organisationUnitId}>
-                <Accordion.Header>
+            <Accordion.Item key={node.id + " " + node.organisationUnitId} className={"styled-accordion"}>
+                <Accordion.Header className={"styled-accordion"}>
                     <Checkbox
                         checked={selectedOrgUnits.some((unit) => unit.organisationUnitId === node.organisationUnitId)}
                         onClick={(event) => {
@@ -121,14 +119,13 @@ const OrgUnitTree = ({
 
     return (
         <>
-            <b>Velg orgenheter</b>
+            {/* <b>Velg orgenheter</b>*/}
             {orgUnitList.map((node: IUnitItem) => {
                 if (node.parentRef !== node.organisationUnitId) {
                     return null
                 }
 
-                return <Accordion className={"styled-accordion"}
-                                  key={node.organisationUnitId}>{renderTree(node)}</Accordion>
+                return <Accordion key={node.organisationUnitId}>{renderTree(node)}</Accordion>
             })}
         </>
     )
