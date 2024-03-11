@@ -1,5 +1,5 @@
 import {Checkbox, CheckboxGroup} from "@navikt/ds-react"
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import {IFeatureOperation} from "~/data/kontrollAdmin/types";
 
 interface IPermissionTableCheckbox {
@@ -17,6 +17,7 @@ const PermissionsTableCheckbox = ({
           notifyOperationsChanged
       }: IPermissionTableCheckbox) => {
     const [isChecked, setIsChecked] = useState(isCheckedProp)
+
     const handleCheckboxChange = () => {
         if (operationProp !== "GET") {
             setIsChecked(!isChecked)

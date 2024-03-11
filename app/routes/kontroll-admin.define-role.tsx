@@ -9,7 +9,7 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import styles from "~/components/user/user.css";
 import {fetchAccessRoles, fetchFeaturesInRole} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import React from "react";
+import React, {Suspense, useEffect} from "react";
 import {IRole} from "~/data/kontrollAdmin/types";
 
 export function links() {
@@ -35,26 +35,33 @@ export default function KontrollAdminDefineRole() {
         navigate(role)
     }
 
+    useEffect(() => {
+        !roleProp ? navigate(roles[0].accessRoleId) : ""
+    }, []);
+
     return (
         <section>
-            <Tabs value={"define-role"}>
-                <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
-                    <div className={"radio-group-horizontal"}>
-                        <RadioGroup
-                            legend="Velg rolle"
-                            onChange={(val: string) => handleChangeSelectedRole(val)}
-                            value={roleProp}
-                        >
-                            {roles.map((role, index) =>
-                                <Radio key={role.accessRoleId} value={role.accessRoleId}>
-                                    {role.name}
-                                </Radio>)}
-                        </RadioGroup>
-                    </div>
+            <Suspense fallback={<>Loading data</>}>
+                <Tabs value={"define-role"}>
+                    <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
+                        <div className={"radio-group-horizontal"}>
+                            <RadioGroup
+                                legend="Velg rolle"
+                                onChange={(val: string) => handleChangeSelectedRole(val)}
+                                value={roleProp ? roleProp : ""}
+                            >
+                                {roles.map((role, index) =>
+                                    <Radio key={role.accessRoleId} value={role.accessRoleId}>
+                                        {role.name}
+                                    </Radio>)
+                                }
+                            </RadioGroup>
+                        </div>
 
-                    <Outlet />
-                </Tabs.Panel>
-            </Tabs>
+                        <Outlet />
+                    </Tabs.Panel>
+                </Tabs>
+            </Suspense>
         </section>
     );
 }
