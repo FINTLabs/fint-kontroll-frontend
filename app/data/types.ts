@@ -54,12 +54,12 @@ export interface IOrgUnitForScope {
     shortName: string
 }
 // -----------------------
-export interface IUserPage {
-    totalItems: number;
+export interface IUserPage {totalItems: number;
     totalPages: number | any;
     currentPage: number;
     size: string;
     users: IUser[];
+
 }
 
 export interface IUserItem {

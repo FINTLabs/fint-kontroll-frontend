@@ -1,0 +1,28 @@
+.users-table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+th:nth-child(-n + 2) {
+    width: 400px;
+}
+
+th:nth-child(2 + n) {
+    width: 75px;
+}
+
+th:last-child {
+    width: 125px;
+}
+
+td {
+    border-bottom: none;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+}
