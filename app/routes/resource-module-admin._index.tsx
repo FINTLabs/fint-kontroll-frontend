@@ -9,7 +9,7 @@ import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const auth = request.headers.get("Authorization")
     const size = Number(url.searchParams.get("size") ?? "10");
@@ -22,7 +22,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export default function ResourceModuleAdminIndex() {
-    const navigate = useNavigate()
     const usersPage = useLoaderData<typeof loader>()
 
     return (

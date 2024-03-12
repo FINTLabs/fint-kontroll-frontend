@@ -1,5 +1,3 @@
-import {IUser} from "~/data/types";
-
 export interface IResourceModuleUsersPage {
     totalItems: number;
     totalPages: number | any;
