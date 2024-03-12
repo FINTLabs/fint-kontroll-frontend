@@ -20,7 +20,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const response = await fetchAccessRoles(auth);
     return json(await response.json());
-
 }
 
 export default function KontrollAdminDefineRole() {
