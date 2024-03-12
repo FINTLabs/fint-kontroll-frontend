@@ -1,6 +1,6 @@
 import React from 'react';
 import {Heading} from "@navikt/ds-react";
-import {useLoaderData, useNavigate} from "@remix-run/react";
+import {useLoaderData} from "@remix-run/react";
 import ResourceModuleAdminUsersTable from "~/components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
