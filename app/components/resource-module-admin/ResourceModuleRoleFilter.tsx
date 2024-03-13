@@ -1,6 +1,6 @@
-import {Checkbox, CheckboxGroup, Radio, RadioGroup} from "@navikt/ds-react";
+import {Radio, RadioGroup} from "@navikt/ds-react";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
-import {useParams, useSearchParams} from "@remix-run/react";
+import {useSearchParams} from "@remix-run/react";
 
 interface ResourceModuleRoleFilterProps {
     roles: IResourceModuleAccessRole[]

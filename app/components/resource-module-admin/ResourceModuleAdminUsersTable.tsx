@@ -5,7 +5,6 @@ import React from "react";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
-    IResourceModuleUserRole,
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";

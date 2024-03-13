@@ -10,7 +10,6 @@ import {IUnitItem} from "~/data/types";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {
     IResourceModuleAccessRole,
-    IResourceModuleUserRole,
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
