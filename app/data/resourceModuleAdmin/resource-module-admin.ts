@@ -30,7 +30,7 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
 
     roleFilter ? queryParams.append("accessroleid", roleFilter) : null
     name ? queryParams.append("name", name) : null
-    orgUnitIds ? queryParams.append("orgUnits", orgUnitIdsArray.join(",")) : null
+    orgUnitIds ? queryParams.append("orgunits", orgUnitIdsArray.join(",")) : null
 
 
     const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/with-assignments?${queryParams}`;

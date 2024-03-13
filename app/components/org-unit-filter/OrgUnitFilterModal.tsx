@@ -25,7 +25,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     const handleSubmit = () => {
         const orgUnitsToString: string[] = orgUnitsFilter.flatMap((orgUnit) => String(orgUnit.organisationUnitId))
         SetURLSearchParams((prev) => {
-            prev.set("orgUnits", `${[orgUnitsToString]}`);
+            prev.set("orgunits", `${[orgUnitsToString]}`);
 
             return prev;
         });

@@ -21,7 +21,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const size = Number(url.searchParams.get("size") ?? "10");
     const page = Number(url.searchParams.get("page") ?? "0");
-    const orgunits: string[] = url.searchParams.get("orgUnits")?.split(",") ?? [""];
+    const orgunits: string[] = url.searchParams.get("orgunits")?.split(",") ?? [""];
     const name = url.searchParams.get("name") ?? "";
     const role = url.searchParams.get("accessroleid") ?? "";
 
