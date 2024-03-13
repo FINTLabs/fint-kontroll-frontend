@@ -53,3 +53,81 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
     }
     throw new Error("Det virker ikke som om du er pålogget")
 }
+
+export const fetchUserDetails = async (token: string | null, resourceId: string) => {
+
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/${resourceId}`;
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+export const fetchUserAssignments = async (token: string | null, resourceId: string, accessRoleId: string, objectType: string, orgUnitName: string, page: number, size: number) => {
+    const queryParams = new URLSearchParams({
+        page: page.toString(),
+        size: size.toString()
+    });
+
+    accessRoleId ? queryParams.append("accessRoleId", accessRoleId) : null
+    orgUnitName ? queryParams.append("orgUnitName", orgUnitName) : null
+    objectType ? queryParams.append("objectType", objectType) : null
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/${resourceId}/orgunits${queryParams ? '?'+queryParams : ""}`;
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+
+export const fetchObjectTypes = async (token: string | null) => {
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/objecttypes`;
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
