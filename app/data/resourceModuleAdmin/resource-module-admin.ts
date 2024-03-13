@@ -20,7 +20,7 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 }
 
-export const fetchUsersWithAssignment = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], searchString: string, roleFilter: string) => {
+export const fetchUsersWithAssignment = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
 
     const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
     const queryParams = new URLSearchParams({
@@ -28,13 +28,12 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
         size: itemsPerPage.toString()
     });
 
-    roleFilter ? queryParams.append("role", roleFilter) : null
-    searchString ? queryParams.append("search", searchString) : null
+    roleFilter ? queryParams.append("accessroleid", roleFilter) : null
+    name ? queryParams.append("name", name) : null
     orgUnitIds ? queryParams.append("orgUnits", orgUnitIdsArray.join(",")) : null
 
 
     const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/with-assignments?${queryParams}`;
-    console.log(url)
 
     const response = await fetch(url, {
        headers: ({

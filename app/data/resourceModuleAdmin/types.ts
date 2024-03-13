@@ -33,3 +33,8 @@ export interface IOrgUnitForScope {
     orgUnitId: string
     shortName: string
 }
+
+export interface IResourceModuleAccessRole {
+    accessRoleId: string
+    name: string
+}
