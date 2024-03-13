@@ -2,13 +2,21 @@ import {Button, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react"
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
-import {IResourceModuleUser, IResourceModuleUsersPage} from "~/data/resourceModuleAdmin/types";
+import {
+    IResourceModuleAccessRole,
+    IResourceModuleUser,
+    IResourceModuleUsersPage
+} from "~/data/resourceModuleAdmin/types";
+import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
+import {IUnitItem} from "~/data/types";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
+    orgUnitList: IUnitItem[]
+    roles: IResourceModuleAccessRole
 }
 
-const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
+const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: ResourceModuleAdminUsersTableI) => {
     const navigate = useNavigate()
 
     const [params, setSearchParams] = useSearchParams()
@@ -21,8 +29,6 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
         })
     }
 
-    console.log()
-
     return (
         <div className={"users-table-container"}>
             <HStack justify={"end"}>
@@ -30,6 +36,8 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                     <PlusIcon/> Opprett ny tildeling
                 </Link>
             </HStack>
+
+            <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
             <Table className={"users-table"}>
                 <Table.Header>
