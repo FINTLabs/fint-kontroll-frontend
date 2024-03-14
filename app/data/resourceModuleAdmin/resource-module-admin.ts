@@ -110,8 +110,8 @@ export const fetchUserAssignments = async (token: string | null, resourceId: str
 }
 
 
-export const fetchObjectTypes = async (token: string | null) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/objecttypes`;
+export const fetchObjectTypesForUser = async (token: string | null, resourceId: string) => {
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/objecttypes`;
 
     const response = await fetch(url, {
         headers: ({

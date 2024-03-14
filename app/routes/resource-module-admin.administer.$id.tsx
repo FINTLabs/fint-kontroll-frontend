@@ -1,17 +1,25 @@
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchObjectTypes, fetchUserDetails, fetchUserAssignments} from "~/data/resourceModuleAdmin/resource-module-admin";
+import {fetchObjectTypesForUser, fetchUserDetails, fetchUserAssignments} from "~/data/resourceModuleAdmin/resource-module-admin";
 import {useLoaderData, useNavigate} from "@remix-run/react";
 import {Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
-    IResourceModuleUser,
-    IResourceModuleUsersPage
+    IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
 } from "~/data/resourceModuleAdmin/types";
 import {IUnitItem} from "~/data/types";
 import {json} from "@remix-run/node";
 import {useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
+import DeleteAssignment from "~/components/resource-module-admin/ResourceModuleDeleteAssignmentModal";
+import AdministerToolbar from "~/components/resource-module-admin/administer/AdministerToolbar";
+import ResourceModuleResetModal from "~/components/resource-module-admin/ResourceModuleResetModal";
+import RoleAssignmentTable from "~/components/resource-module-admin/administer/RoleAssignmentTable";
+import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
+
+export function links() {
+    return [{rel: 'stylesheet', href: styles}]
+}
 
 export const loader = async ({params, request}: LoaderFunctionArgs) => {
     const auth = request.headers.get("Authorization")
@@ -24,19 +32,19 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     const objectType: string = url.searchParams.get("objectType") ?? "";
     const role = url.searchParams.get("accessRoleId") ?? "";
 
-    const objectTypesResponse = await fetchObjectTypes(auth)
+    const objectTypesResponse = await fetchObjectTypesForUser(auth, resourceId)
     const userDetailsResponse = await fetchUserDetails(auth, resourceId)
-    const userAssignmentsResponse = await fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size)
+    const userAssignmentsPaginatedResponse = await fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size)
     const accessRolesResponse = await fetchAccessRoles(auth)
-    const objectTypes = await objectTypesResponse.json()
+    const objectTypesForUser = await objectTypesResponse.json()
     const userDetails = await userDetailsResponse.json()
-    const userAssignments = await userAssignmentsResponse.json()
+    const userAssignmentsPaginated = await userAssignmentsPaginatedResponse.json()
     const accessRoles = await accessRolesResponse.json()
 
     return json({
-        objectTypes,
+        objectTypesForUser,
         userDetails,
-        userAssignments,
+        userAssignmentsPaginated,
         accessRoles
     })
 }
@@ -44,15 +52,16 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
 const ResourceModuleAdminAdministerId = () => {
     const loaderData = useLoaderData<typeof loader>()
     const userDetails = loaderData.userDetails as IResourceModuleUser
-    const objectTypes = loaderData.objectTypes as string[]
-    const userScope = loaderData.userAssignments.orgUnits as IUnitItem[]
+    const objectTypesForUser = loaderData.objectTypesForUser as string[]
+    const userAssignmentsPaginated = loaderData.userAssignmentsPaginated as IResourceModuleUserAssignmentsPaginated
     const accessRoles = loaderData.accessRoles as IResourceModuleAccessRole[]
-
-    console.log(loaderData)
 
     const navigate = useNavigate()
 
     const [selectedRole, setSelectedRole] = useState<IResourceModuleAccessRole>({ accessRoleId: "", name: "" })
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false)
 
     const handleChangeRole = (selectedRoleParam: string) => {
         const paramMappedToAccessRoleType: IResourceModuleAccessRole | undefined = accessRoles.find(
@@ -65,17 +74,29 @@ const ResourceModuleAdminAdministerId = () => {
         }
     }
 
+    const toggleRolesResetModal = (value: boolean) => {
+        setIsResetRolesModalOpen(value)
+    }
+
+    const toggleDeleteModal = () => {
+        setIsDeleteModalOpen(true)
+    }
+
     const goBack = () => {
         navigate(-1) // Navigate back in the history
     }
 
+    console.log(loaderData)
+
     return (
         <>
-            <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={goBack}>
-                Gå tilbake
-            </Button>
-
             <VStack gap={"4"}>
+                <section>
+                    <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={goBack}>
+                        Gå tilbake
+                    </Button>
+                </section>
+
                 <HStack justify={"space-between"}>
                     <div>
                         <Heading level={"2"} size={"small"}>
@@ -124,30 +145,30 @@ const ResourceModuleAdminAdministerId = () => {
                     {userDetails?.roles?.length === 0 ? (
                         <>Brukeren har ingen roller</>
                     ) : (
-                        <>
-                            {/*<Toolbar objectTypesForUser={objectTypesForUser} />*/}
-                            {/*<RoleOrgunitAssociationTable selectedRole={selectedRole} userId={userId} />*/}
-                        </>
+                        <div className={"table-toolbar-pagination-container"}>
+                            <AdministerToolbar objectTypesForUser={objectTypesForUser}/>
+                            <RoleAssignmentTable selectedRole={selectedRole} userAssignmentsPaginated={userAssignmentsPaginated} />
+                        </div>
                     )}
                 </Box>
             </VStack>
 
-            {/*{isResetRolesModalOpen && (*/}
-            {/*    <ResetUserModal*/}
-            {/*        isResetRolesModalOpen={isResetRolesModalOpen}*/}
-            {/*        setIsResetRolesModalOpen={(value) => setIsResetRolesModalOpen(value)}*/}
-            {/*        user={loaderData}*/}
-            {/*    />*/}
-            {/*)}*/}
-            {/*{isDeleteModalOpen && selectedRole && (*/}
-            {/*    <DeleteAssignment*/}
-            {/*        userData={loaderData}*/}
-            {/*        selectedRoleToDeleteFrom={selectedRole}*/}
-            {/*        modalOpenProp={isDeleteModalOpen}*/}
-            {/*        setIsDeleteModalOpen={setIsDeleteModalOpen}*/}
-            {/*        objectTypesForUser={objectTypesForUser}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {isResetRolesModalOpen && (
+                <ResourceModuleResetModal
+                    isResetRolesModalOpen={isResetRolesModalOpen}
+                    setIsResetRolesModalOpen={(value) => setIsResetRolesModalOpen(value)}
+                    user={userDetails}
+                />
+            )}
+            {isDeleteModalOpen && selectedRole && (
+                <DeleteAssignment
+                    userData={userDetails}
+                    selectedRoleToDeleteFrom={selectedRole}
+                    modalOpenProp={isDeleteModalOpen}
+                    setIsDeleteModalOpen={setIsDeleteModalOpen}
+                    objectTypesForUser={objectTypesForUser}
+                />
+            )}
         </>
     )
 }

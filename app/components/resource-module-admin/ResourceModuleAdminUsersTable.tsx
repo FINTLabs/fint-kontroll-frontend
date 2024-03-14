@@ -30,7 +30,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
     }
 
     return (
-        <div className={"users-table-container"}>
+        <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
                 <Link href={"resource-module-admin/opprett-ny-tildeling"}>
                     <PlusIcon/> Opprett ny tildeling
