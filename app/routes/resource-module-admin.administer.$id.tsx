@@ -1,14 +1,18 @@
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchObjectTypesForUser, fetchUserDetails, fetchUserAssignments} from "~/data/resourceModuleAdmin/resource-module-admin";
-import {useLoaderData, useNavigate} from "@remix-run/react";
+import {
+    fetchObjectTypesForUser,
+    fetchUserDetails,
+    fetchUserAssignments,
+    deleteAllAssignmentsOnUser
+} from "~/data/resourceModuleAdmin/resource-module-admin";
+import {useActionData, useLoaderData, useNavigate} from "@remix-run/react";
 import {Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
 } from "~/data/resourceModuleAdmin/types";
-import {IUnitItem} from "~/data/types";
-import {json} from "@remix-run/node";
+import {ActionFunctionArgs, json} from "@remix-run/node";
 import {useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import DeleteAssignment from "~/components/resource-module-admin/ResourceModuleDeleteAssignmentModal";
@@ -49,8 +53,20 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     })
 }
 
+export const action = async({params, request}: ActionFunctionArgs) => {
+    const auth = request.headers.get("Authorization")
+
+    const formData = await request.formData()
+    if(formData.get("resetAllUserAssignments")) {
+        await deleteAllAssignmentsOnUser(auth, params.id ?? "")
+    }
+    return ({status: true, body: formData})
+}
+
 const ResourceModuleAdminAdministerId = () => {
     const loaderData = useLoaderData<typeof loader>()
+    const actionData = useActionData<typeof action>()
+
     const userDetails = loaderData.userDetails as IResourceModuleUser
     const objectTypesForUser = loaderData.objectTypesForUser as string[]
     const userAssignmentsPaginated = loaderData.userAssignmentsPaginated as IResourceModuleUserAssignmentsPaginated
@@ -86,8 +102,6 @@ const ResourceModuleAdminAdministerId = () => {
         navigate(-1) // Navigate back in the history
     }
 
-    console.log(loaderData)
-
     return (
         <>
             <VStack gap={"4"}>
@@ -106,7 +120,7 @@ const ResourceModuleAdminAdministerId = () => {
                     </div>
                     <Button
                         variant={"danger"}
-                        // onClick={() => toggleRolesResetModal(true)}
+                        onClick={() => toggleRolesResetModal(true)}
                         icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
                         iconPosition={"right"}
                     >

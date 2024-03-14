@@ -131,3 +131,26 @@ export const fetchObjectTypesForUser = async (token: string | null, resourceId: 
     }
     throw new Error("Det virker ikke som om du er pålogget")
 }
+
+export const deleteAllAssignmentsOnUser = async (token: string | null, resourceId: string) => {
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}`
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        }),
+        method: "delete"
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}

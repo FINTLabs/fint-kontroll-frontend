@@ -1,6 +1,7 @@
 import {IResourceModuleUser} from "~/data/resourceModuleAdmin/types";
 import {useEffect, useRef} from "react";
 import {Alert, Button, Modal, VStack} from "@navikt/ds-react";
+import {Form} from "@remix-run/react";
 
 interface ResetUserModalProps {
     isResetRolesModalOpen: boolean
@@ -10,7 +11,7 @@ interface ResetUserModalProps {
 
 const ResourceModuleResetUserModal = ({ isResetRolesModalOpen, setIsResetRolesModalOpen, user }: ResetUserModalProps) => {
     const deleteRef = useRef<HTMLDialogElement>(null)
-    // const { deleteAllAssignmentsOnUser } = useAssignments()
+
 
     useEffect(() => {
         if (user.resourceId.length > 0 || isResetRolesModalOpen) {
@@ -29,11 +30,6 @@ const ResourceModuleResetUserModal = ({ isResetRolesModalOpen, setIsResetRolesMo
         deleteRef.current?.close()
     }
 
-    const handleClearAllRoleData = () => {
-        // deleteAllAssignmentsOnUser(user.resourceId)
-        closeModal()
-    }
-
     return (
         <Modal
             ref={deleteRef}
@@ -48,9 +44,12 @@ const ResourceModuleResetUserModal = ({ isResetRolesModalOpen, setIsResetRolesMo
             </Modal.Body>
 
             <Modal.Footer>
-                <Button type="button" variant={"danger"} onClick={() => handleClearAllRoleData()}>
-                    Slett
-                </Button>
+                <Form method={"DELETE"} onSubmit={() => closeModal()} name={"resetAllUserAssignments"}>
+                    <input type={"hidden"} name={"resetAllUserAssignments"} value={"resetAllUserAssignments"} />
+                    <Button type="submit" variant={"danger"} >
+                        Slett
+                    </Button>
+                </Form>
                 <Button type="button" variant="secondary" onClick={closeModal}>
                     Avbryt
                 </Button>
