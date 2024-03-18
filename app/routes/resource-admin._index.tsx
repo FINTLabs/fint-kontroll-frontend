@@ -2,9 +2,9 @@ import React from 'react';
 import {Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import type {IResourcePage} from "~/data/types";
+import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchResources} from "~/data/fetch-resources";
+import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceSearch} from "~/components/resource-admin/ResourceSearch";
 import {ResourceTable} from "~/components/resource-admin/ResourceTable";
 
@@ -15,13 +15,28 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const response = await fetchResources(request.headers.get("Authorization"), size, page, search);
-    return json(await response.json());
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const [responseResource, responseOrgUnits] = await Promise.all([
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchOrgUnits(request.headers.get("Authorization"))
+    ]);
+    const resourceList: IResourcePage = await responseResource.json()
+    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
+    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+
+    return json({
+        resourceList,
+        orgUnitList
+    })
 }
 
 export default function ResourceAdminIndex() {
 
-    const resourcePage = useLoaderData<IResourcePage>();
+    const data = useLoaderData<{
+        resourceList: IResourcePage,
+        orgUnitList: IUnitItem[]
+    }>();
+    console.log(data.resourceList)
 
     return (
         <div className={"content"}>
@@ -33,7 +48,7 @@ export default function ResourceAdminIndex() {
                     </div>
                 </Box>
             </div>
-            <ResourceTable resourcePage={resourcePage}/>
+            <ResourceTable resourcePage={data.resourceList}/>
         </div>
     );
 }

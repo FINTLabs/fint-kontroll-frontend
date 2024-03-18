@@ -13,20 +13,21 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     const ref = useRef<HTMLDialogElement>(null)
     const [aggregated, setAggregated] = useState(false)
     const [orgUnitsFilter, setOrgUnitsFilter] = useState<IUnitItem[]>([])
-    const [, SetURLSearchParams] = useSearchParams()
+    const [, setSearchParams] = useSearchParams()
+
 
     const handleOpen = () => {
         ref.current?.showModal()
     }
     const handleClose = () => {
         ref.current?.close()
+        reset()
     }
 
     const handleSubmit = () => {
         const orgUnitsToString: string[] = orgUnitsFilter.flatMap((orgUnit) => String(orgUnit.organisationUnitId))
-        SetURLSearchParams((prev) => {
+        setSearchParams((prev) => {
             prev.set("orgUnits", `${[orgUnitsToString]}`);
-
             return prev;
         });
         ref.current?.close()
@@ -46,12 +47,10 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 icon={<Buldings3Icon aria-hidden/>}
                 onClick={handleOpen}
             >
-                Velg orgenhet
+                Orgenhetsfilter
             </Button>
-
             <Modal
                 ref={ref}
-                // header={{heading: "Filtrer brukere på orgenheter valgt her"}}
                 header={{heading: "Velg orgenhet(er)"}}
                 onAbort={handleClose}
                 onCancel={handleClose}
