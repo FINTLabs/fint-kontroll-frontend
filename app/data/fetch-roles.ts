@@ -1,5 +1,5 @@
-export const fetchRoles = async (token: string | null, size: string, page: string, search: string) => {
-    const response = await fetch(`http://localhost:8064/beta/fintlabs-no/api/roles?size=${size}&page=${page}&search=${search}`, {
+export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgunits: string[]) => {
+    const response = await fetch(`http://localhost:8064/beta/fintlabs-no/api/roles?size=${size}&page=${page}&search=${search}&${orgunits.length > 0 ? 'orgunits=' + orgunits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
