@@ -1,50 +1,68 @@
 import React from 'react';
 import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
-import {Box, Button, Heading} from "@navikt/ds-react";
-import {Buldings3Icon} from "@navikt/aksel-icons";
+import {Box, Chips, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
+import {useLoaderData, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
-import type {IUserPage} from "~/data/types";
+import type {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
+import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import {fetchOrgUnits} from "~/data/fetch-resources";
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
+export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const response = await fetchUsers(request.headers.get("Authorization"), size, page, search);
-    return json(await response.json());
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const [responseUsers, responseOrgUnits] = await Promise.all([
+        fetchUsers(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchOrgUnits(request.headers.get("Authorization"))
+    ]);
+    const userList: IUserPage = await responseUsers.json()
+    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
+    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+
+    return json({
+        userList,
+        orgUnitList
+    })
 }
 
 export default function UsersIndex() {
-    const userPage = useLoaderData<IUserPage>();
+    const data = useLoaderData<{
+        userList: IUserPage,
+        orgUnitList: IUnitItem[]
+    }>();
+    const [searchParams, setSearchParams] = useSearchParams()
 
     return (
         <div className={"content"}>
             <div className={"toolbar"}>
                 <Heading className={"heading"} level="1" size="xlarge">Brukere</Heading>
-                <Box className={"filters"} paddingBlock={"4 16"}>
+                <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
-                        <Button
-                            variant={"secondary"}
-                            icon={<Buldings3Icon title="a11y-title" fontSize="1.5rem"/>}
-                            iconPosition={"right"}
-                            onClick={() => {
-                            }}
-                        >
-                            Velg orgenhet
-                        </Button>
+                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
                     </div>
                     <div>
                         <UserSearch/>
                     </div>
                 </Box>
             </div>
-            <UserTable userPage={userPage}/>
+            <Box className={"filters"} paddingBlock={"1 8"}>
+                {searchParams.get("orgUnits") && (
+                    <Chips.Removable onClick={event => {
+                        setSearchParams(searchParameter => {
+                            searchParameter.delete("orgUnits")
+                            return searchParameter
+                        })
+                    }}>Fjern orgenhetsfilter</Chips.Removable>
+                )}
+            </Box>
+            <UserTable userPage={data.userList}/>
         </div>
     );
 }

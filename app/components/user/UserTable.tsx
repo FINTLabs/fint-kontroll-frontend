@@ -82,7 +82,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
                             return searchParams;
                         })
                     }}
-                    count={props.userPage.totalPages}
+                    count={props.userPage.totalPages || 1}
                     size="small"
                     prevNextTexts
                 />

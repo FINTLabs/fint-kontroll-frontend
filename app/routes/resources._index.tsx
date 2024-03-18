@@ -1,7 +1,7 @@
 import React from 'react';
-import {Box, Heading} from "@navikt/ds-react";
+import {Box, Chips, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
+import {useLoaderData, useSearchParams} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
@@ -44,14 +44,14 @@ export default function Resource() {
         resourceList: IResourcePage,
         orgUnitList: IUnitItem[]
     }>();
-    console.log(data.resourceList)
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
     return (
         <div className={"content"}>
-
             <div className={"toolbar"}>
                 <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
-                <Box className={"filters"} paddingBlock={"4 16"}>
+                <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
                         <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
                     </div>
@@ -60,6 +60,16 @@ export default function Resource() {
                     </div>
                 </Box>
             </div>
+            <Box className={"filters"} paddingBlock={"1 8"}>
+                {searchParams.get("orgUnits") && (
+                    <Chips.Removable onClick={event => {
+                        setSearchParams(searchParameter => {
+                            searchParameter.delete("orgUnits")
+                            return searchParameter
+                        })
+                    }}>Fjern orgenhetsfilter</Chips.Removable>
+                )}
+            </Box>
             <ResourceTable resourcePage={data.resourceList}/>
         </div>
     );

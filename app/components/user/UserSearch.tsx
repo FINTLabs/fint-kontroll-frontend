@@ -1,23 +1,21 @@
 import {Search} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {Form, useSubmit} from "@remix-run/react";
+import {Form, useSearchParams} from "@remix-run/react";
 
 
 export const UserSearch = () => {
 
-    const submit = useSubmit();
     const [searchString, setSearchString] = useState("")
-
-    const handleSearch = () => {
-        console.log(searchString)
-    }
+    const [, setSearchParams] = useSearchParams()
 
     return (
         <Form className={"searchField"}
               onSubmit={event => {
-                  submit({search: searchString}, {method: "GET", action: "/users"})
+                  setSearchParams(searchParameter => {
+                      searchParameter.set("search", searchString)
+                      return searchParameter
+                  })
                   event.preventDefault()
-                  handleSearch()
               }}>
             <Search
                 role="search"
@@ -25,7 +23,10 @@ export const UserSearch = () => {
                 variant="secondary"
                 onChange={event => setSearchString(event)}
                 onClear={event => {
-                    submit({search: ""}, {method: "GET", action: "/users"})
+                    setSearchParams(searchParameter => {
+                        searchParameter.delete("search")
+                        return searchParameter
+                    })
                 }}
             />
         </Form>
