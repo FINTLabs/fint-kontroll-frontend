@@ -1,7 +1,7 @@
 import { Button, Modal } from "@navikt/ds-react"
 import React, { useEffect, useRef } from "react"
 import {IResourceModuleOrgUnitDetail} from "~/data/resourceModuleAdmin/types";
-import {useParams} from "@remix-run/react";
+import {Form} from "@remix-run/react";
 
 interface DeleteOrgUnitsInAssignmentProps {
     modalOpenProp: boolean
@@ -18,10 +18,7 @@ const DeleteOrgUnitInAssignment = ({
            setIsDeleteModalOpen,
            scopeId,
        }: DeleteOrgUnitsInAssignmentProps) => {
-    // const { deleteOrgUnitFromAssignment } = useAssignments()
     const deleteRef = useRef<HTMLDialogElement>(null)
-
-    const { id: userId } = useParams()
 
     useEffect(() => {
         modalOpenProp ? openModal() : closeModal()
@@ -38,7 +35,11 @@ const DeleteOrgUnitInAssignment = ({
     }
 
     const handleDeleteAssignmentData = () => {
-        // deleteOrgUnitFromAssignment(userId, scopeId, orgUnitToDelete.orgUnitId)
+        const scopeIdEle = document.getElementById("scopeId")
+        const orgUnitEle = document.getElementById("orgUnitId")
+
+        scopeIdEle ? scopeIdEle.setAttribute("value", scopeId) : ""
+        orgUnitEle ? orgUnitEle.setAttribute("value", orgUnitToDelete.orgUnitId) : ""
         closeModal()
     }
 
@@ -54,9 +55,15 @@ const DeleteOrgUnitInAssignment = ({
                 Ønsker du å slette orgenhetknytning {orgUnitToDelete.name} til {roleToDeleteFrom}?
             </Modal.Body>
             <Modal.Footer>
-                <Button type="button" variant={"danger"} onClick={() => handleDeleteAssignmentData()}>
-                    Slett
-                </Button>
+                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} name={"deleteOrgUnitFromAssignment"}>
+                    <input type={"hidden"} name={"deleteOrgUnitFromAssignment"} value={"deleteOrgUnitFromAssignment"} />
+                    <input type={"hidden"} name={"scopeId"} id={"scopeId"} />
+                    <input type={"hidden"} name={"orgUnitId"} id={"orgUnitId"} />
+
+                    <Button type="submit" variant={"danger"}>
+                        Slett
+                    </Button>
+                </Form>
                 <Button type="button" variant="secondary" onClick={closeModal}>
                     Avbryt
                 </Button>

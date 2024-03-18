@@ -13,7 +13,7 @@ import {IUnitItem} from "~/data/types";
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
     orgUnitList: IUnitItem[]
-    roles: IResourceModuleAccessRole
+    roles: IResourceModuleAccessRole[]
 }
 
 const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: ResourceModuleAdminUsersTableI) => {

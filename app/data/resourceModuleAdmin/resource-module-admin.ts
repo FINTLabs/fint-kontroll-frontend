@@ -154,3 +154,49 @@ export const deleteAllAssignmentsOnUser = async (token: string | null, resourceI
     }
     throw new Error("Det virker ikke som om du er pålogget")
 }
+
+export const deleteUserAssignmentByAccessRoleId = async (token: string | null, resourceId: string, accessRoleId: string, objectTypeToDelete: string) => {
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/role/${accessRoleId}?$objectTypeToDelete=${objectTypeToDelete}`
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        }),
+        method: "delete"
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+export const deleteOrgUnitFromAssignment = async (token: string | null, scopeId: string, orgUnitId: string) => {
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/scope/${scopeId}/orgunit/${orgUnitId}`
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        }),
+        method: "delete"
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}

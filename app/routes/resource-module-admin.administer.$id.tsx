@@ -3,7 +3,7 @@ import {
     fetchObjectTypesForUser,
     fetchUserDetails,
     fetchUserAssignments,
-    deleteAllAssignmentsOnUser
+    deleteAllAssignmentsOnUser, deleteUserAssignmentByAccessRoleId, deleteOrgUnitFromAssignment
 } from "~/data/resourceModuleAdmin/resource-module-admin";
 import {useActionData, useLoaderData, useNavigate} from "@remix-run/react";
 import {Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
@@ -13,13 +13,14 @@ import {
     IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
 } from "~/data/resourceModuleAdmin/types";
 import {ActionFunctionArgs, json} from "@remix-run/node";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import DeleteAssignment from "~/components/resource-module-admin/ResourceModuleDeleteAssignmentModal";
+import DeleteAssignment from "~/components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal";
 import AdministerToolbar from "~/components/resource-module-admin/administer/AdministerToolbar";
-import ResourceModuleResetModal from "~/components/resource-module-admin/ResourceModuleResetModal";
+import ResourceModuleResetModal from "~/components/resource-module-admin/administer/ResourceModuleResetModal";
 import RoleAssignmentTable from "~/components/resource-module-admin/administer/RoleAssignmentTable";
 import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
+import {toast} from "react-toastify";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -54,13 +55,33 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
 }
 
 export const action = async({params, request}: ActionFunctionArgs) => {
+    const queryParams = new URLSearchParams(request.url.split("?")[1]);
+
     const auth = request.headers.get("Authorization")
 
     const formData = await request.formData()
+
+
     if(formData.get("resetAllUserAssignments")) {
-        await deleteAllAssignmentsOnUser(auth, params.id ?? "")
+        const res = await deleteAllAssignmentsOnUser(auth, params.id ?? "")
+        return res.ok ? {reset: true, status: true, redirect: "/resource-module-admin", message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
     }
-    return ({status: true, body: formData})
+
+    else if (formData.get("deleteOneAssignmentByRole")) {
+        const roleId = queryParams.get("accessRoleId") ?? ""
+        const objectTypeToDelete = queryParams.get("objectTypeToDelete") ?? ""
+        const res = await deleteUserAssignmentByAccessRoleId(auth, params.id ?? "", roleId, objectTypeToDelete)
+        return res.ok ? {reset: false, status: true, redirect: null, message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
+    }
+
+    else if (formData.get("deleteOrgUnitFromAssignment")) {
+        const scopeId = formData.get("scopeId") as string
+        const orgUnitId = formData.get("orgUnitId") as string
+        const res = await deleteOrgUnitFromAssignment(auth, scopeId, orgUnitId)
+        return res.ok ? {reset: false, status: true, redirect: null, message: "Fjernet objekt fra tildelingen"} : {reset: false, status: false, redirect: null, message: null}
+    }
+
+    return {reset: false, status: true, redirect: null, message: null}
 }
 
 const ResourceModuleAdminAdministerId = () => {
@@ -78,6 +99,25 @@ const ResourceModuleAdminAdministerId = () => {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false)
+
+
+    useEffect(() => {
+        if(!actionData) {
+            return
+        }
+        if(!actionData?.status){
+            toast.error("En feil oppstod")
+            return
+        }
+
+        if(actionData?.reset) {
+            actionData.redirect ? navigate(actionData.redirect) : null
+            toast.success("Brukerobjektet ble nullstilt")
+            return
+        }
+        actionData?.message ? toast.success(actionData.message) : null
+    }, [actionData]);
+
 
     const handleChangeRole = (selectedRoleParam: string) => {
         const paramMappedToAccessRoleType: IResourceModuleAccessRole | undefined = accessRoles.find(
@@ -98,16 +138,12 @@ const ResourceModuleAdminAdministerId = () => {
         setIsDeleteModalOpen(true)
     }
 
-    const goBack = () => {
-        navigate(-1) // Navigate back in the history
-    }
-
     return (
         <>
             <VStack gap={"4"}>
                 <section>
-                    <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={goBack}>
-                        Gå tilbake
+                    <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={() => navigate("/resource-module-admin")}>
+                        Gå til dashbord
                     </Button>
                 </section>
 
@@ -176,7 +212,6 @@ const ResourceModuleAdminAdministerId = () => {
             )}
             {isDeleteModalOpen && selectedRole && (
                 <DeleteAssignment
-                    userData={userDetails}
                     selectedRoleToDeleteFrom={selectedRole}
                     modalOpenProp={isDeleteModalOpen}
                     setIsDeleteModalOpen={setIsDeleteModalOpen}

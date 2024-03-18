@@ -1,13 +1,13 @@
 import {Button, Modal, Select, Switch} from "@navikt/ds-react";
 import {useEffect, useRef, useState} from "react";
-import {IResourceModuleAccessRole, IResourceModuleUser} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
+import {Form} from "@remix-run/react";
 
 
 interface DeleteAssignmentsModalProps {
     selectedRoleToDeleteFrom: IResourceModuleAccessRole
     modalOpenProp: boolean
     setIsDeleteModalOpen: (isOpen: boolean) => void
-    userData: IResourceModuleUser
     objectTypesForUser: string[]
 }
 
@@ -15,7 +15,6 @@ const DeleteAssignment = ({
         setIsDeleteModalOpen,
         modalOpenProp,
         selectedRoleToDeleteFrom,
-        userData, // TODO: userData will be updated in API, this requires refactoring when done.
         objectTypesForUser
     }: DeleteAssignmentsModalProps) => {
     const deleteRef = useRef<HTMLDialogElement>(null)
@@ -23,7 +22,6 @@ const DeleteAssignment = ({
 
     const [objectTypeToDelete, setObjectTypeToDelete] = useState(objectTypesForUser[0])
 
-    // const { deleteAssignmentById } = useAssignments()
 
     useEffect(() => {
         if (selectedRoleToDeleteFrom.accessRoleId.length > 0 || modalOpenProp) {
@@ -49,7 +47,12 @@ const DeleteAssignment = ({
     }
 
     const handleDeleteAssignmentData = () => {
-        // deleteAssignmentById(userData.resourceId, selectedRoleToDeleteFrom.accessRoleId, objectTypeToDelete)
+        const accessRoleIdEle = document.getElementById("accessRoleId")
+        const objectTypeToDeleteEle = document.getElementById("objectTypeToDelete")
+
+        accessRoleIdEle ? accessRoleIdEle.setAttribute("value", selectedRoleToDeleteFrom.accessRoleId) : ""
+        objectTypeToDeleteEle ? objectTypeToDeleteEle.setAttribute("value", objectTypeToDelete) : ""
+
         closeModal()
     }
 
@@ -73,9 +76,14 @@ const DeleteAssignment = ({
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Button type="button" variant={"danger"} onClick={() => handleDeleteAssignmentData()}>
-                    Slett
-                </Button>
+                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} action={`?accessRoleId=${selectedRoleToDeleteFrom.accessRoleId}&objectTypeToDelete=${objectTypeToDelete}`} name={"deleteOneAssignmentByRole"}>
+                    <input type={"hidden"} name={"deleteOneAssignmentByRole"} value={"deleteOneAssignmentByRole"} />
+                    <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"} />
+                    <input type={"hidden"} name={"objectTypeToDelete"} id={"objectTypeToDelete"} />
+                    <Button type="submit" variant={"danger"}>
+                        Slett
+                    </Button>
+                </Form>
                 <Button type="button" variant="secondary" onClick={closeModal}>
                     Avbryt
                 </Button>
