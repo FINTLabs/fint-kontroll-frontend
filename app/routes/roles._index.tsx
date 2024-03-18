@@ -1,50 +1,68 @@
 import React from 'react';
-import {Box, Button, Heading} from "@navikt/ds-react";
-import {Buldings3Icon} from "@navikt/aksel-icons";
+import {Box, Chips, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
-import type {IRolePage} from "~/data/types";
+import {useLoaderData, useSearchParams} from "@remix-run/react";
+import type {IRolePage, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
 import {RoleSearch} from "~/components/role/RoleSearch";
+import {fetchOrgUnits} from "~/data/fetch-resources";
+import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
+export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const response = await fetchRoles(request.headers.get("Authorization"), size, page, search);
-    return json(await response.json());
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const [responseRoles, responseOrgUnits] = await Promise.all([
+        fetchRoles(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchOrgUnits(request.headers.get("Authorization"))
+    ]);
+    const roleList: IRolePage = await responseRoles.json()
+    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
+    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+
+    return json({
+        roleList,
+        orgUnitList
+    })
 }
 
 export default function Roles_index() {
-    const rolePage = useLoaderData<IRolePage>();
+    const data = useLoaderData<{
+        roleList: IRolePage,
+        orgUnitList: IUnitItem[]
+    }>();
+    const [searchParams, setSearchParams] = useSearchParams()
 
     return (
         <div className={"content"}>
             <div className={"toolbar"}>
                 <Heading className={"heading"} level="1" size="xlarge">Grupper</Heading>
-                <Box className={"filters"} paddingBlock={"4 16"}>
+                <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
-                        <Button
-                            variant={"secondary"}
-                            icon={<Buldings3Icon title="a11y-title" fontSize="1.5rem"/>}
-                            iconPosition={"right"}
-                            onClick={() => {
-                            }}
-                        >
-                            Velg orgenhet
-                        </Button>
+                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
                     </div>
                     <div>
                         <RoleSearch/>
                     </div>
                 </Box>
             </div>
-            <RoleTable rolePage={rolePage}/>
+            <Box className={"filters"} paddingBlock={"1 8"}>
+                {searchParams.get("orgUnits") && (
+                    <Chips.Removable onClick={event => {
+                        setSearchParams(searchParameter => {
+                            searchParameter.delete("orgUnits")
+                            return searchParameter
+                        })
+                    }}>Fjern orgenhetsfilter</Chips.Removable>
+                )}
+            </Box>
+            <RoleTable rolePage={data.roleList}/>
         </div>
     );
 }
