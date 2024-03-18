@@ -76,7 +76,7 @@ const DeleteAssignment = ({
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} action={`?accessRoleId=${selectedRoleToDeleteFrom.accessRoleId}&objectTypeToDelete=${objectTypeToDelete}`} name={"deleteOneAssignmentByRole"}>
+                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} name={"deleteOneAssignmentByRole"}>
                     <input type={"hidden"} name={"deleteOneAssignmentByRole"} value={"deleteOneAssignmentByRole"} />
                     <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"} />
                     <input type={"hidden"} name={"objectTypeToDelete"} id={"objectTypeToDelete"} />

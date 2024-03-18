@@ -68,9 +68,9 @@ export const action = async({params, request}: ActionFunctionArgs) => {
     }
 
     else if (formData.get("deleteOneAssignmentByRole")) {
-        const roleId = queryParams.get("accessRoleId") ?? ""
-        const objectTypeToDelete = queryParams.get("objectTypeToDelete") ?? ""
-        const res = await deleteUserAssignmentByAccessRoleId(auth, params.id ?? "", roleId, objectTypeToDelete)
+        const accessRoleId = formData.get("accessRoleId") as string
+        const objectTypeToDelete = formData.get("objectTypeToDelete") as string
+        const res = await deleteUserAssignmentByAccessRoleId(auth, params.id ?? "", accessRoleId, objectTypeToDelete)
         return res.ok ? {reset: false, status: true, redirect: null, message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
     }
 
@@ -99,7 +99,6 @@ const ResourceModuleAdminAdministerId = () => {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false)
-
 
     useEffect(() => {
         if(!actionData) {

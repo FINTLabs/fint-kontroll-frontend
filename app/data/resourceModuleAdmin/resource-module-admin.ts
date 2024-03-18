@@ -156,7 +156,7 @@ export const deleteAllAssignmentsOnUser = async (token: string | null, resourceI
 }
 
 export const deleteUserAssignmentByAccessRoleId = async (token: string | null, resourceId: string, accessRoleId: string, objectTypeToDelete: string) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/role/${accessRoleId}?$objectTypeToDelete=${objectTypeToDelete}`
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/role/${accessRoleId}${objectTypeToDelete ? "?objectType=" + objectTypeToDelete : ""}`
 
     const response = await fetch(url, {
         headers: ({
