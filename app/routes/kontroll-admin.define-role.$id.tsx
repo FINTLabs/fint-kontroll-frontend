@@ -2,7 +2,12 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchFeaturesInRole, putPermissionDataForRole} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import {IPermissionData} from "~/data/kontrollAdmin/types";
-import {Form, useActionData, useFetcher, useLoaderData, useParams, useSubmit} from "@remix-run/react";
+import {
+    Form,
+    useActionData,
+    useLoaderData,
+    useParams,
+} from "@remix-run/react";
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
@@ -16,6 +21,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return json(data);
 }
 
+
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
@@ -24,44 +30,30 @@ export async function action({request}: ActionFunctionArgs) {
     const formData = await request.formData()
     const auth = request.headers.get("Authorization")
     const response = await putPermissionDataForRole(auth, formData.get("dataForForm"))
-    response.ok ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
     return {didUpdate: !!response.status}
 }
 
 export default () => {
-    const loaderData = useLoaderData<typeof loader>()
-    const didUpdate = useActionData<typeof action>()
+    const loaderData: IPermissionData = useLoaderData<typeof loader>()
+    let didUpdate = useActionData<typeof action>()
     const params = useParams()
 
-    const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>(loaderData)
-    if(didUpdate !== undefined) {
-        // console.log("e")
-        didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
-    }
+    const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>()
 
     const [currentOperations, setCurrentOperations] = useState<string[][]>([])
 
-    console.log("endring i state lokalt", modifiedPermissionDataForRole.accessRoleId)
-
     useEffect(() => {
-        // setModifiedPermissionDataForRole(loaderData)
-        // console.log(loaderData)
+        setModifiedPermissionDataForRole(loaderData)
+        setCurrentOperations(loaderData.features.map((feature) => feature.operations))
     }, [loaderData]);
 
     useEffect(() => {
-        const operationsList: string[][] = []
-        modifiedPermissionDataForRole.features.map((feature) => operationsList.push(feature.operations))
-        setCurrentOperations(operationsList)
-    }, [modifiedPermissionDataForRole.features])
-
-    // Handles local update of new permissionData
-    useEffect(() => {
-        let newFeatureOperations: IPermissionData = modifiedPermissionDataForRole
-        currentOperations.forEach((featureOperation, index) => {
-            newFeatureOperations.features[index].operations = featureOperation
-        })
-        setModifiedPermissionDataForRole(newFeatureOperations)
-    }, [currentOperations, modifiedPermissionDataForRole, setModifiedPermissionDataForRole])
+        if(didUpdate !== undefined) {
+            didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
+        } else {
+            didUpdate = undefined
+        }
+    }, [didUpdate]);
 
     const notifyOperationsChanged = (indexForOperationsList: number, featureId: number, operationProp: string) => {
         let changedList: string[] = currentOperations[indexForOperationsList]
@@ -80,13 +72,24 @@ export default () => {
         setCurrentOperations(newOperationsList)
     }
 
+    const handleSubmit = () => {
+        let newFeatureOperations: IPermissionData = loaderData
+        currentOperations.forEach((featureOperation, index) => {
+            newFeatureOperations.features[index].operations = featureOperation
+        })
+        const val = document.getElementById("dataForForm")
+        val ? val.setAttribute("value", JSON.stringify(newFeatureOperations)) : ""
+    }
+
+
     const availableOperations = ["GET", "POST", "PUT", "DELETE"]
     const readableOperations = ["Kan hente", "Kan lage ny", "Kan oppdatere", "Kan slette"]
 
+
     return (
         <div className={"tab-content-container"}>
-            <Form method={"put"} name={"putForm"} action={`/kontroll-admin/define-role/${params.id}`}>
-                <input type={"hidden"} name={"dataForForm"} value={JSON.stringify(modifiedPermissionDataForRole)} />
+            <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={`/kontroll-admin/define-role/${params.id}`}>
+                <input type={"hidden"} name={"dataForForm"} id={"dataForForm"} value={""} />
 
                 <Table id={"permissions-table"}>
                     <Table.Header>
@@ -100,8 +103,8 @@ export default () => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {modifiedPermissionDataForRole.features.map((feature, indexForFeature) => (
-                            <Table.Row key={feature.featureName + indexForFeature}>
+                        {modifiedPermissionDataForRole?.features.map((feature, indexForFeature) => (
+                            <Table.Row key={feature.featureName + indexForFeature + modifiedPermissionDataForRole?.accessRoleId}>
                                 <Table.DataCell>{feature.featureName}</Table.DataCell>
                                 {availableOperations.map((operation: string, index) => (
                                     <Table.DataCell key={operation}>
