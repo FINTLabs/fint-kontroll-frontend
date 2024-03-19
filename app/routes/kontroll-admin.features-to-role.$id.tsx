@@ -5,10 +5,11 @@ import {
     putPermissionDataForRole
 } from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {Button, Heading, List, Table} from "@navikt/ds-react";
-import {Form, useLoaderData} from "@remix-run/react";
+import {Form, useActionData, useLoaderData} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
 import {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
+import {toast} from "react-toastify";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
@@ -29,7 +30,6 @@ export async function action({params, request}: ActionFunctionArgs) {
     const response = await putPermissionDataForRole(auth, formData.get("permissionData"))
 
     return {didUpdate: !!response.status}
-    // return null
 }
 
 const KontrollAdminFeaturesToRoleId = () => {
@@ -37,11 +37,21 @@ const KontrollAdminFeaturesToRoleId = () => {
     const permissionData = loaderData.permissionData as IPermissionData
     const allFeatures = loaderData.allFeatures as IFeature[]
 
+    let didUpdate = useActionData<typeof action>()
+
     const [updatedPermissionData, setUpdatedPermissionData] = useState<IPermissionData>(permissionData)
 
     useEffect(() => {
         setUpdatedPermissionData(permissionData)
     }, [loaderData]);
+
+    useEffect(() => {
+        if(didUpdate !== undefined) {
+            didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
+        } else {
+            didUpdate = undefined
+        }
+    }, [didUpdate]);
 
     const flatListOfIds = updatedPermissionData.features.flatMap((feature) => String(feature.featureId))
 
