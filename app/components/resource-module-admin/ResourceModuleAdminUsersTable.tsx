@@ -1,4 +1,4 @@
-import {Button, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Chips, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
@@ -29,6 +29,15 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
         })
     }
 
+    const removeAccessRoleFilter = () => {
+        setSearchParams(searchParams => {
+            searchParams.delete("accessroleid")
+            return searchParams
+        })
+    }
+
+    const roleFilter = params.get("accessroleid")
+
     return (
         <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
@@ -38,6 +47,13 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
             </HStack>
 
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
+
+
+            {roleFilter &&
+                <Chips>
+                    <Chips.Removable variant="action" onClick={removeAccessRoleFilter}>{roleFilter}</Chips.Removable>
+                </Chips>
+            }
 
             <Table className={"users-table"}>
                 <Table.Header>
