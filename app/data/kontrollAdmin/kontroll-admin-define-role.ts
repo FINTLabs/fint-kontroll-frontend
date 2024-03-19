@@ -74,12 +74,6 @@ export const putPermissionDataForRole = async (token: string | null, updatedPerm
     }
     throw new Error("Det virker ikke som om du er pålogget")
 }
-
-        // const putPermissionDataForRole = (basePath: string, updatedPermissionRole: IPermissionData) => {
-        //     const baseUrl = `${basePath === "/" ? "" : basePath}/api/accessmanagement/v1/accesspermission`
-        //     const url = `${baseUrl}`
-        //     return axios.put(url, updatedPermissionRole)
-        // }
 //
 // const putAssignment = (basePath: string, updatedAssignment: IPermissionData) => {
 //     const baseUrl = `${basePath === "/" ? "" : basePath}/api/accessmanagement/v1/accesspermission`

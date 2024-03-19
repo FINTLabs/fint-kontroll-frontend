@@ -1,9 +1,14 @@
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchAllFeatures, fetchFeaturesInRole} from "~/data/kontrollAdmin/kontroll-admin-define-role";
+import {
+    fetchAllFeatures,
+    fetchFeaturesInRole,
+    putPermissionDataForRole
+} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {Button, Heading, List, Table} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Form, useLoaderData} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
 import {useEffect, useState} from "react";
+import {ActionFunctionArgs} from "@remix-run/node";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
@@ -14,6 +19,17 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const allFeatures = await allFeaturesRes.json()
 
     return {permissionData:permissionData, allFeatures: allFeatures}
+}
+
+export async function action({params, request}: ActionFunctionArgs) {
+    const auth = request.headers.get("Authorization")
+    const formData = await request.formData()
+
+
+    const response = await putPermissionDataForRole(auth, formData.get("permissionData"))
+
+    return {didUpdate: !!response.status}
+    // return null
 }
 
 const KontrollAdminFeaturesToRoleId = () => {
@@ -54,6 +70,12 @@ const KontrollAdminFeaturesToRoleId = () => {
         }
     }
 
+    const handleSubmit = () => {
+        const permissionDataEle = document.getElementById("permissionData")
+        permissionDataEle ? permissionDataEle.setAttribute("value", JSON.stringify(updatedPermissionData)) : null
+    }
+
+
     return (
         <div className={"features-to-roles-container"}>
             <div>
@@ -91,9 +113,12 @@ const KontrollAdminFeaturesToRoleId = () => {
                         <li key={feature.featureId}>{feature.featureName}</li>
                     ))}
                 </List>
-                <Button variant={"primary"} onClick={() => console.log("Save me, bitch")}>
-                    Lagre rolle
-                </Button>
+                <Form onSubmit={handleSubmit} method={"put"}>
+                    <input type={"hidden"} name={"permissionData"} id={"permissionData"} />
+                    <Button variant={"primary"} >
+                        Lagre rolle
+                    </Button>
+                </Form>
             </div>
         </div>
     )

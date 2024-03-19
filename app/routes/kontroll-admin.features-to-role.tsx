@@ -19,10 +19,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return await accessRolesRes.json()
 }
 
-export async function action({params, request}: ActionFunctionArgs) {
-    return null
-}
-
 export default () => {
     const accessRoles: IResourceModuleAccessRole[] = useLoaderData<typeof loader>()
 
