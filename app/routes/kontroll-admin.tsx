@@ -1,19 +1,7 @@
 import React, {useState} from 'react';
-import styles from "~/components/resource/resource.css"
 import {Heading, Tabs} from "@navikt/ds-react";
-import {Outlet, useLoaderData, useLocation, useNavigate, useRouteLoaderData} from "@remix-run/react";
-import type {IResource} from "~/data/types";
-import {json} from "@remix-run/node";
-import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchResourceById} from "~/data/fetch-resources";
-import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
-import {PersonCheckmarkIcon, PersonPlusIcon} from "@navikt/aksel-icons";
-import {IRole} from "~/data/types";
-import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-
-export function links() {
-    return [{rel: 'stylesheet', href: styles}]
-}
+import {Outlet, useLocation, useNavigate} from "@remix-run/react";
+import {PersonCheckmarkIcon} from "@navikt/aksel-icons";
 
 export default function KontrollAdmin() {
     const tabsList = ["define-role", "features-to-role"]

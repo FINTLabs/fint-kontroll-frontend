@@ -7,3 +7,8 @@
 .button-container {
     align-self: flex-end;
 }
+
+.features-to-roles-container {
+    display: flex;
+    justify-content: space-between;
+}
