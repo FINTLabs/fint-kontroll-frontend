@@ -38,3 +38,23 @@ export interface IResourceModuleAccessRole {
     accessRoleId: string
     name: string
 }
+
+// Used for a User's tildelingsadministrasjon page
+export interface IResourceModuleUserAssignmentsPaginated {
+    totalItems: number
+    totalPages: number
+    currentPage: number
+    accessRoles: IResourceModuleUserDetail[]
+}
+export interface IResourceModuleUserDetail {
+    accessRoleId: string
+    accessRoleName: string
+    orgUnits: IResourceModuleOrgUnitDetail[]
+}
+export interface IResourceModuleOrgUnitDetail {
+    scopeId: number
+    objectType: string
+    orgUnitId: string
+    name: string
+}
+// ----

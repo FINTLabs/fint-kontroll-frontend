@@ -13,7 +13,7 @@ import {IUnitItem} from "~/data/types";
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
     orgUnitList: IUnitItem[]
-    roles: IResourceModuleAccessRole
+    roles: IResourceModuleAccessRole[]
 }
 
 const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: ResourceModuleAdminUsersTableI) => {
@@ -30,7 +30,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
     }
 
     return (
-        <div className={"users-table-container"}>
+        <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
                 <Link href={"resource-module-admin/opprett-ny-tildeling"}>
                     <PlusIcon/> Opprett ny tildeling
@@ -54,7 +54,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
                             <Table.DataCell>{user.firstName + " " + user.lastName}</Table.DataCell>
                             <Table.DataCell>{user.userName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
-                                <Button variant={"secondary"} onClick={() => navigate(`administer/${1}`)}>
+                                <Button variant={"secondary"} onClick={() => navigate(`administer/${user.resourceId}`)}>
                                     Administrer
                                 </Button>
                             </Table.DataCell>
