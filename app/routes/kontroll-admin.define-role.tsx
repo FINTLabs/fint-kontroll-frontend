@@ -7,14 +7,10 @@ import {
 } from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import styles from "~/components/user/user.css";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import React, {Suspense, useEffect} from "react";
 import {IRole} from "~/data/kontrollAdmin/types";
 
-export function links() {
-    return [{rel: 'stylesheet', href: styles}]
-}
 
 export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")

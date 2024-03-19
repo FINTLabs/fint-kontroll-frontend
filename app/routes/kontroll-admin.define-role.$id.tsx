@@ -11,8 +11,8 @@ import {
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
-import styles from "~/components/kontroll-admin/kontroll-admin.css";
 import {toast} from "react-toastify";
+import styles from "~/components/kontroll-admin/kontroll-admin.css";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
