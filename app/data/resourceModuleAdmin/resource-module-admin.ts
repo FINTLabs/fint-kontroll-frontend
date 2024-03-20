@@ -20,6 +20,40 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 }
 
+export const fetchUsersWhoCanGetAssignments = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
+
+    const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
+    const queryParams = new URLSearchParams({
+        page: currentPage.toString(),
+        size: itemsPerPage.toString()
+    });
+
+    roleFilter ? queryParams.append("accessroleid", roleFilter) : null
+    name ? queryParams.append("name", name) : null
+    orgUnitIds ? queryParams.append("orgunits", orgUnitIdsArray.join(",")) : null
+
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user?${queryParams}`;
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
 export const fetchUsersWithAssignment = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
 
     const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];

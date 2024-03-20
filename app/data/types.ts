@@ -53,8 +53,10 @@ export interface IOrgUnitForScope {
     orgUnitId: string
     shortName: string
 }
+
 // -----------------------
-export interface IUserPage {totalItems: number;
+export interface IUserPage {
+    totalItems: number;
     totalPages: number | any;
     currentPage: number;
     size: string;

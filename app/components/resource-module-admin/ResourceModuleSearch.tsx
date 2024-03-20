@@ -11,7 +11,7 @@ const ResourceModuleSearch = () => {
             searchValue ? searchParams.set("name", searchValue) : searchParams.delete("name")
             return searchParams
         })
-        event.preventDefault() // Prevent refresh of page
+        event?.preventDefault() // Prevent refresh of page
     }
 
     return (

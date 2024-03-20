@@ -45,7 +45,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 export default function ResourceModuleAdminIndex() {
     const data = useLoaderData<typeof loader>()
     const usersPage = data.usersPage as IResourceModuleUsersPage
-    const roles = data.roles as IResourceModuleAccessRole
+    const roles = data.roles as IResourceModuleAccessRole[]
     const orgUnitList = data.orgUnitPage.orgUnits as IUnitItem[]
 
 
