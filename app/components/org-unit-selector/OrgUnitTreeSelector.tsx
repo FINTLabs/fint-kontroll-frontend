@@ -7,15 +7,15 @@ interface OrgUnitTreeProps {
     selectedOrgUnits: IUnitItem[]
     nodes?: IUnitItem
     setSelectedOrgUnits: (newSelected: IUnitItem[]) => void
-    aggregated: boolean
+    includeSubOrgUnits: boolean
 }
 
 const OrgUnitTreeSelector = ({
-                         orgUnitList,
-                         selectedOrgUnits,
-                         setSelectedOrgUnits,
-                         aggregated
-                     }: OrgUnitTreeProps) => {
+     orgUnitList,
+     selectedOrgUnits,
+     setSelectedOrgUnits,
+     includeSubOrgUnits
+ }: OrgUnitTreeProps) => {
 
 
     const toggleOrgUnit = (orgUnit: IUnitItem) => {
@@ -81,7 +81,7 @@ const OrgUnitTreeSelector = ({
     }
 
     const handleCheckboxClick = (orgUnit: IUnitItem) => {
-        if (aggregated) {
+        if (includeSubOrgUnits) {
             toggleOrgUnitAndChildren(orgUnit)
         } else {
             toggleOrgUnit(orgUnit)

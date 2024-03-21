@@ -1,16 +1,16 @@
 import {Button, Heading, List} from "@navikt/ds-react";
-import {IResourceModuleUsersPage} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleUser, IResourceModuleUsersPage} from "~/data/resourceModuleAdmin/types";
 
 interface TildelUserSearchResultListProps {
     usersPage: IResourceModuleUsersPage
-    handleSelectUser: (resourceId: string) => void
+    handleSelectUser: (newUser: IResourceModuleUser) => void
 }
 
 const TildelUserSearchResultList = ({usersPage, handleSelectUser}: TildelUserSearchResultListProps) => {
     return (
         <List>
             {usersPage.users.map((user) =>
-                <li key={user.id} className={"list-item__space-between"}>
+                <li key={user.resourceId} className={"list-item__space-between"}>
                     <span>
                         <Heading level={"2"} size={"small"}>{user.firstName + " " + user.lastName}</Heading>
                         {user.roles &&
@@ -31,7 +31,7 @@ const TildelUserSearchResultList = ({usersPage, handleSelectUser}: TildelUserSea
                         }
                     </span>
                     <span>
-                        <Button onClick={() => handleSelectUser(user.resourceId)}>Velg bruker</Button>
+                        <Button onClick={() => handleSelectUser(user)}>Velg bruker</Button>
                     </span>
                 </li>
             )}
