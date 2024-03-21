@@ -1,32 +1,60 @@
 import React from 'react';
 import {Heading} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
-import {LoaderFunctionArgs} from "@remix-run/router";
+import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IUserPage} from "~/data/types";
+import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import type {IAssignedUsers, IUnitItem, IUnitTree, IUser, IUserPage} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
+import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAssignedUsers} from "~/data/fetch-assignments";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
-    console.log('id', params.id)
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const response = await fetchUsers(request.headers.get("Authorization"), size, page, search);
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const [responseUsers, responseOrgUnits, responseAssignments] = await Promise.all([
+        fetchUsers(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchOrgUnits(request.headers.get("Authorization")),
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits)
+    ]);
+    const userList: IUserPage = await responseUsers.json()
+    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
+    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+    const assignedUsersList: IAssignedUsers = await responseAssignments.json()
 
-    return json(await response.json());
+    const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.id, user]))
+    const isAssignedUsers: IUser[] = userList.users.map(user => {
+        return {
+            ...user,
+            "assigned": assignedUsersMap.has(user.id)
+        }
+    })
+
+    return json({
+        userList,
+        orgUnitList,
+        assignedUsersList,
+        isAssignedUsers
+    })
 }
-
 
 export default function NewAssignment() {
 
-    const userPage = useLoaderData<IUserPage>();
+    const data = useLoaderData<{
+        userList: IUserPage,
+        orgUnitList: IUnitItem[]
+        assignedUsersList: IAssignedUsers,
+        isAssignedUsers: IUser[],
+    }>();
 
+    const params = useParams<string>()
     return (
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
@@ -34,14 +62,18 @@ export default function NewAssignment() {
                 <SelectObjectType/>
                 <NewAssignmentUserSearch/>
             </section>
-            <AssignUserTable newAssignmentForUser={userPage}/>
+            <AssignUserTable isAssignedUsers={data.isAssignedUsers}
+                             resourceId={params.id}
+                             currentPage={data.userList.currentPage}
+                             totalPages={data.userList.totalPages}
+            />
         </div>
     );
 }
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
+    //console.error(error);
     return (
         <html>
         <head>

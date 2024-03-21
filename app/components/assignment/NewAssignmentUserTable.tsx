@@ -1,10 +1,17 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
-import type {IUserPage} from "~/data/types";
+import {BodyShort, Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import type {IUser} from "~/data/types";
 import React from "react";
 import {useSearchParams} from "@remix-run/react";
-import {PlusIcon} from "@navikt/aksel-icons";
+import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, size: string, page: string }) => {
+export const AssignUserTable: any = (props: {
+    isAssignedUsers: IUser[],
+    size: string,
+    page: string,
+    resourceId: string,
+    totalPages: number,
+    currentPage: number
+}) => {
 
     const [, setSearchParams] = useSearchParams()
 
@@ -29,21 +36,26 @@ export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, s
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.newAssignmentForUser.users.map((user) => (
+                    {props.isAssignedUsers.map((user: IUser) => (
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.fullName} </Table.HeaderCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
-                            <Table.DataCell>data kommer</Table.DataCell>
+                            <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"right"}>
-                                <Button
-                                    variant={"secondary"}
-                                    onClick={() => {
-                                    }}
-                                    icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                >
-                                    Tildel
-                                </Button>
+                                {user.assigned ?
+                                    <BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
+                                                                         fontSize="1.5rem"/></BodyShort>
+                                    :
+                                    <Button
+                                        variant={"secondary"}
+                                        onClick={() => {
+                                        }}
+                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
+                                        iconPosition={"right"}
+                                    >
+                                        Tildel
+                                    </Button>
+                                }
                             </Table.DataCell>
                         </Table.Row>
                     ))}
@@ -64,14 +76,14 @@ export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, s
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.newAssignmentForUser.currentPage + 1}
+                    page={props.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.newAssignmentForUser.totalPages}
+                    count={props.totalPages}
                     size="small"
                     prevNextTexts
                 />

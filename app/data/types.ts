@@ -32,6 +32,7 @@ export interface IUser {
     "assignerDisplayname": string;
     "organisationUnitId": string;
     "organisationUnitName": string;
+    assigned: boolean;
     roles?: IUserRole[] // Optional to allow use of same type
 }
 
@@ -53,8 +54,10 @@ export interface IOrgUnitForScope {
     orgUnitId: string
     shortName: string
 }
+
 // -----------------------
-export interface IUserPage {totalItems: number;
+export interface IUserPage {
+    totalItems: number;
     totalPages: number | any;
     currentPage: number;
     size: string;
@@ -77,8 +80,9 @@ export interface IRole {
     "assignmentRef": number;
     "assignerUsername": string;
     "assignerDisplayname": string;
-    "organisationUnitId": string,
-    "organisationUnitName": string,
+    "organisationUnitId": string;
+    "organisationUnitName": string;
+    assigned: boolean;
 }
 
 export interface IRoleItem {
@@ -95,7 +99,7 @@ export interface IRolePage {
     totalItems: number;
     totalPages: number | any;
     currentPage: number;
-    roles: IRoleItem[];
+    roles: IRole[]; //IRoleItem[];
 }
 
 export interface IMemberPage {

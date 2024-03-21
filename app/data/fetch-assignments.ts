@@ -1,6 +1,6 @@
-export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
+export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
     const response = await fetch
-    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}`,
+    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
             headers: {Authorization: token ?? ""}
         });
@@ -39,8 +39,8 @@ export const fetchAssignmentsForUser = async (token: string | null, id: string |
 
 }
 
-export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}`, {
+export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
+    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
