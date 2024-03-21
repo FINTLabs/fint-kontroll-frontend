@@ -1,10 +1,17 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
-import type {IRolePage} from "~/data/types";
+import {BodyShort, Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import type {IRole} from "~/data/types";
 import React from "react";
 import {useSearchParams} from "@remix-run/react";
-import {PlusIcon} from "@navikt/aksel-icons";
+import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, size: string, page: string }) => {
+export const AssignRoleTable: any = (props: {
+    isAssignedRoles: IRole[],
+    size: string,
+    page: string,
+    resourceId: string,
+    totalPages: number,
+    currentPage: number
+}) => {
 
     const [, setSearchParams] = useSearchParams()
 
@@ -29,21 +36,26 @@ export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, s
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.newAssignmentForRole.roles.map((role) => (
+                    {props.isAssignedRoles.map((role: IRole) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
-                            <Table.DataCell>data kommer</Table.DataCell>
+                            <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"right"}>
-                                <Button
-                                    variant={"secondary"}
-                                    onClick={() => {
-                                    }}
-                                    icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                >
-                                    Tildel
-                                </Button>
+                                {role.assigned ?
+                                    <BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
+                                                                         fontSize="1.5rem"/></BodyShort>
+                                    :
+                                    <Button
+                                        variant={"secondary"}
+                                        onClick={() => {
+                                        }}
+                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
+                                        iconPosition={"right"}
+                                    >
+                                        Tildel
+                                    </Button>
+                                }
                             </Table.DataCell>
                         </Table.Row>
                     ))}
@@ -64,14 +76,14 @@ export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, s
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.newAssignmentForRole.currentPage + 1}
+                    page={props.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.newAssignmentForRole.totalPages}
+                    count={props.totalPages}
                     size="small"
                     prevNextTexts
                 />

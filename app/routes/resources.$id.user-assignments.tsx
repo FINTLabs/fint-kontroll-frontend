@@ -19,10 +19,11 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
     const [assignedUsers] = await Promise.all([
 
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search)
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, orgUnits)
 
     ]);
     return json({
