@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@navikt/ds-css": "^5.11.4",
-    "@navikt/ds-react": "^5.11.4",
+    "@navikt/ds-react": "^6.3.3",
     "@remix-run/css-bundle": "^2.3.1",
     "@remix-run/node": "^2.3.1",
     "@remix-run/react": "^2.3.1",
