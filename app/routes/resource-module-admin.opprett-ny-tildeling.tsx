@@ -1,5 +1,5 @@
 import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Form, useLoaderData} from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
@@ -82,7 +82,7 @@ export default function ResourceModuleAdminTabTildel() {
     return (
         <section className={"content tildeling-section-container"}>
             <Heading className={"heading"} level={"2"} size={"large"}>Tildel rettigheter</Heading>
-            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={true} className={newAssignment.user ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={false} className={newAssignment.user ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.user ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Bruker valgt</ExpansionCard.Title>
@@ -116,7 +116,7 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""} defaultOpen={true}>
                 <ExpansionCard.Header>
                     {newAssignment.orgUnits.length > 0 ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Orgenheter valgt</ExpansionCard.Title>
@@ -135,6 +135,7 @@ export default function ResourceModuleAdminTabTildel() {
                             orgUnitList={allOrgUnits}
                             selectedOrgUnits={selectedOrgUnits}
                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
+                            includeSubOrgUnitsState={includeSubOrgUnitsState}
                         />
                     </div>
                 </ExpansionCard.Content>
@@ -142,9 +143,9 @@ export default function ResourceModuleAdminTabTildel() {
 
             <div className={"tildeling-section"}>
                 <SummaryOfTildeling assignment={newAssignment} missingFields={missingFields} />
-                <span>
+                <Form method={"post"} >
                     <Button disabled={missingFields}>Lagre tildeling</Button>
-                </span>
+                </Form>
             </div>
         </section>
     );

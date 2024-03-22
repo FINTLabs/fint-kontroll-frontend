@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {Accordion, Checkbox} from "@navikt/ds-react"
 import type {IUnitItem} from "~/data/types";
 
@@ -7,13 +7,19 @@ interface OrgUnitTreeProps {
     selectedOrgUnits: IUnitItem[]
     nodes?: IUnitItem
     setSelectedOrgUnits: (newSelected: IUnitItem[]) => void
+    includeSubOrgUnitsState: boolean
 }
 
 const OrgUnitTreeSelector = ({
      orgUnitList,
      selectedOrgUnits,
      setSelectedOrgUnits,
+     includeSubOrgUnitsState
  }: OrgUnitTreeProps) => {
+    // If includeSubOrgUnitsState - Reset the chosen orgunits
+    useEffect(() => {
+        setSelectedOrgUnits([])
+    }, [includeSubOrgUnitsState]);
     const toggleOrgUnit = (orgUnit: IUnitItem) => {
         const isSelected = selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)
         let newSelected: IUnitItem[]
@@ -31,11 +37,19 @@ const OrgUnitTreeSelector = ({
         setSelectedOrgUnits(newSelected) // Updates list of selected org units
     }
 
-    const handleCheckboxClick = (orgUnit: IUnitItem) => {
+    const handleCheckboxClick = (orgUnit: IUnitItem, includeIsTrue: boolean) => {
         toggleOrgUnit(orgUnit)
     }
 
+    const handleClearOrgUnitsIfParentChecked = () => {
+        // const parentContainsChildren =
+    //     Fortsett med følgende pseudokode
+    //     HVIS en parent har children, og noen av childrensa ligger i selectedOrgUnits -> Da skal alle childsa ut av lista, og erstattes med parent-noden.
+    }
+
+    console.log(selectedOrgUnits)
     const renderTree = (node: IUnitItem) => {
+        const locksChildNodes = includeSubOrgUnitsState && selectedOrgUnits.some((unit) => unit.organisationUnitId === node.organisationUnitId)
         return (
             <Accordion.Item key={node.id + " " + node.organisationUnitId}>
                 <Accordion.Header>
@@ -44,23 +58,25 @@ const OrgUnitTreeSelector = ({
                         checked={selectedOrgUnits.some((unit) => unit.organisationUnitId === node.organisationUnitId)}
                         onClick={(event) => {
                             event.stopPropagation()
-                            handleCheckboxClick(node)
+                            handleCheckboxClick(node, locksChildNodes)
                         }}
                     >
                         {node.name}
                     </Checkbox>
                 </Accordion.Header>
-                <Accordion.Content>
-                    {Array.isArray(node.childrenRef)
-                        ? node.childrenRef.map((nodeId: string) => {
-                            const node = orgUnitList.find((n) => n.organisationUnitId === nodeId)
-                            if (node) {
-                                return renderTree(node)
-                            }
-                            return null
-                        })
-                        : null}
-                </Accordion.Content>
+                {!locksChildNodes &&
+                    <Accordion.Content>
+                        {Array.isArray(node.childrenRef)
+                            ? node.childrenRef.map((nodeId: string) => {
+                                const node = orgUnitList.find((n) => n.organisationUnitId === nodeId)
+                                if (node) {
+                                    return renderTree(node)
+                                }
+                                return null
+                            })
+                            : null}
+                    </Accordion.Content>
+                }
             </Accordion.Item>
         )
     }
