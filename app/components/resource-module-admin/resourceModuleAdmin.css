@@ -70,7 +70,6 @@ td {
     gap: 1rem;
 }
 
-
 .expansion-green {
     --ac-expansioncard-bg: var(--a-surface-success-subtle);
     --ac-expansioncard-border-open-color: var(--a-border-alt-3);

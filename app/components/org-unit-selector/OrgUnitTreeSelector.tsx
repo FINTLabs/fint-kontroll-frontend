@@ -7,17 +7,13 @@ interface OrgUnitTreeProps {
     selectedOrgUnits: IUnitItem[]
     nodes?: IUnitItem
     setSelectedOrgUnits: (newSelected: IUnitItem[]) => void
-    includeSubOrgUnits: boolean
 }
 
 const OrgUnitTreeSelector = ({
      orgUnitList,
      selectedOrgUnits,
      setSelectedOrgUnits,
-     includeSubOrgUnits
  }: OrgUnitTreeProps) => {
-
-
     const toggleOrgUnit = (orgUnit: IUnitItem) => {
         const isSelected = selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)
         let newSelected: IUnitItem[]
@@ -35,64 +31,16 @@ const OrgUnitTreeSelector = ({
         setSelectedOrgUnits(newSelected) // Updates list of selected org units
     }
 
-    const toggleOrgUnitAndChildren = (orgUnit: IUnitItem) => {
-        const isSelected = selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)
-        let newSelected = [...selectedOrgUnits]
-
-        if (isSelected) {
-            newSelected = selectedOrgUnits.filter((unit) => unit.organisationUnitId !== orgUnit.organisationUnitId)
-        } else {
-            if (!selectedOrgUnits.some((unit) => unit.organisationUnitId === orgUnit.organisationUnitId)) {
-                newSelected.push(orgUnit)
-            }
-        }
-
-        const childrenOrgUnits = findChildrenOrgUnits(orgUnit)
-        for (const childOrgUnit of childrenOrgUnits) {
-            if (isSelected) {
-                newSelected = newSelected.filter((unit) => unit.organisationUnitId !== childOrgUnit.organisationUnitId)
-            } else {
-                if (!newSelected.some((unit) => unit.organisationUnitId === childOrgUnit.organisationUnitId)) {
-                    newSelected.push(childOrgUnit)
-                }
-            }
-        }
-
-        setSelectedOrgUnits(newSelected) // Updates list of selected org units
-    }
-
-    const findChildrenOrgUnits = (orgUnit: IUnitItem): IUnitItem[] => {
-        const childrenOrgUnits: IUnitItem[] = []
-
-        const findChildren = (node: IUnitItem) => {
-            if (Array.isArray(node.childrenRef)) {
-                for (const nodeId of node.childrenRef) {
-                    const childNode = orgUnitList.find((n) => n.organisationUnitId === nodeId)
-                    if (childNode) {
-                        childrenOrgUnits.push(childNode)
-                        findChildren(childNode)
-                    }
-                }
-            }
-        }
-
-        findChildren(orgUnit)
-        return childrenOrgUnits
-    }
-
     const handleCheckboxClick = (orgUnit: IUnitItem) => {
-        if (includeSubOrgUnits) {
-            toggleOrgUnitAndChildren(orgUnit)
-        } else {
-            toggleOrgUnit(orgUnit)
-        }
+        toggleOrgUnit(orgUnit)
     }
 
     const renderTree = (node: IUnitItem) => {
         return (
-            <Accordion.Item key={node.id + " " + node.organisationUnitId} className={"styled-accordion"}>
-                <Accordion.Header className={"styled-accordion"}>
+            <Accordion.Item key={node.id + " " + node.organisationUnitId}>
+                <Accordion.Header>
                     <Checkbox
+                        className={"org-unit-checkbox"}
                         checked={selectedOrgUnits.some((unit) => unit.organisationUnitId === node.organisationUnitId)}
                         onClick={(event) => {
                             event.stopPropagation()
@@ -119,7 +67,6 @@ const OrgUnitTreeSelector = ({
 
     return (
         <>
-            {/* <b>Velg orgenheter</b>*/}
             {orgUnitList.map((node: IUnitItem) => {
                 if (node.parentRef !== node.organisationUnitId) {
                     return null

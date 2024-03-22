@@ -131,10 +131,10 @@ export default function ResourceModuleAdminTabTildel() {
                             Inkluder underliggende enheter
                         </Switch>
 
-                        <OrgUnitTreeSelector orgUnitList={allOrgUnits}
-                                             selectedOrgUnits={selectedOrgUnits}
-                                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
-                                             includeSubOrgUnits={includeSubOrgUnitsState}
+                        <OrgUnitTreeSelector
+                            orgUnitList={allOrgUnits}
+                            selectedOrgUnits={selectedOrgUnits}
+                            setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
                         />
                     </div>
                 </ExpansionCard.Content>

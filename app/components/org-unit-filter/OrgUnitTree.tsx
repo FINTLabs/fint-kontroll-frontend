@@ -90,9 +90,10 @@ const OrgUnitTree = ({
 
     const renderTree = (node: IUnitItem) => {
         return (
-            <Accordion.Item key={node.id + " " + node.organisationUnitId} className={"styled-accordion"}>
-                <Accordion.Header className={"styled-accordion"}>
+            <Accordion.Item key={node.id + " " + node.organisationUnitId}>
+                <Accordion.Header>
                     <Checkbox
+                        className={"org-unit-checkbox"}
                         checked={selectedOrgUnits.some((unit) => unit.organisationUnitId === node.organisationUnitId)}
                         onClick={(event) => {
                             event.stopPropagation()

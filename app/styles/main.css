@@ -94,6 +94,10 @@ table {
     margin: 0 auto;
 }
 
+.org-unit-checkbox > label {
+    line-height: 1.5rem;
+}
+
 .list-item__space-between {
     display: flex;
     justify-content: space-between;

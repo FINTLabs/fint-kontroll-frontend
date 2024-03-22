@@ -7,8 +7,6 @@ interface SummaryOfTildelingProps {
 }
 
 const SummaryOfTildeling = ({assignment, missingFields}: SummaryOfTildelingProps) => {
-
-    console.log(assignment.orgUnits.length > 0)
     return (
         <div>
             <Heading size={"medium"}>Oppsummering</Heading>
