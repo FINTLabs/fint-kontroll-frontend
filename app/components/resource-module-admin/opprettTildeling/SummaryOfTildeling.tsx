@@ -1,42 +1,58 @@
 import {IResourceModuleAssignment} from "~/data/resourceModuleAdmin/types";
-import {Alert, Heading} from "@navikt/ds-react";
+import {Alert, Heading, List} from "@navikt/ds-react";
 
 interface SummaryOfTildelingProps {
     assignment: IResourceModuleAssignment
+    missingFields: boolean
 }
 
-const SummaryOfTildeling = ({assignment}: SummaryOfTildelingProps) => {
+const SummaryOfTildeling = ({assignment, missingFields}: SummaryOfTildelingProps) => {
+
+    console.log(assignment.orgUnits.length > 0)
     return (
         <div>
             <Heading size={"medium"}>Oppsummering</Heading>
             {assignment.user?.firstName && <p>Valgt bruker: {assignment.user?.firstName + " " + assignment.user?.lastName} </p>}
             {assignment.accessRoleId && <p>Valgt aksessrolle: {assignment.accessRoleId}</p>}
 
-            {assignment.includeSubOrgUnits ?
-                <p>Orgenheter  med underenheter</p>
-            :
-                <p>Orgenheter uten underenheter</p>
+            {assignment.orgUnits.length > 0 &&
+                (assignment.includeSubOrgUnits ?
+                    <>
+                        Inkluderte orgenheter - da MED tilhørende underenheter:
+                        <List className={"list-two-columns"}>
+                            {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
+                        </List>
+                    </>
+                :
+                    <>Valgte orgenheter:
+                        <List className={"list-two-columns"}>
+                            {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
+                        </List>
+                    </>
+                )
             }
 
-            <Alert variant={"error"} >
-                <ul>
-                    {!assignment.user &&
-                        <li>
-                            Må ha valgt en bruker
-                        </li>
-                    }
-                    {!assignment.accessRoleId &&
-                        <li>
-                            Må ha valgt en aksessrolle
-                        </li>
-                    }
-                    {assignment.orgUnits.length === 0 &&
-                        <li>
-                            Må ha valgt orgenheter
-                        </li>
-                    }
-                </ul>
-            </Alert>
+            {missingFields &&
+                <Alert variant={"error"} >
+                    <ul>
+                        {!assignment.user &&
+                            <li>
+                                Må ha valgt en bruker
+                            </li>
+                        }
+                        {!assignment.accessRoleId &&
+                            <li>
+                                Må ha valgt en aksessrolle
+                            </li>
+                        }
+                        {assignment.orgUnits.length === 0 &&
+                            <li>
+                                Må ha valgt orgenheter
+                            </li>
+                        }
+                    </ul>
+                </Alert>
+            }
         </div>
     )
 }

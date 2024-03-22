@@ -1,12 +1,18 @@
 import {Button, Heading, List} from "@navikt/ds-react";
-import {IResourceModuleUser, IResourceModuleUsersPage} from "~/data/resourceModuleAdmin/types";
+import {
+    IResourceModuleAssignment,
+    IResourceModuleUser,
+    IResourceModuleUsersPage
+} from "~/data/resourceModuleAdmin/types";
+import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 
 interface TildelUserSearchResultListProps {
+    newAssignment: IResourceModuleAssignment
     usersPage: IResourceModuleUsersPage
     handleSelectUser: (newUser: IResourceModuleUser) => void
 }
 
-const TildelUserSearchResultList = ({usersPage, handleSelectUser}: TildelUserSearchResultListProps) => {
+const TildelUserSearchResultList = ({newAssignment, usersPage, handleSelectUser}: TildelUserSearchResultListProps) => {
     return (
         <List>
             {usersPage.users.map((user) =>
@@ -30,9 +36,15 @@ const TildelUserSearchResultList = ({usersPage, handleSelectUser}: TildelUserSea
                             </p>
                         }
                     </span>
-                    <span>
-                        <Button onClick={() => handleSelectUser(user)}>Velg bruker</Button>
-                    </span>
+                    {newAssignment.user?.resourceId === user.resourceId ?
+                        <span>
+                            <Button icon={<CheckmarkCircleIcon />} variant={"secondary"} onClick={() => handleSelectUser(user)}>Valgt</Button>
+                        </span>
+                    :
+                        <span>
+                            <Button onClick={() => handleSelectUser(user)}>Velg bruker</Button>
+                        </span>
+                    }
                 </li>
             )}
         </List>

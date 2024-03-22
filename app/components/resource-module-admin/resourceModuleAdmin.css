@@ -15,6 +15,12 @@
     justify-content: space-between;
     gap: 1rem;
 }
+
+.org-unit-filter-with-help-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 /*---*/
 
 .tildeling-section-container {
@@ -66,7 +72,12 @@ td {
 
 
 .expansion-green {
-    --ac-expansioncard-bg: var(--a-deepblue-50);
+    --ac-expansioncard-bg: var(--a-surface-success-subtle);
     --ac-expansioncard-border-open-color: var(--a-border-alt-3);
     --ac-expansioncard-border-hover-color: var(--a-border-alt-3);
+}
+
+.list-two-columns {
+    margin: 0 2rem;
+    columns: 2;
 }

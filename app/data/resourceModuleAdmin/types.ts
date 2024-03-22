@@ -17,7 +17,6 @@ export interface IResourceModuleAssignment {
 }
 
 export interface IResourceModuleUser {
-    id: number
     resourceId: string
     firstName: string
     lastName: string
