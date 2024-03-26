@@ -1,8 +1,8 @@
-import {Box, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
-import {CheckmarkIcon} from "@navikt/aksel-icons";
+import {PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignRoleTable: any = (props: {
     isAssignedRoles: IRole[],
@@ -44,16 +44,21 @@ export const AssignRoleTable: any = (props: {
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {role.assigned ?
-                                    <Tag variant="success" style={{marginTop: '0.5rem', marginBottom: '0.5rem'}}>
-                                        Er tildelt <CheckmarkIcon title="a11y-title"
-                                                                  fontSize="1.5rem" style={{marginLeft: '5px'}}/>
+                                    <Tag variant="success" size="small"
+                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                        Ressursen er tildelt
                                     </Tag>
                                     :
-                                    <Link
+                                    <Button
+                                        as={Link}
+                                        variant={"secondary"}
+                                        icon={<PlusIcon/>}
+                                        iconPosition="right"
                                         href={`/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        underline={false}
                                     >
                                         Tildel
-                                    </Link>
+                                    </Button>
                                 }
                             </Table.DataCell>
                         </Table.Row>
