@@ -3,13 +3,13 @@ import {BodyShort, Button, Modal} from "@navikt/ds-react";
 import {Form, useNavigate, useParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
-import {deleteUserAssignment} from "~/data/fetch-assignments";
+import {deleteAssignment} from "~/data/fetch-assignments";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    await deleteUserAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
+    await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
     return redirect(`/resources/${data.get("resourceRef")}/user-assignments?page=${searchParams.get("page")}`)
 }

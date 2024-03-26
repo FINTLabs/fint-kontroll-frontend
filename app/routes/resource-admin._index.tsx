@@ -36,7 +36,6 @@ export default function ResourceAdminIndex() {
         resourceList: IResourcePage,
         orgUnitList: IUnitItem[]
     }>();
-    console.log(data.resourceList)
 
     return (
         <div className={"content"}>

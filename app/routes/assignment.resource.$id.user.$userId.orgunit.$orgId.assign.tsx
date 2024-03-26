@@ -7,7 +7,6 @@ import {createUserAssignment} from "~/data/fetch-assignments";
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const { searchParams } = new URL(request.url);
-    console.log("request", request)
 
      await createUserAssignment(request.headers.get("Authorization"),
          parseInt(data.get("resourceRef") as string),

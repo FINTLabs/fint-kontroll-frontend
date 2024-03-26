@@ -22,13 +22,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    console.log(orgUnits)
+
     const [responseResource, responseOrgUnits] = await Promise.all([
         fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization"))
     ]);
     const resourceList: IResourcePage = await responseResource.json()
-    console.log(resourceList)
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
 
