@@ -1,8 +1,8 @@
-import {BodyShort, Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
-import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
+import {Outlet, useSearchParams} from "@remix-run/react";
+import {PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignRoleTable: any = (props: {
     isAssignedRoles: IRole[],
@@ -13,7 +13,7 @@ export const AssignRoleTable: any = (props: {
     currentPage: number
 }) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -26,13 +26,14 @@ export const AssignRoleTable: any = (props: {
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"right"}>Tildelinger</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -41,17 +42,20 @@ export const AssignRoleTable: any = (props: {
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell align={"right"}>
+                            <Table.DataCell align={"center"}>
                                 {role.assigned ?
-                                    <BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
-                                                                         fontSize="1.5rem"/></BodyShort>
+                                    <Tag variant="success" size="small"
+                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                        Ressursen er tildelt
+                                    </Tag>
                                     :
                                     <Button
+                                        as={Link}
                                         variant={"secondary"}
-                                        onClick={() => {
-                                        }}
-                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                        iconPosition={"right"}
+                                        icon={<PlusIcon/>}
+                                        iconPosition="right"
+                                        href={`/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        underline={false}
                                     >
                                         Tildel
                                     </Button>
