@@ -30,7 +30,6 @@ export default function ResourceModuleAdminTabTildel() {
 
     // const usersPage = useLoaderData<{ usersPage: IUserPage }>();
     const usersPage: IUserPage = useLoaderData<typeof loader>();
-    console.log(usersPage)
 
     const [newAssignment, setNewAssignment] = useState<IAssignment>({user: null, accessRoleId: "", scopeId: 0, orgUnits:[]})
 

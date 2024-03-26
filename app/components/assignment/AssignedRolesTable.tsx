@@ -1,16 +1,13 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import type {IAssignedRoles} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 
 export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, size: string, page: string, search: string }) => {
 
-    const [, setSearchParams] = useSearchParams()
-
-    /* const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-         submit({size: event.target.value}, {method: "GET", action: `/resources.$id/${params.id}`})
-     }*/
+    const [searchParams, setSearchParams] = useSearchParams()
+    const params = useParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -23,6 +20,7 @@ export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, 
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -40,12 +38,12 @@ export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, 
                             <Table.DataCell>{role.assignerDisplayname ? role.assignerDisplayname : role.assignerUsername}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 <Button
+                                    as={Link}
                                     className={"buttonOutlined"}
                                     variant={"secondary"}
-                                    onClick={() => {
-                                    }}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
+                                    href={`/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                 >
                                     Slett
                                 </Button>

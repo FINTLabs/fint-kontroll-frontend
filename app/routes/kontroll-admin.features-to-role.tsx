@@ -3,7 +3,6 @@ import {Outlet, useLoaderData, useNavigate, useParams} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {ActionFunctionArgs} from "@remix-run/node";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
 import styles from "~/components/kontroll-admin/kontroll-admin.css";
 
@@ -52,7 +51,7 @@ export default () => {
                     </RadioGroup>
                 </div>
 
-                <Outlet />
+                <Outlet/>
             </Tabs.Panel>
         </Tabs>
     )
