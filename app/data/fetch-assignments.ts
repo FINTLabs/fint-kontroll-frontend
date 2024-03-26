@@ -116,3 +116,20 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
     }
     throw new Error("Nokko gjekk gale!")
 }
+
+export const deleteUserAssignment = async (token: string | null, assignmentRef: string) => {
+    console.log(`http://localhost:8061/beta/fintlabs-no/api/assignments/${assignmentRef}`)
+    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/${assignmentRef}`, {
+        headers: {
+            Authorization: token ?? ""
+        },
+        method: 'DELETE'
+    });
+
+    console.log("delete response", response)
+
+    if (response.status === 410) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
+}

@@ -9,10 +9,10 @@ export async function action({request}: ActionFunctionArgs) {
     const { searchParams } = new URL(request.url);
     console.log("request", request)
 
-     createUserAssignment(request.headers.get("Authorization"),
-        parseInt(data.get("resourceRef") as string),
-        parseInt(data.get("userRef") as string),
-        data.get("organizationUnitId") as string)
+     await createUserAssignment(request.headers.get("Authorization"),
+         parseInt(data.get("resourceRef") as string),
+         parseInt(data.get("userRef") as string),
+         data.get("organizationUnitId") as string)
 
     return redirect(`/assignment/resource/${data.get("resourceRef")}/user?page=${searchParams.get("page")}`)
 }

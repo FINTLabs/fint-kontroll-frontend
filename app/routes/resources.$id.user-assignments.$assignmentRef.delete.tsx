@@ -1,23 +1,20 @@
-import {Form, useNavigate, useParams} from "@remix-run/react";
-import React from "react";
+import React from 'react';
 import {BodyShort, Button, Modal} from "@navikt/ds-react";
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
-import {createRoleAssignment} from "~/data/fetch-assignments";
+import {Form, useNavigate, useParams} from "@remix-run/react";
+import type {ActionFunctionArgs} from "@remix-run/node";
+import {redirect} from "@remix-run/node";
+import {deleteUserAssignment} from "~/data/fetch-assignments";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
-    console.log("request", request)
 
-    await createRoleAssignment(request.headers.get("Authorization"),
-        parseInt(data.get("resourceRef") as string),
-        parseInt(data.get("roleRef") as string),
-        data.get("organizationUnitId") as string)
+    await deleteUserAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}`)
+    return redirect(`/resources/${data.get("resourceRef")}/user-assignments?page=${searchParams.get("page")}`)
 }
 
-export default function NewAssignment1() {
+export default function DeleteUserAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
 
@@ -27,7 +24,7 @@ export default function NewAssignment1() {
                 open={true}
                 onClose={() => navigate(-1)}
                 header={{
-                    heading: "Fullfør tildelingen",
+                    heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
                     closeButton: false,
                 }}
@@ -35,17 +32,16 @@ export default function NewAssignment1() {
             >
                 <Modal.Body>
                     <BodyShort>
-                        Trykk lagre for å bekrefte tildeling av ressursen
+                        Er du sikker på at du ønsker å trekke tilgangen til denne ressursen?
                     </BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
                     <Form method={"POST"}>
+                        <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="resourceRef"/>
-                        <input value={params.roleId} type="hidden" name="roleRef"/>
-                        <input value={params.orgunitId} type="hidden" name="organizationUnitId"/>
 
                         <Button type="submit" variant="primary">
-                            Lagre
+                            Slett
                         </Button>
                     </Form>
                     <Button
@@ -58,5 +54,5 @@ export default function NewAssignment1() {
                 </Modal.Footer>
             </Modal>
         </>
-    )
+    );
 }
