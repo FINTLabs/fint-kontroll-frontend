@@ -11,6 +11,7 @@ import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUser
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 
+
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {

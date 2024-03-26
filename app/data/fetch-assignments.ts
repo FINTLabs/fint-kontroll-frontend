@@ -76,3 +76,23 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
     throw new Error("Det virker ikke som om du er pålogget")
 
 }
+
+export const createAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
+    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            userRef: userRef,
+            organizationUnitId: organizationUnitId,
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
+}

@@ -1,4 +1,4 @@
-import {BodyShort, Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
 import {useSearchParams} from "@remix-run/react";
@@ -32,7 +32,7 @@ export const AssignRoleTable: any = (props: {
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"right"}>Tildelinger</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -41,10 +41,12 @@ export const AssignRoleTable: any = (props: {
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell align={"right"}>
+                            <Table.DataCell align={"center"}>
                                 {role.assigned ?
-                                    <BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
-                                                                         fontSize="1.5rem"/></BodyShort>
+                                    <Tag variant="success" style={{marginTop: '0.5rem', marginBottom: '0.5rem'}}>
+                                        Er tildelt <CheckmarkIcon title="a11y-title"
+                                                                  fontSize="1.5rem" style={{marginLeft: '5px'}}/>
+                                    </Tag>
                                     :
                                     <Button
                                         variant={"secondary"}

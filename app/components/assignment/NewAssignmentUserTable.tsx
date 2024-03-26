@@ -1,7 +1,7 @@
-import {BodyShort, Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IUser} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignUserTable: any = (props: {
@@ -10,10 +10,10 @@ export const AssignUserTable: any = (props: {
     page: string,
     resourceId: string,
     totalPages: number,
-    currentPage: number
+    currentPage: number,
 }) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -26,13 +26,14 @@ export const AssignUserTable: any = (props: {
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"right"}>Tildelinger</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -41,20 +42,20 @@ export const AssignUserTable: any = (props: {
                             <Table.HeaderCell scope="row">{user.fullName} </Table.HeaderCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell align={"right"}>
+                            <Table.DataCell align={"center"}>
                                 {user.assigned ?
-                                    <BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
-                                                                         fontSize="1.5rem"/></BodyShort>
+                                    <Tag variant="success" style={{marginTop: '0.5rem', marginBottom: '0.5rem'}}>
+                                        Er tildelt <CheckmarkIcon title="a11y-title"
+                                                                  fontSize="1.5rem" style={{marginLeft: '5px'}}/>
+                                    </Tag>
+                                    /*<BodyShort>Er tildelt <CheckmarkIcon title="a11y-title"
+                                                                         fontSize="1.5rem"/></BodyShort>*/
                                     :
-                                    <Button
-                                        variant={"secondary"}
-                                        onClick={() => {
-                                        }}
-                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                        iconPosition={"right"}
+                                    <Link
+                                        href={`user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page")}`}
                                     >
                                         Tildel
-                                    </Button>
+                                    </Link>
                                 }
                             </Table.DataCell>
                         </Table.Row>
