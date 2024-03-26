@@ -2,7 +2,7 @@ import {Box, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-rea
 import type {IUser} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
-import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
+import {CheckmarkIcon} from "@navikt/aksel-icons";
 
 export const AssignUserTable: any = (props: {
     isAssignedUsers: IUser[],
@@ -52,7 +52,7 @@ export const AssignUserTable: any = (props: {
                                                                          fontSize="1.5rem"/></BodyShort>*/
                                     :
                                     <Link
-                                        href={`user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        href={`/assignment/resource/${props.resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page")}`}
                                     >
                                         Tildel
                                     </Link>

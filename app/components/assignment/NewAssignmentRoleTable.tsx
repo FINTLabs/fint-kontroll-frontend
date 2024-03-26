@@ -1,8 +1,8 @@
-import {Box, Button, Heading, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import {Box, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
-import {CheckmarkIcon, PlusIcon} from "@navikt/aksel-icons";
+import {Outlet, useSearchParams} from "@remix-run/react";
+import {CheckmarkIcon} from "@navikt/aksel-icons";
 
 export const AssignRoleTable: any = (props: {
     isAssignedRoles: IRole[],
@@ -13,7 +13,7 @@ export const AssignRoleTable: any = (props: {
     currentPage: number
 }) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -26,6 +26,7 @@ export const AssignRoleTable: any = (props: {
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -48,15 +49,11 @@ export const AssignRoleTable: any = (props: {
                                                                   fontSize="1.5rem" style={{marginLeft: '5px'}}/>
                                     </Tag>
                                     :
-                                    <Button
-                                        variant={"secondary"}
-                                        onClick={() => {
-                                        }}
-                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                        iconPosition={"right"}
+                                    <Link
+                                        href={`/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page")}`}
                                     >
                                         Tildel
-                                    </Button>
+                                    </Link>
                                 }
                             </Table.DataCell>
                         </Table.Row>

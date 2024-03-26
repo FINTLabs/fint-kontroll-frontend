@@ -77,7 +77,7 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
 
 }
 
-export const createAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
+export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
     const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
         headers: {
             Authorization: token ?? "",
@@ -87,6 +87,26 @@ export const createAssignment = async (token: string | null, resourceRef: number
         body: JSON.stringify({
             resourceRef: resourceRef,
             userRef: userRef,
+            organizationUnitId: organizationUnitId,
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
+}
+
+export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
             organizationUnitId: organizationUnitId,
         })
     });
