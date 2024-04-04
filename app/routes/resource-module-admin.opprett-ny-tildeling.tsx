@@ -4,17 +4,16 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
 import {fetchOrgUnits} from "~/data/fetch-resources";
-import {IUnitItem} from "~/data/types";
+import {IUnitItem, IUnitTree} from "~/data/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {
-    IResourceModuleAccessRole, IResourceModuleAssignment,
+    IResourceModuleAccessRole,
+    IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import TildelUserSearchResultList from "~/components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
-import {
-    fetchUsersWhoCanGetAssignments,
-} from "~/data/resourceModuleAdmin/resource-module-admin";
+import {fetchUsersWhoCanGetAssignments,} from "~/data/resourceModuleAdmin/resource-module-admin";
 import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
 import OrgUnitTreeSelector from "~/components/org-unit-selector/OrgUnitTreeSelector";
 import SummaryOfTildeling from "~/components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
@@ -23,6 +22,16 @@ import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
+}
+
+const loopAndSetIsCheck = (orgUnitTree: IUnitTree): IUnitTree => {
+    const newList = orgUnitTree.orgUnits.map(orgUnit => ({
+        ...orgUnit,
+        isChecked: false
+    }))
+    return {
+        ...orgUnitTree, orgUnits: newList
+    }
 }
 
 export async function loader({request}: LoaderFunctionArgs) {
@@ -47,7 +56,9 @@ export async function loader({request}: LoaderFunctionArgs) {
     const accessRoles = await accessRolesResponse.json()
     const allOrgUnits = await orgUnitsResponse.json()
 
-    return {usersPage: usersPage, accessRoles: accessRoles, allOrgUnits: allOrgUnits}
+    const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
+
+    return {usersPage: usersPage, accessRoles: accessRoles, allOrgUnits: orgUnitsWithIsChecked}
 }
 
 export default function ResourceModuleAdminTabTildel() {
@@ -63,9 +74,7 @@ export default function ResourceModuleAdminTabTildel() {
     useEffect(() => {
         setNewAssignment({...newAssignment, orgUnits: selectedOrgUnits.map(orgUnit => orgUnit), includeSubOrgUnits: includeSubOrgUnitsState})
     }, [selectedOrgUnits]);
-
     const handleSelectUser = (newUser: IResourceModuleUser) => {
-        console.log(newUser)
         setNewAssignment({...newAssignment, user: newUser})
     }
 
