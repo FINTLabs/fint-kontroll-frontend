@@ -10,6 +10,7 @@ import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
+import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -19,11 +20,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
+    const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseUsers, responseOrgUnits, responseAssignments] = await Promise.all([
-        fetchUsers(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits)
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", "", orgUnits)
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
@@ -61,6 +63,10 @@ export default function NewAssignment() {
             <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
             <section className={"filters"}>
                 <SelectObjectType/>
+
+            </section>
+            <section className={"filters"}>
+                <UserTypeFilter/>
                 <NewAssignmentUserSearch/>
             </section>
             <AssignUserTable isAssignedUsers={data.isAssignedUsers}

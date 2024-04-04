@@ -1,5 +1,5 @@
-export const fetchUsers = async (token: string | null, size: string, page: string, search: string, orgUnits: string[]) => {
-    const response = await fetch(`http://localhost:8062/beta/fintlabs-no/api/users?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
+export const fetchUsers = async (token: string | null, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
+    const response = await fetch(`http://localhost:8062/beta/fintlabs-no/api/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 

@@ -1,6 +1,6 @@
-export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
+export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
     const response = await fetch
-    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
+    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
             headers: {Authorization: token ?? ""}
         });
