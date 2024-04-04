@@ -40,7 +40,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const itemsPerPage = url.searchParams.get("size") ?? "10";
     const currentPage = url.searchParams.get("page") ?? "0";
-    const orgUnitIds = url.searchParams.get("orgunits")?.split(",") ?? [];
+    const orgUnitIds = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const name = url.searchParams.get("name") ?? "";
     const roleFilter = url.searchParams.get("accessroleid") ?? ""
 
