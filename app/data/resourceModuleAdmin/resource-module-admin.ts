@@ -20,6 +20,37 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 }
 
+export const postNewTildelingForUser = async (token: string | null, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
+    const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment`;
+
+    console.log(scopeId)
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: ({
+            Authorization: token || ""
+        }),
+        body: JSON.stringify({
+            // userId instead of resourceId - this is because resourceId the actual unique ID for the user, while userId is a table ID.
+            accessRoleId: accessRoleId, scopeId: Number(scopeId), userId: resourceId, orgUnitIds: orgUnitIds, includeSubOrgUnits: includeSubOrgUnits
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
 export const fetchUsersWhoCanGetAssignments = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
 
     const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];

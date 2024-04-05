@@ -1,5 +1,5 @@
 import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
-import {Form, useLoaderData} from "@remix-run/react";
+import {Form, useActionData, useLoaderData, useNavigate} from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
@@ -13,12 +13,16 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import TildelUserSearchResultList from "~/components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
-import {fetchUsersWhoCanGetAssignments,} from "~/data/resourceModuleAdmin/resource-module-admin";
+import {
+    fetchUsersWhoCanGetAssignments, postNewTildelingForUser,
+} from "~/data/resourceModuleAdmin/resource-module-admin";
 import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
 import OrgUnitTreeSelector from "~/components/org-unit-selector/OrgUnitTreeSelector";
 import SummaryOfTildeling from "~/components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
 import ChooseAccessRole from "~/components/resource-module-admin/opprettTildeling/ChooseAccessRole";
 import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
+import {ActionFunctionArgs} from "@remix-run/node";
+import {toast} from "react-toastify";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -61,15 +65,61 @@ export async function loader({request}: LoaderFunctionArgs) {
     return {usersPage: usersPage, accessRoles: accessRoles, allOrgUnits: orgUnitsWithIsChecked}
 }
 
+export const action = async({params, request}: ActionFunctionArgs) => {
+    const queryParams = new URLSearchParams(request.url.split("?")[1]);
+
+    const auth = request.headers.get("Authorization")
+
+    const formData = await request.formData()
+
+    const resourceId = formData.get("resourceId") as string // resourceId is the unique ID of a user
+    const accessRoleId = formData.get("accessRoleId") as string
+    const scopeId = formData.get("scopeId") as string
+    const orgUnits = String(formData.get("orgUnits")).split(",") ?? []
+    let includeSubOrgUnits: string | boolean = formData.get("includeSubOrgUnits") as string
+    includeSubOrgUnits = includeSubOrgUnits === "true"
+
+    const res = await postNewTildelingForUser(auth, resourceId, accessRoleId, scopeId, orgUnits, includeSubOrgUnits)
+
+    return res.ok ? {reset: false, status: true, redirect: null, message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
+}
+
+
 export default function ResourceModuleAdminTabTildel() {
     const loaderData = useLoaderData<typeof loader>();
     const usersPage = loaderData.usersPage as IResourceModuleUsersPage
     const accessRoles = loaderData.accessRoles as IResourceModuleAccessRole[]
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
 
-    const [newAssignment, setNewAssignment] = useState<IResourceModuleAssignment>({user: null, accessRoleId: "", scopeId: 0, orgUnits:[], includeSubOrgUnits: false})
+    const actionData = useActionData<typeof action>()
+    const navigate = useNavigate()
+
+    const [newAssignment, setNewAssignment] = useState<IResourceModuleAssignment>({
+        user: null,
+        accessRoleId: "",
+        scopeId: 1 /* TODO: This is bound to be changed in the future to allow scope definitions to be selected in the frontend. For now, it is defaulted to "1" */,
+        orgUnits:[],
+        includeSubOrgUnits: false
+    })
+
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [includeSubOrgUnitsState, setIncludeSubOrgUnitsState] = useState(newAssignment.includeSubOrgUnits)
+
+    useEffect(() => {
+        if(!actionData) {
+            return
+        }
+        if(!actionData?.status){
+            toast.error("En feil oppstod ved forsøkt lagring. Prøv igjen.")
+            return
+        }
+
+        if(actionData?.status) {
+            actionData.redirect ? navigate("/resource-module-admin") : null
+            toast.success("Tildeling gjennomført!")
+            return
+        }
+    }, [actionData]);
 
     useEffect(() => {
         setNewAssignment({...newAssignment, orgUnits: selectedOrgUnits.map(orgUnit => orgUnit), includeSubOrgUnits: includeSubOrgUnitsState})
@@ -84,6 +134,24 @@ export default function ResourceModuleAdminTabTildel() {
 
     const setNewAccessRole = (accessRoleId: string) => {
         setNewAssignment({...newAssignment, accessRoleId: accessRoleId})
+    }
+
+    const handleSubmit = () => {
+        event?.preventDefault()
+        const resourceIdEle = document.getElementById("resourceId")
+        const accessRoleIdEle = document.getElementById("accessRoleId")
+        const scopeIdEle = document.getElementById("scopeId")
+        const orgUnitsEle = document.getElementById("orgUnits")
+        const includeSubOrgUnitsEle = document.getElementById("includeSubOrgUnits")
+
+        const orgUnitsFromAssignment = newAssignment.orgUnits.map(org => org.organisationUnitId)
+
+        resourceIdEle ? resourceIdEle.setAttribute("value", newAssignment.user?.resourceId ?? "") : ""
+        accessRoleIdEle ? accessRoleIdEle.setAttribute("value", newAssignment.accessRoleId) : ""
+        scopeIdEle ? scopeIdEle.setAttribute("value", String(newAssignment.scopeId)) : ""
+        orgUnitsEle ? orgUnitsEle.setAttribute("value", String(orgUnitsFromAssignment)) : ""
+        includeSubOrgUnitsEle ? includeSubOrgUnitsEle.setAttribute("value", String(newAssignment.includeSubOrgUnits)) : ""
+        console.log(orgUnitsEle)
     }
 
     const missingFields = !newAssignment.user || newAssignment.orgUnits.length === 0 || !newAssignment.accessRoleId
@@ -151,8 +219,13 @@ export default function ResourceModuleAdminTabTildel() {
             </ExpansionCard>
 
             <div className={"tildeling-section"}>
-                <SummaryOfTildeling assignment={newAssignment} missingFields={missingFields} />
-                <Form method={"post"} >
+                <SummaryOfTildeling assignment={newAssignment} missingFields={missingFields} accessRoles={accessRoles} />
+                <Form method={"post"} onSubmit={handleSubmit} >
+                    <input type={"hidden"} name={"resourceId"} id={"resourceId"} />
+                    <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"} />
+                    <input type={"hidden"} name={"scopeId"} id={"scopeId"} />
+                    <input type={"hidden"} name={"orgUnits"} id={"orgUnits"} />
+                    <input type={"hidden"} name={"includeSubOrgUnits"} id={"includeSubOrgUnits"} />
                     <Button disabled={missingFields}>Lagre tildeling</Button>
                 </Form>
             </div>
