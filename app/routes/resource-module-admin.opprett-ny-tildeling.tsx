@@ -91,7 +91,7 @@ export default function ResourceModuleAdminTabTildel() {
     return (
         <section className={"content tildeling-section-container"}>
             <Heading className={"heading"} level={"2"} size={"large"}>Tildel rettigheter</Heading>
-            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={false} className={newAssignment.user ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={true} className={newAssignment.user ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.user ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Bruker valgt</ExpansionCard.Title>
@@ -125,7 +125,7 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""} defaultOpen={true}>
+            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.orgUnits.length > 0 ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Orgenheter valgt</ExpansionCard.Title>
