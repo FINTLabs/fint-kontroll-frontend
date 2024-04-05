@@ -76,6 +76,15 @@ td {
     --ac-expansioncard-border-hover-color: var(--a-border-alt-3);
 }
 
+.tildeling-summary > p {
+    text-decoration: underline;
+}
+
+.summary-org-units-wrapper {
+    min-width: 500px;
+    max-width: 600px;
+}
+
 .list-two-columns {
     margin: 0 2rem;
     columns: 2;
