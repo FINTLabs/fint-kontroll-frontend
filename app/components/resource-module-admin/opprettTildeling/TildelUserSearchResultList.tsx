@@ -15,6 +15,9 @@ interface TildelUserSearchResultListProps {
 const TildelUserSearchResultList = ({newAssignment, usersPage, handleSelectUser}: TildelUserSearchResultListProps) => {
     return (
         <List>
+            {usersPage.totalItems === 0 &&
+                <li className={"list-item__space-between"}>Ingen resultater i listen...</li>
+            }
             {usersPage.users.map((user) =>
                 <li key={user.resourceId} className={"list-item__space-between"}>
                     <span>

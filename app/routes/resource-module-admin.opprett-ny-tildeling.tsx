@@ -105,7 +105,7 @@ export default function ResourceModuleAdminTabTildel() {
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [includeSubOrgUnitsState, setIncludeSubOrgUnitsState] = useState(newAssignment.includeSubOrgUnits)
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, ] = useSearchParams();
 
     useEffect(() => {
         // If changed urlParam, reset selected user to null if it is selected
