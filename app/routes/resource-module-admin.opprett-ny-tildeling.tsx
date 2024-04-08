@@ -81,7 +81,7 @@ export const action = async({params, request}: ActionFunctionArgs) => {
 
     const res = await postNewTildelingForUser(auth, resourceId, accessRoleId, scopeId, orgUnits, includeSubOrgUnits)
 
-    return res.ok ? {reset: false, status: true, redirect: null, message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
+    return res.ok ? {status: true, redirect: "/resource-module-admin", message: "Tildeling gjennomført!"} : {status: false, redirect: null, message: null}
 }
 
 
@@ -115,8 +115,8 @@ export default function ResourceModuleAdminTabTildel() {
         }
 
         if(actionData?.status) {
-            actionData.redirect ? navigate("/resource-module-admin") : null
-            toast.success("Tildeling gjennomført!")
+            toast.success(actionData.message)
+            actionData.redirect ? navigate(actionData.redirect) : null
             return
         }
     }, [actionData]);

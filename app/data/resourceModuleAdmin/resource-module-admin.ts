@@ -30,7 +30,8 @@ export const postNewTildelingForUser = async (token: string | null, resourceId: 
     const response = await fetch(url, {
         method: "POST",
         headers: ({
-            Authorization: token || ""
+            Authorization: token || "",
+            'content-type': 'application/json'
         }),
         body: JSON.stringify({
             // userId instead of resourceId - this is because resourceId the actual unique ID for the user, while userId is a table ID.
