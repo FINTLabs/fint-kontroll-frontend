@@ -9,7 +9,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
-import ChipsContainer from "~/components/resource-module-admin/ChipsContainer";
+import ChipsFilters from "~/components/resource-module-admin/ChipsFilters";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -41,7 +41,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
 
-            <ChipsContainer />
+            <ChipsFilters />
 
             <Table className={"users-table"}>
                 <Table.Header>

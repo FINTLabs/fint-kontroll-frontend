@@ -2,7 +2,7 @@ import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
 
-const ChipsContainer = () => {
+const ChipsFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [orgUnits, setOrgUnits] = useState<string | undefined>()
     const [accessRoleId, setAccessRoleId] = useState<string | undefined>()
@@ -60,4 +60,4 @@ const ChipsContainer = () => {
     )
 }
 
-export default ChipsContainer
+export default ChipsFilters
