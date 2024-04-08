@@ -1,5 +1,5 @@
 import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
-import {Form, useActionData, useLoaderData, useNavigate} from "@remix-run/react";
+import {Form, useActionData, useLoaderData, useNavigate, useSearchParams} from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
@@ -105,6 +105,15 @@ export default function ResourceModuleAdminTabTildel() {
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [includeSubOrgUnitsState, setIncludeSubOrgUnitsState] = useState(newAssignment.includeSubOrgUnits)
 
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+        // If changed urlParam, reset selected user to null if it is selected
+        if(newAssignment.user) {
+            setNewAssignment({...newAssignment, user: null})
+        }
+    }, [searchParams]);
+
     useEffect(() => {
         if(!actionData) {
             return
@@ -151,7 +160,6 @@ export default function ResourceModuleAdminTabTildel() {
         scopeIdEle ? scopeIdEle.setAttribute("value", String(newAssignment.scopeId)) : ""
         orgUnitsEle ? orgUnitsEle.setAttribute("value", String(orgUnitsFromAssignment)) : ""
         includeSubOrgUnitsEle ? includeSubOrgUnitsEle.setAttribute("value", String(newAssignment.includeSubOrgUnits)) : ""
-        console.log(orgUnitsEle)
     }
 
     const missingFields = !newAssignment.user || newAssignment.orgUnits.length === 0 || !newAssignment.accessRoleId
@@ -169,7 +177,6 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <div className={"tildeling-section"}>
-                        {/*<ResourceModuleToolbar orgUnitList={allOrgUnits} roles={accessRoles} />*/}
                         <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
                         <TildelUserSearchResultList newAssignment={newAssignment} usersPage={usersPage} handleSelectUser={handleSelectUser} />
                     </div>
