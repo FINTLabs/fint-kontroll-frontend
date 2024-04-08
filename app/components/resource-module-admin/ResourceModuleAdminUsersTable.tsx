@@ -9,6 +9,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
+import ChipsContainer from "~/components/resource-module-admin/ChipsContainer";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -29,15 +30,6 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
         })
     }
 
-    const removeAccessRoleFilter = () => {
-        setSearchParams(searchParams => {
-            searchParams.delete("accessroleid")
-            return searchParams
-        })
-    }
-
-    const roleFilter = params.get("accessroleid")
-
     return (
         <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
@@ -49,11 +41,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
 
-            {roleFilter &&
-                <Chips>
-                    <Chips.Removable variant="action" onClick={removeAccessRoleFilter}>{roleFilter}</Chips.Removable>
-                </Chips>
-            }
+            <ChipsContainer />
 
             <Table className={"users-table"}>
                 <Table.Header>

@@ -42,7 +42,7 @@ const ChipsContainer = () => {
         <Chips>
             {orgUnits &&
                 <Chips.Removable onClick={() => removeFilter("orgUnits")}>
-                    {`OrgID: ${orgUnits ? orgUnits.split(",").join(", ") : ""}`}
+                    {`Fjern orgenhetsfiltre`}
                 </Chips.Removable>
             }
             {accessRoleId &&
