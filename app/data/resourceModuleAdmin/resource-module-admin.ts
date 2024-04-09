@@ -21,7 +21,6 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 }
 
 export const postNewTildelingForUser = async (token: string | null, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
-    const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
 
     const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment`;
 
