@@ -22,6 +22,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 export default () => {
     const accessRoles: IResourceModuleAccessRole[] = useLoaderData<typeof loader>()
 
+
     const params = useParams()
 
     const roleProp = params.id
