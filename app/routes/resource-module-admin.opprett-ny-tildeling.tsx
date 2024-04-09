@@ -65,9 +65,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     return {usersPage: usersPage, accessRoles: accessRoles, allOrgUnits: orgUnitsWithIsChecked}
 }
 
-export const action = async({params, request}: ActionFunctionArgs) => {
-    const queryParams = new URLSearchParams(request.url.split("?")[1]);
-
+export const action = async({request}: ActionFunctionArgs) => {
     const auth = request.headers.get("Authorization")
 
     const formData = await request.formData()

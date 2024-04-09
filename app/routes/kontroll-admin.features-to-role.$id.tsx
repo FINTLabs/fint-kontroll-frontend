@@ -10,7 +10,6 @@ import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin
 import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
-import {ConfirmSafeRedirectModal} from "~/data/kontrollAdmin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
@@ -23,7 +22,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return {permissionData:permissionData, allFeatures: allFeatures}
 }
 
-export async function action({params, request}: ActionFunctionArgs) {
+export async function action({request}: ActionFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const formData = await request.formData()
 

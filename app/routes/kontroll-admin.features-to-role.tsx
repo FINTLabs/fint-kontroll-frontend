@@ -3,7 +3,6 @@ import {Outlet, useLoaderData, useNavigate, useParams} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {ActionFunctionArgs} from "@remix-run/node";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
 import styles from "~/components/kontroll-admin/kontroll-admin.css";
 
@@ -11,7 +10,7 @@ export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
 
     const accessRolesRes = await fetchAccessRoles(auth)

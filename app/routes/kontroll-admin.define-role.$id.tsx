@@ -8,7 +8,7 @@ import {
     useLoaderData, useOutletContext,
     useParams,
 } from "@remix-run/react";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
@@ -120,7 +120,7 @@ const DefineRoleTab = () => {
                     {modifiedPermissionDataForRole?.features.map((feature, indexForFeature) => (
                         <Table.Row key={feature.featureName + indexForFeature + modifiedPermissionDataForRole?.accessRoleId}>
                             <Table.DataCell>{feature.featureName}</Table.DataCell>
-                            {availableOperations.map((operation: string, index) => (
+                            {availableOperations.map((operation: string) => (
                                 <Table.DataCell key={operation}>
                                     <PermissionsTableCheckbox
                                         feature={feature}

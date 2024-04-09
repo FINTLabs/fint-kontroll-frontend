@@ -1,4 +1,4 @@
-import {Button, Chips, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
