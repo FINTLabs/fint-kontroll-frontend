@@ -19,13 +19,12 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const permissionData = await permissionDataRes.json()
     const allFeatures = await allFeaturesRes.json()
 
-    return {permissionData:permissionData, allFeatures: allFeatures}
+    return {permissionData: permissionData, allFeatures: allFeatures}
 }
 
 export async function action({request}: ActionFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const formData = await request.formData()
-
 
     const response = await putPermissionDataForRole(auth, formData.get("permissionData"))
 

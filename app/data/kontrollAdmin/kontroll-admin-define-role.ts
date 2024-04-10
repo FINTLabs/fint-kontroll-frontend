@@ -1,9 +1,7 @@
-import {IPermissionData} from "~/data/kontrollAdmin/types";
-
 export const fetchAllFeatures = async (token: string | null) => {
     const response = await fetch(`http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/feature`, {
         headers: {Authorization: token ?? ""}
-    });
+    })
 
     if (response.ok) {
         return response;
@@ -21,7 +19,7 @@ export const fetchAllFeatures = async (token: string | null) => {
 export const fetchAccessRoles = async (token: string | null) => {
     const response = await fetch(`http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole`, {
         headers: {Authorization: token ?? ""}
-    });
+    })
 
     if (response.ok) {
         return response;
@@ -39,7 +37,7 @@ export const fetchAccessRoles = async (token: string | null) => {
 export const fetchFeaturesInRole = async (token: string | null, roleId: string | undefined) => {
     const response = await fetch(`http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accesspermission/accessrole/${roleId}`, {
         headers: {Authorization: token ?? ""}
-    });
+    })
     if (response.ok) {
         return response;
     }
@@ -61,7 +59,7 @@ export const putPermissionDataForRole = async (token: string | null, updatedPerm
         },
         method: "PUT",
         body: updatedPermissionRole,
-});
+    })
     if (response.ok) {
         return response;
     }

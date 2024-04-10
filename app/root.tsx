@@ -70,12 +70,31 @@ export default function App() {
 
     return (
         <html lang="no">
-        <head>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
+            <head>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
+
+                <Layout me={me}>
+                    <Outlet/>
+                </Layout>
+
+                <ScrollRestoration getKey={location => location.pathname}/>
+                <Scripts/>
+                <LiveReload/>
+            </body>
+        </html>
+    );
+}
+
+interface LayoutProps {
+    children: any
+    me?: any
+}
+const Layout = ({ children, me }: LayoutProps) => {
+    return (
         <Page
             footer={
                 <Box className={"footer"} padding="8" as="footer">
@@ -96,33 +115,33 @@ export default function App() {
                 as="main"
             >
                 <Page.Block gutters>
-                    <Outlet/>
+                    {children}
                 </Page.Block>
             </Box>
         </Page>
-        <ScrollRestoration getKey={location => location.pathname}/>
-        <Scripts/>
-        <LiveReload/>
-        </body>
-        </html>
-    );
+    )
 }
+
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
     console.error(error);
+
+    const me = null
+
     return (
         <html>
-        <head>
-            <title>Oh no!</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        Shit granitt!!!
-        <div>{error.message}</div>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Layout me={me}>
+                    <div>{error.message}</div>
+                    <Scripts/>
+                </Layout>
+            </body>
         </html>
     );
 }
