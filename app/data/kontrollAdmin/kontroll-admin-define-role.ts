@@ -7,13 +7,7 @@ export const fetchAllFeatures = async (token: string | null) => {
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchAccessRoles = async (token: string | null) => {
@@ -25,13 +19,7 @@ export const fetchAccessRoles = async (token: string | null) => {
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchFeaturesInRole = async (token: string | null, roleId: string | undefined) => {
@@ -42,13 +30,7 @@ export const fetchFeaturesInRole = async (token: string | null, roleId: string |
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const putPermissionDataForRole = async (token: string | null, updatedPermissionRole: any) => {
@@ -64,6 +46,13 @@ export const putPermissionDataForRole = async (token: string | null, updatedPerm
         return response;
     }
 
+    return generalErrorResponse(response)
+}
+
+const generalErrorResponse = (response: Response) => {
+    if (response.status === 500) {
+        throw new Error("Noe gikk galt. Feilkode 500")
+    }
     if (response.status === 403) {
         throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
     }
@@ -72,18 +61,3 @@ export const putPermissionDataForRole = async (token: string | null, updatedPerm
     }
     throw new Error("Det virker ikke som om du er pålogget")
 }
-//
-// const putAssignment = (basePath: string, updatedAssignment: IPermissionData) => {
-//     const baseUrl = `${basePath === "/" ? "" : basePath}/api/accessmanagement/v1/accesspermission`
-//     const url = `${baseUrl}`
-//     return axios.put(url, updatedAssignment)
-// }
-//
-// const putAccessRole = (basePath: string, updatedAssignment: IUserRole) => {
-//     const baseUrl = `${basePath === "/" ? "" : basePath}/api/accessmanagement/v1/accesspermission`
-//     const url = `${baseUrl}`
-//     toast.info("Lagring forsøkt, men feilet.", {
-//         role: "alert"
-//     })
-//     return axios.post(url, updatedAssignment)
-// }
