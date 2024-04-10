@@ -110,13 +110,7 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchUserDetails = async (token: string | null, resourceId: string) => {
@@ -134,13 +128,7 @@ export const fetchUserDetails = async (token: string | null, resourceId: string)
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchUserAssignments = async (token: string | null, resourceId: string, accessRoleId: string, objectType: string, orgUnitName: string, page: number, size: number) => {
@@ -165,13 +153,7 @@ export const fetchUserAssignments = async (token: string | null, resourceId: str
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 
@@ -188,13 +170,7 @@ export const fetchObjectTypesForUser = async (token: string | null, resourceId: 
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const deleteAllAssignmentsOnUser = async (token: string | null, resourceId: string) => {
@@ -257,6 +233,19 @@ export const deleteOrgUnitFromAssignment = async (token: string | null, scopeId:
         return response;
     }
 
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+const generalErrorResponse = (response: Response) => {
+    if (response.status === 500) {
+        throw new Error("Noe gikk galt. Feilkode 500")
+    }
     if (response.status === 403) {
         throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
     }
