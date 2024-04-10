@@ -1,12 +1,19 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
-import type {IRolePage} from "~/data/types";
+import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import type {IRole} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, size: string, page: string }) => {
+export const AssignRoleTable: any = (props: {
+    isAssignedRoles: IRole[],
+    size: string,
+    page: string,
+    resourceId: string,
+    totalPages: number,
+    currentPage: number
+}) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -19,31 +26,40 @@ export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, s
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"right"}>Tildelinger</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.newAssignmentForRole.roles.map((role) => (
+                    {props.isAssignedRoles.map((role: IRole) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
-                            <Table.DataCell>data kommer</Table.DataCell>
-                            <Table.DataCell align={"right"}>
-                                <Button
-                                    variant={"secondary"}
-                                    onClick={() => {
-                                    }}
-                                    icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                >
-                                    Tildel
-                                </Button>
+                            <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
+                            <Table.DataCell align={"center"}>
+                                {role.assigned ?
+                                    <Tag variant="success" size="small"
+                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                        Ressursen er tildelt
+                                    </Tag>
+                                    :
+                                    <Button
+                                        as={Link}
+                                        variant={"secondary"}
+                                        icon={<PlusIcon/>}
+                                        iconPosition="right"
+                                        href={`/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        underline={false}
+                                    >
+                                        Tildel
+                                    </Button>
+                                }
                             </Table.DataCell>
                         </Table.Row>
                     ))}
@@ -64,14 +80,14 @@ export const AssignRoleTable: any = (props: { newAssignmentForRole: IRolePage, s
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.newAssignmentForRole.currentPage + 1}
+                    page={props.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.newAssignmentForRole.totalPages}
+                    count={props.totalPages}
                     size="small"
                     prevNextTexts
                 />

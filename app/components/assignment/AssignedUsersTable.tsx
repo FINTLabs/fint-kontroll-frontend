@@ -1,12 +1,13 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import type {IAssignedUsers} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 
 export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, size: string, page: string }) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const params = useParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -19,6 +20,7 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -36,12 +38,12 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
                             <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 <Button
+                                    as={Link}
                                     className={"buttonOutlined"}
                                     variant={"secondary"}
-                                    onClick={() => {
-                                    }}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
+                                    href={`/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                 >
                                     Slett
                                 </Button>

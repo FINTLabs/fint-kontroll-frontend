@@ -1,31 +1,61 @@
 import React from 'react';
 import {Heading} from "@navikt/ds-react";
-import {LoaderFunctionArgs} from "@remix-run/router";
+import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IRolePage} from "~/data/types";
+import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import type {IAssignedRoles, IRole, IRolePage, IUnitItem, IUnitTree} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchRoles} from "~/data/fetch-roles";
 import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRoleSearch";
+import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAssignedRoles} from "~/data/fetch-assignments";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
-    console.log('id', params.id)
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const response = await fetchRoles(request.headers.get("Authorization"), size, page, search);
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const [responseRoles, responseOrgUnits, responseAssignments] = await Promise.all([
+        fetchRoles(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchOrgUnits(request.headers.get("Authorization")),
+        fetchAssignedRoles(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits)
+    ]);
+    const roleList: IRolePage = await responseRoles.json()
+    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
+    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+    const assignedRolesList: IAssignedRoles = await responseAssignments.json()
 
-    return json(await response.json());
+    const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
+    const isAssignedRoles: IRole[] = roleList.roles.map(role => {
+
+        return {
+            ...role,
+            "assigned": assignedRolesMap.has(role.id)
+        }
+    })
+
+    return json({
+        roleList,
+        orgUnitList,
+        assignedRolesList,
+        isAssignedRoles
+    })
 }
-
 
 export default function NewAssignmentForRole() {
 
-    const rolePage = useLoaderData<IRolePage>();
+    const data = useLoaderData<{
+        roleList: IRolePage,
+        orgUnitList: IUnitItem[]
+        assignedRolesList: IAssignedRoles,
+        isAssignedRoles: IRole[],
+    }>();
+
+    const params = useParams<string>()
 
     return (
         <div className={"content"}>
@@ -34,7 +64,12 @@ export default function NewAssignmentForRole() {
                 <SelectObjectType/>
                 <NewAssignmentRoleSearch/>
             </section>
-            <AssignRoleTable newAssignmentForRole={rolePage}/>
+            <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
+                             resourceId={params.id}
+                             rolesId={params.id}
+                             currentPage={data.roleList.currentPage}
+                             totalPages={data.roleList.totalPages}
+            />
         </div>
     );
 }

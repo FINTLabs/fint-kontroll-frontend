@@ -52,7 +52,7 @@ export default () => {
                     </RadioGroup>
                 </div>
 
-                <Outlet />
+                <Outlet/>
             </Tabs.Panel>
         </Tabs>
     )

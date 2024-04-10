@@ -8,7 +8,6 @@ export const ResourceSearch = () => {
     const [searchString, setSearchString] = useState("")
 
     const handleSearch = () => {
-        console.log(searchString)
     }
 
     return (

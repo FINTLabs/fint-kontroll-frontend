@@ -1,12 +1,19 @@
-import {Box, Button, Heading, Pagination, Select, Table} from "@navikt/ds-react";
-import type {IUserPage} from "~/data/types";
+import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import type {IUser} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, size: string, page: string }) => {
+export const AssignUserTable: any = (props: {
+    isAssignedUsers: IUser[],
+    size: string,
+    page: string,
+    resourceId: string,
+    totalPages: number,
+    currentPage: number,
+}) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -19,31 +26,42 @@ export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, s
     return (
         <>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"right"}>Tildelinger</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.newAssignmentForUser.users.map((user) => (
+                    {props.isAssignedUsers.map((user: IUser) => (
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.fullName} </Table.HeaderCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
-                            <Table.DataCell>data kommer</Table.DataCell>
-                            <Table.DataCell align={"right"}>
-                                <Button
-                                    variant={"secondary"}
-                                    onClick={() => {
-                                    }}
-                                    icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                >
-                                    Tildel
-                                </Button>
+                            <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
+                            <Table.DataCell align={"center"}>
+                                {user.assigned ?
+
+                                    <Tag variant="success" size="small"
+                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                        Ressursen er tildelt
+                                    </Tag>
+                                    :
+                                    <Button
+                                        as={Link}
+                                        variant={"secondary"}
+                                        icon={<PlusIcon/>}
+                                        iconPosition="right"
+                                        href={`/assignment/resource/${props.resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        underline={false}
+                                    >
+                                        Tildel
+                                    </Button>
+
+                                }
                             </Table.DataCell>
                         </Table.Row>
                     ))}
@@ -64,14 +82,14 @@ export const AssignUserTable: any = (props: { newAssignmentForUser: IUserPage, s
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.newAssignmentForUser.currentPage + 1}
+                    page={props.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.newAssignmentForUser.totalPages}
+                    count={props.totalPages}
                     size="small"
                     prevNextTexts
                 />

@@ -1,6 +1,6 @@
-export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
+export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
     const response = await fetch
-    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}`,
+    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
             headers: {Authorization: token ?? ""}
         });
@@ -39,8 +39,8 @@ export const fetchAssignmentsForUser = async (token: string | null, id: string |
 
 }
 
-export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}`, {
+export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
+    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -75,4 +75,59 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
     }
     throw new Error("Det virker ikke som om du er pålogget")
 
+}
+
+export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
+    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            userRef: userRef,
+            organizationUnitId: organizationUnitId,
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
+}
+
+export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
+}
+
+export const deleteAssignment = async (token: string | null, assignmentRef: string) => {
+    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/${assignmentRef}`, {
+        headers: {
+            Authorization: token ?? ""
+        },
+        method: 'DELETE'
+    });
+
+
+    if (response.status === 410) {
+        return response;
+    }
+    throw new Error("Nokko gjekk gale!")
 }
