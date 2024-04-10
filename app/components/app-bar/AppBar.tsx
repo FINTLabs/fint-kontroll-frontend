@@ -29,14 +29,20 @@ export function AppBar (props: {me: IMeInfo}) {
                     </HStack>
                     <div className="grid h-full">
                         <HStack align="center">
-                            <Button
-                                ref={buttonRef}
-                                icon={menuOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
-                                variant="tertiary-neutral"
-                                onClick={() => setMenuOpen(!menuOpen)}
-                            >
-                                Meny
-                            </Button>
+                            {props.me ?
+                                <Button
+                                    ref={buttonRef}
+                                    icon={menuOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
+                                    variant="tertiary-neutral"
+                                    onClick={() => setMenuOpen(!menuOpen)}
+                                >
+                                    Meny
+                                </Button>
+                                :
+                                <Button variant={"tertiary-neutral"}>
+                                    Logg inn
+                                </Button>
+                            }
                             <Hide below="md" asChild>
                                 <MeInfo me={props.me}/>
                             </Hide>
