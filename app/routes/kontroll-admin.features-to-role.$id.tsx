@@ -5,7 +5,7 @@ import {
     putPermissionDataForRole
 } from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {Button, Heading, List, Table} from "@navikt/ds-react";
-import {Form, useActionData, useLoaderData} from "@remix-run/react";
+import {Form, Links, Meta, Scripts, useActionData, useLoaderData, useRouteError} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
 import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
@@ -140,3 +140,22 @@ const KontrollAdminFeaturesToRoleId = () => {
 }
 
 export default KontrollAdminFeaturesToRoleId
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    console.error(error);
+
+    return (
+        <html>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <div>{error.message}</div>
+                <Scripts/>
+            </body>
+        </html>
+    );
+}

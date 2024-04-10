@@ -1,5 +1,5 @@
 import {Radio, RadioGroup, Tabs} from "@navikt/ds-react";
-import {Outlet, useLoaderData, useNavigate, useParams} from "@remix-run/react";
+import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, useRouteError} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
@@ -56,4 +56,23 @@ export default () => {
             </Tabs.Panel>
         </Tabs>
     )
+}
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    console.error(error);
+
+    return (
+        <html>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+            <div>{error.message}</div>
+            <Scripts/>
+        </body>
+        </html>
+    );
 }
