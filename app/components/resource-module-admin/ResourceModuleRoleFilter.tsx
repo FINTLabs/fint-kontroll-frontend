@@ -10,15 +10,15 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const roleProp = searchParams.get("accessroleid")
 
-    const handleFilterRole = () => {
+    const handleFilterRole = (value: string) => {
         setSearchParams((prev) => {
-            prev.set("accessroleid", event.target.value)
+            prev.set("accessroleid", value)
             return prev
         })
     }
 
     return (
-        <RadioGroup legend={"Filtrer på rolle"} onChange={handleFilterRole} value={roleProp ? roleProp : ""}>
+        <RadioGroup legend={"Filtrer på brukerns nåværende rolle"} onChange={handleFilterRole} value={roleProp ? roleProp : ""}>
             {
                 roles.map((role) => <Radio key={role.accessRoleId} value={role.accessRoleId}>{role.name}</Radio>)
             }

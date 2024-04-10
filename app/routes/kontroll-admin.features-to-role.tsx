@@ -10,7 +10,7 @@ export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
 
     const accessRolesRes = await fetchAccessRoles(auth)
@@ -20,6 +20,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export default () => {
     const accessRoles: IResourceModuleAccessRole[] = useLoaderData<typeof loader>()
+
 
     const params = useParams()
 

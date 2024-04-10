@@ -15,7 +15,29 @@
     justify-content: space-between;
     gap: 1rem;
 }
+
+.org-unit-filter-with-help-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 /*---*/
+
+.tildeling-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.tildeling-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+hr {
+    width: 100%;
+}
 
 .navds-checkboxes {
     display: flex;
@@ -46,4 +68,24 @@ td {
     justify-content: flex-end;
     align-items: flex-end;
     gap: 1rem;
+}
+
+.expansion-green {
+    --ac-expansioncard-bg: var(--a-surface-success-subtle);
+    --ac-expansioncard-border-open-color: var(--a-border-alt-3);
+    --ac-expansioncard-border-hover-color: var(--a-border-alt-3);
+}
+
+.tildeling-summary > p {
+    text-decoration: underline;
+}
+
+.summary-org-units-wrapper {
+    min-width: 500px;
+    max-width: 600px;
+}
+
+.list-two-columns {
+    margin: 0 2rem;
+    columns: 2;
 }

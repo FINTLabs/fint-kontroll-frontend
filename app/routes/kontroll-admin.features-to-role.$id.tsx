@@ -7,7 +7,7 @@ import {
 import {Button, Heading, List, Table} from "@navikt/ds-react";
 import {Form, useActionData, useLoaderData} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 
@@ -22,7 +22,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return {permissionData:permissionData, allFeatures: allFeatures}
 }
 
-export async function action({params, request}: ActionFunctionArgs) {
+export async function action({request}: ActionFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const formData = await request.formData()
 
@@ -32,6 +32,9 @@ export async function action({params, request}: ActionFunctionArgs) {
     return {didUpdate: !!response.status}
 }
 
+
+
+
 const KontrollAdminFeaturesToRoleId = () => {
     const loaderData = useLoaderData<typeof loader>()
     const permissionData = loaderData.permissionData as IPermissionData
@@ -40,6 +43,7 @@ const KontrollAdminFeaturesToRoleId = () => {
     let didUpdate = useActionData<typeof action>()
 
     const [updatedPermissionData, setUpdatedPermissionData] = useState<IPermissionData>(permissionData)
+
 
     useEffect(() => {
         setUpdatedPermissionData(permissionData)
@@ -88,6 +92,8 @@ const KontrollAdminFeaturesToRoleId = () => {
 
     return (
         <div className={"features-to-roles-container"}>
+
+
             <div>
                 <Table>
                     <Table.Header>

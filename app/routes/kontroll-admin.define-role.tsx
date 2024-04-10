@@ -2,7 +2,7 @@ import {Radio, RadioGroup, Tabs} from "@navikt/ds-react";
 import {
     Outlet,
     useLoaderData,
-    useNavigate,
+    useNavigate, useOutletContext,
     useParams,
 } from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
@@ -20,6 +20,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 
 export default function KontrollAdminDefineRole() {
     const roles: IRole[] = useLoaderData<typeof loader>();
+    const context = useOutletContext()
 
     const params = useParams()
 
@@ -53,7 +54,7 @@ export default function KontrollAdminDefineRole() {
                             </RadioGroup>
                         </div>
 
-                        <Outlet />
+                        <Outlet context={context} />
                     </Tabs.Panel>
                 </Tabs>
             </Suspense>

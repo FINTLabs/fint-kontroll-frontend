@@ -5,14 +5,15 @@ import {IPermissionData} from "~/data/kontrollAdmin/types";
 import {
     Form,
     useActionData,
-    useLoaderData,
+    useLoaderData, useOutletContext,
     useParams,
 } from "@remix-run/react";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
 import styles from "~/components/kontroll-admin/kontroll-admin.css";
+import {ConfirmSafeRedirectModal} from "~/data/kontrollAdmin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
@@ -33,14 +34,16 @@ export async function action({request}: ActionFunctionArgs) {
     return {didUpdate: !!response.status}
 }
 
-export default () => {
+const DefineRoleTab = () => {
     const loaderData: IPermissionData = useLoaderData<typeof loader>()
     let didUpdate = useActionData<typeof action>()
     const params = useParams()
+    const {isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate} = useOutletContext() // Context from kontroll-admin.tsx
 
     const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>()
 
     const [currentOperations, setCurrentOperations] = useState<string[][]>([])
+
 
     useEffect(() => {
         setModifiedPermissionDataForRole(loaderData)
@@ -50,10 +53,18 @@ export default () => {
     useEffect(() => {
         if(didUpdate !== undefined) {
             didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
+            handleNavigate(desiredTab)
+            setHasChanges(false)
         } else {
             didUpdate = undefined
         }
     }, [didUpdate]);
+
+    const discardChanges = () => {
+        handleNavigate(desiredTab)
+        setHasChanges(false)
+    }
+
 
     const notifyOperationsChanged = (indexForOperationsList: number, featureId: number, operationProp: string) => {
         let changedList: string[] = currentOperations[indexForOperationsList]
@@ -81,54 +92,62 @@ export default () => {
         val ? val.setAttribute("value", JSON.stringify(newFeatureOperations)) : ""
     }
 
-
     const availableOperations = ["GET", "POST", "PUT", "DELETE"]
     const readableOperations = ["Kan hente", "Kan lage ny", "Kan oppdatere", "Kan slette"]
 
-
     return (
         <div className={"tab-content-container"}>
-            <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={`/kontroll-admin/define-role/${params.id}`}>
-                <input type={"hidden"} name={"dataForForm"} id={"dataForForm"} value={""} />
+            <ConfirmSafeRedirectModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} discardChanges={discardChanges} />
 
-                <Table id={"permissions-table"}>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Feature</Table.HeaderCell>
-                            {readableOperations.map((operation, index) => (
-                                <Table.HeaderCell key={operation + index} align={"center"}>
-                                    {operation}
-                                </Table.HeaderCell>
+            {hasChanges &&
+                <div>
+                    <Button variant={"secondary"} onClick={() => location.reload()}>Nullstill pågående endringer</Button>
+                </div>
+            }
+
+            <Table id={"permissions-table"}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Feature</Table.HeaderCell>
+                        {readableOperations.map((operation, index) => (
+                            <Table.HeaderCell key={operation + index} align={"center"}>
+                                {operation}
+                            </Table.HeaderCell>
+                        ))}
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {modifiedPermissionDataForRole?.features.map((feature, indexForFeature) => (
+                        <Table.Row key={feature.featureName + indexForFeature + modifiedPermissionDataForRole?.accessRoleId}>
+                            <Table.DataCell>{feature.featureName}</Table.DataCell>
+                            {availableOperations.map((operation: string) => (
+                                <Table.DataCell key={operation}>
+                                    <PermissionsTableCheckbox
+                                        feature={feature}
+                                        indexForOperationsList={indexForFeature}
+                                        isCheckedProp={feature.operations.includes(operation)}
+                                        operationProp={operation}
+                                        notifyOperationsChanged={notifyOperationsChanged}
+                                        hasChanges={hasChanges}
+                                        setHasChanges={setHasChanges}
+                                    />
+                                </Table.DataCell>
                             ))}
                         </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {modifiedPermissionDataForRole?.features.map((feature, indexForFeature) => (
-                            <Table.Row key={feature.featureName + indexForFeature + modifiedPermissionDataForRole?.accessRoleId}>
-                                <Table.DataCell>{feature.featureName}</Table.DataCell>
-                                {availableOperations.map((operation: string, index) => (
-                                    <Table.DataCell key={operation}>
-                                        <PermissionsTableCheckbox
-                                            feature={feature}
-                                            indexForOperationsList={indexForFeature}
-                                            isCheckedProp={feature.operations.includes(operation)}
-                                            operationProp={operation}
-                                            notifyOperationsChanged={notifyOperationsChanged}
-                                        />
-                                    </Table.DataCell>
-                                ))}
-                            </Table.Row>
-                        ))}
-                    </Table.Body>
-                </Table>
+                    ))}
+                </Table.Body>
+            </Table>
 
+            <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={`/kontroll-admin/define-role/${params.id}`}>
+                <input type={"hidden"} name={"dataForForm"} id={"dataForForm"} value={""} />
                 <div className={"button-container"}>
-                    <Button>
+                    <Button id="save-button">
                         Lagre endringer
                     </Button>
                 </div>
-
             </Form>
         </div>
     )
 }
+
+export default DefineRoleTab
