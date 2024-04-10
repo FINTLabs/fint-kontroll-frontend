@@ -3,10 +3,10 @@ import {fetchFeaturesInRole, putPermissionDataForRole} from "~/data/kontrollAdmi
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import {IPermissionData} from "~/data/kontrollAdmin/types";
 import {
-    Form,
+    Form, Links, Meta, Scripts,
     useActionData,
     useLoaderData, useOutletContext,
-    useParams,
+    useParams, useRouteError,
 } from "@remix-run/react";
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
@@ -38,9 +38,12 @@ const DefineRoleTab = () => {
     const loaderData: IPermissionData = useLoaderData<typeof loader>()
     let didUpdate = useActionData<typeof action>()
     const params = useParams()
+    // @ts-ignore
+    // TODO: Should this be moved into its own Context-file? Or should we refactor it differently?
     const {isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate} = useOutletContext() // Context from kontroll-admin.tsx
 
     const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>()
+    const [saving, setSaving] = useState(false)
 
     const [currentOperations, setCurrentOperations] = useState<string[][]>([])
 
@@ -53,11 +56,12 @@ const DefineRoleTab = () => {
     useEffect(() => {
         if(didUpdate !== undefined) {
             didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
-            handleNavigate(desiredTab)
+            !saving ? handleNavigate(desiredTab) : null
             setHasChanges(false)
         } else {
             didUpdate = undefined
         }
+        setSaving(false)
     }, [didUpdate]);
 
     const discardChanges = () => {
@@ -84,6 +88,7 @@ const DefineRoleTab = () => {
     }
 
     const handleSubmit = () => {
+        setSaving(true)
         let newFeatureOperations: IPermissionData = loaderData
         currentOperations.forEach((featureOperation, index) => {
             newFeatureOperations.features[index].operations = featureOperation
@@ -151,3 +156,22 @@ const DefineRoleTab = () => {
 }
 
 export default DefineRoleTab
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    console.error(error);
+
+    return (
+        <html>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <div>{error.message}</div>
+                <Scripts/>
+            </body>
+        </html>
+    );
+}

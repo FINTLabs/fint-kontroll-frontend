@@ -30,6 +30,10 @@ export const fetchFeaturesInRole = async (token: string | null, roleId: string |
         return response;
     }
 
+    if (response.status === 403) {
+        throw new Error("Du har ikke rettigheter til å hente ut CRUD-data")
+    }
+
     return generalErrorResponse(response)
 }
 
@@ -44,6 +48,9 @@ export const putPermissionDataForRole = async (token: string | null, updatedPerm
     })
     if (response.ok) {
         return response;
+    }
+    if (response.status === 500) {
+        return response
     }
 
     return generalErrorResponse(response)
