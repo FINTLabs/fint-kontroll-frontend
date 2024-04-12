@@ -20,6 +20,7 @@ export const UserSearch = () => {
             <Search
                 role="search"
                 label="Søk etter bruker"
+                hideLabel={false}
                 variant="secondary"
                 onChange={event => setSearchString(event)}
                 onClear={event => {

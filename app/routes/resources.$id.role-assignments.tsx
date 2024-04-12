@@ -44,14 +44,15 @@ export default function AssignedRoles() {
             <Box paddingBlock="16 16">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
-            <section className={"filters"}>
+            <section className={"toolbar"}>
                 <SelectObjectType/>
-                <AssignedRolesSearch/>
+                <section className={"filters"}>
+                    <AssignedRolesSearch/>
+                </section>
             </section>
             <section>
                 <AssignedRolesTable assignedRoles={data.assignedRoles}/>
             </section>
-
         </>
     );
 }

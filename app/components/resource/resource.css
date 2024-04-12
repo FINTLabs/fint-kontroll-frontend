@@ -21,7 +21,3 @@ hr {
     flex-direction: row;
     align-items: center;
 }
-
-.objectTypeLink:hover {
-    background-color: var(--a-blue-50);
-}

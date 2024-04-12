@@ -9,6 +9,7 @@ import type {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 import {fetchOrgUnits} from "~/data/fetch-resources";
+import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -17,9 +18,10 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
+    const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseUsers, responseOrgUnits] = await Promise.all([
-        fetchUsers(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization"))
     ]);
     const userList: IUserPage = await responseUsers.json()
@@ -44,12 +46,9 @@ export default function UsersIndex() {
             <div className={"toolbar"}>
                 <Heading className={"heading"} level="1" size="xlarge">Brukere</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
-                    <div>
-                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
-                    </div>
-                    <div>
-                        <UserSearch/>
-                    </div>
+                    <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
+                    <UserTypeFilter/>
+                    <UserSearch/>
                 </Box>
             </div>
             <Box className={"filters"} paddingBlock={"1 8"}>

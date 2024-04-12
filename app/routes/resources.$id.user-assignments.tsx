@@ -9,6 +9,7 @@ import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
 import {Box, Heading} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
+import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -19,11 +20,12 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
+    const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
     const [assignedUsers] = await Promise.all([
 
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, orgUnits)
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, userType, orgUnits)
 
     ]);
     return json({
@@ -45,9 +47,12 @@ export default function AssignedUsers() {
             <Box paddingBlock="16 16">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
-            <section className={"filters"}>
+            <section className={"toolbar"}>
                 <SelectObjectType/>
-                <AssignedUsersSearch/>
+                <section className={"filters"}>
+                    <UserTypeFilter/>
+                    <AssignedUsersSearch/>
+                </section>
             </section>
             <section className={"grid-main"}>
                 <AssignedUsersTable assignedUsers={data.assignedUsers}/>

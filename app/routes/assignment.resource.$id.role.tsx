@@ -60,9 +60,11 @@ export default function NewAssignmentForRole() {
     return (
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
-            <section className={"filters"}>
+            <section className={"toolbar"}>
                 <SelectObjectType/>
-                <NewAssignmentRoleSearch/>
+                <section className={"filters"}>
+                    <NewAssignmentRoleSearch/>
+                </section>
             </section>
             <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
                              resourceId={params.id}
