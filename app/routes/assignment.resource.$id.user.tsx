@@ -58,16 +58,16 @@ export default function NewAssignment() {
     }>();
 
     const params = useParams<string>()
+
     return (
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
-            <section className={"filters"}>
+            <section className={"toolbar"}>
                 <SelectObjectType/>
-
-            </section>
-            <section className={"filters"}>
-                <UserTypeFilter/>
-                <NewAssignmentUserSearch/>
+                <section className={"filters"}>
+                    <UserTypeFilter/>
+                    <NewAssignmentUserSearch/>
+                </section>
             </section>
             <AssignUserTable isAssignedUsers={data.isAssignedUsers}
                              resourceId={params.id}

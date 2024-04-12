@@ -47,12 +47,12 @@ export default function AssignedUsers() {
             <Box paddingBlock="16 16">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
-            <section className={"filters"} style={{marginBottom: '2rem'}}>
+            <section className={"toolbar"}>
                 <SelectObjectType/>
-            </section>
-            <section className={"filters"}>
-                <UserTypeFilter/>
-                <AssignedUsersSearch/>
+                <section className={"filters"}>
+                    <UserTypeFilter/>
+                    <AssignedUsersSearch/>
+                </section>
             </section>
             <section className={"grid-main"}>
                 <AssignedUsersTable assignedUsers={data.assignedUsers}/>

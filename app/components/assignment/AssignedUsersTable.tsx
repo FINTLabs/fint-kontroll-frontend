@@ -18,7 +18,7 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
     }
 
     return (
-        <>
+        <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
             <Outlet/>
             <Table>
@@ -79,6 +79,6 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
                     prevNextTexts
                 />
             </Box>
-        </>
+        </div>
     );
 };

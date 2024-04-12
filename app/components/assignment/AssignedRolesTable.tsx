@@ -4,7 +4,12 @@ import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 
-export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, size: string, page: string, search: string }) => {
+export const AssignedRolesTable: any = (props: {
+    assignedRoles: IAssignedRoles,
+    size: string,
+    page: string,
+    search: string
+}) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
@@ -18,7 +23,7 @@ export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, 
     }
 
     return (
-        <>
+        <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
             <Outlet/>
             <Table>
@@ -74,12 +79,11 @@ export const AssignedRolesTable: any = (props: { assignedRoles: IAssignedRoles, 
                             return searchParams;
                         })
                     }}
-                    // count={Math.ceil((props.assignedUsers ? props.assignedUsers.totalItems : 1) / parseInt(props.size))}
                     count={props.assignedRoles.totalPages}
                     size="small"
                     prevNextTexts
                 />
             </Box>
-        </>
+        </div>
     );
 };

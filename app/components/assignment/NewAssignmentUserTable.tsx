@@ -1,7 +1,7 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IUser} from "~/data/types";
 import React from "react";
-import {Outlet, useSearchParams} from "@remix-run/react";
+import {useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignUserTable: any = (props: {
@@ -24,9 +24,9 @@ export const AssignUserTable: any = (props: {
     }
 
     return (
-        <>
+        <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
-            <Outlet/>
+            {/* <Outlet/>*/}
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -47,7 +47,7 @@ export const AssignUserTable: any = (props: {
 
                                     <Tag variant="success" size="small"
                                          style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
-                                        Ressursen er tildelt
+                                        Er tildelt
                                     </Tag>
                                     :
                                     <Button
@@ -94,6 +94,6 @@ export const AssignUserTable: any = (props: {
                     prevNextTexts
                 />
             </Box>
-        </>
+        </div>
     );
 };

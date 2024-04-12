@@ -14,7 +14,7 @@ export const UserTypeFilter = () => {
     }
 
     return (
-        <Form>
+        <Form className={"select-usertype"}>
             <Select label={"Filter for brukertype"}
                     onChange={(e) => setUserTypeFilter(e.target.value)}
             >
