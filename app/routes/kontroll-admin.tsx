@@ -11,11 +11,24 @@ export default function KontrollAdmin() {
     const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "define-role")
     const navigate = useNavigate();
 
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [hasChanges, setHasChanges] = useState(false)
+    const [desiredTab, setDesiredTab] = useState("")
+
     const handleTabChange = (value: string) => {
+        if(!hasChanges) {
+            handleNavigate(value)
+        }
+        else {
+            setIsModalVisible(true)
+            setDesiredTab(value)
+        }
+    }
+
+    const handleNavigate = (value: string) => {
         setSelectedTab(value);
         navigate(value)
-    };
-
+    }
 
     return (
         <section className={"content"}>
@@ -37,7 +50,8 @@ export default function KontrollAdmin() {
                         />
                     </Tabs.List>
                 </div>
-                <Outlet/>
+
+                <Outlet context={{isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate}}/>
             </Tabs>
         </section>
     );

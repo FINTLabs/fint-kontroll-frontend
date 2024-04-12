@@ -1,3 +1,5 @@
+import {IUnitItem} from "~/data/types";
+
 export interface IResourceModuleUsersPage {
     totalItems: number;
     totalPages: number | any;
@@ -6,8 +8,15 @@ export interface IResourceModuleUsersPage {
     users: IResourceModuleUser[];
 }
 
+export interface IResourceModuleAssignment {
+    user: IResourceModuleUser | null // The name with ID is because of the api spec
+    accessRoleId: string
+    scopeId: number
+    orgUnits: IUnitItem[] // The name with IDs is because of the api spec
+    includeSubOrgUnits: boolean
+}
+
 export interface IResourceModuleUser {
-    id: number
     resourceId: string
     firstName: string
     lastName: string

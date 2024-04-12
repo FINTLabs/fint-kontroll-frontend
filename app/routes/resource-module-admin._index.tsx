@@ -21,7 +21,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const size = Number(url.searchParams.get("size") ?? "10");
     const page = Number(url.searchParams.get("page") ?? "0");
-    const orgunits: string[] = url.searchParams.get("orgunits")?.split(",") ?? [""];
+    const orgunits: string[] = url.searchParams.get("orgUnits")?.split(",") ?? [""];
     const name = url.searchParams.get("name") ?? "";
     const role = url.searchParams.get("accessroleid") ?? "";
 
@@ -45,7 +45,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 export default function ResourceModuleAdminIndex() {
     const data = useLoaderData<typeof loader>()
     const usersPage = data.usersPage as IResourceModuleUsersPage
-    const roles = data.roles as IResourceModuleAccessRole
+    const roles = data.roles as IResourceModuleAccessRole[]
     const orgUnitList = data.orgUnitPage.orgUnits as IUnitItem[]
 
 

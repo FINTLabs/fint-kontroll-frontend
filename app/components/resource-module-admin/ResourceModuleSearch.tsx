@@ -6,7 +6,7 @@ const ResourceModuleSearch = () => {
     const [searchValue, setSearchValue] = useState("")
     const [, setSearchParams] = useSearchParams()
 
-    const handleSearch = () => {
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         setSearchParams(searchParams => {
             searchValue ? searchParams.set("name", searchValue) : searchParams.delete("name")
             return searchParams
@@ -15,8 +15,8 @@ const ResourceModuleSearch = () => {
     }
 
     return (
-        <form onSubmit={handleSearch}>
-            <Search label="Søk etter bruker" variant="secondary" onChange={event => setSearchValue(event)} />
+        <form onSubmit={(event) => handleSearch(event)}>
+            <Search label="Søk etter brukernavn" hideLabel={false} variant="secondary" onChange={event => setSearchValue(event)} />
         </form>
     )
 }

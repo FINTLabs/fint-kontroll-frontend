@@ -186,6 +186,7 @@ export interface IUnitItem {
     parentName: string | null;
     parentRef: string;
     childrenRef: string[];
+    isChecked?: boolean // Optional to be used in "Tildel Rettigheter" tab. Not required in most other places, but feel free to use if necessary.
 }
 
 export interface IUnitTree {

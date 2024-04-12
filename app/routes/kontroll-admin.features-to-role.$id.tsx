@@ -5,9 +5,9 @@ import {
     putPermissionDataForRole
 } from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {Button, Heading, List, Table} from "@navikt/ds-react";
-import {Form, useActionData, useLoaderData} from "@remix-run/react";
+import {Form, Links, Meta, Scripts, useActionData, useLoaderData, useRouteError} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 
@@ -19,18 +19,20 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const permissionData = await permissionDataRes.json()
     const allFeatures = await allFeaturesRes.json()
 
-    return {permissionData:permissionData, allFeatures: allFeatures}
+    return {permissionData: permissionData, allFeatures: allFeatures}
 }
 
-export async function action({params, request}: ActionFunctionArgs) {
+export async function action({request}: ActionFunctionArgs) {
     const auth = request.headers.get("Authorization")
     const formData = await request.formData()
-
 
     const response = await putPermissionDataForRole(auth, formData.get("permissionData"))
 
     return {didUpdate: !!response.status}
 }
+
+
+
 
 const KontrollAdminFeaturesToRoleId = () => {
     const loaderData = useLoaderData<typeof loader>()
@@ -40,6 +42,7 @@ const KontrollAdminFeaturesToRoleId = () => {
     let didUpdate = useActionData<typeof action>()
 
     const [updatedPermissionData, setUpdatedPermissionData] = useState<IPermissionData>(permissionData)
+
 
     useEffect(() => {
         setUpdatedPermissionData(permissionData)
@@ -88,6 +91,8 @@ const KontrollAdminFeaturesToRoleId = () => {
 
     return (
         <div className={"features-to-roles-container"}>
+
+
             <div>
                 <Table>
                     <Table.Header>
@@ -135,3 +140,22 @@ const KontrollAdminFeaturesToRoleId = () => {
 }
 
 export default KontrollAdminFeaturesToRoleId
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    console.error(error);
+
+    return (
+        <html>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <div>{error.message}</div>
+                <Scripts/>
+            </body>
+        </html>
+    );
+}

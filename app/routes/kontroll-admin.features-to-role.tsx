@@ -1,5 +1,5 @@
 import {Radio, RadioGroup, Tabs} from "@navikt/ds-react";
-import {Outlet, useLoaderData, useNavigate, useParams} from "@remix-run/react";
+import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, useRouteError} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
@@ -10,7 +10,7 @@ export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")
 
     const accessRolesRes = await fetchAccessRoles(auth)
@@ -20,6 +20,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export default () => {
     const accessRoles: IResourceModuleAccessRole[] = useLoaderData<typeof loader>()
+
 
     const params = useParams()
 
@@ -55,4 +56,23 @@ export default () => {
             </Tabs.Panel>
         </Tabs>
     )
+}
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    console.error(error);
+
+    return (
+        <html>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+            <div>{error.message}</div>
+            <Scripts/>
+        </body>
+        </html>
+    );
 }

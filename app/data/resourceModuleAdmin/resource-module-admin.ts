@@ -20,6 +20,71 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 }
 
+export const postNewTildelingForUser = async (token: string | null, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment`;
+
+    console.log(scopeId)
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: ({
+            Authorization: token || "",
+            'content-type': 'application/json'
+        }),
+        body: JSON.stringify({
+            // userId instead of resourceId - this is because resourceId the actual unique ID for the user, while userId is a table ID.
+            accessRoleId: accessRoleId, scopeId: Number(scopeId), userId: resourceId, orgUnitIds: orgUnitIds, includeSubOrgUnits: includeSubOrgUnits
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+export const fetchUsersWhoCanGetAssignments = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
+
+    const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
+    const queryParams = new URLSearchParams({
+        page: currentPage.toString(),
+        size: itemsPerPage.toString()
+    });
+
+    roleFilter ? queryParams.append("accessroleid", roleFilter) : null
+    name ? queryParams.append("name", name) : null
+    orgUnitIds ? queryParams.append("orgunitid", orgUnitIdsArray.join(",")) : null
+
+
+    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user?${queryParams}`;
+
+    const response = await fetch(url, {
+        headers: ({
+            Authorization: token || ""
+        })
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
 export const fetchUsersWithAssignment = async (token: string | null, currentPage: number, itemsPerPage: number, orgUnitIds: string[], name: string, roleFilter: string) => {
 
     const orgUnitIdsArray = Array.isArray(orgUnitIds) ? orgUnitIds : [orgUnitIds];
@@ -45,13 +110,7 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchUserDetails = async (token: string | null, resourceId: string) => {
@@ -69,13 +128,7 @@ export const fetchUserDetails = async (token: string | null, resourceId: string)
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const fetchUserAssignments = async (token: string | null, resourceId: string, accessRoleId: string, objectType: string, orgUnitName: string, page: number, size: number) => {
@@ -100,13 +153,7 @@ export const fetchUserAssignments = async (token: string | null, resourceId: str
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 
@@ -123,13 +170,7 @@ export const fetchObjectTypesForUser = async (token: string | null, resourceId: 
         return response;
     }
 
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
+    return generalErrorResponse(response)
 }
 
 export const deleteAllAssignmentsOnUser = async (token: string | null, resourceId: string) => {
@@ -192,6 +233,19 @@ export const deleteOrgUnitFromAssignment = async (token: string | null, scopeId:
         return response;
     }
 
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+}
+
+const generalErrorResponse = (response: Response) => {
+    if (response.status === 500) {
+        throw new Error("Noe gikk galt. Feilkode 500")
+    }
     if (response.status === 403) {
         throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
     }

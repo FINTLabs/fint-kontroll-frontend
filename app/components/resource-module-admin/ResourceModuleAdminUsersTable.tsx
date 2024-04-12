@@ -1,4 +1,4 @@
-import {Button, Chips, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
@@ -9,6 +9,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
+import ChipsFilters from "~/components/resource-module-admin/ChipsFilters";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -29,15 +30,6 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
         })
     }
 
-    const removeAccessRoleFilter = () => {
-        setSearchParams(searchParams => {
-            searchParams.delete("accessroleid")
-            return searchParams
-        })
-    }
-
-    const roleFilter = params.get("accessroleid")
-
     return (
         <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
@@ -49,11 +41,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
 
-            {roleFilter &&
-                <Chips>
-                    <Chips.Removable variant="action" onClick={removeAccessRoleFilter}>{roleFilter}</Chips.Removable>
-                </Chips>
-            }
+            <ChipsFilters />
 
             <Table className={"users-table"}>
                 <Table.Header>
