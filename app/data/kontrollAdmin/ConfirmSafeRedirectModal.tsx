@@ -19,7 +19,7 @@ export const ConfirmSafeRedirectModal = ({isModalVisible, setIsModalVisible, dis
     }, [isModalVisible])
 
     const handleSaveChanges = () => {
-        document.getElementById("save-button").click()
+        //document.getElementById("save-button").click()
         setIsModalVisible(false)
         ref.current?.close()
     }

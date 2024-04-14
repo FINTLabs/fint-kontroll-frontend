@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from "~/components/resource/resource.css"
+import styles from "~/components/resource/resource.css?url"
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
-import type {IAssignedRoles} from "~/data/types";
+import  {IAssignedRoles} from "~/data/types";
 import {json} from "@remix-run/node";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {AssignedRolesTable} from "~/components/assignment/AssignedRolesTable";
 import {AssignedRolesSearch} from "~/components/assignment/AssignedRolesSearch";

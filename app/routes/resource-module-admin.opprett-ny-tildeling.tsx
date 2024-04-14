@@ -1,6 +1,6 @@
 import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
 import {Form, useActionData, useLoaderData, useNavigate, useSearchParams} from "@remix-run/react";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
 import {fetchOrgUnits} from "~/data/fetch-resources";
@@ -14,9 +14,10 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import TildelUserSearchResultList from "~/components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
 import {
-    fetchUsersWhoCanGetAssignments, postNewTildelingForUser,
+    fetchUsersWhoCanGetAssignments,
+    postNewTildelingForUser,
 } from "~/data/resourceModuleAdmin/resource-module-admin";
-import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
+import styles from "~/components/resource-module-admin/resourceModuleAdmin.css?url";
 import OrgUnitTreeSelector from "~/components/org-unit-selector/OrgUnitTreeSelector";
 import SummaryOfTildeling from "~/components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
 import ChooseAccessRole from "~/components/resource-module-admin/opprettTildeling/ChooseAccessRole";
@@ -49,7 +50,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const roleFilter = url.searchParams.get("accessroleid") ?? ""
 
     const usersPageResponse = await fetchUsersWhoCanGetAssignments(auth, Number(currentPage), Number(itemsPerPage), orgUnitIds, name, roleFilter);
-    if(name) {
+    if (name) {
         // usersPageResponse =
     }
 
@@ -65,7 +66,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     return {usersPage: usersPage, accessRoles: accessRoles, allOrgUnits: orgUnitsWithIsChecked}
 }
 
-export const action = async({request}: ActionFunctionArgs) => {
+export const action = async ({request}: ActionFunctionArgs) => {
     const auth = request.headers.get("Authorization")
 
     const formData = await request.formData()
@@ -79,7 +80,11 @@ export const action = async({request}: ActionFunctionArgs) => {
 
     const res = await postNewTildelingForUser(auth, resourceId, accessRoleId, scopeId, orgUnits, includeSubOrgUnits)
 
-    return res.ok ? {status: true, redirect: "/resource-module-admin", message: "Tildeling gjennomført!"} : {status: false, redirect: null, message: null}
+    return res.ok ? {
+        status: true,
+        redirect: "/resource-module-admin",
+        message: "Tildeling gjennomført!"
+    } : {status: false, redirect: null, message: null}
 }
 
 
@@ -96,32 +101,32 @@ export default function ResourceModuleAdminTabTildel() {
         user: null,
         accessRoleId: "",
         scopeId: 1 /* TODO: This is bound to be changed in the future to allow scope definitions to be selected in the frontend. For now, it is defaulted to "1" */,
-        orgUnits:[],
+        orgUnits: [],
         includeSubOrgUnits: false
     })
 
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [includeSubOrgUnitsState, setIncludeSubOrgUnitsState] = useState(newAssignment.includeSubOrgUnits)
 
-    const [searchParams, ] = useSearchParams();
+    const [searchParams,] = useSearchParams();
 
     useEffect(() => {
         // If changed urlParam, reset selected user to null if it is selected
-        if(newAssignment.user) {
+        if (newAssignment.user) {
             setNewAssignment({...newAssignment, user: null})
         }
     }, [searchParams]);
 
     useEffect(() => {
-        if(!actionData) {
+        if (!actionData) {
             return
         }
-        if(!actionData?.status){
+        if (!actionData?.status) {
             toast.error("En feil oppstod ved forsøkt lagring. Prøv igjen.")
             return
         }
 
-        if(actionData?.status) {
+        if (actionData?.status) {
             toast.success(actionData.message)
             actionData.redirect ? navigate(actionData.redirect) : null
             return
@@ -129,7 +134,11 @@ export default function ResourceModuleAdminTabTildel() {
     }, [actionData]);
 
     useEffect(() => {
-        setNewAssignment({...newAssignment, orgUnits: selectedOrgUnits.map(orgUnit => orgUnit), includeSubOrgUnits: includeSubOrgUnitsState})
+        setNewAssignment({
+            ...newAssignment,
+            orgUnits: selectedOrgUnits.map(orgUnit => orgUnit),
+            includeSubOrgUnits: includeSubOrgUnitsState
+        })
     }, [selectedOrgUnits]);
     const handleSelectUser = (newUser: IResourceModuleUser) => {
         setNewAssignment({...newAssignment, user: newUser})
@@ -165,27 +174,30 @@ export default function ResourceModuleAdminTabTildel() {
     return (
         <section className={"content tildeling-section-container"}>
             <Heading className={"heading"} level={"2"} size={"large"}>Tildel rettigheter</Heading>
-            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={true} className={newAssignment.user ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant" defaultOpen={true}
+                           className={newAssignment.user ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.user ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Bruker valgt</ExpansionCard.Title>
-                    :
+                        :
                         <ExpansionCard.Title>Finn brukeren å tildele rettigheter til</ExpansionCard.Title>
                     }
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <div className={"tildeling-section"}>
-                        <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
-                        <TildelUserSearchResultList newAssignment={newAssignment} usersPage={usersPage} handleSelectUser={handleSelectUser} />
+                        <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles}/>
+                        <TildelUserSearchResultList newAssignment={newAssignment} usersPage={usersPage}
+                                                    handleSelectUser={handleSelectUser}/>
                     </div>
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.accessRoleId ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant"
+                           className={newAssignment.accessRoleId ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.accessRoleId ?
                         <ExpansionCard.Title>
-                            <CheckmarkCircleIcon /> Rolle valgt
+                            <CheckmarkCircleIcon/> Rolle valgt
                         </ExpansionCard.Title>
                         :
                         <ExpansionCard.Title>
@@ -194,15 +206,16 @@ export default function ResourceModuleAdminTabTildel() {
                     }
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ChooseAccessRole accessRoles={accessRoles} setNewAccessRole={setNewAccessRole} />
+                    <ChooseAccessRole accessRoles={accessRoles} setNewAccessRole={setNewAccessRole}/>
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard size="small" aria-label="Small-variant" className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""}>
+            <ExpansionCard size="small" aria-label="Small-variant"
+                           className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.orgUnits.length > 0 ?
                         <ExpansionCard.Title><CheckmarkCircleIcon/> Orgenheter valgt</ExpansionCard.Title>
-                    :
+                        :
                         <ExpansionCard.Title>Legg til orgenheter</ExpansionCard.Title>
                     }
                 </ExpansionCard.Header>
@@ -224,13 +237,13 @@ export default function ResourceModuleAdminTabTildel() {
             </ExpansionCard>
 
             <div className={"tildeling-section"}>
-                <SummaryOfTildeling assignment={newAssignment} missingFields={missingFields} accessRoles={accessRoles} />
-                <Form method={"post"} onSubmit={handleSubmit} >
-                    <input type={"hidden"} name={"resourceId"} id={"resourceId"} />
-                    <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"} />
-                    <input type={"hidden"} name={"scopeId"} id={"scopeId"} />
-                    <input type={"hidden"} name={"orgUnits"} id={"orgUnits"} />
-                    <input type={"hidden"} name={"includeSubOrgUnits"} id={"includeSubOrgUnits"} />
+                <SummaryOfTildeling assignment={newAssignment} missingFields={missingFields} accessRoles={accessRoles}/>
+                <Form method={"post"} onSubmit={handleSubmit}>
+                    <input type={"hidden"} name={"resourceId"} id={"resourceId"}/>
+                    <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"}/>
+                    <input type={"hidden"} name={"scopeId"} id={"scopeId"}/>
+                    <input type={"hidden"} name={"orgUnits"} id={"orgUnits"}/>
+                    <input type={"hidden"} name={"includeSubOrgUnits"} id={"includeSubOrgUnits"}/>
                     <Button disabled={missingFields}>Lagre tildeling</Button>
                 </Form>
             </div>

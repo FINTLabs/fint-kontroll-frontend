@@ -1,10 +1,10 @@
 import React from 'react';
 import {Heading, Tabs} from "@navikt/ds-react";
 import {useLoaderData} from "@remix-run/react";
-import type {IAssignmentPage} from "~/data/types";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import  {IAssignmentPage} from "~/data/types";
+import  {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import styles from "~/components/user/user.css";
+import styles from "~/components/user/user.css?url";
 import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable";
 import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 

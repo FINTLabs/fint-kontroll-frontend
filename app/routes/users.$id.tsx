@@ -1,12 +1,12 @@
 import React from 'react';
 import UserInfo from "~/components/user/UserInfo";
-import styles from "~/components/user/user.css"
+import styles from "~/components/user/user.css?url"
 import {Heading} from "@navikt/ds-react";
 import {useLoaderData} from "@remix-run/react";
-import type {IAssignmentPage, IUser} from "~/data/types";
+import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
 

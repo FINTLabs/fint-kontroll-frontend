@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Heading, Tabs} from "@navikt/ds-react";
 import {Outlet, useLoaderData, useLocation, useNavigate} from "@remix-run/react";
-import type {IRole} from "~/data/types";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import {IRole} from "~/data/types";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
-import styles from "~/components/user/user.css";
+import styles from "~/components/user/user.css?url";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

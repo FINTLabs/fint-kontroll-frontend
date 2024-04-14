@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "~/components/resource/resource.css"
+import styles from "~/components/resource/resource.css?url"
 import {Box, Heading, LinkPanel} from "@navikt/ds-react";
 import {Outlet, useLoaderData, useRouteLoaderData} from "@remix-run/react";
 import type {IResource} from "~/data/types";

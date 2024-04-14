@@ -19,7 +19,7 @@ import DeleteAssignment from "~/components/resource-module-admin/administer/Reso
 import AdministerToolbar from "~/components/resource-module-admin/administer/AdministerToolbar";
 import ResourceModuleResetModal from "~/components/resource-module-admin/administer/ResourceModuleResetModal";
 import RoleAssignmentTable from "~/components/resource-module-admin/administer/RoleAssignmentTable";
-import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
+import styles from "~/components/resource-module-admin/resourceModuleAdmin.css?url";
 import {toast} from "react-toastify";
 
 export function links() {

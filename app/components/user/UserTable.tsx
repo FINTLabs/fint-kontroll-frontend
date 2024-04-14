@@ -1,10 +1,15 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import type {IUserPage} from "~/data/types";
+import {IUserPage} from "~/data/types";
 import React from "react";
 
-export const UserTable: any = (props: { userPage: IUserPage, size: string, page: string }) => {
+interface UserTableProps {
+    userPage: IUserPage
+    size: string
+    page: string
+}
+export const UserTable = ( {userPage, size, page}: UserTableProps) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
@@ -29,7 +34,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.userPage.users.map((user) => (
+                    {userPage.users.map((user) => (
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.fullName}</Table.HeaderCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
@@ -66,7 +71,7 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -75,14 +80,14 @@ export const UserTable: any = (props: { userPage: IUserPage, size: string, page:
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.userPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
+                    page={userPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.userPage.totalPages || 1}
+                    count={userPage.totalPages || 1}
                     size="small"
                     prevNextTexts
                 />

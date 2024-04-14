@@ -1,12 +1,12 @@
 import React from 'react';
 import {Heading, Tabs} from "@navikt/ds-react";
 import {useLoaderData} from "@remix-run/react";
-import type {IMemberPage} from "~/data/types";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import  {IMemberPage} from "~/data/types";
+import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import {MemberTable} from "~/components/role/MemberTable";
-import styles from "~/components/user/user.css";
+import styles from "~/components/user/user.css?url";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

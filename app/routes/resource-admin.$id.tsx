@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from "~/components/resource/resource.css"
+import styles from "~/components/resource/resource.css?url"
 import {Box, Heading} from "@navikt/ds-react";
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
-import type {IResource} from "~/data/types";
+import  {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
-import type {LoaderFunctionArgs} from "@remix-run/router";
+import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";

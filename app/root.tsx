@@ -1,28 +1,15 @@
-import {cssBundleHref} from "@remix-run/css-bundle";
-import type {LinksFunction, MetaFunction} from "@remix-run/node";
-import {json} from "@remix-run/node";
-import navStyles from "@navikt/ds-css/dist/index.css";
+import {json, LinksFunction, MetaFunction} from "@remix-run/node";
+import navStyles from "@navikt/ds-css/dist/index.css?url";
 import "react-toastify/dist/ReactToastify.css"
-import {
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useLoaderData,
-    useRouteError,
-} from "@remix-run/react";
-import styles from "~/styles/main.css";
-import {BodyShort, Box, Page} from "@navikt/ds-react";
-import {AppBar} from "~/components/app-bar/AppBar";
+import {Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useRouteError,} from "@remix-run/react";
+import styles from "~/styles/main.css?url";
 import type {IMeInfo} from "~/data/types";
 import {fetchMeInfo} from "~/data/fetch-me-info";
-import meStyles from "~/components/app-bar/appBar.css";
+import meStyles from "~/components/app-bar/appBar.css?url";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {ToastContainer} from "react-toastify";
-
-//import {err} from "@remix-run/dev/dist/result";
+import {BodyShort, Box, Page} from "@navikt/ds-react";
+import {AppBar} from "~/components/app-bar/AppBar";
 
 
 export const meta: MetaFunction = () => {
@@ -50,14 +37,6 @@ export const links: LinksFunction = () => [
     {rel: "stylesheet", href: navStyles},
     {rel: 'stylesheet', href: styles},
     {rel: 'stylesheet', href: meStyles},
-    ...(cssBundleHref
-            ?
-            [
-                {rel: "stylesheet", href: cssBundleHref},
-            ]
-            :
-            []
-    ),
 ];
 
 export async function loader({request}: LoaderFunctionArgs) {
@@ -70,21 +49,20 @@ export default function App() {
 
     return (
         <html lang="no">
-            <head>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
+        <head>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
-                <Layout me={me}>
-                    <Outlet/>
-                </Layout>
+        <Layout me={me}>
+            <Outlet/>
+        </Layout>
 
-                <ScrollRestoration getKey={location => location.pathname}/>
-                <Scripts/>
-                <LiveReload/>
-            </body>
+        <ScrollRestoration getKey={location => location.pathname}/>
+        <Scripts/>
+        </body>
         </html>
     );
 }
@@ -93,7 +71,8 @@ interface LayoutProps {
     children: any
     me?: any
 }
-const Layout = ({ children, me }: LayoutProps) => {
+
+const Layout = ({children, me}: LayoutProps) => {
     return (
         <Page
             footer={
@@ -131,17 +110,17 @@ export function ErrorBoundary() {
 
     return (
         <html>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <Layout me={me}>
-                    <div>{error.message}</div>
-                    <Scripts/>
-                </Layout>
-            </body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Layout me={me}>
+            <div>{error.message}</div>
+            <Scripts/>
+        </Layout>
+        </body>
         </html>
     );
 }

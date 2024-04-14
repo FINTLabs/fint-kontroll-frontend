@@ -1,4 +1,3 @@
-import React from "react";
 import illustration from "../../public/illustrasjon.svg"
 
 export default function Index() {

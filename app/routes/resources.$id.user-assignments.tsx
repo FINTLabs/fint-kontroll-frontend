@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from "~/components/resource/resource.css"
+import styles from "~/components/resource/resource.css?url"
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
-import type {IAssignedUsers} from "~/data/types";
+import  {IAssignedUsers} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BodyShort, Box, GuidePanel, Heading, List} from "@navikt/ds-react";
-import type {IUser} from "~/data/types";
+import {IUser} from "~/data/types";
 import {InformationIcon} from "@navikt/aksel-icons";
 
 export const UserInfo: any = (props: { user: IUser }) => {
@@ -23,7 +23,7 @@ export const UserInfo: any = (props: { user: IUser }) => {
                         </li>
                         <li>
                             <Heading size="small" level="3">Brukernavn</Heading>
-                            <BodyShort textColor="subtle">{props.user.userName}</BodyShort>
+                            <BodyShort textColor="subtle">na</BodyShort>
                         </li>
                         <li>
                             <Heading size="small" level="3">Organisasjonsenhet</Heading>
@@ -31,7 +31,7 @@ export const UserInfo: any = (props: { user: IUser }) => {
                         </li>
                         <li>
                             <Heading size="small" level="3">E-post</Heading>
-                            <BodyShort textColor="subtle">{props.user.email}</BodyShort>
+                            <BodyShort textColor="subtle">na</BodyShort>
                         </li>
                     </List>
                 </Box>

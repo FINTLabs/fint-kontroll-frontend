@@ -5,7 +5,7 @@ import ResourceModuleAdminUsersTable from "~/components/resource-module-admin/Re
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {fetchUsersWithAssignment} from "~/data/resourceModuleAdmin/resource-module-admin";
-import styles from "~/components/resource-module-admin/resourceModuleAdmin.css";
+import styles from "~/components/resource-module-admin/resourceModuleAdmin.css?url";
 import {IUnitItem} from "~/data/types";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {
