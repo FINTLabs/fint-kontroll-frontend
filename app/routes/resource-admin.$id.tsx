@@ -23,9 +23,9 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     })
 }
 
-export function useResourceByIdLoaderData() {
-    return useRouteLoaderData<typeof loader>("resource.$id")
-}
+// export function useResourceByIdLoaderData() {
+//     return useRouteLoaderData<typeof loader>("resource.$id")
+// }
 
 export default function ResourceById() {
     const data = useLoaderData<{

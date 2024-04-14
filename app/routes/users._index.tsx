@@ -61,7 +61,7 @@ export default function UsersIndex() {
                     }}>Fjern orgenhetsfilter</Chips.Removable>
                 )}
             </Box>
-            <UserTable userPage={data.userList}/>
+            <UserTable userPage={data.userList} size={"10"}/>
         </div>
     );
 }

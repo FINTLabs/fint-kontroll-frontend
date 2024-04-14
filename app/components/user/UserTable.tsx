@@ -1,15 +1,15 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import {IUserPage} from "~/data/types";
+import {IUser, IUserPage} from "~/data/types";
 import React from "react";
 
 interface UserTableProps {
     userPage: IUserPage
     size: string
-    page: string
 }
-export const UserTable = ( {userPage, size, page}: UserTableProps) => {
+
+export const UserTable = ({userPage, size}: UserTableProps) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
@@ -34,7 +34,7 @@ export const UserTable = ( {userPage, size, page}: UserTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {userPage.users.map((user) => (
+                    {userPage.users.map((user: IUser) => (
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.fullName}</Table.HeaderCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
