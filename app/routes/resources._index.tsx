@@ -14,7 +14,7 @@ export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
+export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);

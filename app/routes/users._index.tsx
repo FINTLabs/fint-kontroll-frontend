@@ -11,9 +11,7 @@ import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal"
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 
-export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
-    json(): Promise<any>
-}> {
+export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";

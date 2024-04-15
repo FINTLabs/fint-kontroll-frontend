@@ -28,7 +28,7 @@ module.exports = {
   overrides: [
     // React
     {
-      files: ["*/.{js,jsx,ts,tsx}"],
+      files: ["**/*.{js,jsx,ts,tsx}"],
       plugins: ["react", "jsx-a11y"],
       extends: [
         "plugin:react/recommended",
@@ -53,7 +53,7 @@ module.exports = {
 
     // Typescript
     {
-      files: ["*/.{ts,tsx}"],
+      files: ["**/*.{ts,tsx}"],
       plugins: ["@typescript-eslint", "import"],
       parser: "@typescript-eslint/parser",
       settings: {

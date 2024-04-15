@@ -69,7 +69,7 @@ export function ErrorBoundary() {
     console.error(error);
 
     return (
-        <html>
+        <html lang={"no"}>
             <head>
                 <title>Feil oppstod</title>
                 <Meta/>

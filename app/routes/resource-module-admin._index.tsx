@@ -33,8 +33,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const roles = await responseRoles.json()
     const orgUnitPage = await responseOrgUnits.json()
 
-    return json
-    ({
+    return json({
         usersPage,
         roles,
         orgUnitPage
@@ -52,7 +51,6 @@ export default function ResourceModuleAdminIndex() {
     return (
         <section className={"content"}>
             <Heading level={"1"} size={"xlarge"}>Ressursmoduladministrasjon</Heading>
-
             <ResourceModuleAdminUsersTable usersPage={usersPage} orgUnitList={orgUnitList} roles={roles} />
         </section>
     );

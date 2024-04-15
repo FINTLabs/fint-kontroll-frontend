@@ -89,7 +89,7 @@ const DefineRoleTab = () => {
 
     const handleSubmit = () => {
         setSaving(true)
-        let newFeatureOperations: IPermissionData = loaderData
+        const newFeatureOperations: IPermissionData = loaderData
         currentOperations.forEach((featureOperation, index) => {
             newFeatureOperations.features[index].operations = featureOperation
         })
@@ -162,7 +162,7 @@ export function ErrorBoundary() {
     console.error(error);
 
     return (
-        <html>
+        <html lang={"no"}>
             <head>
                 <title>Feil oppstod</title>
                 <Meta/>

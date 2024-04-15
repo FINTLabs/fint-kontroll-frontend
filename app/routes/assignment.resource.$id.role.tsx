@@ -80,7 +80,7 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     console.error(error);
     return (
-        <html>
+        <html lang={"no"}>
         <head>
             <title>Oh no!</title>
             <Meta/>

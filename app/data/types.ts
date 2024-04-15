@@ -58,7 +58,7 @@ export interface IOrgUnitForScope {
 // -----------------------
 export interface IUserPage {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number | any;
     currentPage: number;
     size: string;
     users: IUser[];
