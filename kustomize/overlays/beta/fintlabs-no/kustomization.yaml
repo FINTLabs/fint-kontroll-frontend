@@ -18,6 +18,13 @@ patches:
       kind: Application
       name: fint-kontroll-frontend
   - patch: |-
+      - op: replace
+        path: "/spec/prometheus/path"
+        value: /beta/fintlabs-no/metrics
+    target:
+      kind: Application
+      name: fint-kontroll-frontend
+  - patch: |-
       - op: add
         path: "/spec/env/-"
         value:
