@@ -4,7 +4,7 @@ import {useLoaderData} from "@remix-run/react";
 import  {IAssignmentPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import styles from "~/components/user/user.css?url";
+import styles from "../components/user/user.css?url";
 import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable";
 import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 

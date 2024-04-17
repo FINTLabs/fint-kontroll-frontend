@@ -1,9 +1,14 @@
 import express from "express";
 import {BASE_PATH, PORT} from "../environment.js";
 import morgan from "morgan";
-import prometheusMiddleware from "express-prometheus-middleware";
 import log4js from 'log4js';
-import {createRequestHandler} from "@remix-run/node";
+import {createRequestHandler} from "@remix-run/express";
+import prometheusMiddleware from "express-prometheus-middleware";
+
+const logger = log4js.getLogger();
+logger.level = "info";
+
+logger.info(`Running in ${process.env.NODE_ENV === "production" ? "production" : "dev"} mode`);
 
 const viteDevServer =
     process.env.NODE_ENV === "production"
@@ -14,8 +19,6 @@ const viteDevServer =
             })
         );
 
-const logger = log4js.getLogger();
-logger.level = "info";
 
 const app = express();
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
@@ -24,11 +27,12 @@ app.use(morgan("combined"));
 app.use(
     prometheusMiddleware({
         collectDefaultMetrics: true,
-        metricsPath: `${BASE_PATH.replace(/\/$/,'')}/metrics`
+        metricsPath: `${BASE_PATH.replace(/\/$/, '')}/metrics`
     })
 );
 
-app.use(BASE_PATH.replace(/\/$/,''),
+app.use(
+    BASE_PATH.replace(/\/$/,''),
     viteDevServer
         ? viteDevServer.middlewares
         : express.static("build/client")
@@ -41,7 +45,9 @@ const build = viteDevServer
         )
     : await import("../build/server/index.js");
 
-app.all(`${BASE_PATH.replace(/\/$/,'')}(/*)?`, createRequestHandler({build}));
+app.all(
+    `${BASE_PATH.replace(/\/$/,'')}(/*)?`,
+    createRequestHandler({build}));
 
 app.listen(PORT, () => {
     logger.info(`App listening on http://localhost:${PORT}${BASE_PATH.replace(/\/$/,'')}`);

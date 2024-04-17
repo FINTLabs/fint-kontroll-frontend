@@ -5,7 +5,7 @@ import {IRole} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
-import styles from "~/components/user/user.css?url";
+import styles from "../components/user/user.css?url";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

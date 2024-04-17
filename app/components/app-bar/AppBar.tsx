@@ -8,12 +8,12 @@ import {
     TasklistIcon,
     XMarkIcon
 } from '@navikt/aksel-icons';
-import {Link} from "@remix-run/react";
+import { NavLink, Link} from "@remix-run/react";
 import MeInfo from "~/components/app-bar/MeInfo";
 import {IMeInfo} from "~/data/types";
 import {BodyShort, Box, Button, HGrid, Hide, HStack, LinkPanel, Popover} from "@navikt/ds-react";
 
-export function AppBar(props: { me: IMeInfo }) {
+export function AppBar(props: { me: IMeInfo, basePath?: string }) {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -65,36 +65,37 @@ export function AppBar(props: { me: IMeInfo }) {
                     <Link to="/#" onClick={() => setMenuOpen(false)}>Til forsiden</Link>
                     <HGrid gap="4" columns={2}>
 
+
                         <Box>
-                            <LinkPanel border={false} href="/users">
+                            <LinkPanel border={false}  href={`${props.basePath}/users`}>
                                 <LinkPanel.Title><PersonIcon title="a11y-title"
                                                              fontSize="1.5rem"/> Brukere</LinkPanel.Title>
                             </LinkPanel>
 
-                            <LinkPanel border={false} href="/roles">
+                            <LinkPanel border={false} href={`${props.basePath}/roles`}>
                                 <LinkPanel.Title><PersonGroupIcon title="a11y-title"
                                                                   fontSize="1.5rem"/> Grupper</LinkPanel.Title>
                             </LinkPanel>
 
-                            <LinkPanel border={false} href="/resources">
+                            <LinkPanel border={false} href={`${props.basePath}/resources`}>
                                 <LinkPanel.Title><SandboxIcon title="a11y-title"
                                                               fontSize="1.5rem"/> Ressurser</LinkPanel.Title>
                             </LinkPanel>
                         </Box>
                         <Box>
-                            <LinkPanel border={false} href="/resource-module-admin">
+                            <LinkPanel border={false} href={`${props.basePath}/resource-module-admin`}>
                                 <LinkPanel.Title>
                                     <ClipboardCheckmarkIcon title="a11y-title" fontSize="1.5rem"/>
                                     Ressursmoduladministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
-                            <LinkPanel border={false} href="/resource-admin">
+                            <LinkPanel border={false} href={`${props.basePath}/resource-admin`}>
                                 <LinkPanel.Title>
                                     <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
                                     Ressursadministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
-                            <LinkPanel border={false} href="/kontroll-admin/define-role">
+                            <LinkPanel border={false} href={`${props.basePath}/kontroll-admin/define-role`}>
                                 <LinkPanel.Title>
                                     <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
                                     Kontrolladministrasjon

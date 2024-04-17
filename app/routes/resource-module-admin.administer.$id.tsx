@@ -15,11 +15,11 @@ import {
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import {useEffect, useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import DeleteAssignment from "~/components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal";
-import AdministerToolbar from "~/components/resource-module-admin/administer/AdministerToolbar";
-import ResourceModuleResetModal from "~/components/resource-module-admin/administer/ResourceModuleResetModal";
-import RoleAssignmentTable from "~/components/resource-module-admin/administer/RoleAssignmentTable";
-import styles from "~/components/resource-module-admin/resourceModuleAdmin.css?url";
+import DeleteAssignment from "../components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal";
+import AdministerToolbar from "../components/resource-module-admin/administer/AdministerToolbar";
+import ResourceModuleResetModal from "../components/resource-module-admin/administer/ResourceModuleResetModal";
+import RoleAssignmentTable from "../components/resource-module-admin/administer/RoleAssignmentTable";
+import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import {toast} from "react-toastify";
 
 export function links() {

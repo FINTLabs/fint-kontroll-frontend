@@ -7,8 +7,8 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
-import styles from "~/components/org-unit-filter/orgUnitFilter.css?url"
+import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
+import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

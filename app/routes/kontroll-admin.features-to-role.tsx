@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
-import styles from "~/components/kontroll-admin/kontroll-admin.css?url";
+import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

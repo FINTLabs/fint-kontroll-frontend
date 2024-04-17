@@ -10,9 +10,9 @@ import {
 } from "@remix-run/react";
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "@navikt/ds-react";
-import PermissionsTableCheckbox from "~/components/kontroll-admin/PermissionsTableCheckbox";
+import PermissionsTableCheckbox from "../components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
-import styles from "~/components/kontroll-admin/kontroll-admin.css?url";
+import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import {ConfirmSafeRedirectModal} from "~/data/kontrollAdmin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {

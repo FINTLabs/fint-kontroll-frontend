@@ -7,7 +7,7 @@ import {useLoaderData, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
 import {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 

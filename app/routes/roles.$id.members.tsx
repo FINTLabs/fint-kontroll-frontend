@@ -6,7 +6,7 @@ import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import {MemberTable} from "~/components/role/MemberTable";
-import styles from "~/components/user/user.css?url";
+import styles from "../components/user/user.css?url";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

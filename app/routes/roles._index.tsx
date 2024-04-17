@@ -8,7 +8,7 @@ import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
-import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>

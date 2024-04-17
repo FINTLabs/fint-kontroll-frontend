@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "~/components/resource/resource.css?url"
+import styles from "../components/resource/resource.css?url"
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
 import  {IAssignedUsers} from "~/data/types";
 import {json} from "@remix-run/node";
