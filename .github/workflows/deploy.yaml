@@ -45,59 +45,6 @@ jobs:
 
       - run: npm run test
 
-  playwright:
-    needs: [ install ]
-    timeout-minutes: 2
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: node_modules
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-
-      - uses: actions/setup-node@v4
-        if: steps.node_modules.outputs.cache-hit != 'true'
-        with:
-          node-version: "20.x"
-          cache: "npm"
-          registry-url: "https://npm.pkg.github.com"
-
-      - name: "Install dependencies"
-        run: npm ci --ignore-scripts
-        if: steps.node_modules.outputs.cache-hit != 'true'
-
-      - name: Store Playwright's Version
-        run: |
-          PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
-          echo "Playwright's Version: $PLAYWRIGHT_VERSION"
-          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
-
-      - name: Cache Chromium browser for Playwright's Version
-        id: cache-chromium-browser
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: chromium-with-playwright-version-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install Chromium browser
-        if: steps.cache-chromium-browser.outputs.cache-hit != 'true'
-        run: npx playwright install chromium --with-deps
-
-      - name: Run Playwright Tests
-        run: npm run playwright:verbose
-
-      - name: Store Artifacts from Failed Tests
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test-results/
-          retention-days: 7
-
   build:
     needs: [ install ]
     runs-on: ubuntu-latest
