@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - application.yaml
+commonLabels:
+  app.kubernetes.io/name: fint-kontroll-frontend
+  app.kubernetes.io/instance: fint-kontroll-frontend_fintlabs-no
+  app.kubernetes.io/version: "latest"
+  app.kubernetes.io/managed-by: GA
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/part-of: fint-kontroll
+  fintlabs.no/team: bas
+  fintlabs.no/org-id: fintlabs.no

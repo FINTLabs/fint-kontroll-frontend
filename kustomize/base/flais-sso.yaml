@@ -1,0 +1,11 @@
+apiVersion: fintlabs.no/v1alpha1
+kind: FLAISSso
+metadata:
+  name: fint-kontroll-sso
+  labels:
+    app.kubernetes.io/component: sso
+    app.kubernetes.io/name: fint-kontroll-sso
+    app.kubernetes.io/instance: fint-kontroll-sso_fintlabs-no
+spec:
+  hostname: kontroll.vigoiks.no
+  basePath: /dummy
