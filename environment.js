@@ -11,3 +11,5 @@ export const RESOURCE_API_URL = process.env.RESOURCE_API_URL || "http://localhos
 export const ASSIGNMENT_API_URL = process.env.ASSIGNMENT_API_URL || "http://localhost:8061"
 export const ACCESS_MANAGEMENT_API_URL = process.env.ACCESS_MANAGEMENT_API_URL || "http://localhost:53989"
 export const ORG_UNIT_API_URL = process.env.ORG_UNIT_API_URL || "http://localhost:8060"
+
+export const LOG_LEVEL= process.env.LOG_LEVEL || "info";
