@@ -33,3 +33,10 @@ patches:
     target:
       kind: Application
       name: fint-kontroll-frontend
+  - patch: |-
+      - op: replace
+        path: "/spec/image"
+        value: ghcr.io/fintlabs/fint-kontroll-frontend-fintlabs-no-beta
+    target:
+      kind: Application
+      name: fint-kontroll-frontend
