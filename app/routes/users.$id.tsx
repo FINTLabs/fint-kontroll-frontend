@@ -1,6 +1,6 @@
 import React from 'react';
-import UserInfo from "~/components/user/UserInfo";
-import styles from "~/components/user/user.css?url"
+import UserInfo from "../components/user/UserInfo";
+import styles from "../components/user/user.css?url"
 import {Heading} from "@navikt/ds-react";
 import {useLoaderData} from "@remix-run/react";
 import {IAssignmentPage, IUser} from "~/data/types";

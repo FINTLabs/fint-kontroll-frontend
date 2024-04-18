@@ -1,7 +1,14 @@
+import {BASE_PATH, basePathNoTrailingSlash, USER_API_URL} from "../../environment";
+import logger from "~/logging/logger";
+
 export const fetchMeInfo = async (token: string | null) => {
-    const response = await fetch("http://localhost:8062/beta/fintlabs-no/api/users/me", {
+    const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
+    logger.debug("Requesting API @ ", url, " with token", token);
+    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/me`, {
         headers: {Authorization: token ?? ""}
     });
+
+    logger.debug("Response from ", url, response);
 
     if (response.ok) {
         return response;

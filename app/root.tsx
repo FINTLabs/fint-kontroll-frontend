@@ -10,6 +10,7 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {ToastContainer} from "react-toastify";
 import {BodyShort, Box, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
+import {BASE_PATH} from "../environment";
 
 
 export const meta: MetaFunction = () => {
@@ -41,11 +42,15 @@ export const links: LinksFunction = () => [
 
 export async function loader({request}: LoaderFunctionArgs) {
     const response = await fetchMeInfo(request.headers.get("Authorization"));
-    return json(await response.json());
+    const me = await response.json();
+    return json({
+        me,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+    });
 }
 
 export default function App() {
-    const me = useLoaderData<IMeInfo>();
+    const {me, basePath} = useLoaderData<typeof loader>();
 
     return (
         <html lang="no">
@@ -56,7 +61,7 @@ export default function App() {
         <body>
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
-        <Layout me={me}>
+        <Layout me={me} basePath={basePath}>
             <Outlet/>
         </Layout>
 
@@ -70,9 +75,10 @@ export default function App() {
 interface LayoutProps {
     children: any
     me?: any
+    basePath?: string
 }
 
-const Layout = ({children, me}: LayoutProps) => {
+const Layout = ({children, me, basePath}: LayoutProps) => {
     return (
         <Page
             footer={
@@ -85,7 +91,7 @@ const Layout = ({children, me}: LayoutProps) => {
         >
             <Box className={"footer"} as="header">
                 <Page.Block width="2xl">
-                    <AppBar me={me}/>
+                    <AppBar me={me} basePath={basePath}/>
                 </Page.Block>
             </Box>
             <Box

@@ -1,6 +1,8 @@
+import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
+
 export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
     const response = await fetch
-    (`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
+    (`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
             headers: {Authorization: token ?? ""}
         });
@@ -21,7 +23,7 @@ export const fetchAssignedUsers = async (token: string | null, id: string | unde
 
 
 export const fetchAssignmentsForUser = async (token: string | null, id: string | undefined, size: string, page: string) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/${id}/resources?size=${size}&page=${page}`, {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/user/${id}/resources?size=${size}&page=${page}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -40,7 +42,7 @@ export const fetchAssignmentsForUser = async (token: string | null, id: string |
 }
 
 export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -59,7 +61,7 @@ export const fetchAssignedRoles = async (token: string | null, id: string | unde
 }
 
 export const fetchAssignmentsForRole = async (token: string | null, id: string | undefined, size: string, page: string) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/role/${id}/resources?size=${size}&page=${page}`, {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -78,7 +80,7 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
 }
 
 export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
-    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
         headers: {
             Authorization: token ?? "",
             'content-type': 'application/json'
@@ -98,7 +100,7 @@ export const createUserAssignment = async (token: string | null, resourceRef: nu
 }
 
 export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
-    const response = await fetch('http://localhost:8061/beta/fintlabs-no/api/assignments', {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
         headers: {
             Authorization: token ?? "",
             'content-type': 'application/json'
@@ -118,7 +120,7 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
 }
 
 export const deleteAssignment = async (token: string | null, assignmentRef: string) => {
-    const response = await fetch(`http://localhost:8061/beta/fintlabs-no/api/assignments/${assignmentRef}`, {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`, {
         headers: {
             Authorization: token ?? ""
         },

@@ -2,7 +2,7 @@ import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
 import {Form, useActionData, useLoaderData, useNavigate, useSearchParams} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
-import TildelingToolbar from "~/components/resource-module-admin/opprettTildeling/TildelingToolbar";
+import TildelingToolbar from "../components/resource-module-admin/opprettTildeling/TildelingToolbar";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
@@ -12,15 +12,15 @@ import {
     IResourceModuleUser,
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
-import TildelUserSearchResultList from "~/components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
+import TildelUserSearchResultList from "../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
 import {
     fetchUsersWhoCanGetAssignments,
     postNewTildelingForUser,
 } from "~/data/resourceModuleAdmin/resource-module-admin";
-import styles from "~/components/resource-module-admin/resourceModuleAdmin.css?url";
-import OrgUnitTreeSelector from "~/components/org-unit-selector/OrgUnitTreeSelector";
-import SummaryOfTildeling from "~/components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
-import ChooseAccessRole from "~/components/resource-module-admin/opprettTildeling/ChooseAccessRole";
+import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
+import OrgUnitTreeSelector from "../components/org-unit-selector/OrgUnitTreeSelector";
+import SummaryOfTildeling from "../components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
+import ChooseAccessRole from "../components/resource-module-admin/opprettTildeling/ChooseAccessRole";
 import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
