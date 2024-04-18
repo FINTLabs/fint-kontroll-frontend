@@ -8,12 +8,9 @@ installGlobals();
 
 
 export default defineConfig({
-    //base: `${BASE_PATH === "/" ? "" : BASE_PATH}/`,
-    base: "./",
+    base: `${BASE_PATH === "/" ? "" : BASE_PATH}/`,
     plugins: [remix({
-        //basename: `${BASE_PATH.replace(/\/$/, '')}`,
-        basename: "/"
-
+        basename: `${BASE_PATH.replace(/\/$/, '')}`,
     }), tsconfigPaths()],
 
 })

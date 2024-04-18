@@ -52,6 +52,15 @@ jobs:
       packages: write
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
+    strategy:
+      matrix:
+        include:
+          - path: /beta/fintlabs-no
+            environment: beta
+            org: fintlabs-no
+          - path: /afk-no
+            environment: api
+            org: afk-no
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -64,7 +73,7 @@ jobs:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
 
-      - run: npm run build
+      - run: BASE_PATH=${{ matrix.path }} npm run build
 
       # Bygg docker image
       - name: Log in to the Container registry
@@ -78,7 +87,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.org }}-${{ matrix.environment }}.
           tags: |
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
 
