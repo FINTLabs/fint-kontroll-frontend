@@ -87,7 +87,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.org }}-${{ matrix.environment }}.
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.org }}-${{ matrix.environment }}
           tags: |
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
 
