@@ -3,12 +3,12 @@ import logger from "~/logging/logger";
 
 export const fetchMeInfo = async (token: string | null) => {
     const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
-    logger.info("Requesting API @ ", url, " with token", token);
+    logger.debug("Requesting API @ ", url, " with token", token);
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/me`, {
         headers: {Authorization: token ?? ""}
     });
 
-    logger.info("Response from ", url, response);
+    logger.debug("Response from ", url, response);
 
     if (response.ok) {
         return response;
