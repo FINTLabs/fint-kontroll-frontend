@@ -1,6 +1,8 @@
 // This is potentially deprecated. Consider removing
+import {ACCESS_MANAGEMENT_API_URL, BASE_PATH} from "../../../environment";
+
 export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: number, orgUnitIds: string[], searchString: string, roleFilter: string) => {
-    const response = await fetch(`http://localhost:8062/beta/fintlabs-no/api/accessmanagement/v1/users`, {
+    const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/users`, {
         body: JSON.stringify({
             currentPage: currentPage, itemsPerPage: itemsPerPage, orgUnitIds: orgUnitIds, searchString: searchString, roleFilter: roleFilter
         })
@@ -22,7 +24,7 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 export const postNewTildelingForUser = async (token: string | null, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
 
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment`;
 
     console.log(scopeId)
 
@@ -64,7 +66,7 @@ export const fetchUsersWhoCanGetAssignments = async (token: string | null, curre
     orgUnitIds ? queryParams.append("orgunitid", orgUnitIdsArray.join(",")) : null
 
 
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user?${queryParams}`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/user?${queryParams}`;
 
     const response = await fetch(url, {
         headers: ({
@@ -98,7 +100,7 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
     orgUnitIds ? queryParams.append("orgunits", orgUnitIdsArray.join(",")) : null
 
 
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/with-assignments?${queryParams}`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/user/with-assignments?${queryParams}`;
 
     const response = await fetch(url, {
        headers: ({
@@ -116,7 +118,7 @@ export const fetchUsersWithAssignment = async (token: string | null, currentPage
 export const fetchUserDetails = async (token: string | null, resourceId: string) => {
 
 
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/${resourceId}`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/user/${resourceId}`;
 
     const response = await fetch(url, {
         headers: ({
@@ -141,7 +143,7 @@ export const fetchUserAssignments = async (token: string | null, resourceId: str
     orgUnitName ? queryParams.append("orgUnitName", orgUnitName) : null
     objectType ? queryParams.append("objectType", objectType) : null
 
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user/${resourceId}/orgunits${queryParams ? '?'+queryParams : ""}`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/user/${resourceId}/orgunits${queryParams ? '?'+queryParams : ""}`;
 
     const response = await fetch(url, {
         headers: ({
@@ -158,7 +160,7 @@ export const fetchUserAssignments = async (token: string | null, resourceId: str
 
 
 export const fetchObjectTypesForUser = async (token: string | null, resourceId: string) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/objecttypes`;
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment/user/${resourceId}/objecttypes`;
 
     const response = await fetch(url, {
         headers: ({
@@ -174,7 +176,7 @@ export const fetchObjectTypesForUser = async (token: string | null, resourceId: 
 }
 
 export const deleteAllAssignmentsOnUser = async (token: string | null, resourceId: string) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}`
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment/user/${resourceId}`
 
     const response = await fetch(url, {
         headers: ({
@@ -197,7 +199,7 @@ export const deleteAllAssignmentsOnUser = async (token: string | null, resourceI
 }
 
 export const deleteUserAssignmentByAccessRoleId = async (token: string | null, resourceId: string, accessRoleId: string, objectTypeToDelete: string) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/user/${resourceId}/role/${accessRoleId}${objectTypeToDelete ? "?objectType=" + objectTypeToDelete : ""}`
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment/user/${resourceId}/role/${accessRoleId}${objectTypeToDelete ? "?objectType=" + objectTypeToDelete : ""}`
 
     const response = await fetch(url, {
         headers: ({
@@ -220,7 +222,7 @@ export const deleteUserAssignmentByAccessRoleId = async (token: string | null, r
 }
 
 export const deleteOrgUnitFromAssignment = async (token: string | null, scopeId: string, orgUnitId: string) => {
-    const url = `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessassignment/scope/${scopeId}/orgunit/${orgUnitId}`
+    const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment/scope/${scopeId}/orgunit/${orgUnitId}`
 
     const response = await fetch(url, {
         headers: ({

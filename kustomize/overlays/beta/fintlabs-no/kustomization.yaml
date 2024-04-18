@@ -30,6 +30,36 @@ patches:
         value:
           name: BASE_PATH
           value: /beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: USER_API_URL
+          value: http://fint-kontroll-user-catalog:8080/beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ROLE_API_URL
+          value: http://fint-kontroll-role-catalog:8080/beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: RESOURCE_API_URL
+          value: http://fint-kontroll-resource-catalog:8080/beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ORG_UNIT_API_URL
+          value: http://fint-kontroll-orgunit-catalog:8080/beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ASSIGNMENT_API_URL
+          value: http://fint-kontroll-assignment-catalog:8080/beta/fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ACCESS_MANAGEMENT_API_URL
+          value: http://fint-kontroll-access-mngmnt-catalog:8080/beta/fintlabs-no
     target:
       kind: Application
       name: fint-kontroll-frontend

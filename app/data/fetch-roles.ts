@@ -1,5 +1,7 @@
+import {BASE_PATH, ROLE_API_URL, USER_API_URL} from "../../environment";
+
 export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgunits: string[]) => {
-    const response = await fetch(`http://localhost:8064/beta/fintlabs-no/api/roles?size=${size}&page=${page}&search=${search}&${orgunits.length > 0 ? 'orgunits=' + orgunits : ""}`, {
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgunits.length > 0 ? 'orgunits=' + orgunits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -17,7 +19,7 @@ export const fetchRoles = async (token: string | null, size: string, page: strin
 }
 
 export const fetchRoleById = async (token: string | null, id: string | undefined) => {
-    const response = await fetch(`http://localhost:8064/beta/fintlabs-no/api/roles/${id}`, {
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -36,7 +38,7 @@ export const fetchRoleById = async (token: string | null, id: string | undefined
 }
 
 export const fetchMembers = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
-    const response = await fetch(`http://localhost:8064/beta/fintlabs-no/api/roles/${id}/members?size=${size}&page=${page}&search=${search}`, {
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}/members?size=${size}&page=${page}&search=${search}`, {
         headers: {Authorization: token ?? ""}
     });
 

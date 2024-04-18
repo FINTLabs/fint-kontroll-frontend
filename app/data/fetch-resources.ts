@@ -1,5 +1,7 @@
+import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
+
 export const fetchResources = async (token: string | null, size: string, page: string, search: string, orgUnits: string[]) => {
-    const response = await fetch(`http://localhost:8063/beta/fintlabs-no/api/resources?size=${size}&page=${page}&search=${search}${orgUnits.length > 0 ? '&orgUnits=' + orgUnits : ""}`, {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources?size=${size}&page=${page}&search=${search}${orgUnits.length > 0 ? '&orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -19,7 +21,7 @@ export const fetchResources = async (token: string | null, size: string, page: s
 
 
 export const fetchResourceById = async (token: string | null, id: string | undefined) => {
-    const response = await fetch(`http://localhost:8063/beta/fintlabs-no/api/resources/${id}`, {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, {
         headers: {Authorization: token ?? ""}
     });
 
@@ -38,7 +40,7 @@ export const fetchResourceById = async (token: string | null, id: string | undef
 }
 
 export const fetchOrgUnits = async (token: string | null) => {
-    const response = await fetch(`http://localhost:8060/beta/fintlabs-no/api/orgunits`, {
+    const response = await fetch(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, {
         headers: {Authorization: token ?? ""}
     });
 

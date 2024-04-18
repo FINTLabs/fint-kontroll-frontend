@@ -1,5 +1,7 @@
+import {BASE_PATH, basePathNoTrailingSlash, USER_API_URL} from "../../environment";
+
 export const fetchMeInfo = async (token: string | null) => {
-    const response = await fetch("http://localhost:8062/beta/fintlabs-no/api/users/me", {
+    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/me`, {
         headers: {Authorization: token ?? ""}
     });
 
