@@ -58,9 +58,9 @@ jobs:
           - path: /beta/fintlabs-no
             environment: beta
             org: fintlabs-no
-          - path: /afk-no
-            environment: api
-            org: afk-no
+#          - path: /afk-no
+#            environment: api
+#            org: afk-no
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
