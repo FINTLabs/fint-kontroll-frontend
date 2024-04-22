@@ -13,7 +13,7 @@ import {Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "../components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
-import {ConfirmSafeRedirectModal} from "~/data/kontrollAdmin/ConfirmSafeRedirectModal";
+import {ConfirmSafeRedirectModal} from "~/components/kontroll-admin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request.headers.get("Authorization")

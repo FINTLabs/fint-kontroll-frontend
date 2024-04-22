@@ -9,14 +9,13 @@ const ChipsFilters = () => {
     const [name, setName] = useState<string | undefined>()
 
     useEffect(() => {
-        const orgs = searchParams.get("orgUnits")
-        const accessRoleId = searchParams.get("accessroleid")
-        const name = searchParams.get("name")
-        orgs ? setOrgUnits(orgs) : null
-        accessRoleId ? setAccessRoleId(accessRoleId) : null
-        name ? setName(name) : null
+        const orgsParam = searchParams.get("orgUnits")
+        const accessRoleIdParam = searchParams.get("accessroleid")
+        const nameParam = searchParams.get("name")
+        orgsParam ? setOrgUnits(orgsParam) : setOrgUnits(undefined)
+        accessRoleIdParam ? setAccessRoleId(accessRoleIdParam) : setAccessRoleId(undefined)
+        nameParam ? setName(nameParam) : setName(undefined)
     }, [searchParams]);
-
 
     const removeFilter = (filterToRemove: string) => {
         setSearchParams(searchParams => {
@@ -35,7 +34,6 @@ const ChipsFilters = () => {
                 return
         }
     }
-
 
 
     return (

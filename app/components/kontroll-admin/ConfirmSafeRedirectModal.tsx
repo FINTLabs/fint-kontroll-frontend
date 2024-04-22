@@ -10,16 +10,12 @@ interface ConfirmSafeRedirectModalProps {
 
 export const ConfirmSafeRedirectModal = ({isModalVisible, setIsModalVisible, discardChanges}: ConfirmSafeRedirectModalProps) => {
     const ref = useRef<HTMLDialogElement>(null)
-    // const { tabToRouteTo, setCurrentTab, setIsTabModified, isModalVisible, setIsModalVisible } = useSafeTabChange()
 
     useEffect(() => {
-        // isModalVisible ? handleOpenModal() : handleSaveChanges()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         isModalVisible ? handleOpenModal() : null
     }, [isModalVisible])
 
     const handleSaveChanges = () => {
-        //document.getElementById("save-button").click()
         setIsModalVisible(false)
         ref.current?.close()
     }

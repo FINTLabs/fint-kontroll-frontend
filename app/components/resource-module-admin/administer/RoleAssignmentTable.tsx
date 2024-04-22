@@ -99,32 +99,35 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
                 </Table.Body>
             </Table>
 
-            <Form className={"pagination-wrapper"}>
-                <Select
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={params.get("size") ? Number(params.get("size")) : 10}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={userAssignmentsPaginated.currentPage + 1}
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={userAssignmentsPaginated.totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+
+            {userAssignmentsPaginated?.accessRoles.length > 0 &&
+                <Form className={"pagination-wrapper"}>
+                    <Select
+                        label="Rader per side"
+                        size="small"
+                        onChange={handleChangeRowsPerPage}
+                        defaultValue={params.get("size") ? Number(params.get("size")) : 10}
+                    >
+                        <option value={5}>5</option>
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                    </Select>
+                    <Pagination
+                        id="pagination"
+                        page={userAssignmentsPaginated.currentPage + 1}
+                        onPageChange={(e) => {
+                            setSearchParams(searchParams => {
+                                searchParams.set("page", (e - 1).toString());
+                                return searchParams;
+                            })
+                        }}
+                        count={userAssignmentsPaginated.totalPages}
+                        size="small"
+                        prevNextTexts
+                    />
+                </Form>
+            }
         </div>
     )
 }
