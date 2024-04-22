@@ -1,4 +1,4 @@
-import illustration from "../../public/illustrasjon.svg"
+import illustration from "/illustrasjon.svg"
 
 export default function Index() {
 
