@@ -14,7 +14,7 @@ export async function action({request}: ActionFunctionArgs) {
     return redirect(`/resources/${data.get("resourceRef")}/role-assignments?page=${searchParams.get("page")}`)
 }
 
-export default function DeleteUserAssignment() {
+export default function DeleteRoleAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
 
@@ -36,7 +36,7 @@ export default function DeleteUserAssignment() {
                     </BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form method={"POST"}>
+                    <Form method={"DELETE"}>
                         <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="resourceRef"/>
 

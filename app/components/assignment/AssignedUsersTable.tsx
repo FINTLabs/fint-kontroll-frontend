@@ -4,7 +4,12 @@ import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 
-export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, size: string, page: string }) => {
+export const AssignedUsersTable: any = (props: {
+    assignedUsers: IAssignedUsers,
+    size: string,
+    page: string,
+    basePath?: string
+}) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
@@ -43,7 +48,7 @@ export const AssignedUsersTable: any = (props: { assignedUsers: IAssignedUsers, 
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                    href={`${props.basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                 >
                                     Slett
                                 </Button>

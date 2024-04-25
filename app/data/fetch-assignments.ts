@@ -1,4 +1,5 @@
 import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
+import logger from "~/logging/logger";
 
 export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
     const response = await fetch
@@ -116,20 +117,27 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
     if (response.ok) {
         return response;
     }
-    throw new Error("Nokko gjekk gale!")
+    throw new Error("Noe gikk galt!")
 }
 
 export const deleteAssignment = async (token: string | null, assignmentRef: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`, {
+
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`
+    logger.debug("Delete assignment ", url);
+    const response = await fetch(url, {
         headers: {
             Authorization: token ?? ""
         },
         method: 'DELETE'
     });
-
+    logger.debug("Response from ", url, response.status);
 
     if (response.status === 410) {
         return response;
     }
-    throw new Error("Nokko gjekk gale!")
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    throw new Error("Noe gikk galt!")
 }

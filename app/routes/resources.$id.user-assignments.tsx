@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
-import  {IAssignedUsers} from "~/data/types";
+import {IAssignedUsers} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -10,6 +10,7 @@ import {Box, Heading} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import {BASE_PATH} from "../../environment";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -29,7 +30,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     ]);
     return json({
-        assignedUsers: await assignedUsers.json()
+        assignedUsers: await assignedUsers.json(),
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -40,6 +42,7 @@ export function useResourceByIdLoaderData() {
 export default function AssignedUsers() {
     const data = useLoaderData<{
         assignedUsers: IAssignedUsers,
+        basePath: string
     }>();
 
     return (
@@ -55,7 +58,7 @@ export default function AssignedUsers() {
                 </section>
             </section>
             <section className={"grid-main"}>
-                <AssignedUsersTable assignedUsers={data.assignedUsers}/>
+                <AssignedUsersTable assignedUsers={data.assignedUsers} basePath={data.basePath}/>
             </section>
         </>
     );

@@ -11,6 +11,7 @@ import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUser
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import {BASE_PATH} from "../../environment";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -44,7 +45,8 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         userList,
         orgUnitList,
         assignedUsersList,
-        isAssignedUsers
+        isAssignedUsers,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -55,6 +57,7 @@ export default function NewAssignment() {
         orgUnitList: IUnitItem[]
         assignedUsersList: IAssignedUsers,
         isAssignedUsers: IUser[],
+        basePath: string
     }>();
 
     const params = useParams<string>()
@@ -73,6 +76,7 @@ export default function NewAssignment() {
                              resourceId={params.id}
                              currentPage={data.userList.currentPage}
                              totalPages={data.userList.totalPages}
+                             basePath={data.basePath}
             />
         </div>
     );
