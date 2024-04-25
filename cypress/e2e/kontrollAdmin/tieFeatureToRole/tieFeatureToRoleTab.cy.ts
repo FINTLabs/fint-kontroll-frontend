@@ -1,6 +1,5 @@
 import { wait } from "@testing-library/user-event/dist/utils"
 
-
 describe("Check 'Knytt features til roller'", () => {
 	it("can render home page", () => {
 		cy.goToHome()

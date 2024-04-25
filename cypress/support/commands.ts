@@ -36,7 +36,6 @@
 //   }
 // }
 import { Method } from "cypress/types/net-stubbing"
-import process from "node:process";
 
 declare global {
     namespace Cypress {
@@ -44,6 +43,7 @@ declare global {
             goToHome: typeof goToHome
             interceptAndReturnFile: typeof interceptAndReturnFile
             setupFetchMocks: typeof setupFetchMocks
+            beforeEachStartHome: typeof beforeEachStartHome
         }
     }
 }
@@ -59,6 +59,12 @@ export function goToHome() {
     return cy.visit("http://localhost:3000/beta/fintlabs-no")
 }
 Cypress.Commands.add("goToHome", goToHome)
+
+export const beforeEachStartHome = () => {
+    goToHome()
+    cy.wait(1000)
+}
+Cypress.Commands.add("beforeEachStartHome", beforeEachStartHome)
 
 export const setupFetchMocks = () => {
     beforeEach(() => {
