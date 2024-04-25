@@ -1,5 +1,4 @@
 import { wait } from "@testing-library/user-event/dist/utils"
-import { setupFetchMocks } from "../../../support/commands"
 
 describe("Test suite for 'Definer rolle'", () => {
 	it("can render home page", () => {
