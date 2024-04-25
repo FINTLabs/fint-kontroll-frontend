@@ -1,7 +1,7 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignRoleTable: any = (props: {
@@ -10,7 +10,8 @@ export const AssignRoleTable: any = (props: {
     page: string,
     resourceId: string,
     totalPages: number,
-    currentPage: number
+    currentPage: number,
+    basePath?: string
 }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
@@ -26,7 +27,7 @@ export const AssignRoleTable: any = (props: {
     return (
         <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
-            {/*<Outlet/>*/}
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -54,7 +55,7 @@ export const AssignRoleTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                         underline={false}
                                     >
                                         Tildel

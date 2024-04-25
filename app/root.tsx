@@ -3,7 +3,6 @@ import navStyles from "@navikt/ds-css/dist/index.css?url";
 import "react-toastify/dist/ReactToastify.css"
 import {Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useRouteError,} from "@remix-run/react";
 import styles from "~/styles/main.css?url";
-import type {IMeInfo} from "~/data/types";
 import {fetchMeInfo} from "~/data/fetch-me-info";
 import meStyles from "~/components/app-bar/appBar.css?url";
 import type {LoaderFunctionArgs} from "@remix-run/router";
@@ -11,7 +10,6 @@ import {ToastContainer} from "react-toastify";
 import {BodyShort, Box, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
 import {BASE_PATH} from "../environment";
-
 
 export const meta: MetaFunction = () => {
     return [
@@ -115,7 +113,7 @@ export function ErrorBoundary() {
     const me = null
 
     return (
-        <html>
+        <html lang={"no"}>
         <head>
             <title>Feil oppstod</title>
             <Meta/>

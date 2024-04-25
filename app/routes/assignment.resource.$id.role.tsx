@@ -10,6 +10,7 @@ import {fetchRoles} from "~/data/fetch-roles";
 import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
+import {BASE_PATH} from "../../environment";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -42,7 +43,8 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         roleList,
         orgUnitList,
         assignedRolesList,
-        isAssignedRoles
+        isAssignedRoles,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -53,6 +55,7 @@ export default function NewAssignmentForRole() {
         orgUnitList: IUnitItem[]
         assignedRolesList: IAssignedRoles,
         isAssignedRoles: IRole[],
+        basePath: string
     }>();
 
     const params = useParams<string>()
@@ -71,6 +74,7 @@ export default function NewAssignmentForRole() {
                              rolesId={params.id}
                              currentPage={data.roleList.currentPage}
                              totalPages={data.roleList.totalPages}
+                             basePath={data.basePath}
             />
         </div>
     );

@@ -1,14 +1,15 @@
-import React from 'react';
+//import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
-import  {IAssignedRoles} from "~/data/types";
+import {IAssignedRoles} from "~/data/types";
 import {json} from "@remix-run/node";
-import  {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {AssignedRolesTable} from "~/components/assignment/AssignedRolesTable";
 import {AssignedRolesSearch} from "~/components/assignment/AssignedRolesSearch";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {Box, Heading} from "@navikt/ds-react";
+import {BASE_PATH} from "../../environment";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -26,7 +27,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     ]);
     return json({
-        assignedRoles: await assignedRoles.json()
+        assignedRoles: await assignedRoles.json(),
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -37,6 +39,7 @@ export function useResourceByIdLoaderData() {
 export default function AssignedRoles() {
     const data = useLoaderData<{
         assignedRoles: IAssignedRoles,
+        basePath: string
     }>();
 
     return (
@@ -51,7 +54,7 @@ export default function AssignedRoles() {
                 </section>
             </section>
             <section>
-                <AssignedRolesTable assignedRoles={data.assignedRoles}/>
+                <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
             </section>
         </>
     );
