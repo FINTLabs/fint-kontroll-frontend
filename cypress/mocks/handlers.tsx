@@ -4,8 +4,6 @@ export const handlers = [
     // Intercept "GET http://localhost:8062/beta/fintlabs-no/api/users/me" requests...
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
         // ...and respond to them using this JSON response.
-        console.log("CAught endpoint")
-
         return HttpResponse.json({
                 "firstName": "Mock",
                 "lastName": "Name",
