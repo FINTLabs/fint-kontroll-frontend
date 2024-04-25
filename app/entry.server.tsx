@@ -10,10 +10,13 @@ import type {AppLoadContext, EntryContext} from "@remix-run/node";
 import {createReadableStreamFromReadable} from "@remix-run/node";
 import {RemixServer} from "@remix-run/react";
 import {renderToPipeableStream} from "react-dom/server";
+import { server } from "../cypress/mocks/node";
 import {isbot} from "isbot";
 
 const ABORT_DELAY = 5_000;
-
+if(process.env.CYPRESS_TESTS === "true") {
+    server.listen();
+}
 
 export default function handleRequest(
     request: Request,
