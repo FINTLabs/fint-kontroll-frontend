@@ -45,44 +45,78 @@ export const handlers = [
         )
     }),
 
-    http.get('http://localhost:53989/beta/fintlabs-no/api/orgunits', () => {
+    http.get('http://localhost:8060/beta/fintlabs-no/api/orgunits', () => {
+        // ...and respond to them using this JSON response.
+        return HttpResponse.json(
+            {
+                "totalItems": 3,
+                "orgUnits": [
+                    {
+                        "id": 1,
+                        "name": "org1",
+                        "organisationUnitId": "1",
+                        "parentRef": "1",
+                        "parentName": null,
+                        "childrenRef": [
+                            "2"
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "name": "org2",
+                        "organisationUnitId": "2",
+                        "parentRef": "1",
+                        "parentName": null,
+                        "childrenRef": [
+                            ""
+                        ]
+                    },
+                    {
+                        "id": 3,
+                        "name": "org3",
+                        "organisationUnitId": "3",
+                        "parentRef": "",
+                        "parentName": null,
+                        "childrenRef": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+
+        )
+    }),
+
+    // THIS DOES NOT YET WORK
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources*', () => {
         // ...and respond to them using this JSON response.
         return HttpResponse.json(
             [
                 {
                     "currentPage": 0,
-                    "totalItems": 2,
+                    "totalItems": 3,
                     "totalPages": 1,
-                    "orgUnits": [
+                    "resources": [
                         {
-                            "id": "1",
-                            "name": "org1",
-                            "organisationUnitId": "1",
-                            "parentRef": "0",
-                            "parentName": null,
-                            "childrenRef": [
-                                "2"
-                            ]
+                            "id": 1,
+                            "resourceId": "ff75076c4ce53f5ca51b1cbb",
+                            "resourceName": "Ressurs 1",
+                            "resourceType": "ApplicationResource",
+                            "resourceLimit": 10000
                         },
                         {
-                            "id": "2",
-                            "name": "org2",
-                            "organisationUnitId": "2",
-                            "parentRef": "1",
-                            "parentName": "org1",
-                            "childrenRef": [
-                                ""
-                            ]
+                            "id": 2,
+                            "resourceId": "f887f35a0fab01f3e3e2c5c2",
+                            "resourceName": "Ressurs 2",
+                            "resourceType": "ApplicationResource",
+                            "resourceLimit": 25
                         },
                         {
-                            "id": "3",
-                            "name": "org3",
-                            "organisationUnitId": "3",
-                            "parentRef": "",
-                            "parentName": null,
-                            "childrenRef": [
-                                ""
-                            ]
+                            "id": 3,
+                            "resourceId": "ff75076c4ce53f5ca518989",
+                            "resourceName": "Ressurs 3",
+                            "resourceType": "ApplicationResource",
+                            "resourceLimit": 50
                         }
                     ]
                 }

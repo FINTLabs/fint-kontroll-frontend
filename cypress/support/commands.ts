@@ -62,10 +62,9 @@ Cypress.Commands.add("goToHome", goToHome)
 
 export const setupFetchMocks = () => {
     beforeEach(() => {
-
-
         const baseUrl = "http://localhost:3000/beta/fintlabs-no/api"
-            cy.interceptAndReturnFile("GET", `http://localhost:8062/beta/fintlabs-no/api/users/me`, "authenticatedUser.json")
+
+        cy.interceptAndReturnFile("GET", `http://localhost:8062/beta/fintlabs-no/api/users/me`, "authenticatedUser.json")
         cy.interceptAndReturnFile("GET", `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user*`, "users.json")
         cy.interceptAndReturnFile("GET", `http://localhost:53989/beta/fintlabs-no/api/orgunits`, "orgunits.json")
         cy.interceptAndReturnFile("GET", `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole`, "allAccessRoles.json")

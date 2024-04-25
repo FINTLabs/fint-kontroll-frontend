@@ -47,7 +47,6 @@ export default function ResourceModuleAdminIndex() {
     const roles = data.roles as IResourceModuleAccessRole[]
     const orgUnitList = data.orgUnitPage.orgUnits as IUnitItem[]
 
-
     return (
         <section className={"content"}>
             <Heading level={"1"} size={"xlarge"}>Ressursmoduladministrasjon</Heading>
