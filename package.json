@@ -26,7 +26,7 @@
     "cypress": "^13.7.3",
     "express": "^4.19.2",
     "express-prometheus-middleware": "^1.2.0",
-    "isbot": "^4.4.0",
+    "isbot": "^5.1.5",
     "log4js": "^6.9.1",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
