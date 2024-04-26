@@ -1,7 +1,8 @@
 import { http, HttpResponse } from 'msw'
+import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
 
 export const handlers = [
-    // Intercept "GET http://localhost:8062/beta/fintlabs-no/api/users/me" requests...
+    // Handlers for KontrollAdmin and RessursModulAdministrasjon
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
         // ...and respond to them using this JSON response.
         return HttpResponse.json({
@@ -204,4 +205,81 @@ export const handlers = [
 
         )
     }),
+    // --------------------------------------------------------------------------------------------------------------------------------
+
+    // Handlers for Brukere
+    http.get('http://localhost:8062/beta/fintlabs-no/api/users/:id', () => {
+        // ...and respond to them using this JSON response.
+        return HttpResponse.json(
+            {
+                "id": 442,
+                "fullName": "Karen Berg",
+                "userName": null,
+                "organisationUnitName": "VGMIDT Midtbyen videregående skole",
+                "mobilePhone": "",
+                "email": null
+            }
+        )
+    }),
+
+    http.get('http://localhost:8062/beta/fintlabs-no/api/users*', () => {
+        // ...and respond to them using this JSON response.
+        return HttpResponse.json(
+        {
+                "totalItems": 55,
+                "size": 5,
+                "totalPages": 11,
+                "currentPage": 0,
+                "users": [
+                    {
+                        "id": 442,
+                        "fullName": "Karen Berg",
+                        "organisationUnitName": "VGMIDT Midtbyen videregående skole",
+                        "organisationUnitId": "194",
+                        "userType": "STUDENT"
+                    },
+                    {
+                        "id": 443,
+                        "fullName": "Karen Bergen",
+                        "organisationUnitName": "VGMIDT Midtbyen videregående skole",
+                        "organisationUnitId": "194",
+                        "userType": "EMPLOYEE"
+                    },
+                    {
+                        "id": 105,
+                        "fullName": "Marie Henriksen",
+                        "organisationUnitName": "VGMIDT Realfag",
+                        "organisationUnitId": "204",
+                        "userType": "EMPLOYEE"
+                    },
+                    {
+                        "id": 109,
+                        "fullName": "Hans Berg",
+                        "organisationUnitName": "VGMIDT Realfag",
+                        "organisationUnitId": "204",
+                        "userType": "EMPLOYEE"
+                    },
+                    {
+                        "id": 113,
+                        "fullName": "Ingar Johansen",
+                        "organisationUnitName": "VGMIDT Realfag",
+                        "organisationUnitId": "204",
+                        "userType": "EMPLOYEE"
+                    }
+                ]
+            }
+        )
+    }),
+
+
+
+
+
+    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, () => {
+        // ...and respond to them using this JSON response.
+        return HttpResponse.json(
+        )
+    }),
+
+    // --------------------------------------------------------------------------------------------------------------------------------
 ]

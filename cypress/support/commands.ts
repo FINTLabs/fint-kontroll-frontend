@@ -43,10 +43,12 @@ declare global {
             goToHome: typeof goToHome
             interceptAndReturnFile: typeof interceptAndReturnFile
             setupFetchMocks: typeof setupFetchMocks
-            beforeEachStartHome: typeof beforeEachStartHome
+            goToInfo: typeof goToInfo
         }
     }
 }
+
+
 
 export function interceptAndReturnFile(method: Method, url: string, fixturePath: string) {
     cy.intercept(method, url, {
@@ -60,11 +62,14 @@ export function goToHome() {
 }
 Cypress.Commands.add("goToHome", goToHome)
 
-export const beforeEachStartHome = () => {
-    goToHome()
-    cy.wait(1000)
+export function goToInfo() {
+    return cy.visit('http://localhost:3001/brukere/info/442');
 }
-Cypress.Commands.add("beforeEachStartHome", beforeEachStartHome)
+Cypress.Commands.add('goToInfo', goToInfo)
+
+
+
+
 
 export const setupFetchMocks = () => {
     beforeEach(() => {
