@@ -41,9 +41,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                                     Meny
                                 </Button>
                                 :
-                                <Button variant={"tertiary-neutral"}>
-                                    Logg inn
-                                </Button>
+                                <BodyShort>Noe er galt!</BodyShort>
                             }
                             <Hide below="md" asChild>
                                 <MeInfo me={props.me}/>

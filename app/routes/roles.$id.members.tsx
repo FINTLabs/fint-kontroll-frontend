@@ -1,6 +1,6 @@
 import React from 'react';
-import {Heading, Tabs} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import  {IMemberPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
@@ -32,5 +32,27 @@ export default function Members() {
                 </Tabs.Panel>
             </Tabs>
         </section>
+    );
+}
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

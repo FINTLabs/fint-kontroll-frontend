@@ -1,5 +1,5 @@
 import React from 'react';
-import {Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
@@ -79,20 +79,23 @@ export default function NewAssignmentForRole() {
         </div>
     );
 }
-
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
+    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
-            <title>Oh no!</title>
+            <title>Feil oppstod</title>
             <Meta/>
             <Links/>
         </head>
         <body>
-        Gruppe Problem!
-        <div>{error.message}</div>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
         <Scripts/>
         </body>
         </html>

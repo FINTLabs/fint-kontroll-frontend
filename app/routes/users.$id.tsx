@@ -1,8 +1,8 @@
 import React from 'react';
 import UserInfo from "../components/user/UserInfo";
 import styles from "../components/user/user.css?url"
-import {Heading} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
@@ -43,5 +43,27 @@ export default function Users() {
             </section>
             <AssignmentsForUserTable assignmentsForUser={data.assignments}/>
         </section>
+    );
+}
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }
