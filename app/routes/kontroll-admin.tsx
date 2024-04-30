@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Heading, Tabs} from "@navikt/ds-react";
-import {Outlet, useLocation, useNavigate} from "@remix-run/react";
+import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
+import {Links, Meta, Outlet, Scripts, useLocation, useNavigate, useRouteError} from "@remix-run/react";
 import {PersonCheckmarkIcon} from "@navikt/aksel-icons";
 
 export default function KontrollAdmin() {
@@ -54,5 +54,28 @@ export default function KontrollAdmin() {
                 <Outlet context={{isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate}}/>
             </Tabs>
         </section>
+    );
+}
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

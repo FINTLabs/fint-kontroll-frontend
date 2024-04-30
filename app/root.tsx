@@ -7,9 +7,10 @@ import {fetchMeInfo} from "~/data/fetch-me-info";
 import meStyles from "~/components/app-bar/appBar.css?url";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {ToastContainer} from "react-toastify";
-import {BodyShort, Box, Page} from "@navikt/ds-react";
+import {Alert, BodyShort, Box, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
 import {BASE_PATH} from "../environment";
+import React from "react";
 
 export const meta: MetaFunction = () => {
     return [
@@ -121,7 +122,12 @@ export function ErrorBoundary() {
         </head>
         <body>
         <Layout me={me}>
-            <div>{error.message}</div>
+            <Box paddingBlock="8">
+                <Alert variant="error">
+                    Det oppsto en feil med følgende melding:
+                    <div>{error.message}</div>
+                </Alert>
+            </Box>
             <Scripts/>
         </Layout>
         </body>

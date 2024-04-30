@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Box, Heading} from "@navikt/ds-react";
-import {useLoaderData, useRouteLoaderData} from "@remix-run/react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
 import  {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import  {LoaderFunctionArgs} from "@remix-run/router";
@@ -44,5 +44,27 @@ export default function ResourceById() {
                 <ResourceDetailTable resource={data.resource}/>
             </section>
         </Box>
+    );
+}
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

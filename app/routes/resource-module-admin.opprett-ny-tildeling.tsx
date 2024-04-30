@@ -1,5 +1,14 @@
-import {Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
-import {Form, useActionData, useLoaderData, useNavigate, useSearchParams} from "@remix-run/react";
+import {Alert, Box, Button, ExpansionCard, Heading, Switch} from "@navikt/ds-react";
+import {
+    Form,
+    Links,
+    Meta, Scripts,
+    useActionData,
+    useLoaderData,
+    useNavigate,
+    useRouteError,
+    useSearchParams
+} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import React, {useEffect, useState} from "react";
 import TildelingToolbar from "../components/resource-module-admin/opprettTildeling/TildelingToolbar";
@@ -248,5 +257,28 @@ export default function ResourceModuleAdminTabTildel() {
                 </Form>
             </div>
         </section>
+    );
+}
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

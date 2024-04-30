@@ -1,4 +1,4 @@
-import {Radio, RadioGroup, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Radio, RadioGroup, Tabs} from "@navikt/ds-react";
 import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, useRouteError} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -60,8 +60,7 @@ export default () => {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
-
+    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
@@ -70,8 +69,13 @@ export function ErrorBoundary() {
             <Links/>
         </head>
         <body>
-            <div>{error.message}</div>
-            <Scripts/>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
         </body>
         </html>
     );

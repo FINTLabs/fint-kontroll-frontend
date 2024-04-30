@@ -1,5 +1,5 @@
 import React from 'react';
-import {Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
@@ -84,17 +84,21 @@ export default function NewAssignment() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    //console.error(error);
+    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
-            <title>Oh no!</title>
+            <title>Feil oppstod</title>
             <Meta/>
             <Links/>
         </head>
         <body>
-        Uups! Problemer med å hente brukere
-        <div>{error.message}</div>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
         <Scripts/>
         </body>
         </html>
