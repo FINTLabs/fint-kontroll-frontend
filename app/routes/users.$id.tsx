@@ -25,12 +25,17 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     ]);
     return json({
         user: await user.json(),
-        assignments: await assignments.json()
+        assignments: await assignments.json(),
+        size,
+        page
     })
 }
 
 export default function Users() {
-    const data = useLoaderData<{ user: IUser, assignments: IAssignmentPage }>();
+    const data = useLoaderData<typeof loader>()
+    const assignmentsForUser = data.assignments
+    const size = data.size
+    const page = data.page
 
     return (
         <section className={"content"}>
@@ -38,10 +43,11 @@ export default function Users() {
                 <Heading className={"heading"} level="1" size="xlarge">Brukerinformasjon</Heading>
             </div>
             <UserInfo user={data.user}/>
+
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
-                <Heading className={"heading"} level="1" size="large">Brukeren er tildelt følgende ressurser:</Heading>
+                <Heading className={"heading"} level="2" size="large">Brukeren er tildelt følgende ressurser:</Heading>
             </section>
-            <AssignmentsForUserTable assignmentsForUser={data.assignments}/>
+            <AssignmentsForUserTable assignmentsForUser={data.assignments} size={data.size} page={data.page}/>
         </section>
     );
 }

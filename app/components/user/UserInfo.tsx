@@ -19,7 +19,7 @@ export const UserInfo: any = (props: { user: IUser }) => {
                     <List as="ul">
                         <li>
                             <Heading size="small" level="3">Navn</Heading>
-                            <BodyShort textColor="subtle">{props.user.fullName}</BodyShort>
+                            <BodyShort textColor="subtle" id="user-full-name">{props.user.fullName}</BodyShort>
                         </li>
                         <li>
                             <Heading size="small" level="3">Brukernavn</Heading>
@@ -27,7 +27,7 @@ export const UserInfo: any = (props: { user: IUser }) => {
                         </li>
                         <li>
                             <Heading size="small" level="3">Organisasjonsenhet</Heading>
-                            <BodyShort textColor="subtle">{props.user.organisationUnitName}</BodyShort>
+                            <BodyShort textColor="subtle" id={"org-unit"}>{props.user.organisationUnitName}</BodyShort>
                         </li>
                         <li>
                             <Heading size="small" level="3">E-post</Heading>

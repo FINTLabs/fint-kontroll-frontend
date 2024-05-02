@@ -1,10 +1,8 @@
 import { http, HttpResponse } from 'msw'
-import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
 
 export const handlers = [
     // Handlers for KontrollAdmin and RessursModulAdministrasjon
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json({
                 "firstName": "Mock",
                 "lastName": "Name",
@@ -15,7 +13,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user*', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             {
                 "totalItems": 3,
@@ -45,7 +42,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:8060/beta/fintlabs-no/api/orgunits', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             {
                 "totalItems": 3,
@@ -88,7 +84,6 @@ export const handlers = [
 
     // THIS DOES NOT YET WORK
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources*', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             [
                 {
@@ -125,7 +120,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             [
                 {
@@ -141,7 +135,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accesspermission/accessrole/*', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             {
                 "accessRoleId": "sb",
@@ -178,7 +171,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/feature', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
             [
                 {
@@ -215,7 +207,6 @@ export const handlers = [
 
     // Handlers for Brukere
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/:id', () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json(
         {
                 "id": 442,
@@ -443,36 +434,159 @@ export const handlers = [
 
 
 
-    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, () => {
-        // ...and respond to them using this JSON response.
-        return HttpResponse.json(
-        {
-                "size": 10,
-                "resources": [
-                    {
-                        "id": 4,
-                        "resourceId": "f887f35a0fab01f3e3e2c5c2",
-                        "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
-                        "resourceType": "ApplicationResource",
-                        "assignmentRef": 354,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null
-                    },
-                    {
-                        "id": 5,
-                        "resourceId": "ff75076c4ce53f5ca51b1cbb",
-                        "resourceName": "Creative Cloud All Apps for K-12 - User License",
-                        "resourceType": "ApplicationResource",
-                        "assignmentRef": 356,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null
-                    }
-                ],
-                "totalItems": 2,
-                "currentPage": 0,
-                "totalPages": 1
-            }
-        )
+    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, ({request}) => {
+        const size = new URL(request.url).searchParams.get('size') ?? "10";
+
+        const page = new URL(request.url).searchParams.get('page') ?? "0";
+
+        if(size === "10" && page === "0") {
+            return HttpResponse.json(
+                {
+                    "size": 10,
+                    "totalItems": 6,
+                    "currentPage": 0,
+                    "totalPages": 1,
+                    "resources": [
+                        {
+                            "id": 1,
+                            "resourceId": "f887f35a0fab01f3e3e2c5c2",
+                            "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 2,
+                            "resourceId": "ff75076c4ce53f5ca51b1cbb",
+                            "resourceName": "Creative Cloud All Apps for K-12 - User License",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 356,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 3,
+                            "resourceId": "abc",
+                            "resourceName": "Ressurs3",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 4,
+                            "resourceId": "def",
+                            "resourceName": "Ressurs4",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 5,
+                            "resourceId": "asd",
+                            "resourceName": "Ressurs5",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 6,
+                            "resourceId": "d1221",
+                            "resourceName": "Ressurs6",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                    ]
+                }
+            )
+        }
+
+        else if (size === "5" && page === "1") {
+            return HttpResponse.json(
+            {
+                    "size": 5,
+                    "totalItems": 6,
+                    "currentPage": 1,
+                    "totalPages": 2,
+                    "resources": [
+                        {
+                            "id": 6,
+                            "resourceId": "d1221",
+                            "resourceName": "Ressurs6",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        }
+                    ]
+                }
+            )
+        }
+
+        else {
+            return HttpResponse.json(
+                {
+                    "size": 5,
+                    "totalItems": 6,
+                    "currentPage": 0,
+                    "totalPages": 2,
+                    "resources": [
+                        {
+                            "id": 1,
+                            "resourceId": "f887f35a0fab01f3e3e2c5c2",
+                            "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 2,
+                            "resourceId": "ff75076c4ce53f5ca51b1cbb",
+                            "resourceName": "Creative Cloud All Apps for K-12 - User License",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 356,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 3,
+                            "resourceId": "abc",
+                            "resourceName": "Ressurs3",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 4,
+                            "resourceId": "def",
+                            "resourceName": "Ressurs4",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                        {
+                            "id": 5,
+                            "resourceId": "asd",
+                            "resourceName": "Ressurs5",
+                            "resourceType": "ApplicationResource",
+                            "assignmentRef": 354,
+                            "assignerUsername": "linda.loftsgarden@novari.no",
+                            "assignerDisplayname": null
+                        },
+                    ]
+                }
+            )
+        }
+
+
     }),
 
     // --------------------------------------------------------------------------------------------------------------------------------

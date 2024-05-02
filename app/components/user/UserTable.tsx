@@ -66,7 +66,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
 
             <Form className={"paginationWrapper"}>
                 <Select
-                    id={"selectNumberOfRows"}
+                    id={"select-number-of-rows"}
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"
