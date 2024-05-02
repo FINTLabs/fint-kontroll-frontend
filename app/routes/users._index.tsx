@@ -1,7 +1,7 @@
 import React from 'react';
 import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
-import {Box, Chips, Heading} from "@navikt/ds-react";
+import {Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {useLoaderData, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";

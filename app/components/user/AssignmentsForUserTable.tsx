@@ -6,9 +6,8 @@ import React from "react";
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage
     size: string
-    page: string
 }
-export const AssignmentsForUserTable = ({assignmentsForUser, size, page}: AssignmentsForUserTableProps) => {
+export const AssignmentsForUserTable = ({assignmentsForUser, size}: AssignmentsForUserTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
 

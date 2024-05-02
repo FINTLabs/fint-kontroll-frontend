@@ -3,7 +3,6 @@ import UserInfo from "../components/user/UserInfo";
 import styles from "../components/user/user.css?url"
 import {Heading} from "@navikt/ds-react";
 import {useLoaderData} from "@remix-run/react";
-import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -35,7 +34,6 @@ export default function Users() {
     const data = useLoaderData<typeof loader>()
     const assignmentsForUser = data.assignments
     const size = data.size
-    const page = data.page
 
     return (
         <section className={"content"}>
@@ -47,7 +45,7 @@ export default function Users() {
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
                 <Heading className={"heading"} level="2" size="large">Brukeren er tildelt følgende ressurser:</Heading>
             </section>
-            <AssignmentsForUserTable assignmentsForUser={data.assignments} size={data.size} page={data.page}/>
+            <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} />
         </section>
     );
 }
