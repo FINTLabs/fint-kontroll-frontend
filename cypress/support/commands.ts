@@ -63,7 +63,7 @@ export function goToHome() {
 Cypress.Commands.add("goToHome", goToHome)
 
 export function goToInfo() {
-    return cy.visit('http://localhost:3001/brukere/info/442');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/users/442');
 }
 Cypress.Commands.add('goToInfo', goToInfo)
 
