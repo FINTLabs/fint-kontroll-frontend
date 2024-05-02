@@ -9,7 +9,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
-import ChipsFilters from "~/components/resource-module-admin/ChipsFilters";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
