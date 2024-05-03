@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw'
+import {BASE_PATH, ROLE_API_URL} from "../../environment";
 
 export const handlers = [
     // Handlers for KontrollAdmin and RessursModulAdministrasjon
@@ -588,6 +589,302 @@ export const handlers = [
 
 
     }),
+
+    // --------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+    // Handlers for roles/grupper -----------------------------------------------------------------------------------
+    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request}) => {
+        const size = new URL(request.url).searchParams.get('size') ?? "10"
+
+        const page = new URL(request.url).searchParams.get('page') ?? "0"
+        const search = new URL(request.url).searchParams.get('search') ?? ""
+        const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
+
+        if(search === "oko") {
+            return HttpResponse.json(
+                {
+                    "totalItems": 1,
+                    "size": 5,
+                    "totalPages": 1,
+                    "currentPage": 0,
+                    "roles": [
+                        {
+                            "id": 1,
+                            "roleName": "Ansatt - OKO System- og fellestjenester",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "35",
+                            "organisationUnitName": "OKO System- og fellestjenester"
+                        }
+                    ]
+                }
+            )
+        }
+
+        else if(orgUnits.length > 0) {
+            return HttpResponse.json(
+                {
+                    "totalItems": 1,
+                    "size": 5,
+                    "totalPages": 1,
+                    "currentPage": 0,
+                    "roles": [
+                        {
+                            "id": 2,
+                            "roleName": "Ansatt - DIGIT Lokasjonssupport sone Fylkeshus",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "1178",
+                            "organisationUnitName": "DIGIT Lokasjonssupport sone Fylkeshus"
+                        },
+                    ]
+                }
+            )
+        }
+
+        else if(size === "10" && page === "0") {
+            return HttpResponse.json(
+                {
+                    "totalItems": 11,
+                    "size": 10,
+                    "totalPages": 2,
+                    "currentPage": 0,
+                    "roles": [
+                        {
+                            "id": 1,
+                            "roleName": "Ansatt - OKO System- og fellestjenester",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "35",
+                            "organisationUnitName": "OKO System- og fellestjenester"
+                        },
+                        {
+                            "id": 2,
+                            "roleName": "Ansatt - DIGIT Lokasjonssupport sone Fylkeshus",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "1178",
+                            "organisationUnitName": "DIGIT Lokasjonssupport sone Fylkeshus"
+                        },
+                        {
+                            "id": 3,
+                            "roleName": "Ansatt - INFRA Avdeling for mobilitet og samfunn",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "85",
+                            "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
+                        },
+                        {
+                            "id": 4,
+                            "roleName": "Ansatt - DIGIT Lokasjonssupport",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "50",
+                            "organisationUnitName": "DIGIT Lokasjonssupport"
+                        },
+                        {
+                            "id": 5,
+                            "roleName": "Ansatt - VGMIDT Administrasjon",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        },
+                        {
+                            "id": 6,
+                            "roleName": "Elev - OKO System- og fellestjenester",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "35",
+                            "organisationUnitName": "OKO System- og fellestjenester"
+                        },
+                        {
+                            "id": 7,
+                            "roleName": "Elev - DIGIT Lokasjonssupport sone Fylkeshus",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "1178",
+                            "organisationUnitName": "DIGIT Lokasjonssupport sone Fylkeshus"
+                        },
+                        {
+                            "id": 8,
+                            "roleName": "Elev - INFRA Avdeling for mobilitet og samfunn",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "85",
+                            "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
+                        },
+                        {
+                            "id": 9,
+                            "roleName": "Elev - DIGIT Lokasjonssupport",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "50",
+                            "organisationUnitName": "DIGIT Lokasjonssupport"
+                        },
+                        {
+                            "id": 10,
+                            "roleName": "Elev - VGMIDT Administrasjon",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        }
+                    ]
+                }
+            )
+        }
+        else if (size === "5" && page === "1") {
+            return HttpResponse.json(
+                {
+                    "totalItems": 11,
+                    "size": 5,
+                    "totalPages": 3,
+                    "currentPage": 1,
+                    "roles": [
+                        {
+                            "id": 6,
+                            "roleName": "Elev - OKO System- og fellestjenester",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "35",
+                            "organisationUnitName": "OKO System- og fellestjenester"
+                        },
+                        {
+                            "id": 7,
+                            "roleName": "Elev - DIGIT Lokasjonssupport sone Fylkeshus",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "1178",
+                            "organisationUnitName": "DIGIT Lokasjonssupport sone Fylkeshus"
+                        },
+                        {
+                            "id": 8,
+                            "roleName": "Elev - INFRA Avdeling for mobilitet og samfunn",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "85",
+                            "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
+                        },
+                        {
+                            "id": 9,
+                            "roleName": "Elev - DIGIT Lokasjonssupport",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "50",
+                            "organisationUnitName": "DIGIT Lokasjonssupport"
+                        },
+                        {
+                            "id": 10,
+                            "roleName": "Elev - VGMIDT Administrasjon",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        },
+                    ]
+                }
+            )
+        }
+        else if(size === "5" && page === "2") {
+            return HttpResponse.json(
+                {
+                    "totalItems": 11,
+                    "size": 5,
+                    "totalPages": 3,
+                    "currentPage": 2,
+                    "roles": [{
+                        "id": 11,
+                        "roleName": "Elev - VGMIDT Administrasjon",
+                        "roleType": "elev",
+                        "roleSubType": "elev",
+                        "aggregatedRole": false,
+                        "organisationUnitId": "195",
+                        "organisationUnitName": "VGMIDT Administrasjon"
+                    }]
+                }
+            )
+        }
+        else {
+            return HttpResponse.json(
+                {
+                    "totalItems": 11,
+                    "size": 10,
+                    "totalPages": 3,
+                    "currentPage": 0,
+                    "roles": [
+                        {
+                            "id": 1,
+                            "roleName": "Ansatt - OKO System- og fellestjenester",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "35",
+                            "organisationUnitName": "OKO System- og fellestjenester"
+                        },
+                        {
+                            "id": 2,
+                            "roleName": "Ansatt - DIGIT Lokasjonssupport sone Fylkeshus",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "1178",
+                            "organisationUnitName": "DIGIT Lokasjonssupport sone Fylkeshus"
+                        },
+                        {
+                            "id": 3,
+                            "roleName": "Ansatt - INFRA Avdeling for mobilitet og samfunn",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "85",
+                            "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
+                        },
+                        {
+                            "id": 4,
+                            "roleName": "Ansatt - DIGIT Lokasjonssupport",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "50",
+                            "organisationUnitName": "DIGIT Lokasjonssupport"
+                        },
+                        {
+                            "id": 5,
+                            "roleName": "Ansatt - VGMIDT Administrasjon",
+                            "roleType": "ansatt",
+                            "roleSubType": "ansatt",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        }
+                    ]
+                }
+            )
+        }
+    })
 
     // --------------------------------------------------------------------------------------------------------------------------------
 ]

@@ -43,7 +43,8 @@ declare global {
             goToHome: typeof goToHome
             interceptAndReturnFile: typeof interceptAndReturnFile
             setupFetchMocks: typeof setupFetchMocks
-            goToInfo: typeof goToInfo
+            goToInfo: typeof goToUser
+            goToGrupper: typeof goToGrupper
         }
     }
 }
@@ -62,10 +63,15 @@ export function goToHome() {
 }
 Cypress.Commands.add("goToHome", goToHome)
 
-export function goToInfo() {
+export function goToUser() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/users/442');
 }
-Cypress.Commands.add('goToInfo', goToInfo)
+Cypress.Commands.add('goToInfo', goToUser)
+
+export function goToGrupper() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/roles');
+}
+Cypress.Commands.add('goToGrupper', goToGrupper)
 
 
 

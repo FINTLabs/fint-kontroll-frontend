@@ -18,6 +18,7 @@ export const RoleSearch = () => {
               }}>
             <Search
                 role="search"
+                id="search-role"
                 label="Søk etter gruppe"
                 variant="secondary"
                 onChange={event => setSearchString(event)}
