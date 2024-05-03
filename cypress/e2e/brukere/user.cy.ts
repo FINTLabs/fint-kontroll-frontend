@@ -1,5 +1,5 @@
 import {wait} from "@testing-library/user-event/dist/utils";
-import {goToInfo} from "../../support/commands";
+import {goToUser} from "../../support/commands";
 
 describe('Check the user detail page', () => {
 
@@ -48,7 +48,7 @@ describe('Check the user detail page', () => {
     });
 
     it('Pagination go to "Neste", and verify page variable is "1"', () => {
-        cy.contains("button", "Neste").click()
+        cy.get("button").contains("Neste").click()
         cy.wait(1000)
 
         cy.location('search').then((search) => {
@@ -61,7 +61,7 @@ describe('Check the user detail page', () => {
     })
 
     it('Pagination go to "previous page"', () => {
-        cy.contains("button", "Forrige").click()
+        cy.get("button").contains("Forrige").click()
         cy.wait(1000)
 
         cy.location('search').then((search) => {
