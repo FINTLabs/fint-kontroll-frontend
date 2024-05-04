@@ -55,7 +55,7 @@ export const AssignRoleTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? 0 : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel

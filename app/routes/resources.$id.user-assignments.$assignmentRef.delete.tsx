@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
-import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError} from "@remix-run/react";
+import {BodyShort, Button, Modal} from "@navikt/ds-react";
+import {Form, useNavigate, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
@@ -9,20 +9,21 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
+    const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
-    return redirect(`/resources/${data.get("resourceRef")}/user-assignments?page=${searchParams.get("page")}`)
+    return redirect(`/resources/${data.get("resourceRef")}/user-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
 }
 
 export default function DeleteUserAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
     return (
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(-1)}
+                onClose={() => navigate(`/resources/${params.id}/user-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
@@ -47,34 +48,12 @@ export default function DeleteUserAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate(`/resources/${params.id}/user-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                     >
                         Avbryt
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
-    );
-}
-export function ErrorBoundary() {
-    const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }
