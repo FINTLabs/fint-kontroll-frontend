@@ -49,7 +49,7 @@ export const AssignedRolesTable: any = (props: {
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${props.basePath}/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                    href={`${props.basePath}/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? 0 : searchParams.get("search")}`}
                                 >
                                     Slett
                                 </Button>

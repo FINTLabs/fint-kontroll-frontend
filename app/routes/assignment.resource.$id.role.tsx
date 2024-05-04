@@ -11,6 +11,7 @@ import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRole
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -40,6 +41,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
         roleList,
         orgUnitList,
         assignedRolesList,
@@ -55,9 +57,9 @@ export default function NewAssignmentForRole() {
         orgUnitList: IUnitItem[]
         assignedRolesList: IAssignedRoles,
         isAssignedRoles: IRole[],
-        basePath: string
+        basePath: string,
+        responseCode: string | undefined
     }>();
-
     const params = useParams<string>()
 
     return (
@@ -69,6 +71,9 @@ export default function NewAssignmentForRole() {
                     <NewAssignmentRoleSearch/>
                 </section>
             </section>
+            <Box paddingBlock='8 0'>
+                <ResponseAlert responseCode={data.responseCode}/>
+            </Box>
             <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
                              resourceId={params.id}
                              rolesId={params.id}
@@ -79,9 +84,9 @@ export default function NewAssignmentForRole() {
         </div>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
@@ -100,4 +105,22 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "201") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen var vellykket!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }

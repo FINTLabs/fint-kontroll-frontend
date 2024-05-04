@@ -93,11 +93,7 @@ export const createUserAssignment = async (token: string | null, resourceRef: nu
             organizationUnitId: organizationUnitId,
         })
     });
-
-    if (response.ok) {
         return response;
-    }
-    throw new Error("Nokko gjekk gale!")
 }
 
 export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
@@ -113,11 +109,7 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
             organizationUnitId: organizationUnitId,
         })
     });
-
-    if (response.ok) {
-        return response;
-    }
-    throw new Error("Noe gikk galt!")
+    return response;
 }
 
 export const deleteAssignment = async (token: string | null, assignmentRef: string) => {
@@ -130,14 +122,16 @@ export const deleteAssignment = async (token: string | null, assignmentRef: stri
         },
         method: 'DELETE'
     });
-    logger.debug("Response from ", url, response.status);
+    logger.debug("Response from deleteAssignments", url, response.status);
 
-    if (response.status === 410) {
+    return response;
+
+    /*if (response.status === 410) {
         return response;
     }
 
     if (response.status === 403) {
         throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
     }
-    throw new Error("Noe gikk galt!")
+    throw new Error("Noe gikk galt!")*/
 }

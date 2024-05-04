@@ -11,6 +11,7 @@ import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
 import React from "react";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -29,7 +30,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     ]);
     return json({
         assignedRoles: await assignedRoles.json(),
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
     })
 }
 
@@ -40,7 +42,8 @@ export function useResourceByIdLoaderData() {
 export default function AssignedRoles() {
     const data = useLoaderData<{
         assignedRoles: IAssignedRoles,
-        basePath: string
+        basePath: string,
+        responseCode: string | undefined
     }>();
 
     return (
@@ -54,6 +57,9 @@ export default function AssignedRoles() {
                     <AssignedRolesSearch/>
                 </section>
             </section>
+            <Box paddingBlock='8 0'>
+                <ResponseAlert responseCode={data.responseCode}/>
+            </Box>
             <section>
                 <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
             </section>
@@ -82,4 +88,22 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "410") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen er slettet!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under sletting av tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }

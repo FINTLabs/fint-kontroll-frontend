@@ -12,6 +12,7 @@ import {fetchOrgUnits} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -42,6 +43,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
         userList,
         orgUnitList,
         assignedUsersList,
@@ -57,7 +59,8 @@ export default function NewAssignment() {
         orgUnitList: IUnitItem[]
         assignedUsersList: IAssignedUsers,
         isAssignedUsers: IUser[],
-        basePath: string
+        basePath: string,
+        responseCode: string | undefined
     }>();
 
     const params = useParams<string>()
@@ -72,6 +75,9 @@ export default function NewAssignment() {
                     <NewAssignmentUserSearch/>
                 </section>
             </section>
+            <Box paddingBlock='8 0'>
+                <ResponseAlert responseCode={data.responseCode}/>
+            </Box>
             <AssignUserTable isAssignedUsers={data.isAssignedUsers}
                              resourceId={params.id}
                              currentPage={data.userList.currentPage}
@@ -103,4 +109,22 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "201") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen var vellykket!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }
