@@ -1,7 +1,7 @@
 import React from 'react';
 import UserInfo from "../components/user/UserInfo";
 import styles from "../components/user/user.css?url"
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
@@ -9,6 +9,7 @@ import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
+import {BASE_PATH} from "../../environment";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -25,18 +26,22 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     ]);
     return json({
         user: await user.json(),
-        assignments: await assignments.json()
+        assignments: await assignments.json(),
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export default function Users() {
-    const data = useLoaderData<{ user: IUser, assignments: IAssignmentPage }>();
+    const data = useLoaderData<{ user: IUser, assignments: IAssignmentPage, basePath: string }>();
 
     return (
         <section className={"content"}>
-            <div className={"toolbar"}>
-                <Heading className={"heading"} level="1" size="xlarge">Brukerinformasjon</Heading>
-            </div>
+            <Box className={"filters"}>
+                <LinkPanel href={`${data.basePath}/assignment/user/${data.user.id}`} border>
+                    <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
+                </LinkPanel>
+            </Box>
+                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
             <UserInfo user={data.user}/>
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
                 <Heading className={"heading"} level="1" size="large">Brukeren er tildelt følgende ressurser:</Heading>
