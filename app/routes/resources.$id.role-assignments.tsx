@@ -48,7 +48,7 @@ export default function AssignedRoles() {
 
     return (
         <>
-            <Box paddingBlock="16 16">
+            <Box paddingBlock="16 8">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
             <section className={"toolbar"}>
