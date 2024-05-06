@@ -1,5 +1,4 @@
 import { http, HttpResponse } from 'msw'
-import {BASE_PATH, ROLE_API_URL} from "../../environment";
 
 export const handlers = [
     // Handlers for KontrollAdmin and RessursModulAdministrasjon

@@ -22,7 +22,7 @@ export const RoleSearch = () => {
                 label="Søk etter gruppe"
                 variant="secondary"
                 onChange={event => setSearchString(event)}
-                onClear={event => {
+                onClear={() => {
                     setSearchParams(searchParameter => {
                         searchParameter.delete("search")
                         return searchParameter

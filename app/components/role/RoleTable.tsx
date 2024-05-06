@@ -1,7 +1,7 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import type {IRolePage, IUserPage} from "~/data/types";
+import type {IRolePage} from "~/data/types";
 import React from "react";
 
 interface RoleTableProps {

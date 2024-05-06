@@ -38,7 +38,7 @@ export default function UsersIndex() {
         userList: IUserPage,
         orgUnitList: IUnitItem[]
     }>();
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams,] = useSearchParams()
     const size = searchParams.get("size") ?? "10"
 
     return (

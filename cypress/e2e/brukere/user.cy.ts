@@ -1,5 +1,4 @@
 import {wait} from "@testing-library/user-event/dist/utils";
-import {goToUser} from "../../support/commands";
 
 describe('Check the user detail page', () => {
 
