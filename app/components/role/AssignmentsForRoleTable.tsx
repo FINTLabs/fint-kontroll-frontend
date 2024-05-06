@@ -3,11 +3,16 @@ import type {IAssignmentPage} from "~/data/types";
 import {Form, useSearchParams} from "@remix-run/react";
 import React from "react";
 
-export const AssignmentsForRoleTable: any = (props: {
+
+interface AssignmentsForRoleTableProps {
     assignmentsForRole: IAssignmentPage,
-    size: string,
-    page: string
-}) => {
+    size: string
+}
+
+export const AssignmentsForRoleTable  = ({
+    assignmentsForRole,
+    size
+}: AssignmentsForRoleTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
 
@@ -30,7 +35,7 @@ export const AssignmentsForRoleTable: any = (props: {
                 </Table.Header>
                 <Table.Body>
 
-                    {props.assignmentsForRole.resources.map((resource) => (
+                    {assignmentsForRole.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
@@ -46,7 +51,7 @@ export const AssignmentsForRoleTable: any = (props: {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -55,14 +60,14 @@ export const AssignmentsForRoleTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.assignmentsForRole.currentPage + 1}
+                    page={assignmentsForRole.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.assignmentsForRole.totalPages}
+                    count={assignmentsForRole.totalPages}
                     size="small"
                     prevNextTexts
                 />
