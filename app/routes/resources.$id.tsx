@@ -35,23 +35,24 @@ export function useResourceByIdLoaderData() {
 }
 
 export default function ResourceById() {
-    const data = useLoaderData<{
-        resource: IResource,
-        //  assignedUsers: IAssignedUsers,
-        // assignedRoles: IAssignedRoles
-    }>();
+    const loaderData = useLoaderData<typeof loader>();
+    const resource: IResource = loaderData.resource
+    // assignedUsers: IAssignedUsers,
+    // assignedRoles: IAssignedRoles
 
     return (
         <section className={"content"}>
             <Box className={"filters"}>
-                <LinkPanel href={`/assignment/resource/${data.resource.id}/user`} border>
+                <LinkPanel href={`/assignment/resource/${resource.id}/user`} border>
                     <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                 </LinkPanel>
             </Box>
-            <Heading className={"heading"} level="1" size="xlarge"
-                     align={"center"}>{data.resource.resourceName}</Heading>
+            <Heading className={"heading"} level="1" size="xlarge" align={"center"}>
+                {resource.resourceName}
+            </Heading>
 
-            <ResourceInfo resource={data.resource}/>
+            <ResourceInfo resource={resource}/>
+
             <Outlet/>
         </section>
     );

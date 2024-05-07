@@ -1,4 +1,4 @@
-import {wait} from "@testing-library/user-event/dist/utils";
+import {wait} from "@testing-library/user-event/dist/utils"
 
 describe('Check the user detail page', () => {
 

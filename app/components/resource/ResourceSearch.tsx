@@ -7,15 +7,16 @@ export const ResourceSearch = () => {
     const [searchString, setSearchString] = useState("")
     const [, setSearchParams] = useSearchParams()
 
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        setSearchParams(searchParams => {
+            searchString ? searchParams.set("search", searchString) : searchParams.delete("search")
+            return searchParams
+        })
+        event.preventDefault() // Prevent refresh of page
+    }
+
     return (
-        <Form className={"searchField"}
-              onSubmit={event => {
-                  setSearchParams(searchParameter => {
-                      searchParameter.set("search", searchString)
-                      return searchParameter
-                  })
-                  event.preventDefault()
-              }}>
+        <Form className={"searchField"} onSubmit={(event) => handleSearch(event)}>
             <Search
                 role="search"
                 label="Søk etter ressurs"

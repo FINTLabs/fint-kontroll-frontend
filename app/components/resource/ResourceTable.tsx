@@ -4,7 +4,12 @@ import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import type {IResourcePage} from "~/data/types";
 import React from "react";
 
-export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: string, page: string }) => {
+interface ResourceTableProps {
+    resourcePage: IResourcePage
+    size: string
+}
+
+export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
@@ -28,7 +33,7 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.resourcePage.resources.map((resource) => (
+                    {resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
@@ -61,7 +66,7 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -70,14 +75,14 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.resourcePage.currentPage + 1}
+                    page={resourcePage.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.resourcePage.totalPages}
+                    count={resourcePage.totalPages}
                     size="small"
                     prevNextTexts
                 />
