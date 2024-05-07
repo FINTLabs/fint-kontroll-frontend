@@ -46,7 +46,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
                         <Heading size="small" level="3">Plattform:</Heading>
                         <BodyShort textColor="subtle">{
                             resource.platform.map((item, index) => (
-                                <span>
+                                <span key={index}>
                                     {item}
                                     {index < resource.platform.length - 1 ? ', ' : ''}
                                 </span>

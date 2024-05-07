@@ -11,6 +11,7 @@ export const SelectObjectType = () => {
         <div>
             <BodyShort weight="semibold" size="medium">Hvem ønsker du å se tildelinger for?</BodyShort>
             <HStack gap="12" className={"SelectObjectType"}>
+                {/* TODO: Refactor when this is to be used. NavLink inline-styling etc causes console warning */}
                 <NavLink to={`/resources/${params.id}/user-assignments`}
                          style={({isActive, isPending}) => {
                              return {
@@ -24,6 +25,8 @@ export const SelectObjectType = () => {
                         Brukere
                     </div>
                 </NavLink>
+
+                {/* TODO: Refactor when this is to be used. NavLink inline-styling etc causes console warning */}
                 <NavLink to={`/resources/${params.id}/role-assignments`}
                          className={"objectTypeLink"}
                          style={({isActive, isPending}) => {
