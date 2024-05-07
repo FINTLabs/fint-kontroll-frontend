@@ -48,7 +48,7 @@ export const AssignedUsersTable: any = (props: {
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${props.basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? 0 : searchParams.get("search")}`}
+                                    href={`${props.basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                 >
                                     Slett
                                 </Button>
