@@ -24,7 +24,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
 
     return (
         <>
-            <Table>
+            <Table id="resources-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
@@ -35,7 +35,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                 <Table.Body>
                     {resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
-                            <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
+                            <Table.DataCell scope="row">{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell align="center">
                                 <Button

@@ -10,6 +10,7 @@ import {Box, Heading} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -29,7 +30,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     ]);
     return json({
-        assignedUsers: await assignedUsers.json()
+        assignedUsers: await assignedUsers.json(),
+        size
     })
 }
 
@@ -38,24 +40,31 @@ export function useResourceByIdLoaderData() {
 }
 
 export default function AssignedUsers() {
-    const data = useLoaderData<{
-        assignedUsers: IAssignedUsers,
-    }>();
+    const loaderData = useLoaderData<typeof loader>();
+    const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers
+    const size = loaderData.size
 
     return (
         <>
             <Box paddingBlock="16 16">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
+
             <section className={"toolbar"}>
-                <SelectObjectType/>
+                <SelectObjectType />
                 <section className={"filters"}>
                     <UserTypeFilter/>
                     <AssignedUsersSearch/>
                 </section>
             </section>
+
+            <Box className={"filters"} paddingBlock={"1 8"}>
+                <ChipsFilters />
+            </Box>
+
             <section className={"grid-main"}>
-                <AssignedUsersTable assignedUsers={data.assignedUsers}/>
+
+                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} />
             </section>
         </>
     );

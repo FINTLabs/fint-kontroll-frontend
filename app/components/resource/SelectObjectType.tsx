@@ -19,6 +19,7 @@ export const SelectObjectType = () => {
                                  color: isPending ? "blue" : "black",
                              };
                          }}
+                         id="brukere-link"
                 >
                     <div className={"objectTypeLink"}>
                         <PersonIcon title="a11y-title" fontSize="1.5rem"/>
@@ -34,7 +35,9 @@ export const SelectObjectType = () => {
                                  fontWeight: isActive ? "bold" : "",
                                  color: isPending ? "blue" : "black",
                              };
-                         }}>
+                         }}
+                         id="grupper-link"
+                >
                     <div className={"objectTypeLink"}>
                         <PersonGroupIcon title="a11y-title" fontSize="1.5rem"/>
                         Grupper

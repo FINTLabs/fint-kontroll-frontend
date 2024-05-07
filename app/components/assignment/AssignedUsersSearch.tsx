@@ -16,6 +16,7 @@ export const AssignedUsersSearch = () => {
               }}>
             <Search
                 role="search"
+                id="user-search"
                 label="Søk etter bruker"
                 hideLabel={false}
                 variant="secondary"

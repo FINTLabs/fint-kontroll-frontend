@@ -45,6 +45,7 @@ declare global {
             setupFetchMocks: typeof setupFetchMocks
             goToInfo: typeof goToUser
             goToGrupper: typeof goToGrupper
+            goToRessurser: typeof goToRessurser
         }
     }
 }
@@ -72,6 +73,11 @@ export function goToGrupper() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/roles');
 }
 Cypress.Commands.add('goToGrupper', goToGrupper)
+
+export function goToRessurser() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resources')
+}
+Cypress.Commands.add('goToRessurser', goToRessurser)
 
 
 

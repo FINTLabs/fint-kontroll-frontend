@@ -32,8 +32,6 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
 
-    console.log(resourceList.resources)
-
     return json({
         resourceList,
         size,

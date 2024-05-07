@@ -18,6 +18,7 @@ export const ResourceSearch = () => {
     return (
         <Form className={"searchField"} onSubmit={(event) => handleSearch(event)}>
             <Search
+                id="search-resource"
                 role="search"
                 label="Søk etter ressurs"
                 variant="secondary"
