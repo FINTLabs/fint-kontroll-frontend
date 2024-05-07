@@ -133,6 +133,14 @@ export interface IAssignedUsers {
     users: IUser[];
 }
 
+export interface IAssignedResources {
+    totalItems: number;
+    totalPages: number | any;
+    currentPage: number;
+    size: string;
+    resources: IResource[];
+}
+
 export interface IAssignedRoles {
     totalItems: number;
     totalPages: number | any;
@@ -165,6 +173,7 @@ export interface IResource {
     validForRoles: string;
     "assignerUsername": string;
     "assignerDisplayname": string;
+    assigned: boolean;
 }
 
 export interface IResourcePage {

@@ -1,5 +1,4 @@
 import React from 'react';
-import UserInfo from "../components/user/UserInfo";
 import styles from "../components/user/user.css?url"
 import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
@@ -10,6 +9,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
 import {BASE_PATH} from "../../environment";
+import {UserInfo} from "~/components/user/UserInfo";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

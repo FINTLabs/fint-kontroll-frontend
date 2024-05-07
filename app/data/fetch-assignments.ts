@@ -22,6 +22,26 @@ export const fetchAssignedUsers = async (token: string | null, id: string | unde
 
 }
 
+export const fetchAssignedResourcesUser = async (token: string | null, id: string | undefined, size: string, page: string) => {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/user/${id}/resources?size=${size}&page=${page}`,
+        {
+            headers: {Authorization: token ?? ""}
+        });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen?")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt!")
+    }
+    throw new Error("Det virker ikke som om du er pålogget?")
+
+}
+
 
 export const fetchAssignmentsForUser = async (token: string | null, id: string | undefined, size: string, page: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/user/${id}/resources?size=${size}&page=${page}`, {
