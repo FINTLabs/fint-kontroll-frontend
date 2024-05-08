@@ -22,7 +22,7 @@
     "@navikt/ds-css": "^6.5.0",
     "@navikt/ds-react": "^6.5.0",
     "@remix-run/express": "^2.8.1",
-    "@remix-run/node": "^2.8.1",
+    "@remix-run/node": "^2.9.1",
     "@remix-run/react": "^2.8.1",
     "axios": "^1.6.8",
     "express": "^4.19.2",
