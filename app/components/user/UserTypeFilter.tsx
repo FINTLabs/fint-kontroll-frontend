@@ -4,7 +4,7 @@ import {Form, useSearchParams} from "@remix-run/react";
 
 export const UserTypeFilter = () => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [currentSearchParams, setSearchParams] = useSearchParams()
 
     const setUserTypeFilter = (event: string) => {
         setSearchParams(searchParams => {
@@ -16,7 +16,9 @@ export const UserTypeFilter = () => {
     return (
         <Form className={"select-usertype"}>
             <Select label={"Filter for brukertype"}
+                    id="user-type-select"
                     onChange={(e) => setUserTypeFilter(e.target.value)}
+                    value={String(currentSearchParams.get("userType")) ?? ""}
             >
                 <option value={""}>Alle</option>
                 <option value={"STUDENT"}>STUDENT</option>

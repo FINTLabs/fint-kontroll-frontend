@@ -1,7 +1,7 @@
 import React from 'react';
 import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
-import {Alert, Box, Chips, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
@@ -10,6 +10,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -37,7 +38,8 @@ export default function UsersIndex() {
         userList: IUserPage,
         orgUnitList: IUnitItem[]
     }>();
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams,] = useSearchParams()
+    const size = searchParams.get("size") ?? "10"
 
     return (
         <div className={"content"}>
@@ -50,16 +52,9 @@ export default function UsersIndex() {
                 </Box>
             </div>
             <Box className={"filters"} paddingBlock={"1 8"}>
-                {searchParams.get("orgUnits") && (
-                    <Chips.Removable onClick={event => {
-                        setSearchParams(searchParameter => {
-                            searchParameter.delete("orgUnits")
-                            return searchParameter
-                        })
-                    }}>Fjern orgenhetsfilter</Chips.Removable>
-                )}
+                <ChipsFilters />
             </Box>
-            <UserTable userPage={data.userList} size={"10"}/>
+            <UserTable userPage={data.userList} size={size}/>
         </div>
     );
 }

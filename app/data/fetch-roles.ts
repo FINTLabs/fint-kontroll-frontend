@@ -1,7 +1,7 @@
-import {BASE_PATH, ROLE_API_URL, USER_API_URL} from "../../environment";
+import {BASE_PATH, ROLE_API_URL} from "../../environment";
 
-export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgunits: string[]) => {
-    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgunits.length > 0 ? 'orgunits=' + orgunits : ""}`, {
+export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgUnits: string[]) => {
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
         headers: {Authorization: token ?? ""}
     });
 

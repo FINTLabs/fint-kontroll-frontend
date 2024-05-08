@@ -14,6 +14,8 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {ArrowLeftIcon} from "@navikt/aksel-icons";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -52,21 +54,22 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         orgUnitList,
         assignedUsersList,
         isAssignedUsers,
+        id: params.id,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export default function NewAssignment() {
+    const loaderData = useLoaderData<typeof loader>()
 
-    const data = useLoaderData<{
-        resource: IResource,
-        userList: IUserPage,
-        orgUnitList: IUnitItem[]
-        assignedUsersList: IAssignedUsers,
-        isAssignedUsers: IUser[],
-        basePath: string,
-        responseCode: string | undefined
-    }>();
+    const userList: IUserPage = loaderData.userList
+    const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Potentially removable if not used in the future
+    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Potentially removable if not used in the future
+    const isAssignedUsers: IUser[] = loaderData.isAssignedUsers
+    const resource: IResource = loaderData.resource
+    const id: string = loaderData.id
+    const basePath: string = loaderData.basePath
+    const responseCode: string | undefined = loaderData.responseCode
 
     const params = useParams<string>()
 
@@ -76,30 +79,35 @@ export default function NewAssignment() {
                     variant={"secondary"}
                     icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
                     iconPosition={"left"}
-                    href={`${data.basePath}/resources/${params.id}/user-assignments`}
+                    href={`${basePath}/resources/${params.id}/user-assignments`}
             >
                 Tilbake
             </Button>
+
             <div className={"content"}>
                 <VStack className={"heading"}>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                    <Heading level="2" size="small">{data.resource.resourceName}</Heading>
+                    <Heading level="2" size="small">{resource.resourceName}</Heading>
                 </VStack>
+
                 <section className={"toolbar"}>
-                    <SelectObjectType/>
+                    <SelectObjectType />
                     <section className={"filters"}>
-                        <UserTypeFilter/>
-                        <NewAssignmentUserSearch/>
+                        <UserTypeFilter />
+                        <NewAssignmentUserSearch />
                     </section>
                 </section>
+
                 <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={data.responseCode}/>
+                    <ResponseAlert responseCode={responseCode}/>
                 </Box>
-                <AssignUserTable isAssignedUsers={data.isAssignedUsers}
-                                 resourceId={params.id}
-                                 currentPage={data.userList.currentPage}
-                                 totalPages={data.userList.totalPages}
-                                 basePath={data.basePath}
+
+                <AssignUserTable isAssignedUsers={isAssignedUsers}
+                                 resourceId={id}
+                                 size={userList.size}
+                                 currentPage={userList.currentPage}
+                                 totalPages={userList.totalPages}
+                                 basePath={basePath}
                 />
             </div>
         </>

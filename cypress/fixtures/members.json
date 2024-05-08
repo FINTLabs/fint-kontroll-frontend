@@ -1,0 +1,43 @@
+{
+	"totalItems": 5,
+	"currentPage": 0,
+	"totalPages": 1,
+	"size": 5,
+	"members": [
+		{
+			"id": 100,
+			"firstName": "MemberA",
+			"lastName": "Brustad",
+			"userType": "EMPLOYEE",
+			"userName": null
+		},
+		{
+			"id": 104,
+			"firstName": "MemberB",
+			"lastName": "Pettersen",
+			"userType": "EMPLOYEE",
+			"userName": null
+		},
+		{
+			"id": 92,
+			"firstName": "MemberC",
+			"lastName": "Hansen",
+			"userType": "EMPLOYEE",
+			"userName": null
+		},
+		{
+			"id": 97,
+			"firstName": "MemberD",
+			"lastName": "Nordby",
+			"userType": "EMPLOYEE",
+			"userName": null
+		},
+		{
+			"id": 86,
+			"firstName": "MemberE",
+			"lastName": "Lund",
+			"userType": "EMPLOYEE",
+			"userName": null
+		}
+	]
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Chips, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import type {IRolePage, IUnitItem, IUnitTree} from "~/data/types";
@@ -9,6 +9,7 @@ import {RoleTable} from "~/components/role/RoleTable";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -28,16 +29,17 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
 
     return json({
         roleList,
-        orgUnitList
+        orgUnitList,
+        size
     })
 }
 
 export default function Roles_index() {
-    const data = useLoaderData<{
-        roleList: IRolePage,
-        orgUnitList: IUnitItem[]
-    }>();
-    const [searchParams, setSearchParams] = useSearchParams()
+    const data = useLoaderData<typeof loader>()
+
+    const roleList: IRolePage = data.roleList
+    const orgUnitList: IUnitItem[] = data.orgUnitList
+    const size = data.size
 
     return (
         <div className={"content"}>
@@ -45,24 +47,19 @@ export default function Roles_index() {
                 <Heading className={"heading"} level="1" size="xlarge">Grupper</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
-                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
+                        <OrgUnitFilterModal orgUnitList={orgUnitList} />
                     </div>
                     <div>
-                        <RoleSearch/>
+                        <RoleSearch />
                     </div>
                 </Box>
             </div>
+
             <Box className={"filters"} paddingBlock={"1 8"}>
-                {searchParams.get("orgUnits") && (
-                    <Chips.Removable onClick={event => {
-                        setSearchParams(searchParameter => {
-                            searchParameter.delete("orgUnits")
-                            return searchParameter
-                        })
-                    }}>Fjern orgenhetsfilter</Chips.Removable>
-                )}
+                <ChipsFilters />
             </Box>
-            <RoleTable rolePage={data.roleList}/>
+
+            <RoleTable rolePage={roleList} size={size} />
         </div>
     );
 }

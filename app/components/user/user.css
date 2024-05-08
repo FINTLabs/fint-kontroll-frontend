@@ -6,10 +6,6 @@ ul {
     list-style-position: inside;
 }
 
-li {
-    padding: 1em;
-}
-
 .listWrapper {
     padding-left: 5rem;
     padding-right: 3rem;

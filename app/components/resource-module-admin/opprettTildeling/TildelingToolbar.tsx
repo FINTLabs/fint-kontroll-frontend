@@ -4,7 +4,7 @@ import ResourceModuleRoleFilter from "~/components/resource-module-admin/Resourc
 import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
 import {HelpText} from "@navikt/ds-react";
-import ChipsFilters from "~/components/resource-module-admin/ChipsFilters";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 interface TildelingToolbarProps {
     allOrgUnits: IUnitItem[]

@@ -37,6 +37,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                                     icon={menuOpen ? <XMarkIcon aria-hidden/> : <MenuHamburgerIcon aria-hidden/>}
                                     variant="tertiary-neutral"
                                     onClick={() => setMenuOpen(!menuOpen)}
+                                    id="dropdown-button"
                                 >
                                     Meny
                                 </Button>

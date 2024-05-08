@@ -27,26 +27,33 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return json({
         user: await user.json(),
         assignments: await assignments.json(),
+        size,
+        page,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export default function Users() {
-    const data = useLoaderData<{ user: IUser, assignments: IAssignmentPage, basePath: string }>();
+    const data = useLoaderData<typeof loader>()
+    const user: IUser = data.user
+    const assignmentsForUser: IAssignmentPage = data.assignments
+    const size = data.size
+    const basePath: string = data.basePath
 
     return (
         <section className={"content"}>
             <Box className={"filters"}>
-                <LinkPanel href={`${data.basePath}/assignment/user/${data.user.id}`} border>
+                <LinkPanel href={`${basePath}/assignment/user/${user.id}`} border>
                     <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                 </LinkPanel>
             </Box>
                 <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
-            <UserInfo user={data.user}/>
+            <UserInfo user={user}/>
+
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
-                <Heading className={"heading"} level="1" size="large">Brukeren er tildelt følgende ressurser:</Heading>
+                <Heading className={"heading"} level="2" size="large">Brukeren er tildelt følgende ressurser:</Heading>
             </section>
-            <AssignmentsForUserTable assignmentsForUser={data.assignments}/>
+            <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} />
         </section>
     );
 }

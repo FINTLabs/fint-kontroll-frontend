@@ -24,7 +24,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
 
     return (
         <>
-            <Table id={"userTable"}>
+            <Table id={"user-table"}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
@@ -35,8 +35,8 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                 </Table.Header>
                 <Table.Body>
                     {userPage.users.map((user: IUser) => (
-                        <Table.Row key={user.id}>
-                            <Table.HeaderCell scope="row">{user.fullName}</Table.HeaderCell>
+                        <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
+                            <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell align="right">
@@ -66,7 +66,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
 
             <Form className={"paginationWrapper"}>
                 <Select
-                    id={"selectNumberOfRows"}
+                    id={"select-number-of-rows"}
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"
