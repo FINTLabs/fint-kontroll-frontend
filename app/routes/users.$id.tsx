@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../components/user/user.css?url"
-import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, LinkPanel} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
@@ -42,17 +42,20 @@ export default function Users() {
 
     return (
         <section className={"content"}>
-            <Box className={"filters"}>
+            <HStack justify="end">
                 <LinkPanel href={`${basePath}/assignment/user/${user.id}`} border>
                     <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                 </LinkPanel>
-            </Box>
-                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
+            </HStack>
+
+            <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
+
             <UserInfo user={user}/>
 
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
                 <Heading className={"heading"} level="2" size="large">Brukeren er tildelt følgende ressurser:</Heading>
             </section>
+
             <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} />
         </section>
     );

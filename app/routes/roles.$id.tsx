@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, LinkPanel, Tabs} from "@navikt/ds-react";
 import {Links, Meta, Outlet, Scripts, useLoaderData, useLocation, useNavigate, useRouteError} from "@remix-run/react";
 import {IRole} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
+import {BASE_PATH} from "../../environment";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -13,14 +14,24 @@ export function links() {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const response = await fetchRoleById(request.headers.get("Authorization"), params.id);
-    return json(await response.json());
+    const role: IRole = await response.json()
+
+    return json({
+        role,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+    })
 }
 
 export default function RolesId() {
-    const role = useLoaderData<IRole>();
+    const loaderData = useLoaderData<typeof loader>();
+    const role: IRole = loaderData.role
+    const basePath: string = loaderData.basePath
+
     const pathname = useLocation();
+
     const tabList = ["members", "assignments"];
     const currentTab = tabList.find(tab => pathname.pathname.includes(tab))
+
     const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "members");
     const navigate = useNavigate();
 
@@ -30,7 +41,14 @@ export default function RolesId() {
     };
     return (
         <section className={"content"}>
+            <HStack justify="end">
+                <LinkPanel href={`${basePath}/assignment/role/${role.id}`} border>
+                    <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
+                </LinkPanel>
+            </HStack>
+
             <Heading level={"1"} size={"xlarge"}>{role.roleName}</Heading>
+
             <Tabs defaultValue={"members"} value={selectedTab} onChange={handleTabChange}>
                 <div style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Tabs.List>
@@ -44,7 +62,9 @@ export default function RolesId() {
                         />
                     </Tabs.List>
                 </div>
+
                 <Outlet/>
+
             </Tabs>
         </section>
     );
