@@ -125,9 +125,6 @@ export const resourceHandlers = [
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
         const orgUnits = new URL(request.url).searchParams.get('orgUnits').split(',') ?? []
 
-        console.log(size,page,search,userType,orgUnits)
-
-
         return HttpResponse.json(
         {
             assignedUsers: {
@@ -634,7 +631,7 @@ export const resourceHandlers = [
 
 
     // For fetching Grupper
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/${id}/resources?size=${size}&page=${page}', () => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/${id}/resources', () => {
         return HttpResponse.json(
         {
                 "currentPage": 0,

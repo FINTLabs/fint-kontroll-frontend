@@ -50,18 +50,19 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 export default function NewAssignment() {
 
-    const data = useLoaderData<{
-        userList: IUserPage,
-        orgUnitList: IUnitItem[]
-        assignedUsersList: IAssignedUsers,
-        isAssignedUsers: IUser[],
-    }>();
+    const loaderData = useLoaderData<typeof loader>()
+
+    const userList: IUserPage = loaderData.userList
+    const orgUnitList: IUnitItem[] = loaderData.orgUnitList
+    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList
+    const isAssignedUsers: IUser[] = loaderData.isAssignedUsers
 
     const params = useParams<string>()
 
     return (
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
+
             <section className={"toolbar"}>
                 <SelectObjectType/>
                 <section className={"filters"}>
@@ -69,10 +70,11 @@ export default function NewAssignment() {
                     <NewAssignmentUserSearch/>
                 </section>
             </section>
-            <AssignUserTable isAssignedUsers={data.isAssignedUsers}
+
+            <AssignUserTable isAssignedUsers={isAssignedUsers}
                              resourceId={params.id}
-                             currentPage={data.userList.currentPage}
-                             totalPages={data.userList.totalPages}
+                             currentPage={userList.currentPage}
+                             totalPages={userList.totalPages}
             />
         </div>
     );
