@@ -1,16 +1,21 @@
 import React from 'react';
-import {Heading} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, Link, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import type {IAssignedUsers, IUnitItem, IUnitTree, IUser, IUserPage} from "~/data/types";
+import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserPage} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
-import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import {BASE_PATH} from "../../environment";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {ArrowLeftIcon} from "@navikt/aksel-icons";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -22,15 +27,17 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseOrgUnits, responseAssignments] = await Promise.all([
+    const [responseUsers, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
         fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", "", orgUnits)
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", "", orgUnits),
+        fetchResourceById(request.headers.get("Authorization"), params.id),
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedUsersList: IAssignedUsers = await responseAssignments.json()
+    const resource: IResource = await responseResource.json()
 
     const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.id, user]))
     const isAssignedUsers: IUser[] = userList.users.map(user => {
@@ -41,10 +48,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
+        resource,
         userList,
         orgUnitList,
         assignedUsersList,
-        isAssignedUsers
+        isAssignedUsers,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
@@ -56,45 +66,89 @@ export default function NewAssignment() {
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList
     const isAssignedUsers: IUser[] = loaderData.isAssignedUsers
+    const resource: IResource = loaderData.resource
+    const basePath: string = loaderData.basePath
+    const responseCode: string | undefined = loaderData.responseCode
 
     const params = useParams<string>()
 
     return (
-        <div className={"content"}>
-            <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
+        <>
+            <Button as={Link}
+                    variant={"secondary"}
+                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
+                    iconPosition={"left"}
+                    href={`${basePath}/resources/${params.id}/user-assignments`}
+            >
+                Tilbake
+            </Button>
 
-            <section className={"toolbar"}>
-                <SelectObjectType/>
-                <section className={"filters"}>
-                    <UserTypeFilter/>
-                    <NewAssignmentUserSearch/>
+            <div className={"content"}>
+                <VStack className={"heading"}>
+                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
+                    <Heading level="2" size="small">{resource.resourceName}</Heading>
+                </VStack>
+
+                <section className={"toolbar"}>
+                    <SelectObjectType/>
+                    <section className={"filters"}>
+                        <UserTypeFilter/>
+                        <NewAssignmentUserSearch/>
+                    </section>
                 </section>
-            </section>
 
-            <AssignUserTable isAssignedUsers={isAssignedUsers}
-                             resourceId={params.id}
-                             currentPage={userList.currentPage}
-                             totalPages={userList.totalPages}
-            />
-        </div>
+                <Box paddingBlock='8 0'>
+                    <ResponseAlert responseCode={responseCode}/>
+                </Box>
+
+                <AssignUserTable isAssignedUsers={isAssignedUsers}
+                                 resourceId={params.id}
+                                 currentPage={userList.currentPage}
+                                 totalPages={userList.totalPages}
+                                 basePath={basePath}
+                />
+            </div>
+        </>
     );
 }
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    //console.error(error);
+    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
-            <title>Oh no!</title>
+            <title>Feil oppstod</title>
             <Meta/>
             <Links/>
         </head>
         <body>
-        Uups! Problemer med å hente brukere
-        <div>{error.message}</div>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
         <Scripts/>
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "201") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen var vellykket!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }

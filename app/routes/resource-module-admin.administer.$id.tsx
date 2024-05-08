@@ -5,15 +5,15 @@ import {
     fetchUserAssignments,
     deleteAllAssignmentsOnUser, deleteUserAssignmentByAccessRoleId, deleteOrgUnitFromAssignment
 } from "~/data/resourceModuleAdmin/resource-module-admin";
-import {useActionData, useLoaderData, useNavigate} from "@remix-run/react";
-import {Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useActionData, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
+import {Alert, Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
 } from "~/data/resourceModuleAdmin/types";
 import {ActionFunctionArgs, json} from "@remix-run/node";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import DeleteAssignment from "../components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal";
 import AdministerToolbar from "../components/resource-module-admin/administer/AdministerToolbar";
@@ -222,3 +222,26 @@ const ResourceModuleAdminAdministerId = () => {
 }
 
 export default ResourceModuleAdminAdministerId
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
+    );
+}

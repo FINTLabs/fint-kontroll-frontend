@@ -1,5 +1,5 @@
 import React from 'react';
-import {Heading} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, Link, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
@@ -8,8 +8,12 @@ import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchRoles} from "~/data/fetch-roles";
 import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRoleSearch";
-import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
+import {BASE_PATH} from "../../environment";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {ArrowLeftIcon} from "@navikt/aksel-icons";
+import {IResource} from "~/data/types";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -19,15 +23,19 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseRoles, responseOrgUnits, responseAssignments] = await Promise.all([
+    const [responseRoles, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
         fetchRoles(request.headers.get("Authorization"), size, page, search, orgUnits),
         fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedRoles(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits)
+        fetchAssignedRoles(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits),
+        fetchResourceById(request.headers.get("Authorization"), params.id),
+
     ]);
     const roleList: IRolePage = await responseRoles.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
+    const resource: IResource = await responseResource.json()
+
 
     const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
     const isAssignedRoles: IRole[] = roleList.roles.map(role => {
@@ -39,10 +47,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
+        resource,
         roleList,
         orgUnitList,
         assignedRolesList,
-        isAssignedRoles
+        isAssignedRoles,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -53,44 +64,84 @@ export default function NewAssignmentForRole() {
         orgUnitList: IUnitItem[]
         assignedRolesList: IAssignedRoles,
         isAssignedRoles: IRole[],
+        basePath: string,
+        responseCode: string | undefined,
+        resource: IResource
     }>();
-
     const params = useParams<string>()
 
     return (
-        <div className={"content"}>
-            <Heading className={"heading"} level="1" size="xlarge">Ny tildeling</Heading>
-            <section className={"toolbar"}>
-                <SelectObjectType/>
-                <section className={"filters"}>
-                    <NewAssignmentRoleSearch/>
+        <>
+            <Button as={Link}
+                    variant={"secondary"}
+                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
+                    iconPosition={"left"}
+                    href={`${data.basePath}/resources/${params.id}/role-assignments`}
+            >
+                Tilbake
+            </Button>
+            <div className={"content"}>
+                <VStack className={"heading"} >
+                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
+                    <Heading level="2" size="small">{data.resource.resourceName}</Heading>
+                </VStack>
+                <section className={"toolbar"}>
+                    <SelectObjectType/>
+                    <section className={"filters"}>
+                        <NewAssignmentRoleSearch/>
+                    </section>
                 </section>
-            </section>
-            <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
-                             resourceId={params.id}
-                             rolesId={params.id}
-                             currentPage={data.roleList.currentPage}
-                             totalPages={data.roleList.totalPages}
-            />
-        </div>
+                <Box paddingBlock='8 0'>
+                    <ResponseAlert responseCode={data.responseCode}/>
+                </Box>
+                <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
+                                 resourceId={params.id}
+                                 rolesId={params.id}
+                                 currentPage={data.roleList.currentPage}
+                                 totalPages={data.roleList.totalPages}
+                                 basePath={data.basePath}
+                />
+            </div>
+        </>
     );
 }
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
     return (
         <html lang={"no"}>
         <head>
-            <title>Oh no!</title>
+            <title>Feil oppstod</title>
             <Meta/>
             <Links/>
         </head>
         <body>
-        Gruppe Problem!
-        <div>{error.message}</div>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
         <Scripts/>
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "201") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen var vellykket!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }

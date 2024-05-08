@@ -1,6 +1,6 @@
 import React from 'react';
-import {Heading} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import ResourceModuleAdminUsersTable from "../components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
@@ -52,5 +52,28 @@ export default function ResourceModuleAdminIndex() {
             <Heading level={"1"} size={"xlarge"}>Ressursmoduladministrasjon</Heading>
             <ResourceModuleAdminUsersTable usersPage={usersPage} orgUnitList={orgUnitList} roles={roles} />
         </section>
+    );
+}
+
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

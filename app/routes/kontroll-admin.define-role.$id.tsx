@@ -9,7 +9,7 @@ import {
     useParams, useRouteError,
 } from "@remix-run/react";
 import React, {useEffect, useState} from "react";
-import {Button, Table} from "@navikt/ds-react";
+import {Alert, Box, Button, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "../components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
@@ -159,19 +159,23 @@ export default DefineRoleTab
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
-
+    // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
-                <Scripts/>
-            </body>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }

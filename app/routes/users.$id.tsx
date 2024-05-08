@@ -1,13 +1,15 @@
 import React from 'react';
-import UserInfo from "../components/user/UserInfo";
 import styles from "../components/user/user.css?url"
-import {Heading} from "@navikt/ds-react";
-import {useLoaderData} from "@remix-run/react";
+import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
+import {BASE_PATH} from "../../environment";
+import {UserInfo} from "~/components/user/UserInfo";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -26,26 +28,54 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         user: await user.json(),
         assignments: await assignments.json(),
         size,
-        page
+        page,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export default function Users() {
     const data = useLoaderData<typeof loader>()
-    const assignmentsForUser = data.assignments
+    const user: IUser = data.user
+    const assignmentsForUser: IAssignmentPage = data.assignments
     const size = data.size
+    const basePath: string = data.basePath
 
     return (
         <section className={"content"}>
-            <div className={"toolbar"}>
-                <Heading className={"heading"} level="1" size="xlarge">Brukerinformasjon</Heading>
-            </div>
-            <UserInfo user={data.user}/>
+            <Box className={"filters"}>
+                <LinkPanel href={`${basePath}/assignment/user/${user.id}`} border>
+                    <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
+                </LinkPanel>
+            </Box>
+                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
+            <UserInfo user={user}/>
 
             <section className={"toolbar"} style={{marginTop: '3rem'}}>
                 <Heading className={"heading"} level="2" size="large">Brukeren er tildelt følgende ressurser:</Heading>
             </section>
             <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} />
         </section>
+    );
+}
+export function ErrorBoundary() {
+    const error: any = useRouteError();
+    // console.error(error);
+    return (
+        <html lang={"no"}>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
+        </html>
     );
 }

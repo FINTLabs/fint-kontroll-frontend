@@ -4,7 +4,7 @@ import {
     fetchFeaturesInRole,
     putPermissionDataForRole
 } from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {Button, Heading, List, Table} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, List, Table} from "@navikt/ds-react";
 import {Form, Links, Meta, Scripts, useActionData, useLoaderData, useRouteError} from "@remix-run/react";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
 import React, {useEffect, useState} from "react";
@@ -143,19 +143,23 @@ export default KontrollAdminFeaturesToRoleId
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
-
+    // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
-                <Scripts/>
-            </body>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }

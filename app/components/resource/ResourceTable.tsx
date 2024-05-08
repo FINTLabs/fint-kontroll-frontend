@@ -47,7 +47,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                                     }
                                     iconPosition={"right"}
                                     onClick={() =>
-                                        navigate(`/resources/${resource.id}/all-assignments`)
+                                        navigate(`/resources/${resource.id}/user-assignments`)
                                     }
                                     // id={`resource-${i}`}
                                     variant={"secondary"}

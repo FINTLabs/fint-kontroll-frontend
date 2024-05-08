@@ -60,6 +60,11 @@ patches:
         value:
           name: ACCESS_MANAGEMENT_API_URL
           value: http://fint-kontroll-access-mngmnt-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: LOG_LEVEL
+          value: info
     target:
       kind: Application
       name: fint-kontroll-frontend

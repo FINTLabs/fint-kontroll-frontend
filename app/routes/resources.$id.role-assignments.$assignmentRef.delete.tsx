@@ -1,6 +1,6 @@
 import React from 'react';
-import {BodyShort, Button, Modal} from "@navikt/ds-react";
-import {Form, useNavigate, useParams} from "@remix-run/react";
+import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
+import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
@@ -9,20 +9,21 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
+    const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
-    return redirect(`/resources/${data.get("resourceRef")}/role-assignments?page=${searchParams.get("page")}`)
+    return redirect(`/resources/${data.get("resourceRef")}/role-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
 }
 
-export default function DeleteUserAssignment() {
+export default function DeleteRoleAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
     return (
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(-1)}
+                onClose={() => navigate(`/resources/${params.id}/role-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
@@ -36,7 +37,7 @@ export default function DeleteUserAssignment() {
                     </BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form method={"POST"}>
+                    <Form method={"DELETE"}>
                         <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="resourceRef"/>
 
@@ -47,7 +48,7 @@ export default function DeleteUserAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate(`/resources/${params.id}/role-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                     >
                         Avbryt
                     </Button>

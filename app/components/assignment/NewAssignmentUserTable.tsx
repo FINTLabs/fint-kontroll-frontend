@@ -1,7 +1,7 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IUser} from "~/data/types";
 import React from "react";
-import {useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
 export const AssignUserTable: any = (props: {
@@ -11,6 +11,7 @@ export const AssignUserTable: any = (props: {
     resourceId: string,
     totalPages: number,
     currentPage: number,
+    basePath?: string
 }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
@@ -24,9 +25,9 @@ export const AssignUserTable: any = (props: {
     }
 
     return (
-        <div style={{marginTop: '3rem'}}>
+        <div>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
-            {/* <Outlet/>*/}
+            <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -55,7 +56,7 @@ export const AssignUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`/assignment/resource/${props.resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page")}`}
+                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel

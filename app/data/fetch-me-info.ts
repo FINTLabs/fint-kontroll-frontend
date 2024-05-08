@@ -1,9 +1,8 @@
-import {BASE_PATH, basePathNoTrailingSlash, USER_API_URL} from "../../environment";
+import {BASE_PATH, USER_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 
 export const fetchMeInfo = async (token: string | null) => {
     const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
-    logger.debug("Requesting API @ ", url, " with token", token);
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/me`, {
         headers: {Authorization: token ?? ""}
     });

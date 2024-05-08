@@ -8,7 +8,7 @@ import {
     TasklistIcon,
     XMarkIcon
 } from '@navikt/aksel-icons';
-import { NavLink, Link} from "@remix-run/react";
+import {Link} from "@remix-run/react";
 import MeInfo from "~/components/app-bar/MeInfo";
 import {IMeInfo} from "~/data/types";
 import {BodyShort, Box, Button, HGrid, Hide, HStack, LinkPanel, Popover} from "@navikt/ds-react";
@@ -42,9 +42,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                                     Meny
                                 </Button>
                                 :
-                                <Button variant={"tertiary-neutral"}>
-                                    Logg inn
-                                </Button>
+                                <BodyShort>Noe er galt!</BodyShort>
                             }
                             <Hide below="md" asChild>
                                 <MeInfo me={props.me}/>
@@ -68,7 +66,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
 
 
                         <Box>
-                            <LinkPanel border={false}  href={`${props.basePath}/users`}>
+                            <LinkPanel border={false} href={`${props.basePath}/users`}>
                                 <LinkPanel.Title><PersonIcon title="a11y-title"
                                                              fontSize="1.5rem"/> Brukere</LinkPanel.Title>
                             </LinkPanel>

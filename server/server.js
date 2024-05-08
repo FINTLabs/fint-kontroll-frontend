@@ -1,5 +1,5 @@
 import express from "express";
-import {BASE_PATH, PORT} from "../environment.js";
+import {BASE_PATH, LOG_LEVEL, PORT} from "../environment.js";
 import morgan from "morgan";
 import log4js from 'log4js';
 import {createRequestHandler} from "@remix-run/express";
@@ -50,5 +50,6 @@ app.all(
     createRequestHandler({build}));
 
 app.listen(PORT, () => {
+    logger.info("LOG_LEVEL", LOG_LEVEL)
     logger.info(`App listening on http://localhost:${PORT}${BASE_PATH.replace(/\/$/,'')}`);
 });

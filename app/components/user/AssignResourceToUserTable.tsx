@@ -1,14 +1,14 @@
-import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IRole} from "~/data/types";
+import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import type {IResource} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignRoleTable: any = (props: {
-    isAssignedRoles: IRole[],
+export const AssignResourceToUserTable: any = (props: {
+    isAssignedResources: IResource[],
     size: string,
     page: string,
-    resourceId: string,
+    userId: string,
     totalPages: number,
     currentPage: number,
     basePath?: string
@@ -26,25 +26,20 @@ export const AssignRoleTable: any = (props: {
 
     return (
         <div>
-            <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
             <Outlet/>
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.isAssignedRoles.map((role: IRole) => (
-                        <Table.Row key={role.id}>
-                            <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
-                            <Table.DataCell>{role.roleType}</Table.DataCell>
-                            <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
+                    {props.isAssignedResources.map((resource: IResource) => (
+                        <Table.Row key={resource.id}>
+                            <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>
-                                {role.assigned ?
+                                {resource.assigned ?
                                     <Tag variant="success" size="small"
                                          style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
                                         Er tildelt
@@ -55,11 +50,12 @@ export const AssignRoleTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${props.basePath}/assignment/user/${props.userId}`}
                                         underline={false}
                                     >
                                         Tildel
                                     </Button>
+
                                 }
                             </Table.DataCell>
                         </Table.Row>

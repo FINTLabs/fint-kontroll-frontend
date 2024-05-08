@@ -1,4 +1,4 @@
-import {Radio, RadioGroup, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Radio, RadioGroup, Tabs} from "@navikt/ds-react";
 import {
     Links,
     Meta,
@@ -66,19 +66,23 @@ export default function KontrollAdminDefineRole() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error(error);
-
+    // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
-                <Scripts/>
-            </body>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }

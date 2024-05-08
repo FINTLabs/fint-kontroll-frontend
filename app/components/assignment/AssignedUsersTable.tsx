@@ -6,9 +6,10 @@ import {TrashIcon} from "@navikt/aksel-icons";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers, size: string
+    basePath?: string
 }
 
-export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTableProps) => {
+export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUsersTableProps) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
@@ -48,7 +49,7 @@ export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTablePr
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                    href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                 >
                                     Slett
                                 </Button>
