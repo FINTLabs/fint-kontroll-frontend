@@ -46,6 +46,7 @@ declare global {
             goToInfo: typeof goToUser
             goToGrupper: typeof goToGrupper
             goToRessurser: typeof goToRessurser
+            goToSpecificResource: typeof goToSpecificResource
         }
     }
 }
@@ -78,6 +79,11 @@ export function goToRessurser() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/resources')
 }
 Cypress.Commands.add('goToRessurser', goToRessurser)
+
+export function goToSpecificResource() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resources/5/user-assignments')
+}
+Cypress.Commands.add('goToSpecificResource', goToSpecificResource)
 
 
 

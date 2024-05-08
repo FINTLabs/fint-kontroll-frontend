@@ -1,74 +1,32 @@
-describe('Check the assignment button after assign', () => {
+describe('See that assignment.resource.$id.user renders with users', () => {
 
-    const baseUrl = "http://localhost:3000/beta/fintlabs-no";
-    // beforeEach(() => {
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/api/resources`, "resources.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/api/resources/1`, "resourceDetailed.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/api/users/?size=5`, "users.json");
-    //     // cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "assignments.json");
-    //
-    //     // cy.intercept("DELETE", `${baseUrl}/api/assignments/15`, "afterCreateAssignment.json").as('afterDeleted');
-    // });
 
-    it('Check if assign button is disabled after assignment', () => {
-        // cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "afterCreateAssignment.json");
-        cy.goToRessurser();
+    it('Navigate to "Ny Tildeling"', () => {
+        cy.goToSpecificResource();
         cy.wait(1000)
-        cy.get('#buttonAddAssignment-109').should('have.text', 'Er tildelt')
-        cy.get('#buttonAddAssignment-109').should('be.disabled')
-
-    });
-
-    it('Show disabled button for assigned users', () => {
-        cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "afterCreateAssignment.json");
-        cy.goToInfo();
-        cy.wait(2000)
-        cy.get('#buttonAddAssignment-109').should('have.text', 'Er tildelt')
-        cy.get('#buttonAddAssignment-109').should('be.disabled')
-    });
-
-    it('Delete assignment', () => {
-        cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "afterCreateAssignment.json");
-        cy.goToInfo();
-        cy.wait(2000)
-        cy.get('#buttonDeleteAssignment-109').should('exist')
-        cy.get('#buttonDeleteAssignment-109').should('have.text', 'Slett')
-        cy.get('#buttonDeleteAssignment-109').click()
-        cy.get('#delete-dialog').should('exist')
-        cy.wait(2000)
-        cy.get('#delete-button').should('exist')
-        cy.wait(2000)
-        cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "assignments.json");
-        cy.get('#delete-button').click()
-    });
-
-    it('Check assignment table (switching tables, and button text)', () => {
-        cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "assignments.json");
-        cy.goToInfo();
-        cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments?size=1000`, "afterCreateAssignment.json");
-        cy.get('#button-only-assigned').should('exist')
-        cy.get('#button-only-assigned').should('have.text', 'Se kun Er tildelte')
-        cy.get('#button-only-assigned').click()
-        cy.get('#assignedUserTable')
-            .should('be.visible')
-        cy.get('#button-only-assigned').should('exist')
-        cy.get('#button-only-assigned').should('have.text', 'Se alle brukere')
-        cy.get('#button-only-assigned').click()
-        cy.get('#userTable').should('exist')
-    });
-
-    it('Button for adding assignment to user', () => {
-        cy.goToInfo();
-        cy.get('#buttonAddAssignment-109').should('exist')
+        cy.get("a").contains("Ny tildeling").click()
         cy.wait(1000)
-        cy.get('#buttonAddAssignment-109').should('have.text', 'Tildel')
-        cy.get('#buttonAddAssignment-109').click()
-        cy.wait(1000)
-        cy.wait('@postValueconverting').its('request.body').should('deep.equal', {
-                resourceRef: "1",
-                userRef: "109",
-                organizationUnitId: "36"
-            }
-        )
-    });
+    })
+
+    it('Verify that data from resource loads, and that headings and toolbar loads', () => {
+        cy.get("h2").should('have.text', "Creative Cloud All Apps for K-12 - User License")
+
+        cy.get("a").contains("Brukere").should('be.visible')
+        cy.get("a").contains("Grupper").should('be.visible')
+
+        cy.get("#user-type-select").should('be.visible')
+
+        cy.get("#user-search").should('be.visible')
+
+        cy.get("#users-table").should('be.visible').find("tr").should('have.length.greaterThan', 0)
+    })
+
+    it('In table, can see some "er tildelt" and some "Tildel"-buttons', () => {
+        cy.get("table tr td").contains("Er tildelt").should('exist')
+        cy.get('table tr')
+            .find('a')
+            .contains('Tildel')
+            .should('exist')
+
+    })
 })

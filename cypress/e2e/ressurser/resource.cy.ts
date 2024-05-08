@@ -1,16 +1,7 @@
 describe('Check the resource details page', () => {
-//
+
     const searchTextUser = 'Bente';
-//
-//     beforeEach(() => {
-//         const baseUrl = "http://localhost:3000";
-//         cy.interceptAndReturnFile("GET", `${baseUrl}/api/resources`, "resources.json");
-//         cy.interceptAndReturnFile("GET", `${baseUrl}/api/resources/1`, "resourceDetailed.json");
-//         cy.interceptAndReturnFile("GET", `${baseUrl}/api/assignments`, "assignments.json");
-//         cy.intercept("POST", `${baseUrl}/api/assignments`, "createAssignment.json").as('postValueconverting');
-//         cy.interceptAndReturnFile("GET", `${baseUrl}/api/users/?size=5`, "users.json");
-//     });
-//
+
     it('Select resource and go to page for resource details, click "Brukere"', () => {
         cy.goToRessurser();
         cy.wait(1000)

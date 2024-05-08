@@ -17,6 +17,7 @@ export const NewAssignmentUserSearch = () => {
               }}>
             <Search
                 role="search"
+                id="user-search"
                 label="Søk etter bruker"
                 variant="secondary"
                 onChange={event => setSearchString(event)}

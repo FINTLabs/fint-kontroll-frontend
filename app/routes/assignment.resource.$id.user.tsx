@@ -54,19 +54,20 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         orgUnitList,
         assignedUsersList,
         isAssignedUsers,
+        id: params.id,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export default function NewAssignment() {
-
     const loaderData = useLoaderData<typeof loader>()
 
     const userList: IUserPage = loaderData.userList
-    const orgUnitList: IUnitItem[] = loaderData.orgUnitList
-    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList
+    const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Potentially removable if not used in the future
+    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Potentially removable if not used in the future
     const isAssignedUsers: IUser[] = loaderData.isAssignedUsers
     const resource: IResource = loaderData.resource
+    const id: string = loaderData.id
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
 
@@ -90,10 +91,10 @@ export default function NewAssignment() {
                 </VStack>
 
                 <section className={"toolbar"}>
-                    <SelectObjectType/>
+                    <SelectObjectType />
                     <section className={"filters"}>
-                        <UserTypeFilter/>
-                        <NewAssignmentUserSearch/>
+                        <UserTypeFilter />
+                        <NewAssignmentUserSearch />
                     </section>
                 </section>
 
@@ -102,7 +103,8 @@ export default function NewAssignment() {
                 </Box>
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
-                                 resourceId={params.id}
+                                 resourceId={id}
+                                 size={userList.size}
                                  currentPage={userList.currentPage}
                                  totalPages={userList.totalPages}
                                  basePath={basePath}

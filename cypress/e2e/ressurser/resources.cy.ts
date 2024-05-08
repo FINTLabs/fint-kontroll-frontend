@@ -6,17 +6,6 @@ describe('Check resource home page', () => {
     const searchText = 'Adobe';
     const userType = 'STUDENT';
 
-    // beforeEach(() => {
-    //     const baseUrl = "http://localhost:3000/api";
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/orgunits`, "orgunits.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/orgunits/orgTree`, "orgunits.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/users/?size=5`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/users/?search=${searchText}&orgUnits=36`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/users/?userType=${userType}`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/users`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}/resources`, "resources.json");
-    // });
-
     it('Navigate to Ressurser', () => {
         goToRessurser()
         wait(1000)

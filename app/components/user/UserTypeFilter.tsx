@@ -16,8 +16,8 @@ export const UserTypeFilter = () => {
     return (
         <Form className={"select-usertype"}>
             <Select label={"Filter for brukertype"}
-                    onChange={(e) => setUserTypeFilter(e.target.value)}
                     id="user-type-select"
+                    onChange={(e) => setUserTypeFilter(e.target.value)}
                     value={String(currentSearchParams.get("userType")) ?? ""}
             >
                 <option value={""}>Alle</option>
