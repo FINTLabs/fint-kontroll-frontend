@@ -39,27 +39,25 @@ export default function KontrollAdminDefineRole() {
 
     return (
         <section>
-            <Suspense fallback={<>Loading data</>}>
-                <Tabs value={"define-role"}>
-                    <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
-                        <div className={"radio-group-horizontal"}>
-                            <RadioGroup
-                                legend="Velg rolle"
-                                onChange={(val: string) => handleChangeSelectedRole(val)}
-                                value={roleProp ? roleProp : ""}
-                            >
-                                {roles.map((role, index) =>
-                                    <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
-                                        {role.name}
-                                    </Radio>)
-                                }
-                            </RadioGroup>
-                        </div>
+            <Tabs value={"define-role"}>
+                <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
+                    <div className={"radio-group-horizontal"}>
+                        <RadioGroup
+                            legend="Velg rolle"
+                            onChange={(val: string) => handleChangeSelectedRole(val)}
+                            value={roleProp ? roleProp : ""}
+                        >
+                            {roles.map((role, index) =>
+                                <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
+                                    {role.name}
+                                </Radio>)
+                            }
+                        </RadioGroup>
+                    </div>
 
-                        <Outlet context={context} />
-                    </Tabs.Panel>
-                </Tabs>
-            </Suspense>
+                    <Outlet context={context} />
+                </Tabs.Panel>
+            </Tabs>
         </section>
     );
 }
