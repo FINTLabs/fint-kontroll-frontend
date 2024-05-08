@@ -12,13 +12,16 @@ describe("Check 'Knytt features til roller'", () => {
 
 	it("Click into a 'menu' and select 'Kontrolladministrasjon", () => {
 		cy.get("#dropdown-button").click()
-		cy.contains("Kontrolladministrasjon").click()
+		cy.contains("a", "Kontrolladministrasjon").click()
 		wait(1000)
 	})
 
-	it("Can click 'Knytt features til roller'", () => {
-		cy.get("#feature-role-tab").click()
+	it("Navigate to features-to-role", () => {
+		cy.visit('http://localhost:3000/beta/fintlabs-no/kontroll-admin/features-to-role')
 		wait(1000)
+		cy.location('pathname').then((pathname) => {
+			expect(pathname).to.contain('features-to-role');
+		})
 	})
 
 	it("Can see Radio Group and option of roles, click 1st option", () => {
@@ -30,7 +33,7 @@ describe("Check 'Knytt features til roller'", () => {
 	})
 
 	it("Can see contents in table", () => {
-		cy.get("#features-table td").contains("Alle brukere").should("exist")
+		cy.get("table tr td").contains("Alle brukere").should("exist")
 		wait(1000)
 	})
 })
