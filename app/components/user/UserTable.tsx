@@ -50,7 +50,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                                     }
                                     iconPosition={"right"}
                                     onClick={() =>
-                                        navigate(`/users/${user.id}`)
+                                        navigate(`/users/${user.id}/orgunit/${user.organisationUnitId}`)
                                     }
                                     // id={`resource-${i}`}
                                     variant={"secondary"}

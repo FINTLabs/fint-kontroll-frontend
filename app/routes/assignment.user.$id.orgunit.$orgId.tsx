@@ -7,8 +7,10 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, Link, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {ArrowLeftIcon} from "@navikt/aksel-icons";
+import React from "react";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -63,6 +65,16 @@ export default function NewAssignmentForUser() {
     const params = useParams<string>()
 
     return (
+        <>
+            <Button as={Link}
+                    variant={"secondary"}
+                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
+                    iconPosition={"left"}
+                    href={`${data.basePath}/users/${params.id}/orgunit/${params.orgId}`}
+            >
+                Tilbake
+            </Button>
+
         <div className={"content"}>
             <VStack className={"heading"}>
                 <Heading level="1" size="xlarge">Ny tildeling </Heading>
@@ -74,10 +86,12 @@ export default function NewAssignmentForUser() {
             <AssignResourceToUserTable
                 isAssignedResources={data.isAssignedResources}
                 userId={params.id}
+                orgId={params.orgId}
                 currentPage={data.resourceList.currentPage}
                 totalPages={data.resourceList.totalPages}
                 basePath={data.basePath}/>
         </div>
+        </>
     );
 }
 

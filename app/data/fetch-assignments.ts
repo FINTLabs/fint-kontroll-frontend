@@ -101,7 +101,8 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
 }
 
 export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
+       const response = await fetch(url, {
         headers: {
             Authorization: token ?? "",
             'content-type': 'application/json'
@@ -113,6 +114,7 @@ export const createUserAssignment = async (token: string | null, resourceRef: nu
             organizationUnitId: organizationUnitId,
         })
     });
+    logger.debug("Response from CRETE USER Assignments????", url, response.status);
         return response;
 }
 
