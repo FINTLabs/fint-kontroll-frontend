@@ -1,5 +1,4 @@
 import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError, useSearchParams} from "@remix-run/react";
-import React from "react";
 import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
 import {ActionFunctionArgs, redirect} from "@remix-run/node";
 import {createUserAssignment} from "~/data/fetch-assignments";
@@ -13,7 +12,7 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
+    return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}?page=${searchParams.get("page")}&responseCode=${response.status}`)
 }
 
 export default function NewAssignment1() {
@@ -21,11 +20,12 @@ export default function NewAssignment1() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
 
+
     return (
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                onClose={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -40,8 +40,8 @@ export default function NewAssignment1() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Form method={"POST"}>
-                        <input value={params.id} type="hidden" name="resourceRef"/>
-                        <input value={params.userId} type="hidden" name="userRef"/>
+                        <input value={params.resourceId} type="hidden" name="resourceRef"/>
+                        <input value={params.id} type="hidden" name="userRef"/>
                         <input value={params.orgId} type="hidden" name="organizationUnitId"/>
 
                         <Button type="submit" variant="primary">
@@ -51,7 +51,7 @@ export default function NewAssignment1() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/resource/${params.id}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                        onClick={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}`)}
                     >
                         Avbryt
                     </Button>
@@ -60,6 +60,7 @@ export default function NewAssignment1() {
         </>
     )
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

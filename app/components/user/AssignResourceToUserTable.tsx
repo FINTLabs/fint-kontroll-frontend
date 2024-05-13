@@ -9,6 +9,7 @@ export const AssignResourceToUserTable: any = (props: {
     size: string,
     page: string,
     userId: string,
+    orgId: string,
     totalPages: number,
     currentPage: number,
     basePath?: string
@@ -50,7 +51,7 @@ export const AssignResourceToUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/user/${props.userId}`}
+                                        href={`${props.basePath}/assignment/user/${props.userId}/resource/${resource.id}/orgunit/${props.orgId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                         underline={false}
                                     >
                                         Tildel
