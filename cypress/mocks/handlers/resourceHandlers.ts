@@ -604,6 +604,7 @@ export const resourceHandlers = [
 
     // Fetching assigned users to a resource
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/resource/:id/users', ({request}) => {
+        // These queryParams will be used for later testing
         const size = new URL(request.url).searchParams.get('size') ?? "10"
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"

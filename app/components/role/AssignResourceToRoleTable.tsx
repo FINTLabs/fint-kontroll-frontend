@@ -23,7 +23,7 @@ export const AssignResourceToRoleTable = ({
     basePath
 }: AssignResourceToRoleTableProps) => {
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
