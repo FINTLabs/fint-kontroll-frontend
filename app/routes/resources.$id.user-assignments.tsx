@@ -10,6 +10,7 @@ import {Alert, Box, Heading} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
+import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
@@ -32,6 +33,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     ]);
     return json({
         assignedUsers: await assignedUsers.json(),
+        size,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
     })
@@ -42,29 +44,37 @@ export function useResourceByIdLoaderData() {
 }
 
 export default function AssignedUsers() {
-    const data = useLoaderData<{
-        assignedUsers: IAssignedUsers,
-        basePath: string,
-        responseCode: string | undefined
-    }>();
+    const loaderData = useLoaderData<typeof loader>();
+    const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers
+    const size = loaderData.size
+    const basePath: string = loaderData.basePath
+    const responseCode: string | undefined = loaderData.responseCode
 
     return (
         <>
             <Box paddingBlock="16 8">
                 <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
             </Box>
+
             <section className={"toolbar"}>
-                <SelectObjectType/>
+                <SelectObjectType />
                 <section className={"filters"}>
                     <UserTypeFilter/>
                     <AssignedUsersSearch/>
                 </section>
             </section>
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={data.responseCode}/>
+
+            <Box className={"filters"} paddingBlock={"1 8"}>
+                <ChipsFilters />
             </Box>
+
+            <Box paddingBlock='8 0'>
+                <ResponseAlert responseCode={responseCode}/>
+            </Box>
+
             <section className={"grid-main"}>
-                <AssignedUsersTable assignedUsers={data.assignedUsers} basePath={data.basePath}/>
+
+                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath} />
             </section>
         </>
     );

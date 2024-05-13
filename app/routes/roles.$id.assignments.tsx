@@ -17,17 +17,26 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const response = await fetchAssignmentsForRole(request.headers.get("Authorization"), params.id, size, page);
-    return json(await response.json());
+
+    const assignments = await response.json()
+
+    return json({
+        assignments,
+        size
+    })
 }
 
 export default function AssignmentsForRole() {
-    const assignments = useLoaderData<IAssignmentPage>();
+    const loaderData = useLoaderData<typeof loader>();
+    const assignments = loaderData.assignments
+    const size = loaderData.size
+
     return (
         <section>
             <Tabs value={"assignments"}>
                 <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
                 <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
-                    <AssignmentsForRoleTable assignmentsForRole={assignments}/>
+                    <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} />
                 </Tabs.Panel>
             </Tabs>
         </section>

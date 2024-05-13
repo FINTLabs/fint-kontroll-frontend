@@ -9,7 +9,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
-import ChipsFilters from "~/components/resource-module-admin/ChipsFilters";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -33,7 +33,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
     return (
         <div className={"table-toolbar-pagination-container"}>
             <HStack justify={"end"}>
-                <Link href={"resource-module-admin/opprett-ny-tildeling"}>
+                <Link href={"resource-module-admin/opprett-ny-tildeling"} id="create-assignment">
                     <PlusIcon/> Opprett ny tildeling
                 </Link>
             </HStack>
@@ -43,7 +43,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
 
             <ChipsFilters />
 
-            <Table className={"users-table"}>
+            <Table className={"users-table"} id="users-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Fult navn</Table.HeaderCell>

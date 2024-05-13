@@ -3,7 +3,13 @@ import {Form, useSearchParams} from "@remix-run/react";
 import type {IMemberPage} from "~/data/types";
 import React from "react";
 
-export const MemberTable: any = (props: { memberPage: IMemberPage, size: string, page: string }) => {
+
+interface MembersTableProps {
+    memberPage: IMemberPage
+    size: string
+}
+
+export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
 
@@ -25,7 +31,7 @@ export const MemberTable: any = (props: { memberPage: IMemberPage, size: string,
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.memberPage.members.map((member) => (
+                    {memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
                             <Table.DataCell>{member.userType}</Table.DataCell>
@@ -61,7 +67,7 @@ export const MemberTable: any = (props: { memberPage: IMemberPage, size: string,
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -70,14 +76,14 @@ export const MemberTable: any = (props: { memberPage: IMemberPage, size: string,
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.memberPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
+                    page={memberPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.memberPage.totalPages}
+                    count={memberPage.totalPages}
                     size="small"
                     prevNextTexts
                 />

@@ -43,6 +43,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     return (
         <div className="py-16">
             <Button
+                id="org-unit-filter"
                 variant={"secondary"}
                 iconPosition="right"
                 icon={<Buldings3Icon aria-hidden/>}
@@ -58,7 +59,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
             >
                 <Modal.Body className={"modal-body"}>
                     <>
-                        <Switch onClick={() => setAggregated(!aggregated)} checked={aggregated}>
+                        <Switch id="sub-org-unit-switch" onClick={() => setAggregated(!aggregated)} checked={aggregated}>
                             Inkluder underliggende enheter
                         </Switch>
 

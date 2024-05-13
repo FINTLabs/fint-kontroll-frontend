@@ -36,8 +36,8 @@ export default () => {
     }, []);
 
     return (
-        <Tabs value={"featureRole"}>
-            <Tabs.Panel value="featureRole" className="h-24 w-full bg-gray-50 p-4">
+        <Tabs value={"features-to-role"}>
+            <Tabs.Panel value="features-to-role" className="h-24 w-full bg-gray-50 p-4">
                 <div className={"radio-group-horizontal"}>
                     <RadioGroup
                         legend="Velg rolle"

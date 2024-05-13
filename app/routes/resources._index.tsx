@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Chips, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
@@ -9,6 +9,7 @@ import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -33,18 +34,16 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
 
     return json({
         resourceList,
+        size,
         orgUnitList
     })
 }
 
 export default function Resource() {
-
-    const data = useLoaderData<{
-        resourceList: IResourcePage,
-        orgUnitList: IUnitItem[]
-    }>();
-
-    const [searchParams, setSearchParams] = useSearchParams()
+    const loaderData = useLoaderData<typeof loader>();
+    const resourceList: IResourcePage = loaderData.resourceList
+    const size: string = loaderData.size
+    const orgUnitList: IUnitItem[] = loaderData.orgUnitList
 
     return (
         <div className={"content"}>
@@ -52,24 +51,19 @@ export default function Resource() {
                 <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
-                        <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
+                        <OrgUnitFilterModal orgUnitList={orgUnitList}/>
                     </div>
                     <div>
-                        <ResourceSearch/>
+                        <ResourceSearch />
                     </div>
                 </Box>
             </div>
+
             <Box className={"filters"} paddingBlock={"1 8"}>
-                {searchParams.get("orgUnits") && (
-                    <Chips.Removable onClick={event => {
-                        setSearchParams(searchParameter => {
-                            searchParameter.delete("orgUnits")
-                            return searchParameter
-                        })
-                    }}>Fjern orgenhetsfilter</Chips.Removable>
-                )}
+                <ChipsFilters />
             </Box>
-            <ResourceTable resourcePage={data.resourceList}/>
+
+            <ResourceTable resourcePage={resourceList} size={size} />
         </div>
     );
 }

@@ -1,10 +1,14 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import type {IRolePage, IUserPage} from "~/data/types";
+import type {IRolePage} from "~/data/types";
 import React from "react";
 
-export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page: string }) => {
+interface RoleTableProps {
+    rolePage: IRolePage
+    size: string
+}
+export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
@@ -19,7 +23,7 @@ export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page:
 
     return (
         <>
-            <Table id={"roleTable"}>
+            <Table id={"role-table"}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
@@ -29,9 +33,9 @@ export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page:
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.rolePage.roles.map((role) => (
+                    {rolePage.roles.map((role) => (
                         <Table.Row key={role.id}>
-                            <Table.HeaderCell scope="row">{role.roleName}</Table.HeaderCell>
+                            <Table.DataCell scope="row">{role.roleName}</Table.DataCell>
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
                             <Table.DataCell align="right">
@@ -61,12 +65,12 @@ export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page:
 
             <Form className={"paginationWrapper"}>
                 <Select
-                    id={"selectNumberOfRows"}
+                    id={"select-number-of-rows"}
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -75,14 +79,14 @@ export const RoleTable: any = (props: { rolePage: IRolePage, size: string, page:
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.rolePage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
+                    page={rolePage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.rolePage.totalPages}
+                    count={rolePage.totalPages}
                     size="small"
                     prevNextTexts
                 />

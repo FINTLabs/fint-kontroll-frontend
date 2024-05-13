@@ -3,11 +3,11 @@ import type {IAssignmentPage} from "~/data/types";
 import {Form, useSearchParams} from "@remix-run/react";
 import React from "react";
 
-export const AssignmentsForUserTable: any = (props: {
-    assignmentsForUser: IAssignmentPage,
-    size: string,
-    page: string
-}) => {
+interface AssignmentsForUserTableProps {
+    assignmentsForUser: IAssignmentPage
+    size: string
+}
+export const AssignmentsForUserTable = ({assignmentsForUser, size}: AssignmentsForUserTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
 
@@ -18,9 +18,10 @@ export const AssignmentsForUserTable: any = (props: {
             return searchParams;
         })
     }
+
     return (
         <>
-            <Table>
+            <Table id="resources-for-user-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
@@ -30,7 +31,7 @@ export const AssignmentsForUserTable: any = (props: {
                 </Table.Header>
                 <Table.Body>
 
-                    {props.assignmentsForUser.resources.map((resource) => (
+                    {assignmentsForUser.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
@@ -40,13 +41,15 @@ export const AssignmentsForUserTable: any = (props: {
                     ))}
                 </Table.Body>
             </Table>
+
             <Form className={"paginationWrapper"}>
                 <Select
+                    id={"select-number-of-rows"}
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -55,14 +58,14 @@ export const AssignmentsForUserTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.assignmentsForUser.currentPage + 1}
+                    page={assignmentsForUser.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.assignmentsForUser.totalPages}
+                    count={assignmentsForUser.totalPages}
                     size="small"
                     prevNextTexts
                 />

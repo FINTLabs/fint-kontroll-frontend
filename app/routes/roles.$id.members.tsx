@@ -18,17 +18,26 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const response = await fetchMembers(request.headers.get("Authorization"), params.id, size, page, search);
-    return json(await response.json());
+
+    const members = await response.json()
+
+    return json({
+        members,
+        size
+    })
 }
 
 export default function Members() {
-    const members = useLoaderData<IMemberPage>();
+    const loaderData = useLoaderData<typeof loader>();
+    const members = loaderData.members
+    const size = loaderData.size
+
     return (
         <section>
             <Tabs value={"members"}>
                 <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
                 <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                    <MemberTable memberPage={members}/>
+                    <MemberTable memberPage={members} size={size} />
                 </Tabs.Panel>
             </Tabs>
         </section>

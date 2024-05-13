@@ -4,16 +4,23 @@ import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
-export const AssignUserTable: any = (props: {
-    isAssignedUsers: IUser[],
-    size: string,
-    page: string,
-    resourceId: string,
-    totalPages: number,
-    currentPage: number,
-    basePath?: string
-}) => {
 
+interface AssignUserTableProps {
+    isAssignedUsers: IUser[]
+    size: string
+    resourceId: string
+    totalPages: number
+    currentPage: number
+    basePath?: string
+}
+export const AssignUserTable = ({
+    isAssignedUsers,
+    size,
+    resourceId,
+    totalPages,
+    currentPage,
+    basePath,
+}: AssignUserTableProps) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
@@ -27,8 +34,10 @@ export const AssignUserTable: any = (props: {
     return (
         <div>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
+
             <Outlet/>
-            <Table>
+
+            <Table id="users-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
@@ -38,9 +47,9 @@ export const AssignUserTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.isAssignedUsers.map((user: IUser) => (
+                    {isAssignedUsers.map((user: IUser) => (
                         <Table.Row key={user.id}>
-                            <Table.HeaderCell scope="row">{user.fullName} </Table.HeaderCell>
+                            <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
@@ -56,7 +65,7 @@ export const AssignUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel
@@ -74,7 +83,7 @@ export const AssignUserTable: any = (props: {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -83,14 +92,14 @@ export const AssignUserTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.currentPage + 1}
+                    page={currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.totalPages}
+                    count={totalPages}
                     size="small"
                     prevNextTexts
                 />

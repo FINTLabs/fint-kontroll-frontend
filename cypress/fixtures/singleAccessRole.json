@@ -1,0 +1,31 @@
+{
+	"accessRoleId": "sb",
+	"features": [
+		{
+			"featureId": 1,
+			"featureName": "featureName1",
+			"operations": [
+				"GET",
+				"POST",
+				"DELETE"
+			]
+		},
+		{
+			"featureId": 2,
+			"featureName": "featureName2",
+			"operations": [
+				"GET",
+				"POST",
+				"DELETE"
+			]
+		},
+		{
+			"featureId": 3,
+			"featureName": "featureName3",
+			"operations": [
+				"GET",
+				"DELETE"
+			]
+		}
+	]
+}

@@ -4,12 +4,12 @@ import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 
-export const AssignedUsersTable: any = (props: {
-    assignedUsers: IAssignedUsers,
-    size: string,
-    page: string,
+interface AssignedUsersTableProps {
+    assignedUsers: IAssignedUsers, size: string
     basePath?: string
-}) => {
+}
+
+export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUsersTableProps) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
@@ -26,7 +26,8 @@ export const AssignedUsersTable: any = (props: {
         <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
             <Outlet/>
-            <Table>
+
+            <Table id="assigned-users-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
@@ -36,7 +37,7 @@ export const AssignedUsersTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.assignedUsers.users.map((user) => (
+                    {assignedUsers.users.map((user) => (
                         <Table.Row key={user.id}>
                             <Table.HeaderCell scope="row">{user.firstName} {user.lastName}</Table.HeaderCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
@@ -48,7 +49,7 @@ export const AssignedUsersTable: any = (props: {
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${props.basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                    href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                 >
                                     Slett
                                 </Button>
@@ -57,13 +58,15 @@ export const AssignedUsersTable: any = (props: {
                     ))}
                 </Table.Body>
             </Table>
+
             <Box className={"paginationWrapper"}>
                 <Select
+                    id="pagination-select"
                     style={{marginBottom: '1.5rem'}}
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 10}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -72,14 +75,14 @@ export const AssignedUsersTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.assignedUsers.currentPage + 1}
+                    page={assignedUsers.currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.assignedUsers.totalPages}
+                    count={assignedUsers.totalPages}
                     size="small"
                     prevNextTexts
                 />
