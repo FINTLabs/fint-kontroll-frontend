@@ -497,113 +497,114 @@ export const resourceHandlers = [
 
 
     // For fetching Grupper
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/${id}/resources', () => {
-        return HttpResponse.json(
-        {
-                "currentPage": 0,
-                "size": 10,
-                "totalItems": 9,
-                "totalPages": 1,
-                "roles": [
-                    {
-                        "id": 5,
-                        "roleName": "Ansatt - INFRA Avdeling for mobilitet og samfunn",
-                        "roleType": "ansatt",
-                        "assignmentRef": 358,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "85",
-                        "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
-                    },
-                    {
-                        "id": 15,
-                        "roleName": "Ansatt - INFRA Samferdsel",
-                        "roleType": "ansatt",
-                        "assignmentRef": 401,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "8",
-                        "organisationUnitName": "INFRA Samferdsel"
-                    },
-                    {
-                        "id": 16,
-                        "roleName": "Ansatt - KOMP Fag- og yrkesopplæring",
-                        "roleType": "ansatt",
-                        "assignmentRef": 402,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "161",
-                        "organisationUnitName": "KOMP Fag- og yrkesopplæring"
-                    },
-                    {
-                        "id": 26,
-                        "roleName": "Ansatt - KOMP Forvaltningsutvikling",
-                        "roleType": "ansatt",
-                        "assignmentRef": 408,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "150",
-                        "organisationUnitName": "KOMP Forvaltningsutvikling"
-                    },
-                    {
-                        "id": 3,
-                        "roleName": "Ansatt - OKO System- og fellestjenester",
-                        "roleType": "ansatt",
-                        "assignmentRef": 385,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "35",
-                        "organisationUnitName": "OKO System- og fellestjenester"
-                    },
-                    {
-                        "id": 7,
-                        "roleName": "Ansatt - VGMIDT Administrasjon",
-                        "roleType": "ansatt",
-                        "assignmentRef": 390,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "195",
-                        "organisationUnitName": "VGMIDT Administrasjon"
-                    },
-                    {
-                        "id": 23,
-                        "roleName": "Ansatt - VGMIDT Språk/Økonomi",
-                        "roleType": "ansatt",
-                        "assignmentRef": 411,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "207",
-                        "organisationUnitName": "VGMIDT Språk/Økonomi"
-                    },
-                    {
-                        "id": 10,
-                        "roleName": "Ansatt - VGSTOR Administrasjon",
-                        "roleType": "ansatt",
-                        "assignmentRef": 386,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "205",
-                        "organisationUnitName": "VGSTOR Administrasjon"
-                    },
-                    {
-                        "id": 13,
-                        "roleName": "Ansatt - VGSTOR Tekno",
-                        "roleType": "ansatt",
-                        "assignmentRef": 387,
-                        "assignerUsername": "linda.loftsgarden@novari.no",
-                        "assignerDisplayname": null,
-                        "organisationUnitId": "218",
-                        "organisationUnitName": "VGSTOR Tekno"
-                    }
-                ],
-            }
-        )
-    }),
+    // http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/${id}/resources', () => {
+    //     return HttpResponse.json(
+    //     {
+    //             "currentPage": 0,
+    //             "size": 10,
+    //             "totalItems": 9,
+    //             "totalPages": 1,
+    //             "roles": [
+    //                 {
+    //                     "id": 5,
+    //                     "roleName": "Ansatt - INFRA Avdeling for mobilitet og samfunn",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 358,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "85",
+    //                     "organisationUnitName": "INFRA Avdeling for mobilitet og samfunn"
+    //                 },
+    //                 {
+    //                     "id": 15,
+    //                     "roleName": "Ansatt - INFRA Samferdsel",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 401,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "8",
+    //                     "organisationUnitName": "INFRA Samferdsel"
+    //                 },
+    //                 {
+    //                     "id": 16,
+    //                     "roleName": "Ansatt - KOMP Fag- og yrkesopplæring",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 402,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "161",
+    //                     "organisationUnitName": "KOMP Fag- og yrkesopplæring"
+    //                 },
+    //                 {
+    //                     "id": 26,
+    //                     "roleName": "Ansatt - KOMP Forvaltningsutvikling",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 408,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "150",
+    //                     "organisationUnitName": "KOMP Forvaltningsutvikling"
+    //                 },
+    //                 {
+    //                     "id": 3,
+    //                     "roleName": "Ansatt - OKO System- og fellestjenester",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 385,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "35",
+    //                     "organisationUnitName": "OKO System- og fellestjenester"
+    //                 },
+    //                 {
+    //                     "id": 7,
+    //                     "roleName": "Ansatt - VGMIDT Administrasjon",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 390,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "195",
+    //                     "organisationUnitName": "VGMIDT Administrasjon"
+    //                 },
+    //                 {
+    //                     "id": 23,
+    //                     "roleName": "Ansatt - VGMIDT Språk/Økonomi",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 411,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "207",
+    //                     "organisationUnitName": "VGMIDT Språk/Økonomi"
+    //                 },
+    //                 {
+    //                     "id": 10,
+    //                     "roleName": "Ansatt - VGSTOR Administrasjon",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 386,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "205",
+    //                     "organisationUnitName": "VGSTOR Administrasjon"
+    //                 },
+    //                 {
+    //                     "id": 13,
+    //                     "roleName": "Ansatt - VGSTOR Tekno",
+    //                     "roleType": "ansatt",
+    //                     "assignmentRef": 387,
+    //                     "assignerUsername": "linda.loftsgarden@novari.no",
+    //                     "assignerDisplayname": null,
+    //                     "organisationUnitId": "218",
+    //                     "organisationUnitName": "VGSTOR Tekno"
+    //                 }
+    //             ],
+    //         }
+    //     )
+    // }),
 
 
 
     // Fetching assigned users to a resource
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/resource/:id/users', ({request}) => {
+        // These queryParams will be used for later testing
         const size = new URL(request.url).searchParams.get('size') ?? "10"
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
