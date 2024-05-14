@@ -84,6 +84,7 @@ export default function NewAssignmentForRole() {
                 roleId={role.id}
                 currentPage={resourceList.currentPage}
                 totalPages={resourceList.totalPages}
+                orgId={role.organisationUnitId}
                 basePath={basePath}/>
         </div>
     );

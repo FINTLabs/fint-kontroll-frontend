@@ -11,16 +11,19 @@ interface AssignResourceToRoleTableProps {
     roleId: number
     totalPages: number
     currentPage: number
+    orgId: string
     basePath?: string
 }
 
-export const AssignResourceToRoleTable = ({
-    isAssignedResources,
-    size,
-    roleId,
-    totalPages,
-    currentPage,
-    basePath
+export const AssignResourceToRoleTable = (
+    {
+        isAssignedResources,
+        size,
+        roleId,
+        totalPages,
+        currentPage,
+        orgId,
+        basePath
 }: AssignResourceToRoleTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
@@ -36,6 +39,7 @@ export const AssignResourceToRoleTable = ({
     return (
         <div>
             <Outlet/>
+
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -43,6 +47,7 @@ export const AssignResourceToRoleTable = ({
                         <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
+
                 <Table.Body>
                     {isAssignedResources.map((resource: IResource) => (
                         <Table.Row key={resource.id}>
@@ -59,7 +64,7 @@ export const AssignResourceToRoleTable = ({
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/role/${roleId}`}
+                                        href={`${basePath}/assignment/role/${roleId}/resource/${resource.id}/orgunit/${orgId}/assign`}
                                         underline={false}
                                     >
                                         Tildel
@@ -71,6 +76,7 @@ export const AssignResourceToRoleTable = ({
                     ))}
                 </Table.Body>
             </Table>
+
             <Box className={"paginationWrapper"}>
                 <Select
                     style={{marginBottom: '1.5rem'}}
