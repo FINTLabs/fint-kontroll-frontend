@@ -1,15 +1,19 @@
-import {Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import type {IAssignmentPage} from "~/data/types";
-import {Form, useSearchParams} from "@remix-run/react";
+import {Form, Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
+import {TrashIcon} from "@navikt/aksel-icons";
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage
     size: string
+    basePath?: string
 }
-export const AssignmentsForUserTable = ({assignmentsForUser, size}: AssignmentsForUserTableProps) => {
 
-    const [, setSearchParams] = useSearchParams()
+export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: AssignmentsForUserTableProps) => {
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const params = useParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -21,21 +25,34 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size}: AssignmentsF
 
     return (
         <>
+            <Outlet/>
             <Table id="resources-for-user-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={"center"}>Fjern tildeling</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-
                     {assignmentsForUser.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{resource.assignerDisplayname ? resource.assignerDisplayname : resource.assignerUsername}</Table.DataCell>
+                            <Table.DataCell align={"center"}>
+                                <Button
+                                    as={Link}
+                                    className={"buttonOutlined"}
+                                    variant={"secondary"}
+                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
+                                    iconPosition={"right"}
+                                    href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                >
+                                    Slett
+                                </Button>
+                            </Table.DataCell>
                         </Table.Row>
 
                     ))}

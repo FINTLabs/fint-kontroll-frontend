@@ -27,6 +27,8 @@ export interface IUser {
     "lastName": string;
     "fullName": string;
     "userType": string;
+    "userName": string;
+    "email": string;
     "assignmentRef": number;
     "assignerUsername": string;
     "assignerDisplayname": string;
@@ -166,6 +168,7 @@ export interface IResource {
     applicationAccessType: string;
     applicationAccessRole: string;
     accessType: string;
+    assignmentRef: number;
     "platform": [],
     "resourceOwnerOrgUnitId": string,
     "resourceOwnerOrgUnitName": string,

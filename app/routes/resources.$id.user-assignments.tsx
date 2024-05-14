@@ -73,7 +73,6 @@ export default function AssignedUsers() {
             </Box>
 
             <section className={"grid-main"}>
-
                 <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath} />
             </section>
         </>
