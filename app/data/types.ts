@@ -27,6 +27,8 @@ export interface IUser {
     "lastName": string
     "fullName": string
     "userType": string
+    "userName": string
+    "email": string
     "assignmentRef": number
     "assignerUsername": string
     "assignerDisplayname": string

@@ -26,7 +26,6 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
         <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
             <Outlet/>
-
             <Table id="assigned-users-table">
                 <Table.Header>
                     <Table.Row>
@@ -49,7 +48,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                    href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                 >
                                     Slett
                                 </Button>

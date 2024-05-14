@@ -11,6 +11,7 @@ import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable
 import {BASE_PATH} from "../../environment";
 import {UserInfo} from "~/components/user/UserInfo";
 import {ArrowLeftIcon} from "@navikt/aksel-icons";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -31,6 +32,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         size,
         page,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
     })
 }
 
@@ -40,6 +42,7 @@ export default function Users() {
     const assignmentsForUser: IAssignmentPage = data.assignments
     const size = data.size
     const basePath: string = data.basePath
+    const responseCode: string | undefined = data.responseCode
     const params = useParams()
 
     return (
@@ -65,7 +68,10 @@ export default function Users() {
                         Brukeren er tildelt følgende ressurser:
                     </Heading>
                 </section>
-                <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size}/>
+                <Box paddingBlock='8 0'>
+                    <ResponseAlert responseCode={responseCode}/>
+                </Box>
+                <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} basePath={basePath}/>
             </section>
         </>
     );
@@ -92,4 +98,22 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "410") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen er slettet!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under sletting av tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }
