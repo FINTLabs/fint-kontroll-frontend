@@ -7,6 +7,8 @@ import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
 import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable";
 import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
+import {BASE_PATH} from "../../environment";
+import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -22,7 +24,9 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     return json({
         assignments,
-        size
+        size,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        responseCode: url.searchParams.get("responseCode") ?? undefined
     })
 }
 
@@ -30,13 +34,19 @@ export default function AssignmentsForRole() {
     const loaderData = useLoaderData<typeof loader>();
     const assignments = loaderData.assignments
     const size = loaderData.size
+    const basePath = loaderData.basePath
+    const responseCode: string | undefined = loaderData.responseCode
 
     return (
         <section>
             <Tabs value={"assignments"}>
                 <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
                 <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
-                    <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} />
+                    <Box paddingBlock='8 0'>
+                        <ResponseAlert responseCode={responseCode}/>
+                    </Box>
+
+                    <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath} />
                 </Tabs.Panel>
             </Tabs>
         </section>
@@ -63,4 +73,22 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
+}
+
+function ResponseAlert(prop: { responseCode: string | undefined }) {
+
+    if (prop.responseCode === undefined) return (<div/>)
+
+    if (prop.responseCode === "410") {
+        return (
+            <AlertWithCloseButton variant="success">
+                Tildelingen er slettet!
+            </AlertWithCloseButton>
+        )
+    } else return (
+        <AlertWithCloseButton variant="error">
+            Noe gikk galt under sletting av tildelingen!
+            <div>Feilkode: {prop.responseCode}</div>
+        </AlertWithCloseButton>
+    )
 }
