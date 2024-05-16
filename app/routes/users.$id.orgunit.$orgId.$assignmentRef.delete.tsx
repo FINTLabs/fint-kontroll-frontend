@@ -12,7 +12,7 @@ export async function action({params, request}: ActionFunctionArgs) {
 
     const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
-    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
+    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParams(searchParams).length > 0 ? prepareQueryParams(searchParams) + "&responseCode="+response.status : "?responseCode="+response.status}`)
 }
 
 export default function DeleteUserAssignment() {
