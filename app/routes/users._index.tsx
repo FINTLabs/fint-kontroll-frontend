@@ -47,8 +47,8 @@ export default function UsersIndex() {
                 <Heading className={"heading"} level="1" size="xlarge">Brukere</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
                     <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
-                    <UserTypeFilter/>
-                    <UserSearch/>
+                    <UserTypeFilter />
+                    <UserSearch />
                 </Box>
             </div>
             <Box className={"filters"} paddingBlock={"1 8"}>
