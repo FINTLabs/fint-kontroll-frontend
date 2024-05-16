@@ -59,8 +59,8 @@ export default function AssignedUsers() {
             <section className={"toolbar"}>
                 <SelectObjectType />
                 <section className={"filters"}>
-                    <UserTypeFilter/>
-                    <AssignedUsersSearch/>
+                    <UserTypeFilter />
+                    <AssignedUsersSearch />
                 </section>
             </section>
 

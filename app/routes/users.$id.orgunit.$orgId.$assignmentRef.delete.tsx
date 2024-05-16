@@ -4,6 +4,7 @@ import {Form, useNavigate, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -23,7 +24,7 @@ export default function DeleteUserAssignment() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/users/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                onClose={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
@@ -48,7 +49,7 @@ export default function DeleteUserAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/users/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                        onClick={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>
