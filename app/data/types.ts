@@ -15,25 +15,28 @@ export interface IOrgUnit {
 }
 
 export interface IMeInfo {
-    "firstName": string
-    "lastName": string
-    "organisationId": string
-    "mail": string
+    firstName: string
+    lastName: string
+    organisationId: string
+    mail: string
 }
 
 export interface IUser {
-    "id": number
-    "firstName": string
-    "lastName": string
-    "fullName": string
-    "userType": string
-    "userName": string
-    "email": string
-    "assignmentRef": number
-    "assignerUsername": string
-    "assignerDisplayname": string
-    "organisationUnitId": string
-    "organisationUnitName": string
+    id: number
+    assigneeFirstName: string
+    assigneeLastName: string
+    fullName: string
+    assigneeUserType: string
+    assigneeUserName: string
+    assigneeOrganisationUnitId: string
+    assigneeOrganisationUnitName: string
+    email: string
+    assignmentRef: number
+    directAssignment: boolean
+    assignmentViaRoleRef: string
+    assignmentViaRoleName: string
+    assignerUsername: string
+    assignerDisplayname: string
     assigned: boolean
     roles?: IUserRole[] // Optional to allow use of same type
 }
