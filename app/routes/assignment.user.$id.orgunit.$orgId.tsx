@@ -7,10 +7,12 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Button, Heading, Link, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, HStack, Link, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {ArrowLeftIcon} from "@navikt/aksel-icons";
 import React from "react";
+import {ResourceSearch} from "~/components/resource/ResourceSearch";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -75,22 +77,28 @@ export default function NewAssignmentForUser() {
                 Tilbake
             </Button>
 
-        <div className={"content"}>
-            <VStack className={"heading"}>
-                <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                <Heading level="2" size="small">{data.user.fullName}</Heading>
-            </VStack>
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={data.responseCode}/>
-            </Box>
-            <AssignResourceToUserTable
-                isAssignedResources={data.isAssignedResources}
-                userId={params.id}
-                orgId={params.orgId}
-                currentPage={data.resourceList.currentPage}
-                totalPages={data.resourceList.totalPages}
-                basePath={data.basePath}/>
-        </div>
+            <div className={"content"}>
+                <VStack className={"heading"}>
+                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
+                    <Heading level="2" size="small">{data.user.fullName}</Heading>
+                </VStack>
+                <HStack justify={"end"}>
+                    <ResourceSearch/>
+                </HStack>
+                <Box className={"filters"} paddingBlock={"1 8"}>
+                    <ChipsFilters/>
+                </Box>
+                <Box paddingBlock='8 0'>
+                    <ResponseAlert responseCode={data.responseCode}/>
+                </Box>
+                <AssignResourceToUserTable
+                    isAssignedResources={data.isAssignedResources}
+                    userId={params.id}
+                    orgId={params.orgId}
+                    currentPage={data.resourceList.currentPage}
+                    totalPages={data.resourceList.totalPages}
+                    basePath={data.basePath}/>
+            </div>
         </>
     );
 }
