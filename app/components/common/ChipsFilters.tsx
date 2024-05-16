@@ -1,6 +1,7 @@
 import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
+import {handleClearNameFieldString, handleClearSearchFieldString} from "~/components/common/CommonFunctions";
 
 const ChipsFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -68,12 +69,24 @@ const ChipsFilters = () => {
             }
 
             {name &&
-                <Chips.Removable onClick={() => removeFilter("name")} id="name-chip">
+                <Chips.Removable
+                    onClick={() => {
+                        handleClearNameFieldString(setSearchParams)
+                        removeFilter("name")
+                    }}
+                    id="name-chip"
+                >
                     {name}
                 </Chips.Removable>
             }
             {search &&
-                <Chips.Removable onClick={() => removeFilter("search")} id="search-name-chip">
+                <Chips.Removable
+                    onClick={() => {
+                        handleClearSearchFieldString(setSearchParams)
+                        removeFilter("search")
+                    }}
+                    id="search-name-chip"
+                >
                     {search}
                 </Chips.Removable>
             }

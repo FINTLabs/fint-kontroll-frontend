@@ -13,16 +13,19 @@ export const UserSearch = () => {
         <Form className={"searchField"}
               onSubmit={event => {
                   handleSearchFieldString(event, setSearchParams, searchString)
-              }}>
+                  setSearchString("")
+              }}
+        >
             <Search
                 role="search"
                 label="Søk etter bruker"
                 id="user-search"
                 hideLabel={false}
                 variant="secondary"
+                value={searchString}
                 onChange={event => setSearchString(event)}
-                onClear={event => {
-                    handleClearSearchFieldString(event, setSearchParams)
+                onClear={() => {
+                    handleClearSearchFieldString(setSearchParams)
                 }}
             />
         </Form>

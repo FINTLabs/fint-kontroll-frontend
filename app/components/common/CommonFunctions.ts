@@ -34,7 +34,7 @@ export const handleSearchFieldString = (event: React.FormEvent<HTMLFormElement>,
 }
 
 // Clears queryparam: 'search'
-export const handleClearSearchFieldString = (event: SearchClearEvent, setSearchParams: SetURLSearchParams) => {
+export const handleClearSearchFieldString = (setSearchParams: SetURLSearchParams) => {
     setSearchParams(searchParameter => {
         searchParameter.delete("search")
         return searchParameter
@@ -52,7 +52,7 @@ export const handleSearchNameString = (event: React.FormEvent<HTMLFormElement>, 
 }
 
 // Deletes queryparam: 'name'
-export const handleClearNameFieldString = (event: SearchClearEvent, setSearchParams: SetURLSearchParams) => {
+export const handleClearNameFieldString = (setSearchParams: SetURLSearchParams) => {
     setSearchParams(searchParameter => {
         searchParameter.delete("search")
         return searchParameter

@@ -1,6 +1,7 @@
 import {Search} from "@navikt/ds-react";
 import React, {useState} from "react";
 import {Form, useSearchParams} from "@remix-run/react";
+import {handleClearSearchFieldString, handleSearchFieldString} from "~/components/common/CommonFunctions";
 
 export const ResourceSearch = () => {
 
@@ -16,18 +17,21 @@ export const ResourceSearch = () => {
     }
 
     return (
-        <Form className={"searchField"} onSubmit={(event) => handleSearch(event)}>
+        <Form className={"searchField"}
+              onSubmit={event => {
+                  handleSearchFieldString(event, setSearchParams, searchString)
+                  setSearchString("")
+              }}
+        >
             <Search
                 id="search-resource"
                 role="search"
                 label="Søk etter ressurs"
                 variant="secondary"
+                value={searchString}
                 onChange={event => setSearchString(event)}
-                onClear={event => {
-                    setSearchParams(searchParameter => {
-                        searchParameter.delete("search")
-                        return searchParameter
-                    })
+                onClear={() => {
+                    handleClearSearchFieldString(setSearchParams)
                 }}
             />
         </Form>
