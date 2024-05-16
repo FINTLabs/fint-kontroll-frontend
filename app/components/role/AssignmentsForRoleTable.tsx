@@ -3,6 +3,7 @@ import type {IAssignmentPage, IResource} from "~/data/types";
 import {Form, Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 
 
 interface AssignmentsForRoleTableProps {
@@ -55,7 +56,7 @@ export const AssignmentsForRoleTable  = ({
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${basePath}/roles/${params.id}/assignments/${resource.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                    href={`${basePath}/roles/${params.id}/assignments/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
                                 >
                                     Slett
                                 </Button>
