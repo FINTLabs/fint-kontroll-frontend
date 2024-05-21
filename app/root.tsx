@@ -82,9 +82,6 @@ const Layout = ({children, me, basePath}: LayoutProps) => {
         <Page
             footer={
                 <Box className={"footer"} padding="8" as="footer">
-                    <Page.Block width="2xl">
-                        <BodyShort>Footer</BodyShort>
-                    </Page.Block>
                 </Box>
             }
         >
