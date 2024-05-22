@@ -10,6 +10,7 @@ spec:
   port: 3000
   orgId: fintlabs.no
   image: ghcr.io/fintlabs/fint-kontroll-frontend
+  imagePullPolicy: always
   prometheus:
     enabled: true
     port: "3000"
