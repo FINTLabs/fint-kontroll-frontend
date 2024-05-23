@@ -22,7 +22,7 @@ export const ResourceSearch = () => {
                 label="Søk etter ressurs"
                 variant="secondary"
                 onChange={event => setSearchString(event)}
-                onClear={event => {
+                onClear={() => {
                     submit({search: ""}, {method: "GET", action: "/resource-admin"})
                 }}
             />
