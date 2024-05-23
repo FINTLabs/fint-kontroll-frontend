@@ -1,6 +1,6 @@
 import {wait} from "@testing-library/user-event/dist/utils";
 
-describe('Check the user page with no backend', () => {
+describe('Check the user page', () => {
     const searchText = 'TEST';
     const userType = 'STUDENT';
 
