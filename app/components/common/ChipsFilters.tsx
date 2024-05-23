@@ -1,16 +1,23 @@
 import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
-import {handleClearNameFieldString, handleClearSearchFieldString} from "~/components/common/CommonFunctions";
+import {
+    filterResetPageParam,
+    handleClearNameFieldString,
+    handleClearSearchFieldString
+} from "~/components/common/CommonFunctions";
 
 const ChipsFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+
     const [orgUnits, setOrgUnits] = useState<string | undefined>()
     const [accessRoleId, setAccessRoleId] = useState<string | undefined>()
     const [name, setName] = useState<string | undefined>()
     const [userType, setUserType] = useState<string | undefined>()
     const [search, setSearchName] = useState<string | undefined>()
     const [orgUnitName, setOrgUnitName] = useState<string | undefined>()
+
+    const pageParam = searchParams.get("page")
 
     useEffect(() => {
         const orgsParam = searchParams.get("orgUnits")
@@ -33,6 +40,7 @@ const ChipsFilters = () => {
             searchParams.delete(filterToRemove)
             return searchParams
         })
+        filterResetPageParam(pageParam, setSearchParams)
         switch (filterToRemove) {
             case "orgUnits":
                 setOrgUnits(undefined)
