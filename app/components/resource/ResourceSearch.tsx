@@ -14,14 +14,6 @@ export const ResourceSearch = () => {
 
     const pageParam = searchParams.get("page")
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        setSearchParams(searchParams => {
-            searchString ? searchParams.set("search", searchString) : searchParams.delete("search")
-            return searchParams
-        })
-        event.preventDefault() // Prevent refresh of page
-    }
-
     return (
         <Form className={"searchField"}
               onSubmit={event => {
