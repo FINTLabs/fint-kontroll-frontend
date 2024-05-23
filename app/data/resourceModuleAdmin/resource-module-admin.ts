@@ -26,8 +26,6 @@ export const postNewTildelingForUser = async (token: string | null, resourceId: 
 
     const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment`;
 
-    console.log(scopeId)
-
     const response = await fetch(url, {
         method: "POST",
         headers: ({
