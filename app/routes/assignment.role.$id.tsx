@@ -47,6 +47,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
+        size,
         resourceList,
         orgUnitList,
         assignedResourceList,
@@ -66,6 +67,7 @@ export default function NewAssignmentForRole() {
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const role: IRole = loaderData.role
+    const size: string = loaderData.size
 
     return (
         <div className={"content"}>
@@ -80,7 +82,7 @@ export default function NewAssignmentForRole() {
             
             <AssignResourceToRoleTable
                 isAssignedResources={isAssignedResources}
-                size={resourceList.size}
+                size={size}
                 roleId={role.id}
                 currentPage={resourceList.currentPage}
                 totalPages={resourceList.totalPages}
