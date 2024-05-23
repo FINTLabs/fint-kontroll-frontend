@@ -22,7 +22,7 @@ export interface IResourceModuleUser {
     lastName: string
     userType: string
     userName: string
-    roles?: IResourceModuleUserRole[] // Optional to allow use of same type
+    roles: IResourceModuleUserRole[]
 }
 
 export interface IResourceModuleUserRole {

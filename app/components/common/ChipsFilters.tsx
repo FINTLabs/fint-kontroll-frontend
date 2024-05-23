@@ -10,6 +10,7 @@ const ChipsFilters = () => {
     const [name, setName] = useState<string | undefined>()
     const [userType, setUserType] = useState<string | undefined>()
     const [search, setSearchName] = useState<string | undefined>()
+    const [orgUnitName, setOrgUnitName] = useState<string | undefined>()
 
     useEffect(() => {
         const orgsParam = searchParams.get("orgUnits")
@@ -17,11 +18,14 @@ const ChipsFilters = () => {
         const nameParam = searchParams.get("name")
         const userTypeParam = searchParams.get("userType")
         const searchNameParam = searchParams.get("search")
+        const orgUnitName = searchParams.get("orgUnitName")
+
         orgsParam ? setOrgUnits(orgsParam) : setOrgUnits(undefined)
         accessRoleIdParam ? setAccessRoleId(accessRoleIdParam) : setAccessRoleId(undefined)
         nameParam ? setName(nameParam) : setName(undefined)
         userTypeParam ? setUserType(userTypeParam) : setUserType(undefined)
         searchNameParam ? setSearchName(searchNameParam) : setSearchName(undefined)
+        orgUnitName ? setOrgUnitName(orgUnitName) : setOrgUnitName(undefined)
     }, [searchParams]);
 
     const removeFilter = (filterToRemove: string) => {
@@ -41,6 +45,9 @@ const ChipsFilters = () => {
                 return
             case "searchName":
                 setSearchName(undefined)
+                return
+            case "orgUnitName":
+                setOrgUnitName(undefined)
                 return
             default:
                 setUserType(undefined)
@@ -88,6 +95,17 @@ const ChipsFilters = () => {
                     id="search-name-chip"
                 >
                     {search}
+                </Chips.Removable>
+            }
+            {orgUnitName &&
+                <Chips.Removable
+                    onClick={() => {
+                        handleClearSearchFieldString(setSearchParams)
+                        removeFilter("orgUnitName")
+                    }}
+                    id="org-unit-name-chip"
+                >
+                    {`Søkenavn: ${orgUnitName}`}
                 </Chips.Removable>
             }
         </Chips>

@@ -1,19 +1,24 @@
 import {HStack, Search, Select} from "@navikt/ds-react";
 import {useState} from "react";
 import {useSearchParams} from "@remix-run/react";
+import {filterResetPageParam} from "~/components/common/CommonFunctions";
 
 interface ToolbarProps {
     objectTypesForUser: string[]
 }
+
 const AdministerToolbar = ({objectTypesForUser}: ToolbarProps) => {
     const [searchValue, setSearchValue] = useState("")
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const pageParam = searchParams.get("page")
 
     const setObjectTypeFilter = (val: string) => {
         setSearchParams(searchParams => {
             val ? searchParams.set("objectType", val) : searchParams.delete("objectType")
             return searchParams
         })
+        filterResetPageParam(pageParam, setSearchParams)
     }
 
     const handleSearch = () => {
@@ -21,6 +26,8 @@ const AdministerToolbar = ({objectTypesForUser}: ToolbarProps) => {
             searchValue ? searchParams.set("orgUnitName", searchValue) : searchParams.delete("orgUnitName")
             return searchParams
         })
+        setSearchValue("")
+        filterResetPageParam(pageParam, setSearchParams)
     }
 
     return (
@@ -38,7 +45,18 @@ const AdministerToolbar = ({objectTypesForUser}: ToolbarProps) => {
                 handleSearch()
                 event.preventDefault()
             }}>
-                <Search label="Søk på orgenhetsnavn" variant="secondary" hideLabel={false} onChange={event => setSearchValue(event)} />
+                <Search label="Søk på orgenhetsnavn"
+                        variant="secondary"
+                        hideLabel={false}
+                        onChange={event => setSearchValue(event)}
+                        value={searchValue}
+                        onClear={() => {
+                            setSearchParams(searchParameter => {
+                                searchParameter.delete("orgUnitName")
+                                return searchParameter
+                            })
+                        }}
+                />
             </form>
         </HStack>
     )

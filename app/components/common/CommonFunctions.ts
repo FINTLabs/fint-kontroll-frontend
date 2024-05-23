@@ -59,3 +59,14 @@ export const handleClearNameFieldString = (setSearchParams: SetURLSearchParams) 
     })
 }
 // -----
+
+
+
+// When any filter is changed, reset "page" query param
+export const filterResetPageParam = (pageParam: string | null, setSearchParams: SetURLSearchParams) => {
+    pageParam ? setSearchParams((prev) => {
+        prev.get("page") ? prev.delete("page") : null
+        return prev
+    }) : null
+}
+// -----
