@@ -47,6 +47,20 @@ jobs:
 #          key: modules-${{ hashFiles('package-lock.json') }}
 #
 #      - run: npm run test
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      -   name: Checkout
+          uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      -   name: Cypress run
+          uses: cypress-io/github-action@v6
+          env:
+            CYPRESS_TESTS: true
+          with:
+            build: npm run build
+            start: npm start
 
   build:
     needs: [ install ]
@@ -61,15 +75,15 @@ jobs:
           - path: /beta/fintlabs-no
             environment: beta
             org: fintlabs-no
-          - path: /bfk-no
-            environment: api
-            org: bfk-no
-          - path: /afk-no
-            environment: api
-            org: afk-no
-          - path: /ofk-no
-            environment: api
-            org: ofk-no
+#          - path: /bfk-no
+#            environment: api
+#            org: bfk-no
+#          - path: /afk-no
+#            environment: api
+#            org: afk-no
+#          - path: /ofk-no
+#            environment: api
+#            org: ofk-no
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -128,12 +142,12 @@ jobs:
         include:
           - org: fintlabs-no
             cluster: aks-beta-fint-2021-11-23
-          - org: bfk-no
-            cluster: aks-api-fint-2022-02-08
-          - org: afk-no
-            cluster: aks-api-fint-2022-02-08
-          - org: ofk-no
-            cluster: aks-api-fint-2022-02-08
+#          - org: bfk-no
+#            cluster: aks-api-fint-2022-02-08
+#          - org: afk-no
+#            cluster: aks-api-fint-2022-02-08
+#          - org: ofk-no
+#            cluster: aks-api-fint-2022-02-08
 
     steps:
       - name: Checkout repository
