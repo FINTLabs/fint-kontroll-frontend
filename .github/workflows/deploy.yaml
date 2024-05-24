@@ -48,6 +48,7 @@ jobs:
 #
 #      - run: npm run test
   cypress-run:
+    needs: install
     runs-on: ubuntu-22.04
     steps:
       -   name: Checkout
@@ -58,6 +59,7 @@ jobs:
           uses: cypress-io/github-action@v6
           env:
             CYPRESS_TESTS: true
+            LOG_LEVEL: debug
           with:
             build: npm run build
             start: npm start
