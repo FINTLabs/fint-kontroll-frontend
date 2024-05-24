@@ -63,7 +63,7 @@ jobs:
             start: npm start
 
   build:
-    needs: [ install, cypress-run ]
+    needs: [ install, cypress-runs ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
