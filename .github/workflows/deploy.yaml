@@ -47,13 +47,13 @@ jobs:
 #          key: modules-${{ hashFiles('package-lock.json') }}
 #
 #      - run: npm run test
-  cypress-runs:
+  cypress-run:
     needs: install
     runs-on: ubuntu-22.04
     steps:
       -   name: Checkout
           uses: actions/checkout@v4
-      -   name: Cypress runs
+      -   name: Cypress run
           uses: cypress-io/github-action@v6
           env:
             CYPRESS_TESTS: true
@@ -61,9 +61,10 @@ jobs:
           with:
             build: npm run build
             start: npm start
+            browser: chrome
 
   build:
-    needs: [ install, cypress-runs ]
+    needs: [ install, cypress-run ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
