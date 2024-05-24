@@ -1,29 +1,30 @@
 import {Search} from "@navikt/ds-react";
-import React, {useState} from "react";
-import {Form, useSubmit} from "@remix-run/react";
+import {useState} from "react";
+import {Form, useSearchParams} from "@remix-run/react";
+import {handleClearSearchFieldString, handleSearchFieldString} from "~/components/common/CommonFunctions";
 
 export const ResourceSearch = () => {
 
-    const submit = useSubmit();
     const [searchString, setSearchString] = useState("")
-
-    const handleSearch = () => {
-    }
+    const [, setSearchParams] = useSearchParams()
 
     return (
         <Form className={"searchField"}
               onSubmit={event => {
-                  submit({search: searchString}, {method: "GET", action: "/resource-admin"})
-                  event.preventDefault()
-                  handleSearch()
-              }}>
+                  handleSearchFieldString(event, setSearchParams, searchString)
+                  setSearchString("")
+              }}
+        >
             <Search
+                id="search-resource"
                 role="search"
                 label="Søk etter ressurs"
+                hideLabel={false}
                 variant="secondary"
+                value={searchString}
                 onChange={event => setSearchString(event)}
-                onClear={event => {
-                    submit({search: ""}, {method: "GET", action: "/resource-admin"})
+                onClear={() => {
+                    handleClearSearchFieldString(setSearchParams)
                 }}
             />
         </Form>
