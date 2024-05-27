@@ -5,6 +5,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
+import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollAccessRolesRadioGroup";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -39,17 +40,7 @@ export default () => {
         <Tabs value={"features-to-role"}>
             <Tabs.Panel value="features-to-role" className="h-24 w-full bg-gray-50 p-4">
                 <div className={"radio-group-horizontal"}>
-                    <RadioGroup
-                        legend="Velg rolle"
-                        onChange={(val: string) => handleChangeSelectedRole(val)}
-                        value={roleProp ? roleProp : ""}
-                    >
-                        {accessRoles.map((role, index) =>
-                            <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
-                                {role.name}
-                            </Radio>)
-                        }
-                    </RadioGroup>
+                    <KontrollAccessRolesRadioGroup roles={accessRoles} />
                 </div>
 
                 <Outlet/>

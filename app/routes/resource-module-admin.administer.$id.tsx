@@ -5,8 +5,16 @@ import {
     fetchUserAssignments,
     deleteAllAssignmentsOnUser, deleteUserAssignmentByAccessRoleId, deleteOrgUnitFromAssignment
 } from "~/data/resourceModuleAdmin/resource-module-admin";
-import {Links, Meta, Scripts, useActionData, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
-import {Alert, Box, Button, Heading, HStack, Select, VStack} from "@navikt/ds-react";
+import {
+    Links,
+    Meta,
+    Scripts,
+    useActionData,
+    useLoaderData,
+    useNavigate,
+    useRouteError, useSearchParams
+} from "@remix-run/react";
+import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
@@ -21,6 +29,8 @@ import ResourceModuleResetModal from "../components/resource-module-admin/admini
 import RoleAssignmentTable from "../components/resource-module-admin/administer/RoleAssignmentTable";
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import {toast} from "react-toastify";
+import ChipsFilters from "~/components/common/ChipsFilters";
+import ResourceModuleRoleFilter from "~/components/resource-module-admin/ResourceModuleRoleFilter";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -93,6 +103,11 @@ const ResourceModuleAdminAdministerId = () => {
     const userAssignmentsPaginated = loaderData.userAssignmentsPaginated as IResourceModuleUserAssignmentsPaginated
     const accessRoles = loaderData.accessRoles as IResourceModuleAccessRole[]
 
+    const [searchParams, setSearchParams] = useSearchParams()
+    const roleProp = searchParams.get("accessroleid")
+    const objectTypeParam = searchParams.get("objectType")
+    const orgUnitNameParam = searchParams.get("orgUnitName")
+
     const navigate = useNavigate()
 
     const [selectedRole, setSelectedRole] = useState<IResourceModuleAccessRole>({ accessRoleId: "", name: "" })
@@ -117,17 +132,13 @@ const ResourceModuleAdminAdministerId = () => {
         actionData?.message ? toast.success(actionData.message) : null
     }, [actionData]);
 
-
-    const handleChangeRole = (selectedRoleParam: string) => {
+    useEffect(() => {
         const paramMappedToAccessRoleType: IResourceModuleAccessRole | undefined = accessRoles.find(
-            (role) => role.accessRoleId === selectedRoleParam
+            (role) => role.accessRoleId === roleProp
         )
-        if (paramMappedToAccessRoleType === undefined) {
-            setSelectedRole({ accessRoleId: "", name: "" })
-        } else {
-            setSelectedRole(paramMappedToAccessRoleType)
-        }
-    }
+
+        paramMappedToAccessRoleType === undefined ? setSelectedRole({ accessRoleId: "", name: "" }) : setSelectedRole(paramMappedToAccessRoleType)
+    }, [roleProp]);
 
     const toggleRolesResetModal = (value: boolean) => {
         setIsResetRolesModalOpen(value)
@@ -135,6 +146,19 @@ const ResourceModuleAdminAdministerId = () => {
 
     const toggleDeleteModal = () => {
         setIsDeleteModalOpen(true)
+    }
+
+    if(userDetails.roles.length === 0) {
+        return <VStack gap={"4"}>
+            <section>
+                <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={() => navigate("/resource-module-admin")}>
+                    Gå til dashbord
+                </Button>
+            </section>
+            <section>
+                {`${userDetails.firstName} ${userDetails.lastName}`} har ingen roller
+            </section>
+        </VStack>
     }
 
     return (
@@ -163,39 +187,34 @@ const ResourceModuleAdminAdministerId = () => {
                     </Button>
                 </HStack>
 
-                <HStack justify={"space-between"} align={"end"}>
-                    <Select
-                        label={"Velg rolle"}
-                        value={selectedRole.accessRoleId}
-                        onChange={(event) => handleChangeRole(event.target.value)}
-                    >
-                        <option value={""}>Alle</option>
-                        {userDetails?.roles?.map((role) => (
-                            <option key={role.roleId} value={role.roleId}>
-                                {role.roleName}
-                            </option>
-                        ))}
-                    </Select>
-                    <div>
-                        {selectedRole.accessRoleId !== "" && (
-                            <Button
-                                variant={"danger"}
-                                onClick={toggleDeleteModal}
-                                icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-                                iconPosition={"right"}
-                            >
-                                Slett rolleobjekt
-                            </Button>
-                        )}
-                    </div>
-                </HStack>
 
                 <Box>
-                    {userDetails?.roles?.length === 0 ? (
+                    {userDetails.roles.length === 0 ? (
                         <>Brukeren har ingen roller</>
                     ) : (
                         <div className={"table-toolbar-pagination-container"}>
+                            <HStack justify={"space-between"} align={"end"}>
+
+                                <ResourceModuleRoleFilter roles={userDetails.roles} />
+
+                                <div>
+                                    {selectedRole.accessRoleId !== "" && (
+                                        <Button
+                                            variant={"danger"}
+                                            onClick={toggleDeleteModal}
+                                            icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                                            iconPosition={"right"}
+                                        >
+                                            Slett rolleobjekt
+                                        </Button>
+                                    )}
+                                </div>
+                            </HStack>
+
                             <AdministerToolbar objectTypesForUser={objectTypesForUser}/>
+
+                            <ChipsFilters />
+
                             <RoleAssignmentTable selectedRole={selectedRole} userAssignmentsPaginated={userAssignmentsPaginated} />
                         </div>
                     )}
@@ -228,20 +247,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts/>
+            </body>
         </html>
     );
 }

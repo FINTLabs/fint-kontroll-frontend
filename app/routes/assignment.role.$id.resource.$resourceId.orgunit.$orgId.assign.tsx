@@ -2,6 +2,7 @@ import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError, useSe
 import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
 import {ActionFunctionArgs, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -29,7 +30,7 @@ export default function AssignResourceToRole() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/assignment/role/${params.id}${searchParams.get("page") ? '?page='+searchParams.get("page") : ""}`)}
+            onClose={() => navigate(`/assignment/role/${params.id}${prepareQueryParams(searchParams)}`)}
             header={{
                 heading: "Fullfør tildelingen",
                 size: "small",
@@ -56,7 +57,7 @@ export default function AssignResourceToRole() {
                 <Button
                     type="button"
                     variant="secondary"
-                    onClick={() => navigate(`/assignment/role/${params.id}${searchParams.get("page") ? searchParams.get("page") : ""}`)}
+                    onClick={() => navigate(`/assignment/role/${params.id}${prepareQueryParams(searchParams)}`)}
                 >
                     Avbryt
                 </Button>

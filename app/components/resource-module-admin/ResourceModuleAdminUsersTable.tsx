@@ -40,7 +40,6 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
 
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
-
             <ChipsFilters />
 
             <Table className={"users-table"} id="users-table">

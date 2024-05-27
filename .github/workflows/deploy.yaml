@@ -47,9 +47,23 @@ jobs:
 #          key: modules-${{ hashFiles('package-lock.json') }}
 #
 #      - run: npm run test
+  cypress-run:
+    needs: install
+    runs-on: ubuntu-22.04
+    steps:
+      -   name: Checkout
+          uses: actions/checkout@v4
+      -   name: Cypress run
+          uses: cypress-io/github-action@v6
+          env:
+            CYPRESS_TESTS: true
+          with:
+            build: npm run build
+            start: npm start
+            browser: chrome
 
   build:
-    needs: [ install ]
+    needs: [ install, cypress-run ]
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -64,6 +78,12 @@ jobs:
           - path: /bfk-no
             environment: api
             org: bfk-no
+          - path: /afk-no
+            environment: api
+            org: afk-no
+          - path: /ofk-no
+            environment: api
+            org: ofk-no
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -93,6 +113,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.org }}-${{ matrix.environment }}
           tags: |
             type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
+            type=raw,value=latest,enable=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5.0.0
@@ -122,6 +143,10 @@ jobs:
           - org: fintlabs-no
             cluster: aks-beta-fint-2021-11-23
           - org: bfk-no
+            cluster: aks-api-fint-2022-02-08
+          - org: afk-no
+            cluster: aks-api-fint-2022-02-08
+          - org: ofk-no
             cluster: aks-api-fint-2022-02-08
 
     steps:

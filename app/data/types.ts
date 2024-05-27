@@ -184,7 +184,6 @@ export interface IResourcePage {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    size: string
     resources: IResource[]
 }
 

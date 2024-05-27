@@ -4,6 +4,7 @@ import {Buldings3Icon} from "@navikt/aksel-icons"
 import type {IUnitItem} from "~/data/types";
 import OrgUnitTree from "~/components/org-unit-filter/OrgUnitTree";
 import {useSearchParams} from "@remix-run/react";
+import {filterResetPageParam} from "~/components/common/CommonFunctions";
 
 interface OrgUnitFilterModalProps {
     orgUnitList: IUnitItem[]
@@ -13,7 +14,9 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     const ref = useRef<HTMLDialogElement>(null)
     const [aggregated, setAggregated] = useState(false)
     const [orgUnitsFilter, setOrgUnitsFilter] = useState<IUnitItem[]>([])
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const pageParam = searchParams.get("page")
 
 
     const handleOpen = () => {
@@ -31,6 +34,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
             prev.set("orgUnits", `${[orgUnitsToString]}`);
             return prev;
         });
+        filterResetPageParam(pageParam, setSearchParams)
         ref.current?.close()
         reset()
     }
