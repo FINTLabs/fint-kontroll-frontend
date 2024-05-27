@@ -1,7 +1,7 @@
-import { http, HttpResponse } from 'msw'
+import {http, HttpResponse} from 'msw'
 
 export const resourceHandlers = [
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources', () => {
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', () => {
         return HttpResponse.json(
             {
                 "totalPages": 1,
@@ -63,9 +63,18 @@ export const resourceHandlers = [
         )
     }),
 
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/applicationcategories', () => {
+        return HttpResponse.json(
+            [
+                "Fagsystemer",
+                "Pedagogisk programvare"
+            ]
+        )
+    }),
+
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/:id', () => {
         return HttpResponse.json(
-        {
+            {
                 "id": 5,
                 "resourceId": "ff75076c4ce53f5ca51b1cbb",
                 "resourceName": "Creative Cloud All Apps for K-12 - User License",
@@ -123,7 +132,7 @@ export const resourceHandlers = [
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
 
-        if(userType === "STUDENT") {
+        if (userType === "STUDENT") {
             return HttpResponse.json(
                 {
                     "totalItems": 7,
@@ -213,7 +222,7 @@ export const resourceHandlers = [
             )
         }
 
-        if(search === "Bente") {
+        if (search === "Bente") {
             return HttpResponse.json(
                 {
                     "totalItems": 1,
@@ -237,9 +246,9 @@ export const resourceHandlers = [
             )
         }
 
-        if(size === "5" && page === "0") {
+        if (size === "5" && page === "0") {
             return HttpResponse.json(
-            {
+                {
                     "totalItems": 17,
                     "size": 5,
                     "totalPages": 2,
@@ -305,7 +314,7 @@ export const resourceHandlers = [
             )
         }
 
-        if(size === "5" && page === "1") {
+        if (size === "5" && page === "1") {
             return HttpResponse.json(
                 {
                     "totalItems": 17,
@@ -374,7 +383,7 @@ export const resourceHandlers = [
         }
 
         return HttpResponse.json(
-        {
+            {
                 "totalItems": 17,
                 "size": 10,
                 "totalPages": 2,
@@ -599,7 +608,6 @@ export const resourceHandlers = [
     //         }
     //     )
     // }),
-
 
 
     // Fetching assigned users to a resource
