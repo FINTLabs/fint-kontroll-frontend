@@ -36,6 +36,9 @@ body {
 .select-usertype {
     margin-left: 1em;
 }
+.select-applicationcategory {
+    margin-left: 1em;
+}
 
 .heading {
     margin-bottom: 1.5em;
