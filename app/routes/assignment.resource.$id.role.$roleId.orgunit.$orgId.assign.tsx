@@ -41,7 +41,7 @@ export default function NewAssignment1() {
                     <Form method={"POST"}>
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         <input value={params.roleId} type="hidden" name="roleRef"/>
-                        <input value={params.orgunitId} type="hidden" name="organizationUnitId"/>
+                        <input value={params.orgId} type="hidden" name="organizationUnitId"/>
 
                         <Button type="submit" variant="primary">
                             Lagre
