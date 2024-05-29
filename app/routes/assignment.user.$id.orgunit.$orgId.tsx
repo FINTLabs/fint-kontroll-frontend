@@ -22,13 +22,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
+    const accessType = url.searchParams.get("accesstype") ?? "";
+
 
     const [responseResources, responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory),
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request.headers.get("Authorization")),
         fetchAssignedResourcesUser(request.headers.get("Authorization"), params.id, "1000", "0"),
         fetchUserById(request.headers.get("Authorization"), params.id),
-        fetchApplicationCategory(request.headers.get("Authorization"))
+        fetchApplicationCategory(request.headers.get("Authorization")),
+       // fetchAccessType(request.headers.get("Authorization"))
+
+
     ]);
     const resourceList: IResourcePage = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
@@ -36,6 +41,8 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const assignedResourceList: IAssignedResources = await responseAssignments.json()
     const user: IUser = await responseUser.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
+   // const accessTypes: string[] = await responseAccessType.json()
+
 
     const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
     const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
@@ -52,6 +59,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         isAssignedResources,
         user,
         applicationCategories,
+       // accessTypes,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
@@ -68,12 +76,14 @@ export default function NewAssignmentForUser() {
         responseCode: string | undefined,
         user: IUser,
         applicationCategories: string[]
+       // accessTypes: string[]
     }>();
     const params = useParams<string>()
-    const [applicationCategorySearchParams, setSearchParams] = useSearchParams()
+    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
+   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     const setAppCategory = (event: string) => {
-        setSearchParams(searchParams => {
+        setApplicationCategorySearchParams(searchParams => {
             searchParams.set("applicationcategory", event);
             if (searchParams.get("applicationcategory") === "") {
                 searchParams.delete("applicationcategory")
@@ -81,6 +91,16 @@ export default function NewAssignmentForUser() {
             return searchParams;
         })
     }
+
+   /* const setAccessType = (event: string) => {
+        setAccessTypeSearchParams(searchParams => {
+            searchParams.set("accesstype", event);
+            if (searchParams.get("accesstype") === "") {
+                searchParams.delete("accesstype")
+            }
+            return searchParams;
+        })
+    }*/
 
     return (
         <>
@@ -112,6 +132,21 @@ export default function NewAssignmentForUser() {
                             </option>
                         ))}
                     </Select>
+
+                    {/*<Select
+                        className={"select-applicationcategory"}
+                        label={"Filter for lisensmodell"}
+                        onChange={(e) => setAccessType(e.target.value)}
+                        value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
+                    >
+                        <option value={""}>Alle</option>
+                        {data.accessTypes?.map((accessType) => (
+                            <option key={accessType} value={accessType}>
+                                {accessType}
+                            </option>
+                        ))}
+                    </Select>*/}
+
                     <ResourceSearch/>
                 </HStack>
                 <Box className={"filters"} paddingBlock={"1 8"}>
