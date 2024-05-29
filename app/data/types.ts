@@ -168,6 +168,7 @@ export interface IResource {
     applicationAccessType: string
     applicationAccessRole: string
     accessType: string
+    applicationCategory: string
     platform: []
     resourceOwnerOrgUnitId: string
     resourceOwnerOrgUnitName: string

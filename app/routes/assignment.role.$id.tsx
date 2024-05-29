@@ -26,8 +26,11 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
+    const accessType = url.searchParams.get("accesstype") ?? "";
+
     const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request.headers.get("Authorization")),
         fetchAssignedResourcesRole(request.headers.get("Authorization"), params.id, "1000", "0"),
         fetchRoleById(request.headers.get("Authorization"), params.id),

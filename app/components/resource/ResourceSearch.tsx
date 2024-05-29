@@ -1,5 +1,5 @@
 import {Search} from "@navikt/ds-react";
-import React, {useState} from "react";
+import {useState} from "react";
 import {Form, useSearchParams} from "@remix-run/react";
 import {
     filterResetPageParam,
@@ -26,6 +26,7 @@ export const ResourceSearch = () => {
                 id="search-resource"
                 role="search"
                 label="Søk etter ressurs"
+                hideLabel={false}
                 variant="secondary"
                 value={searchString}
                 onChange={event => setSearchString(event)}
