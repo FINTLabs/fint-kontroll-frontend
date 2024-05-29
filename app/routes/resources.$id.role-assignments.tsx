@@ -1,7 +1,7 @@
 //import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
-import {IAssignedRoles} from "~/data/types";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
+import {IAssignedRoles, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
@@ -12,6 +12,7 @@ import {Alert, Box, Heading} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
 import React from "react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {fetchResourceById} from "~/data/fetch-resources";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -23,13 +24,15 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [assignedRoles] = await Promise.all([
-
+    const [assignedRoles, resourceById] = await Promise.all([
         fetchAssignedRoles(request.headers.get("Authorization"), params.id, size, page, search, orgUnits),
+        fetchResourceById(request.headers.get("Authorization"), params.id),
+    ])
 
-    ]);
+    const resource: IResource = await resourceById.json()
     return json({
         assignedRoles: await assignedRoles.json(),
+        resourceName: resource.resourceName,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
     })
@@ -37,6 +40,13 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export function useResourceByIdLoaderData() {
     return useRouteLoaderData<typeof loader>("resource.$id")
+}
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data}) => {
+        return <Link to={`/resources/${params.id}/role-assignments`}>{data.resourceName}</Link>
+    }
 }
 
 export default function AssignedRoles() {

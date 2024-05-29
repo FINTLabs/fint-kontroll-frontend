@@ -38,7 +38,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const [assignedUsers, resourceById] = await Promise.all([
         fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, userType, orgUnits),
         fetchResourceById(request.headers.get("Authorization"), params.id),
-    ]);
+    ])
 
     const resource: IResource = await resourceById.json()
     return json({

@@ -65,7 +65,7 @@ const generateBreadcrumbs = (params, data) => {
             </span>
             {" > "}
             <span>
-                <Link to={`/resources/${params.id}/role-assignments`}>{data.resource.resourceName}</Link>
+                <Link to={`/resources/${params.id}/user-assignments`}>{data.resource.resourceName}</Link>
             </span>
             {" > "}
             <span>
