@@ -28,6 +28,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
+
     const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
         fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request.headers.get("Authorization")),
