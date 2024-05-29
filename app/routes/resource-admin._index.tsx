@@ -17,22 +17,26 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
+    const accessType = url.searchParams.get("accesstype") ?? "";
 
     const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory),
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request.headers.get("Authorization")),
-        fetchApplicationCategory(request.headers.get("Authorization"))
+        fetchApplicationCategory(request.headers.get("Authorization")),
+       // fetchAccessType(request.headers.get("Authorization"))
 
     ]);
     const resourceList: IResourcePage = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
+   // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
         resourceList,
         orgUnitList,
-        applicationCategories
+        applicationCategories,
+       // accessTypes
     })
 }
 
@@ -42,10 +46,13 @@ export default function ResourceAdminIndex() {
     const resourceList: IResourcePage = loaderData.resourceList
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
-    const [applicationCategorySearchParams, setSearchParams] = useSearchParams()
+   // const accessTypes: string[] = loaderData.accessTypes
+
+    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
+   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     const setAppCategory = (event: string) => {
-        setSearchParams(searchParams => {
+        setApplicationCategorySearchParams(searchParams => {
             searchParams.set("applicationcategory", event);
             if (searchParams.get("applicationcategory") === "") {
                 searchParams.delete("applicationcategory")
@@ -53,6 +60,16 @@ export default function ResourceAdminIndex() {
             return searchParams;
         })
     }
+
+    /*const setAccessType = (event: string) => {
+        setAccessTypeSearchParams(searchParams => {
+            searchParams.set("accesstype", event);
+            if (searchParams.get("accesstype") === "") {
+                searchParams.delete("accesstype")
+            }
+            return searchParams;
+        })
+    }*/
 
     return (
         <div className={"content"}>
@@ -71,6 +88,21 @@ export default function ResourceAdminIndex() {
                         </option>
                     ))}
                 </Select>
+
+                {/*<Select
+                    className={"select-applicationcategory"}
+                    label={"Filter for lisensmodell"}
+                    onChange={(e) => setAccessType(e.target.value)}
+                    value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
+                >
+                    <option value={""}>Alle</option>
+                    {accessTypes?.map((accessType) => (
+                        <option key={accessType} value={accessType}>
+                            {accessType}
+                        </option>
+                    ))}
+                </Select>*/}
+
                 <ResourceSearch/>
             </HStack>
             <Box className={"filters"} paddingBlock={"1 8"}>

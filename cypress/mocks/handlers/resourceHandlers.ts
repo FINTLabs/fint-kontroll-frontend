@@ -72,6 +72,15 @@ export const resourceHandlers = [
         )
     }),
 
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/accesstypes', () => {
+        return HttpResponse.json(
+            [
+                "device",
+                "Device based license"
+            ]
+        )
+    }),
+
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/:id', () => {
         return HttpResponse.json(
             {
