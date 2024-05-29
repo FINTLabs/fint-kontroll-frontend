@@ -1,4 +1,4 @@
-ul {
+.resource-info {
     list-style-type: none;
     -webkit-columns: 3;
     -moz-columns: 3;
@@ -7,7 +7,7 @@ ul {
     background-color: white;
 }
 
-li {
+.resource-info > li {
     padding: 1em;
 }
 

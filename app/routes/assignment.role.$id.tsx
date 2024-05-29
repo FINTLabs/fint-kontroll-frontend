@@ -1,4 +1,4 @@
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
     IAssignedResources,
     IAssignedUsers,
@@ -55,6 +55,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         role,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
+}
+
+export const handle = {
+    breadcrumb: ({ params, data }) => (
+        <>
+            <Link to={`/roles`}>Gruppeinfo</Link>
+            {" > "}
+            <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
+            {" > "}
+            <Link to={`/assignment/role/${params.id}`}>Ny tildeling</Link>
+        </>
+    )
 }
 
 export default function NewAssignmentForRole() {

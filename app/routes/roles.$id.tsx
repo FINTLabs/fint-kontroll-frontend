@@ -1,6 +1,16 @@
 import React, {useState} from 'react';
 import {Alert, Box, Heading, HStack, LinkPanel, Tabs} from "@navikt/ds-react";
-import {Links, Meta, Outlet, Scripts, useLoaderData, useLocation, useNavigate, useRouteError} from "@remix-run/react";
+import {
+    Link,
+    Links,
+    Meta,
+    Outlet,
+    Scripts,
+    useLoaderData,
+    useLocation,
+    useNavigate,
+    useRouteError
+} from "@remix-run/react";
 import {IRole} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
@@ -20,6 +30,10 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         role,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
+}
+
+export const handle = {
+    breadcrumb: ({ params, data }) => <Link to={`/roles`}>Gruppeinfo</Link>
 }
 
 export default function RolesId() {

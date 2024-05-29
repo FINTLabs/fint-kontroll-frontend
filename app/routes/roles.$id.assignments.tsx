@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import  {IAssignmentPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
@@ -28,6 +28,10 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined
     })
+}
+
+export const handle = {
+    breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
 }
 
 export default function AssignmentsForRole() {

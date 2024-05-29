@@ -1,5 +1,5 @@
 import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserTable";
-import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {IAssignedResources, IAssignedUsers, IResource, IResourcePage, IUnitItem, IUnitTree, IUser} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUserById} from "~/data/fetch-users";
@@ -7,9 +7,8 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Button, Heading, HStack, Link, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
-import {ArrowLeftIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
@@ -52,6 +51,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
+export const handle = {
+    breadcrumb: ({ params, data }) => (
+        <>
+            <Link to={`/users`}>Brukere</Link>
+            {" > "}
+            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>{data.user.fullName}</Link>
+            {" > "}
+            <Link to={`/assignment/user/${params.id}/orgunit/${params.orgunit}`}>Ny tildeling</Link>
+        </>
+    )
+}
+
 export default function NewAssignmentForUser() {
 
     const data = useLoaderData<{
@@ -68,15 +79,6 @@ export default function NewAssignmentForUser() {
 
     return (
         <>
-            <Button as={Link}
-                    variant={"secondary"}
-                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
-                    iconPosition={"left"}
-                    href={`${data.basePath}/users/${params.id}/orgunit/${params.orgId}`}
-            >
-                Tilbake
-            </Button>
-
             <div className={"content"}>
                 <VStack className={"heading"}>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
