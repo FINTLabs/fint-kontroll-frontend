@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../components/user/user.css?url"
-import {Alert, Box, Button, Heading, HStack, Link, LinkPanel} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import {Alert, Box, Heading, HStack, LinkPanel} from "@navikt/ds-react";
+import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {IAssignmentPage, IUser} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
@@ -10,7 +10,6 @@ import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
 import {BASE_PATH} from "../../environment";
 import {UserInfo} from "~/components/user/UserInfo";
-import {ArrowLeftIcon} from "@navikt/aksel-icons";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
 export function links() {
@@ -36,6 +35,17 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     })
 }
 
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data }) => (
+        <>
+            <Link to={`/users`}>Brukere</Link>
+            {" > "}
+            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>{data.user.fullName}</Link>
+        </>
+    )
+}
+
 export default function Users() {
     const data = useLoaderData<typeof loader>()
     const user: IUser = data.user
@@ -47,14 +57,6 @@ export default function Users() {
 
     return (
         <>
-            <Button as={Link}
-                    variant={"secondary"}
-                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
-                    iconPosition={"left"}
-                    href={`${data.basePath}/users`}
-            >
-                Tilbake
-            </Button>
             <section className={"content"}>
                 <HStack justify="end">
                     <LinkPanel href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`} border>

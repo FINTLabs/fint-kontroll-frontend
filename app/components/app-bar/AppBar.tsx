@@ -25,10 +25,13 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                 <HStack as="nav" justify="space-between" align="center">
                     <HStack align="center">
                         {/*<img src={logo} alt={"Logo"} style={{height: '6em', width: '6em'}}/>*/}
-                        <BodyShort className={"kontroll"} weight="semibold" size={"large"}>
-                            Kontroll
-                        </BodyShort>
+                        <Link to={"/"} className={"kontroll"}>
+                            <BodyShort weight="semibold" size={"large"}>
+                                Kontroll
+                            </BodyShort>
+                        </Link>
                     </HStack>
+
                     <div className="grid h-full">
                         <HStack align="center">
                             {props.me ?

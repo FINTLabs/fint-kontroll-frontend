@@ -3,7 +3,7 @@ import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
 import {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -31,6 +31,11 @@ export async function loader({request}: LoaderFunctionArgs) {
         userList,
         orgUnitList
     })
+}
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data }) => <Link to={`/users`}>Brukere</Link>
 }
 
 export default function UsersIndex() {

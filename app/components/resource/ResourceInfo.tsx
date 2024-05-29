@@ -17,7 +17,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
             </Box>
 
             <Box>
-                <List as="ul">
+                <ul className="resource-info">
                     <li>
                         <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
                         <BodyShort textColor="subtle">{resource.identityProviderGroupName}</BodyShort>
@@ -61,7 +61,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
                         <Heading size="small" level="3">Gyldig for:</Heading>
                         <BodyShort textColor="subtle">{resource.validForRoles}</BodyShort>
                     </li>
-                </List>
+                </ul>
             </Box>
 
         </GuidePanel>

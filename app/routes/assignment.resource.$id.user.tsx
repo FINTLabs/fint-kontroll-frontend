@@ -1,10 +1,10 @@
 import React from 'react';
-import {Alert, Box, Button, Heading, Link, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserPage} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
@@ -13,9 +13,6 @@ import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
-import {ArrowLeftIcon} from "@navikt/aksel-icons";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -59,6 +56,32 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
+// @ts-ignore
+const generateBreadcrumbs = (params, data) => {
+    return (
+        <>
+            <span>
+                <Link to={`/resources/${params.id}`}>Ressurser</Link>
+            </span>
+            {" > "}
+            <span>
+                <Link to={`/resources/${params.id}/user-assignments`}>{data.resource.resourceName}</Link>
+            </span>
+            {" > "}
+            <span>
+                <Link to={`/assignment/resource/${params.id}/user`}>Tildeling</Link>
+            </span>
+        </>
+    );
+};
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data }) => generateBreadcrumbs(params, data),
+}
+
+
+
 export default function NewAssignment() {
     const loaderData = useLoaderData<typeof loader>()
 
@@ -75,14 +98,14 @@ export default function NewAssignment() {
 
     return (
         <>
-            <Button as={Link}
-                    variant={"secondary"}
-                    icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}
-                    iconPosition={"left"}
-                    href={`${basePath}/resources/${params.id}/user-assignments`}
-            >
-                Tilbake
-            </Button>
+            {/*<Button as={Link}*/}
+            {/*        variant={"secondary"}*/}
+            {/*        icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}*/}
+            {/*        iconPosition={"left"}*/}
+            {/*        href={`${basePath}/resources/${params.id}/user-assignments`}*/}
+            {/*>*/}
+            {/*    Tilbake*/}
+            {/*</Button>*/}
 
             <div className={"content"}>
                 <VStack className={"heading"}>
