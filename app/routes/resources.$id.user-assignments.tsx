@@ -52,6 +52,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 }
 
 export const handle = {
+    // @ts-ignore
     breadcrumb: ({ params, data}) => {
         return <Link to={`/resources/${params.id}/user-assignments`}>{data.resourceName}</Link>
     }

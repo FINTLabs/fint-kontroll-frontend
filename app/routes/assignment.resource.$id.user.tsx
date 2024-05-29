@@ -56,6 +56,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
+// @ts-ignore
 const generateBreadcrumbs = (params, data) => {
     return (
         <>
@@ -75,6 +76,7 @@ const generateBreadcrumbs = (params, data) => {
 };
 
 export const handle = {
+    // @ts-ignore
     breadcrumb: ({ params, data }) => generateBreadcrumbs(params, data),
 }
 

@@ -57,7 +57,9 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
+
 export const handle = {
+    // @ts-ignore
     breadcrumb: ({ params, data }) => (
         <>
             <Link to={`/roles`}>Gruppeinfo</Link>
