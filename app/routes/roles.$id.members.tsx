@@ -28,6 +28,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export const handle = {
+    // @ts-ignore
     breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
 }
 

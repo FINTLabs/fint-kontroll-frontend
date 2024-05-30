@@ -75,9 +75,9 @@ jobs:
           - path: /beta/fintlabs-no
             environment: beta
             org: fintlabs-no
-          - path: /bfk-no
-            environment: api
-            org: bfk-no
+#          - path: /bfk-no
+#            environment: api
+#            org: bfk-no
 #          - path: /afk-no
 #            environment: api
 #            org: afk-no
@@ -142,8 +142,8 @@ jobs:
         include:
           - org: fintlabs-no
             cluster: aks-beta-fint-2021-11-23
-          - org: bfk-no
-            cluster: aks-api-fint-2022-02-08
+#          - org: bfk-no
+#            cluster: aks-api-fint-2022-02-08
 #          - org: afk-no
 #            cluster: aks-api-fint-2022-02-08
 #          - org: ofk-no
