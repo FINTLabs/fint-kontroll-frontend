@@ -41,7 +41,7 @@ export const handle = {
         <>
             <Link to={`/users`}>Brukere</Link>
             {" > "}
-            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>{data.user.fullName}</Link>
+            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>Brukerinfo</Link>
         </>
     )
 }

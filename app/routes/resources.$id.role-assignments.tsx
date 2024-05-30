@@ -45,7 +45,7 @@ export function useResourceByIdLoaderData() {
 export const handle = {
     // @ts-ignore
     breadcrumb: ({ params, data}) => {
-        return <Link to={`/resources/${params.id}/role-assignments`}>{data.resourceName}</Link>
+        return <Link to={`/resources/${params.id}/role-assignments`}>Ressursinfo</Link>
     }
 }
 
