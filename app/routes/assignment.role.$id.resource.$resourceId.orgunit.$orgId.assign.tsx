@@ -1,8 +1,19 @@
-import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError, useSearchParams} from "@remix-run/react";
-import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
+import {
+    Form,
+    Links,
+    Meta,
+    Scripts,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useRouteError,
+    useSearchParams
+} from "@remix-run/react";
+import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
 import {ActionFunctionArgs, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import React from "react";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -25,7 +36,13 @@ export default function AssignResourceToRole() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
+    const response = useNavigation()
 
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
 
     return (
         <Modal
@@ -46,13 +63,16 @@ export default function AssignResourceToRole() {
 
             <Modal.Footer>
                 <Form method={"POST"}>
-                    <input value={params.resourceId} type="hidden" name="resourceRef" />
-                    <input value={params.id} type="hidden" name="roleRef" />
-                    <input value={params.orgId} type="hidden" name="organizationUnitId" />
-
-                    <Button type="submit" variant="primary">
-                        Lagre
-                    </Button>
+                    <input value={params.resourceId} type="hidden" name="resourceRef"/>
+                    <input value={params.id} type="hidden" name="roleRef"/>
+                    <input value={params.orgId} type="hidden" name="organizationUnitId"/>
+                    {response.state === "submitting" ?
+                        <Button loading>Lagre</Button>
+                        :
+                        <Button type="submit" variant="primary">
+                            Lagre
+                        </Button>
+                    }
                 </Form>
                 <Button
                     type="button"

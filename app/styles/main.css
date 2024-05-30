@@ -44,6 +44,11 @@ body {
     margin-bottom: 1.5em;
 }
 
+.spinner {
+    display: flex;
+    justify-content: center;
+}
+
 .paginationWrapper {
     display: flex;
     flex-direction: row;

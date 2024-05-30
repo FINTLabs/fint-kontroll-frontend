@@ -1,6 +1,6 @@
 import React from 'react';
-import {BodyShort, Button, Modal} from "@navikt/ds-react";
-import {Form, useNavigate, useParams, useSearchParams} from "@remix-run/react";
+import {BodyShort, Button, Loader, Modal} from "@navikt/ds-react";
+import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
@@ -18,8 +18,13 @@ export default function DeleteRoleAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
+    const response = useNavigation()
 
-
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
 
     return (
         <Modal
@@ -39,9 +44,13 @@ export default function DeleteRoleAssignment() {
             </Modal.Body>
             <Modal.Footer>
                 <Form method={"POST"}>
-                    <Button type="submit" variant="primary">
-                        Slett
-                    </Button>
+                    {response.state === "submitting" ?
+                        <Button loading>Slett</Button>
+                        :
+                        <Button type="submit" variant="primary">
+                            Slett
+                        </Button>
+                    }
                 </Form>
                 <Button
                     type="button"
