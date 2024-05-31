@@ -12,11 +12,13 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
+import {ResourceSearch} from "~/components/resource/ResourceSearch";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -96,7 +98,17 @@ export default function NewAssignmentForRole() {
             <Box paddingBlock='8 0'>
                 <ResponseAlert responseCode={responseCode}/>
             </Box>
-            
+
+                <HStack justify="end">
+                    <VStack align="end">
+                        <Box paddingBlock="4 4">
+                            <ResourceSearch />
+                        </Box>
+                        <ChipsFilters />
+                    </VStack>
+                </HStack>
+
+
             <AssignResourceToRoleTable
                 isAssignedResources={isAssignedResources}
                 size={size}
