@@ -15,7 +15,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const orgUnits = url.searchParams.get("orgunits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
