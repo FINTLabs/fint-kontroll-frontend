@@ -67,9 +67,9 @@ export const handle = {
     // @ts-ignore
     breadcrumb: ({ params, data }) => (
         <>
-            <Link to={`/roles`}>Gruppeinfo</Link>
+            <Link to={`/roles`}>Grupper</Link>
             {" > "}
-            <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
+            <Link to={`/roles/${params.id}/members`}>Gruppeinfo</Link>
             {" > "}
             <Link to={`/assignment/role/${params.id}`}>Ny tildeling</Link>
         </>

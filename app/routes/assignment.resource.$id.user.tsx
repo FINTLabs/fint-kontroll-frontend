@@ -56,12 +56,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
-// @ts-ignore
-const generateBreadcrumbs = (params, data) => {
-    return (
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({params, data}) =>
         <>
             <span>
-                <Link to={`/resources/${params.id}`}>Ressurser</Link>
+                <Link to={`/resources`}>Ressurser</Link>
             </span>
             {" > "}
             <span>
@@ -72,14 +72,7 @@ const generateBreadcrumbs = (params, data) => {
                 <Link to={`/assignment/resource/${params.id}/user`}>Tildeling</Link>
             </span>
         </>
-    );
-};
-
-export const handle = {
-    // @ts-ignore
-    breadcrumb: ({ params, data }) => generateBreadcrumbs(params, data),
 }
-
 
 
 export default function NewAssignment() {
@@ -114,10 +107,10 @@ export default function NewAssignment() {
                 </VStack>
 
                 <section className={"toolbar"}>
-                    <SelectObjectType />
+                    <SelectObjectType/>
                     <section className={"filters"}>
-                        <UserTypeFilter />
-                        <NewAssignmentUserSearch />
+                        <UserTypeFilter/>
+                        <NewAssignmentUserSearch/>
                     </section>
                 </section>
 

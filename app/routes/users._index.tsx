@@ -33,11 +33,6 @@ export async function loader({request}: LoaderFunctionArgs) {
     })
 }
 
-export const handle = {
-    // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/users`}>Brukere</Link>
-}
-
 export default function UsersIndex() {
     const data = useLoaderData<{
         userList: IUserPage,
