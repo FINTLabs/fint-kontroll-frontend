@@ -20,7 +20,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const orgUnits = url.searchParams.get("orgunits")?.split(",") ?? [];
+    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
@@ -124,6 +124,7 @@ export default function NewAssignmentForUser() {
                 </VStack>
                 <HStack justify="end" align="end">
                     <Select
+                        id="select-applicationcategory"
                         className={"select-applicationcategory"}
                         label={"Filter for applikasjonskategori"}
                         onChange={(e) => setAppCategory(e.target.value)}
