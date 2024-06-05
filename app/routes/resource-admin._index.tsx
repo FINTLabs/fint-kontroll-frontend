@@ -1,12 +1,13 @@
-import {Alert, Box, Heading, HStack, Select} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceSearch} from "~/components/resource-admin/ResourceSearch";
 import {ResourceTable} from "~/components/resource-admin/ResourceTable";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -48,18 +49,7 @@ export default function ResourceAdminIndex() {
     const applicationCategories: string[] = loaderData.applicationCategories
    // const accessTypes: string[] = loaderData.accessTypes
 
-    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    const setAppCategory = (event: string) => {
-        setApplicationCategorySearchParams(searchParams => {
-            searchParams.set("applicationcategory", event);
-            if (searchParams.get("applicationcategory") === "") {
-                searchParams.delete("applicationcategory")
-            }
-            return searchParams;
-        })
-    }
 
     /*const setAccessType = (event: string) => {
         setAccessTypeSearchParams(searchParams => {
@@ -75,20 +65,7 @@ export default function ResourceAdminIndex() {
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
             <HStack justify="end" align="end">
-                <Select
-                    className={"select-applicationcategory"}
-                    label={"Filter for applikasjonskategori"}
-                    onChange={(e) => setAppCategory(e.target.value)}
-                    value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}
-                >
-                    <option value={""}>Alle</option>
-                    {applicationCategories?.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
-                </Select>
-
+                <ResourceSelectApplicationCategory applicationCategories={applicationCategories} />
                 {/*<Select
                     className={"select-applicationcategory"}
                     label={"Filter for lisensmodell"}
