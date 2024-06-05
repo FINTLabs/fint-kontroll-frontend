@@ -39,6 +39,11 @@ describe('Check the user detail page', () => {
 
             expect(paramValue).to.equal('Fagsystemer')
         })
+
+        cy.get("#select-applicationcategory").select('')
+        wait(1000)
+
+        cy.location('search').should('not.include', 'applicationcategory');
     })
 
 });
