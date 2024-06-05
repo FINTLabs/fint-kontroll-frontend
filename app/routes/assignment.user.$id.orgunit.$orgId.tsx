@@ -78,7 +78,6 @@ export const handle = {
 }
 
 export default function NewAssignmentForUser() {
-
     const data = useLoaderData<{
 
         resourceList: IResourcePage,
@@ -95,12 +94,10 @@ export default function NewAssignmentForUser() {
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
+    console.log(applicationCategorySearchParams.get("applicationcategory"))
     const setAppCategory = (event: string) => {
         setApplicationCategorySearchParams(searchParams => {
-            searchParams.set("applicationcategory", event);
-            if (searchParams.get("applicationcategory") === "") {
-                searchParams.delete("applicationcategory")
-            }
+            event !== "" ? searchParams.set("applicationcategory", event) : searchParams.delete("applicationcategory")
             return searchParams;
         })
     }
