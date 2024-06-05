@@ -1,7 +1,29 @@
 import {http, HttpResponse} from 'msw'
 
 export const resourceHandlers = [
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', () => {
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', ({request}) => {
+        const search = new URL(request.url).searchParams.get('search') ?? "";
+
+        if(search === "solid") {
+            return HttpResponse.json(
+                {
+                    "totalPages": 1,
+                    "currentPage": 0,
+                    "totalItems": 7,
+                    "size": 10,
+                    "resources": [
+                        {
+                            "id": 62,
+                            "resourceId": "ff75076c4ce53f5ca518989",
+                            "resourceName": "Solid Works Edu",
+                            "resourceType": "ApplicationResource",
+                            "resourceLimit": 50
+                        }
+                    ]
+                }
+            )
+        }
+
         return HttpResponse.json(
             {
                 "totalPages": 1,
