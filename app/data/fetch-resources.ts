@@ -4,7 +4,6 @@ export const fetchResources = async (token: string | null, size: string, page: s
 
     const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined
     const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined
-    console.log("FAEN: ", orgUnits)
 
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""}&${accesstypeParameter}`, {
         headers: {Authorization: token ?? ""}
