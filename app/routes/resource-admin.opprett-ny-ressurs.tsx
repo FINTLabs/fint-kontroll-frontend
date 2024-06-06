@@ -1,6 +1,11 @@
 import {Link} from "@remix-run/react";
-import React from "react";
+import {LinksFunction} from "@remix-run/node";
+import React, {useState} from "react";
 import {Button, ExpansionCard, FormSummary, HStack, VStack} from "@navikt/ds-react";
+import ResourceData from "~/components/resource-admin/opprett-ny-ressurs/ResourceData";
+import {INewResource} from "~/components/resource-admin/types";
+import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
+
 
 export const handle = {
     // @ts-ignore
@@ -13,7 +18,20 @@ export const handle = {
     )
 }
 
+export const links: LinksFunction = () => [
+    { rel: "stylesheet", href: resourceAdmin },
+];
+
 export default function OpprettNyRessurs () {
+    const [newResource, setNewResource] = useState<INewResource>({
+        resourceName: "",
+        resourceDescription: "",
+        validFrom: new Date(),
+        validTo: new Date(),
+        costPerUse: 0,
+        needsApprovalFromSupervisor: false
+    })
+
     return (
         <VStack gap="8">
             <ExpansionCard
@@ -26,7 +44,7 @@ export default function OpprettNyRessurs () {
                     <ExpansionCard.Title>Ressursinfo</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    Seksjon 1
+                    <ResourceData newResource={newResource} setNewResource={setNewResource} />
                 </ExpansionCard.Content>
             </ExpansionCard>
 

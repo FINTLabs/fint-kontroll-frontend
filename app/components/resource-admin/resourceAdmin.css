@@ -1,0 +1,12 @@
+ul {
+    list-style: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+ul > li {
+    flex: 40%;
+    min-width: 200px;
+}
