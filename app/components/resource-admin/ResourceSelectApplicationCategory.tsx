@@ -1,5 +1,4 @@
 import {Select} from "@navikt/ds-react";
-import {SetURLSearchParams} from "react-router-dom";
 import {useSearchParams} from "@remix-run/react";
 
 interface ResourceSelectApplicationCategoryProps {
