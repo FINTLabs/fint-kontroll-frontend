@@ -73,7 +73,7 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
                                     <Table.DataCell>{orgUnit.objectType}</Table.DataCell>
                                     <Table.DataCell>{orgUnit.name}</Table.DataCell>
                                     {selectedRole.accessRoleId === "" && (
-                                        <Table.DataCell>{scope.accessRoleId}</Table.DataCell>
+                                        <Table.DataCell>{scope.accessRoleName}</Table.DataCell>
                                     )}
                                     <Table.DataCell align={"center"}>
                                         <Button
