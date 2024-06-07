@@ -48,6 +48,7 @@ declare global {
             goToRessurser: typeof goToRessurser
             goToSpecificResource: typeof goToSpecificResource
             goToBrukereNyTildeling: typeof goToBrukereNyTildeling
+            goToCreateResource: typeof goToCreateResource
         }
     }
 }
@@ -89,6 +90,9 @@ export function goToBrukereNyTildeling() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/assignment/user/1232/orgunit/198')
 }
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling)
+export function goToCreateResource() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/opprett-ny-ressurs')
+}
 
 
 
