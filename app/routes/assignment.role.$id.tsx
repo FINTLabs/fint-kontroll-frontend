@@ -1,4 +1,4 @@
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
     IAssignedResources,
     IAssignedUsers,
@@ -12,11 +12,13 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
+import {ResourceSearch} from "~/components/resource/ResourceSearch";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -26,8 +28,11 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
+    const accessType = url.searchParams.get("accesstype") ?? "";
+
     const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request.headers.get("Authorization")),
         fetchAssignedResourcesRole(request.headers.get("Authorization"), params.id, "1000", "0"),
         fetchRoleById(request.headers.get("Authorization"), params.id),
@@ -47,6 +52,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
+        size,
         resourceList,
         orgUnitList,
         assignedResourceList,
@@ -54,6 +60,20 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         role,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
+}
+
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data }) => (
+        <>
+            <Link to={`/roles`}>Grupper</Link>
+            {" > "}
+            <Link to={`/roles/${params.id}/members`}>Gruppeinfo</Link>
+            {" > "}
+            <Link to={`/assignment/role/${params.id}`}>Ny tildeling</Link>
+        </>
+    )
 }
 
 export default function NewAssignmentForRole() {
@@ -66,6 +86,7 @@ export default function NewAssignmentForRole() {
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const role: IRole = loaderData.role
+    const size: string = loaderData.size
 
     return (
         <div className={"content"}>
@@ -77,10 +98,20 @@ export default function NewAssignmentForRole() {
             <Box paddingBlock='8 0'>
                 <ResponseAlert responseCode={responseCode}/>
             </Box>
-            
+
+                <HStack justify="end">
+                    <VStack align="end">
+                        <Box paddingBlock="4 4">
+                            <ResourceSearch />
+                        </Box>
+                        <ChipsFilters />
+                    </VStack>
+                </HStack>
+
+
             <AssignResourceToRoleTable
                 isAssignedResources={isAssignedResources}
-                size={resourceList.size}
+                size={size}
                 roleId={role.id}
                 currentPage={resourceList.currentPage}
                 totalPages={resourceList.totalPages}

@@ -1,18 +1,16 @@
-.meInfo {
+.me-info {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 1em;
-}
 
-.infotekst {
-    border-radius: 50%;
-    color: var(--a-surface-action);
-    border: 2px solid var(--a-surface-action);
-    width: 1.5rem;
-    height: 1.5rem;
+    gap: 4px;
 }
 
 .kontroll {
+    text-decoration: none;
+    color: black;
+}
+.kontroll > * {
     font-size: x-large;
 }

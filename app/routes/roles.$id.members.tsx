@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import  {IMemberPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
@@ -25,6 +25,11 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         members,
         size
     })
+}
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
 }
 
 export default function Members() {

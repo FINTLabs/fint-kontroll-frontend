@@ -1,10 +1,9 @@
-import React from 'react';
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Select} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
@@ -23,19 +22,27 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const applicationCategory = url.searchParams.get("applicationcategory") ?? "";
+    const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, responseOrgUnits] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization"))
+    const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
+        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationCategory, accessType),
+        fetchOrgUnits(request.headers.get("Authorization")),
+        fetchApplicationCategory(request.headers.get("Authorization")),
+       // fetchAccessType(request.headers.get("Authorization"))
     ]);
     const resourceList: IResourcePage = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
+    const applicationCategories: string[] = await responseApplicationCategories.json()
+   // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
         resourceList,
         size,
-        orgUnitList
+        orgUnitList,
+        applicationCategories,
+       // accessTypes
     })
 }
 
@@ -44,29 +51,77 @@ export default function Resource() {
     const resourceList: IResourcePage = loaderData.resourceList
     const size: string = loaderData.size
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList
+    const applicationCategories: string[] = loaderData.applicationCategories
+   // const accessTypes: string[] = loaderData.accessTypes
+
+    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
+   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
+
+    const setAppCategory = (event: string) => {
+        setApplicationCategorySearchParams(searchParams => {
+            searchParams.set("applicationcategory", event);
+            if (searchParams.get("applicationcategory") === "") {
+                searchParams.delete("applicationcategory")
+            }
+            return searchParams;
+        })
+    }
+
+    /*const setAccessType = (event: string) => {
+        setAccessTypeSearchParams(searchParams => {
+            searchParams.set("accesstype", event);
+            if (searchParams.get("accesstype") === "") {
+                searchParams.delete("accesstype")
+            }
+            return searchParams;
+        })
+    }*/
 
     return (
         <div className={"content"}>
-            <div className={"toolbar"}>
-                <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
-                <Box className={"filters"} paddingBlock={"4 4"}>
-                    <div>
-                        <OrgUnitFilterModal orgUnitList={orgUnitList}/>
-                    </div>
-                    <div>
-                        <ResourceSearch />
-                    </div>
-                </Box>
-            </div>
+            <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
+            <HStack justify="end" align="end">
+                <OrgUnitFilterModal orgUnitList={orgUnitList}/>
+                <Select
+                    className={"select-applicationcategory"}
+                    label={"Filter for applikasjonskategori"}
+                    onChange={(e) => setAppCategory(e.target.value)}
+                    value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}
+                >
+                    <option value={""}>Alle</option>
+                    {applicationCategories?.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </Select>
+
+                {/*<Select
+                    className={"select-applicationcategory"}
+                    label={"Filter for lisensmodell"}
+                    onChange={(e) => setAccessType(e.target.value)}
+                    value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
+                >
+                    <option value={""}>Alle</option>
+                    {accessTypes?.map((accessType) => (
+                        <option key={accessType} value={accessType}>
+                            {accessType}
+                        </option>
+                    ))}
+                </Select>*/}
+
+                <ResourceSearch/>
+            </HStack>
 
             <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters />
+                <ChipsFilters/>
             </Box>
 
-            <ResourceTable resourcePage={resourceList} size={size} />
+            <ResourceTable resourcePage={resourceList} size={size}/>
         </div>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

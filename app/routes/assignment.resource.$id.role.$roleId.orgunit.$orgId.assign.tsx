@@ -1,6 +1,16 @@
-import {Form, Links, Meta, Scripts, useNavigate, useParams, useRouteError, useSearchParams} from "@remix-run/react";
+import {
+    Form,
+    Links,
+    Meta,
+    Scripts,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useRouteError,
+    useSearchParams
+} from "@remix-run/react";
 import React from "react";
-import {Alert, BodyShort, Box, Button, Modal} from "@navikt/ds-react";
+import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
 import {ActionFunctionArgs, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
 
@@ -20,6 +30,14 @@ export default function NewAssignment1() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
+    const response = useNavigation()
+
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
+
     return (
         <>
             <Modal
@@ -41,11 +59,14 @@ export default function NewAssignment1() {
                     <Form method={"POST"}>
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         <input value={params.roleId} type="hidden" name="roleRef"/>
-                        <input value={params.orgunitId} type="hidden" name="organizationUnitId"/>
-
-                        <Button type="submit" variant="primary">
-                            Lagre
-                        </Button>
+                        <input value={params.orgId} type="hidden" name="organizationUnitId"/>
+                        {response.state === "submitting" ?
+                            <Button loading>Lagre</Button>
+                            :
+                            <Button type="submit" variant="primary">
+                                Lagre
+                            </Button>
+                        }
                     </Form>
                     <Button
                         type="button"

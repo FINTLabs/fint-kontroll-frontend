@@ -3,6 +3,7 @@ import type {IResource} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 
 
 interface AssignResourceToRoleTableProps {
@@ -26,7 +27,7 @@ export const AssignResourceToRoleTable = (
         basePath
 }: AssignResourceToRoleTableProps) => {
 
-    const [, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSearchParams(searchParams => {
@@ -63,7 +64,7 @@ export const AssignResourceToRoleTable = (
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/role/${roleId}/resource/${resource.id}/orgunit/${orgId}/assign`}
+                                        href={`${basePath}/assignment/role/${roleId}/resource/${resource.id}/orgunit/${orgId}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel

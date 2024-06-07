@@ -1,16 +1,20 @@
 import {Select} from "@navikt/ds-react";
 import React from "react";
 import {Form, useSearchParams} from "@remix-run/react";
+import {filterResetPageParam} from "~/components/common/CommonFunctions";
 
 export const UserTypeFilter = () => {
-
     const [currentSearchParams, setSearchParams] = useSearchParams()
+    const [searchParams,] = useSearchParams();
+
+    const pageParam = searchParams.get("page")
 
     const setUserTypeFilter = (event: string) => {
         setSearchParams(searchParams => {
             searchParams.set("userType", event);
             return searchParams;
         })
+        filterResetPageParam(pageParam, setSearchParams)
     }
 
     return (

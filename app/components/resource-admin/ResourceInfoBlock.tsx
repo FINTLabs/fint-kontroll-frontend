@@ -1,5 +1,5 @@
 import * as React from "react";
-import {BodyShort, Box, GuidePanel, Heading, List} from "@navikt/ds-react";
+import {BodyShort, Box, GuidePanel, Heading} from "@navikt/ds-react";
 import type {IResource} from "~/data/types";
 import {InformationIcon} from "@navikt/aksel-icons";
 
@@ -14,7 +14,7 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
                     <hr/>
                 </Box>
                 <Box>
-                    <List as="ul">
+                    <ul className="resource-info">
                         <li>
                             <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
                             <BodyShort textColor="subtle">{props.resource.identityProviderGroupName}</BodyShort>
@@ -51,7 +51,7 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
                             <Heading size="small" level="3">Gyldig for:</Heading>
                             <BodyShort textColor="subtle">{props.resource.validForRoles}</BodyShort>
                         </li>
-                    </List>
+                    </ul>
                 </Box>
 
             </GuidePanel>

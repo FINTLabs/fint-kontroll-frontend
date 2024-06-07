@@ -1,7 +1,15 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
-import {IAssignedUsers} from "~/data/types";
+import {
+    Link,
+    Links,
+    Meta,
+    Scripts,
+    useLoaderData,
+    useRouteError,
+    useRouteLoaderData
+} from "@remix-run/react";
+import {IAssignedUsers, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -13,12 +21,13 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {fetchResourceById} from "~/data/fetch-resources";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({params, request, context}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = url.searchParams.get("size") ?? "10";
     const page = url.searchParams.get("page") ?? "0";
@@ -26,17 +35,27 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [assignedUsers] = await Promise.all([
+    const [assignedUsers, resourceById] = await Promise.all([
+        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, userType, orgUnits),
+        fetchResourceById(request.headers.get("Authorization"), params.id),
+    ])
 
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, userType, orgUnits)
-
-    ]);
+    const resource: IResource = await resourceById.json()
     return json({
+        context,
         assignedUsers: await assignedUsers.json(),
+        resourceName: resource.resourceName,
         size,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
     })
+}
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({ params, data}) => {
+        return <Link to={`/resources/${params.id}/user-assignments`}>Ressursinfo</Link>
+    }
 }
 
 export function useResourceByIdLoaderData() {

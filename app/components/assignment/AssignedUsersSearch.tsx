@@ -23,8 +23,8 @@ export const AssignedUsersSearch = () => {
                 hideLabel={false}
                 variant="secondary"
                 onChange={event => setSearchString(event)}
-                onClear={event => {
-                    handleClearSearchFieldString(event, setSearchParams)
+                onClear={() => {
+                    handleClearSearchFieldString(setSearchParams)
                 }}
             />
         </Form>

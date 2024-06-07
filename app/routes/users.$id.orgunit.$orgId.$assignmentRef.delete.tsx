@@ -1,6 +1,6 @@
 import React from 'react';
-import {BodyShort, Button, Modal} from "@navikt/ds-react";
-import {Form, useNavigate, useParams, useSearchParams} from "@remix-run/react";
+import {BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
+import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
@@ -12,13 +12,20 @@ export async function action({params, request}: ActionFunctionArgs) {
 
     const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
 
-    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
+    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParams(searchParams).length > 0 ? prepareQueryParams(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function DeleteUserAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
+    const response = useNavigation()
+
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
 
     return (
         <>
@@ -41,10 +48,13 @@ export default function DeleteUserAssignment() {
                     <Form method={"POST"}>
                         <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="userRef"/>
-
-                        <Button type="submit" variant="primary">
-                            Slett
-                        </Button>
+                        {response.state === "submitting" ?
+                            <Button loading>Slett</Button>
+                            :
+                            <Button type="submit" variant="primary">
+                                Slett
+                            </Button>
+                        }
                     </Form>
                     <Button
                         type="button"

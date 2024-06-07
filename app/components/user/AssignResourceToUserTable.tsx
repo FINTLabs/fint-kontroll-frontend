@@ -28,7 +28,7 @@ export const AssignResourceToUserTable: any = (props: {
     return (
         <div>
             <Outlet/>
-            <Table>
+            <Table id="resources-table">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
@@ -38,7 +38,7 @@ export const AssignResourceToUserTable: any = (props: {
                 <Table.Body>
                     {props.isAssignedResources.map((resource: IResource) => (
                         <Table.Row key={resource.id}>
-                            <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
+                            <Table.DataCell scope="row">{resource.resourceName} </Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {resource.assigned ?
                                     <Tag variant="success" size="small" className="navds-tag-in-table">
@@ -50,7 +50,7 @@ export const AssignResourceToUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/user/${props.userId}/resource/${resource.id}/orgunit/${props.orgId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                        href={`${props.basePath}/assignment/user/${props.userId}/orgunit/${props.orgId}/resource/${resource.id}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
                                         underline={false}
                                     >
                                         Tildel

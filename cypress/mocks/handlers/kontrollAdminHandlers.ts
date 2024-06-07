@@ -7,34 +7,34 @@ export const kontrollAdminHandlers = [
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
+    }),
 
-        http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/feature', () => {
-            return HttpResponse.json(
-                [
-                    {
-                        "id": "1",
-                        "name": "Alle brukere"
-                    },
-                    {
-                        "id": "2",
-                        "name": "En bruker"
-                    },
-                    {
-                        "id": "3",
-                        "name": "Grupper"
-                    },
-                    {
-                        "id": "4",
-                        "name": "En gruppe"
-                    },
-                    {
-                        "id": "5",
-                        "name": "Ressurser"
-                    }
-                ]
+    http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/feature', () => {
+        return HttpResponse.json(
+            [
+                {
+                    "id": "1",
+                    "name": "Alle brukere"
+                },
+                {
+                    "id": "2",
+                    "name": "En bruker"
+                },
+                {
+                    "id": "3",
+                    "name": "Grupper"
+                },
+                {
+                    "id": "4",
+                    "name": "En gruppe"
+                },
+                {
+                    "id": "5",
+                    "name": "Ressurser"
+                }
+            ]
 
-            )
-        })
+        )
     }),
 
     http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole', () => {

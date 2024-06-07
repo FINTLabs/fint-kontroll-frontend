@@ -71,33 +71,33 @@ export interface IUserPage {
 }
 
 export interface IUserItem {
-    "id": number
-    "fullName": string
-    "organisationUnitName": string
-    "organisationUnitId": string
-    "userType": string
+    id: number
+    fullName: string
+    organisationUnitName: string
+    organisationUnitId: string
+    userType: string
 }
 
 export interface IRole {
-    "id": number
-    "roleName": string
-    "roleType": string
-    "assignmentRef": number
-    "assignerUsername": string
-    "assignerDisplayname": string
-    "organisationUnitId": string
-    "organisationUnitName": string
+    id: number
+    roleName: string
+    roleType: string
+    assignmentRef: number
+    assignerUsername: string
+    assignerDisplayname: string
+    organisationUnitId: string
+    organisationUnitName: string
     assigned: boolean
 }
 
 export interface IRoleItem {
-    "id": number
-    "roleName": string
-    "roleType": string
-    "roleSubType": string
-    "aggregatedRole": boolean
-    "organisationUnitId": string
-    "organisationUnitName": string
+    id: number
+    roleName: string
+    roleType: string
+    roleSubType: string
+    aggregatedRole: boolean
+    organisationUnitId: string
+    organisationUnitName: string
 }
 
 export interface IRolePage {
@@ -171,14 +171,15 @@ export interface IResource {
     applicationAccessType: string
     applicationAccessRole: string
     accessType: string
-    "platform": []
-    "resourceOwnerOrgUnitId": string
-    "resourceOwnerOrgUnitName": string
+    applicationCategory: string
+    platform: []
+    resourceOwnerOrgUnitId: string
+    resourceOwnerOrgUnitName: string
     validForOrgUnits: IResourceItem[]
     validForRoles: string
-    "assignmentRef": number
-    "assignerUsername": string
-    "assignerDisplayname": string
+    assignmentRef: number
+    assignerUsername: string
+    assignerDisplayname: string
     assigned: boolean
 }
 
@@ -186,7 +187,6 @@ export interface IResourcePage {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    size: string
     resources: IResource[]
 }
 
@@ -202,7 +202,7 @@ export interface IUnitItem {
     parentName: string | null
     parentRef: string
     childrenRef: string[]
-    isChecked?: boolean // Optional to be used in "Tildel Rettigheter" tab. Not required in most other places, but feel free to use if necessary.
+    isChecked?: boolean // Optional to be used in Tildel Rettigheter tab. Not required in most other places, but feel free to use if necessary.
 }
 
 export interface IUnitTree {

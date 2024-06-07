@@ -40,13 +40,12 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
 
             <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
 
-
             <ChipsFilters />
 
             <Table className={"users-table"} id="users-table">
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Fult navn</Table.HeaderCell>
+                        <Table.HeaderCell>Fullt navn</Table.HeaderCell>
                         <Table.HeaderCell>Epost</Table.HeaderCell>
                         <Table.HeaderCell align={"center"}>Administrer tildeling</Table.HeaderCell>
                     </Table.Row>

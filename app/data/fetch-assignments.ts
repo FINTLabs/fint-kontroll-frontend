@@ -102,7 +102,7 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
 
 export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
     const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
-       const response = await fetch(url, {
+    const response = await fetch(url, {
         headers: {
             Authorization: token ?? "",
             'content-type': 'application/json'
@@ -115,7 +115,7 @@ export const createUserAssignment = async (token: string | null, resourceRef: nu
         })
     });
     logger.debug("Response from CRETE USER Assignments????", url, response.status);
-        return response;
+    return response;
 }
 
 export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
@@ -147,13 +147,4 @@ export const deleteAssignment = async (token: string | null, assignmentRef: stri
     logger.debug("Response from deleteAssignments", url, response.status);
 
     return response;
-
-    /*if (response.status === 410) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    throw new Error("Noe gikk galt!")*/
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
-import {Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
@@ -24,6 +24,10 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     })
 }
 
+export const handle = {
+    breadcrumb: () => <Link to="/resources">Ressurser</Link>,
+};
+
 export default function ResourceById() {
 
     const loaderData = useLoaderData<typeof loader>();
@@ -43,7 +47,7 @@ export default function ResourceById() {
 
             <ResourceInfo resource={resource}/>
 
-            <Outlet/>
+            <Outlet context={{ resource }} />
         </section>
     );
 }
