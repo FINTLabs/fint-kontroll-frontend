@@ -23,17 +23,20 @@ export interface IMeInfo {
 
 export interface IUser {
     id: number
-    firstName: string
-    lastName: string
+    assigneeFirstName: string
+    assigneeLastName: string
     fullName: string
-    userType: string
-    userName: string
+    assigneeUserType: string
+    assigneeUserName: string
+    assigneeOrganisationUnitId: string
+    assigneeOrganisationUnitName: string
     email: string
     assignmentRef: number
+    directAssignment: boolean
+    assignmentViaRoleRef: string
+    assignmentViaRoleName: string
     assignerUsername: string
     assignerDisplayname: string
-    organisationUnitId: string
-    organisationUnitName: string
     assigned: boolean
     roles?: IUserRole[] // Optional to allow use of same type
 }
