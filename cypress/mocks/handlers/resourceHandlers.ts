@@ -157,7 +157,7 @@ export const resourceHandlers = [
     }),
 
     // For fetching Brukere
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/resource/:id/users', ({request}) => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
         const size = new URL(request.url).searchParams.get('size') ?? "10"
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
@@ -173,80 +173,109 @@ export const resourceHandlers = [
                     "users": [
                         {
                             "id": 1266,
-                            "firstName": "Bente",
-                            "lastName": "Nordli",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Bente",
+                            "assigneeLastName": "Nordli",
+                            "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
+                            "assigneeassigneeUserType": "STUDENT",
                             "assignmentRef": 398,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeassigneeOrganisationUnitId": "198",
+                            "assigneeassigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1308,
-                            "firstName": "Brit",
-                            "lastName": "Holm",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Brit",
+                            "assigneeLastName": "Holm",
+                            "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 410,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1286,
-                            "firstName": "Egil",
-                            "lastName": "Nordby",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Egil",
+                            "assigneeLastName": "Nordby",
+                            "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 400,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1284,
-                            "firstName": "Emil",
-                            "lastName": "Jacobsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Emil",
+                            "assigneeLastName": "Jacobsen",
+                            "assigneeUsername": "emil@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 399,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1248,
-                            "firstName": "Guro",
-                            "lastName": "Danielsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Guro",
+                            "assigneeLastName": "Danielsen",
+                            "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 404,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1232,
-                            "firstName": "Joanna",
-                            "lastName": "Kristoffersen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Joanna",
+                            "assigneeLastName": "Kristoffersen",
+                            "assigneeUsername": "joa@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 356,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1258,
-                            "firstName": "Jorun",
-                            "lastName": "Jacobsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Jorun",
+                            "assigneeLastName": "Jacobsen",
+                            "assigneeUsername": "joru@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 397,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         }
                     ]
                 }
@@ -263,14 +292,19 @@ export const resourceHandlers = [
                     "users": [
                         {
                             "id": 1266,
-                            "firstName": "Bente",
-                            "lastName": "Nordli",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Bente",
+                            "assigneeLastName": "Nordli",
+                            "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
+                            "assigneeassigneeUserType": "STUDENT",
                             "assignmentRef": 398,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeassigneeOrganisationUnitId": "198",
+                            "assigneeassigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         }
                     ]
                 }
@@ -287,58 +321,78 @@ export const resourceHandlers = [
                     "users": [
                         {
                             "id": 1044,
-                            "firstName": "Test",
-                            "lastName": "Testesen",
-                            "userType": "EMPLOYEESTAFF",
+                            "assigneeFirstName": "Test",
+                            "assigneeLastName": "Testesen",
+                            "assigneeUsername": "testetsen@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "EMPLOYEESTAFF",
                             "assignmentRef": 407,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "161",
-                            "organisationUnitName": "KOMP Fag- og yrkesopplæring"
+                            "assigneeOrganisationUnitId": "161",
+                            "assigneeOrganisationUnitName": "KOMP Fag- og yrkesopplæring"
                         },
                         {
                             "id": 1266,
-                            "firstName": "Bente",
-                            "lastName": "Nordli",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Bente",
+                            "assigneeLastName": "Nordli",
+                            "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 398,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1308,
-                            "firstName": "Brit",
-                            "lastName": "Holm",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Brit",
+                            "assigneeLastName": "Holm",
+                            "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 410,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1147,
-                            "firstName": "Egil",
-                            "lastName": "Johnsen",
-                            "userType": "EMPLOYEEFACULTY",
-                            "assignmentRef": 406,
+                            "id": 1286,
+                            "assigneeFirstName": "Egil",
+                            "assigneeLastName": "Nordby",
+                            "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
+                            "assignmentRef": 400,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 884,
-                            "firstName": "Egil",
-                            "lastName": "Martinsen",
-                            "userType": "EMPLOYEEFACULTY",
+                            "assigneeFirstName": "Egil",
+                            "assigneeLastName": "Martinsen",
+                            "assigneeUsername": "egilegil@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "EMPLOYEEFACULTY",
                             "assignmentRef": 405,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "204",
-                            "organisationUnitName": "VGMIDT Realfag"
+                            "assigneeOrganisationUnitId": "204",
+                            "assigneeOrganisationUnitName": "VGMIDT Realfag"
                         }
                     ]
                 }
@@ -355,58 +409,78 @@ export const resourceHandlers = [
                     "users": [
                         {
                             "id": 1286,
-                            "firstName": "Egil",
-                            "lastName": "Nordby",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Egil",
+                            "assigneeLastName": "Nordby",
+                            "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 400,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1284,
-                            "firstName": "Emil",
-                            "lastName": "Jacobsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Emil",
+                            "assigneeLastName": "Jacobsen",
+                            "assigneeUsername": "emjac@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 399,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1248,
-                            "firstName": "Guro",
-                            "lastName": "Danielsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Guro",
+                            "assigneeLastName": "Danielsen",
+                            "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 404,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1232,
-                            "firstName": "Joanna",
-                            "lastName": "Kristoffersen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Joanna",
+                            "assigneeLastName": "Kristoffersen",
+                            "assigneeUsername": "jokri@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 356,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
                             "id": 1258,
-                            "firstName": "Jorun",
-                            "lastName": "Jacobsen",
-                            "userType": "STUDENT",
+                            "assigneeFirstName": "Jorun",
+                            "assigneeLastName": "Jacobsen",
+                            "assigneeUsername": "jorja@testvigoiks.onmicrosoft.com",
+                            "assigneeUserType": "STUDENT",
                             "assignmentRef": 397,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null,
-                            "organisationUnitId": "198",
-                            "organisationUnitName": "VGSTOR Storskog videregående skole"
+                            "assigneeOrganisationUnitId": "198",
+                            "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         }
                     ]
                 }
@@ -422,113 +496,153 @@ export const resourceHandlers = [
                 "users": [
                     {
                         "id": 442,
-                        "firstName": "Karen",
-                        "lastName": "Berg",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Karen",
+                        "assigneeLastName": "Berg",
+                        "assigneeUsername": "karbe@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 407,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "194",
-                        "organisationUnitName": "VGMIDT Midtbyen videregående skole"
+                        "assigneeOrganisationUnitId": "194",
+                        "assigneeOrganisationUnitName": "VGMIDT Midtbyen videregående skole"
                     },
                     {
                         "id": 1266,
-                        "firstName": "Bente",
-                        "lastName": "Nordli",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Bente",
+                        "assigneeLastName": "Nordli",
+                        "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 398,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1308,
-                        "firstName": "Brit",
-                        "lastName": "Holm",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Brit",
+                        "assigneeLastName": "Holm",
+                        "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 410,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1147,
-                        "firstName": "Egil",
-                        "lastName": "Johnsen",
-                        "userType": "EMPLOYEEFACULTY",
+                        "assigneeFirstName": "Egil",
+                        "assigneeLastName": "Johnsen",
+                        "assigneeUsername": "egjo@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "EMPLOYEEFACULTY",
                         "assignmentRef": 406,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 884,
-                        "firstName": "Egil",
-                        "lastName": "Martinsen",
-                        "userType": "EMPLOYEEFACULTY",
+                        "assigneeFirstName": "Egil",
+                        "assigneeLastName": "Martinsen",
+                        "assigneeUsername": "egilegil@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "EMPLOYEEFACULTY",
                         "assignmentRef": 405,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "204",
-                        "organisationUnitName": "VGMIDT Realfag"
+                        "assigneeOrganisationUnitId": "204",
+                        "assigneeOrganisationUnitName": "VGMIDT Realfag"
                     },
                     {
                         "id": 1286,
-                        "firstName": "Egil",
-                        "lastName": "Nordby",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Egil",
+                        "assigneeLastName": "Nordby",
+                        "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 400,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1284,
-                        "firstName": "Emil",
-                        "lastName": "Jacobsen",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Emil",
+                        "assigneeLastName": "Jacobsen",
+                        "assigneeUsername": "emil@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 399,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1248,
-                        "firstName": "Guro",
-                        "lastName": "Danielsen",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Guro",
+                        "assigneeLastName": "Danielsen",
+                        "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 404,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1232,
-                        "firstName": "Joanna",
-                        "lastName": "Kristoffersen",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Joanna",
+                        "assigneeLastName": "Kristoffersen",
+                        "assigneeUsername": "jokri@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 356,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
                         "id": 1258,
-                        "firstName": "Jorun",
-                        "lastName": "Jacobsen",
-                        "userType": "STUDENT",
+                        "assigneeFirstName": "Jorun",
+                        "assigneeLastName": "Jacobsen",
+                        "assigneeUsername": "jorja@testvigoiks.onmicrosoft.com",
+                        "assigneeUserType": "STUDENT",
                         "assignmentRef": 397,
+                        "directAssignment": true,
+                        "assignmentViaRoleRef": null,
+                        "assignmentViaRoleName": null,
                         "assignerUsername": "linda.loftsgarden@novari.no",
                         "assignerDisplayname": null,
-                        "organisationUnitId": "198",
-                        "organisationUnitName": "VGSTOR Storskog videregående skole"
+                        "assigneeOrganisationUnitId": "198",
+                        "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     }
                 ]
             }
@@ -642,7 +756,7 @@ export const resourceHandlers = [
 
 
     // Fetching assigned users to a resource
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/resource/:id/users', ({request}) => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
         // These queryParams will be used for later testing
         const size = new URL(request.url).searchParams.get('size') ?? "10"
         const page = new URL(request.url).searchParams.get('page') ?? "0"

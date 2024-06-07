@@ -16,7 +16,7 @@ describe('Check roles page with mock data', () => {
             .find('tbody tr')
             .should('have.length', 10);
         cy.get("#select-number-of-rows").select("5")
-        wait(1000)
+        wait(1500)
         cy.get('#role-table').should('be.visible')
             .find('tbody tr')
             .should('have.length', 5);

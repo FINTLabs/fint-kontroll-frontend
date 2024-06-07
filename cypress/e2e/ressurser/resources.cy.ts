@@ -20,7 +20,9 @@ describe('Check resource home page', () => {
 
     it('Test searchField, and clear input', () => {
         cy.get('#search-resource').should('have.value', '')
-        cy.get('#search-resource').type(searchText).should('have.value', searchText)
+        cy.get('#search-resource').type(searchText)
+        wait(500)
+        cy.get('#search-resource').should('have.value', searchText)
     })
 
     it('Check table (exists, has 7 rows)', () => {
