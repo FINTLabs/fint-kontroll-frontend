@@ -45,7 +45,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                             <Table.DataCell align={"center"}>
                                 <Button
                                     as={Link}
-                                    className={"buttonOutlined"}
+                                    className={"button-outlined"}
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}

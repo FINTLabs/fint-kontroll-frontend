@@ -1,4 +1,4 @@
-import {Box, Button, Heading, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IAssignedUsers} from "~/data/types";
 import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
@@ -49,7 +49,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                     ?
                                         <Button
                                             as={Link}
-                                            className={"buttonOutlined"}
+                                            className={"button-outlined"}
                                             variant={"secondary"}
                                             icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                             iconPosition={"right"}
@@ -58,9 +58,9 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                             Slett
                                         </Button>
                                     :
-                                        <>
+                                        <Tag variant="info" className="navds-tag-in-table">
                                             Gruppetildeling
-                                        </>
+                                        </Tag>
                                 }
                             </Table.DataCell>
                         </Table.Row>

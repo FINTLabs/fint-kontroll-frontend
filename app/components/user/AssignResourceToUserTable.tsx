@@ -41,8 +41,7 @@ export const AssignResourceToUserTable: any = (props: {
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>
                                 {resource.assigned ?
-                                    <Tag variant="success" size="small"
-                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                    <Tag variant="success" size="small">
                                         Er tildelt
                                     </Tag>
                                     :

@@ -50,13 +50,12 @@ export const AssignUserTable = ({
                     {isAssignedUsers.map((user: IUser) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
-                            <Table.DataCell>{user.userType}</Table.DataCell>
-                            <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
+                            <Table.DataCell>{user.assigneeUserType}</Table.DataCell>
+                            <Table.DataCell>{user.assigneeOrganisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {user.assigned ?
 
-                                    <Tag variant="success" size="small"
-                                         style={{marginTop: '0.7rem', marginBottom: '0.7rem'}}>
+                                    <Tag variant="success" size="small">
                                         Er tildelt
                                     </Tag>
                                     :
@@ -65,7 +64,7 @@ export const AssignUserTable = ({
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.assigneeOrganisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel
