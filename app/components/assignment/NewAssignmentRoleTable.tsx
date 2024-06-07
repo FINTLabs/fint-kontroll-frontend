@@ -45,7 +45,7 @@ export const AssignRoleTable: any = (props: {
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {role.assigned ?
-                                    <Tag variant="success" size="small">
+                                    <Tag variant="success" size="small" className="navds-tag-in-table">
                                         Er tildelt
                                     </Tag>
                                     :

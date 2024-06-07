@@ -55,7 +55,7 @@ export const AssignUserTable = ({
                             <Table.DataCell align={"center"}>
                                 {user.assigned ?
 
-                                    <Tag variant="success" size="small">
+                                    <Tag variant="success" size="small" className="navds-tag-in-table">
                                         Er tildelt
                                     </Tag>
                                     :

@@ -41,7 +41,7 @@ export const AssignResourceToUserTable: any = (props: {
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>
                                 {resource.assigned ?
-                                    <Tag variant="success" size="small">
+                                    <Tag variant="success" size="small" className="navds-tag-in-table">
                                         Er tildelt
                                     </Tag>
                                     :
