@@ -29,6 +29,7 @@ export default function OpprettNyRessurs () {
         validFrom: new Date(),
         validTo: new Date(),
         costPerUse: 0,
+        numberOfLicenses: 0,
         needsApprovalFromSupervisor: false
     })
 

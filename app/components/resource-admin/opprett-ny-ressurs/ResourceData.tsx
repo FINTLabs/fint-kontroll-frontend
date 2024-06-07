@@ -12,12 +12,11 @@ export default function ResourceData ({newResource, setNewResource}: ResourceDat
     const { datepickerProps, toInputProps, fromInputProps, selectedRange } =
         useRangeDatepicker({
             fromDate: new Date("Aug 23 2019"),
-            onRangeChange: console.log,
         });
 
     useEffect(() => {
-        fromInputProps ? setNewResource({...newResource, validFrom: String(fromInputProps.value)}): null
-        toInputProps ? setNewResource({...newResource, validTo: String(toInputProps.value)}) : null
+        fromInputProps ? setNewResource({...newResource, validFrom: new Date(String(fromInputProps.value))}): null
+        toInputProps ? setNewResource({...newResource, validTo: new Date(String(toInputProps.value))}) : null
     }, [selectedRange])
 
     const handleChangeApproval = (val: boolean) => setNewResource({...newResource, needsApprovalFromSupervisor: val})

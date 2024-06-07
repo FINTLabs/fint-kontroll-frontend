@@ -1,8 +1,8 @@
 export interface INewResource {
     resourceName: string
     resourceDescription: string
-    validFrom: string
-    validTo: string
+    validFrom: Date
+    validTo: Date
     costPerUse: number
     needsApprovalFromSupervisor: boolean
     numberOfLicenses: number
