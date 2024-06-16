@@ -1,9 +1,9 @@
 import * as React from "react";
 import {BodyShort, Box, GuidePanel, Heading, List} from "@navikt/ds-react";
-import {IUser} from "~/data/types";
+import {IUser, IUserDetails} from "~/data/types";
 import {InformationIcon} from "@navikt/aksel-icons";
 
-export const UserInfo: any = (props: { user: IUser }) => {
+export const UserInfo: any = (props: { user: IUserDetails }) => {
 
     return (
         <>

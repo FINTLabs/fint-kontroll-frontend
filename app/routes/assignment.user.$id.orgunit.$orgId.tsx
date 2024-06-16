@@ -1,13 +1,21 @@
 import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserTable";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError, useSearchParams} from "@remix-run/react";
-import {IAssignedResources, IAssignedUsers, IResource, IResourcePage, IUnitItem, IUnitTree, IUser} from "~/data/types";
+import {
+    IAssignedResources,
+    IAssignedUsers,
+    IResource,
+    IResourcePage,
+    IUnitItem,
+    IUnitTree,
+    IUserDetails
+} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUserById} from "~/data/fetch-users";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, HStack, VStack, Select} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import React from "react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
@@ -31,7 +39,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         fetchAssignedResourcesUser(request.headers.get("Authorization"), params.id, "1000", "0"),
         fetchUserById(request.headers.get("Authorization"), params.id),
         fetchApplicationCategory(request.headers.get("Authorization")),
-       // fetchAccessType(request.headers.get("Authorization"))
+        // fetchAccessType(request.headers.get("Authorization"))
 
 
     ]);
@@ -39,9 +47,9 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedResourceList: IAssignedResources = await responseAssignments.json()
-    const user: IUser = await responseUser.json()
+    const user: IUserDetails = await responseUser.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
-   // const accessTypes: string[] = await responseAccessType.json()
+    // const accessTypes: string[] = await responseAccessType.json()
 
 
     const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
@@ -59,14 +67,14 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         isAssignedResources,
         user,
         applicationCategories,
-       // accessTypes,
+        // accessTypes,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => (
+    breadcrumb: ({params, data}) => (
         <>
             <Link to={`/users`}>Brukere</Link>
             {" > "}
@@ -86,13 +94,13 @@ export default function NewAssignmentForUser() {
         isAssignedResources: IResource[],
         basePath: string,
         responseCode: string | undefined,
-        user: IUser,
+        user: IUserDetails,
         applicationCategories: string[]
-       // accessTypes: string[]
+        // accessTypes: string[]
     }>();
     const params = useParams<string>()
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
-   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
+    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     console.log(applicationCategorySearchParams.get("applicationcategory"))
     const setAppCategory = (event: string) => {
@@ -102,15 +110,15 @@ export default function NewAssignmentForUser() {
         })
     }
 
-   /* const setAccessType = (event: string) => {
-        setAccessTypeSearchParams(searchParams => {
-            searchParams.set("accesstype", event);
-            if (searchParams.get("accesstype") === "") {
-                searchParams.delete("accesstype")
-            }
-            return searchParams;
-        })
-    }*/
+    /* const setAccessType = (event: string) => {
+         setAccessTypeSearchParams(searchParams => {
+             searchParams.set("accesstype", event);
+             if (searchParams.get("accesstype") === "") {
+                 searchParams.delete("accesstype")
+             }
+             return searchParams;
+         })
+     }*/
 
     return (
         <>

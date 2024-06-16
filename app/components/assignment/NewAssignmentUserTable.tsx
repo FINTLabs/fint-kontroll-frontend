@@ -1,12 +1,12 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IUser} from "~/data/types";
+import type {IUser, IUserItem} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 
 
 interface AssignUserTableProps {
-    isAssignedUsers: IUser[]
+    isAssignedUsers: IUserItem[]
     size: string
     resourceId: string
     totalPages: number
@@ -47,11 +47,11 @@ export const AssignUserTable = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {isAssignedUsers.map((user: IUser) => (
+                    {isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
-                            <Table.DataCell>{user.assigneeUserType}</Table.DataCell>
-                            <Table.DataCell>{user.assigneeOrganisationUnitName}</Table.DataCell>
+                            <Table.DataCell>{user.userType}</Table.DataCell>
+                            <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {user.assigned ?
 
@@ -64,7 +64,7 @@ export const AssignUserTable = ({
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.assigneeOrganisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel

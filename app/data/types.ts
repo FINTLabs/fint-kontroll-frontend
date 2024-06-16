@@ -22,22 +22,20 @@ export interface IMeInfo {
 }
 
 export interface IUser {
-    id: number
+    assigneeRef: number
     assigneeFirstName: string
     assigneeLastName: string
-    fullName: string
-    assigneeUserType: string
     assigneeUserName: string
+    assigneeUserType: string
     assigneeOrganisationUnitId: string
     assigneeOrganisationUnitName: string
-    email: string
     assignmentRef: number
     directAssignment: boolean
-    assignmentViaRoleRef: string
+    assignmentViaRoleRef: number
     assignmentViaRoleName: string
     assignerUsername: string
     assignerDisplayname: string
-    assigned: boolean
+    assigned?: boolean
     roles?: IUserRole[] // Optional to allow use of same type
 }
 
@@ -66,7 +64,7 @@ export interface IUserPage {
     totalPages?: number | any
     currentPage: number
     size: string
-    users: IUser[]
+    users: IUserItem[]
 
 }
 
@@ -76,6 +74,17 @@ export interface IUserItem {
     organisationUnitName: string
     organisationUnitId: string
     userType: string
+    assigned?: boolean
+}
+
+export interface IUserDetails {
+    id: number
+    fullName: string
+    userName: string
+    organisationUnitName: string
+    mobilePhone: string
+    email: string
+    valid: boolean
 }
 
 export interface IRole {
@@ -180,7 +189,8 @@ export interface IResource {
     assignmentRef: number
     assignerUsername: string
     assignerDisplayname: string
-    assigned: boolean
+    assigned?: boolean
+    hasCost: boolean
 }
 
 export interface IResourcePage {

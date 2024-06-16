@@ -172,7 +172,7 @@ export const resourceHandlers = [
                     "currentPage": 0,
                     "users": [
                         {
-                            "id": 1266,
+                            "assigneeRef": 1266,
                             "assigneeFirstName": "Bente",
                             "assigneeLastName": "Nordli",
                             "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
@@ -188,7 +188,7 @@ export const resourceHandlers = [
                             "assigneeassigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1308,
+                            "assigneeRef": 1308,
                             "assigneeFirstName": "Brit",
                             "assigneeLastName": "Holm",
                             "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
@@ -203,7 +203,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1286,
+                            "assigneeRef": 1286,
                             "assigneeFirstName": "Egil",
                             "assigneeLastName": "Nordby",
                             "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
@@ -218,7 +218,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1284,
+                            "assigneeRef": 1284,
                             "assigneeFirstName": "Emil",
                             "assigneeLastName": "Jacobsen",
                             "assigneeUsername": "emil@testvigoiks.onmicrosoft.com",
@@ -233,7 +233,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1248,
+                            "assigneeRef": 1248,
                             "assigneeFirstName": "Guro",
                             "assigneeLastName": "Danielsen",
                             "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
@@ -248,7 +248,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1232,
+                            "assigneeRef": 1232,
                             "assigneeFirstName": "Joanna",
                             "assigneeLastName": "Kristoffersen",
                             "assigneeUsername": "joa@testvigoiks.onmicrosoft.com",
@@ -263,7 +263,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1258,
+                            "assigneeRef": 1258,
                             "assigneeFirstName": "Jorun",
                             "assigneeLastName": "Jacobsen",
                             "assigneeUsername": "joru@testvigoiks.onmicrosoft.com",
@@ -291,7 +291,7 @@ export const resourceHandlers = [
                     "currentPage": 0,
                     "users": [
                         {
-                            "id": 1266,
+                            "assigneeRef": 1266,
                             "assigneeFirstName": "Bente",
                             "assigneeLastName": "Nordli",
                             "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
@@ -320,7 +320,7 @@ export const resourceHandlers = [
                     "currentPage": 0,
                     "users": [
                         {
-                            "id": 1044,
+                            "assigneeRef": 1044,
                             "assigneeFirstName": "Test",
                             "assigneeLastName": "Testesen",
                             "assigneeUsername": "testetsen@testvigoiks.onmicrosoft.com",
@@ -335,7 +335,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "KOMP Fag- og yrkesopplæring"
                         },
                         {
-                            "id": 1266,
+                            "assigneeRef": 1266,
                             "assigneeFirstName": "Bente",
                             "assigneeLastName": "Nordli",
                             "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
@@ -350,7 +350,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1308,
+                            "assigneeRef": 1308,
                             "assigneeFirstName": "Brit",
                             "assigneeLastName": "Holm",
                             "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
@@ -365,7 +365,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1286,
+                            "assigneeRef": 1286,
                             "assigneeFirstName": "Egil",
                             "assigneeLastName": "Nordby",
                             "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
@@ -380,7 +380,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 884,
+                            "assigneeRef": 884,
                             "assigneeFirstName": "Egil",
                             "assigneeLastName": "Martinsen",
                             "assigneeUsername": "egilegil@testvigoiks.onmicrosoft.com",
@@ -408,7 +408,7 @@ export const resourceHandlers = [
                     "currentPage": 1,
                     "users": [
                         {
-                            "id": 1286,
+                            "assigneeRef": 1286,
                             "assigneeFirstName": "Egil",
                             "assigneeLastName": "Nordby",
                             "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
@@ -423,7 +423,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1284,
+                            "assigneeRef": 1284,
                             "assigneeFirstName": "Emil",
                             "assigneeLastName": "Jacobsen",
                             "assigneeUsername": "emjac@testvigoiks.onmicrosoft.com",
@@ -438,7 +438,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1248,
+                            "assigneeRef": 1248,
                             "assigneeFirstName": "Guro",
                             "assigneeLastName": "Danielsen",
                             "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
@@ -453,7 +453,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1232,
+                            "assigneeRef": 1232,
                             "assigneeFirstName": "Joanna",
                             "assigneeLastName": "Kristoffersen",
                             "assigneeUsername": "jokri@testvigoiks.onmicrosoft.com",
@@ -468,7 +468,7 @@ export const resourceHandlers = [
                             "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                         },
                         {
-                            "id": 1258,
+                            "assigneeRef": 1258,
                             "assigneeFirstName": "Jorun",
                             "assigneeLastName": "Jacobsen",
                             "assigneeUsername": "jorja@testvigoiks.onmicrosoft.com",
@@ -495,7 +495,7 @@ export const resourceHandlers = [
                 "currentPage": 0,
                 "users": [
                     {
-                        "id": 442,
+                        "assigneeRef": 442,
                         "assigneeFirstName": "Karen",
                         "assigneeLastName": "Berg",
                         "assigneeUsername": "karbe@testvigoiks.onmicrosoft.com",
@@ -510,7 +510,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGMIDT Midtbyen videregående skole"
                     },
                     {
-                        "id": 1266,
+                        "assigneeRef": 1266,
                         "assigneeFirstName": "Bente",
                         "assigneeLastName": "Nordli",
                         "assigneeUsername": "niaa0101@testvigoiks.onmicrosoft.com",
@@ -525,7 +525,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1308,
+                        "assigneeRef": 1308,
                         "assigneeFirstName": "Brit",
                         "assigneeLastName": "Holm",
                         "assigneeUsername": "brit@testvigoiks.onmicrosoft.com",
@@ -540,7 +540,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1147,
+                        "assigneeRef": 1147,
                         "assigneeFirstName": "Egil",
                         "assigneeLastName": "Johnsen",
                         "assigneeUsername": "egjo@testvigoiks.onmicrosoft.com",
@@ -555,7 +555,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 884,
+                        "assigneeRef": 884,
                         "assigneeFirstName": "Egil",
                         "assigneeLastName": "Martinsen",
                         "assigneeUsername": "egilegil@testvigoiks.onmicrosoft.com",
@@ -570,7 +570,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGMIDT Realfag"
                     },
                     {
-                        "id": 1286,
+                        "assigneeRef": 1286,
                         "assigneeFirstName": "Egil",
                         "assigneeLastName": "Nordby",
                         "assigneeUsername": "Bold@testvigoiks.onmicrosoft.com",
@@ -585,7 +585,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1284,
+                        "assigneeRef": 1284,
                         "assigneeFirstName": "Emil",
                         "assigneeLastName": "Jacobsen",
                         "assigneeUsername": "emil@testvigoiks.onmicrosoft.com",
@@ -600,7 +600,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1248,
+                        "assigneeRef": 1248,
                         "assigneeFirstName": "Guro",
                         "assigneeLastName": "Danielsen",
                         "assigneeUsername": "guro@testvigoiks.onmicrosoft.com",
@@ -615,7 +615,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1232,
+                        "assigneeRef": 1232,
                         "assigneeFirstName": "Joanna",
                         "assigneeLastName": "Kristoffersen",
                         "assigneeUsername": "jokri@testvigoiks.onmicrosoft.com",
@@ -630,7 +630,7 @@ export const resourceHandlers = [
                         "assigneeOrganisationUnitName": "VGSTOR Storskog videregående skole"
                     },
                     {
-                        "id": 1258,
+                        "assigneeRef": 1258,
                         "assigneeFirstName": "Jorun",
                         "assigneeLastName": "Jacobsen",
                         "assigneeUsername": "jorja@testvigoiks.onmicrosoft.com",
