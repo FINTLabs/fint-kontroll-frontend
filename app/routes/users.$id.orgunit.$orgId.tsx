@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "../components/user/user.css?url"
 import {Alert, Box, Heading, HStack, LinkPanel} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {IAssignmentPage, IUser} from "~/data/types";
+import {IAssignmentPage, IUserDetails} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -37,7 +37,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => (
+    breadcrumb: ({params}) => (
         <>
             <Link to={`/users`}>Brukere</Link>
             {" > "}
@@ -48,7 +48,7 @@ export const handle = {
 
 export default function Users() {
     const data = useLoaderData<typeof loader>()
-    const user: IUser = data.user
+    const user: IUserDetails = data.user
     const assignmentsForUser: IAssignmentPage = data.assignments
     const size = data.size
     const basePath: string = data.basePath

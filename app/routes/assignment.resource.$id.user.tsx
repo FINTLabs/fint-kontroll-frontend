@@ -1,11 +1,10 @@
-import React from 'react';
 import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
-import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserPage} from "~/data/types";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserItem, IUserPage} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
 import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
@@ -36,8 +35,8 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const assignedUsersList: IAssignedUsers = await responseAssignments.json()
     const resource: IResource = await responseResource.json()
 
-    const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.id, user]))
-    const isAssignedUsers: IUser[] = userList.users.map(user => {
+    const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.assigneeRef, user]))
+    const isAssignedUsers: IUserItem[] = userList.users.map(user => {
         return {
             ...user,
             "assigned": assignedUsersMap.has(user.id)
@@ -58,7 +57,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) =>
+    breadcrumb: ({params}) =>
         <>
             <span>
                 <Link to={`/resources`}>Ressurser</Link>
@@ -79,27 +78,16 @@ export default function NewAssignment() {
     const loaderData = useLoaderData<typeof loader>()
 
     const userList: IUserPage = loaderData.userList
-    const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Potentially removable if not used in the future
-    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Potentially removable if not used in the future
-    const isAssignedUsers: IUser[] = loaderData.isAssignedUsers
+    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Potentially removable if not used in the future
+    // const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Potentially removable if not used in the future
+    const isAssignedUsers: IUserItem[] = loaderData.isAssignedUsers
     const resource: IResource = loaderData.resource
     const id: string = loaderData.id
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
 
-    const params = useParams<string>()
-
     return (
         <>
-            {/*<Button as={Link}*/}
-            {/*        variant={"secondary"}*/}
-            {/*        icon={<ArrowLeftIcon title="tilbake" fontSize="1.5rem"/>}*/}
-            {/*        iconPosition={"left"}*/}
-            {/*        href={`${basePath}/resources/${params.id}/user-assignments`}*/}
-            {/*>*/}
-            {/*    Tilbake*/}
-            {/*</Button>*/}
-
             <div className={"content"}>
                 <VStack className={"heading"}>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
