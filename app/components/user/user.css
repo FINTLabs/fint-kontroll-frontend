@@ -1,21 +1,20 @@
 ul {
-    list-style-type: none;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-    columns: 2;
-    list-style-position: inside;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1em;
+}
+
+ul > li {
+    flex: 40%;
+    min-width: 200px;
+    margin: 0.5em;
 }
 
 .listWrapper {
     margin-top: 3em;
     margin-left: 5rem;
-}
-
-.infoWrapper {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    padding: 3rem 3rem 1rem 3rem;
-    background-color: #E6F0FF;
 }
 
 .infoIcon {
@@ -29,8 +28,7 @@ ul {
 
 hr {
     border-top: 1px solid black;
-    /*border-top: 1px solid black;*/
-   width: 30%;
+    width: 30%;
 }
 
 .infoIconSection {
