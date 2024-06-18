@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Heading} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
-import  {IResource} from "~/data/types";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
-import  {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
@@ -46,6 +46,7 @@ export default function ResourceById() {
         </Box>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

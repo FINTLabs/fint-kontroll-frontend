@@ -17,7 +17,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
             </Box>
 
             <Box>
-                <ul className="resource-info">
+                <ul>
                     <li>
                         <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
                         <BodyShort textColor="subtle">{resource.identityProviderGroupName}</BodyShort>
@@ -59,7 +59,13 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
                     </li>
                     <li>
                         <Heading size="small" level="3">Gyldig for:</Heading>
-                        <BodyShort textColor="subtle">{resource.validForRoles}</BodyShort>
+                        <BodyShort textColor="subtle">{resource.validForRoles.map((item, index) => (
+                            <span key={index}>
+                                    {item}
+                                {index < resource.validForRoles.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
+                            </BodyShort>
                     </li>
                 </ul>
             </Box>
