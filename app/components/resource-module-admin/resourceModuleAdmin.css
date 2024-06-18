@@ -89,3 +89,8 @@ td {
     margin: 0 2rem;
     columns: 2;
 }
+
+/* REMOVE THIS WHEN SLETT BUTTON IS REINTRODUCED */
+.temp-alert {
+    max-width: 43.5rem;
+}
