@@ -1,4 +1,4 @@
-import {Button, Pagination, Select, Table} from "@navikt/ds-react";
+import {Alert, Button, Pagination, Select, Table} from "@navikt/ds-react";
 import React, {useState} from "react";
 import {Form, useSearchParams} from "@remix-run/react";
 import {
@@ -47,13 +47,21 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
                 />
             )}
 
+            {/* REMOVE WHEN SLETT IN TABLE IS REINTRODUCED */}
+            <div>
+                <Alert variant="info" className="temp-alert">
+                    Sletteknappen i tabellradene er fjernet inntil videre. Vi holder på med en ryddejobb til forberedelse for oppdatering av dette grensesnittet.
+                </Alert>
+            </div>
+
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Objekttype</Table.HeaderCell>
                         <Table.HeaderCell>Orgenhet</Table.HeaderCell>
                         {selectedRole.accessRoleId === "" && <Table.HeaderCell>Rolle</Table.HeaderCell>}
-                        <Table.HeaderCell align={"center"}>Slett</Table.HeaderCell>
+                        {/* REMOVED UNTIL NEW TABLE ROWS ARE IMPLEMENTED CORRECTLY */}
+                        {/*<Table.HeaderCell align={"center"}>Slett</Table.HeaderCell>*/}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -75,17 +83,18 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
                                     {selectedRole.accessRoleId === "" && (
                                         <Table.DataCell>{scope.accessRoleName}</Table.DataCell>
                                     )}
-                                    <Table.DataCell align={"center"}>
-                                        <Button
-                                            className={"button-secondary-danger"}
-                                            variant={"secondary"}
-                                            onClick={() => toggleDeleteOrgUnitModal(orgUnit.scopeId, orgUnit)}
-                                            icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-                                            iconPosition={"right"}
-                                        >
-                                            Slett
-                                        </Button>
-                                    </Table.DataCell>
+                                    {/* REMOVED UNTIL NEW TABLE ROWS ARE IMPLEMENTED CORRECTLY */}
+                                    {/*<Table.DataCell align={"center"}>*/}
+                                        {/*<Button*/}
+                                        {/*    className={"button-secondary-danger"}*/}
+                                        {/*    variant={"secondary"}*/}
+                                        {/*    onClick={() => toggleDeleteOrgUnitModal(orgUnit.scopeId, orgUnit)}*/}
+                                        {/*    icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}*/}
+                                        {/*    iconPosition={"right"}*/}
+                                        {/*>*/}
+                                        {/*    Slett*/}
+                                        {/*</Button>*/}
+                                    {/*</Table.DataCell>*/}
                                 </Table.Row>
                             ))
                         )
