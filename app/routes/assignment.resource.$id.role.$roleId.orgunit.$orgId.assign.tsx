@@ -3,16 +3,32 @@ import {
     Links,
     Meta,
     Scripts,
+    useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
     useRouteError,
     useSearchParams
 } from "@remix-run/react";
-import React from "react";
-import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
+import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal, VStack} from "@navikt/ds-react";
+import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
+import {LoaderFunctionArgs} from "@remix-run/router";
+import {fetchResourceById} from "~/data/fetch-resources";
+import {IResource} from "~/data/types";
+import {useState} from "react";
+
+export async function loader({request, params}: LoaderFunctionArgs) {
+
+    const [responseResource] = await Promise.all([
+        fetchResourceById(request.headers.get("Authorization"), params.id),
+    ]);
+    const resource: IResource = await responseResource.json()
+
+    return json({
+        resource,
+    })
+}
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -31,11 +47,29 @@ export default function NewAssignment1() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const response = useNavigation()
+    const [checked, setChecked] = useState(false);
+
+    const loaderData = useLoaderData<typeof loader>();
+    const resource: IResource = loaderData.resource
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
             <Loader size="3xlarge" title="Venter..."/>
         </div>
+    }
+
+    function SaveButton() {
+        if (response.state === "submitting") {
+            return <Button loading>Lagre</Button>;
+        } else if (resource.hasCost && !checked) {
+            return <Button disabled={true}>Lagre</Button>;
+        } else {
+            return (
+                <Button type="submit" variant="primary">
+                    Lagre
+                </Button>
+            );
+        }
     }
 
     return (
@@ -48,25 +82,36 @@ export default function NewAssignment1() {
                     size: "small",
                     closeButton: false,
                 }}
-                width="small"
+                width="medium"
             >
                 <Modal.Body>
-                    <BodyShort>
-                        Trykk lagre for å bekrefte tildeling av ressursen
-                    </BodyShort>
+                    <VStack gap="4">
+                        <BodyShort>
+                            {resource.resourceName}
+                        </BodyShort>
+                        {resource.hasCost ?
+                            <ConfirmationPanel
+                                checked={checked}
+                                label="Jeg bekrefter at jeg har fått nødvendig godkjenning."
+                                onChange={() => setChecked((checked) => !checked)}
+                                size="small"
+                            >
+                                <Heading level="2" size="xsmall">
+                                    Denne tildelingen krever godkjenning fra leder!
+                                </Heading>
+                            </ConfirmationPanel>
+                            : null}
+                        <BodyShort>
+                            Trykk lagre for å bekrefte tildeling av ressursen
+                        </BodyShort>
+                    </VStack>
                 </Modal.Body>
                 <Modal.Footer>
                     <Form method={"POST"}>
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         <input value={params.roleId} type="hidden" name="roleRef"/>
                         <input value={params.orgId} type="hidden" name="organizationUnitId"/>
-                        {response.state === "submitting" ?
-                            <Button loading>Lagre</Button>
-                            :
-                            <Button type="submit" variant="primary">
-                                Lagre
-                            </Button>
-                        }
+                        {SaveButton()}
                     </Form>
                     <Button
                         type="button"

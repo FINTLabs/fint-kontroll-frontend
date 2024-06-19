@@ -47,7 +47,8 @@ export default function NewAssignment1() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const response = useNavigation()
-    const [state, setState] = useState(false);
+    const [checked, setChecked] = useState(false);
+
 
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
@@ -56,6 +57,19 @@ export default function NewAssignment1() {
         return <div className={"spinner"}>
             <Loader size="3xlarge" title="Venter..."/>
         </div>
+    }
+    function SaveButton() {
+        if (response.state === "submitting") {
+            return <Button loading>Lagre</Button>;
+        } else if (resource.hasCost && !checked) {
+            return <Button disabled={true}>Lagre</Button>;
+        } else {
+            return (
+                <Button type="submit" variant="primary">
+                    Lagre
+                </Button>
+            );
+        }
     }
 
     return (
@@ -77,13 +91,13 @@ export default function NewAssignment1() {
                         </BodyShort>
                         {resource.hasCost ?
                             <ConfirmationPanel
-                                checked={state}
-                                label="Jeg bekrefter at jeg er klar over at det påløper en kostnad."
-                                onChange={() => setState((x) => !x)}
+                                checked={checked}
+                                label="Jeg bekrefter at jeg har fått nødvendig godkjenning."
+                                onChange={() => setChecked((x) => !x)}
                                 size="small"
                             >
                                 <Heading level="2" size="xsmall">
-                                    Denne tildelingen utløser en kostnad!
+                                    Denne tildelingen krever godkjenning fra leder!
                                 </Heading>
                             </ConfirmationPanel>
                             : null}
@@ -97,13 +111,7 @@ export default function NewAssignment1() {
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         <input value={params.userId} type="hidden" name="userRef"/>
                         <input value={params.orgId} type="hidden" name="organizationUnitId"/>
-                        {response.state === "submitting" ?
-                            <Button loading>Lagre</Button>
-                            :
-                            <Button type="submit" variant="primary">
-                                Lagre
-                            </Button>
-                        }
+                        {SaveButton()}
                     </Form>
                     <Button
                         type="button"
