@@ -12,7 +12,6 @@ import {
 import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
 import {ActionFunctionArgs, redirect} from "@remix-run/node";
 import {createUserAssignment} from "~/data/fetch-assignments";
-import React from "react";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
