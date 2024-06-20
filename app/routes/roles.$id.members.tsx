@@ -15,7 +15,7 @@ export function links() {
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const search = url.searchParams.get("search") ?? "";
-    const size = url.searchParams.get("size") ?? "10";
+    const size = url.searchParams.get("size") ?? "25";
     const page = url.searchParams.get("page") ?? "0";
     const response = await fetchMembers(request.headers.get("Authorization"), params.id, size, page, search);
 

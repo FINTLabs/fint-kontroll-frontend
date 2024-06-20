@@ -29,7 +29,7 @@ export function links() {
 
 export async function loader({params, request, context}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = url.searchParams.get("size") ?? "25";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";

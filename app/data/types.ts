@@ -221,3 +221,9 @@ export interface IUnitTree {
     currentPage: number
     orgUnits: IUnitItem[]
 }
+
+// General cookie interface
+export interface ICookie {
+    key: string
+    value: string
+}
