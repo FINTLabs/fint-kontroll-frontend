@@ -1,8 +1,9 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import {IUser, IUserPage} from "~/data/types";
+import {IUserItem, IUserPage} from "~/data/types";
 import React from "react";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface UserTableProps {
     userPage: IUserPage
@@ -15,8 +16,8 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
     const [, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })
@@ -34,7 +35,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {userPage.users.map((user: IUser) => (
+                    {userPage.users.map((user: IUserItem) => (
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
@@ -71,7 +72,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 10}
+                    defaultValue={size ? size : "25"}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

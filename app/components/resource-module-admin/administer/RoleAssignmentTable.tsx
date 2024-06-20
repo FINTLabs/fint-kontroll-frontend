@@ -8,6 +8,7 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface RoleAssignmentTableProps {
     selectedRole: IResourceModuleAccessRole
@@ -28,8 +29,8 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
     }
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })

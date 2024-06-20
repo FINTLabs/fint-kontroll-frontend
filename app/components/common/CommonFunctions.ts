@@ -1,12 +1,10 @@
-import React, {useState} from "react";
-import {useSearchParams} from "@remix-run/react";
+import React from "react";
 import {SetURLSearchParams} from "react-router-dom";
-import {SearchClearEvent} from "@navikt/ds-react";
+import {ICookie} from "~/data/types";
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
     const search = searchParams.get("search")
-    const size = searchParams.get("size")
     const page = searchParams.get("page")
     const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
     const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
@@ -15,7 +13,6 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
 
     const queryParams = [
         search && `search=${encodeURIComponent(search)}`,
-        size && `size=${encodeURIComponent(size)}`,
         page && `page=${encodeURIComponent(page)}`,
         orgunit && `orgunit=${encodeURIComponent(orgunit)}`,
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
@@ -60,10 +57,16 @@ export const handleClearNameFieldString = (setSearchParams: SetURLSearchParams) 
         return searchParameter
     })
 }
-// -----
 
 
-
+// Helper function for creating a key-value pair list of cookies
+const keyValueParseCookies = (cookies: string): ICookie[] => {
+    return cookies.split(";").map(cookie => {
+        const [key, ...valueParts] = cookie.trim().split('=');
+        const value = valueParts.join('=');
+        return {key, value};
+    });
+}
 // When any filter is changed, reset "page" query param
 export const filterResetPageParam = (pageParam: string | null, setSearchParams: SetURLSearchParams) => {
     pageParam ? setSearchParams((prev) => {
@@ -71,4 +74,16 @@ export const filterResetPageParam = (pageParam: string | null, setSearchParams: 
         return prev
     }) : null
 }
-// -----
+
+
+// Sets Size Cookie client side
+export const setSizeCookieClientSide = (sizeToSet: string) => {
+    document.cookie = "size=" + sizeToSet
+}
+// Get Size Cookie server side
+export const getSizeCookieServerSide = (request: Request): ICookie | null => {
+    const cookieHeader = request.headers.get("Cookie") ?? ""
+    const cookies = keyValueParseCookies(cookieHeader)
+    const size = cookies.find(cookie => cookie.key == "size")
+    return size ? size : null
+}
