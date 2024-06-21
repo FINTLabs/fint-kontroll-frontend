@@ -1,6 +1,11 @@
 import {wait} from "@testing-library/user-event/dist/utils";
 
 describe('Check roles page with mock data', () => {
+    before('Set default size cookie', () => {
+        cy.setCookie('size', '25')
+        wait(1000)
+        cy.getCookie('size').then(cookie => expect(cookie.value).to.be.equal('25'))
+    })
 
     it('Navigate to Grupper', () => {
         cy.goToGrupper();
@@ -11,7 +16,10 @@ describe('Check roles page with mock data', () => {
         cy.get('#pagination').should('be.visible')
     });
 
-    it('Check table exists and has 10 rows, then change to 5 rows', () => {
+    it('Check table exists, size not existing, has 10 rows, then change to 5 rows', () => {
+        cy.getCookie('size').then((cookie) => {
+            expect(cookie.value).to.equal('25')
+        })
         cy.get('#role-table').should('be.visible')
             .find('tbody tr')
             .should('have.length', 10);

@@ -1,12 +1,38 @@
 import {http, HttpResponse} from "msw";
+import {getSizeCookieServerSide} from "../../../app/components/common/CommonFunctions";
+import {ICookie} from "../../../app/data/types";
 
 export const roleHandlers = [
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request, cookies}) => {
+        console.log("cookies are: ", cookies)
+        console.log("req headers are: ", request.headers)
+        // const size = new URL(request.url).searchParams.get('size') ?? "25"
+        // const size = getSizeCookieServerSide(request)
+
+        const keyValueParseCookies = (cookies: string): ICookie[] => {
+            return cookies.split(";").map(cookie => {
+                const [key, ...valueParts] = cookie.trim().split('=');
+                const value = decodeURIComponent(valueParts.join('='));
+                return { key, value };
+            });
+        }
+
+
+        // const cookieHeader = request.headers.get("Cookie") ?? ""
+        const cookiesPrettified = keyValueParseCookies(String(cookies))
+        const size = cookiesPrettified.find(cookie => cookie.key == "size")
+        console.log("size er: ", size)
+
+        // console.log("Size is now: ", size)
+        // console.log("headers are: ", request.headers)
+        // console.log("request contains are: ", request)
+        // const size = "25"
+
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
+
 
         if(search === "oko") {
             return HttpResponse.json(
@@ -52,7 +78,7 @@ export const roleHandlers = [
             )
         }
 
-        else if(size === "10" && page === "0") {
+        else if(size === "25" && page === "0") {
             return HttpResponse.json(
                 {
                     "totalItems": 11,
@@ -234,7 +260,7 @@ export const roleHandlers = [
             return HttpResponse.json(
                 {
                     "totalItems": 11,
-                    "size": 10,
+                    "size": 25,
                     "totalPages": 3,
                     "currentPage": 0,
                     "roles": [
@@ -306,7 +332,7 @@ export const roleHandlers = [
     }),
 
     http.get('http://localhost:8064/beta/fintlabs-no/api/roles/:id/members', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
@@ -391,7 +417,7 @@ export const roleHandlers = [
                     "totalItems": 7,
                     "currentPage": 0,
                     "totalPages": 1,
-                    "size": 10,
+                    "size": 25,
                     "members": [
                         {
                             "id": 100,
@@ -449,7 +475,7 @@ export const roleHandlers = [
     }),
 
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/:id/resources', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
@@ -544,7 +570,7 @@ export const roleHandlers = [
                 {
                     "currentPage": 0,
                     "totalItems": 7,
-                    "size": 10,
+                    "size": 25,
                     "totalPages": 1,
                     "resources": [
                         {

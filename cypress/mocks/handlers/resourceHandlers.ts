@@ -10,7 +10,7 @@ export const resourceHandlers = [
                     "totalPages": 1,
                     "currentPage": 0,
                     "totalItems": 7,
-                    "size": 10,
+                    "size": 25,
                     "resources": [
                         {
                             "id": 62,
@@ -29,7 +29,7 @@ export const resourceHandlers = [
                 "totalPages": 1,
                 "currentPage": 0,
                 "totalItems": 7,
-                "size": 10,
+                "size": 25,
                 "resources": [
                     {
                         "id": 5,
@@ -158,7 +158,7 @@ export const resourceHandlers = [
 
     // For fetching Brukere
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
@@ -167,7 +167,7 @@ export const resourceHandlers = [
             return HttpResponse.json(
                 {
                     "totalItems": 7,
-                    "size": 10,
+                    "size": 25,
                     "totalPages": 1,
                     "currentPage": 0,
                     "users": [
@@ -490,7 +490,7 @@ export const resourceHandlers = [
         return HttpResponse.json(
             {
                 "totalItems": 17,
-                "size": 10,
+                "size": 25,
                 "totalPages": 2,
                 "currentPage": 0,
                 "users": [
@@ -758,7 +758,7 @@ export const resourceHandlers = [
     // Fetching assigned users to a resource
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
         // These queryParams will be used for later testing
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
@@ -770,7 +770,7 @@ export const resourceHandlers = [
                     "totalPages": 1,
                     "totalItems": 10,
                     "currentPage": 0,
-                    "size": 10,
+                    "size": 25,
                     "users": [
                         {
                             "id": 1232,
