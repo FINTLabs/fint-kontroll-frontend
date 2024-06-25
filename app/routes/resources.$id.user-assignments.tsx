@@ -22,6 +22,7 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -29,7 +30,7 @@ export function links() {
 
 export async function loader({params, request, context}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";

@@ -3,7 +3,7 @@ import type {IAssignedUsers} from "~/data/types";
 import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers, size: string
@@ -16,8 +16,8 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
     const params = useParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })
@@ -75,7 +75,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 10}
+                    defaultValue={size ? size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

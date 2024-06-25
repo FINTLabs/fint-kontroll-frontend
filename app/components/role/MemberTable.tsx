@@ -2,6 +2,7 @@ import {Pagination, Select, Table} from "@navikt/ds-react";
 import {Form, useSearchParams} from "@remix-run/react";
 import type {IMemberPage} from "~/data/types";
 import React from "react";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 
 interface MembersTableProps {
@@ -14,8 +15,8 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
     const [, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })
@@ -67,7 +68,7 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 10}
+                    defaultValue={size ? size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

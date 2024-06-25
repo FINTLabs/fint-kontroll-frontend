@@ -10,6 +10,7 @@ import {
 import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -23,8 +24,8 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
     const [params, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })

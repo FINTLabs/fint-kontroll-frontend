@@ -9,6 +9,7 @@ import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -18,7 +19,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];

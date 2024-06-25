@@ -7,7 +7,7 @@
 import {PassThrough} from "node:stream";
 
 import type {AppLoadContext, EntryContext} from "@remix-run/node";
-import {createReadableStreamFromReadable} from "@remix-run/node";
+import {createCookie, createReadableStreamFromReadable} from "@remix-run/node";
 import {RemixServer} from "@remix-run/react";
 import {renderToPipeableStream} from "react-dom/server";
 import { server } from "../cypress/mocks/node";

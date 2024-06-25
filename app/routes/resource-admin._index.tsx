@@ -10,12 +10,13 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];

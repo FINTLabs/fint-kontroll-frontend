@@ -1,12 +1,15 @@
 import {http, HttpResponse} from "msw";
+import {keyValueParseCookies} from "../../../app/components/common/CommonFunctions";
+import {ICookie} from "../../../app/data/types";
 
 export const roleHandlers = [
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
-
+    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request, cookies}) => {
+        const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
+
+        console.log("size er: ", size)
 
         if(search === "oko") {
             return HttpResponse.json(
@@ -52,12 +55,12 @@ export const roleHandlers = [
             )
         }
 
-        else if(size === "10" && page === "0") {
+        else if(size === "25" && page === "0") {
             return HttpResponse.json(
                 {
                     "totalItems": 11,
-                    "size": 10,
-                    "totalPages": 2,
+                    "size": 25,
+                    "totalPages": 1,
                     "currentPage": 0,
                     "roles": [
                         {
@@ -143,6 +146,15 @@ export const roleHandlers = [
                         },
                         {
                             "id": 10,
+                            "roleName": "Elev - VGMIDT Administrasjon",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        },
+                        {
+                            "id": 11,
                             "roleName": "Elev - VGMIDT Administrasjon",
                             "roleType": "elev",
                             "roleSubType": "elev",
@@ -234,8 +246,8 @@ export const roleHandlers = [
             return HttpResponse.json(
                 {
                     "totalItems": 11,
-                    "size": 10,
-                    "totalPages": 3,
+                    "size": 25,
+                    "totalPages": 1,
                     "currentPage": 0,
                     "roles": [
                         {
@@ -306,7 +318,7 @@ export const roleHandlers = [
     }),
 
     http.get('http://localhost:8064/beta/fintlabs-no/api/roles/:id/members', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
@@ -391,7 +403,7 @@ export const roleHandlers = [
                     "totalItems": 7,
                     "currentPage": 0,
                     "totalPages": 1,
-                    "size": 10,
+                    "size": 25,
                     "members": [
                         {
                             "id": 100,
@@ -449,7 +461,7 @@ export const roleHandlers = [
     }),
 
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/:id/resources', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
@@ -544,7 +556,7 @@ export const roleHandlers = [
                 {
                     "currentPage": 0,
                     "totalItems": 7,
-                    "size": 10,
+                    "size": 25,
                     "totalPages": 1,
                     "resources": [
                         {

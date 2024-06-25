@@ -3,7 +3,7 @@ import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
 import {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -11,10 +11,11 @@ import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
@@ -29,7 +30,8 @@ export async function loader({request}: LoaderFunctionArgs) {
 
     return json({
         userList,
-        orgUnitList
+        orgUnitList,
+        size
     })
 }
 
@@ -37,9 +39,10 @@ export default function UsersIndex() {
     const data = useLoaderData<{
         userList: IUserPage,
         orgUnitList: IUnitItem[]
+        size: string
     }>();
     const [searchParams,] = useSearchParams()
-    const size = searchParams.get("size") ?? "10"
+    const size = data.size
 
     return (
         <div className={"content"}>

@@ -2,7 +2,7 @@ import {http, HttpResponse} from "msw";
 
 export const kontrollAdminHandlers = [
     http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10"
+        const size = new URL(request.url).searchParams.get('size') ?? "25"
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
