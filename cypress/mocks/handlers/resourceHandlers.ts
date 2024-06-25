@@ -157,8 +157,8 @@ export const resourceHandlers = [
     }),
 
     // For fetching Brukere
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "25"
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request, cookies}) => {
+        const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
@@ -758,7 +758,7 @@ export const resourceHandlers = [
     // Fetching assigned users to a resource
     http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
         // These queryParams will be used for later testing
-        const size = new URL(request.url).searchParams.get('size') ?? "25"
+        const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"

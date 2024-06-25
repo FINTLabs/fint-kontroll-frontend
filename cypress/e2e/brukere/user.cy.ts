@@ -2,13 +2,11 @@ import {wait} from "@testing-library/user-event/dist/utils"
 
 describe('Check the user detail page', () => {
 
-    // beforeEach(() => {
-    //     const baseUrl = "http://localhost:3001/";
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}api/users/?size=5`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}api/users/442/?size=5`, "users.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}api/users/442`, "user.json");
-    //     cy.interceptAndReturnFile("GET", `${baseUrl}api/assignments/user/442/resources`, "assignments.json");
-    // });
+    before('Set default size cookie', () => {
+        cy.setCookie('size', '25')
+        wait(1000)
+        cy.getCookie('size').then(cookie => expect(cookie.value).to.be.equal('25'))
+    })
 
     it("Navigate to Karen Berg's information page and click 'Se Info'", () => {
         cy.goToInfo();

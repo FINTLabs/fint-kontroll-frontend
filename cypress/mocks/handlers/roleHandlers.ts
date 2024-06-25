@@ -313,8 +313,8 @@ export const roleHandlers = [
         )
     }),
 
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles/:id/members', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "25"
+    http.get('http://localhost:8064/beta/fintlabs-no/api/roles/:id/members', ({request, cookies}) => {
+        const size = cookies.size ?? null
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
@@ -456,8 +456,8 @@ export const roleHandlers = [
         }
     }),
 
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/:id/resources', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "25"
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/role/:id/resources', ({request, cookies}) => {
+        const size = cookies.size ?? null
 
         const page = new URL(request.url).searchParams.get('page') ?? "0"
 
