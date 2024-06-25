@@ -34,7 +34,7 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await createRoleAssignment(request.headers.get("Authorization"),
+    const response = await createRoleAssignment(request,
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)

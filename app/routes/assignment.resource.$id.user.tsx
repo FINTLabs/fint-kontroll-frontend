@@ -25,10 +25,10 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseUsers, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
-        fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", "", orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchUsers(request, size, page, search, userType, orgUnits),
+        fetchOrgUnits(request),
+        fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits),
+        fetchResourceById(request, params.id),
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

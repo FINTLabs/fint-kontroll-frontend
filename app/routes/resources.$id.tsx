@@ -16,7 +16,7 @@ export function links() {
 export async function loader({params, request}: LoaderFunctionArgs) {
 
     const [resource] = await Promise.all([
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchResourceById(request, params.id),
     ]);
     return json({
         resource: await resource.json(),

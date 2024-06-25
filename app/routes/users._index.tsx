@@ -21,8 +21,8 @@ export async function loader({request}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseUsers, responseOrgUnits] = await Promise.all([
-        fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization"))
+        fetchUsers(request, size, page, search, userType, orgUnits),
+        fetchOrgUnits(request)
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

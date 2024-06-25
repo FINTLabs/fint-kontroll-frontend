@@ -37,8 +37,8 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
     const [assignedUsers, resourceById] = await Promise.all([
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, size, page, search, userType, orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
+        fetchResourceById(request, params.id),
     ])
 
     const resource: IResource = await resourceById.json()

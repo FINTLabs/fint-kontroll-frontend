@@ -18,7 +18,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const search = url.searchParams.get("search") ?? "";
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
-    const response = await fetchMembers(request.headers.get("Authorization"), params.id, size, page, search);
+    const response = await fetchMembers(request, params.id, size, page, search);
 
     const members = await response.json()
 

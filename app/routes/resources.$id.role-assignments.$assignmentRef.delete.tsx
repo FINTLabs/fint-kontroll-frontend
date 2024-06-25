@@ -9,7 +9,7 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
+    const response = await deleteAssignment(request, data.get("assignmentRef") as string)
 
     return redirect(`/resources/${data.get("resourceRef")}/role-assignments?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
 }

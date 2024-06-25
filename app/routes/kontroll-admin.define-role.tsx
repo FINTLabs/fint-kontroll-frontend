@@ -16,7 +16,7 @@ import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollA
 
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const response = await fetchAccessRoles(auth);
     return json(await response.json());
 }

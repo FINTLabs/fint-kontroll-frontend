@@ -23,8 +23,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const page = url.searchParams.get("page") ?? "0";
 
     const [user, assignments] = await Promise.all([
-        fetchUserById(request.headers.get("Authorization"), params.id),
-        fetchAssignmentsForUser(request.headers.get("Authorization"), params.id, size, page)
+        fetchUserById(request, params.id),
+        fetchAssignmentsForUser(request, params.id, size, page)
     ]);
     return json({
         user: await user.json(),

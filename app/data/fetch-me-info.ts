@@ -1,10 +1,10 @@
 import {BASE_PATH, USER_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 
-export const fetchMeInfo = async (token: string | null) => {
+export const fetchMeInfo = async (request: Request) => {
     const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/me`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     logger.debug("Response from ", url, response);

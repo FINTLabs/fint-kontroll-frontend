@@ -49,7 +49,7 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const response = await fetchMeInfo(request.headers.get("Authorization"));
+    const response = await fetchMeInfo(request);
     const me = await response.json();
     return json({
         me,

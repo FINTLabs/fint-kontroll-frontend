@@ -22,7 +22,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseRoles, responseOrgUnits] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization"))
+        fetchOrgUnits(request)
     ]);
     const roleList: IRolePage = await responseRoles.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

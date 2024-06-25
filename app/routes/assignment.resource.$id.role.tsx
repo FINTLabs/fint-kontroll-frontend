@@ -25,9 +25,9 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseRoles, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedRoles(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchOrgUnits(request),
+        fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits),
+        fetchResourceById(request, params.id),
 
     ]);
     const roleList: IRolePage = await responseRoles.json()
