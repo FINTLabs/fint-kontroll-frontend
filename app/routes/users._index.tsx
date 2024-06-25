@@ -11,11 +11,11 @@ import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
-import {getSizeCookieServerSide} from "~/components/common/CommonFunctions";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = getSizeCookieServerSide(request)?.value ?? "25"
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";

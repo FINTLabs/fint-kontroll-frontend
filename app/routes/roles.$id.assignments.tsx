@@ -9,7 +9,7 @@ import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable
 import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
-import {getSizeCookieServerSide} from "~/components/common/CommonFunctions";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -17,7 +17,7 @@ export function links() {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = getSizeCookieServerSide(request)?.value ?? "25"
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const response = await fetchAssignmentsForRole(request.headers.get("Authorization"), params.id, size, page);
 

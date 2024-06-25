@@ -59,14 +59,6 @@ export const handleClearNameFieldString = (setSearchParams: SetURLSearchParams) 
 }
 
 
-// Helper function for creating a key-value pair list of cookies
-const keyValueParseCookies = (cookies: string): ICookie[] => {
-    return cookies.split(";").map(cookie => {
-        const [key, ...valueParts] = cookie.trim().split('=');
-        const value = valueParts.join('=');
-        return {key, value};
-    });
-}
 // When any filter is changed, reset "page" query param
 export const filterResetPageParam = (pageParam: string | null, setSearchParams: SetURLSearchParams) => {
     pageParam ? setSearchParams((prev) => {
@@ -75,15 +67,27 @@ export const filterResetPageParam = (pageParam: string | null, setSearchParams: 
     }) : null
 }
 
-
 // Sets Size Cookie client side
 export const setSizeCookieClientSide = (sizeToSet: string) => {
-    document.cookie = "size=" + sizeToSet
+    document.cookie = "size=" + sizeToSet + ";path=/"
 }
-// Get Size Cookie server side
-export const getSizeCookieServerSide = (request: Request): ICookie | null => {
-    const cookieHeader = request.headers.get("Cookie") ?? ""
-    const cookies = keyValueParseCookies(cookieHeader)
-    const size = cookies.find(cookie => cookie.key == "size")
-    return size ? size : null
-}
+
+// Helper function for creating a key-value pair list of cookies
+export const keyValueParseCookies = (cookies: string): ICookie[] => {
+    return cookies.split(";").map(cookie => {
+        const [key, ...valueParts] = cookie.trim().split('=');
+        const value = decodeURIComponent(valueParts.join('='));
+        return { key, value };
+    });
+};
+
+// Get Size Cookie from request and return it
+export const getSizeCookieFromRequestHeader = (request: Request): ICookie | null => {
+    const cookieHeader: string | null = request.headers.get("Cookie");
+    if (cookieHeader) {
+        const cookies = keyValueParseCookies(cookieHeader);
+        const size = cookies.find(cookie => cookie.key === "size");
+        return size ? size : null;
+    }
+    return null;
+};

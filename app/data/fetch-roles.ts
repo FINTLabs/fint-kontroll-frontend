@@ -1,8 +1,9 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
+import {prepareHeadersForRequests} from "~/components/common/CommonFunctions";
 
-export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgUnits: string[]) => {
+export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[]) => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgunits=' + orgUnits : ""}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers,
     });
 
     if (response.ok) {
@@ -20,7 +21,7 @@ export const fetchRoles = async (token: string | null, size: string, page: strin
 
 export const fetchRoleById = async (token: string | null, id: string | undefined) => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
-        headers: {Authorization: token ?? ""}
+        headers: {Authorization: token ?? ""},
     });
 
     if (response.ok) {

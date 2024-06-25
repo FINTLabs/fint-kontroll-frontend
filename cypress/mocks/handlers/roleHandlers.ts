@@ -1,38 +1,15 @@
 import {http, HttpResponse} from "msw";
-import {getSizeCookieServerSide} from "../../../app/components/common/CommonFunctions";
+import {keyValueParseCookies} from "../../../app/components/common/CommonFunctions";
 import {ICookie} from "../../../app/data/types";
 
 export const roleHandlers = [
     http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request, cookies}) => {
-        console.log("cookies are: ", cookies)
-        console.log("req headers are: ", request.headers)
-        // const size = new URL(request.url).searchParams.get('size') ?? "25"
-        // const size = getSizeCookieServerSide(request)
-
-        const keyValueParseCookies = (cookies: string): ICookie[] => {
-            return cookies.split(";").map(cookie => {
-                const [key, ...valueParts] = cookie.trim().split('=');
-                const value = decodeURIComponent(valueParts.join('='));
-                return { key, value };
-            });
-        }
-
-
-        // const cookieHeader = request.headers.get("Cookie") ?? ""
-        const cookiesPrettified = keyValueParseCookies(String(cookies))
-        const size = cookiesPrettified.find(cookie => cookie.key == "size")
-        console.log("size er: ", size)
-
-        // console.log("Size is now: ", size)
-        // console.log("headers are: ", request.headers)
-        // console.log("request contains are: ", request)
-        // const size = "25"
-
-
+        const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
 
+        console.log("size er: ", size)
 
         if(search === "oko") {
             return HttpResponse.json(
@@ -82,8 +59,8 @@ export const roleHandlers = [
             return HttpResponse.json(
                 {
                     "totalItems": 11,
-                    "size": 10,
-                    "totalPages": 2,
+                    "size": 25,
+                    "totalPages": 1,
                     "currentPage": 0,
                     "roles": [
                         {
@@ -169,6 +146,15 @@ export const roleHandlers = [
                         },
                         {
                             "id": 10,
+                            "roleName": "Elev - VGMIDT Administrasjon",
+                            "roleType": "elev",
+                            "roleSubType": "elev",
+                            "aggregatedRole": false,
+                            "organisationUnitId": "195",
+                            "organisationUnitName": "VGMIDT Administrasjon"
+                        },
+                        {
+                            "id": 11,
                             "roleName": "Elev - VGMIDT Administrasjon",
                             "roleType": "elev",
                             "roleSubType": "elev",
@@ -261,7 +247,7 @@ export const roleHandlers = [
                 {
                     "totalItems": 11,
                     "size": 25,
-                    "totalPages": 3,
+                    "totalPages": 1,
                     "currentPage": 0,
                     "roles": [
                         {
