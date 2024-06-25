@@ -33,10 +33,10 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const accessType = url.searchParams.get("accesstype") ?? "";
 
     const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedResourcesRole(request.headers.get("Authorization"), params.id, "1000", "0"),
-        fetchRoleById(request.headers.get("Authorization"), params.id),
+        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+        fetchOrgUnits(request),
+        fetchAssignedResourcesRole(request, params.id, "1000", "0"),
+        fetchRoleById(request, params.id),
     ]);
     const resourceList: IResourcePage = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

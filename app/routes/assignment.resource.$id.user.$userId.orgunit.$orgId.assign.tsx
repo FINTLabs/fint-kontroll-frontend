@@ -21,7 +21,7 @@ import {IResource} from "~/data/types";
 export async function loader({request, params}: LoaderFunctionArgs) {
 
     const [responseResource] = await Promise.all([
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchResourceById(request, params.id),
     ]);
     const resource: IResource = await responseResource.json()
 
@@ -34,7 +34,7 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await createUserAssignment(request.headers.get("Authorization"),
+    const response = await createUserAssignment(request,
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)

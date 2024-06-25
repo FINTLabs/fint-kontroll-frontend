@@ -18,7 +18,7 @@ export function links() {
 }
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const size = Number(url.searchParams.get("size") ?? "10");
     const page = Number(url.searchParams.get("page") ?? "0");
     const orgunits: string[] = url.searchParams.get("orgUnits")?.split(",") ?? [""];

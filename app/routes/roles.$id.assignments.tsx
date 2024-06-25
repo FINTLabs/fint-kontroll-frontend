@@ -19,7 +19,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
-    const response = await fetchAssignmentsForRole(request.headers.get("Authorization"), params.id, size, page);
+    const response = await fetchAssignmentsForRole(request, params.id, size, page);
 
     const assignments = await response.json()
 

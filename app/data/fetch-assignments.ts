@@ -1,11 +1,12 @@
 import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
 import logger from "~/logging/logger";
+import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
-export const fetchAssignedUsers = async (token: string | null, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
+export const fetchAssignedUsers = async (request: Request, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
     const response = await fetch
     (`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
-            headers: {Authorization: token ?? ""}
+            headers: request.headers
         });
 
     if (response.ok) {
@@ -22,10 +23,10 @@ export const fetchAssignedUsers = async (token: string | null, id: string | unde
 
 }
 
-export const fetchAssignedResourcesUser = async (token: string | null, id: string | undefined, size: string, page: string) => {
+export const fetchAssignedResourcesUser = async (request: Request, id: string | undefined, size: string, page: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/user/${id}/resources?size=${size}&page=${page}`,
         {
-            headers: {Authorization: token ?? ""}
+            headers: request.headers
         });
 
     if (response.ok) {
@@ -43,9 +44,9 @@ export const fetchAssignedResourcesUser = async (token: string | null, id: strin
 }
 
 
-export const fetchAssignmentsForUser = async (token: string | null, id: string | undefined, size: string, page: string) => {
+export const fetchAssignmentsForUser = async (request: Request, id: string | undefined, size: string, page: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/user/${id}/resources?size=${size}&page=${page}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     if (response.ok) {
@@ -62,9 +63,9 @@ export const fetchAssignmentsForUser = async (token: string | null, id: string |
 
 }
 
-export const fetchAssignedRoles = async (token: string | null, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
+export const fetchAssignedRoles = async (request: Request, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     if (response.ok) {
@@ -81,9 +82,9 @@ export const fetchAssignedRoles = async (token: string | null, id: string | unde
 
 }
 
-export const fetchAssignmentsForRole = async (token: string | null, id: string | undefined, size: string, page: string) => {
+export const fetchAssignmentsForRole = async (request: Request, id: string | undefined, size: string, page: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     if (response.ok) {
@@ -100,13 +101,10 @@ export const fetchAssignmentsForRole = async (token: string | null, id: string |
 
 }
 
-export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
+export const createUserAssignment = async (request: Request, resourceRef: number, userRef: number, organizationUnitId: string) => {
     const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
     const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
-        },
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,
@@ -118,12 +116,9 @@ export const createUserAssignment = async (token: string | null, resourceRef: nu
     return response;
 }
 
-export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
-        headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
-        },
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,
@@ -134,14 +129,12 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
     return response;
 }
 
-export const deleteAssignment = async (token: string | null, assignmentRef: string) => {
+export const deleteAssignment = async (request: Request, assignmentRef: string) => {
 
     const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`
     logger.debug("Delete assignment ", url);
     const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? ""
-        },
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'DELETE'
     });
     logger.debug("Response from deleteAssignments", url, response.status);

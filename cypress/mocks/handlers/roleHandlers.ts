@@ -1,6 +1,4 @@
 import {http, HttpResponse} from "msw";
-import {keyValueParseCookies} from "../../../app/components/common/CommonFunctions";
-import {ICookie} from "../../../app/data/types";
 
 export const roleHandlers = [
     http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({request, cookies}) => {
@@ -8,8 +6,6 @@ export const roleHandlers = [
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? ""
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? []
-
-        console.log("size er: ", size)
 
         if(search === "oko") {
             return HttpResponse.json(
