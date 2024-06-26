@@ -17,7 +17,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
             </Box>
 
             <Box>
-                <ul>
+                <ul className="resource-information-list">
                     <li>
                         <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
                         <BodyShort textColor="subtle">{resource.identityProviderGroupName}</BodyShort>
