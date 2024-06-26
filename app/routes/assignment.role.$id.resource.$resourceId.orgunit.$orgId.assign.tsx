@@ -21,7 +21,7 @@ import {useState} from "react";
 export async function loader({request, params}: LoaderFunctionArgs) {
 
     const [responseResource] = await Promise.all([
-        fetchResourceById(request.headers.get("Authorization"), params.resourceId),
+        fetchResourceById(request, params.resourceId),
     ]);
 
     const resource: IResource = await responseResource.json()

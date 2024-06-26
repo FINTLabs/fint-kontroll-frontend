@@ -22,7 +22,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
             return searchParams;
         })
     }
-
+console.log("SIZEEE", size)
     return (
         <div style={{marginTop: '3rem'}}>
             <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
@@ -75,7 +75,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 25}
+                    defaultValue={size ? Number(size) : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

@@ -756,7 +756,7 @@ export const resourceHandlers = [
 
 
     // Fetching assigned users to a resource
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request}) => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request, cookies}) => {
         // These queryParams will be used for later testing
         const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
