@@ -13,7 +13,6 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
 
     const queryParams = [
         search && `search=${encodeURIComponent(search)}`,
-        size && `size=${encodeURIComponent(size)}`,
         page && `page=${encodeURIComponent(page)}`,
         orgunit && `orgunit=${encodeURIComponent(orgunit)}`,
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
@@ -26,7 +25,6 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
 
 export const prepareQueryParamsWithResponseCode = (searchParams: URLSearchParams): string => {
     const search = searchParams.get("search")
-    const size = searchParams.get("size")
     const page = searchParams.get("page")
     const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
     const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
