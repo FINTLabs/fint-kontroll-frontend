@@ -1,10 +1,10 @@
 import React from 'react';
-import {BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
+import {BodyShort, Button, Loader, Modal} from "@navikt/ds-react";
 import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -12,7 +12,7 @@ export async function action({params, request}: ActionFunctionArgs) {
 
     const response = await deleteAssignment(request, data.get("assignmentRef") as string)
 
-    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParams(searchParams).length > 0 ? prepareQueryParams(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function DeleteUserAssignment() {
@@ -31,7 +31,7 @@ export default function DeleteUserAssignment() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
+                onClose={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",

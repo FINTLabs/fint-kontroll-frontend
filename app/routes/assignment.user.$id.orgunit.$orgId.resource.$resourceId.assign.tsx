@@ -3,15 +3,34 @@ import {
     Links,
     Meta,
     Scripts,
+    useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
     useRouteError,
     useSearchParams
 } from "@remix-run/react";
-import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
+import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal, VStack} from "@navikt/ds-react";
+import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createUserAssignment} from "~/data/fetch-assignments";
+import {LoaderFunctionArgs} from "@remix-run/router";
+import {fetchResourceById} from "~/data/fetch-resources";
+import {IResource} from "~/data/types";
+import {useState} from "react";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+
+export async function loader({request, params}: LoaderFunctionArgs) {
+
+    const [responseResource] = await Promise.all([
+        fetchResourceById(request.headers.get("Authorization"), params.resourceId),
+    ]);
+
+    const resource: IResource = await responseResource.json()
+
+    return json({
+        resource,
+    })
+}
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -22,14 +41,20 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)
 
-    return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}?page=${searchParams.get("page")}&responseCode=${response.status}`)
+    return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+
+  //  return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}?page=${searchParams.get("page")}&responseCode=${response.status}`)
 }
 
-export default function NewAssignment1() {
+export default function NewAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const response = useNavigation()
+    const [checked, setChecked] = useState(false);
+
+    const loaderData = useLoaderData<typeof loader>();
+    const resource: IResource = loaderData.resource
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
@@ -37,40 +62,66 @@ export default function NewAssignment1() {
         </div>
     }
 
+    function SaveButton() {
+        if (response.state === "submitting") {
+            return <Button loading>Lagre</Button>;
+        } else if (resource.hasCost && !checked) {
+            return <Button disabled={true}>Lagre</Button>;
+        } else {
+            return (
+                <Button type="submit" variant="primary">
+                    Lagre
+                </Button>
+            );
+        }
+    }
+
     return (
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}`)}
+                onClose={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
                     closeButton: false,
                 }}
-                width="small"
+                width="medium"
             >
                 <Modal.Body>
-                    <BodyShort>
-                        Trykk lagre for å bekrefte tildeling av ressursen
-                    </BodyShort>
+                    <VStack gap="4">
+                        <BodyShort>
+                            {resource.resourceName}
+                        </BodyShort>
+
+                        {resource.hasCost ?
+                            <ConfirmationPanel
+                                checked={checked}
+                                label="Jeg bekrefter at jeg har fått nødvendig godkjenning."
+                                onChange={() => setChecked((x) => !x)}
+                                size="small"
+                            >
+                                <Heading level="2" size="xsmall">
+                                    Denne tildelingen krever godkjenning fra leder!
+                                </Heading>
+                            </ConfirmationPanel>
+                            : null}
+                        <BodyShort>
+                            Trykk lagre for å bekrefte tildeling av ressursen
+                        </BodyShort>
+                    </VStack>
                 </Modal.Body>
                 <Modal.Footer>
                     <Form method={"POST"}>
                         <input value={params.resourceId} type="hidden" name="resourceRef"/>
                         <input value={params.id} type="hidden" name="userRef"/>
                         <input value={params.orgId} type="hidden" name="organizationUnitId"/>
-                        {response.state === "submitting" ?
-                            <Button loading>Lagre</Button>
-                            :
-                            <Button type="submit" variant="primary">
-                                Lagre
-                            </Button>
-                        }
+                        {SaveButton()}
                     </Form>
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}?page=${searchParams.get("page")}`)}
+                        onClick={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>

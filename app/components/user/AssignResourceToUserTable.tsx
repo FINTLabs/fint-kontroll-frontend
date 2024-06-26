@@ -3,6 +3,7 @@ import type {IResource} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 export const AssignResourceToUserTable: any = (props: {
@@ -51,7 +52,7 @@ export const AssignResourceToUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/user/${props.userId}/orgunit/${props.orgId}/resource/${resource.id}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}`}
+                                        href={`${props.basePath}/assignment/user/${props.userId}/orgunit/${props.orgId}/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel

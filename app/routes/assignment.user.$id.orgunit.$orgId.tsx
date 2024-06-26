@@ -17,7 +17,6 @@ import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
-import React from "react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
@@ -75,7 +74,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) => (
+    breadcrumb: ({params}) => (
         <>
             <Link to={`/users`}>Brukere</Link>
             {" > "}

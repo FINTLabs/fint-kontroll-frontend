@@ -4,14 +4,14 @@ import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@rem
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const {searchParams} = new URL(request.url)
     const response = await deleteAssignment(request, params.assignmentRef as string)
     searchParams.set("responseCode", String(response.status))
 
-    return redirect(`/roles/${params.id}/assignments${prepareQueryParams(searchParams)}`)
+    return redirect(`/roles/${params.id}/assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
 export default function DeleteRoleAssignment() {
@@ -29,7 +29,7 @@ export default function DeleteRoleAssignment() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/roles/${params.id}/assignments${prepareQueryParams(searchParams)}`)}
+            onClose={() => navigate(`/roles/${params.id}/assignments${prepareQueryParamsWithResponseCode(searchParams)}`)}
             header={{
                 heading: "Ønsker du å trekke tilgangen?",
                 size: "small",

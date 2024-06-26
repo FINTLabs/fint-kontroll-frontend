@@ -2,34 +2,47 @@ import {
     Form,
     Links,
     Meta,
-    Scripts,
+    Scripts, useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
     useRouteError,
     useSearchParams
 } from "@remix-run/react";
-import {Alert, BodyShort, Box, Button, Loader, Modal} from "@navikt/ds-react";
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
+import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal, VStack} from "@navikt/ds-react";
+import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
-import React from "react";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {IResource} from "~/data/types";
+import {LoaderFunctionArgs} from "@remix-run/router";
+import {fetchResourceById} from "~/data/fetch-resources";
+import {useState} from "react";
+
+export async function loader({request, params}: LoaderFunctionArgs) {
+
+    const [responseResource] = await Promise.all([
+        fetchResourceById(request.headers.get("Authorization"), params.resourceId),
+    ]);
+
+    const resource: IResource = await responseResource.json()
+
+    return json({
+        resource,
+    })
+}
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url)
 
-    const queryParams = new URLSearchParams()
+       // const queryParams = new URLSearchParams()
 
     const response = await createRoleAssignment(request,
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
 
-    searchParams.get("page") ? queryParams.append("page", searchParams.get("page") ?? "0") : ""
-    queryParams.append("responseCode", String(response.status))
-
-    return redirect(`/assignment/role/${data.get("roleRef")}?${queryParams}`)
+    return redirect(`/assignment/role/${data.get("roleRef")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function AssignResourceToRole() {
@@ -37,6 +50,10 @@ export default function AssignResourceToRole() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const response = useNavigation()
+    const [checked, setChecked] = useState(false);
+
+    const loaderData = useLoaderData<typeof loader>();
+    const resource: IResource = loaderData.resource
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
@@ -44,21 +61,52 @@ export default function AssignResourceToRole() {
         </div>
     }
 
+    function SaveButton() {
+        if (response.state === "submitting") {
+            return <Button loading>Lagre</Button>;
+        } else if (resource.hasCost && !checked) {
+            return <Button disabled={true}>Lagre</Button>;
+        } else {
+            return (
+                <Button type="submit" variant="primary">
+                    Lagre
+                </Button>
+            );
+        }
+    }
+
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/assignment/role/${params.id}${prepareQueryParams(searchParams)}`)}
+            onClose={() => navigate(`/assignment/role/${params.id}${prepareQueryParamsWithResponseCode(searchParams)}`)}
             header={{
                 heading: "Fullfør tildelingen",
                 size: "small",
                 closeButton: false,
             }}
-            width="small"
+            width="medium"
         >
-            <Modal.Body>
+            <Modal.Body><VStack gap="4">
+                <BodyShort>
+                    {resource.resourceName}
+                </BodyShort>
+
+                {resource.hasCost ?
+                    <ConfirmationPanel
+                        checked={checked}
+                        label="Jeg bekrefter at jeg har fått nødvendig godkjenning."
+                        onChange={() => setChecked((x) => !x)}
+                        size="small"
+                    >
+                        <Heading level="2" size="xsmall">
+                            Denne tildelingen krever godkjenning fra leder!
+                        </Heading>
+                    </ConfirmationPanel>
+                    : null}
                 <BodyShort>
                     Trykk lagre for å bekrefte tildeling av ressursen
                 </BodyShort>
+            </VStack>
             </Modal.Body>
 
             <Modal.Footer>
@@ -66,13 +114,7 @@ export default function AssignResourceToRole() {
                     <input value={params.resourceId} type="hidden" name="resourceRef"/>
                     <input value={params.id} type="hidden" name="roleRef"/>
                     <input value={params.orgId} type="hidden" name="organizationUnitId"/>
-                    {response.state === "submitting" ?
-                        <Button loading>Lagre</Button>
-                        :
-                        <Button type="submit" variant="primary">
-                            Lagre
-                        </Button>
-                    }
+                    {SaveButton()}
                 </Form>
                 <Button
                     type="button"
