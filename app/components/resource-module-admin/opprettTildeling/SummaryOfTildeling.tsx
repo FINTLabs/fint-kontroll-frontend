@@ -1,5 +1,5 @@
 import {IResourceModuleAccessRole, IResourceModuleAssignment} from "~/data/resourceModuleAdmin/types";
-import {Alert, Box, Heading, List} from "@navikt/ds-react";
+import {Alert, FormSummary, List} from "@navikt/ds-react";
 
 interface SummaryOfTildelingProps {
     assignment: IResourceModuleAssignment
@@ -15,34 +15,48 @@ const SummaryOfTildeling = ({assignment, missingFields, accessRoles}: SummaryOfT
 
     return (
         <div>
-            <Box
-                padding={"4"}
-                borderWidth={"2"}
-                borderRadius={"large"}
-                className={"tildeling-summary"}
-            >
-                <Heading size={"medium"}>Oppsummering</Heading>
-                {assignment.user?.firstName && <p>Valgt bruker: <b>{assignment.user?.firstName + " " + assignment.user?.lastName}</b> </p>}
-                {assignment.accessRoleId && <p>Valgt aksessrolle: <b>{findAccessRoleById(assignment.accessRoleId)}</b></p>}
+            <FormSummary>
+                <FormSummary.Header>
+                    <FormSummary.Heading level="2">Oppsummering</FormSummary.Heading>
+                </FormSummary.Header>
 
-                {assignment.orgUnits.length > 0 &&
-                    (assignment.includeSubOrgUnits ?
-                        <div className={"summary-org-units-wrapper"}>
-                            <span>Inkluderte orgenheter - da MED tilhørende underenheter:</span>
-                            <List className={"list-two-columns"}>
-                                {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
-                            </List>
-                        </div>
-                    :
-                        <div className={"summary-org-units-wrapper"}>
-                            <span>Valgte orgenheter:</span>
-                            <List className={"list-two-columns"}>
-                                {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
-                            </List>
-                        </div>
-                    )
-                }
-            </Box>
+                <FormSummary.Answers>
+                    {assignment.user?.firstName &&
+                        <FormSummary.Answer>
+                            <FormSummary.Label>Valgt bruker</FormSummary.Label>
+                            <FormSummary.Value>{assignment.user?.firstName + " " + assignment.user?.lastName}</FormSummary.Value>
+                        </FormSummary.Answer>
+                    }
+                    {assignment.accessRoleId &&
+                        <FormSummary.Answer>
+                            <FormSummary.Label>Valgt aksessrolle</FormSummary.Label>
+                            <FormSummary.Value>{findAccessRoleById(assignment.accessRoleId)}</FormSummary.Value>
+                        </FormSummary.Answer>
+                    }
+
+                    {assignment.orgUnits.length > 0 &&
+                        (assignment.includeSubOrgUnits ?
+                            <FormSummary.Answer>
+                                <FormSummary.Label>Inkluderte orgenheter - da MED tilhørende underenheter</FormSummary.Label>
+                                <FormSummary.Value>
+                                    <List className={"list-two-columns"}>
+                                        {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
+                                    </List>
+                                </FormSummary.Value>
+                            </FormSummary.Answer>
+                        :
+                            <FormSummary.Answer>
+                                <FormSummary.Label>Valgte orgenheter</FormSummary.Label>
+                                <FormSummary.Value>
+                                    <List className={"list-two-columns"}>
+                                        {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
+                                    </List>
+                                </FormSummary.Value>
+                            </FormSummary.Answer>
+                        )
+                    }
+                </FormSummary.Answers>
+            </FormSummary>
 
             {missingFields &&
                 <Alert variant={"error"} >
