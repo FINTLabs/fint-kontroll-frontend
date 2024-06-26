@@ -11,6 +11,28 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
     const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
     const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
     const name = searchParams.get("name")
+   // const responseCode = searchParams.get("responseCode")
+
+    const queryParams = [
+        search && `search=${encodeURIComponent(search)}`,
+        size && `size=${encodeURIComponent(size)}`,
+        page && `page=${encodeURIComponent(page)}`,
+        orgunit && `orgunit=${encodeURIComponent(orgunit)}`,
+        orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
+        name && `name=${encodeURIComponent(name)}`,
+       // responseCode && `responseCode=${encodeURIComponent(responseCode)}`
+    ].filter(Boolean).join('&')
+
+    return queryParams ? `?${queryParams}` : ''
+}
+
+export const prepareQueryParamsWithResponseCode = (searchParams: URLSearchParams): string => {
+    const search = searchParams.get("search")
+    const size = searchParams.get("size")
+    const page = searchParams.get("page")
+    const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
+    const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
+    const name = searchParams.get("name")
     const responseCode = searchParams.get("responseCode")
 
     const queryParams = [

@@ -25,7 +25,7 @@ export const AssignResourceToRoleTable = (
         currentPage,
         orgId,
         basePath
-}: AssignResourceToRoleTableProps) => {
+    }: AssignResourceToRoleTableProps) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 

@@ -39,7 +39,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                 </Table.Header>
                 <Table.Body>
                     {assignedUsers.users.map((user) => (
-                        <Table.Row key={user.id}>
+                        <Table.Row key={user.assigneeRef}>
                             <Table.HeaderCell scope="row">{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
                             <Table.DataCell>{user.assigneeUserType}</Table.DataCell>
                             <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
