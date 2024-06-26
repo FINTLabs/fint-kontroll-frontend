@@ -19,12 +19,13 @@ import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
@@ -33,12 +34,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 
     const [responseResources, responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedResourcesUser(request.headers.get("Authorization"), params.id, "1000", "0"),
-        fetchUserById(request.headers.get("Authorization"), params.id),
-        fetchApplicationCategory(request.headers.get("Authorization")),
-        // fetchAccessType(request.headers.get("Authorization"))
+        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+        fetchOrgUnits(request),
+        fetchAssignedResourcesUser(request, params.id, "1000", "0"),
+        fetchUserById(request, params.id),
+        fetchApplicationCategory(request),
+        // fetchAccessType(request)
 
 
     ]);

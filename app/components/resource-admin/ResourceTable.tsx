@@ -3,6 +3,7 @@ import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
 import type {IResourcePage} from "~/data/types";
 import React from "react";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: string, page: string }) => {
 
@@ -10,8 +11,8 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
     const [, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })

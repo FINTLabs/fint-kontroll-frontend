@@ -13,20 +13,21 @@ import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {IResource} from "~/data/types";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseRoles, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
-        fetchRoles(request.headers.get("Authorization"), size, page, search, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedRoles(request.headers.get("Authorization"), params.id, "1000", "0", "", orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchRoles(request, size, page, search, orgUnits),
+        fetchOrgUnits(request),
+        fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits),
+        fetchResourceById(request, params.id),
 
     ]);
     const roleList: IRolePage = await responseRoles.json()

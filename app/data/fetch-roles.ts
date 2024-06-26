@@ -1,8 +1,8 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
 
-export const fetchRoles = async (token: string | null, size: string, page: string, search: string, orgUnits: string[]) => {
+export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[]) => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgunits=' + orgUnits : ""}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers,
     });
 
     if (response.ok) {
@@ -18,9 +18,9 @@ export const fetchRoles = async (token: string | null, size: string, page: strin
     throw new Error("Det virker ikke som om du er pålogget")
 }
 
-export const fetchRoleById = async (token: string | null, id: string | undefined) => {
+export const fetchRoleById = async (request: Request, id: string | undefined) => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     if (response.ok) {
@@ -37,9 +37,9 @@ export const fetchRoleById = async (token: string | null, id: string | undefined
 
 }
 
-export const fetchMembers = async (token: string | null, id: string | undefined, size: string, page: string, search: string) => {
+export const fetchMembers = async (request: Request, id: string | undefined, size: string, page: string, search: string) => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}/members?size=${size}&page=${page}&search=${search}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     });
 
     if (response.ok) {
@@ -56,10 +56,10 @@ export const fetchMembers = async (token: string | null, id: string | undefined,
 
 }
 
-export const fetchAssignedResourcesRole = async (token: string | null, id: string | undefined, size: string, page: string) => {
+export const fetchAssignedResourcesRole = async (request: Request, id: string | undefined, size: string, page: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`,
         {
-            headers: {Authorization: token ?? ""}
+            headers: request.headers
         });
 
     if (response.ok) {

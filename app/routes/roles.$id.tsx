@@ -23,7 +23,7 @@ export function links() {
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const response = await fetchRoleById(request.headers.get("Authorization"), params.id);
+    const response = await fetchRoleById(request, params.id);
     const role: IRole = await response.json()
 
     return json({

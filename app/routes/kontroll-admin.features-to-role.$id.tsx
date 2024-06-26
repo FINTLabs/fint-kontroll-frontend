@@ -12,7 +12,7 @@ import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const permissionDataRes = await fetchFeaturesInRole(auth, params.id)
     const allFeaturesRes = await fetchAllFeatures(auth)
 
@@ -23,7 +23,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export async function action({request}: ActionFunctionArgs) {
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const formData = await request.formData()
 
     const response = await putPermissionDataForRole(auth, formData.get("permissionData"))

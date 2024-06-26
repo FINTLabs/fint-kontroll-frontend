@@ -8,7 +8,7 @@ import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/componen
 
 export async function action({params, request}: ActionFunctionArgs) {
     const {searchParams} = new URL(request.url)
-    const response = await deleteAssignment(request.headers.get("Authorization"), params.assignmentRef as string)
+    const response = await deleteAssignment(request, params.assignmentRef as string)
     searchParams.set("responseCode", String(response.status))
 
     return redirect(`/roles/${params.id}/assignments${prepareQueryParamsWithResponseCode(searchParams)}`)

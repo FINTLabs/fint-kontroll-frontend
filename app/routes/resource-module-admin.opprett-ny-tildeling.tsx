@@ -50,7 +50,7 @@ const loopAndSetIsCheck = (orgUnitTree: IUnitTree): IUnitTree => {
 
 export async function loader({request}: LoaderFunctionArgs) {
     // This loader is not complete. Just a copied version from another file to have a starting point.
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const url = new URL(request.url);
     const itemsPerPage = url.searchParams.get("size") ?? "10";
     const currentPage = url.searchParams.get("page") ?? "0";
@@ -76,7 +76,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export const action = async ({request}: ActionFunctionArgs) => {
-    const auth = request.headers.get("Authorization")
+    const auth = request
 
     const formData = await request.formData()
 

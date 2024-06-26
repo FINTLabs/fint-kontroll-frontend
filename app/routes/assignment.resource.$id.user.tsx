@@ -12,22 +12,23 @@ import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseUsers, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
-        fetchUsers(request.headers.get("Authorization"), size, page, search, userType, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedUsers(request.headers.get("Authorization"), params.id, "1000", "0", "", "", orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchUsers(request, size, page, search, userType, orgUnits),
+        fetchOrgUnits(request),
+        fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits),
+        fetchResourceById(request, params.id),
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

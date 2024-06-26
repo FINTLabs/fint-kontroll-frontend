@@ -9,7 +9,7 @@ import {prepareQueryParams} from "~/components/common/CommonFunctions";
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
-    const response = await deleteAssignment(request.headers.get("Authorization"), data.get("assignmentRef") as string)
+    const response = await deleteAssignment(request, data.get("assignmentRef") as string)
     searchParams.set("responseCode", String(response.status))
 
     return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParams(searchParams)}`)

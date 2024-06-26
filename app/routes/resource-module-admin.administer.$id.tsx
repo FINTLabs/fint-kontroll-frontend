@@ -37,7 +37,7 @@ export function links() {
 }
 
 export const loader = async ({params, request}: LoaderFunctionArgs) => {
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const url = new URL(request.url);
     const resourceId: string = params.id ?? ""
 
@@ -67,7 +67,7 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
 export const action = async({params, request}: ActionFunctionArgs) => {
     const queryParams = new URLSearchParams(request.url.split("?")[1]);
 
-    const auth = request.headers.get("Authorization")
+    const auth = request
 
     const formData = await request.formData()
 

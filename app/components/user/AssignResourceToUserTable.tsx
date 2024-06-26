@@ -4,6 +4,7 @@ import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 export const AssignResourceToUserTable: any = (props: {
     isAssignedResources: IResource[],
@@ -19,8 +20,8 @@ export const AssignResourceToUserTable: any = (props: {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })

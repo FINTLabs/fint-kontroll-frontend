@@ -10,18 +10,19 @@ import {RoleSearch} from "~/components/role/RoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [responseRoles, responseOrgUnits] = await Promise.all([
-        fetchRoles(request.headers.get("Authorization"), size, page, search, orgUnits),
-        fetchOrgUnits(request.headers.get("Authorization"))
+        fetchRoles(request, size, page, search, orgUnits),
+        fetchOrgUnits(request)
     ]);
     const roleList: IRolePage = await responseRoles.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

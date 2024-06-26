@@ -16,7 +16,7 @@ import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import {ConfirmSafeRedirectModal} from "~/components/kontroll-admin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const response = await fetchFeaturesInRole(auth, params.id);
     const data = await response.json()
     return json(data);
@@ -29,7 +29,7 @@ export function links() {
 
 export async function action({request}: ActionFunctionArgs) {
     const formData = await request.formData()
-    const auth = request.headers.get("Authorization")
+    const auth = request
     const response = await putPermissionDataForRole(auth, formData.get("dataForForm"))
     return {didUpdate: !!response.status}
 }

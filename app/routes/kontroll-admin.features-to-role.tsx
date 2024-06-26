@@ -12,7 +12,7 @@ export function links() {
 }
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const auth = request.headers.get("Authorization")
+    const auth = request
 
     const accessRolesRes = await fetchAccessRoles(auth)
 

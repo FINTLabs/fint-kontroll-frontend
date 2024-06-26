@@ -19,12 +19,13 @@ import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
 }> {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
@@ -32,10 +33,10 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const accessType = url.searchParams.get("accesstype") ?? "";
 
     const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
-        fetchResources(request.headers.get("Authorization"), size, page, search, orgUnits, applicationcategory, accessType),
-        fetchOrgUnits(request.headers.get("Authorization")),
-        fetchAssignedResourcesRole(request.headers.get("Authorization"), params.id, "1000", "0"),
-        fetchRoleById(request.headers.get("Authorization"), params.id),
+        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+        fetchOrgUnits(request),
+        fetchAssignedResourcesRole(request, params.id, "1000", "0"),
+        fetchRoleById(request, params.id),
     ]);
     const resourceList: IResourcePage = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()

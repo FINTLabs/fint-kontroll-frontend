@@ -3,6 +3,7 @@ import type {IAssignedRoles} from "~/data/types";
 import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
+import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles,
@@ -16,8 +17,8 @@ export const AssignedRolesTable: any = (props: {
     const params = useParams()
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
+        setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
-            searchParams.set("size", event.target.value);
             searchParams.set("page", "0")
             return searchParams;
         })

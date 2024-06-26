@@ -1,8 +1,9 @@
 import {ACCESS_MANAGEMENT_API_URL, BASE_PATH} from "../../../environment";
+import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
-export const fetchAllFeatures = async (token: string | null) => {
+export const fetchAllFeatures = async (request: Request) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/feature`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     })
 
     if (response.ok) {
@@ -12,9 +13,9 @@ export const fetchAllFeatures = async (token: string | null) => {
     return generalErrorResponse(response)
 }
 
-export const fetchAccessRoles = async (token: string | null) => {
+export const fetchAccessRoles = async (request: Request) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessrole`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     })
 
     if (response.ok) {
@@ -24,9 +25,9 @@ export const fetchAccessRoles = async (token: string | null) => {
     return generalErrorResponse(response)
 }
 
-export const fetchFeaturesInRole = async (token: string | null, roleId: string | undefined) => {
+export const fetchFeaturesInRole = async (request: Request, roleId: string | undefined) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission/accessrole/${roleId}`, {
-        headers: {Authorization: token ?? ""}
+        headers: request.headers
     })
     if (response.ok) {
         return response;
@@ -39,12 +40,9 @@ export const fetchFeaturesInRole = async (token: string | null, roleId: string |
     return generalErrorResponse(response)
 }
 
-export const putPermissionDataForRole = async (token: string | null, updatedPermissionRole: any) => {
+export const putPermissionDataForRole = async (request: Request, updatedPermissionRole: any) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission`, {
-        headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
-        },
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: "PUT",
         body: updatedPermissionRole,
     })

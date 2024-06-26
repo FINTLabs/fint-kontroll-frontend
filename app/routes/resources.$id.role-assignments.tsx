@@ -13,6 +13,7 @@ import {BASE_PATH} from "../../environment";
 import React from "react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
+import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -20,13 +21,13 @@ export function links() {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const size = url.searchParams.get("size") ?? "10";
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const [assignedRoles, resourceById] = await Promise.all([
-        fetchAssignedRoles(request.headers.get("Authorization"), params.id, size, page, search, orgUnits),
-        fetchResourceById(request.headers.get("Authorization"), params.id),
+        fetchAssignedRoles(request, params.id, size, page, search, orgUnits),
+        fetchResourceById(request, params.id),
     ])
 
     const resource: IResource = await resourceById.json()

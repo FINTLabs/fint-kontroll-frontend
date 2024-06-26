@@ -15,8 +15,8 @@ export const usersHandlers = [
     }),
 
 
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users', ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10";
+    http.get('http://localhost:8062/beta/fintlabs-no/api/users', ({request, cookies}) => {
+        const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0";
         const userType = new URL(request.url).searchParams.get('userType') ?? "";
 
@@ -144,8 +144,8 @@ export const usersHandlers = [
         else {
             return HttpResponse.json(
                 {
-                    "totalItems": 55,
-                    "size": 10,
+                    "totalItems": 10,
+                    "size": 25,
                     "totalPages": 1,
                     "currentPage": 0,
                     "users": [
@@ -226,15 +226,15 @@ export const usersHandlers = [
     }),
 
 
-    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, ({request}) => {
-        const size = new URL(request.url).searchParams.get('size') ?? "10";
+    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, ({request, cookies}) => {
+        const size = cookies.size ?? null
 
         const page = new URL(request.url).searchParams.get('page') ?? "0";
 
-        if(size === "10" && page === "0") {
+        if(size === "25" && page === "0") {
             return HttpResponse.json(
                 {
-                    "size": 10,
+                    "size": 25,
                     "totalItems": 6,
                     "currentPage": 0,
                     "totalPages": 1,
