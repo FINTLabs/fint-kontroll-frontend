@@ -1,23 +1,21 @@
-import {Alert, Box, Radio, RadioGroup, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Tabs} from "@navikt/ds-react";
 import {
     Links,
     Meta,
     Outlet, Scripts,
     useLoaderData,
-    useNavigate, useOutletContext,
-    useParams, useRouteError,
+    useOutletContext,
+    useRouteError,
 } from "@remix-run/react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import React, {Suspense, useEffect} from "react";
 import {IRole} from "~/data/kontrollAdmin/types";
 import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollAccessRolesRadioGroup";
 
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const auth = request
-    const response = await fetchAccessRoles(auth);
+    const response = await fetchAccessRoles(request);
     return json(await response.json());
 }
 
@@ -26,14 +24,12 @@ export default function KontrollAdminDefineRole() {
     const context = useOutletContext()
 
     return (
-        <section>
-            <Tabs value={"define-role"}>
-                <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
-                    <KontrollAccessRolesRadioGroup roles={roles} />
-                    <Outlet context={context} />
-                </Tabs.Panel>
-            </Tabs>
-        </section>
+        <Tabs value={"define-role"}>
+            <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
+                <KontrollAccessRolesRadioGroup roles={roles} />
+                <Outlet context={context} />
+            </Tabs.Panel>
+        </Tabs>
     );
 }
 

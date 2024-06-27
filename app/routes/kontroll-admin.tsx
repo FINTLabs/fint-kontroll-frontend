@@ -33,8 +33,9 @@ export default function KontrollAdmin() {
     return (
         <section className={"content"}>
             <Heading level={"1"} size={"xlarge"}>Kontrolladministrasjon</Heading>
+
             <Tabs defaultValue={selectedTab} value={selectedTab} onChange={handleTabChange}>
-                <div style={{marginTop: '2em', marginBottom: '2em'}}>
+                <Box paddingBlock="8">
                     <Tabs.List>
                         <Tabs.Tab
                             value="define-role"
@@ -49,7 +50,7 @@ export default function KontrollAdmin() {
                             id={"feature-role-tab"}
                         />
                     </Tabs.List>
-                </div>
+                </Box>
 
                 <Outlet context={{isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate}}/>
             </Tabs>

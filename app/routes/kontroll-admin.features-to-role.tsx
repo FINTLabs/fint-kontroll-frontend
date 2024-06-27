@@ -1,4 +1,4 @@
-import {Alert, Box, Radio, RadioGroup, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Tabs} from "@navikt/ds-react";
 import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, useRouteError} from "@remix-run/react";
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -12,10 +12,7 @@ export function links() {
 }
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const auth = request
-
-    const accessRolesRes = await fetchAccessRoles(auth)
-
+    const accessRolesRes = await fetchAccessRoles(request)
     return await accessRolesRes.json()
 }
 
@@ -39,9 +36,7 @@ export default () => {
     return (
         <Tabs value={"features-to-role"}>
             <Tabs.Panel value="features-to-role" className="h-24 w-full bg-gray-50 p-4">
-                <div className={"radio-group-horizontal"}>
-                    <KontrollAccessRolesRadioGroup roles={accessRoles} />
-                </div>
+                <KontrollAccessRolesRadioGroup roles={accessRoles} />
 
                 <Outlet/>
             </Tabs.Panel>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../components/user/user.css?url"
-import {Alert, Box, Heading, HStack, LinkPanel} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, LinkPanel, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {IAssignmentPage, IUserDetails} from "~/data/types";
 import {fetchUserById} from "~/data/fetch-users";
@@ -57,26 +57,32 @@ export default function Users() {
     const params = useParams()
 
     return (
-        <>
-            <section className={"content"}>
-                <HStack justify="end">
-                    <LinkPanel href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`} border>
-                        <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
-                    </LinkPanel>
-                </HStack>
-                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
-                <UserInfo user={user}/>
-                <section className={"toolbar"} style={{marginTop: '3rem'}}>
+        <section className={"content"}>
+            <VStack gap="8">
+                <VStack gap="4">
+                    <HStack justify="end">
+                        <LinkPanel href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`} border>
+                            <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
+                        </LinkPanel>
+                    </HStack>
+
+                    <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
+
+                    <UserInfo user={user}/>
+
+                </VStack>
+
+                <VStack gap="4">
                     <Heading className={"heading"} level="2" size="large">
                         Brukeren er tildelt følgende ressurser:
                     </Heading>
-                </section>
-                <Box paddingBlock='8 0'>
+
                     <ResponseAlert responseCode={responseCode}/>
-                </Box>
-                <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} basePath={basePath}/>
-            </section>
-        </>
+
+                    <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} basePath={basePath}/>
+                </VStack>
+            </VStack>
+        </section>
     );
 }
 

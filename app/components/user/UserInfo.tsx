@@ -8,12 +8,12 @@ export const UserInfo: any = (props: { user: IUserDetails }) => {
     return (
         <>
             <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
-                <Box className={"infoIconSection"}>
+                <Box className={"info-icon-section"}>
                     <hr/>
                     <Heading size="medium" level="2">Person- og kontaktinformasjon</Heading>
                     <hr/>
                 </Box>
-                <Box className={"listWrapper"}>
+                <Box className={"list-wrapper"}>
                     <ul className="user-information-list">
                         <li>
                             <Heading size="small" level="3">Navn</Heading>

@@ -35,7 +35,7 @@ export default function Members() {
     return (
         <section>
             <Tabs value={"members"}>
-                <VStack gap="5">
+                <VStack gap="4">
                     <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
                     <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
                     <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">

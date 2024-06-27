@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
@@ -33,17 +33,19 @@ export default function ResourceById() {
     }>();
 
     return (
-        <Box className={"content"}>
-            <Heading className={"heading"} level="1" size="xlarge"
-                     align={"center"}>{data.resource.resourceName}</Heading>
-            <ResourceInfoBlock resource={data.resource}/>
-            <section>
-                <Box paddingBlock="16 16">
-                    <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende enheter</Heading>
-                </Box>
+        <VStack gap="8">
+            <VStack gap="4">
+                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>{data.resource.resourceName}</Heading>
+
+                <ResourceInfoBlock resource={data.resource}/>
+            </VStack>
+
+            <VStack gap="4">
+                <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende enheter</Heading>
+
                 <ResourceDetailTable resource={data.resource}/>
-            </section>
-        </Box>
+            </VStack>
+        </VStack>
     );
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Button, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
@@ -95,21 +95,22 @@ export default function NewAssignmentForRole() {
     const params = useParams<string>()
 
     return (
-        <>
-            <div className={"content"}>
-                <VStack className={"heading"} >
+        <div className={"content"}>
+            <VStack gap="4">
+                <div>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
                     <Heading level="2" size="small">{data.resource.resourceName}</Heading>
-                </VStack>
-                <section className={"toolbar"}>
+                </div>
+
+                <HStack justify="space-between">
                     <SelectObjectType/>
                     <section className={"filters"}>
                         <NewAssignmentRoleSearch/>
                     </section>
-                </section>
-                <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={data.responseCode}/>
-                </Box>
+                </HStack>
+
+                <ResponseAlert responseCode={data.responseCode}/>
+
                 <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
                                  resourceId={params.id}
                                  rolesId={params.id}
@@ -117,8 +118,8 @@ export default function NewAssignmentForRole() {
                                  totalPages={data.roleList.totalPages}
                                  basePath={data.basePath}
                 />
-            </div>
-        </>
+            </VStack>
+        </div>
     );
 }
 

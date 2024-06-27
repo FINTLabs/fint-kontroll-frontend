@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Heading, Tabs, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import  {IAssignmentPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
@@ -46,14 +46,16 @@ export default function AssignmentsForRole() {
     return (
         <section>
             <Tabs value={"assignments"}>
-                <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
-                <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
-                    <Box paddingBlock='8 0'>
-                        <ResponseAlert responseCode={responseCode}/>
-                    </Box>
+                <VStack gap="4">
+                    <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
+                    <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
+                        <Box paddingBlock='8 0'>
+                            <ResponseAlert responseCode={responseCode}/>
+                        </Box>
 
-                    <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath} />
-                </Tabs.Panel>
+                        <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath} />
+                    </Tabs.Panel>
+                </VStack>
             </Tabs>
         </section>
     );

@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
@@ -88,24 +88,22 @@ export default function NewAssignment() {
     const responseCode: string | undefined = loaderData.responseCode
 
     return (
-        <>
-            <div className={"content"}>
-                <VStack className={"heading"}>
+        <div className={"content"}>
+            <VStack gap="4">
+                <div>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
                     <Heading level="2" size="small">{resource.resourceName}</Heading>
-                </VStack>
+                </div>
 
-                <section className={"toolbar"}>
+                <HStack justify="space-between">
                     <SelectObjectType/>
                     <section className={"filters"}>
                         <UserTypeFilter/>
                         <NewAssignmentUserSearch/>
                     </section>
-                </section>
+                </HStack>
 
-                <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={responseCode}/>
-                </Box>
+                <ResponseAlert responseCode={responseCode}/>
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
                                  resourceId={id}
@@ -114,8 +112,8 @@ export default function NewAssignment() {
                                  totalPages={userList.totalPages}
                                  basePath={basePath}
                 />
-            </div>
-        </>
+            </VStack>
+        </div>
     );
 }
 
