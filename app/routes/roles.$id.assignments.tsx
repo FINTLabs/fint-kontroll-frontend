@@ -1,14 +1,12 @@
 import React from 'react';
 import {Alert, Box, Heading, Tabs, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import  {IAssignmentPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
 import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable";
 import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 

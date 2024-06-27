@@ -13,7 +13,6 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";

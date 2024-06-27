@@ -10,7 +10,6 @@ import {fetchAssignmentsForUser} from "~/data/fetch-assignments";
 import {AssignmentsForUserTable} from "~/components/user/AssignmentsForUserTable";
 import {BASE_PATH} from "../../environment";
 import {UserInfo} from "~/components/user/UserInfo";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 

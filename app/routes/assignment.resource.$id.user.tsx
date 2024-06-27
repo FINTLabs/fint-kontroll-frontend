@@ -11,7 +11,6 @@ import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 

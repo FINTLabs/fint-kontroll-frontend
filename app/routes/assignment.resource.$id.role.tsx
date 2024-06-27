@@ -11,7 +11,6 @@ import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRole
 import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {IResource} from "~/data/types";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";

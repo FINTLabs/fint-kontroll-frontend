@@ -11,7 +11,6 @@ import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
 import React from "react";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import ChipsFilters from "~/components/common/ChipsFilters";

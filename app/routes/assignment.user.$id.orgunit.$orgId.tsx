@@ -16,7 +16,6 @@ import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";

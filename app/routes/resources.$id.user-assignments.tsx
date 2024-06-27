@@ -20,7 +20,6 @@ import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
