@@ -61,24 +61,6 @@ export const handleClearSearchFieldString = (setSearchParams: SetURLSearchParams
 }
 // -----
 
-// name=value - Is the same as Search, but API specifies this instead of "search". Sets 'name' param to nameValue
-export const handleSearchNameString = (event: React.FormEvent<HTMLFormElement>, setSearchParams: SetURLSearchParams, nameValue: string) => {
-    setSearchParams(searchParams => {
-        nameValue ? searchParams.set("name", nameValue) : searchParams.delete("name")
-        return searchParams
-    })
-    event.preventDefault() // Prevent refresh of page
-}
-
-// Deletes queryparam: 'name'
-export const handleClearNameFieldString = (setSearchParams: SetURLSearchParams) => {
-    setSearchParams(searchParameter => {
-        searchParameter.delete("search")
-        return searchParameter
-    })
-}
-
-
 // When any filter is changed, reset "page" query param
 export const filterResetPageParam = (pageParam: string | null, setSearchParams: SetURLSearchParams) => {
     pageParam ? setSearchParams((prev) => {
