@@ -186,6 +186,9 @@ export interface IResource {
     resourceOwnerOrgUnitName: string
     validForOrgUnits: IResourceItem[]
     validForRoles: string[]
+    directAssignment: boolean
+    assignmentViaRoleRef: string
+    assignmentViaRoleName: string
     assignmentRef: number
     assignerUsername: string
     assignerDisplayname: string
