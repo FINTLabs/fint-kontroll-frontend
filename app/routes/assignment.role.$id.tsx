@@ -91,33 +91,29 @@ export default function NewAssignmentForRole() {
 
     return (
         <div className={"content"}>
-            <VStack className={"heading"}>
-                <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                <Heading level="2" size="small">{role.roleName}</Heading>
-            </VStack>
-            
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={responseCode}/>
-            </Box>
+            <Heading level="1" size="xlarge">Ny tildeling </Heading>
+            <Heading level="2" size="small">{role.roleName}</Heading>
 
+            <VStack gap="4">
                 <HStack justify="end">
-                    <VStack align="end">
-                        <Box paddingBlock="4 4">
-                            <ResourceSearch />
-                        </Box>
+                    <VStack align="end" gap="4">
+                        <ResourceSearch />
                         <ChipsFilters />
                     </VStack>
                 </HStack>
 
+                <ResponseAlert responseCode={responseCode}/>
 
-            <AssignResourceToRoleTable
-                isAssignedResources={isAssignedResources}
-                size={size}
-                roleId={role.id}
-                currentPage={resourceList.currentPage}
-                totalPages={resourceList.totalPages}
-                orgId={role.organisationUnitId}
-                basePath={basePath}/>
+                <AssignResourceToRoleTable
+                    isAssignedResources={isAssignedResources}
+                    size={size}
+                    roleId={role.id}
+                    currentPage={resourceList.currentPage}
+                    totalPages={resourceList.totalPages}
+                    orgId={role.organisationUnitId}
+                    basePath={basePath}
+                />
+            </VStack>
         </div>
     );
 }

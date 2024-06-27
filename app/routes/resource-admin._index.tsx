@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, HStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
@@ -65,7 +65,7 @@ export default function ResourceAdminIndex() {
     }*/
 
     return (
-        <div className={"content"}>
+        <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
 
             {/*<HStack justify={"end"}>*/}
@@ -94,11 +94,13 @@ export default function ResourceAdminIndex() {
 
                 <ResourceSearch/>
             </HStack>
-            <Box className={"filters"} paddingBlock={"1 8"}>
+
+            <HStack justify="end">
                 <ChipsFilters/>
-            </Box>
+            </HStack>
+
             <ResourceTable resourcePage={resourceList}/>
-        </div>
+        </VStack>
     );
 }
 

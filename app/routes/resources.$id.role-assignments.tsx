@@ -8,12 +8,13 @@ import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {AssignedRolesTable} from "~/components/assignment/AssignedRolesTable";
 import {AssignedRolesSearch} from "~/components/assignment/AssignedRolesSearch";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
 import React from "react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -58,23 +59,24 @@ export default function AssignedRoles() {
     }>();
 
     return (
-        <>
-            <Box paddingBlock="16 8">
-                <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
-            </Box>
+        <VStack gap="4">
+            <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
+
             <section className={"toolbar"}>
                 <SelectObjectType/>
                 <section className={"filters"}>
                     <AssignedRolesSearch/>
                 </section>
             </section>
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={data.responseCode}/>
-            </Box>
-            <section>
-                <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
-            </section>
-        </>
+
+            <ResponseAlert responseCode={data.responseCode}/>
+
+            <HStack justify="end">
+                <ChipsFilters />
+            </HStack>
+
+            <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
+        </VStack>
     );
 }
 

@@ -1,17 +1,11 @@
 import React from 'react';
-import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Detail, Heading, Tabs, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import  {IMemberPage} from "~/data/types";
 import  {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import {MemberTable} from "~/components/role/MemberTable";
-import styles from "../components/user/user.css?url";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-
-export function links() {
-    return [{rel: 'stylesheet', href: styles}]
-}
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -41,10 +35,13 @@ export default function Members() {
     return (
         <section>
             <Tabs value={"members"}>
-                <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
-                <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                    <MemberTable memberPage={members} size={size} />
-                </Tabs.Panel>
+                <VStack gap="4">
+                    <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
+                    <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
+                    <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
+                        <MemberTable memberPage={members} size={size} />
+                    </Tabs.Panel>
+                </VStack>
             </Tabs>
         </section>
     );

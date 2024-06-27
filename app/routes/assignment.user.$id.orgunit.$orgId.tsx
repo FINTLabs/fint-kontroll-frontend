@@ -121,12 +121,11 @@ export default function NewAssignmentForUser() {
      }*/
 
     return (
-        <>
-            <div className={"content"}>
-                <VStack className={"heading"}>
-                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                    <Heading level="2" size="small">{data.user.fullName}</Heading>
-                </VStack>
+        <div className={"content"}>
+            <Heading level="1" size="xlarge">Ny tildeling </Heading>
+            <Heading level="2" size="small">{data.user.fullName}</Heading>
+
+            <VStack gap="4">
                 <HStack justify="end" align="end">
                     <Select
                         id="select-applicationcategory"
@@ -159,22 +158,24 @@ export default function NewAssignmentForUser() {
 
                     <ResourceSearch/>
                 </HStack>
-                <Box className={"filters"} paddingBlock={"1 8"}>
+
+                <HStack justify="end">
                     <ChipsFilters/>
-                </Box>
-                <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={data.responseCode}/>
-                </Box>
+                </HStack>
+
+                <ResponseAlert responseCode={data.responseCode}/>
+
                 <AssignResourceToUserTable
                     isAssignedResources={data.isAssignedResources}
                     userId={params.id}
                     orgId={params.orgId}
                     currentPage={data.resourceList.currentPage}
                     totalPages={data.resourceList.totalPages}
-                    basePath={data.basePath}/>
-            </div>
-        </>
-    );
+                    basePath={data.basePath}
+                />
+            </VStack>
+        </div>
+    )
 }
 
 export function ErrorBoundary() {

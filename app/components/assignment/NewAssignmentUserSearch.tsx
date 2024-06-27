@@ -19,6 +19,7 @@ export const NewAssignmentUserSearch = () => {
                 role="search"
                 id="user-search"
                 label="Søk etter bruker"
+                hideLabel={false}
                 variant="secondary"
                 onChange={event => setSearchString(event)}
                 onClear={event => {

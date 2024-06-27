@@ -22,18 +22,16 @@ export default function KontrollAccessRolesRadioGroup ({roles}: AccessRolesRadio
     }, []);
 
     return (
-        <div className={"radio-group-horizontal"}>
-            <RadioGroup
-                legend="Velg rolle"
-                onChange={(val: string) => handleChangeSelectedRole(val)}
-                value={roleProp ? roleProp : ""}
-            >
-                {roles.map((role, index) =>
-                    <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
-                        {role.name}
-                    </Radio>)
-                }
-            </RadioGroup>
-        </div>
+        <RadioGroup
+            legend="Velg rolle"
+            onChange={(val: string) => handleChangeSelectedRole(val)}
+            value={roleProp ? roleProp : ""}
+        >
+            {roles.map((role, index) =>
+                <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
+                    {role.name}
+                </Radio>)
+            }
+        </RadioGroup>
     )
 }
