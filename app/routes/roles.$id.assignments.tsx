@@ -10,6 +10,7 @@ import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -49,9 +50,7 @@ export default function AssignmentsForRole() {
                 <VStack gap="4">
                     <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
                     <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
-                        <Box paddingBlock='8 0'>
-                            <ResponseAlert responseCode={responseCode}/>
-                        </Box>
+                        <ResponseAlert responseCode={responseCode}/>
 
                         <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath} />
                     </Tabs.Panel>
@@ -65,38 +64,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts/>
+            </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "410") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen er slettet!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under sletting av tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

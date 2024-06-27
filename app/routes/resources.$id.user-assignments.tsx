@@ -23,6 +23,7 @@ import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -115,22 +116,4 @@ export function ErrorBoundary() {
             </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "410") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen er slettet!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under sletting av tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }
