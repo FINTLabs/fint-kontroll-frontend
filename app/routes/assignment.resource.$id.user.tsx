@@ -13,6 +13,7 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -122,38 +123,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts/>
+            </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "201") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

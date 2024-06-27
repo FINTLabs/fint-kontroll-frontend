@@ -14,6 +14,7 @@ import {BASE_PATH} from "../../environment";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {IResource} from "~/data/types";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -143,22 +144,4 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "201") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }
