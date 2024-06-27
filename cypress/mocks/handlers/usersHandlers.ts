@@ -226,7 +226,7 @@ export const usersHandlers = [
     }),
 
 
-    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/user/:id/resources*`, ({request, cookies}) => {
+    http.get(`http://localhost:8061/beta/fintlabs-no/api/assignments/v2/user/:id/resources*`, ({request, cookies}) => {
         const size = cookies.size ?? null
 
         const page = new URL(request.url).searchParams.get('page') ?? "0";
