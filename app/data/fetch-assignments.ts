@@ -126,6 +126,14 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
             organizationUnitId: organizationUnitId,
         })
     });
+    if(response.ok) {
+        console.log("Response was ok")
+        console.log(response)
+    }
+
+    console.log("Response was NOT ok")
+    console.log(response)
+
     return response;
 }
 
