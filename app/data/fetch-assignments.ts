@@ -103,6 +103,11 @@ export const fetchAssignmentsForRole = async (request: Request, id: string | und
 
 export const createUserAssignment = async (request: Request, resourceRef: number, userRef: number, organizationUnitId: string) => {
     const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
+    logger.info("POST user assignment to ", url, " with body ", JSON.stringify({
+        resourceRef: resourceRef,
+        userRef: userRef,
+        organizationUnitId: organizationUnitId,
+    }));
     const response = await fetch(url, {
         headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
