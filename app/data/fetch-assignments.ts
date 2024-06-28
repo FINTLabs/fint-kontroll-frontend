@@ -108,6 +108,8 @@ export const createUserAssignment = async (request: Request, resourceRef: number
         userRef: userRef,
         organizationUnitId: organizationUnitId,
     }));
+    const cookies = request.headers.get("cookie");
+    logger.info("Cookie: ", cookies);
     const response = await fetch(url, {
         headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
