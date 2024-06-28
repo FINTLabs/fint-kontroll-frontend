@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Alert, Box, Heading, LinkPanel} from "@navikt/ds-react";
+import {Alert, Box, Heading, LinkPanel, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
@@ -36,18 +36,23 @@ export default function ResourceById() {
 
     return (
         <section className={"content"}>
-            <Box className={"filters"}>
-                <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/user`} border>
-                    <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
-                </LinkPanel>
-            </Box>
-            <Heading className={"heading"} level="1" size="xlarge" align={"center"}>
-                {resource.resourceName}
-            </Heading>
+            <VStack gap="8">
+                <VStack gap="4">
+                    <Box className={"filters"}>
+                        <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/user`} border>
+                            <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
+                        </LinkPanel>
+                    </Box>
 
-            <ResourceInfo resource={resource}/>
+                    <Heading className={"heading"} level="1" size="xlarge" align={"center"}>
+                        {resource.resourceName}
+                    </Heading>
 
-            <Outlet context={{ resource }} />
+                    <ResourceInfo resource={resource}/>
+                </VStack>
+
+                <Outlet context={{ resource }} />
+            </VStack>
         </section>
     );
 }

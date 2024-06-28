@@ -40,10 +40,6 @@ body {
     margin-left: 1em;
 }
 
-.heading {
-    margin-bottom: 1.5em;
-}
-
 .spinner {
     display: flex;
     justify-content: center;

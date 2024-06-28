@@ -1,5 +1,5 @@
 import * as React from "react";
-import {BodyShort, Box, GuidePanel, Heading, List} from "@navikt/ds-react";
+import {BodyShort, Box, GuidePanel, Heading} from "@navikt/ds-react";
 import type {IResource} from "~/data/types";
 import {InformationIcon} from "@navikt/aksel-icons";
 
@@ -10,7 +10,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
 
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
-            <Box className={"infoIconSection"}>
+            <Box className={"info-icon-section"}>
                 <hr/>
                     <Heading size="medium" level="2">Ressursinformasjon</Heading>
                 <hr/>

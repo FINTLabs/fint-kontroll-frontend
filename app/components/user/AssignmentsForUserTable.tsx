@@ -1,4 +1,4 @@
-import {Button, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IAssignmentPage} from "~/data/types";
 import {Form, Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
@@ -33,6 +33,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Tildelingskobling</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={"center"}>Fjern tildeling</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -42,17 +43,25 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{resource.assignerDisplayname ? resource.assignerDisplayname : resource.assignerUsername}</Table.DataCell>
+                            <Table.DataCell>{resource.directAssignment ? "Direkte" : resource.assignmentViaRoleName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
-                                <Button
-                                    as={Link}
-                                    className={"button-outlined"}
-                                    variant={"secondary"}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                    href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
-                                >
-                                    Slett
-                                </Button>
+                                {resource.directAssignment
+                                    ?
+                                    <Button
+                                        as={Link}
+                                        className={"button-outlined"}
+                                        variant={"secondary"}
+                                        icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
+                                        iconPosition={"right"}
+                                        href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
+                                    >
+                                        Slett
+                                    </Button>
+                                    :
+                                    <Tag variant="info" className="navds-tag-in-table">
+                                        Gruppetildeling
+                                    </Tag>
+                                }
                             </Table.DataCell>
                         </Table.Row>
 

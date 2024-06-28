@@ -13,13 +13,13 @@ import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -91,33 +91,29 @@ export default function NewAssignmentForRole() {
 
     return (
         <div className={"content"}>
-            <VStack className={"heading"}>
-                <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                <Heading level="2" size="small">{role.roleName}</Heading>
-            </VStack>
-            
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={responseCode}/>
-            </Box>
+            <Heading level="1" size="xlarge">Ny tildeling </Heading>
+            <Heading level="2" size="small">{role.roleName}</Heading>
 
+            <VStack gap="4">
                 <HStack justify="end">
-                    <VStack align="end">
-                        <Box paddingBlock="4 4">
-                            <ResourceSearch />
-                        </Box>
+                    <VStack align="end" gap="4">
+                        <ResourceSearch />
                         <ChipsFilters />
                     </VStack>
                 </HStack>
 
+                <ResponseAlert responseCode={responseCode}/>
 
-            <AssignResourceToRoleTable
-                isAssignedResources={isAssignedResources}
-                size={size}
-                roleId={role.id}
-                currentPage={resourceList.currentPage}
-                totalPages={resourceList.totalPages}
-                orgId={role.organisationUnitId}
-                basePath={basePath}/>
+                <AssignResourceToRoleTable
+                    isAssignedResources={isAssignedResources}
+                    size={size}
+                    roleId={role.id}
+                    currentPage={resourceList.currentPage}
+                    totalPages={resourceList.totalPages}
+                    orgId={role.organisationUnitId}
+                    basePath={basePath}
+                />
+            </VStack>
         </div>
     );
 }
@@ -142,22 +138,4 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "201") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

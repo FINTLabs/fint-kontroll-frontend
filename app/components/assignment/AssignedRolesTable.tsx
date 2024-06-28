@@ -1,4 +1,4 @@
-import {Box, Button, Heading, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Box, Button, Heading, Link, Pagination, Select, Table, VStack} from "@navikt/ds-react";
 import type {IAssignedRoles} from "~/data/types";
 import React from "react";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
@@ -25,40 +25,45 @@ export const AssignedRolesTable: any = (props: {
     }
 
     return (
-        <div style={{marginTop: '3rem'}}>
-            <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
-            <Outlet/>
-            <Table>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={"center"}>Fjern tildeling</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {props.assignedRoles.roles.map((role) => (
-                        <Table.Row key={role.id}>
-                            <Table.HeaderCell scope="row">{role.roleName}</Table.HeaderCell>
-                            <Table.DataCell>{role.roleType}</Table.DataCell>
-                            <Table.DataCell>{role.assignerDisplayname ? role.assignerDisplayname : role.assignerUsername}</Table.DataCell>
-                            <Table.DataCell align={"center"}>
-                                <Button
-                                    as={Link}
-                                    className={"button-outlined"}
-                                    variant={"secondary"}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                    href={`${props.basePath}/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
-                                >
-                                    Slett
-                                </Button>
-                            </Table.DataCell>
+        <div>
+            <VStack gap="4">
+                <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
+
+                <Outlet/>
+
+                <Table>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
+                            <Table.HeaderCell scope="col" align={"center"}>Fjern tildeling</Table.HeaderCell>
                         </Table.Row>
-                    ))}
-                </Table.Body>
-            </Table>
+                    </Table.Header>
+                    <Table.Body>
+                        {props.assignedRoles.roles.map((role) => (
+                            <Table.Row key={role.id}>
+                                <Table.HeaderCell scope="row">{role.roleName}</Table.HeaderCell>
+                                <Table.DataCell>{role.roleType}</Table.DataCell>
+                                <Table.DataCell>{role.assignerDisplayname ? role.assignerDisplayname : role.assignerUsername}</Table.DataCell>
+                                <Table.DataCell align={"center"}>
+                                    <Button
+                                        as={Link}
+                                        className={"button-outlined"}
+                                        variant={"secondary"}
+                                        icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
+                                        iconPosition={"right"}
+                                        href={`${props.basePath}/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                    >
+                                        Slett
+                                    </Button>
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table>
+            </VStack>
+
             <Box className={"paginationWrapper"}>
                 <Select
                     style={{marginBottom: '1.5rem'}}

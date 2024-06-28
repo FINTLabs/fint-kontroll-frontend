@@ -16,10 +16,10 @@ import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -52,19 +52,21 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     // const accessTypes: string[] = await responseAccessType.json()
 
 
-    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.assigneeRef, resource]))
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
     const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
         return {
             ...resource,
             "assigned": assignedResourcesMap.has(resource.id)
         }
     })
+
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
         orgUnitList,
         assignedResourceList,
         isAssignedResources,
+        size,
         user,
         applicationCategories,
         // accessTypes,
@@ -78,9 +80,9 @@ export const handle = {
         <>
             <Link to={`/users`}>Brukere</Link>
             {" > "}
-            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>Brukerinfo</Link>
+            <Link to={`/users/${params.id}/orgunit/${params.orgId}`}>Brukerinfo</Link>
             {" > "}
-            <Link to={`/assignment/user/${params.id}/orgunit/${params.orgunit}`}>Ny tildeling</Link>
+            <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`}>Ny tildeling</Link>
         </>
     )
 }
@@ -94,11 +96,13 @@ export default function NewAssignmentForUser() {
         isAssignedResources: IResource[],
         basePath: string,
         responseCode: string | undefined,
+        size: string,
         user: IUserDetails,
         applicationCategories: string[]
         // accessTypes: string[]
     }>();
-    const params = useParams<string>()
+    const { id, orgId } = useParams<string>()
+
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
@@ -121,12 +125,11 @@ export default function NewAssignmentForUser() {
      }*/
 
     return (
-        <>
-            <div className={"content"}>
-                <VStack className={"heading"}>
-                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                    <Heading level="2" size="small">{data.user.fullName}</Heading>
-                </VStack>
+        <div className={"content"}>
+            <Heading level="1" size="xlarge">Ny tildeling </Heading>
+            <Heading level="2" size="small">{data.user.fullName}</Heading>
+
+            <VStack gap="4">
                 <HStack justify="end" align="end">
                     <Select
                         id="select-applicationcategory"
@@ -159,22 +162,31 @@ export default function NewAssignmentForUser() {
 
                     <ResourceSearch/>
                 </HStack>
-                <Box className={"filters"} paddingBlock={"1 8"}>
+
+                <HStack justify="end">
                     <ChipsFilters/>
-                </Box>
-                <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={data.responseCode}/>
-                </Box>
-                <AssignResourceToUserTable
-                    isAssignedResources={data.isAssignedResources}
-                    userId={params.id}
-                    orgId={params.orgId}
-                    currentPage={data.resourceList.currentPage}
-                    totalPages={data.resourceList.totalPages}
-                    basePath={data.basePath}/>
-            </div>
-        </>
-    );
+                </HStack>
+
+                <ResponseAlert responseCode={data.responseCode}/>
+
+                {id && orgId ?
+                    <AssignResourceToUserTable
+                        isAssignedResources={data.isAssignedResources}
+                        userId={id}
+                        orgId={orgId}
+                        size={data.size}
+                        currentPage={data.resourceList.currentPage}
+                        totalPages={data.resourceList.totalPages}
+                        basePath={data.basePath}
+                    />
+                    :
+                    <>
+                        <Alert variant="error">Data mangler for å hente tildelte ressurser.</Alert>
+                    </>
+                }
+            </VStack>
+        </div>
+    )
 }
 
 export function ErrorBoundary() {
@@ -197,22 +209,4 @@ export function ErrorBoundary() {
         </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "201") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

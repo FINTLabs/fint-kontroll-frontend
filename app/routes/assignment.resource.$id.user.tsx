@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
@@ -11,8 +11,8 @@ import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -88,24 +88,22 @@ export default function NewAssignment() {
     const responseCode: string | undefined = loaderData.responseCode
 
     return (
-        <>
-            <div className={"content"}>
-                <VStack className={"heading"}>
+        <div className={"content"}>
+            <VStack gap="4">
+                <div>
                     <Heading level="1" size="xlarge">Ny tildeling </Heading>
                     <Heading level="2" size="small">{resource.resourceName}</Heading>
-                </VStack>
+                </div>
 
-                <section className={"toolbar"}>
+                <HStack justify="space-between">
                     <SelectObjectType/>
                     <section className={"filters"}>
                         <UserTypeFilter/>
                         <NewAssignmentUserSearch/>
                     </section>
-                </section>
+                </HStack>
 
-                <Box paddingBlock='8 0'>
-                    <ResponseAlert responseCode={responseCode}/>
-                </Box>
+                <ResponseAlert responseCode={responseCode}/>
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
                                  resourceId={id}
@@ -114,8 +112,8 @@ export default function NewAssignment() {
                                  totalPages={userList.totalPages}
                                  basePath={basePath}
                 />
-            </div>
-        </>
+            </VStack>
+        </div>
     );
 }
 
@@ -124,38 +122,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts/>
+            </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "201") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

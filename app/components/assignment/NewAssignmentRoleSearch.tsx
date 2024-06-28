@@ -17,8 +17,9 @@ export const NewAssignmentRoleSearch = () => {
               }}>
             <Search
                 role="search"
-                label="Søk etter bruker"
+                label="Søk etter gruppe"
                 variant="secondary"
+                hideLabel={false}
                 onChange={event => setSearchString(event)}
                 onClear={event => {
                     submit({search: ""}, {method: "GET", action: `/assignment/resource/${params.id}/role`})

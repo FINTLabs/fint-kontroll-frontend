@@ -12,9 +12,8 @@ import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request
-    const permissionDataRes = await fetchFeaturesInRole(auth, params.id)
-    const allFeaturesRes = await fetchAllFeatures(auth)
+    const permissionDataRes = await fetchFeaturesInRole(request, params.id)
+    const allFeaturesRes = await fetchAllFeatures(request)
 
     const permissionData = await permissionDataRes.json()
     const allFeatures = await allFeaturesRes.json()
@@ -30,8 +29,6 @@ export async function action({request}: ActionFunctionArgs) {
 
     return {didUpdate: !!response.status}
 }
-
-
 
 
 const KontrollAdminFeaturesToRoleId = () => {
@@ -90,9 +87,7 @@ const KontrollAdminFeaturesToRoleId = () => {
 
 
     return (
-        <div className={"features-to-roles-container"}>
-
-
+        <Box className={"features-to-roles-container"} paddingBlock="4 0">
             <div>
                 <Table>
                     <Table.Header>
@@ -135,7 +130,7 @@ const KontrollAdminFeaturesToRoleId = () => {
                     </Button>
                 </Form>
             </div>
-        </div>
+        </Box>
     )
 }
 

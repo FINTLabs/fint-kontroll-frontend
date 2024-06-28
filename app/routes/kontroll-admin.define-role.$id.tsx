@@ -9,15 +9,14 @@ import {
     useParams, useRouteError,
 } from "@remix-run/react";
 import React, {useEffect, useState} from "react";
-import {Alert, Box, Button, Table} from "@navikt/ds-react";
+import {Alert, Box, Button, HStack, Table} from "@navikt/ds-react";
 import PermissionsTableCheckbox from "../components/kontroll-admin/PermissionsTableCheckbox";
 import {toast} from "react-toastify";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import {ConfirmSafeRedirectModal} from "~/components/kontroll-admin/ConfirmSafeRedirectModal";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request
-    const response = await fetchFeaturesInRole(auth, params.id);
+    const response = await fetchFeaturesInRole(request, params.id);
     const data = await response.json()
     return json(data);
 }
@@ -29,8 +28,7 @@ export function links() {
 
 export async function action({request}: ActionFunctionArgs) {
     const formData = await request.formData()
-    const auth = request
-    const response = await putPermissionDataForRole(auth, formData.get("dataForForm"))
+    const response = await putPermissionDataForRole(request, formData.get("dataForForm"))
     return {didUpdate: !!response.status}
 }
 
@@ -145,11 +143,11 @@ const DefineRoleTab = () => {
 
             <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={`/kontroll-admin/define-role/${params.id}`}>
                 <input type={"hidden"} name={"dataForForm"} id={"dataForForm"} value={""} />
-                <div className={"button-container"}>
+                <HStack justify="end">
                     <Button id="save-button">
                         Lagre endringer
                     </Button>
-                </div>
+                </HStack>
             </Form>
         </div>
     )

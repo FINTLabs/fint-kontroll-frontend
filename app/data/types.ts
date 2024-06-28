@@ -197,8 +197,8 @@ export interface IResource {
 */
 
 export interface IResource {
-    id: number
-    resourceId: string
+    id: number // Just the element of "id" is listed when not a part of assignment
+    resourceRef: number
     identityProviderGroupName: string
     resourceName: string
     resourceType: string
@@ -212,7 +212,11 @@ export interface IResource {
     resourceOwnerOrgUnitName: string
     validForOrgUnits: IResourceItem[]
     validForRoles: string[]
+    assigneeRef: number
+    assignmentViaRoleRef: string
+    assignmentViaRoleName: string
     assignmentRef: number
+    directAssignment: boolean
     assignerUsername: string
     assignerDisplayname: string
     assigned?: boolean

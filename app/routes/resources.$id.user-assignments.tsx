@@ -14,15 +14,15 @@ import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
-import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -71,10 +71,8 @@ export default function AssignedUsers() {
     const responseCode: string | undefined = loaderData.responseCode
 
     return (
-        <>
-            <Box paddingBlock="16 8">
-                <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
-            </Box>
+        <VStack gap="4">
+            <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
 
             <section className={"toolbar"}>
                 <SelectObjectType />
@@ -84,18 +82,14 @@ export default function AssignedUsers() {
                 </section>
             </section>
 
-            <Box className={"filters"} paddingBlock={"1 8"}>
+            <HStack justify="end">
                 <ChipsFilters />
-            </Box>
+            </HStack>
 
-            <Box paddingBlock='8 0'>
-                <ResponseAlert responseCode={responseCode}/>
-            </Box>
+            <ResponseAlert responseCode={responseCode}/>
 
-            <section className={"grid-main"}>
-                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath} />
-            </section>
-        </>
+            <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath} />
+        </VStack>
     );
 }
 
@@ -105,38 +99,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-        <Alert variant="error">
-            Det oppsto en feil med følgende melding:
-            <div>{error.message}</div>
-        </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts/>
+            </body>
         </html>
     );
-}
-
-function ResponseAlert(prop: { responseCode: string | undefined }) {
-
-    if (prop.responseCode === undefined) return (<div/>)
-
-    if (prop.responseCode === "410") {
-        return (
-            <AlertWithCloseButton variant="success">
-                Tildelingen er slettet!
-            </AlertWithCloseButton>
-        )
-    } else return (
-        <AlertWithCloseButton variant="error">
-            Noe gikk galt under sletting av tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
-        </AlertWithCloseButton>
-    )
 }

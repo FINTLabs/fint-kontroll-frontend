@@ -4,11 +4,6 @@
     gap: 1rem;
 }
 
-.button-container {
-    display: flex;
-    justify-content: end;
-}
-
 .features-to-roles-container {
     display: flex;
     justify-content: space-between;

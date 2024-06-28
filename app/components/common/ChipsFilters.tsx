@@ -3,8 +3,6 @@ import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
 import {
     filterResetPageParam,
-    handleClearNameFieldString,
-    handleClearSearchFieldString
 } from "~/components/common/CommonFunctions";
 
 const ChipsFilters = () => {
@@ -15,6 +13,7 @@ const ChipsFilters = () => {
     const [name, setName] = useState<string | undefined>()
     const [userType, setUserType] = useState<string | undefined>()
     const [search, setSearchName] = useState<string | undefined>()
+    const [applicationcategory, setApplicationcategory] = useState<string | undefined>()
     const [orgUnitName, setOrgUnitName] = useState<string | undefined>()
 
     const pageParam = searchParams.get("page")
@@ -25,6 +24,7 @@ const ChipsFilters = () => {
         const nameParam = searchParams.get("name")
         const userTypeParam = searchParams.get("userType")
         const searchNameParam = searchParams.get("search")
+        const applicationcategory = searchParams.get("applicationcategory")
         const orgUnitName = searchParams.get("orgUnitName")
 
         orgsParam ? setOrgUnits(orgsParam) : setOrgUnits(undefined)
@@ -32,6 +32,7 @@ const ChipsFilters = () => {
         nameParam ? setName(nameParam) : setName(undefined)
         userTypeParam ? setUserType(userTypeParam) : setUserType(undefined)
         searchNameParam ? setSearchName(searchNameParam) : setSearchName(undefined)
+        applicationcategory ? setApplicationcategory(applicationcategory) : setApplicationcategory(undefined)
         orgUnitName ? setOrgUnitName(orgUnitName) : setOrgUnitName(undefined)
     }, [searchParams]);
 
@@ -53,6 +54,9 @@ const ChipsFilters = () => {
                 return
             case "searchName":
                 setSearchName(undefined)
+                return
+            case "applicationcategory":
+                setApplicationcategory(undefined)
                 return
             case "orgUnitName":
                 setOrgUnitName(undefined)
@@ -86,7 +90,6 @@ const ChipsFilters = () => {
             {name &&
                 <Chips.Removable
                     onClick={() => {
-                        handleClearNameFieldString(setSearchParams)
                         removeFilter("name")
                     }}
                     id="name-chip"
@@ -97,7 +100,6 @@ const ChipsFilters = () => {
             {search &&
                 <Chips.Removable
                     onClick={() => {
-                        handleClearSearchFieldString(setSearchParams)
                         removeFilter("search")
                     }}
                     id="search-name-chip"
@@ -105,10 +107,19 @@ const ChipsFilters = () => {
                     {search}
                 </Chips.Removable>
             }
+            {applicationcategory &&
+                <Chips.Removable
+                    onClick={() => {
+                        removeFilter("applicationcategory")
+                    }}
+                    id="application-category-chip"
+                >
+                    {`Applikasjonskategori: ${applicationcategory}`}
+                </Chips.Removable>
+            }
             {orgUnitName &&
                 <Chips.Removable
                     onClick={() => {
-                        handleClearSearchFieldString(setSearchParams)
                         removeFilter("orgUnitName")
                     }}
                     id="org-unit-name-chip"
