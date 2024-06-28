@@ -1,4 +1,3 @@
-//import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
 import {IAssignedRoles, IResource} from "~/data/types";
@@ -10,7 +9,6 @@ import {AssignedRolesSearch} from "~/components/assignment/AssignedRolesSearch";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
-import React from "react";
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";

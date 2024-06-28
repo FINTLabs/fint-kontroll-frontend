@@ -2,7 +2,7 @@ import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-r
 import {
     IAssignedResources,
     IAssignedUsers,
-    IResource,
+    IResource, IResourceAssignment,
     IResourcePage,
     IRole,
     IUnitItem,
@@ -44,7 +44,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const assignedResourceList: IAssignedResources = await responseAssignments.json()
     const role: IRole = await responseRole.json()
 
-    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.assigneeRef, resource]))
     const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
         return {
             ...resource,

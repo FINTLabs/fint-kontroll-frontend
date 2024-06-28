@@ -3,7 +3,7 @@ import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError, use
 import {
     IAssignedResources,
     IAssignedUsers,
-    IResource,
+    IResource, IResourceAssignment,
     IResourcePage,
     IUnitItem,
     IUnitTree,
@@ -52,7 +52,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     // const accessTypes: string[] = await responseAccessType.json()
 
 
-    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.assigneeRef, resource]))
     const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
         return {
             ...resource,

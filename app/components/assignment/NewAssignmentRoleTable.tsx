@@ -1,12 +1,12 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IRole} from "~/data/types";
+import type {IRole, IRoleItem} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 export const AssignRoleTable: any = (props: {
-    isAssignedRoles: IRole[],
+    isAssignedRoles: IRoleItem[],
     size: string,
     page: string,
     resourceId: string,
@@ -39,7 +39,7 @@ export const AssignRoleTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.isAssignedRoles.map((role: IRole) => (
+                    {props.isAssignedRoles.map((role: IRoleItem) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>

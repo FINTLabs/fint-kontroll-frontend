@@ -3,7 +3,7 @@ import {Alert, Box, Button, Heading, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import type {IAssignedRoles, IRole, IRolePage, IUnitItem, IUnitTree} from "~/data/types";
+import type {IAssignedRoles, IRole, IRoleItem, IRolePage, IUnitItem, IUnitTree} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchRoles} from "~/data/fetch-roles";
@@ -38,7 +38,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 
     const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
-    const isAssignedRoles: IRole[] = roleList.roles.map(role => {
+    const isAssignedRoles: IRoleItem[] = roleList.roles.map(role => {
 
         return {
             ...role,

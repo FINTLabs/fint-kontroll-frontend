@@ -1,18 +1,18 @@
-export interface IAssignment {
+/*export interface IAssignment {
     user: IUser | null
     accessRoleId: string
     scopeId: number
     orgUnits: IOrgUnit[]
-}
+}*/
 
-export interface IOrgUnit {
+/*export interface IOrgUnit {
     id: number
     name: string
     organisationUnitId: string
     parentRef: string
     parentName: null | string
     childrenRef: string[]
-}
+}*/
 
 export interface IMeInfo {
     firstName: string
@@ -96,7 +96,7 @@ export interface IRole {
     assignerDisplayname: string
     organisationUnitId: string
     organisationUnitName: string
-    assigned: boolean
+    assigned?: boolean
 }
 
 export interface IRoleItem {
@@ -107,13 +107,14 @@ export interface IRoleItem {
     aggregatedRole: boolean
     organisationUnitId: string
     organisationUnitName: string
+    assigned?: boolean
 }
 
 export interface IRolePage {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    roles: IRole[] //IRoleItem[]
+    roles: IRoleItem[] //IRole[]
 }
 
 export interface IMemberPage {
@@ -152,7 +153,7 @@ export interface IAssignedResources {
     totalPages: number | any
     currentPage: number
     size: string
-    resources: IResource[]
+    resources: IResourceAssignment[]
 }
 
 export interface IAssignedRoles {
@@ -170,6 +171,31 @@ export interface IResourceItem {
     resourceLimit: number
 }
 
+/*
+export interface IResource {
+   id: number
+   resourceId: string
+   identityProviderGroupName: string
+   resourceName: string
+   resourceType: string
+   resourceLimit: number
+   applicationAccessType: string
+   applicationAccessRole: string
+    accessType: string
+   applicationCategory: string[]
+   platform: []
+   resourceOwnerOrgUnitId: string
+   resourceOwnerOrgUnitName: string
+   validForOrgUnits: IResourceItem[]
+   validForRoles: string[]
+    assignmentRef: number
+    assignerUsername: string
+    assignerDisplayname: string
+    assigned?: boolean
+  //  hasCost: boolean
+}
+*/
+
 export interface IResource {
     id: number
     resourceId: string
@@ -180,7 +206,7 @@ export interface IResource {
     applicationAccessType: string
     applicationAccessRole: string
     accessType: string
-    applicationCategory: string
+    applicationCategory: string[]
     platform: []
     resourceOwnerOrgUnitId: string
     resourceOwnerOrgUnitName: string
@@ -192,6 +218,20 @@ export interface IResource {
     assigned?: boolean
     hasCost: boolean
 }
+
+export interface IResourceAssignment {
+    assigneeRef: number
+    assignmentRef: number
+    directAssignment: boolean
+    assignmentViaRoleRef: number
+    assignmentViaRoleName: string
+    assignerUsername: string
+    assignerDisplayname: string
+    resourceRef: number
+    resourceName: string
+    resourceType: string
+}
+
 
 export interface IResourcePage {
     totalItems: number
