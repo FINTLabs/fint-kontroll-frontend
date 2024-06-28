@@ -6,16 +6,25 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
-export const AssignResourceToUserTable: any = (props: {
-    isAssignedResources: IResource[],
-    size: string,
-    page: string,
-    userId: string,
-    orgId: string,
-    totalPages: number,
-    currentPage: number,
+
+interface AssignResourceToUserTableProps {
+    isAssignedResources: IResource[]
+    size: string
+    userId: string
+    orgId: string
+    totalPages: number
+    currentPage: number
     basePath?: string
-}) => {
+}
+export const AssignResourceToUserTable = ({
+    isAssignedResources,
+    size,
+    userId,
+    orgId,
+    totalPages,
+    currentPage,
+    basePath
+}: AssignResourceToUserTableProps) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -26,6 +35,8 @@ export const AssignResourceToUserTable: any = (props: {
             return searchParams;
         })
     }
+
+    console.log(isAssignedResources)
 
     return (
         <div>
@@ -38,8 +49,8 @@ export const AssignResourceToUserTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.isAssignedResources.map((resource: IResource) => (
-                        <Table.Row key={resource.id}>
+                    {isAssignedResources.map((resource: IResource) => (
+                        <Table.Row key={resource.resourceRef}>
                             <Table.DataCell scope="row">{resource.resourceName} </Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {resource.assigned ?
@@ -52,7 +63,7 @@ export const AssignResourceToUserTable: any = (props: {
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/user/${props.userId}/orgunit/${props.orgId}/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}/assignment/user/${userId}/orgunit/${orgId}/resource/${resource.resourceRef}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel
@@ -70,7 +81,7 @@ export const AssignResourceToUserTable: any = (props: {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={size ? size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -79,14 +90,14 @@ export const AssignResourceToUserTable: any = (props: {
                 </Select>
                 <Pagination
                     id="pagination"
-                    page={props.currentPage + 1}
+                    page={currentPage + 1}
                     onPageChange={(e) => {
                         setSearchParams(searchParams => {
                             searchParams.set("page", (e - 1).toString());
                             return searchParams;
                         })
                     }}
-                    count={props.totalPages}
+                    count={totalPages}
                     size="small"
                     prevNextTexts
                 />

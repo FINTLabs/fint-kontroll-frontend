@@ -51,20 +51,21 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationCategories: string[] = await responseApplicationCategories.json()
     // const accessTypes: string[] = await responseAccessType.json()
 
-
-    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
+    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
     const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
         return {
             ...resource,
             "assigned": assignedResourcesMap.has(resource.id)
         }
     })
+
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
         orgUnitList,
         assignedResourceList,
         isAssignedResources,
+        size,
         user,
         applicationCategories,
         // accessTypes,
@@ -94,11 +95,13 @@ export default function NewAssignmentForUser() {
         isAssignedResources: IResource[],
         basePath: string,
         responseCode: string | undefined,
+        size: string,
         user: IUserDetails,
         applicationCategories: string[]
         // accessTypes: string[]
     }>();
-    const params = useParams<string>()
+    const { id, orgId } = useParams<string>()
+
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
@@ -165,14 +168,21 @@ export default function NewAssignmentForUser() {
 
                 <ResponseAlert responseCode={data.responseCode}/>
 
-                <AssignResourceToUserTable
-                    isAssignedResources={data.isAssignedResources}
-                    userId={params.id}
-                    orgId={params.orgId}
-                    currentPage={data.resourceList.currentPage}
-                    totalPages={data.resourceList.totalPages}
-                    basePath={data.basePath}
-                />
+                {id && orgId ?
+                    <AssignResourceToUserTable
+                        isAssignedResources={data.isAssignedResources}
+                        userId={id}
+                        orgId={orgId}
+                        size={data.size}
+                        currentPage={data.resourceList.currentPage}
+                        totalPages={data.resourceList.totalPages}
+                        basePath={data.basePath}
+                    />
+                    :
+                    <>
+                        <Alert variant="error">Data mangler for å hente tildelte ressurser.</Alert>
+                    </>
+                }
             </VStack>
         </div>
     )
