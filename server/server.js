@@ -6,7 +6,7 @@ import {createRequestHandler} from "@remix-run/express";
 import prometheusMiddleware from "express-prometheus-middleware";
 
 const logger = log4js.getLogger();
-logger.level = "info";
+logger.level = "debug";
 
 logger.info(`Running in ${process.env.NODE_ENV === "production" ? "production" : "dev"} mode`);
 

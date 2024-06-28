@@ -117,7 +117,6 @@ export const createUserAssignment = async (request: Request, resourceRef: number
 }
 
 export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
-    logger.info("Path er: ", `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`)
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
         headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
@@ -127,14 +126,6 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
             organizationUnitId: organizationUnitId,
         })
     });
-    if(response.ok) {
-        logger.info("Response was ok")
-        logger.info(response)
-    }
-
-    logger.info("Response was NOT ok")
-    logger.info(response)
-
     return response;
 }
 
