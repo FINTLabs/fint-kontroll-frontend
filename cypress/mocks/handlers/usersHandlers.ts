@@ -6,10 +6,10 @@ export const usersHandlers = [
             {
                 "id": 442,
                 "fullName": "Karen Berg",
-                "userName": null,
+                "userName": "Karberb",
                 "organisationUnitName": "VGMIDT Midtbyen videregående skole",
                 "mobilePhone": "",
-                "email": null
+                "email": "karberg@novari.no"
             }
         )
     }),
