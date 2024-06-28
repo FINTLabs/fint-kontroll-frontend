@@ -3,7 +3,7 @@ import React from "react";
 
 export const ResponseAlert = (prop: { responseCode: string | undefined }) => {
 
-    if (prop.responseCode === undefined) return (<div/>)
+    if (prop.responseCode === undefined) return null
 
     if (prop.responseCode === "201") {
         return (
