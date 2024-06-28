@@ -63,7 +63,7 @@ export const AssignResourceToUserTable = ({
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/user/${userId}/orgunit/${orgId}/resource/${resource.resourceRef}/assign${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}/assignment/user/${userId}/orgunit/${orgId}/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel
