@@ -240,56 +240,74 @@ export const usersHandlers = [
                     "totalPages": 1,
                     "resources": [
                         {
-                            "id": 1,
+                            "assigneeRef": 1,
                             "resourceId": "f887f35a0fab01f3e3e2c5c2",
-                            "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
                             "resourceType": "ApplicationResource",
+                            "resourceRef": 5,
                             "assignmentRef": 354,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
-                            "assignerDisplayname": null
+                            "assignerDisplayname": null,
                         },
                         {
-                            "id": 2,
+                            "assigneeRef": 2,
                             "resourceId": "ff75076c4ce53f5ca51b1cbb",
                             "resourceName": "Creative Cloud All Apps for K-12 - User License",
                             "resourceType": "ApplicationResource",
                             "assignmentRef": 356,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 3,
+                            "assigneeRef": 3,
                             "resourceId": "abc",
                             "resourceName": "Ressurs3",
                             "resourceType": "ApplicationResource",
                             "assignmentRef": 354,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 4,
+                            "assigneeRef": 4,
                             "resourceId": "def",
                             "resourceName": "Ressurs4",
                             "resourceType": "ApplicationResource",
                             "assignmentRef": 354,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 5,
+                            "assigneeRef": 5,
                             "resourceId": "asd",
                             "resourceName": "Ressurs5",
                             "resourceType": "ApplicationResource",
                             "assignmentRef": 354,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 6,
+                            "assigneeRef": 6,
                             "resourceId": "d1221",
                             "resourceName": "Ressurs6",
                             "resourceType": "ApplicationResource",
                             "assignmentRef": 354,
+                            "directAssignment": true,
+                            "assignmentViaRoleRef": null,
+                            "assignmentViaRoleName": null,
                             "assignerUsername": "linda.loftsgarden@novari.no",
                             "assignerDisplayname": null
                         },
@@ -307,7 +325,7 @@ export const usersHandlers = [
                     "totalPages": 2,
                     "resources": [
                         {
-                            "id": 6,
+                            "assigneeRef": 6,
                             "resourceId": "d1221",
                             "resourceName": "Ressurs6",
                             "resourceType": "ApplicationResource",
@@ -329,7 +347,7 @@ export const usersHandlers = [
                     "totalPages": 2,
                     "resources": [
                         {
-                            "id": 1,
+                            "assigneeRef": 1,
                             "resourceId": "f887f35a0fab01f3e3e2c5c2",
                             "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
                             "resourceType": "ApplicationResource",
@@ -338,7 +356,7 @@ export const usersHandlers = [
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 2,
+                            "assigneeRef": 2,
                             "resourceId": "ff75076c4ce53f5ca51b1cbb",
                             "resourceName": "Creative Cloud All Apps for K-12 - User License",
                             "resourceType": "ApplicationResource",
@@ -347,7 +365,7 @@ export const usersHandlers = [
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 3,
+                            "assigneeRef": 3,
                             "resourceId": "abc",
                             "resourceName": "Ressurs3",
                             "resourceType": "ApplicationResource",
@@ -356,7 +374,7 @@ export const usersHandlers = [
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 4,
+                            "assigneeRef": 4,
                             "resourceId": "def",
                             "resourceName": "Ressurs4",
                             "resourceType": "ApplicationResource",
@@ -365,7 +383,7 @@ export const usersHandlers = [
                             "assignerDisplayname": null
                         },
                         {
-                            "id": 5,
+                            "assigneeRef": 5,
                             "resourceId": "asd",
                             "resourceName": "Ressurs5",
                             "resourceType": "ApplicationResource",
