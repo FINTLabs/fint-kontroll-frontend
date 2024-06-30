@@ -123,7 +123,7 @@ export const createUserAssignment = async (request: Request, resourceRef: number
     return response;
 }
 
-export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+/*export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
         headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
@@ -134,6 +134,27 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
         })
     });
     return response;
+}*/
+
+export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+    try {
+        const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
+            headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+            method: 'POST',
+            body: JSON.stringify({
+                resourceRef: resourceRef,
+                roleRef: roleRef,
+                organizationUnitId: organizationUnitId,
+            })
+        });
+        if (response.ok) {
+            return response;
+        }
+
+    } catch (error) {
+        console.log("Error Fetching data ", error);
+        logger.debug("Error in CreateRoleAssignment", error)
+    }
 }
 
 export const deleteAssignment = async (request: Request, assignmentRef: string) => {
