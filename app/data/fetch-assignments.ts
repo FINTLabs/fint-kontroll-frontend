@@ -183,13 +183,11 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
         organizationUnitId: organizationUnitId,
     }));
 
-
     const response = await fetch(url, {
        headers: {
            Authorization: token ?? "",
            'content-type': 'application/json'
        },
-
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,

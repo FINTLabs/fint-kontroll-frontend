@@ -17,7 +17,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {useState} from "react";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -39,10 +39,10 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
-    const responseCode = response !== undefined ? response.status : 0
+   // const responseCode = response !== undefined ? response.status : 0
 
 
-    return redirect(`/resources`)
+    return redirect(`/assignment/resource/${data.get("resourceRef")}/role${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
    // return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${responseCode}`)
 
 }
@@ -81,7 +81,7 @@ export default function NewAssignment1() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParams(searchParams)}`)}
+                onClose={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParamsWithResponseCode(searchParams)}`)}
               //  onClose={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Fullfør tildelingen",
