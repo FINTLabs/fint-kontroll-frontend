@@ -123,7 +123,8 @@ export const createUserAssignment = async (request: Request, resourceRef: number
     return response;
 }
 
-/*export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+/* Dette er opprinnelig
+export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
         headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
         method: 'POST',
@@ -136,6 +137,7 @@ export const createUserAssignment = async (request: Request, resourceRef: number
     return response;
 }*/
 
+/* Dette er med masse logger for feilsøking
 export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
     try {
         const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
@@ -150,12 +152,14 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
 
         const response = await fetch(url, {
             headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+
             method: 'POST',
             body: JSON.stringify({
                 resourceRef: resourceRef,
                 roleRef: roleRef,
                 organizationUnitId: organizationUnitId,
             })
+
         });
         if (response.ok) {
             logger.info("Response from CREATEROLE AASSIGNMENTS!!!", url, response.status);
@@ -163,10 +167,40 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
         }
 
     } catch (error) {
+
         console.log("Error Fetching data ", error);
         logger.info("Error in CreateRoleAssignment", error)
     }
 }
+*/
+export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
+
+    logger.info("POST Role assignment to url:", url, " with body ", JSON.stringify({
+        resourceRef: resourceRef,
+        roleRef: roleRef,
+        organizationUnitId: organizationUnitId,
+    }));
+
+
+    const response = await fetch(url, {
+       headers: {
+           Authorization: token ?? "",
+           'content-type': 'application/json'
+       },
+
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        })
+
+    });
+    return response
+}
+
 
 export const deleteAssignment = async (request: Request, assignmentRef: string) => {
 

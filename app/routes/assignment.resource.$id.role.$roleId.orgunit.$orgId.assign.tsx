@@ -17,6 +17,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {useState} from "react";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -34,14 +35,16 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await createRoleAssignment(request,
+    const response = await createRoleAssignment(request.headers.get("Authorization"),
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
     const responseCode = response !== undefined ? response.status : 0
 
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${responseCode}`)
+    return redirect(`/resources`)
+   // return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${responseCode}`)
+
 }
 
 export default function NewAssignment1() {
@@ -78,7 +81,8 @@ export default function NewAssignment1() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                onClose={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParams(searchParams)}`)}
+              //  onClose={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -118,7 +122,8 @@ export default function NewAssignment1() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                        onClick={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParams(searchParams)}`)}
+                       // onClick={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                     >
                         Avbryt
                     </Button>
