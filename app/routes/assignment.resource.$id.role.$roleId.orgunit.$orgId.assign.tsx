@@ -38,8 +38,10 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
+    const responseCode = response !== undefined ? response.status : 0
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
+
+    return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${responseCode}`)
 }
 
 export default function NewAssignment1() {

@@ -138,7 +138,17 @@ export const createUserAssignment = async (request: Request, resourceRef: number
 
 export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
     try {
-        const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
+        const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
+
+        logger.info("POST user assignment to ", url, " with body ", JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        }));
+        const cookies = request.headers.get("cookie");
+        logger.info("Cookie: ", cookies);
+
+        const response = await fetch(url, {
             headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
             method: 'POST',
             body: JSON.stringify({
@@ -148,12 +158,13 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
             })
         });
         if (response.ok) {
+            logger.info("Response from CREATEROLE AASSIGNMENTS!!!", url, response.status);
             return response;
         }
 
     } catch (error) {
         console.log("Error Fetching data ", error);
-        logger.debug("Error in CreateRoleAssignment", error)
+        logger.info("Error in CreateRoleAssignment", error)
     }
 }
 
