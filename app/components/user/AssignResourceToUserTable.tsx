@@ -36,8 +36,6 @@ export const AssignResourceToUserTable = ({
         })
     }
 
-    console.log(isAssignedResources)
-
     return (
         <div>
             <Outlet/>

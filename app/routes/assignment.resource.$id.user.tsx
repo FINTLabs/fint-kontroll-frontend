@@ -13,6 +13,8 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import ChipsFilters from "~/components/common/ChipsFilters";
+import React from "react";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -101,6 +103,10 @@ export default function NewAssignment() {
                         <UserTypeFilter/>
                         <NewAssignmentUserSearch/>
                     </section>
+                </HStack>
+
+                <HStack justify="end">
+                    <ChipsFilters />
                 </HStack>
 
                 <ResponseAlert responseCode={responseCode}/>

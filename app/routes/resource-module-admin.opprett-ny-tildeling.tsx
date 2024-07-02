@@ -10,7 +10,7 @@ import {
     useSearchParams
 } from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import TildelingToolbar from "../components/resource-module-admin/opprettTildeling/TildelingToolbar";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
@@ -76,10 +76,8 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export const action = async ({request}: ActionFunctionArgs) => {
-    const auth = request
 
     const formData = await request.formData()
-
     const resourceId = formData.get("resourceId") as string // resourceId is the unique ID of a user
     const accessRoleId = formData.get("accessRoleId") as string
     const scopeId = formData.get("scopeId") as string
@@ -87,7 +85,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
     let includeSubOrgUnits: string | boolean = formData.get("includeSubOrgUnits") as string
     includeSubOrgUnits = includeSubOrgUnits === "true"
 
-    const res = await postNewTildelingForUser(auth, resourceId, accessRoleId, scopeId, orgUnits, includeSubOrgUnits)
+    const res = await postNewTildelingForUser(request.headers.get("Authorization"), resourceId, accessRoleId, scopeId, orgUnits, includeSubOrgUnits)
 
     return res.ok ? {
         status: true,

@@ -17,6 +17,7 @@ import {createUserAssignment} from "~/data/fetch-assignments";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -34,12 +35,12 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await createUserAssignment(request,
+    const response = await createUserAssignment(request.headers.get("Authorization"),
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${response.status}`)
+    return redirect(`/assignment/resource/${data.get("resourceRef")}/user${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function NewAssignment1() {
@@ -58,6 +59,7 @@ export default function NewAssignment1() {
             <Loader size="3xlarge" title="Venter..."/>
         </div>
     }
+
     function SaveButton() {
         if (response.state === "submitting") {
             return <Button loading>Lagre</Button>;
@@ -76,7 +78,7 @@ export default function NewAssignment1() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                onClose={() => navigate(`/assignment/resource/${params.id}/user${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -116,7 +118,7 @@ export default function NewAssignment1() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/resource/${params.id}/user?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
+                        onClick={() => navigate(`/assignment/resource/${params.id}/user${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>

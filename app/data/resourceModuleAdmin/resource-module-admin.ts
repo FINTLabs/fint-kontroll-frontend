@@ -23,13 +23,16 @@ export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: nu
 
 }
 
-export const postNewTildelingForUser = async (request: Request, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
+export const postNewTildelingForUser = async (token: string | null, resourceId: string, accessRoleId: string, scopeId: string, orgUnitIds: string[], includeSubOrgUnits: boolean) => {
 
     const url = `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessassignment`;
 
     const response = await fetch(url, {
         method: "POST",
-        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
         body: JSON.stringify({
             // userId instead of resourceId - this is because resourceId the actual unique ID for the user, while userId is a table ID.
             accessRoleId: accessRoleId, scopeId: Number(scopeId), userId: resourceId, orgUnitIds: orgUnitIds, includeSubOrgUnits: includeSubOrgUnits

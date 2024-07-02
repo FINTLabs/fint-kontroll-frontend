@@ -105,7 +105,6 @@ export default function NewAssignmentForUser() {
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
-    console.log(applicationCategorySearchParams.get("applicationcategory"))
     const setAppCategory = (event: string) => {
         setApplicationCategorySearchParams(searchParams => {
             event !== "" ? searchParams.set("applicationcategory", event) : searchParams.delete("applicationcategory")
