@@ -72,7 +72,7 @@ export const AssignRoleTable: any = (props: {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={props.size ? props.size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

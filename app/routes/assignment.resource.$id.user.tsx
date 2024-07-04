@@ -6,7 +6,6 @@ import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserItem, IUserPage} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
-import {NewAssignmentUserSearch} from "~/components/assignment/NewAssignmentUserSearch";
 import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
@@ -15,6 +14,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import React from "react";
+import {UserSearch} from "~/components/user/UserSearch";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -101,12 +101,13 @@ export default function NewAssignment() {
                     <SelectObjectType/>
                     <section className={"filters"}>
                         <UserTypeFilter/>
-                        <NewAssignmentUserSearch/>
+                        <UserSearch/>
+                        {/*<NewAssignmentUserSearch/>*/}
                     </section>
                 </HStack>
 
                 <HStack justify="end">
-                    <ChipsFilters />
+                    <ChipsFilters/>
                 </HStack>
 
                 <ResponseAlert responseCode={responseCode}/>
@@ -128,20 +129,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts/>
-            </body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }

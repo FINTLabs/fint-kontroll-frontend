@@ -1,12 +1,12 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import type {IResourcePage} from "~/data/types";
+import type {IResourceList} from "~/data/types";
 import React from "react";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface ResourceTableProps {
-    resourcePage: IResourcePage
+    resourcePage: IResourceList
     size: string
 }
 

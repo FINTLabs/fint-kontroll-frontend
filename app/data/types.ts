@@ -1,4 +1,4 @@
-export interface IAssignment {
+/*export interface IAssignment {
     user: IUser | null
     accessRoleId: string
     scopeId: number
@@ -12,7 +12,7 @@ export interface IOrgUnit {
     parentRef: string
     parentName: null | string
     childrenRef: string[]
-}
+}*/
 
 export interface IMeInfo {
     firstName: string
@@ -105,15 +105,16 @@ export interface IRoleItem {
     roleType: string
     roleSubType: string
     aggregatedRole: boolean
+    roleSource: string
     organisationUnitId: string
     organisationUnitName: string
 }
 
-export interface IRolePage {
+export interface IRoleList {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    roles: IRole[] //IRoleItem[]
+    roles: IRoleItem[]
 }
 
 export interface IMemberPage {
@@ -136,7 +137,7 @@ export interface IAssignmentPage {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    resources: IResource[]
+    resources: IResourceAssignment[]
 }
 
 export interface IAssignedUsers {
@@ -147,12 +148,12 @@ export interface IAssignedUsers {
     users: IUser[]
 }
 
-export interface IAssignedResources {
+export interface IAssignedResourcesList {
     totalItems: number
     totalPages: number | any
     currentPage: number
     size: string
-    resources: IResource[]
+    resources: IResourceAssignment[]
 }
 
 export interface IAssignedRoles {
@@ -160,6 +161,23 @@ export interface IAssignedRoles {
     totalPages: number | any
     currentPage: number
     roles: IRole[]
+}
+
+
+export interface IResourceList {
+    totalItems: number
+    totalPages: number | any
+    currentPage: number
+    resources: IResourceForList[]
+}
+
+export interface IResourceForList {
+    id: number
+    resourceId: string
+    resourceName: string
+    resourceType: string
+    resourceLimit: number
+    assigned?: boolean
 }
 
 export interface IResourceItem {
@@ -171,7 +189,8 @@ export interface IResourceItem {
 }
 
 export interface IResource {
-    id: number // Just the element of "id" is listed when not a part of assignment
+    id: number
+    resourceId: string
     resourceRef: number
     identityProviderGroupName: string
     resourceName: string
@@ -180,33 +199,28 @@ export interface IResource {
     applicationAccessType: string
     applicationAccessRole: string
     accessType: string
-    applicationCategory: string
+    applicationCategory: string[]
     platform: []
     resourceOwnerOrgUnitId: string
     resourceOwnerOrgUnitName: string
     validForOrgUnits: IResourceItem[]
     validForRoles: string[]
-    assigneeRef: number
-    assignmentViaRoleRef: string
-    assignmentViaRoleName: string
-    assignmentRef: number
-    directAssignment: boolean
-    assignerUsername: string
-    assignerDisplayname: string
     assigned?: boolean
     hasCost: boolean
 }
 
-export interface IResourcePage {
-    totalItems: number
-    totalPages: number | any
-    currentPage: number
-    resources: IResource[]
-}
-
-export type IResponse<T> = {
-    data: T
-    errorMessage: string | undefined
+export interface IResourceAssignment {
+    assigneeRef: number
+    assignmentRef: number
+    directAssignment: boolean
+    assignmentViaRoleRef: number
+    assignmentViaRoleName: string
+    assignerUsername: string
+    assignerDisplayname: string
+    resourceRef: number
+    resourceName: string
+    resourceType: string
+    assigned?: boolean
 }
 
 export interface IUnitItem {

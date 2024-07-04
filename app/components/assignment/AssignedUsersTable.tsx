@@ -25,7 +25,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
 
     return (
         <div>
-            <VStack gap="4">
+            <VStack gap="8">
                 <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
 
                 <Outlet />
@@ -61,7 +61,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                                 Slett
                                             </Button>
                                         :
-                                            <Tag variant="info" className="navds-tag-in-table">
+                                            <Tag variant="info" size="small" className="navds-tag-in-table">
                                                 Gruppetildeling
                                             </Tag>
                                     }
@@ -79,7 +79,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? Number(size) : 25}
+                    defaultValue={size ? size : '25'}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

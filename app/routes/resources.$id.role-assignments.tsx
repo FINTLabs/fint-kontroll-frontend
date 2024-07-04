@@ -15,6 +15,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {RoleSearch} from "~/components/role/RoleSearch";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -65,7 +66,8 @@ export default function AssignedRoles() {
             <section className={"toolbar"}>
                 <SelectObjectType/>
                 <section className={"filters"}>
-                    <AssignedRolesSearch/>
+                    {/*<AssignedRolesSearch/>*/}
+                    <RoleSearch/>
                 </section>
             </section>
 

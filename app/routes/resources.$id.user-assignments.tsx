@@ -23,6 +23,7 @@ import {BASE_PATH} from "../../environment";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {UserSearch} from "~/components/user/UserSearch";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -78,7 +79,8 @@ export default function AssignedUsers() {
                 <SelectObjectType />
                 <section className={"filters"}>
                     <UserTypeFilter />
-                    <AssignedUsersSearch />
+                    {/*<AssignedUsersSearch />*/}
+                    <UserSearch/>
                 </section>
             </section>
 

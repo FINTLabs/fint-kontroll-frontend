@@ -1,5 +1,5 @@
 import {Button, Link, Pagination, Select, Table} from "@navikt/ds-react";
-import type {IAssignmentPage, IResource} from "~/data/types";
+import type {IAssignmentPage, IResource, IResourceAssignment} from "~/data/types";
 import {Form, Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
@@ -44,8 +44,8 @@ export const AssignmentsForRoleTable  = ({
                 </Table.Header>
                 <Table.Body>
 
-                    {assignmentsForRole.resources.map((resource: IResource) => (
-                        <Table.Row key={resource.id}>
+                    {assignmentsForRole.resources.map((resource: IResourceAssignment) => (
+                        <Table.Row key={resource.resourceRef}>
                             <Table.DataCell scope="row">{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{resource.assignerDisplayname ? resource.assignerDisplayname : resource.assignerUsername}</Table.DataCell>

@@ -1,7 +1,7 @@
 import {Alert, Box, Heading, HStack, Select} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
-import type {IResourcePage, IUnitItem, IUnitTree} from "~/data/types";
+import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
@@ -32,7 +32,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         fetchApplicationCategory(request),
        // fetchAccessType(request)
     ]);
-    const resourceList: IResourcePage = await responseResource.json()
+    const resourceList: IResourceList = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
@@ -49,7 +49,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
 
 export default function Resource() {
     const loaderData = useLoaderData<typeof loader>();
-    const resourceList: IResourcePage = loaderData.resourceList
+    const resourceList: IResourceList = loaderData.resourceList
     const size: string = loaderData.size
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories

@@ -1,11 +1,11 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import type {IResourcePage} from "~/data/types";
+import type {IResourceList} from "~/data/types";
 import React from "react";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
-export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: string, page: string }) => {
+export const ResourceTable: any = (props: { resourcePage: IResourceList, size: string, page: string }) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
@@ -62,7 +62,7 @@ export const ResourceTable: any = (props: { resourcePage: IResourcePage, size: s
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={props.size ? props.size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
