@@ -72,7 +72,7 @@ export default function Users() {
 
                 </VStack>
 
-                <VStack gap="4">
+                <VStack gap="8">
                     <Heading className={"heading"} level="2" size="large">
                         Brukeren er tildelt følgende ressurser:
                     </Heading>

@@ -53,6 +53,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
             "assigned": assignedResourcesMap.has(resource.id)
         }
     })
+
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         size,
