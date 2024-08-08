@@ -1,5 +1,5 @@
 import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IResource} from "~/data/types";
+import type {IResource, IResourceForList} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
@@ -7,7 +7,7 @@ import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/C
 
 
 interface AssignResourceToRoleTableProps {
-    isAssignedResources: IResource[],
+    isAssignedResources: IResourceForList[],
     size: string
     roleId: number
     totalPages: number
@@ -50,7 +50,7 @@ export const AssignResourceToRoleTable = (
                 </Table.Header>
 
                 <Table.Body>
-                    {isAssignedResources.map((resource: IResource) => (
+                    {isAssignedResources.map((resource: IResourceForList) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>

@@ -25,6 +25,6 @@ export const NewAssignmentRoleSearch = () => {
                     submit({search: ""}, {method: "GET", action: `/assignment/resource/${params.id}/role`})
                 }}
             />
-        </Form>
+        </Form >
     );
 };

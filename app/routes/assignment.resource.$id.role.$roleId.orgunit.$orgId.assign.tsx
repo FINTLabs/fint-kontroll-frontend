@@ -82,7 +82,6 @@ export default function NewAssignment1() {
             <Modal
                 open={true}
                 onClose={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParamsWithResponseCode(searchParams)}`)}
-              //  onClose={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -123,7 +122,6 @@ export default function NewAssignment1() {
                         type="button"
                         variant="secondary"
                         onClick={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParams(searchParams)}`)}
-                       // onClick={() => navigate(`/assignment/resource/${params.id}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                     >
                         Avbryt
                     </Button>

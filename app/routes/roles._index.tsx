@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
-import type {IRolePage, IUnitItem, IUnitTree} from "~/data/types";
+import type {IRoleList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
@@ -24,7 +24,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         fetchRoles(request, size, page, search, orgUnits),
         fetchOrgUnits(request)
     ]);
-    const roleList: IRolePage = await responseRoles.json()
+    const roleList: IRoleList = await responseRoles.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
 
@@ -38,7 +38,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
 export default function Roles_index() {
     const data = useLoaderData<typeof loader>()
 
-    const roleList: IRolePage = data.roleList
+    const roleList: IRoleList = data.roleList
     const orgUnitList: IUnitItem[] = data.orgUnitList
     const size = data.size
 

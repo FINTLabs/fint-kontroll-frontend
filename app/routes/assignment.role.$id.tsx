@@ -1,9 +1,9 @@
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
-    IAssignedResources,
+    IAssignedResourcesList,
     IAssignedUsers,
-    IResource,
-    IResourcePage,
+    IResource, IResourceAssignment, IResourceForList,
+    IResourceList,
     IRole,
     IUnitItem,
     IUnitTree
@@ -20,6 +20,7 @@ import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import logger from "~/logging/logger";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -38,19 +39,21 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         fetchAssignedResourcesRole(request, params.id, "1000", "0"),
         fetchRoleById(request, params.id),
     ]);
-    const resourceList: IResourcePage = await responseResources.json()
+    const resourceList: IResourceList = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
-    const assignedResourceList: IAssignedResources = await responseAssignments.json()
+    const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
     const role: IRole = await responseRole.json()
 
-    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.id, resource]))
-    const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
+    logger.info("Her er mapfunksjonen som sjekker på tildelte ressurser", assignedResourcesMap);
+    const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {
         return {
             ...resource,
             "assigned": assignedResourcesMap.has(resource.id)
         }
     })
+
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         size,
@@ -80,10 +83,10 @@ export const handle = {
 export default function NewAssignmentForRole() {
     const loaderData = useLoaderData<typeof loader>();
 
-    const resourceList: IResourcePage = loaderData.resourceList
+    const resourceList: IResourceList = loaderData.resourceList
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Might use this later once filters are added
     const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Might use this later once filters are added
-    const isAssignedResources: IResource[] = loaderData.isAssignedResources
+    const isAssignedResources: IResourceForList[] = loaderData.isAssignedResources
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const role: IRole = loaderData.role

@@ -39,7 +39,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                 </Table.Header>
                 <Table.Body>
                     {assignmentsForUser.resources.map((resource) => (
-                        <Table.Row key={resource.id}>
+                        <Table.Row key={resource.resourceRef}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{resource.assignerDisplayname ? resource.assignerDisplayname : resource.assignerUsername}</Table.DataCell>
@@ -58,7 +58,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                                         Slett
                                     </Button>
                                     :
-                                    <Tag variant="info" className="navds-tag-in-table">
+                                    <Tag variant="info" size="small" className="navds-tag-in-table">
                                         Gruppetildeling
                                     </Tag>
                                 }

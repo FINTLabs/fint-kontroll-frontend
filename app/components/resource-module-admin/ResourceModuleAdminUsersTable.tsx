@@ -72,7 +72,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
                         label="Rader per side"
                         size="small"
                         onChange={handleChangeRowsPerPage}
-                        defaultValue={params.get("size") ? Number(params.get("size")) : 10}
+                        defaultValue={params.get("size") ? Number(params.get("size")) : 25}
                     >
                         <option value={5}>5</option>
                         <option value={10}>10</option>

@@ -26,7 +26,7 @@ export const AssignedRolesTable: any = (props: {
 
     return (
         <div>
-            <VStack gap="4">
+            <VStack gap="8">
                 <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
 
                 <Outlet/>
@@ -70,7 +70,7 @@ export const AssignedRolesTable: any = (props: {
                     label="Rader per side"
                     size="small"
                     onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 10}
+                    defaultValue={props.size ? props.size : 25}
                 >
                     <option value={5}>5</option>
                     <option value={10}>10</option>

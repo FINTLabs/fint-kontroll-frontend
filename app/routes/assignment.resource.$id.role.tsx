@@ -3,7 +3,7 @@ import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import type {IAssignedRoles, IRole, IRolePage, IUnitItem, IUnitTree} from "~/data/types";
+import type {IAssignedRoles, IRole, IRoleItem, IRoleList, IUnitItem, IUnitTree} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchRoles} from "~/data/fetch-roles";
@@ -14,6 +14,8 @@ import {BASE_PATH} from "../../environment";
 import {IResource} from "~/data/types";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import ChipsFilters from "~/components/common/ChipsFilters";
+import {RoleSearch} from "~/components/role/RoleSearch";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -30,7 +32,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         fetchResourceById(request, params.id),
 
     ]);
-    const roleList: IRolePage = await responseRoles.json()
+    const roleList: IRoleList = await responseRoles.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
@@ -38,7 +40,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 
     const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
-    const isAssignedRoles: IRole[] = roleList.roles.map(role => {
+    const isAssignedRoles: IRoleItem[] = roleList.roles.map(role => {
 
         return {
             ...role,
@@ -84,7 +86,7 @@ export const handle = {
 export default function NewAssignmentForRole() {
 
     const data = useLoaderData<{
-        roleList: IRolePage,
+        roleList: IRoleList,
         orgUnitList: IUnitItem[]
         assignedRolesList: IAssignedRoles,
         isAssignedRoles: IRole[],
@@ -105,8 +107,13 @@ export default function NewAssignmentForRole() {
                 <HStack justify="space-between">
                     <SelectObjectType/>
                     <section className={"filters"}>
-                        <NewAssignmentRoleSearch/>
+                        <RoleSearch/>
+                        {/*<NewAssignmentRoleSearch/>*/}
                     </section>
+                </HStack>
+
+                <HStack justify="end">
+                    <ChipsFilters />
                 </HStack>
 
                 <ResponseAlert responseCode={data.responseCode}/>

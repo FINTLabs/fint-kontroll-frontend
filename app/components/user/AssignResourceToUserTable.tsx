@@ -1,5 +1,5 @@
 import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IResource} from "~/data/types";
+import type {IResource, IResourceAssignment, IResourceForList} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
@@ -8,7 +8,7 @@ import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 
 interface AssignResourceToUserTableProps {
-    isAssignedResources: IResource[]
+    isAssignedResources: IResourceForList[]
     size: string
     userId: string
     orgId: string
@@ -47,8 +47,8 @@ export const AssignResourceToUserTable = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {isAssignedResources.map((resource: IResource) => (
-                        <Table.Row key={resource.resourceRef}>
+                    {isAssignedResources.map((resource: IResourceForList) => (
+                        <Table.Row key={resource.id}>
                             <Table.DataCell scope="row">{resource.resourceName} </Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {resource.assigned ?

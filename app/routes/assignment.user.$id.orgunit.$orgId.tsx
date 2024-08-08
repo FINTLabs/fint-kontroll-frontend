@@ -1,10 +1,10 @@
 import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserTable";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError, useSearchParams} from "@remix-run/react";
 import {
-    IAssignedResources,
+    IAssignedResourcesList,
     IAssignedUsers,
-    IResource,
-    IResourcePage,
+    IResource, IResourceAssignment, IResourceForList,
+    IResourceList,
     IUnitItem,
     IUnitTree,
     IUserDetails
@@ -43,16 +43,16 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 
     ]);
-    const resourceList: IResourcePage = await responseResources.json()
+    const resourceList: IResourceList = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
-    const assignedResourceList: IAssignedResources = await responseAssignments.json()
+    const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
     const user: IUserDetails = await responseUser.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
     // const accessTypes: string[] = await responseAccessType.json()
 
-    const assignedResourcesMap: Map<number, IResource> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
-    const isAssignedResources: IResource[] = resourceList.resources.map(resource => {
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
+    const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {
         return {
             ...resource,
             "assigned": assignedResourcesMap.has(resource.id)
@@ -89,10 +89,10 @@ export const handle = {
 export default function NewAssignmentForUser() {
     const data = useLoaderData<{
 
-        resourceList: IResourcePage,
+        resourceList: IResourceList,
         orgUnitList: IUnitItem[]
         assignedUsersList: IAssignedUsers,
-        isAssignedResources: IResource[],
+        isAssignedResources: IResourceForList[],
         basePath: string,
         responseCode: string | undefined,
         size: string,
