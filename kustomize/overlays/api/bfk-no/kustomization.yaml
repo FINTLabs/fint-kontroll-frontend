@@ -7,6 +7,13 @@ patches:
       - op: replace
         path: "/spec/basePath"
         value: /bfk-no
+      - op: add
+        path: "/spec/resources"
+        value:
+          limits:
+            memory: "0.8Gi"
+          requests:
+            memory: "0.5Gi"
     target:
       kind: FLAISSso
       name: fint-kontroll-sso
