@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
@@ -23,10 +22,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     })
 }
 
-// export function useResourceByIdLoaderData() {
-//     return useRouteLoaderData<typeof loader>("resource.$id")
-// }
-
 export default function ResourceById() {
     const data = useLoaderData<{
         resource: IResource,
@@ -35,14 +30,17 @@ export default function ResourceById() {
     return (
         <VStack gap="8">
             <VStack gap="4">
-                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>{data.resource.resourceName}</Heading>
-
+                <Heading className={"heading"}
+                         level="1"
+                         size="xlarge"
+                         align={"center"}>
+                    {data.resource.resourceName}
+                </Heading>
                 <ResourceInfoBlock resource={data.resource}/>
             </VStack>
 
             <VStack gap="4">
                 <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende enheter</Heading>
-
                 <ResourceDetailTable resource={data.resource}/>
             </VStack>
         </VStack>

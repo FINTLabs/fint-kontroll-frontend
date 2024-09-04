@@ -1,4 +1,4 @@
-ul {
+/*ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -8,4 +8,22 @@ ul {
 ul > li {
     flex: 40%;
     min-width: 200px;
+}*/
+ul {
+    list-style: none;
+}
+
+.input-large {
+    max-width: 600px;
+    min-width: 200px;
+}
+
+.input-medium {
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.input-small {
+    max-width: 200px;
+    min-width: 100px;
 }

@@ -1,19 +1,3 @@
-/*export interface IAssignment {
-    user: IUser | null
-    accessRoleId: string
-    scopeId: number
-    orgUnits: IOrgUnit[]
-}
-
-export interface IOrgUnit {
-    id: number
-    name: string
-    organisationUnitId: string
-    parentRef: string
-    parentName: null | string
-    childrenRef: string[]
-}*/
-
 export interface IMeInfo {
     firstName: string
     lastName: string
@@ -231,6 +215,7 @@ export interface IUnitItem {
     parentRef: string
     childrenRef: string[]
     isChecked?: boolean // Optional to be used in Tildel Rettigheter tab. Not required in most other places, but feel free to use if necessary.
+    limit?: number
 }
 
 export interface IUnitTree {
