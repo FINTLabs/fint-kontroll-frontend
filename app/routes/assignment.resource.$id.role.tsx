@@ -1,17 +1,16 @@
 import React from 'react';
-import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import type {IAssignedRoles, IRole, IRoleItem, IRoleList, IUnitItem, IUnitTree} from "~/data/types";
+import {IResource} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchRoles} from "~/data/fetch-roles";
-import {NewAssignmentRoleSearch} from "~/components/assignment/NewAssignmentRoleSearch";
 import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
-import {IResource} from "~/data/types";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
@@ -37,7 +36,6 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
     const resource: IResource = await responseResource.json()
-
 
     const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
     const isAssignedRoles: IRoleItem[] = roleList.roles.map(role => {
@@ -80,7 +78,7 @@ const generateBreadcrumbs = (params, data) => {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => generateBreadcrumbs(params, data),
+    breadcrumb: ({params, data}) => generateBreadcrumbs(params, data),
 }
 
 export default function NewAssignmentForRole() {
@@ -113,10 +111,11 @@ export default function NewAssignmentForRole() {
                 </HStack>
 
                 <HStack justify="end">
-                    <ChipsFilters />
+                    <ChipsFilters/>
                 </HStack>
 
-                <ResponseAlert responseCode={data.responseCode}/>
+                <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
 
                 <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
                                  resourceId={params.id}

@@ -4,7 +4,7 @@ import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@rem
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -12,7 +12,7 @@ export async function action({request}: ActionFunctionArgs) {
     const response = await deleteAssignment(request, data.get("assignmentRef") as string)
     searchParams.set("responseCode", String(response.status))
 
-    return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParams(searchParams)}`)
+    return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
 export default function DeleteUserAssignment() {

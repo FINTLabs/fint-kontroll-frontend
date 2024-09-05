@@ -10,6 +10,7 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -36,6 +37,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
         orgUnitList,
         applicationCategories,
@@ -47,6 +49,7 @@ export default function ResourceAdminIndex() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resourceList: IResourceList = loaderData.resourceList
+    const responseCode: string | undefined = loaderData.responseCode
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
     // const accessTypes: string[] = loaderData.accessTypes
@@ -97,7 +100,8 @@ export default function ResourceAdminIndex() {
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>
-
+            <ResponseAlert responseCode={responseCode} successText={"Ressursen ble opprettet!"}
+                           deleteText={"Ressursen ble slettet!"}/>
             <ResourceTable resourcePage={resourceList}/>
         </VStack>
     );

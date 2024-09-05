@@ -91,8 +91,8 @@ export default function ApplicationResourceData({
                                })}/>
                 </li>
                 <li>
-                    <TextField className={"input-large"}
-                               label="OrgenhetsId til eier av ressurs"
+                    <TextField className={"input-medium"}
+                               label="OrgenhetsID til eier av ressurs"
                                description={""}
                                value={newApplicationResource.resourceOwnerOrgUnitId}
                                onChange={(event) => setNewApplicationResource({

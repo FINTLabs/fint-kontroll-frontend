@@ -13,7 +13,6 @@ import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
-import React from "react";
 import {UserSearch} from "~/components/user/UserSearch";
 
 
@@ -102,7 +101,6 @@ export default function NewAssignment() {
                     <section className={"filters"}>
                         <UserTypeFilter/>
                         <UserSearch/>
-                        {/*<NewAssignmentUserSearch/>*/}
                     </section>
                 </HStack>
 
@@ -110,7 +108,8 @@ export default function NewAssignment() {
                     <ChipsFilters/>
                 </HStack>
 
-                <ResponseAlert responseCode={responseCode}/>
+                <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
                                  resourceId={id}

@@ -2,7 +2,8 @@ import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-r
 import {
     IAssignedResourcesList,
     IAssignedUsers,
-    IResource, IResourceAssignment, IResourceForList,
+    IResourceAssignment,
+    IResourceForList,
     IResourceList,
     IRole,
     IUnitItem,
@@ -69,7 +70,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => (
+    breadcrumb: ({params, data}) => (
         <>
             <Link to={`/roles`}>Grupper</Link>
             {" > "}
@@ -100,12 +101,13 @@ export default function NewAssignmentForRole() {
             <VStack gap="4">
                 <HStack justify="end">
                     <VStack align="end" gap="4">
-                        <ResourceSearch />
-                        <ChipsFilters />
+                        <ResourceSearch/>
+                        <ChipsFilters/>
                     </VStack>
                 </HStack>
 
-                <ResponseAlert responseCode={responseCode}/>
+                <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
 
                 <AssignResourceToRoleTable
                     isAssignedResources={isAssignedResources}

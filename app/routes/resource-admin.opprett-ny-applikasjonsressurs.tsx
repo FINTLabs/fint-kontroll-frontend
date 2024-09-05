@@ -1,7 +1,7 @@
-import {Form, Link, useLoaderData, useNavigate} from "@remix-run/react";
+import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
-import {useState} from "react";
-import {Box, Button, ExpansionCard, Heading, HStack, VStack} from "@navikt/ds-react";
+import React, {useState} from "react";
+import {Box, Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {INewApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
@@ -10,7 +10,6 @@ import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
-
 
 export const handle = {
     // @ts-ignore
@@ -43,6 +42,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const allOrgUnits = await orgUnitsResponse.json()
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
     return {allOrgUnits: orgUnitsWithIsChecked}
+
 }
 
 export async function action({request}: ActionFunctionArgs) {
@@ -97,7 +97,7 @@ export default function OpprettNyApplikasjonsRessurs() {
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
     const navigate = useNavigate()
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
-
+    const response = useNavigation()
     const mapOrgUnitListToValidForOrgUnits = (orgUnit: IUnitItem): IValidForOrgUnits => {
         return {
             resourceId: newResource.resourceId,
@@ -107,8 +107,25 @@ export default function OpprettNyApplikasjonsRessurs() {
         };
     };
 
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
+
+    function SaveButton() {
+        if (response.state === "submitting") {
+            return <Button loading>Lagre</Button>;
+        }
+        return (
+            <Button type="submit" variant="primary">
+                Lagre ressurs
+            </Button>
+        );
+    }
+
     return (
-        <VStack className={"content"} gap="8">
+        <VStack className={"schema"} gap="8">
             <Heading size={"large"} level={"1"}>Fyll ut ressursinformasjon</Heading>
             <Box borderWidth={"1"} borderRadius={"large"} borderColor={"border-subtle"}>
                 <ApplicationResourceData newApplicationResource={newResource}
@@ -127,7 +144,11 @@ export default function OpprettNyApplikasjonsRessurs() {
             </ExpansionCard>
 
             <HStack gap="4" justify={"end"}>
-                <Button variant="secondary">Avbryt</Button>
+                <Button type="button"
+                        variant="secondary"
+                        onClick={() => navigate(`/resource-admin`)}>
+                    Avbryt
+                </Button>
                 <Form method="POST">
                     <input type="hidden" name="resourceId" id="resourceId" value={newResource.resourceId}/>
                     <input type="hidden" name="resourceName" id="resourceName" value={newResource.resourceName}/>
@@ -155,7 +176,7 @@ export default function OpprettNyApplikasjonsRessurs() {
                            value={newResource.licenseEnforcement}/>
                     <input type="hidden" name="unitCost" id="unitCost" value={newResource.unitCost}/>
                     <input type="hidden" name="status" id="status" value={newResource.status}/>
-                    <Button>Lagre ressurs</Button>
+                    {SaveButton()}
                 </Form>
             </HStack>
         </VStack>

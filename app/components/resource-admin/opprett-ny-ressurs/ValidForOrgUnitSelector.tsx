@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Box, Checkbox, TextField } from "@navikt/ds-react";
+import {Accordion, Box, Checkbox, HStack, TextField} from "@navikt/ds-react";
 import type { IUnitItem } from "~/data/types";
-import {IValidForOrgUnits} from "~/components/resource-admin/types";
-
 
 interface ValidForOrgUnitSelectorProps {
     orgUnitList: IUnitItem[];
     selectedOrgUnits: IUnitItem[];
     nodes?: IUnitItem;
-  //  validForOrgUnits: (setValidForOrgUnits: IValidForOrgUnits[]) => void;
-   // validForOrgUnits: IValidForOrgUnits[];
     setSelectedOrgUnits: (newSelected: IUnitItem[]) => void;
 }
 
@@ -59,23 +55,12 @@ const ValidForOrgUnitSelector = ({
         setNewOrgUnitList(updatedOrgUnits);
     };
 
-   /* const mapOrgUnitListToValidForOrgUnits = (orgUnit: IUnitItem): IValidForOrgUnits => {
-        return {
-            resourceId: "",
-            orgUnitName: orgUnit.name,
-            orgUnitId: orgUnit.organisationUnitId,
-            resourceLimit: orgUnit.limit,
-        };
-    };*/
-  //  const validForOrgUnits: IValidForOrgUnits[] = orgUnitList.map(mapOrgUnitListToValidForOrgUnits);
-
-
     const renderTree = (orgUnit: IUnitItem) => {
         const locksChildNodes = orgUnit.isChecked;
         return (
             <Accordion.Item key={orgUnit.id + " " + orgUnit.organisationUnitId}>
                 <Accordion.Header>
-                    <Box>
+                    <HStack gap={"24"} align={"center"} justify={"center"}>
                         <Box>
                             <Checkbox
                                 className={"org-unit-checkbox"}
@@ -107,7 +92,7 @@ const ValidForOrgUnitSelector = ({
                             )}
 
                         </Box>
-                    </Box>
+                    </HStack>
                 </Accordion.Header>
                 {!locksChildNodes && (
                     <Accordion.Content>

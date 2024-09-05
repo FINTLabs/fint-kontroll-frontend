@@ -1,21 +1,20 @@
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
-import React from "react";
 
-export const ResponseAlert = (prop: { responseCode: string | undefined }) => {
+export const ResponseAlert = (prop: { responseCode: string | undefined, successText?: string, deleteText?:string }) => {
 
     if (prop.responseCode === undefined) return null
 
     if (prop.responseCode === "201") {
         return (
             <AlertWithCloseButton variant="success">
-                Tildelingen var vellykket!
+                {prop.successText}
             </AlertWithCloseButton>
         )
     }
     else if (prop.responseCode === "410") {
         return (
             <AlertWithCloseButton variant="success">
-                Tildelingen er slettet!
+                {prop.deleteText}
             </AlertWithCloseButton>
         )
     }
