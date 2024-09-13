@@ -4,15 +4,14 @@ import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@rem
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
     const response = await deleteAssignment(request, data.get("assignmentRef") as string)
     searchParams.set("responseCode", String(response.status))
-
-    return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParams(searchParams)}`)
+    return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
 export default function DeleteUserAssignment() {
@@ -45,7 +44,7 @@ export default function DeleteUserAssignment() {
                     </BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form method={"POST"}>
+                    <Form method={"DELETE"}>
                         <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         {response.state === "submitting" ?
