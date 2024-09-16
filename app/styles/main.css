@@ -16,6 +16,17 @@ body {
     margin-right: auto;
 }
 
+.schema {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media only screen and (max-width: 1200px) {
+    [class*="schema"] {
+        width: 100%;
+    }
+}
+
 .filters {
     display: flex;
     justify-content: end;

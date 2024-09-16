@@ -1,10 +1,15 @@
 import {http, HttpResponse} from 'msw'
 
+export const createNewResourceHandlers = [
+    http.post('http://localhost:8063/beta/fintlabs-no/api/resources/v1', () => {
+        return HttpResponse.json({}, {status: 201})
+    })]
+
 export const resourceHandlers = [
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', ({request}) => {
         const search = new URL(request.url).searchParams.get('search') ?? "";
 
-        if(search === "solid") {
+        if (search === "solid") {
             return HttpResponse.json(
                 {
                     "totalPages": 1,

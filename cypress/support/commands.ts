@@ -35,7 +35,7 @@
 //     }
 //   }
 // }
-import { Method } from "cypress/types/net-stubbing"
+import {Method} from "cypress/types/net-stubbing"
 
 declare global {
     namespace Cypress {
@@ -48,11 +48,11 @@ declare global {
             goToRessurser: typeof goToRessurser
             goToSpecificResource: typeof goToSpecificResource
             goToBrukereNyTildeling: typeof goToBrukereNyTildeling
+            goToResourceAdmin: typeof goToResourceAdmin
             goToCreateResource: typeof goToCreateResource
         }
     }
 }
-
 
 
 export function interceptAndReturnFile(method: Method, url: string, fixturePath: string) {
@@ -60,42 +60,56 @@ export function interceptAndReturnFile(method: Method, url: string, fixturePath:
         fixture: fixturePath
     }).as(fixturePath)
 }
+
 Cypress.Commands.add("interceptAndReturnFile", interceptAndReturnFile)
 
 export function goToHome() {
     return cy.visit("http://localhost:3000/beta/fintlabs-no")
 }
+
 Cypress.Commands.add("goToHome", goToHome)
 
 export function goToUser() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/users/442/orgunit/194');
 }
+
 Cypress.Commands.add('goToInfo', goToUser)
 
 export function goToGrupper() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/roles');
 }
+
 Cypress.Commands.add('goToGrupper', goToGrupper)
 
 export function goToRessurser() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/resources')
 }
+
 Cypress.Commands.add('goToRessurser', goToRessurser)
 
 export function goToSpecificResource() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/resources/5/user-assignments')
 }
+
 Cypress.Commands.add('goToSpecificResource', goToSpecificResource)
+
 export function goToBrukereNyTildeling() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/assignment/user/1232/orgunit/198')
 }
+
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling)
-export function goToCreateResource() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/opprett-ny-ressurs')
+
+export function goToResourceAdmin() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin');
 }
 
+Cypress.Commands.add('goToResourceAdmin', goToResourceAdmin)
 
+export function goToCreateResource() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/opprett-ny-applikasjonsressurs?responseCode=201')
+}
 
+Cypress.Commands.add('goToCreateResource', goToCreateResource)
 
 export const setupFetchMocks = () => {
     beforeEach(() => {
@@ -111,6 +125,7 @@ export const setupFetchMocks = () => {
             "singleAccessRole.json"
         )
         cy.interceptAndReturnFile("GET", `${baseUrl}/accessmanagement/v1/feature`, "features.json")
+        cy.interceptAndReturnFile("POST", `http://localhost:8063/beta/fintlabs-no/api/resources/v1`, "createResource.json")
 
         console.log(baseUrl)
     })

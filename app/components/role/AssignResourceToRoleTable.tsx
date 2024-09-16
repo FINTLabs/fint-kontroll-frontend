@@ -1,5 +1,5 @@
 import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
-import type {IResource, IResourceForList} from "~/data/types";
+import type {IResourceForList} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";

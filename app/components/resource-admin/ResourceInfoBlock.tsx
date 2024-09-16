@@ -40,15 +40,51 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
                 </li>
                 <li>
                     <Heading size="small" level="3">Plattform:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.platform}</BodyShort>
+                    <BodyShort textColor="subtle">{
+                        props.resource.platform.map((item, index) => (
+                            <span key={index}>
+                                    {item}
+                                {index < props.resource.platform.length - 1 ? ', ' : ''}
+                                </span>
+                        ))}
+                    </BodyShort>
                 </li>
                 <li>
                     <Heading size="small" level="3">Ressurseier:</Heading>
                     <BodyShort textColor="subtle">{props.resource.resourceOwnerOrgUnitName}</BodyShort>
                 </li>
                 <li>
+                    <Heading size="small" level="3">Totalt antall av ressursen:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.resourceLimit}</BodyShort>
+                </li>
+                <li>
+                    <Heading size="small" level="3">Håndhevingsregel:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.licenseEnforcement}</BodyShort>
+                </li>
+                <li>
+                    <Heading size="small" level="3">Kostnad pr. ressurs:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.unitCost}</BodyShort>
+
+                </li>
+                <li>
                     <Heading size="small" level="3">Gyldig for:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.validForRoles}</BodyShort>
+                    <BodyShort textColor="subtle">{props.resource.validForRoles.map((item, index) => (
+                        <span key={index}>
+                                    {item}
+                            {index < props.resource.validForRoles.length - 1 ? ', ' : ''}
+                            </span>
+                    ))}
+                    </BodyShort>
+                </li>
+                <li>
+                    <Heading size="small" level="3">Applikasjonskategori:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.applicationCategory.map((item, index) => (
+                        <span key={index}>
+                                    {item}
+                            {index < props.resource.applicationCategory.length - 1 ? ', ' : ''}
+                            </span>
+                    ))}
+                    </BodyShort>
                 </li>
             </ul>
         </GuidePanel>

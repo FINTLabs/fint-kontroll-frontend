@@ -1,14 +1,6 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {
-    Link,
-    Links,
-    Meta,
-    Scripts,
-    useLoaderData,
-    useRouteError,
-    useRouteLoaderData
-} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
 import {IAssignedUsers, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
@@ -16,7 +8,6 @@ import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
-import {AssignedUsersSearch} from "~/components/assignment/AssignedUsersSearch";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
@@ -55,7 +46,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data}) => {
+    breadcrumb: ({params}) => {
         return <Link to={`/resources/${params.id}/user-assignments`}>Ressursinfo</Link>
     }
 }
@@ -76,21 +67,21 @@ export default function AssignedUsers() {
             <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
 
             <section className={"toolbar"}>
-                <SelectObjectType />
+                <SelectObjectType/>
                 <section className={"filters"}>
-                    <UserTypeFilter />
-                    {/*<AssignedUsersSearch />*/}
+                    <UserTypeFilter/>
                     <UserSearch/>
                 </section>
             </section>
 
             <HStack justify="end">
-                <ChipsFilters />
+                <ChipsFilters/>
             </HStack>
 
-            <ResponseAlert responseCode={responseCode}/>
+            <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                           deleteText={"Tildelingen ble slettet!"}/>
 
-            <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath} />
+            <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath}/>
         </VStack>
     );
 }
@@ -101,20 +92,20 @@ export function ErrorBoundary() {
     // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts/>
-            </body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }
