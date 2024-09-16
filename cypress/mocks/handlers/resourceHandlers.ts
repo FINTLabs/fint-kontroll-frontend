@@ -5,6 +5,11 @@ export const createNewResourceHandlers = [
         return HttpResponse.json({}, {status: 201})
     })]
 
+export const deleteResourceHandlers = [
+    http.delete('http://localhost:8063/beta/fintlabs-no/api/resources/v1/:id', () => {
+        return HttpResponse.json({}, {status: 204})
+    })]
+
 export const resourceHandlers = [
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', ({request}) => {
         const search = new URL(request.url).searchParams.get('search') ?? "";

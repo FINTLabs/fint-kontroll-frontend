@@ -1,7 +1,7 @@
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
+import {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceSearch} from "~/components/resource-admin/ResourceSearch";
@@ -11,6 +11,7 @@ import {ResourceSelectApplicationCategory} from "~/components/resource-admin/Res
 import {PlusIcon} from "@navikt/aksel-icons";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {BASE_PATH} from "../../environment";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -41,6 +42,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         resourceList,
         orgUnitList,
         applicationCategories,
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         // accessTypes
     })
 }
@@ -49,11 +51,12 @@ export default function ResourceAdminIndex() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resourceList: IResourceList = loaderData.resourceList
+    const size = loaderData.size
+    const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
-    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
+    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     // const accessTypes: string[] = loaderData.accessTypes
-
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     /*const setAccessType = (event: string) => {
@@ -73,7 +76,7 @@ export default function ResourceAdminIndex() {
                 <HStack justify={"start"} align={"end"}>
                     <Box paddingBlock="4">
                         <Link to={"opprett-ny-applikasjonsressurs"} id="create-resource">
-                            <PlusIcon/> Legg til ny ressurs
+                            <PlusIcon/> Opprett ny ressurs
                         </Link>
                     </Box>
                 </HStack>
@@ -101,8 +104,9 @@ export default function ResourceAdminIndex() {
                 <ChipsFilters/>
             </HStack>
             <ResponseAlert responseCode={responseCode} successText={"Ressursen ble opprettet!"}
-                           deleteText={"Ressursen ble slettet!"}/>
-            <ResourceTable resourcePage={resourceList}/>
+                           deleteText={"Ressursen ble slettet!"}
+            />
+            <ResourceTable resourcePage={resourceList} size={size} basePath={basePath}/>
         </VStack>
     );
 }
