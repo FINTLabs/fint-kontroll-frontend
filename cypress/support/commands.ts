@@ -50,6 +50,8 @@ declare global {
             goToBrukereNyTildeling: typeof goToBrukereNyTildeling
             goToResourceAdmin: typeof goToResourceAdmin
             goToCreateResource: typeof goToCreateResource
+            goToDeleteResource: typeof goToDeleteResource
+            goToResourceAdminWithResponse: typeof goToResourceAdminWithResponse
         }
     }
 }
@@ -105,11 +107,23 @@ export function goToResourceAdmin() {
 
 Cypress.Commands.add('goToResourceAdmin', goToResourceAdmin)
 
+export function goToResourceAdminWithResponse() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin?responseCode=204');
+}
+
+Cypress.Commands.add('goToResourceAdminWithResponse', goToResourceAdminWithResponse)
+
 export function goToCreateResource() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/opprett-ny-applikasjonsressurs?responseCode=201')
 }
 
 Cypress.Commands.add('goToCreateResource', goToCreateResource)
+
+export function goToDeleteResource() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/resource/:id/delete')
+}
+
+Cypress.Commands.add('goToDeleteResource', goToDeleteResource)
 
 export const setupFetchMocks = () => {
     beforeEach(() => {

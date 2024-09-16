@@ -1,6 +1,7 @@
 import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/resource-admin/types";
+import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
 export const fetchResources = async (request: Request, size: string, page: string, search: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
 
@@ -142,6 +143,18 @@ export const createResource = async (token: string | null,
         })
     });
     logger.debug("(((Response from CREATE Resource)))", url, response.status);
+    return response;
+}
+
+export const deleteResource = async (request: Request, id: string) => {
+
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`
+    const response = await fetch(url, {
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+        method: 'DELETE'
+    });
+    logger.debug("Response from deleteResource", url, response.status);
+
     return response;
 }
 

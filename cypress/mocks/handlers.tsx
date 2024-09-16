@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import {createNewResourceHandlers, resourceHandlers} from "./handlers/resourceHandlers";
+import {createNewResourceHandlers, deleteResourceHandlers, resourceHandlers} from "./handlers/resourceHandlers";
 import {roleHandlers} from "./handlers/roleHandlers";
 import {usersHandlers} from "./handlers/usersHandlers";
 import {kontrollAdminHandlers} from "./handlers/kontrollAdminHandlers";
@@ -73,5 +73,7 @@ export const handlers = [
     ...assignmentHandlers,
 
     ...createNewResourceHandlers,
+
+    ... deleteResourceHandlers,
 
 ]

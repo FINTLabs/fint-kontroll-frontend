@@ -17,6 +17,12 @@ export const ResponseAlert = (prop: { responseCode: string | undefined, successT
                 {prop.deleteText}
             </AlertWithCloseButton>
         )
+    }else if (prop.responseCode === "204") {
+        return (
+            <AlertWithCloseButton variant="success">
+                {prop.deleteText}
+            </AlertWithCloseButton>
+        )
     }
     else return (
         <AlertWithCloseButton variant="error">
