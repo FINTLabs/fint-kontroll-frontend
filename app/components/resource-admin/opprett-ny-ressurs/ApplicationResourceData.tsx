@@ -41,13 +41,17 @@ export default function ApplicationResourceData({
                                })}/>
                 </li>
                 <li>
-                    <TextField className={"input-large"}
-                               label="Ressurstype"
-                               value={newApplicationResource.resourceType}
-                               onChange={(event) => setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   resourceType: event.target.value
-                               })}/>
+                    <Select
+                        className={"input-medium"}
+                        label={"Velg ressurstype"}
+                        onChange={(event) => setNewApplicationResource({
+                            ...newApplicationResource,
+                            resourceType: event.target.value
+                        })}
+                    >
+                        <option value={""}></option>
+                        <option value={"ApplicationResource"}>Applikasjonsressurs</option>
+                    </Select>
                 </li>
                 <li>
                     <CheckboxGroup legend="Velg plattform" onChange={(value: string[]) => {
@@ -88,25 +92,6 @@ export default function ApplicationResourceData({
                                onChange={(event) => setNewApplicationResource({
                                    ...newApplicationResource,
                                    resourceLimit: Number(event.target.value)
-                               })}/>
-                </li>
-                <li>
-                    <TextField className={"input-medium"}
-                               label="OrgenhetsID til eier av ressurs"
-                               description={""}
-                               value={newApplicationResource.resourceOwnerOrgUnitId}
-                               onChange={(event) => setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   resourceOwnerOrgUnitId: event.target.value
-                               })}/>
-                </li>
-                <li>
-                    <TextField className={"input-large"}
-                               label="Orgenhetsnavn til eier av ressurs"
-                               value={newApplicationResource.resourceOwnerOrgUnitName}
-                               onChange={(event) => setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   resourceOwnerOrgUnitName: event.target.value
                                })}/>
                 </li>
                 <li>

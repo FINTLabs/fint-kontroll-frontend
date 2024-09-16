@@ -1,15 +1,16 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useState} from "react";
-import {Box, Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {INewApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
-import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
+import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
+import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 
 export const handle = {
     // @ts-ignore
@@ -65,13 +66,14 @@ export async function action({request}: ActionFunctionArgs) {
 
     const validForRoles = String(data.get("validForRoles")).split(",") ?? []
     const applicationCategory = String(data.get("applicationCategory")).split(",") ?? []
-    const hasCost = data.get("hasCost") === "false"
+    const hasCost = data.get("hasCost") === "true"
     const licenseEnforcement = data.get("licenseEnforcement") as string
     const unitCost = data.get("unitCost") as string
     const status = data.get("status") as string
-    const response = await createResource(request.headers.get("Authorization"), resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitName, resourceOwnerOrgUnitId, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
+    const response = await createResource(request.headers.get("Authorization"), resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitId, resourceOwnerOrgUnitName, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
 
     return redirect(`/resource-admin${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+
 }
 
 export default function OpprettNyApplikasjonsRessurs() {
@@ -97,7 +99,9 @@ export default function OpprettNyApplikasjonsRessurs() {
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
     const navigate = useNavigate()
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
+    const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
     const response = useNavigation()
+
     const mapOrgUnitListToValidForOrgUnits = (orgUnit: IUnitItem): IValidForOrgUnits => {
         return {
             resourceId: newResource.resourceId,
@@ -127,10 +131,26 @@ export default function OpprettNyApplikasjonsRessurs() {
     return (
         <VStack className={"schema"} gap="8">
             <Heading size={"large"} level={"1"}>Fyll ut ressursinformasjon</Heading>
-            <Box borderWidth={"1"} borderRadius={"large"} borderColor={"border-subtle"}>
-                <ApplicationResourceData newApplicationResource={newResource}
-                                         setNewApplicationResource={setNewResource}/>
-            </Box>
+            <ExpansionCard size="small" aria-label="Small-variant">
+                <ExpansionCard.Header>
+                    <ExpansionCard.Title>Velg orgenhet som er eier av ressursen</ExpansionCard.Title>
+                </ExpansionCard.Header>
+                <ExpansionCard.Content>
+                    <ResourceOwnerSelector orgUnitList={allOrgUnits}
+                                           selectedOrgUnit={selectedOrgUnit}
+                                           setSelectedOrgUnit={(selected) => setSelectedOrgUnit(selected)}
+                    />
+                </ExpansionCard.Content>
+            </ExpansionCard>
+            <ExpansionCard size="small" aria-label="Small-variant">
+                <ExpansionCard.Header>
+                    <ExpansionCard.Title>Fyll ut informasjon om ressursen</ExpansionCard.Title>
+                </ExpansionCard.Header>
+                <ExpansionCard.Content>
+                    <ApplicationResourceData newApplicationResource={newResource}
+                                             setNewApplicationResource={setNewResource}/>
+                </ExpansionCard.Content>
+            </ExpansionCard>
             <ExpansionCard size="small" aria-label="Small-variant">
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Legg til orgenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
@@ -158,9 +178,9 @@ export default function OpprettNyApplikasjonsRessurs() {
                     <input type="hidden" name="resourceLimit" id="resourceLimit"
                            value={newResource.resourceLimit.toString()}/>
                     <input type="hidden" name="resourceOwnerOrgUnitId" id="resourceOwnerOrgUnitId"
-                           value={newResource.resourceOwnerOrgUnitId}/>
+                           value={selectedOrgUnit?.organisationUnitId}/>
                     <input type="hidden" name="resourceOwnerOrgUnitName" id="resourceOwnerOrgUnitName"
-                           value={newResource.resourceOwnerOrgUnitName}/>
+                           value={selectedOrgUnit?.name}/>
                     <input
                         type="hidden"
                         name="validForOrgUnits"

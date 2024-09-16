@@ -167,7 +167,7 @@ export interface IResourceForList {
 export interface IResourceItem {
     id: number
     resourceId: string
-    orgunitId: string
+    orgUnitId: string
     orgUnitName: string
     resourceLimit: number
 }
@@ -190,7 +190,10 @@ export interface IResource {
     validForOrgUnits: IResourceItem[]
     validForRoles: string[]
     assigned?: boolean
+    licenseEnforcement: string
     hasCost: boolean
+    unitCost: number
+    status: string
 }
 
 export interface IResourceAssignment {

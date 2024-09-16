@@ -34,7 +34,7 @@ const ValidForOrgUnitSelector = ({
         } else {
             newSelected = [...selectedOrgUnits, { ...changedOrgUnit }];
         }
-        console.log(`Valgt enhet ${changedOrgUnit.organisationUnitId}:`, changedOrgUnit);
+        //console.log(`Valgt enhet ${changedOrgUnit.organisationUnitId}:`, changedOrgUnit);
         setSelectedOrgUnits(newSelected);
         changedOrgUnitList = newOrgUnitList.map((unitFromList) =>
             unitFromList.organisationUnitId === orgUnit.organisationUnitId
@@ -46,7 +46,7 @@ const ValidForOrgUnitSelector = ({
 
     const handleAntallChange = (orgUnitId: string, value: string) => {
         const antall = Math.max(0, Math.min(parseInt(value), 1000000));
-        console.log(`Endret antall for enhet ${orgUnitId}:`, antall);
+        //console.log(`Endret antall for enhet ${orgUnitId}:`, antall);
         const updatedOrgUnits = newOrgUnitList.map((unit) =>
             unit.organisationUnitId === orgUnitId
                 ? { ...unit, limit: isNaN(antall) ? undefined : antall }
