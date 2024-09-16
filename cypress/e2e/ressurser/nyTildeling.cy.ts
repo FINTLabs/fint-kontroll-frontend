@@ -29,4 +29,34 @@ describe('See that assignment.resource.$id.user renders with users', () => {
             .should('exist')
 
     })
+
+    it("Assign resource to user", () => {
+        cy.get("table tr td").contains("Er tildelt").should("exist");
+        cy.get("table tr")
+            .contains("Lasse Luft")
+            .parent("tr")
+            .find("a")
+            .contains("Tildel")
+            .click();
+        cy.wait(1000);
+        cy.get("h1").last().should("have.text", "Fullfør tildelingen");
+        cy.get("button[type=submit]").contains("Lagre").should("exist").click();
+        cy.get(".navds-alert--success").should("exist")
+    });
+
+    it("Remove resource from user", () => {
+        cy.goToSpecificResource();
+        cy.wait(1000);
+        cy.get("table tr")
+            .contains("Karen Berg")
+            .should("exist")
+            .parent("tr")
+            .find("a")
+            .contains("Slett")
+            .click();
+        cy.wait(1000);
+        cy.get("button[type=submit]").contains("Slett").should("exist").click();
+        cy.wait(1000);
+        cy.get(".navds-alert--success").should("exist")
+    });
 })

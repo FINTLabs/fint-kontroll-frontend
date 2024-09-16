@@ -11,7 +11,6 @@ export async function action({request}: ActionFunctionArgs) {
     const {searchParams} = new URL(request.url);
     const response = await deleteAssignment(request, data.get("assignmentRef") as string)
     searchParams.set("responseCode", String(response.status))
-
     return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
@@ -45,7 +44,7 @@ export default function DeleteUserAssignment() {
                     </BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form method={"POST"}>
+                    <Form method={"DELETE"}>
                         <input value={params.assignmentRef} type="hidden" name="assignmentRef"/>
                         <input value={params.id} type="hidden" name="resourceRef"/>
                         {response.state === "submitting" ?

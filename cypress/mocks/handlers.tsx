@@ -4,6 +4,7 @@ import {roleHandlers} from "./handlers/roleHandlers";
 import {usersHandlers} from "./handlers/usersHandlers";
 import {kontrollAdminHandlers} from "./handlers/kontrollAdminHandlers";
 import {resourceModulAdminHandlers} from "./handlers/resourceModulAdminHandlers";
+import {assignmentHandlers} from "./handlers/assignmentHandler";
 
 export const handlers = [
     // Common handlers
@@ -68,6 +69,8 @@ export const handlers = [
     ...roleHandlers,
 
     ...resourceHandlers,
+
+    ...assignmentHandlers,
 
     ...createNewResourceHandlers,
 

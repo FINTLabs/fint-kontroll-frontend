@@ -10,6 +10,10 @@ logger.level = "debug";
 
 logger.info(`Running in ${process.env.NODE_ENV === "production" ? "production" : "dev"} mode`);
 
+if (process.env.CYPRESS_TESTS === "true") {
+    logger.info("Running in cypress tests mode");
+}
+
 const viteDevServer =
     process.env.NODE_ENV === "production"
         ? null
