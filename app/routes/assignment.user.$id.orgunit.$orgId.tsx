@@ -3,7 +3,8 @@ import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError, use
 import {
     IAssignedResourcesList,
     IAssignedUsers,
-    IResource, IResourceAssignment, IResourceForList,
+    IResourceAssignment,
+    IResourceForList,
     IResourceList,
     IUnitItem,
     IUnitTree,
@@ -100,7 +101,7 @@ export default function NewAssignmentForUser() {
         applicationCategories: string[]
         // accessTypes: string[]
     }>();
-    const { id, orgId } = useParams<string>()
+    const {id, orgId} = useParams<string>()
 
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
@@ -165,7 +166,8 @@ export default function NewAssignmentForUser() {
                     <ChipsFilters/>
                 </HStack>
 
-                <ResponseAlert responseCode={data.responseCode}/>
+                <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
 
                 {id && orgId ?
                     <AssignResourceToUserTable

@@ -1,6 +1,5 @@
-import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Alert, Box, Heading, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
@@ -8,6 +7,8 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
+import {StatusTag} from "~/components/resource-admin/StatusTag";
+import * as React from "react";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -23,10 +24,6 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     })
 }
 
-// export function useResourceByIdLoaderData() {
-//     return useRouteLoaderData<typeof loader>("resource.$id")
-// }
-
 export default function ResourceById() {
     const data = useLoaderData<{
         resource: IResource,
@@ -35,14 +32,20 @@ export default function ResourceById() {
     return (
         <VStack gap="8">
             <VStack gap="4">
-                <Heading className={"heading"} level="1" size="xlarge" align={"center"}>{data.resource.resourceName}</Heading>
-
+                <HStack gap="8" align={"center"} justify={"center"}>
+                    <Heading className={"heading"}
+                             level="1"
+                             size="xlarge"
+                    >
+                        {data.resource.resourceName}
+                    </Heading>
+                    <StatusTag status={data.resource.status}/>
+                </HStack>
                 <ResourceInfoBlock resource={data.resource}/>
             </VStack>
 
             <VStack gap="4">
                 <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende enheter</Heading>
-
                 <ResourceDetailTable resource={data.resource}/>
             </VStack>
         </VStack>

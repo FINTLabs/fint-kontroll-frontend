@@ -9,8 +9,8 @@ import {ResourceTable} from "~/components/resource-admin/ResourceTable";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
-import React from "react";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -27,20 +27,21 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request),
         fetchApplicationCategory(request),
-       // fetchAccessType(request)
+        // fetchAccessType(request)
 
     ]);
     const resourceList: IResourceList = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
-   // const accessTypes: string[] = await responseAccessType.json()
+    // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
         orgUnitList,
         applicationCategories,
-       // accessTypes
+        // accessTypes
     })
 }
 
@@ -48,11 +49,12 @@ export default function ResourceAdminIndex() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resourceList: IResourceList = loaderData.resourceList
+    const responseCode: string | undefined = loaderData.responseCode
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
-   // const accessTypes: string[] = loaderData.accessTypes
+    // const accessTypes: string[] = loaderData.accessTypes
 
-   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
+    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     /*const setAccessType = (event: string) => {
         setAccessTypeSearchParams(searchParams => {
@@ -67,18 +69,18 @@ export default function ResourceAdminIndex() {
     return (
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
+            <HStack justify={"space-between"}>
+                <HStack justify={"start"} align={"end"}>
+                    <Box paddingBlock="4">
+                        <Link to={"opprett-ny-applikasjonsressurs"} id="create-resource">
+                            <PlusIcon/> Legg til ny ressurs
+                        </Link>
+                    </Box>
+                </HStack>
+                <HStack justify="end" align="end">
 
-            {/*<HStack justify={"end"}>*/}
-            {/*    <Box paddingBlock="4">*/}
-            {/*        <Link to={"opprett-ny-ressurs"} id="create-resource">*/}
-            {/*            <PlusIcon/> Opprett ny ressurs*/}
-            {/*        </Link>*/}
-            {/*    </Box>*/}
-            {/*</HStack>*/}
-
-            <HStack justify="end" align="end">
-                <ResourceSelectApplicationCategory applicationCategories={applicationCategories} />
-                {/*<Select
+                    <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
+                    {/*<Select
                     className={"select-applicationcategory"}
                     label={"Filter for lisensmodell"}
                     onChange={(e) => setAccessType(e.target.value)}
@@ -92,13 +94,14 @@ export default function ResourceAdminIndex() {
                     ))}
                 </Select>*/}
 
-                <ResourceSearch/>
+                    <ResourceSearch/>
+                </HStack>
             </HStack>
-
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>
-
+            <ResponseAlert responseCode={responseCode} successText={"Ressursen ble opprettet!"}
+                           deleteText={"Ressursen ble slettet!"}/>
             <ResourceTable resourcePage={resourceList}/>
         </VStack>
     );
@@ -106,7 +109,6 @@ export default function ResourceAdminIndex() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
         <html lang={"no"}>
         <head>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert, Box, Heading, Tabs, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import  {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
 import {AssignmentsForRoleTable} from "~/components/role/AssignmentsForRoleTable";
@@ -32,7 +32,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
+    breadcrumb: ({params, data}) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
 }
 
 export default function AssignmentsForRole() {
@@ -48,34 +48,37 @@ export default function AssignmentsForRole() {
                 <VStack gap="4">
                     <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
                     <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
-                        <ResponseAlert responseCode={responseCode}/>
 
-                        <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath} />
+                        <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                                       deleteText={"Tildelingen ble slettet!"}/>
+
+                        <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} basePath={basePath}/>
                     </Tabs.Panel>
                 </VStack>
             </Tabs>
         </section>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts/>
-            </body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }

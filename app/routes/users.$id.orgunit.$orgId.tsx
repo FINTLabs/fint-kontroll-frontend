@@ -77,7 +77,8 @@ export default function Users() {
                         Brukeren er tildelt følgende ressurser:
                     </Heading>
 
-                    <ResponseAlert responseCode={responseCode}/>
+                    <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                                   deleteText={"Tildelingen ble slettet!"}/>
 
                     <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} basePath={basePath}/>
                 </VStack>

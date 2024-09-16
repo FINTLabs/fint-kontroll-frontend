@@ -1,4 +1,6 @@
 import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
+import logger from "~/logging/logger";
+import {IValidForOrgUnits} from "~/components/resource-admin/types";
 
 export const fetchResources = async (request: Request, size: string, page: string, search: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
 
@@ -79,6 +81,70 @@ export const fetchAccessType = async (request: Request) => {
     throw new Error("Det virker ikke som om du er pålogget")
 
 }
+
+export const createResource = async (token: string | null,
+                                     resourceId: string,
+                                     resourceName: string,
+                                     resourceType: string,
+                                     platform: string[],
+                                     accessType: string,
+                                     resourceLimit: number,
+                                     resourceOwnerOrgUnitId: string,
+                                     resourceOwnerOrgUnitName: string,
+                                     validForOrgUnits: IValidForOrgUnits[],
+                                     validForRoles: string[],
+                                     applicationCategory: string[],
+                                     hasCost: boolean,
+                                     licenseEnforcement: string,
+                                     unitCost: string,
+                                     status: string) => {
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
+    logger.debug("POST CREATE RESOURCE to ", url, " with body ", JSON.stringify({
+        resourceId: resourceId,
+        resourceName: resourceName,
+        resourceType: resourceType,
+        platform: platform,
+        accessType: accessType,
+        resourceLimit: resourceLimit,
+        resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+        resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+        validForOrgUnits: validForOrgUnits,
+        validForRoles: validForRoles,
+        applicationCategory: applicationCategory,
+        hasCost: hasCost,
+        licenseEnforcement: licenseEnforcement,
+        unitCost: unitCost,
+        status: status
+    }));
+    const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceId: resourceId,
+            resourceName: resourceName,
+            resourceType: resourceType,
+            platform: platform,
+            accessType: accessType,
+            resourceLimit: resourceLimit,
+            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+            validForOrgUnits: validForOrg,
+            validForRoles: validForRoles,
+            applicationCategory: applicationCategory,
+            hasCost: hasCost,
+            licenseEnforcement: licenseEnforcement,
+            unitCost: unitCost,
+            status: status
+        })
+    });
+    logger.debug("(((Response from CREATE Resource)))", url, response.status);
+    return response;
+}
+
 
 export const fetchOrgUnits = async (request: Request) => {
     const response = await fetch(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, {

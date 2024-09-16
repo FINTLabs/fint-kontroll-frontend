@@ -6,7 +6,6 @@ import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {AssignedRolesTable} from "~/components/assignment/AssignedRolesTable";
-import {AssignedRolesSearch} from "~/components/assignment/AssignedRolesSearch";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
@@ -47,7 +46,7 @@ export function useResourceByIdLoaderData() {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data}) => {
+    breadcrumb: ({params, data}) => {
         return <Link to={`/resources/${params.id}/role-assignments`}>Ressursinfo</Link>
     }
 }
@@ -71,10 +70,11 @@ export default function AssignedRoles() {
                 </section>
             </section>
 
-            <ResponseAlert responseCode={data.responseCode}/>
+            <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
+                           deleteText={"Tildelingen ble slettet!"}/>
 
             <HStack justify="end">
-                <ChipsFilters />
+                <ChipsFilters/>
             </HStack>
 
             <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
