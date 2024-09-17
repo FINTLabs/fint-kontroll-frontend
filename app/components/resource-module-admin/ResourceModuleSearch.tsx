@@ -16,7 +16,7 @@ const ResourceModuleSearch = () => {
 
     return (
         <form onSubmit={(event) => handleSearch(event)}>
-            <Search label="Søk etter bruker" hideLabel={false} variant="secondary" onChange={event => setSearchValue(event)} />
+            <Search label="Søk etter brukere med rolle" hideLabel={false} variant="secondary" onChange={event => setSearchValue(event)} />
         </form>
     )
 }

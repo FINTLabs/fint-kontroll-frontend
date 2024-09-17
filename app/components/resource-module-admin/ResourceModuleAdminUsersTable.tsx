@@ -1,15 +1,12 @@
-import {Button, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {Form, useNavigate, useSearchParams} from "@remix-run/react";
-import {PlusIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
-import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {IUnitItem} from "~/data/types";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 
 interface ResourceModuleAdminUsersTableI {
@@ -18,7 +15,7 @@ interface ResourceModuleAdminUsersTableI {
     roles: IResourceModuleAccessRole[]
 }
 
-const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: ResourceModuleAdminUsersTableI) => {
+const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
     const navigate = useNavigate()
 
     const [params, setSearchParams] = useSearchParams()
@@ -33,16 +30,6 @@ const ResourceModuleAdminUsersTable = ({usersPage, orgUnitList, roles}: Resource
 
     return (
         <div className={"table-toolbar-pagination-container"}>
-            <HStack justify={"end"}>
-                <Link href={"resource-module-admin/opprett-ny-tildeling"} id="create-assignment">
-                    <PlusIcon/> Opprett ny tildeling
-                </Link>
-            </HStack>
-
-            <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles} />
-
-            <ChipsFilters />
-
             <Table className={"users-table"} id="users-table">
                 <Table.Header>
                     <Table.Row>

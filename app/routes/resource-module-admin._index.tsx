@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Link, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import ResourceModuleAdminUsersTable from "../components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -13,6 +13,9 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
+import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
+import {PlusIcon} from "@navikt/aksel-icons";
+
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
@@ -48,10 +51,16 @@ export default function ResourceModuleAdminIndex() {
     const orgUnitList = data.orgUnitPage.orgUnits as IUnitItem[]
 
     return (
-        <section className={"content"}>
-            <Heading level={"1"} size={"xlarge"}>Ressursmoduladministrasjon</Heading>
-            <ResourceModuleAdminUsersTable usersPage={usersPage} orgUnitList={orgUnitList} roles={roles} />
-        </section>
+        <VStack className={"content"} gap="4">
+            <HStack justify={"end"} align={"end"}>
+                <Link href={"resource-module-admin/opprett-ny-tildeling"} id="create-assignment">
+                    <PlusIcon/> Opprett ny tildeling
+                </Link>
+            </HStack>
+            <Heading level={"1"} size={"xlarge"} spacing>Administrer brukere med rolletilknytning</Heading>
+            <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles}/>
+            <ResourceModuleAdminUsersTable usersPage={usersPage} orgUnitList={orgUnitList} roles={roles}/>
+        </VStack>
     );
 }
 
