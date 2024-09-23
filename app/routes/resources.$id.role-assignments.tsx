@@ -14,7 +14,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
-import {RoleSearch} from "~/components/role/RoleSearch";
+import {RoleSearch} from "~/components/common/Search/RoleSearch";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

@@ -1,4 +1,4 @@
-import {Search} from "@navikt/ds-react";
+import {Search as AkselSearch} from "@navikt/ds-react";
 import React, {useState} from "react";
 import {Form, useSearchParams} from "@remix-run/react";
 import {
@@ -7,25 +7,29 @@ import {
     handleSearchFieldString
 } from "~/components/common/CommonFunctions";
 
-export const RoleSearch = () => {
+type SearchInputProps = {
+    label: string
+    id: string
+}
 
+export const Search = ({label, id}: SearchInputProps) => {
     const [searchString, setSearchString] = useState("")
     const [searchParams, setSearchParams] = useSearchParams()
 
     const pageParam = searchParams.get("page")
 
     return (
-        <Form className={"searchField"}
-              onSubmit={(event) => {
-                  handleSearchFieldString(event, setSearchParams, searchString)
-                  setSearchString("")
-                  filterResetPageParam(pageParam, setSearchParams)
-              }}
+        <Form
+            className={"searchField"}
+            onSubmit={(event) => {
+                handleSearchFieldString(event, setSearchParams, searchString)
+                filterResetPageParam(pageParam, setSearchParams)
+            }}
         >
-            <Search
+            <AkselSearch
                 role="search"
-                id="search-role"
-                label="Søk etter gruppe"
+                id={id}
+                label={label}
                 hideLabel={false}
                 variant="secondary"
                 value={searchString}
