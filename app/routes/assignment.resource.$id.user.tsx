@@ -112,7 +112,7 @@ export default function NewAssignment() {
                     responseCode={responseCode}
                     successText={"Tildelingen var vellykket!"}
                     deleteText={"Tildelingen ble slettet!"}
-                    conflictText={"Denne ressursen er allerede tildelt brukeren. Vennligst gå til brukersiden for å se tildelingen."} // TODO: noe om å gå til bruker-siden for å se tildelingen
+                    conflictText={"Denne ressursen er allerede tildelt brukeren. Vennligst gå til brukersiden for å se tildelingen."}
                 />
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
