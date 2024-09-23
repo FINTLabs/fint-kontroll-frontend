@@ -26,7 +26,7 @@
     "@remix-run/express": "^2.8.1",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-prometheus-middleware": "^1.2.0",
     "isbot": "^4.4.0",
     "log4js": "^6.9.1",
