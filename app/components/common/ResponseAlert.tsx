@@ -1,33 +1,44 @@
 import {AlertWithCloseButton} from "~/components/assignment/AlertWithCloseButton";
 
-export const ResponseAlert = (prop: { responseCode: string | undefined, successText?: string, deleteText?:string }) => {
+type ResourceAlertProps = {
+    responseCode: string | undefined,
+    successText?: string,
+    deleteText?: string,
+    conflictText?: string
+}
 
-    if (prop.responseCode === undefined) return null
+export const ResponseAlert = (
+    {
+        responseCode,
+        successText = "Tildelingen var vellykket!",
+        deleteText = "Tildelingen ble slettet!",
+        conflictText = "Det oppstod en konflikt under tildelingen. Denne ressursen er allerede tildelt"
+    }: ResourceAlertProps
+) => {
+    if (responseCode === undefined) return null
 
-    if (prop.responseCode === "201") {
+    if (responseCode === "201") {
         return (
             <AlertWithCloseButton variant="success">
-                {prop.successText}
+                {successText}
             </AlertWithCloseButton>
         )
-    }
-    else if (prop.responseCode === "410") {
+    } else if (responseCode === "410" || responseCode === "204") {
         return (
             <AlertWithCloseButton variant="success">
-                {prop.deleteText}
+                {deleteText}
             </AlertWithCloseButton>
         )
-    }else if (prop.responseCode === "204") {
+    } else if (responseCode === "409") {
         return (
-            <AlertWithCloseButton variant="success">
-                {prop.deleteText}
+            <AlertWithCloseButton variant="error">
+                {conflictText}
             </AlertWithCloseButton>
         )
-    }
-    else return (
+    } else return (
         <AlertWithCloseButton variant="error">
             Noe gikk galt under tildelingen!
-            <div>Feilkode: {prop.responseCode}</div>
+            <div>Feilkode: {responseCode}</div>
         </AlertWithCloseButton>
     )
 }
