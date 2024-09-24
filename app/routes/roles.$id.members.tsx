@@ -7,6 +7,7 @@ import {json} from "@remix-run/node";
 import {MemberTable} from "~/components/role/MemberTable";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {Search} from "~/components/common/Search";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -44,6 +45,9 @@ export default function Members() {
                             label={"Søk etter medlemmer"}
                             id={"search-member"}
                         />
+                    </HStack>
+                    <HStack justify="end">
+                        <ChipsFilters/>
                     </HStack>
                     <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
                         <MemberTable memberPage={members} size={size} />

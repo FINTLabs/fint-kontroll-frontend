@@ -23,6 +23,7 @@ export const Search = ({label, id}: SearchInputProps) => {
             className={"searchField"}
             onSubmit={(event) => {
                 handleSearchFieldString(event, setSearchParams, searchString)
+                setSearchString("")
                 filterResetPageParam(pageParam, setSearchParams)
             }}
         >
