@@ -114,8 +114,12 @@ export default function NewAssignmentForRole() {
                     <ChipsFilters/>
                 </HStack>
 
-                <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
-                               deleteText={"Tildelingen ble slettet!"}/>
+                <ResponseAlert
+                    responseCode={data.responseCode}
+                    successText={"Tildelingen var vellykket!"}
+                    deleteText={"Tildelingen ble slettet!"}
+                    conflictText={"Denne ressursen er allerede tildelt gruppen. Vennligst gå til gruppens side for å se tildelingen."}
+                />
 
                 <AssignRoleTable isAssignedRoles={data.isAssignedRoles}
                                  resourceId={params.id}

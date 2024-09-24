@@ -103,8 +103,10 @@ export default function ResourceAdminIndex() {
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>
-            <ResponseAlert responseCode={responseCode} successText={"Ressursen ble opprettet!"}
-                           deleteText={"Ressursen ble slettet!"}
+            <ResponseAlert
+                responseCode={responseCode}
+                successText={"Ressursen ble opprettet!"}
+                deleteText={"Ressursen ble slettet!"}
             />
             <ResourceTable resourcePage={resourceList} size={size} basePath={basePath}/>
         </VStack>

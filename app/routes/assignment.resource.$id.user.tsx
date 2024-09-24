@@ -108,8 +108,12 @@ export default function NewAssignment() {
                     <ChipsFilters/>
                 </HStack>
 
-                <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
-                               deleteText={"Tildelingen ble slettet!"}/>
+                <ResponseAlert
+                    responseCode={responseCode}
+                    successText={"Tildelingen var vellykket!"}
+                    deleteText={"Tildelingen ble slettet!"}
+                    conflictText={"Denne ressursen er allerede tildelt brukeren. Vennligst gå til brukersiden for å se tildelingen."}
+                />
 
                 <AssignUserTable isAssignedUsers={isAssignedUsers}
                                  resourceId={id}
