@@ -5,10 +5,7 @@ describe('Test delete resource', () => {
         cy.get("table tr")
             .contains("Creative Cloud All Apps for K-12 - User License")
             .should("exist")
-            .parent("tr")
-            .find("a")
-            .contains("Slett")
-            .click();
+        cy.get('#delete-icon').click();
         cy.wait(3000);
     });
 
@@ -23,5 +20,25 @@ describe('Test delete resource', () => {
         cy.get(".navds-box .navds-alert").should("exist");
         cy.wait(1000);
         cy.get(".navds-box .navds-alert").contains("Ressursen ble slettet!");
+
     });
-})
+
+    it('Check statusTag deleted and delete-icon not visible', () => {
+        cy.goToResourceAdmin();
+        cy.get('table tr').eq(3).within(() => {
+            cy.get('td').eq(0).should('contain', 'Solid Works Edu');
+            cy.get('td').eq(2).should('contain', 'DELETED');
+            cy.get('#delete-icon').should('not.exist');
+        });
+    });
+
+    it('Check statusTag active and delete-icon is visible', () => {
+        cy.goToResourceAdmin();
+        cy.get('table tr').eq(2).within(() => {
+            cy.get('td').eq(0).should('contain', 'Creative Cloud All Apps for K-12 - Shared Device');
+            cy.get('td').eq(2).should('contain', 'ACTIVE');
+            cy.get('#delete-icon').should('exist');
+        });
+
+    });
+});

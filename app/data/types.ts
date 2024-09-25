@@ -171,7 +171,22 @@ export interface IResourceItem {
     orgUnitName: string
     resourceLimit: number
 }
+export interface IResourceAdminItem {
+    id: number
+    resourceId: string
+    resourceName: string
+    resourceType: string
+    resourceLimit: number
+    status: string
+    identityProviderGroupObjectId: string
+}
 
+export interface IResourceAdminList {
+    totalItems: number
+    totalPages: number | any
+    currentPage: number
+    resources: IResourceAdminItem[]
+}
 export interface IResource {
     id: number
     resourceId: string

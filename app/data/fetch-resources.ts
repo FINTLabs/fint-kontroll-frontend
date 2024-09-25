@@ -26,6 +26,28 @@ export const fetchResources = async (request: Request, size: string, page: strin
 
 }
 
+export const fetchResourcesForAdmin = async (request: Request, size: string, page: string, search: string, status: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
+
+    const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined
+    const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${status.length > 0 ? '&status=' + status : ""}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""}&${accesstypeParameter}`
+    const response = await fetch(url, {
+        headers: request.headers
+    });
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt")
+    }
+    throw new Error("Det virker ikke som om du er pålogget")
+
+}
+
 export const fetchResourceById = async (request: Request, id: string | undefined) => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, {
         headers: request.headers

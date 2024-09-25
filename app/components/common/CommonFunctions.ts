@@ -6,6 +6,7 @@ import {ICookie} from "~/data/types";
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
     const search = searchParams.get("search")
     const page = searchParams.get("page")
+    const status = searchParams.get("status")
     const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
     const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
     const name = searchParams.get("name")
@@ -14,6 +15,7 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
     const queryParams = [
         search && `search=${encodeURIComponent(search)}`,
         page && `page=${encodeURIComponent(page)}`,
+        status && `status=${encodeURIComponent(status)}`,
         orgunit && `orgunit=${encodeURIComponent(orgunit)}`,
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
         name && `name=${encodeURIComponent(name)}`,

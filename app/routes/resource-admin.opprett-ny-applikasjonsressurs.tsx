@@ -11,15 +11,18 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: () => (
-        <>
-            <Link to={`/resource-admin`}>Ressurser</Link>
-            {" > "}
-            <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`}>Ny ressurs</Link>
-        </>
+    breadcrumb: ({params}) => (
+        <HStack align={"start"}>
+            <HStack justify={"center"}>
+                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`}>Ny ressurs</Link>
+            </HStack>
+        </HStack>
     )
 }
 

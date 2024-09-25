@@ -102,13 +102,13 @@ export function goToBrukereNyTildeling() {
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling)
 
 export function goToResourceAdmin() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin?status=ACTIVE');
 }
 
 Cypress.Commands.add('goToResourceAdmin', goToResourceAdmin)
 
 export function goToResourceAdminWithResponse() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin?responseCode=204');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin??status=ACTIVE&responseCode=204');
 }
 
 Cypress.Commands.add('goToResourceAdminWithResponse', goToResourceAdminWithResponse)

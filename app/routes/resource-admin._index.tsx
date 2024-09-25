@@ -1,11 +1,11 @@
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Link, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
+import {Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
 import {ResourceSearch} from "~/components/resource-admin/ResourceSearch";
-import {ResourceTable} from "~/components/resource-admin/ResourceTable";
+import {ResourceAdminTable} from "~/components/resource-admin/ResourceAdminTable";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
@@ -20,18 +20,19 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
+    const status = url.searchParams.get("status") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
     const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
-        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+        fetchResourcesForAdmin(request, size, page, search, status, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request),
         fetchApplicationCategory(request),
         // fetchAccessType(request)
 
     ]);
-    const resourceList: IResourceList = await responseResource.json()
+    const resourceList: IResourceAdminList = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
@@ -50,7 +51,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
 export default function ResourceAdminIndex() {
 
     const loaderData = useLoaderData<typeof loader>();
-    const resourceList: IResourceList = loaderData.resourceList
+    const resourceList: IResourceAdminList = loaderData.resourceList
     const size = loaderData.size
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
@@ -75,8 +76,8 @@ export default function ResourceAdminIndex() {
             <HStack justify={"space-between"}>
                 <HStack justify={"start"} align={"end"}>
                     <Box paddingBlock="4">
-                        <Link to={"opprett-ny-applikasjonsressurs"} id="create-resource">
-                            <PlusIcon/> Opprett ny ressurs
+                        <Link href={"resource-admin/opprett-ny-applikasjonsressurs"} id="create-resource">
+                            <PlusIcon title="a11y-title" fontSize="1rem" /> Opprett ny ressurs
                         </Link>
                     </Box>
                 </HStack>
@@ -106,7 +107,7 @@ export default function ResourceAdminIndex() {
             <ResponseAlert responseCode={responseCode} successText={"Ressursen ble opprettet!"}
                            deleteText={"Ressursen ble slettet!"}
             />
-            <ResourceTable resourcePage={resourceList} size={size} basePath={basePath}/>
+            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath}/>
         </VStack>
     );
 }

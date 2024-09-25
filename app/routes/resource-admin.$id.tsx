@@ -1,6 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -9,6 +9,7 @@ import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
 import {StatusTag} from "~/components/resource-admin/StatusTag";
 import * as React from "react";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -22,6 +23,19 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return json({
         resource: await resource.json(),
     })
+}
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({params}) => (
+        <HStack align={"start"}>
+            <HStack justify={"center"}>
+                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resource-admin/${params.id}`}>Ressursinfo</Link>
+            </HStack>
+        </HStack>
+    )
 }
 
 export default function ResourceById() {
