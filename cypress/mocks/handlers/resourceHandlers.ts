@@ -10,6 +10,82 @@ export const deleteResourceHandlers = [
         return HttpResponse.json({}, {status: 204})
     })]
 
+export const resourceAdminHandlers = [
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/admin/v1', () => {
+        return HttpResponse.json({
+                "totalPages": 1,
+                "currentPage": 0,
+                "totalItems": 7,
+                "size": 25,
+                "resources": [
+                    {
+                        "id": 5,
+                        "resourceId": "ff75076c4ce53f5ca51b1cbb",
+                        "resourceName": "Creative Cloud All Apps for K-12 - User License",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 10000,
+                        "status": "ACTIVE",
+                        "identityProviderGroupObjectId": "96f6d0ac-64ef-4c3b-bb1f-91db7b39426d"
+                    },
+                    {
+                        "id": 4,
+                        "resourceId": "f887f35a0fab01f3e3e2c5c2",
+                        "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 25,
+                        "status": "ACTIVE",
+                        "identityProviderGroupObjectId": "df6b0f04-3dac-489c-abcf-31313d9b85c2"
+                    },
+                    {
+                        "id": 62,
+                        "resourceId": "ff75076c4ce53f5ca518989",
+                        "resourceName": "Solid Works Edu",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 50,
+                        "status": "DELETED",
+                        "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
+                    },
+                    {
+                        "id": 53,
+                        "resourceId": "ff75076c4ce53f5ca51b1ccb",
+                        "resourceName": "TOtally LegIt textbooks",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 10000,
+                        "status": "DELETED",
+                        "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
+                    },
+                    {
+                        "id": 44,
+                        "resourceId": "f887f35a0fab01f3e3e2c5c3",
+                        "resourceName": "Flash Media Player",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 25,
+                        "status": "DELETED",
+                        "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
+                    },
+                    {
+                        "id": 61,
+                        "resourceId": "ff75076c4ce53f5ca518949",
+                        "resourceName": "Powerpoint",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 50,
+                        "status": "DELETED",
+                        "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
+                    },
+                    {
+                        "id": 66,
+                        "resourceId": "ff75076c4ce53f5ca513989",
+                        "resourceName": "Runekit",
+                        "resourceType": "ApplicationResource",
+                        "resourceLimit": 50,
+                        "status": "DELETED",
+                        "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
+                    },
+                ]
+            }
+        )
+    })]
+
 export const resourceHandlers = [
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', ({request}) => {
         const search = new URL(request.url).searchParams.get('search') ?? "";
@@ -167,7 +243,10 @@ export const resourceHandlers = [
     }),
 
     // For fetching Brukere
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request, cookies}) => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({
+                                                                                                  request,
+                                                                                                  cookies
+                                                                                              }) => {
         const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"
         const search = new URL(request.url).searchParams.get('search') ?? "0"
@@ -766,7 +845,10 @@ export const resourceHandlers = [
 
 
     // Fetching assigned users to a resource
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({request, cookies}) => {
+    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users', ({
+                                                                                                  request,
+                                                                                                  cookies
+                                                                                              }) => {
         // These queryParams will be used for later testing
         const size = cookies.size ?? null
         const page = new URL(request.url).searchParams.get('page') ?? "0"

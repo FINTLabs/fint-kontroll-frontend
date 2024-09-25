@@ -6,19 +6,19 @@ export const StatusTag = (prop: { status: string | undefined }) => {
 
     if (prop.status === "ACTIVE") {
         return (
-            <Tag variant="success">
+            <Tag size="small" variant="success">
                 {prop.status}
             </Tag>
         )
     } else if (prop.status === "DISABLED") {
         return (
-            <Tag variant="info">
+            <Tag size="small" variant="info">
                 {prop.status}
             </Tag>
         )
     } else if (prop.status === "DELETED")
         return (
-            <Tag variant="error">
+            <Tag size="small" variant="error">
                 {prop.status}
             </Tag>
         )

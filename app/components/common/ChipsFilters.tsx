@@ -1,9 +1,7 @@
 import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
-import {
-    filterResetPageParam,
-} from "~/components/common/CommonFunctions";
+import {filterResetPageParam,} from "~/components/common/CommonFunctions";
 
 const ChipsFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -13,6 +11,7 @@ const ChipsFilters = () => {
     const [name, setName] = useState<string | undefined>()
     const [userType, setUserType] = useState<string | undefined>()
     const [search, setSearchName] = useState<string | undefined>()
+    const [status, setStatus] = useState<string | undefined>()
     const [applicationcategory, setApplicationcategory] = useState<string | undefined>()
     const [orgUnitName, setOrgUnitName] = useState<string | undefined>()
 
@@ -24,6 +23,7 @@ const ChipsFilters = () => {
         const nameParam = searchParams.get("name")
         const userTypeParam = searchParams.get("userType")
         const searchNameParam = searchParams.get("search")
+        const statusParam = searchParams.get("status")
         const applicationcategory = searchParams.get("applicationcategory")
         const orgUnitName = searchParams.get("orgUnitName")
 
@@ -32,6 +32,7 @@ const ChipsFilters = () => {
         nameParam ? setName(nameParam) : setName(undefined)
         userTypeParam ? setUserType(userTypeParam) : setUserType(undefined)
         searchNameParam ? setSearchName(searchNameParam) : setSearchName(undefined)
+        statusParam ? setStatus(statusParam) : setStatus(undefined)
         applicationcategory ? setApplicationcategory(applicationcategory) : setApplicationcategory(undefined)
         orgUnitName ? setOrgUnitName(orgUnitName) : setOrgUnitName(undefined)
     }, [searchParams]);
@@ -55,6 +56,9 @@ const ChipsFilters = () => {
             case "searchName":
                 setSearchName(undefined)
                 return
+            case "status":
+                setStatus(undefined)
+                return
             case "applicationcategory":
                 setApplicationcategory(undefined)
                 return
@@ -66,7 +70,6 @@ const ChipsFilters = () => {
                 return
         }
     }
-
 
     return (
         <Chips>
@@ -105,6 +108,16 @@ const ChipsFilters = () => {
                     id="search-name-chip"
                 >
                     {search}
+                </Chips.Removable>
+            }
+            {status &&
+                <Chips.Removable
+                    onClick={() => {
+                        removeFilter("status")
+                    }}
+                    id="status-name-chip"
+                >
+                    {status}
                 </Chips.Removable>
             }
             {applicationcategory &&

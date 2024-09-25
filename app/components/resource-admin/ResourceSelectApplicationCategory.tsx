@@ -1,11 +1,13 @@
 import {Select} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
+import {filterResetPageParam} from "~/components/common/CommonFunctions";
 
 interface ResourceSelectApplicationCategoryProps {
     applicationCategories: string[]
 }
 export function ResourceSelectApplicationCategory ({applicationCategories}: ResourceSelectApplicationCategoryProps) {
     const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
+    const pageParam = applicationCategorySearchParams.get("page")
 
     const setAppCategory = (event: string) => {
         setApplicationCategorySearchParams(searchParams => {
@@ -15,6 +17,7 @@ export function ResourceSelectApplicationCategory ({applicationCategories}: Reso
             }
             return searchParams;
         })
+        filterResetPageParam(pageParam, setApplicationCategorySearchParams)
     }
 
     return (
