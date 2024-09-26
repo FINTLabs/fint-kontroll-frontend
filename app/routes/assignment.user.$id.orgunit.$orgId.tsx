@@ -1,5 +1,5 @@
 import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserTable";
-import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError, useSearchParams} from "@remix-run/react";
+import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {
     IAssignedResourcesList,
     IAssignedUsers,
@@ -16,11 +16,12 @@ import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fe
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, HStack, Select, VStack} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -103,15 +104,7 @@ export default function NewAssignmentForUser() {
     }>();
     const {id, orgId} = useParams<string>()
 
-    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    const setAppCategory = (event: string) => {
-        setApplicationCategorySearchParams(searchParams => {
-            event !== "" ? searchParams.set("applicationcategory", event) : searchParams.delete("applicationcategory")
-            return searchParams;
-        })
-    }
 
     /* const setAccessType = (event: string) => {
          setAccessTypeSearchParams(searchParams => {
@@ -130,20 +123,7 @@ export default function NewAssignmentForUser() {
 
             <VStack gap="4">
                 <HStack justify="end" align="end">
-                    <Select
-                        id="select-applicationcategory"
-                        className={"select-applicationcategory"}
-                        label={"Filter for applikasjonskategori"}
-                        onChange={(e) => setAppCategory(e.target.value)}
-                        value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}
-                    >
-                        <option value={""}>Alle</option>
-                        {data.applicationCategories?.map((category) => (
-                            <option key={category} value={category}>
-                                {category}
-                            </option>
-                        ))}
-                    </Select>
+                    <ResourceSelectApplicationCategory applicationCategories={data.applicationCategories}/>
 
                     {/*<Select
                         className={"select-applicationcategory"}
