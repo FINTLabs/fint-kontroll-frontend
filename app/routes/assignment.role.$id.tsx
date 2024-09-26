@@ -10,7 +10,7 @@ import {
     IUnitTree
 } from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
@@ -22,6 +22,7 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import logger from "~/logging/logger";
+import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -34,17 +35,19 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResources, responseOrgUnits, responseAssignments, responseRole] = await Promise.all([
+    const [responseResources, responseOrgUnits, responseAssignments, responseRole, responseApplicationCategories] = await Promise.all([
         fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request),
         fetchAssignedResourcesRole(request, params.id, "1000", "0"),
         fetchRoleById(request, params.id),
+        fetchApplicationCategory(request),
     ]);
     const resourceList: IResourceList = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
     const role: IRole = await responseRole.json()
+    const applicationCategories: string[] = await responseApplicationCategories.json()
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
     logger.info("Her er mapfunksjonen som sjekker på tildelte ressurser", assignedResourcesMap);
@@ -63,6 +66,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         assignedResourceList,
         isAssignedResources,
         role,
+        applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
@@ -92,20 +96,20 @@ export default function NewAssignmentForRole() {
     const responseCode: string | undefined = loaderData.responseCode
     const role: IRole = loaderData.role
     const size: string = loaderData.size
+    const applicationCategories: string[] = loaderData.applicationCategories
 
     return (
         <div className={"content"}>
             <Heading level="1" size="xlarge">Ny tildeling </Heading>
             <Heading level="2" size="small">{role.roleName}</Heading>
-
             <VStack gap="4">
-                <HStack justify="end">
-                    <VStack align="end" gap="4">
-                        <ResourceSearch/>
-                        <ChipsFilters/>
-                    </VStack>
+                <HStack justify="end" align="end">
+                    <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
+                    <ResourceSearch/>
                 </HStack>
-
+                <HStack justify="end">
+                    <ChipsFilters/>
+                </HStack>
                 <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                                deleteText={"Tildelingen ble slettet!"}/>
 

@@ -10,6 +10,7 @@ import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -55,18 +56,7 @@ export default function Resource() {
     const applicationCategories: string[] = loaderData.applicationCategories
    // const accessTypes: string[] = loaderData.accessTypes
 
-    const [applicationCategorySearchParams, setApplicationCategorySearchParams] = useSearchParams()
    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    const setAppCategory = (event: string) => {
-        setApplicationCategorySearchParams(searchParams => {
-            searchParams.set("applicationcategory", event);
-            if (searchParams.get("applicationcategory") === "") {
-                searchParams.delete("applicationcategory")
-            }
-            return searchParams;
-        })
-    }
 
     /*const setAccessType = (event: string) => {
         setAccessTypeSearchParams(searchParams => {
@@ -83,19 +73,7 @@ export default function Resource() {
             <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
             <HStack justify="end" align="end">
                 <OrgUnitFilterModal orgUnitList={orgUnitList}/>
-                <Select
-                    className={"select-applicationcategory"}
-                    label={"Filter for applikasjonskategori"}
-                    onChange={(e) => setAppCategory(e.target.value)}
-                    value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}
-                >
-                    <option value={""}>Alle</option>
-                    {applicationCategories?.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
-                </Select>
+                <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
 
                 {/*<Select
                     className={"select-applicationcategory"}

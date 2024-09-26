@@ -1,6 +1,6 @@
 import {Alert, Box, Heading, HStack, Link, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
@@ -77,13 +77,13 @@ export default function ResourceAdminIndex() {
                 <HStack justify={"start"} align={"end"}>
                     <Box paddingBlock="4">
                         <Link href={"resource-admin/opprett-ny-applikasjonsressurs"} id="create-resource">
-                            <PlusIcon title="a11y-title" fontSize="1rem" /> Opprett ny ressurs
+                            <PlusIcon title="a11y-title" fontSize="1rem"/> Opprett ny ressurs
                         </Link>
                     </Box>
                 </HStack>
                 <HStack justify="end" align="end">
-
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
+
                     {/*<Select
                     className={"select-applicationcategory"}
                     label={"Filter for lisensmodell"}
