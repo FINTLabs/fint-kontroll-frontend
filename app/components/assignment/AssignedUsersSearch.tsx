@@ -4,7 +4,7 @@ import {Form, useParams, useSearchParams, useSubmit} from "@remix-run/react";
 import {handleClearSearchFieldString, handleSearchFieldString} from "~/components/common/CommonFunctions";
 
 export const AssignedUsersSearch = () => {
-
+// TODO: replace with common/search
     const submit = useSubmit();
     const [searchString, setSearchString] = useState("")
     const params = useParams();

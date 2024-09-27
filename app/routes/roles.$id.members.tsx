@@ -26,7 +26,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
+    breadcrumb: ({params, data}) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
 }
 
 export default function Members() {
@@ -41,22 +41,20 @@ export default function Members() {
                     <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
                     <HStack justify="space-between" gap="4">
                         <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
-                        <Search
-                            label={"Søk etter medlemmer"}
-                            id={"search-member"}
-                        />
+                        <Search label={"Søk etter medlemmer"} id={"search-member"}/>
                     </HStack>
                     <HStack justify="end">
                         <ChipsFilters/>
                     </HStack>
                     <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                        <MemberTable memberPage={members} size={size} />
+                        <MemberTable memberPage={members} size={size}/>
                     </Tabs.Panel>
                 </VStack>
             </Tabs>
         </section>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
