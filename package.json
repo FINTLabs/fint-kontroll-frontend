@@ -24,7 +24,7 @@
     "@navikt/ds-css": "^6.10.1",
     "@navikt/ds-react": "^6.10.1",
     "@remix-run/express": "^2.8.1",
-    "@remix-run/node": "^2.8.1",
+    "@remix-run/node": "^2.12.1",
     "@remix-run/react": "^2.8.1",
     "express": "^4.21.0",
     "express-prometheus-middleware": "^1.2.0",
