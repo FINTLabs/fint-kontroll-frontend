@@ -1,6 +1,6 @@
 import {Search as AkselSearch} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {Form, useSearchParams} from "@remix-run/react";
+import {Form, useNavigation, useSearchParams} from "@remix-run/react";
 import {
     filterResetPageParam,
     handleClearSearchFieldString,
@@ -15,6 +15,9 @@ type SearchInputProps = {
 export const Search = ({label, id}: SearchInputProps) => {
     const [searchString, setSearchString] = useState("")
     const [searchParams, setSearchParams] = useSearchParams()
+
+    const navigation = useNavigation()
+    const searching = navigation.location && new URLSearchParams(navigation.location.search).has("search");
 
     const pageParam = searchParams.get("page")
 
@@ -38,7 +41,8 @@ export const Search = ({label, id}: SearchInputProps) => {
                 onClear={() => {
                     handleClearSearchFieldString(setSearchParams)
                 }}
-            />
+            > <AkselSearch.Button loading={searching}/>
+            </AkselSearch>
         </Form>
     );
 };
