@@ -1,10 +1,11 @@
-import {Button, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
+import {useNavigate, useNavigation} from "@remix-run/react";
 import {IUserItem, IUserPage} from "~/data/types";
 import React from "react";
-import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 interface UserTableProps {
     userPage: IUserPage
@@ -13,17 +14,8 @@ interface UserTableProps {
 
 export const UserTable = ({userPage, size}: UserTableProps) => {
     const navigate = useNavigate();
-    const [, setSearchParams] = useSearchParams()
     const navigation = useNavigation()
     const loading = isLoading(navigation)
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
 
     return (
         <>
@@ -67,34 +59,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                 </Table.Body>
             </Table>
 
-            <Form className={"paginationWrapper"}>
-                <Select
-                    id={"select-number-of-rows"}
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : "25"}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={userPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={userPage.totalPages || 1}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+            <TablePagination currentPage={userPage.currentPage} totalPages={userPage.totalPages} size={size}/>
         </>
     );
 };

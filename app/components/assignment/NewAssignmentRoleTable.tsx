@@ -1,10 +1,11 @@
-import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
 import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 export const AssignRoleTable: any = (props: {
     isAssignedRoles: IRole[],
@@ -16,17 +17,9 @@ export const AssignRoleTable: any = (props: {
     basePath?: string
 }) => {
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const navigation = useNavigation()
     const loading = isLoading(navigation)
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
 
     return (
         <div>
@@ -69,33 +62,7 @@ export const AssignRoleTable: any = (props: {
                     ))}
                 </Table.Body>
             </Table>
-            <Box className={"paginationWrapper"}>
-                <Select
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={props.size ? props.size : 25}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={props.currentPage + 1}
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={props.totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Box>
+            <TablePagination currentPage={props.currentPage} totalPages={props.totalPages} size={props.size}/>
         </div>
     );
 };

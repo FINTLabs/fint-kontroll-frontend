@@ -1,10 +1,11 @@
-import {Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import {Button, Link, Table, Tag} from "@navikt/ds-react";
 import type {IAssignmentPage} from "~/data/types";
-import {Form, Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage
@@ -14,18 +15,10 @@ interface AssignmentsForUserTableProps {
 
 export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: AssignmentsForUserTableProps) => {
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const params = useParams()
     const navigation = useNavigation()
     const loading = isLoading(navigation)
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
 
     return (
         <>
@@ -72,34 +65,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                 </Table.Body>
             </Table>
 
-            <Form className={"paginationWrapper"}>
-                <Select
-                    id={"select-number-of-rows"}
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 25}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={assignmentsForUser.currentPage + 1}
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={assignmentsForUser.totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+            <TablePagination currentPage={assignmentsForUser.currentPage} totalPages={assignmentsForUser.totalPages} size={size}/>
         </>
     );
 };

@@ -1,11 +1,12 @@
-import {Button, Dropdown, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
+import {Button, Dropdown, HStack, Link, Table} from "@navikt/ds-react";
 import {FunnelIcon, InformationSquareIcon, MinusIcon, TrashIcon} from "@navikt/aksel-icons";
-import {Form, Outlet, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import type {IResourceAdminList} from "~/data/types";
 import React from "react";
-import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams} from "~/components/common/CommonFunctions";
 import {StatusTag} from "~/components/resource-admin/StatusTag";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -30,14 +31,6 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
             return searchParams;
         });
     };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
 
     return (
         <>
@@ -132,33 +125,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                     ))}
                 </Table.Body>
             </Table>
-            <Form className={"paginationWrapper"}>
-                <Select
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 10}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={resourcePage.currentPage + 1}
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={resourcePage.totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+            <TablePagination currentPage={resourcePage.currentPage} totalPages={resourcePage.totalPages} size={size ?? 10}/>
         </>
     );
 };

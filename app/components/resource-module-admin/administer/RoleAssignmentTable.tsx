@@ -1,6 +1,6 @@
-import {Alert, Button, Pagination, Select, Table} from "@navikt/ds-react";
+import {Alert, Table} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {Form, useNavigation, useSearchParams} from "@remix-run/react";
+import {useNavigation, useSearchParams} from "@remix-run/react";
 import {
     IResourceModuleAccessRole,
     IResourceModuleOrgUnitDetail,
@@ -8,35 +8,28 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
-import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 interface RoleAssignmentTableProps {
     selectedRole: IResourceModuleAccessRole
     userAssignmentsPaginated: IResourceModuleUserAssignmentsPaginated
 }
 
-const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssignmentTableProps) => {
+const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}: RoleAssignmentTableProps) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [orgUnit, setOrgUnit] = useState<IResourceModuleOrgUnitDetail | undefined>()
     const [scopeId, setScopeId] = useState("")
     const navigation = useNavigation()
     const loading = isLoading(navigation)
 
-    const [params, setSearchParams] = useSearchParams()
+    const [params] = useSearchParams()
 
     const toggleDeleteOrgUnitModal = (scopeId: number, orgUnit: IResourceModuleOrgUnitDetail) => {
         setOrgUnit(orgUnit)
         setScopeId(String(scopeId))
         setIsDeleteModalOpen(true)
-    }
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
     }
 
     return (
@@ -114,32 +107,11 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
 
 
             {userAssignmentsPaginated?.accessRoles.length > 0 &&
-                <Form className={"pagination-wrapper"}>
-                    <Select
-                        label="Rader per side"
-                        size="small"
-                        onChange={handleChangeRowsPerPage}
-                        defaultValue={params.get("size") ? Number(params.get("size")) : 10}
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                    </Select>
-                    <Pagination
-                        id="pagination"
-                        page={userAssignmentsPaginated.currentPage + 1}
-                        onPageChange={(e) => {
-                            setSearchParams(searchParams => {
-                                searchParams.set("page", (e - 1).toString());
-                                return searchParams;
-                            })
-                        }}
-                        count={userAssignmentsPaginated.totalPages}
-                        size="small"
-                        prevNextTexts
-                    />
-                </Form>
+                <TablePagination
+                    currentPage={userAssignmentsPaginated.currentPage}
+                    totalPages={userAssignmentsPaginated.totalPages}
+                    size={Number(params.get("size")) ?? 10}
+                />
             }
         </div>
     )

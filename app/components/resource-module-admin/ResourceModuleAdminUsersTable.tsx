@@ -1,5 +1,5 @@
-import {Button, Pagination, Select, Table} from "@navikt/ds-react";
-import {Form, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
+import {Button, Table} from "@navikt/ds-react";
+import {useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {
     IResourceModuleAccessRole,
@@ -7,8 +7,9 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {IUnitItem} from "~/data/types";
-import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -19,16 +20,8 @@ interface ResourceModuleAdminUsersTableI {
 const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
     const navigate = useNavigate()
     const navigation = useNavigation()
-    const [params, setSearchParams] = useSearchParams()
+    const [params] = useSearchParams()
     const loading = isLoading(navigation)
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
 
     return (
         <div className={"table-toolbar-pagination-container"}>
@@ -58,32 +51,11 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                 </Table.Body>
             </Table>
             {usersPage.users.length > 0 &&
-                <Form className={"pagination-wrapper"}>
-                    <Select
-                        label="Rader per side"
-                        size="small"
-                        onChange={handleChangeRowsPerPage}
-                        defaultValue={params.get("size") ? Number(params.get("size")) : 25}
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                    </Select>
-                    <Pagination
-                        id="pagination"
-                        page={usersPage.currentPage + 1}
-                        onPageChange={(e) => {
-                            setSearchParams(searchParams => {
-                                searchParams.set("page", (e - 1).toString());
-                                return searchParams;
-                            })
-                        }}
-                        count={usersPage.totalPages}
-                        size="small"
-                        prevNextTexts
-                    />
-                </Form>
+                <TablePagination
+                    currentPage={usersPage.currentPage}
+                    totalPages={usersPage.totalPages}
+                    size={params.get("size") ?? 25}
+                />
             }
         </div>
     )
