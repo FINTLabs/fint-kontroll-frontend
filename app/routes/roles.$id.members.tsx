@@ -1,11 +1,13 @@
 import React from 'react';
-import {Alert, Box, Detail, Heading, Tabs, VStack} from "@navikt/ds-react";
+import {Alert, Box, Detail, Heading, HStack, Tabs, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import  {LoaderFunctionArgs} from "@remix-run/router";
+import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import {MemberTable} from "~/components/role/MemberTable";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {Search} from "~/components/common/Search";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -24,7 +26,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
+    breadcrumb: ({params, data}) => <Link to={`/roles/${params.id}/members`}>Medlemmer</Link>
 }
 
 export default function Members() {
@@ -37,15 +39,22 @@ export default function Members() {
             <Tabs value={"members"}>
                 <VStack gap="4">
                     <Heading className={"heading"} level={"2"} size={"large"}>Medlemmer av gruppen</Heading>
-                    <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
+                    <HStack justify="space-between" gap="4">
+                        <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
+                        <Search label={"Søk etter medlemmer"} id={"search-member"}/>
+                    </HStack>
+                    <HStack justify="end">
+                        <ChipsFilters/>
+                    </HStack>
                     <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                        <MemberTable memberPage={members} size={size} />
+                        <MemberTable memberPage={members} size={size}/>
                     </Tabs.Panel>
                 </VStack>
             </Tabs>
         </section>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

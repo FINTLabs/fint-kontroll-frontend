@@ -55,7 +55,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const itemsPerPage = url.searchParams.get("size") ?? "10";
     const currentPage = url.searchParams.get("page") ?? "0";
     const orgUnitIds = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const name = url.searchParams.get("name") ?? "";
+    const name = url.searchParams.get("search") ?? "";
     const roleFilter = url.searchParams.get("accessroleid") ?? ""
 
     const usersPageResponse = await fetchUsersWhoCanGetAssignments(auth, Number(currentPage), Number(itemsPerPage), orgUnitIds, name, roleFilter);

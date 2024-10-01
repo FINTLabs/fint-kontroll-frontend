@@ -37,8 +37,8 @@ export const fetchRoleById = async (request: Request, id: string | undefined) =>
 
 }
 
-export const fetchMembers = async (request: Request, id: string | undefined, size: string, page: string, search: string) => {
-    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}/members?size=${size}&page=${page}&search=${search}`, {
+export const fetchMembers = async (request: Request, id: string | undefined, size: string, page: string, name: string) => {
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}/members?size=${size}&page=${page}&name=${name}`, {
         headers: request.headers
     });
 

@@ -25,7 +25,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const size = Number(url.searchParams.get("size") ?? "10");
     const page = Number(url.searchParams.get("page") ?? "0");
     const orgunits: string[] = url.searchParams.get("orgUnits")?.split(",") ?? [""];
-    const name = url.searchParams.get("name") ?? "";
+    const name = url.searchParams.get("search") ?? "";
     const role = url.searchParams.get("accessroleid") ?? "";
 
     const responseUsersPage = await fetchUsersWithAssignment(auth, page, size, orgunits, name, role);
