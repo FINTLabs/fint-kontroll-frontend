@@ -1,9 +1,10 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IUser, IUserItem} from "~/data/types";
 import React from "react";
-import {Outlet, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 
 interface AssignUserTableProps {
@@ -23,6 +24,8 @@ export const AssignUserTable = ({
     basePath,
 }: AssignUserTableProps) => {
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -48,7 +51,7 @@ export const AssignUserTable = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {isAssignedUsers.map((user: IUserItem) => (
+                    {loading ? <TableSkeleton /> : isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>

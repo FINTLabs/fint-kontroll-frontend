@@ -1,9 +1,10 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useSearchParams} from "@remix-run/react";
+import {Form, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import {IUserItem, IUserPage} from "~/data/types";
 import React from "react";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface UserTableProps {
     userPage: IUserPage
@@ -11,9 +12,10 @@ interface UserTableProps {
 }
 
 export const UserTable = ({userPage, size}: UserTableProps) => {
-
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -35,7 +37,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {userPage.users.map((user: IUserItem) => (
+                    {loading ? <TableSkeleton /> : userPage.users.map((user: IUserItem) => (
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>

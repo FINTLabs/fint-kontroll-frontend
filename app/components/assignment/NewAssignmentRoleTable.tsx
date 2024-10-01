@@ -1,9 +1,10 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
-import {Outlet, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 export const AssignRoleTable: any = (props: {
     isAssignedRoles: IRole[],
@@ -16,6 +17,8 @@ export const AssignRoleTable: any = (props: {
 }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -39,7 +42,7 @@ export const AssignRoleTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.isAssignedRoles.map((role: IRole) => (
+                    {loading ? <TableSkeleton /> : props.isAssignedRoles.map((role: IRole) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>

@@ -1,9 +1,10 @@
 import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IResourceForList} from "~/data/types";
 import React from "react";
-import {Outlet, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 
 interface AssignResourceToRoleTableProps {
@@ -28,6 +29,8 @@ export const AssignResourceToRoleTable = (
     }: AssignResourceToRoleTableProps) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -50,7 +53,7 @@ export const AssignResourceToRoleTable = (
                 </Table.Header>
 
                 <Table.Body>
-                    {isAssignedResources.map((resource: IResourceForList) => (
+                    {loading ? <TableSkeleton columns={2}/> : isAssignedResources.map((resource: IResourceForList) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>

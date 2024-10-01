@@ -1,10 +1,11 @@
 import {Button, Dropdown, HStack, Link, Pagination, Select, Table} from "@navikt/ds-react";
 import {FunnelIcon, InformationSquareIcon, MinusIcon, TrashIcon} from "@navikt/aksel-icons";
-import {Form, Outlet, useNavigate, useSearchParams} from "@remix-run/react";
+import {Form, Outlet, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import type {IResourceAdminList} from "~/data/types";
 import React from "react";
-import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 import {StatusTag} from "~/components/resource-admin/StatusTag";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -16,6 +17,8 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
 
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const setStatusFilter = (event: string) => {
         setSearchParams(searchParams => {
@@ -78,7 +81,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {resourcePage.resources.map((resource) => (
+                    {loading ? <TableSkeleton columns={5} /> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>

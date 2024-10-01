@@ -1,8 +1,9 @@
 import {Pagination, Select, Table} from "@navikt/ds-react";
-import {Form, useSearchParams} from "@remix-run/react";
+import {Form, useNavigation, useSearchParams} from "@remix-run/react";
 import type {IMemberPage} from "~/data/types";
 import React from "react";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 
 interface MembersTableProps {
@@ -13,6 +14,8 @@ interface MembersTableProps {
 export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
 
     const [, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -32,7 +35,7 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {memberPage.members.map((member) => (
+                    {loading ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
                             <Table.DataCell>{member.userType}</Table.DataCell>

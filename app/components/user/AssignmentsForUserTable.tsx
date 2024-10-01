@@ -1,9 +1,10 @@
 import {Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
 import type {IAssignmentPage} from "~/data/types";
-import {Form, Outlet, useParams, useSearchParams} from "@remix-run/react";
+import {Form, Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage
@@ -15,6 +16,8 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -38,7 +41,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {assignmentsForUser.resources.map((resource) => (
+                    {loading ? <TableSkeleton columns={5}/> : assignmentsForUser.resources.map((resource) => (
                         <Table.Row key={resource.resourceRef}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>

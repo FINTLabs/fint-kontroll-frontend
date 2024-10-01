@@ -1,9 +1,10 @@
 import {Box, Button, Heading, Link, Pagination, Select, Table, Tag, VStack} from "@navikt/ds-react";
 import type {IAssignedUsers} from "~/data/types";
 import React from "react";
-import {Outlet, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers, size: string
@@ -14,6 +15,8 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
 
     const [searchParams, setSearchParams] = useSearchParams()
     const params = useParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -41,7 +44,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {assignedUsers.users.map((user) => (
+                        {loading ? <TableSkeleton columns={5}/> : assignedUsers.users.map((user) => (
                             <Table.Row key={user.assigneeRef}>
                                 <Table.HeaderCell scope="row">{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
                                 <Table.DataCell>{user.assigneeUserType}</Table.DataCell>

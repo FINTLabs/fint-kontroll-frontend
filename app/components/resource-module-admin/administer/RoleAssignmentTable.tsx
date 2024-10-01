@@ -1,6 +1,6 @@
 import {Alert, Button, Pagination, Select, Table} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {Form, useSearchParams} from "@remix-run/react";
+import {Form, useNavigation, useSearchParams} from "@remix-run/react";
 import {
     IResourceModuleAccessRole,
     IResourceModuleOrgUnitDetail,
@@ -8,7 +8,8 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface RoleAssignmentTableProps {
     selectedRole: IResourceModuleAccessRole
@@ -19,6 +20,8 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [orgUnit, setOrgUnit] = useState<IResourceModuleOrgUnitDetail | undefined>()
     const [scopeId, setScopeId] = useState("")
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const [params, setSearchParams] = useSearchParams()
 
@@ -66,7 +69,7 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}:RoleAssign
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {userAssignmentsPaginated?.accessRoles.length !== 0 ? (
+                    {loading ? <TableSkeleton columns={selectedRole.accessRoleId === "" ? 3 : 2} height={30} /> :userAssignmentsPaginated?.accessRoles.length !== 0 ? (
                         userAssignmentsPaginated?.accessRoles.map((scope) =>
                             scope.orgUnits.map((orgUnit) => (
                                 <Table.Row

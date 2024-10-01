@@ -1,9 +1,10 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useSearchParams} from "@remix-run/react";
+import {Form, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import type {IRoleList} from "~/data/types";
 import React from "react";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface RoleTableProps {
     rolePage: IRoleList
@@ -13,6 +14,8 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
 
     const navigate = useNavigate();
     const [, setSearchParams] = useSearchParams()
+    const navigation = useNavigation()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -34,37 +37,38 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {rolePage.roles.map((role) => (
-                        <Table.Row key={role.id}>
-                            <Table.DataCell scope="row">{role.roleName}</Table.DataCell>
-                            <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell>{role.roleType}</Table.DataCell>
-                            <Table.DataCell align="right">
-                                <Button
-                                    id={`roleInfoButton-${role.id}`}
-                                    icon={
-                                        <InformationSquareIcon
-                                            title="Informasjonsikon"
-                                            fontSize="1.5rem"
-                                        />
-                                    }
-                                    iconPosition={"right"}
-                                    onClick={() =>
-                                        navigate(`/roles/${role.id}/members`)
-                                    }
-                                    // id={`resource-${i}`}
-                                    variant={"secondary"}
-                                    role="link"
-                                >
-                                    Se info
-                                </Button>
-                            </Table.DataCell>
-                        </Table.Row>
-                    ))}
+                    {loading ? <TableSkeleton/> :
+                        rolePage.roles.map((role) => (
+                            <Table.Row key={role.id}>
+                                <Table.DataCell scope="row">{role.roleName}</Table.DataCell>
+                                <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
+                                <Table.DataCell>{role.roleType}</Table.DataCell>
+                                <Table.DataCell align="right">
+                                    <Button
+                                        id={`roleInfoButton-${role.id}`}
+                                        icon={
+                                            <InformationSquareIcon
+                                                title="Informasjonsikon"
+                                                fontSize="1.5rem"
+                                            />
+                                        }
+                                        iconPosition={"right"}
+                                        onClick={() =>
+                                            navigate(`/roles/${role.id}/members`)
+                                        }
+                                        // id={`resource-${i}`}
+                                        variant={"secondary"}
+                                        role="link"
+                                    >
+                                        Se info
+                                    </Button>
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
                 </Table.Body>
             </Table>
 
-            <Form className={"paginationWrapper"}>
+             <Form className={"paginationWrapper"}>
                 <Select
                     id={"select-number-of-rows"}
                     style={{marginBottom: '1.5rem'}}

@@ -1,5 +1,5 @@
 import {Button, Pagination, Select, Table} from "@navikt/ds-react";
-import {Form, useNavigate, useSearchParams} from "@remix-run/react";
+import {Form, useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {
     IResourceModuleAccessRole,
@@ -7,7 +7,8 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {IUnitItem} from "~/data/types";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {isLoading, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -17,8 +18,9 @@ interface ResourceModuleAdminUsersTableI {
 
 const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
     const navigate = useNavigate()
-
+    const navigation = useNavigation()
     const [params, setSearchParams] = useSearchParams()
+    const loading = isLoading(navigation)
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
@@ -39,18 +41,20 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {usersPage.users.map((user: IResourceModuleUser, index) => {
-                        return (
-                            <Table.Row key={index + user.userName}>
-                            <Table.DataCell>{user.firstName + " " + user.lastName}</Table.DataCell>
-                            <Table.DataCell>{user.userName}</Table.DataCell>
-                            <Table.DataCell align={"center"}>
-                                <Button variant={"secondary"} onClick={() => navigate(`administer/${user.resourceId}`)}>
-                                    Administrer
-                                </Button>
-                            </Table.DataCell>
-                        </Table.Row>)
-                    })}
+                    {loading ?
+                        <TableSkeleton columns={3}/> : usersPage.users.map((user: IResourceModuleUser, index) => {
+                            return (
+                                <Table.Row key={index + user.userName}>
+                                    <Table.DataCell>{user.firstName + " " + user.lastName}</Table.DataCell>
+                                    <Table.DataCell>{user.userName}</Table.DataCell>
+                                    <Table.DataCell align={"center"}>
+                                        <Button variant={"secondary"}
+                                                onClick={() => navigate(`administer/${user.resourceId}`)}>
+                                            Administrer
+                                        </Button>
+                                    </Table.DataCell>
+                                </Table.Row>)
+                        })}
                 </Table.Body>
             </Table>
             {usersPage.users.length > 0 &&
