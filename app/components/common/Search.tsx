@@ -1,11 +1,12 @@
 import {Search as AkselSearch} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {Form, useNavigation, useSearchParams} from "@remix-run/react";
+import {Form, useSearchParams} from "@remix-run/react";
 import {
     filterResetPageParam,
     handleClearSearchFieldString,
     handleSearchFieldString
 } from "~/components/common/CommonFunctions";
+import {useLoadingState} from "~/components/common/customHooks";
 
 type SearchInputProps = {
     label: string
@@ -15,10 +16,7 @@ type SearchInputProps = {
 export const Search = ({label, id}: SearchInputProps) => {
     const [searchString, setSearchString] = useState("")
     const [searchParams, setSearchParams] = useSearchParams()
-
-    const navigation = useNavigation()
-    const searching = navigation.location && new URLSearchParams(navigation.location.search).has("search");
-
+    const {searching} = useLoadingState()
     const pageParam = searchParams.get("page")
 
     return (

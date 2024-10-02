@@ -1,11 +1,12 @@
 import {Button, Link, Table, Tag} from "@navikt/ds-react";
 import type {IAssignmentPage} from "~/data/types";
-import {Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {isLoading, prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage
@@ -17,8 +18,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
 
     const [searchParams] = useSearchParams()
     const params = useParams()
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <>
@@ -34,7 +34,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ? <TableSkeleton columns={5}/> : assignmentsForUser.resources.map((resource) => (
+                    {fetching ? <TableSkeleton columns={5}/> : assignmentsForUser.resources.map((resource) => (
                         <Table.Row key={resource.resourceRef}>
                             <Table.HeaderCell scope="row">{resource.resourceName}</Table.HeaderCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>

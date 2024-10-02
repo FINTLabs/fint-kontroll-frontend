@@ -1,11 +1,11 @@
 import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
 import type {IUserItem} from "~/data/types";
 import React from "react";
-import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 
 interface AssignUserTableProps {
@@ -25,8 +25,7 @@ export const AssignUserTable = ({
     basePath,
 }: AssignUserTableProps) => {
     const [searchParams] = useSearchParams()
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <div>
@@ -44,7 +43,7 @@ export const AssignUserTable = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ? <TableSkeleton /> : isAssignedUsers.map((user: IUserItem) => (
+                    {fetching ? <TableSkeleton /> : isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>

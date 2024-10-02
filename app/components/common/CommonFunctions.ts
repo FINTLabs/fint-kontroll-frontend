@@ -96,6 +96,3 @@ export const getSizeCookieFromRequestHeader = (request: Request): ICookie | null
     }
     return null;
 };
-
-export const isLoading = ({location}: Navigation) =>
-    location && new URLSearchParams(location.search).size > 0;

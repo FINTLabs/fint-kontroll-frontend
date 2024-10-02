@@ -1,21 +1,19 @@
 import {Button, Table} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {useNavigate, useNavigation} from "@remix-run/react";
+import {useNavigate} from "@remix-run/react";
 import type {IRoleList} from "~/data/types";
 import React from "react";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface RoleTableProps {
     rolePage: IRoleList
     size: string
 }
 export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
-
     const navigate = useNavigate();
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <>
@@ -29,7 +27,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ? <TableSkeleton/> :
+                    {fetching ? <TableSkeleton/> :
                         rolePage.roles.map((role) => (
                             <Table.Row key={role.id}>
                                 <Table.DataCell scope="row">{role.roleName}</Table.DataCell>

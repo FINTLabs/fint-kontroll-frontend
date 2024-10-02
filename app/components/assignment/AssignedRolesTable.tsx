@@ -1,11 +1,11 @@
 import {Button, Heading, Link, Table, VStack} from "@navikt/ds-react";
 import type {IAssignedRoles} from "~/data/types";
 import React from "react";
-import {Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles,
@@ -17,8 +17,7 @@ export const AssignedRolesTable: any = (props: {
 
     const [searchParams] = useSearchParams()
     const params = useParams()
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <div>
@@ -37,7 +36,7 @@ export const AssignedRolesTable: any = (props: {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {loading ? <TableSkeleton /> : props.assignedRoles.roles.map((role) => (
+                        {fetching ? <TableSkeleton /> : props.assignedRoles.roles.map((role) => (
                             <Table.Row key={role.id}>
                                 <Table.HeaderCell scope="row">{role.roleName}</Table.HeaderCell>
                                 <Table.DataCell>{role.roleType}</Table.DataCell>

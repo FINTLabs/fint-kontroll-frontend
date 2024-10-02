@@ -1,11 +1,12 @@
 import {Button, Link, Table, Tag} from "@navikt/ds-react";
 import type {IResourceForList} from "~/data/types";
 import React from "react";
-import {Outlet, useNavigation, useSearchParams} from "@remix-run/react";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {isLoading, prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[],
@@ -29,8 +30,7 @@ export const AssignResourceToRoleTable = (
     }: AssignResourceToRoleTableProps) => {
 
     const [searchParams] = useSearchParams()
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <div>
@@ -45,7 +45,7 @@ export const AssignResourceToRoleTable = (
                 </Table.Header>
 
                 <Table.Body>
-                    {loading ? <TableSkeleton columns={2}/> : isAssignedResources.map((resource: IResourceForList) => (
+                    {fetching ? <TableSkeleton columns={2}/> : isAssignedResources.map((resource: IResourceForList) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>

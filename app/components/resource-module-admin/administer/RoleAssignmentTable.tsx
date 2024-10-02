@@ -1,6 +1,6 @@
 import {Alert, Table} from "@navikt/ds-react";
 import React, {useState} from "react";
-import {useNavigation, useSearchParams} from "@remix-run/react";
+import {useSearchParams} from "@remix-run/react";
 import {
     IResourceModuleAccessRole,
     IResourceModuleOrgUnitDetail,
@@ -8,9 +8,9 @@ import {
 } from "~/data/resourceModuleAdmin/types";
 import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface RoleAssignmentTableProps {
     selectedRole: IResourceModuleAccessRole
@@ -21,9 +21,7 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}: RoleAssig
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [orgUnit, setOrgUnit] = useState<IResourceModuleOrgUnitDetail | undefined>()
     const [scopeId, setScopeId] = useState("")
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
-
+    const {fetching} = useLoadingState()
     const [params] = useSearchParams()
 
     const toggleDeleteOrgUnitModal = (scopeId: number, orgUnit: IResourceModuleOrgUnitDetail) => {
@@ -62,7 +60,7 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}: RoleAssig
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ? <TableSkeleton columns={selectedRole.accessRoleId === "" ? 3 : 2} height={30} /> :userAssignmentsPaginated?.accessRoles.length !== 0 ? (
+                    {fetching ? <TableSkeleton columns={selectedRole.accessRoleId === "" ? 3 : 2} height={30} /> :userAssignmentsPaginated?.accessRoles.length !== 0 ? (
                         userAssignmentsPaginated?.accessRoles.map((scope) =>
                             scope.orgUnits.map((orgUnit) => (
                                 <Table.Row

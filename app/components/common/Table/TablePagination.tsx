@@ -11,7 +11,6 @@ type PaginationProps = {
 
 export const TablePagination = ({totalPages = 1, size = 25, currentPage}: PaginationProps) => {
     const [, setSearchParams] = useSearchParams()
-
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
         setSizeCookieClientSide(event.target.value)
         setSearchParams(searchParams => {
@@ -44,7 +43,7 @@ export const TablePagination = ({totalPages = 1, size = 25, currentPage}: Pagina
                         return searchParams;
                     })
                 }}
-                count={totalPages}
+                count={Math.max(totalPages, 1)}
                 size="small"
                 prevNextTexts
             />

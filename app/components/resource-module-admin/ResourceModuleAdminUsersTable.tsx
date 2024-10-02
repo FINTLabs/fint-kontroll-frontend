@@ -1,5 +1,5 @@
 import {Button, Table} from "@navikt/ds-react";
-import {useNavigate, useNavigation, useSearchParams} from "@remix-run/react";
+import {useNavigate, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {
     IResourceModuleAccessRole,
@@ -7,9 +7,9 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {IUnitItem} from "~/data/types";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -19,9 +19,8 @@ interface ResourceModuleAdminUsersTableI {
 
 const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
     const navigate = useNavigate()
-    const navigation = useNavigation()
     const [params] = useSearchParams()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <div className={"table-toolbar-pagination-container"}>
@@ -34,7 +33,7 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ?
+                    {fetching ?
                         <TableSkeleton columns={3}/> : usersPage.users.map((user: IResourceModuleUser, index) => {
                             return (
                                 <Table.Row key={index + user.userName}>

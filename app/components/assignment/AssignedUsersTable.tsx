@@ -1,11 +1,12 @@
 import {Button, Heading, Link, Table, Tag, VStack} from "@navikt/ds-react";
 import type {IAssignedUsers} from "~/data/types";
 import React from "react";
-import {Outlet, useNavigation, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {isLoading, prepareQueryParams} from "~/components/common/CommonFunctions";
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers, size: string
@@ -16,8 +17,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
 
     const [searchParams] = useSearchParams()
     const params = useParams()
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <div>
@@ -37,7 +37,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {loading ? <TableSkeleton columns={5}/> : assignedUsers.users.map((user) => (
+                        {fetching ? <TableSkeleton columns={5}/> : assignedUsers.users.map((user) => (
                             <Table.Row key={user.assigneeRef}>
                                 <Table.HeaderCell scope="row">{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
                                 <Table.DataCell>{user.assigneeUserType}</Table.DataCell>

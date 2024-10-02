@@ -1,10 +1,9 @@
 import {Table} from "@navikt/ds-react";
-import {useNavigation} from "@remix-run/react";
 import type {IMemberPage} from "~/data/types";
 import React from "react";
-import {isLoading} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 
 interface MembersTableProps {
@@ -13,9 +12,7 @@ interface MembersTableProps {
 }
 
 export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
-
-    const navigation = useNavigation()
-    const loading = isLoading(navigation)
+    const {fetching} = useLoadingState()
 
     return (
         <>
@@ -27,7 +24,7 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {loading ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
+                    {fetching ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
                             <Table.DataCell>{member.userType}</Table.DataCell>
