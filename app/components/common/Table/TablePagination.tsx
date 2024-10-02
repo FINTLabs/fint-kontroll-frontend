@@ -22,7 +22,6 @@ export const TablePagination = ({totalPages = 1, size = 25, currentPage}: Pagina
 
     return (
         <Form className={"paginationWrapper"}>
-            ny
             <Select
                 id={"select-number-of-rows"}
                 style={{marginBottom: '1.5rem'}}
