@@ -1,6 +1,6 @@
 import {Button, Dropdown, HStack, Link, Table} from "@navikt/ds-react";
-import {FunnelIcon, InformationSquareIcon, MinusIcon, TrashIcon} from "@navikt/aksel-icons";
-import {Outlet, useNavigate, useSearchParams} from "@remix-run/react";
+import {FunnelIcon, MinusIcon, TrashIcon} from "@navikt/aksel-icons";
+import {Outlet, useSearchParams} from "@remix-run/react";
 import type {IResourceAdminList} from "~/data/types";
 import React from "react";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
@@ -8,6 +8,7 @@ import {StatusTag} from "~/components/resource-admin/StatusTag";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -16,8 +17,6 @@ interface ResourceTableProps {
 }
 
 export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTableProps) => {
-
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -74,7 +73,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {fetching ? <TableSkeleton columns={5} /> : resourcePage.resources.map((resource) => (
+                    {fetching ? <TableSkeleton columns={5}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
@@ -103,29 +102,20 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                                 </Button>*/}
 
                             <Table.DataCell align="center">
-                                <Button
-                                    icon={
-                                        <InformationSquareIcon
-                                            title="Informasjonsikon"
-                                            fontSize="1.5rem"
-                                        />
-                                    }
-                                    iconPosition={"right"}
-                                    onClick={() =>
-                                        navigate(`/resource-admin/${resource.id}`)
-                                    }
-                                    // id={`resource-${i}`}
-                                    variant={"secondary"}
-                                    role="link"
-                                >
-                                    Se info
-                                </Button>
+                                <SeeInfoButton
+                                    id={`resourceAdminInfoButton-${resource.id}`}
+                                    url={`/resource-admin/${resource.id}`}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
-            <TablePagination currentPage={resourcePage.currentPage} totalPages={resourcePage.totalPages} size={size ?? 10}/>
+            <TablePagination
+                currentPage={resourcePage.currentPage}
+                totalPages={resourcePage.totalPages}
+                size={size ?? 10}
+            />
         </>
     );
 };

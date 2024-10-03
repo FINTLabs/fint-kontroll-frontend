@@ -1,11 +1,10 @@
-import {Button, Table} from "@navikt/ds-react";
-import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {useNavigate} from "@remix-run/react";
+import {Table} from "@navikt/ds-react";
 import {IUserItem, IUserPage} from "~/data/types";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
 
 interface UserTableProps {
     userPage: IUserPage
@@ -13,7 +12,6 @@ interface UserTableProps {
 }
 
 export const UserTable = ({userPage, size}: UserTableProps) => {
-    const navigate = useNavigate();
     const {fetching} = useLoadingState()
 
     return (
@@ -28,30 +26,16 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {fetching ? <TableSkeleton /> : userPage.users.map((user: IUserItem) => (
+                    {fetching ? <TableSkeleton/> : userPage.users.map((user: IUserItem) => (
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell align="right">
-                                <Button
+                                <SeeInfoButton
                                     id={`userInfoButton-${user.id}`}
-                                    icon={
-                                        <InformationSquareIcon
-                                            title="Informasjonsikon"
-                                            fontSize="1.5rem"
-                                        />
-                                    }
-                                    iconPosition={"right"}
-                                    onClick={() =>
-                                        navigate(`/users/${user.id}/orgunit/${user.organisationUnitId}`)
-                                    }
-                                    // id={`resource-${i}`}
-                                    variant={"secondary"}
-                                    role="link"
-                                >
-                                    Se info
-                                </Button>
+                                    url={`/users/${user.id}/orgunit/${user.organisationUnitId}`}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     ))}

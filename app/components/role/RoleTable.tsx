@@ -1,18 +1,17 @@
-import {Button, Table} from "@navikt/ds-react";
-import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {useNavigate} from "@remix-run/react";
+import {Table} from "@navikt/ds-react";
 import type {IRoleList} from "~/data/types";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
 
 interface RoleTableProps {
     rolePage: IRoleList
     size: string
 }
-export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
-    const navigate = useNavigate();
+
+export const RoleTable = ({rolePage, size}: RoleTableProps) => {
     const {fetching} = useLoadingState()
 
     return (
@@ -34,24 +33,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                 <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>{role.roleType}</Table.DataCell>
                                 <Table.DataCell align="right">
-                                    <Button
-                                        id={`roleInfoButton-${role.id}`}
-                                        icon={
-                                            <InformationSquareIcon
-                                                title="Informasjonsikon"
-                                                fontSize="1.5rem"
-                                            />
-                                        }
-                                        iconPosition={"right"}
-                                        onClick={() =>
-                                            navigate(`/roles/${role.id}/members`)
-                                        }
-                                        // id={`resource-${i}`}
-                                        variant={"secondary"}
-                                        role="link"
-                                    >
-                                        Se info
-                                    </Button>
+                                    <SeeInfoButton id={`roleInfoButton-${role.id}`} url={`/roles/${role.id}/members`}/>
                                 </Table.DataCell>
                             </Table.Row>
                         ))}
