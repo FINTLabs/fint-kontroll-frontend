@@ -6,6 +6,7 @@ import {
     handleClearSearchFieldString,
     handleSearchFieldString
 } from "~/components/common/CommonFunctions";
+import {useLoadingState} from "~/components/common/customHooks";
 
 type SearchInputProps = {
     label: string
@@ -15,7 +16,7 @@ type SearchInputProps = {
 export const Search = ({label, id}: SearchInputProps) => {
     const [searchString, setSearchString] = useState("")
     const [searchParams, setSearchParams] = useSearchParams()
-
+    const {searching} = useLoadingState()
     const pageParam = searchParams.get("page")
 
     return (
@@ -38,7 +39,8 @@ export const Search = ({label, id}: SearchInputProps) => {
                 onClear={() => {
                     handleClearSearchFieldString(setSearchParams)
                 }}
-            />
+            > <AkselSearch.Button loading={searching}/>
+            </AkselSearch>
         </Form>
     );
 };

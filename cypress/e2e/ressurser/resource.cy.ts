@@ -50,7 +50,7 @@ describe('Check the resource details page', () => {
 
     it('Pagination (select number of rows in table)', () => {
         cy.get('#pagination').should('be.visible')
-        cy.get('#pagination-select').should('exist').select('5')
+        cy.get('#select-number-of-rows').should('exist').select('5')
         cy.wait(1000)
     });
 

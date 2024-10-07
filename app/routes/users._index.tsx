@@ -41,7 +41,6 @@ export default function UsersIndex() {
         orgUnitList: IUnitItem[]
         size: string
     }>();
-    const [searchParams,] = useSearchParams()
     const size = data.size
 
     return (
