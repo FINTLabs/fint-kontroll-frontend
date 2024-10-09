@@ -36,7 +36,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
-    "@navikt/aksel-stylelint": "^6.5.0",
+    "@navikt/aksel-stylelint": "^7.2.0",
     "@remix-run/dev": "^2.8.1",
     "@remix-run/eslint-config": "^2.8.1",
     "@testing-library/jest-dom": "^5.17.0",
