@@ -73,14 +73,14 @@ export default function ResourceAdminIndex() {
     return (
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
-            <HStack justify={"space-between"}>
-                <HStack justify={"start"} align={"end"}>
+            {/*<HStack justify={"space-between"}>*/}
+{/*                <HStack justify={"start"} align={"end"}>
                     <Box paddingBlock="4">
                         <Link href={"resource-admin/opprett-ny-applikasjonsressurs"} id="create-resource">
                             <PlusIcon title="a11y-title" fontSize="1rem"/> Opprett ny ressurs
                         </Link>
                     </Box>
-                </HStack>
+                </HStack>*/}
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
 
@@ -99,7 +99,7 @@ export default function ResourceAdminIndex() {
                 </Select>*/}
                     <Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>
                 </HStack>
-            </HStack>
+            {/*</HStack>*/}
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>
