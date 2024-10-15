@@ -104,7 +104,7 @@ export default function ResourceAdminIndex() {
                 </Select>*/}
                     <Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>
                 </HStack>
-            {/*</HStack>*/}
+            </HStack>
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>
