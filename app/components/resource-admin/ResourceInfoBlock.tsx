@@ -22,33 +22,7 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
                     <Heading size="small" level="3">KildesystemID:</Heading>
                     <BodyShort textColor="subtle">{props.resource.resourceId}</BodyShort>
                 </li>
-                <li>
-                    <Heading size="small" level="3">Ressurstype:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.resourceType}</BodyShort>
-                </li>
-                <li>
-                    <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.applicationAccessType}</BodyShort>
-                </li>
-                <li>
-                    <Heading size="small" level="3">Tilgangsrolle:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.applicationAccessRole}</BodyShort>
-                </li>
-                <li>
-                    <Heading size="small" level="3">Tilgangstype:</Heading>
-                    <BodyShort textColor="subtle">{props.resource.accessType}</BodyShort>
-                </li>
-                <li>
-                    <Heading size="small" level="3">Plattform:</Heading>
-                    <BodyShort textColor="subtle">{
-                        props.resource.platform.map((item, index) => (
-                            <span key={index}>
-                                    {item}
-                                {index < props.resource.platform.length - 1 ? ', ' : ''}
-                                </span>
-                        ))}
-                    </BodyShort>
-                </li>
+
                 <li>
                     <Heading size="small" level="3">Ressurseier:</Heading>
                     <BodyShort textColor="subtle">{props.resource.resourceOwnerOrgUnitName}</BodyShort>
@@ -86,6 +60,33 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
                     ))}
                     </BodyShort>
                 </li>
+                <li>
+                    <Heading size="small" level="3">Ressurstype:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.resourceType}</BodyShort>
+                </li>
+                {/*<li>
+                    <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.applicationAccessType}</BodyShort>
+                </li>*/}
+                {/*<li>
+                    <Heading size="small" level="3">Tilgangsrolle:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.applicationAccessRole}</BodyShort>
+                </li>*/}
+                {/*<li>
+                    <Heading size="small" level="3">Tilgangstype:</Heading>
+                    <BodyShort textColor="subtle">{props.resource.accessType}</BodyShort>
+                </li>*/}
+                {/*<li>
+                    <Heading size="small" level="3">Plattform:</Heading>
+                    <BodyShort textColor="subtle">{
+                        props.resource.platform.map((item, index) => (
+                            <span key={index}>
+                                    {item}
+                                {index < props.resource.platform.length - 1 ? ', ' : ''}
+                                </span>
+                        ))}
+                    </BodyShort>
+                </li>*/}
             </ul>
         </GuidePanel>
     )

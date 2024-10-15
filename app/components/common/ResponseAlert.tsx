@@ -17,7 +17,7 @@ export const ResponseAlert = (
 ) => {
     if (responseCode === undefined) return null
 
-    if (responseCode === "201") {
+    if (responseCode === "201" || responseCode === "202") {
         return (
             <AlertWithCloseButton variant="success">
                 {successText}

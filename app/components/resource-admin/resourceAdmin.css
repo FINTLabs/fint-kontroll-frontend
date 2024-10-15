@@ -27,3 +27,18 @@ ul {
     max-width: 200px;
     min-width: 100px;
 }
+
+.expansion-green {
+    --ac-expansioncard-header-bg: var(--a-surface-success-moderate);
+    --ac-expansioncard-header-open-bg: var(--a-surface-success-moderate);
+    --ac-expansioncard-border-open-color: var(--a-surface-success-subtle);
+    --ac-expansioncard-border-hover-color: var(--a-surface-success-subtle);
+}
+
+.textField-green {
+    --ac-textfield-border: var(--a-surface-success-moderate);
+}
+
+.no-underline-button {
+    text-decoration: none;
+}

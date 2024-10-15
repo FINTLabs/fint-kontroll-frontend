@@ -12,20 +12,17 @@ const ResourceOwnerSelector = ({
                                    orgUnitList,
                                    setSelectedOrgUnit,
                                }: ValidForOrgUnitSelectorProps) => {
+
     const [newOrgUnitList, setNewOrgUnitList] = useState(
         orgUnitList.map(unit => ({...unit, isChecked: unit.isChecked ?? false}))
     );
 
+
     const toggleOrgUnitSelection = (orgUnit: IUnitItem) => {
         const updatedOrgUnitList = newOrgUnitList.map((unit) => {
-            if (unit.organisationUnitId === orgUnit.organisationUnitId) {
-                return {...unit, isChecked: !unit.isChecked};
-            }
-            return {...unit, isChecked: false};
+            return {...unit, isChecked: unit.organisationUnitId === orgUnit.organisationUnitId};
         });
-
-        const selectedUnit = orgUnit.isChecked ? null : orgUnit;
-        setSelectedOrgUnit(selectedUnit);
+        setSelectedOrgUnit(orgUnit);
         setNewOrgUnitList(updatedOrgUnitList);
     };
 
@@ -38,9 +35,10 @@ const ResourceOwnerSelector = ({
                             <Checkbox
                                 className={"org-unit-checkbox"}
                                 checked={orgUnit.isChecked}
-                                onClick={(event) => {
+                                onChange={(event) => {
                                     event.stopPropagation();
                                     toggleOrgUnitSelection(orgUnit);
+                                    console.log(orgUnit)
                                 }}
                             >
                                 {orgUnit.name}

@@ -1,6 +1,6 @@
-import {Alert, Box, Heading, HStack, Link, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
@@ -12,6 +12,7 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {BASE_PATH} from "../../environment";
+import React from "react";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -56,6 +57,7 @@ export default function ResourceAdminIndex() {
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const applicationCategories: string[] = loaderData.applicationCategories
+    const navigate = useNavigate()
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     // const accessTypes: string[] = loaderData.accessTypes
     // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
@@ -74,12 +76,14 @@ export default function ResourceAdminIndex() {
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
             <HStack justify={"space-between"}>
-                <HStack justify={"start"} align={"end"}>
-                    <Box paddingBlock="4">
-                        <Link href={"resource-admin/opprett-ny-applikasjonsressurs"} id="create-resource">
-                            <PlusIcon title="a11y-title" fontSize="1rem"/> Opprett ny ressurs
-                        </Link>
-                    </Box>
+                <HStack justify={"end"} align={"end"}>
+                    <Button role="link"
+                            className={"no-underline-button"}
+                            variant={"secondary"}
+                            iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                            onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                        Opprett ny ressurs
+                    </Button>
                 </HStack>
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>

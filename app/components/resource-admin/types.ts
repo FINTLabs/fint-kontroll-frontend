@@ -1,4 +1,5 @@
-export interface INewApplicationResource {
+export interface IApplicationResource {
+    id?: number
     resourceId: string
     resourceName: string
     resourceType: string

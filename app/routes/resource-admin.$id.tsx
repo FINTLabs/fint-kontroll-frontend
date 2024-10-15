@@ -1,6 +1,6 @@
 import styles from "../components/resource/resource.css?url"
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Link as RemixLink, Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -8,19 +8,20 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {ResourceInfoBlock} from "~/components/resource-admin/ResourceInfoBlock";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
 import {StatusTag} from "~/components/resource-admin/StatusTag";
-import * as React from "react";
-import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {ArrowRightIcon, PencilIcon} from "@navikt/aksel-icons";
+import {ResponseAlert} from "~/components/common/ResponseAlert";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-
+    const url = new URL(request.url);
     const [resource] = await Promise.all([
         fetchResourceById(request, params.id),
     ]);
     return json({
+        responseCode: url.searchParams.get("responseCode") ?? undefined,
         resource: await resource.json(),
     })
 }
@@ -30,37 +31,61 @@ export const handle = {
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"}>
-                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
+                <RemixLink to={`/resource-admin`}>Ressursadministrasjon</RemixLink>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/${params.id}`}>Ressursinfo</Link>
+                <RemixLink to={`/resource-admin/${params.id}`}>Ressursinfo</RemixLink>
             </HStack>
         </HStack>
     )
 }
 
 export default function ResourceById() {
-    const data = useLoaderData<{
-        resource: IResource,
-    }>();
+    const loaderData = useLoaderData<typeof loader>();
+    const resource: IResource = loaderData.resource
+    const responseCode: string | undefined = loaderData.responseCode
+    const navigate = useNavigate()
 
     return (
         <VStack gap="8">
             <VStack gap="4">
+                <HStack justify={"end"} align={"end"}>
+                    <Button role="link"
+                            className={"no-underline-button"}
+                            variant={"secondary"}
+                            iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                            onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}>
+                        Rediger ressurs
+                    </Button>
+                </HStack>
                 <HStack gap="8" align={"center"} justify={"center"}>
                     <Heading className={"heading"}
                              level="1"
                              size="xlarge"
                     >
-                        {data.resource.resourceName}
+                        {resource.resourceName}
                     </Heading>
-                    <StatusTag status={data.resource.status}/>
+                    <StatusTag status={resource.status}/>
                 </HStack>
-                <ResourceInfoBlock resource={data.resource}/>
+                <ResponseAlert
+                    responseCode={responseCode}
+                    successText={"Ressursen ble oppdatert!"}
+                    deleteText={"Ressursen ble slettet!"}
+                />
+                <ResourceInfoBlock resource={resource}/>
             </VStack>
 
             <VStack gap="4">
-                <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende enheter</Heading>
-                <ResourceDetailTable resource={data.resource}/>
+                <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende orgenheter</Heading>
+                <HStack justify={"end"} align={"end"}>
+                    <Button role="link"
+                            className={"no-underline-button"}
+                            variant={"secondary"}
+                            iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                            onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}>
+                        Rediger orgenheter
+                    </Button>
+                </HStack>
+                <ResourceDetailTable resource={resource}/>
             </VStack>
         </VStack>
     );
