@@ -168,6 +168,72 @@ export const createResource = async (token: string | null,
     return response;
 }
 
+export const updateResource = async (token: string | null,
+                                     id: number,
+                                     resourceId: string,
+                                     resourceName: string,
+                                     resourceType: string,
+                                     platform: string[],
+                                     accessType: string,
+                                     resourceLimit: number,
+                                     resourceOwnerOrgUnitId: string,
+                                     resourceOwnerOrgUnitName: string,
+                                     validForOrgUnits: IValidForOrgUnits[],
+                                     validForRoles: string[],
+                                     applicationCategory: string[],
+                                     hasCost: boolean,
+                                     licenseEnforcement: string,
+                                     unitCost: string,
+                                     status: string) => {
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
+    logger.debug("EDIT CREATE RESOURCE to ", url, " with body ", JSON.stringify({
+        id: id,
+        resourceId: resourceId,
+        resourceName: resourceName,
+        resourceType: resourceType,
+        platform: platform,
+        accessType: accessType,
+        resourceLimit: resourceLimit,
+        resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+        resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+        validForOrgUnits: validForOrgUnits,
+        validForRoles: validForRoles,
+        applicationCategory: applicationCategory,
+        hasCost: hasCost,
+        licenseEnforcement: licenseEnforcement,
+        unitCost: unitCost,
+        status: status
+    }));
+    const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify({
+            id: id,
+            resourceId: resourceId,
+            resourceName: resourceName,
+            resourceType: resourceType,
+            platform: platform,
+            accessType: accessType,
+            resourceLimit: resourceLimit,
+            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+            validForOrgUnits: validForOrg,
+            validForRoles: validForRoles,
+            applicationCategory: applicationCategory,
+            hasCost: hasCost,
+            licenseEnforcement: licenseEnforcement,
+            unitCost: unitCost,
+            status: status
+        })
+    });
+    logger.debug("Response from EDIT Resource", url, response.status);
+    return response;
+}
+
 export const deleteResource = async (request: Request, id: string) => {
 
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`

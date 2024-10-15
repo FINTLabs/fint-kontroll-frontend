@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {Accordion, Box, Checkbox, HStack, TextField} from "@navikt/ds-react";
-import type { IUnitItem } from "~/data/types";
+import React, {useEffect, useState} from "react";
+import {Accordion, Box, Checkbox, HGrid, TextField} from "@navikt/ds-react";
+import type {IUnitItem} from "~/data/types";
 
 interface ValidForOrgUnitSelectorProps {
     orgUnitList: IUnitItem[];
@@ -32,7 +32,7 @@ const ValidForOrgUnitSelector = ({
                 (unit) => unit.organisationUnitId !== changedOrgUnit.organisationUnitId
             );
         } else {
-            newSelected = [...selectedOrgUnits, { ...changedOrgUnit }];
+            newSelected = [...selectedOrgUnits, {...changedOrgUnit}];
         }
         //console.log(`Valgt enhet ${changedOrgUnit.organisationUnitId}:`, changedOrgUnit);
         setSelectedOrgUnits(newSelected);
@@ -45,11 +45,10 @@ const ValidForOrgUnitSelector = ({
     };
 
     const handleAntallChange = (orgUnitId: string, value: string) => {
-        const antall = Math.max(0, Math.min(parseInt(value), 1000000));
-        //console.log(`Endret antall for enhet ${orgUnitId}:`, antall);
+        const antall = Math.max(0, parseInt(value));
         const updatedOrgUnits = newOrgUnitList.map((unit) =>
             unit.organisationUnitId === orgUnitId
-                ? { ...unit, limit: isNaN(antall) ? undefined : antall }
+                ? {...unit, limit: isNaN(antall) ? undefined : antall}
                 : unit
         );
         setNewOrgUnitList(updatedOrgUnits);
@@ -60,11 +59,11 @@ const ValidForOrgUnitSelector = ({
         return (
             <Accordion.Item key={orgUnit.id + " " + orgUnit.organisationUnitId}>
                 <Accordion.Header>
-                    <HStack gap={"24"} align={"center"} justify={"center"}>
+                    <HGrid gap={"24"} columns={2}>
                         <Box>
                             <Checkbox
                                 className={"org-unit-checkbox"}
-                                checked={orgUnit.isChecked}
+                                checked={orgUnit.isChecked || false}
                                 onClick={(event) => {
                                     event.stopPropagation();
                                     toggleOrgUnit(orgUnit);
@@ -77,9 +76,7 @@ const ValidForOrgUnitSelector = ({
                             {orgUnit.isChecked && (
                                 <TextField
                                     label={"Antall"}
-
                                     min="0"
-                                    max="100"
                                     value={orgUnit.limit?.toString() || ""}
                                     onChange={(event) =>
                                         handleAntallChange(
@@ -92,7 +89,7 @@ const ValidForOrgUnitSelector = ({
                             )}
 
                         </Box>
-                    </HStack>
+                    </HGrid>
                 </Accordion.Header>
                 {!locksChildNodes && (
                     <Accordion.Content>

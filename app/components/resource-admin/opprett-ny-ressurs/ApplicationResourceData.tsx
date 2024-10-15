@@ -1,15 +1,15 @@
 import React, {SetStateAction} from "react";
-import {INewApplicationResource} from "~/components/resource-admin/types";
+import {IApplicationResource} from "~/components/resource-admin/types";
 import {Checkbox, CheckboxGroup, Radio, RadioGroup, Select, TextField, VStack} from "@navikt/ds-react";
 
 interface ResourceDataProps {
-    newApplicationResource: INewApplicationResource
-    setNewApplicationResource: React.Dispatch<SetStateAction<INewApplicationResource>>
+    newApplicationResource: IApplicationResource
+    setNewApplicationResource: React.Dispatch<SetStateAction<IApplicationResource>>
 }
 
 export default function ApplicationResourceData({
                                                     newApplicationResource,
-                                                    setNewApplicationResource
+                                                    setNewApplicationResource,
                                                 }: ResourceDataProps) {
 
     const doesValueContainNumbersOnly = (value: string) => {
@@ -23,7 +23,7 @@ export default function ApplicationResourceData({
                     <TextField className={"input-large"}
                                label="Ressurs ID"
                                description={"Skriv inn unik id til ressursen uten mellomrom"}
-                               value={newApplicationResource.resourceId}
+                               value={newApplicationResource.resourceId || ""}
                                onChange={(event) =>
                                    setNewApplicationResource({
                                        ...newApplicationResource,
@@ -34,16 +34,19 @@ export default function ApplicationResourceData({
                     <TextField className={"input-large"}
                                label="Navn på ressurs"
                                description={"Fullt navn på ressursen"}
-                               value={newApplicationResource.resourceName}
+                               value={newApplicationResource.resourceName || ""}
                                onChange={(event) => setNewApplicationResource({
                                    ...newApplicationResource,
                                    resourceName: event.target.value
                                })}/>
                 </li>
+                {/*
+                Denne skal brukes på et senere tidspungt, foreløpig hardkodes pga. ApplicationResource er eneste valg
                 <li>
                     <Select
                         className={"input-medium"}
                         label={"Velg ressurstype"}
+                        value={newApplicationResource.resourceType}
                         onChange={(event) => setNewApplicationResource({
                             ...newApplicationResource,
                             resourceType: event.target.value
@@ -52,16 +55,20 @@ export default function ApplicationResourceData({
                         <option value={""}></option>
                         <option value={"ApplicationResource"}>Applikasjonsressurs</option>
                     </Select>
-                </li>
+                </li>*/}
+                {/*
+                Denne skal brukes på et senere tidspungt, foreløpig hardkodes
                 <li>
-                    <CheckboxGroup legend="Velg plattform" onChange={(value: string[]) => {
-                        setNewApplicationResource((prevState) => {
-                            return {
-                                ...prevState,
-                                platform: value
-                            };
-                        });
-                    }}>
+                    <CheckboxGroup legend="Velg plattform"
+                                   value={newApplicationResource.platform || []}
+                                   onChange={(value: string[]) => {
+                                       setNewApplicationResource((prevState) => {
+                                           return {
+                                               ...prevState,
+                                               platform: value
+                                           };
+                                       });
+                                   }}>
                         <Checkbox value="win">Win</Checkbox>
                         <Checkbox value="mac">Mac</Checkbox>
                         <Checkbox value="linux">Linux</Checkbox>
@@ -69,12 +76,14 @@ export default function ApplicationResourceData({
                         <Checkbox value="android">Android</Checkbox>
                         <Checkbox value="ios">iOS</Checkbox>
                     </CheckboxGroup>
-                </li>
+                </li>*/}
+                {/*
+                Denne skal brukes på et senere tidspungt, foreløpig hardkodes
                 <li>
                     <Select
                         className={"input-medium"}
                         label={"Velg tilgangstype"}
-
+                        value={newApplicationResource.accessType}
                         onChange={(event) => setNewApplicationResource({
                             ...newApplicationResource,
                             accessType: event.target.value
@@ -83,12 +92,12 @@ export default function ApplicationResourceData({
                         <option value={"Device based license"}>Device based license</option>
 
                     </Select>
-                </li>
+                </li>*/}
                 <li>
                     <TextField className={"input-small"}
                                label="Ressursgrense"
                                description={"Totalt antall av ressursen"}
-                               value={newApplicationResource.resourceLimit}
+                               value={newApplicationResource.resourceLimit || 0}
                                onChange={(event) => setNewApplicationResource({
                                    ...newApplicationResource,
                                    resourceLimit: Number(event.target.value)
@@ -96,6 +105,7 @@ export default function ApplicationResourceData({
                 </li>
                 <li>
                     <CheckboxGroup legend="Velg roller ressursen skal være gyldig for"
+                                   value={newApplicationResource.validForRoles || []}
                                    onChange={(value: string[]) => {
                                        setNewApplicationResource((prevState) => {
                                            return {
@@ -109,25 +119,22 @@ export default function ApplicationResourceData({
                     </CheckboxGroup>
                 </li>
                 <li>
-                    <Select
-                        className={"input-medium"}
-                        label={"Velg applikasjonskategori"}
-                        onChange={(e) => {
-                            const selectedAppCategory = e.target.value;
-                            setNewApplicationResource((prevState) => {
-                                return {
-                                    ...prevState,
-                                    applicationCategory: selectedAppCategory ? [selectedAppCategory] : []
-                                };
-                            });
-                        }}
-                    >
-                        <option value={""}></option>
-                        <option value={"Pedagogisk programvare"}>Pedagogisk programvare</option>
-                    </Select>
+                    <CheckboxGroup legend="Velg applikasjonskategori"
+                                   value={newApplicationResource.applicationCategory || []}
+                                   onChange={(value: string[]) => {
+                                       setNewApplicationResource((prevState) => {
+                                           return {
+                                               ...prevState,
+                                               applicationCategory: value
+                                           };
+                                       });
+                                   }}>
+                        <Checkbox value={"Pedagogisk programvare"}>Pedagogisk programvare</Checkbox>
+                    </CheckboxGroup>
                 </li>
                 <li>
                     <RadioGroup legend="Har ressursen en kostnad?"
+                                value={newApplicationResource.hasCost || false}
                                 onChange={(value: boolean) => setNewApplicationResource({
                                     ...newApplicationResource,
                                     hasCost: value
@@ -138,6 +145,7 @@ export default function ApplicationResourceData({
                 </li>
                 <li>
                     <RadioGroup legend="Håndhevingsregel"
+                                value={newApplicationResource.licenseEnforcement || false}
                                 onChange={(value: string) => setNewApplicationResource({
                                     ...newApplicationResource,
                                     licenseEnforcement: value
@@ -150,8 +158,8 @@ export default function ApplicationResourceData({
                 <li>
                     <TextField className={"input-small"}
                                label="Kostnad ressurs (pr. stk.)"
+                               value={newApplicationResource.unitCost || 0}
                                inputMode="numeric"
-                               value={newApplicationResource.unitCost}
                                {...(!doesValueContainNumbersOnly(String(newApplicationResource.unitCost)) ? {error: "Kan ikke inneholde annet enn tall"} : {})}
                                onChange={(event) => doesValueContainNumbersOnly(event.target.value) && setNewApplicationResource({
                                    ...newApplicationResource,
@@ -161,6 +169,7 @@ export default function ApplicationResourceData({
                 </li>
                 <li>
                     <RadioGroup legend="Status"
+                                value={newApplicationResource.status || false}
                                 onChange={(value: string) => setNewApplicationResource({
                                     ...newApplicationResource,
                                     status: value
