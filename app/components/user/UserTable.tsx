@@ -1,9 +1,10 @@
-import {Button, Pagination, Select, Table} from "@navikt/ds-react";
-import {InformationSquareIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useSearchParams} from "@remix-run/react";
+import {Table} from "@navikt/ds-react";
 import {IUserItem, IUserPage} from "~/data/types";
 import React from "react";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
+import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
 
 interface UserTableProps {
     userPage: IUserPage
@@ -11,17 +12,7 @@ interface UserTableProps {
 }
 
 export const UserTable = ({userPage, size}: UserTableProps) => {
-
-    const navigate = useNavigate();
-    const [, setSearchParams] = useSearchParams()
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
+    const {fetching} = useLoadingState()
 
     return (
         <>
@@ -35,64 +26,23 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {userPage.users.map((user: IUserItem) => (
+                    {fetching ? <TableSkeleton/> : userPage.users.map((user: IUserItem) => (
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell>{user.userType}</Table.DataCell>
                             <Table.DataCell align="right">
-                                <Button
+                                <SeeInfoButton
                                     id={`userInfoButton-${user.id}`}
-                                    icon={
-                                        <InformationSquareIcon
-                                            title="Informasjonsikon"
-                                            fontSize="1.5rem"
-                                        />
-                                    }
-                                    iconPosition={"right"}
-                                    onClick={() =>
-                                        navigate(`/users/${user.id}/orgunit/${user.organisationUnitId}`)
-                                    }
-                                    // id={`resource-${i}`}
-                                    variant={"secondary"}
-                                    role="link"
-                                >
-                                    Se info
-                                </Button>
+                                    url={`/users/${user.id}/orgunit/${user.organisationUnitId}`}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
 
-            <Form className={"paginationWrapper"}>
-                <Select
-                    id={"select-number-of-rows"}
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : "25"}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={userPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={userPage.totalPages || 1}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+            <TablePagination currentPage={userPage.currentPage} totalPages={userPage.totalPages} size={size}/>
         </>
     );
 };
