@@ -1,10 +1,12 @@
-import {Box, Button, Link, Pagination, Select, Table, Tag} from "@navikt/ds-react";
+import {Button, Link, Table, Tag} from "@navikt/ds-react";
 import type {IResourceForList} from "~/data/types";
 import React from "react";
 import {Outlet, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams, setSizeCookieClientSide} from "~/components/common/CommonFunctions";
-
+import {prepareQueryParams} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[],
@@ -27,15 +29,8 @@ export const AssignResourceToRoleTable = (
         basePath
     }: AssignResourceToRoleTableProps) => {
 
-    const [searchParams, setSearchParams] = useSearchParams()
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
+    const [searchParams] = useSearchParams()
+    const {fetching} = useLoadingState()
 
     return (
         <div>
@@ -50,7 +45,7 @@ export const AssignResourceToRoleTable = (
                 </Table.Header>
 
                 <Table.Body>
-                    {isAssignedResources.map((resource: IResourceForList) => (
+                    {fetching ? <TableSkeleton columns={2}/> : isAssignedResources.map((resource: IResourceForList) => (
                         <Table.Row key={resource.id}>
                             <Table.HeaderCell scope="row">{resource.resourceName} </Table.HeaderCell>
                             <Table.DataCell align={"center"}>
@@ -77,33 +72,7 @@ export const AssignResourceToRoleTable = (
                 </Table.Body>
             </Table>
 
-            <Box className={"paginationWrapper"}>
-                <Select
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 25}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={currentPage + 1}
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Box>
+            <TablePagination currentPage={currentPage} totalPages={totalPages} size={size}/>
         </div>
     );
 };

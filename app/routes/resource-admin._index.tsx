@@ -4,7 +4,7 @@ import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
-import {ResourceSearch} from "~/components/resource-admin/ResourceSearch";
+import {Search} from "~/components/common/Search";
 import {ResourceAdminTable} from "~/components/resource-admin/ResourceAdminTable";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
@@ -85,6 +85,7 @@ export default function ResourceAdminIndex() {
                         Opprett ny ressurs
                     </Button>
                 </HStack>
+
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
 
@@ -101,10 +102,9 @@ export default function ResourceAdminIndex() {
                         </option>
                     ))}
                 </Select>*/}
-
-                    <ResourceSearch/>
+                    <Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>
                 </HStack>
-            </HStack>
+            {/*</HStack>*/}
             <HStack justify="end">
                 <ChipsFilters/>
             </HStack>

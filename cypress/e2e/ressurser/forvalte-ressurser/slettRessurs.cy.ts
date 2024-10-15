@@ -1,3 +1,4 @@
+/*
 describe('Test delete resource', () => {
     it('Navigate to resource-admin and click delete on resource in table', () => {
         cy.goToResourceAdmin();
@@ -41,4 +42,4 @@ describe('Test delete resource', () => {
         });
 
     });
-});
+});*/

@@ -1,6 +1,7 @@
 import React from "react";
 import {SetURLSearchParams} from "react-router-dom";
 import {ICookie} from "~/data/types";
+import {Navigation} from "@remix-run/react";
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {

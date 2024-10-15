@@ -1,8 +1,9 @@
-import {Pagination, Select, Table} from "@navikt/ds-react";
-import {Form, useSearchParams} from "@remix-run/react";
+import {Table} from "@navikt/ds-react";
 import type {IMemberPage} from "~/data/types";
 import React from "react";
-import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
+import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
+import {TablePagination} from "~/components/common/Table/TablePagination";
+import {useLoadingState} from "~/components/common/customHooks";
 
 
 interface MembersTableProps {
@@ -11,16 +12,7 @@ interface MembersTableProps {
 }
 
 export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
-
-    const [, setSearchParams] = useSearchParams()
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>) => {
-        setSizeCookieClientSide(event.target.value)
-        setSearchParams(searchParams => {
-            searchParams.set("page", "0")
-            return searchParams;
-        })
-    }
+    const {fetching} = useLoadingState()
 
     return (
         <>
@@ -32,7 +24,7 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {memberPage.members.map((member) => (
+                    {fetching ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
                             <Table.DataCell>{member.userType}</Table.DataCell>
@@ -61,34 +53,7 @@ export const MemberTable = ({ memberPage, size }: MembersTableProps) => {
                 </Table.Body>
             </Table>
 
-            <Form className={"paginationWrapper"}>
-                <Select
-                    id={"selectNumberOfRows"}
-                    style={{marginBottom: '1.5rem'}}
-                    label="Rader per side"
-                    size="small"
-                    onChange={handleChangeRowsPerPage}
-                    defaultValue={size ? size : 25}
-                >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                </Select>
-                <Pagination
-                    id="pagination"
-                    page={memberPage.currentPage + 1} //Number(props.page) ? Number(props.page) : 1
-                    onPageChange={(e) => {
-                        setSearchParams(searchParams => {
-                            searchParams.set("page", (e - 1).toString());
-                            return searchParams;
-                        })
-                    }}
-                    count={memberPage.totalPages}
-                    size="small"
-                    prevNextTexts
-                />
-            </Form>
+            <TablePagination currentPage={memberPage.currentPage} totalPages={memberPage.totalPages} size={size}/>
         </>
     );
 };
