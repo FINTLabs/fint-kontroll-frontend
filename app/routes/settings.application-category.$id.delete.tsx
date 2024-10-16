@@ -23,7 +23,7 @@ export async function action({params, request}: ActionFunctionArgs) {
             request.headers.get("Authorization"),
             categoryId
         )
-        return redirect(`/resources/settings/application-category?responseCode=${response.status}`)
+        return redirect(`/settings/application-category?responseCode=${response.status}`)
     }
 
 }
@@ -57,7 +57,7 @@ export default function EditApplicationCategory() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/resources/settings/application-category`)}
+            onClose={() => navigate(`/settings/application-category`)}
             header={{
                 heading: `Slett kategori: ${applicationCategory?.name}`,
                 closeButton: false,
@@ -81,7 +81,7 @@ export default function EditApplicationCategory() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/resources/settings/application-category`)}
+                        onClick={() => navigate(`/settings/application-category`)}
                     >
                         Avbryt
                     </Button>

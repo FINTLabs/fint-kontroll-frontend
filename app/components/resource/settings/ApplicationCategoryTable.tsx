@@ -69,12 +69,12 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                                     <Dropdown.Menu>
                                         <Dropdown.Menu.GroupedList>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(`/resources/settings/application-category/${id}/edit`)}
+                                                onClick={() => navigate(`/settings/application-category/${id}/edit`)}
                                             >
                                                 Rediger
                                             </Dropdown.Menu.GroupedList.Item>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(`/resources/settings/application-category/${id}/delete`)}
+                                                onClick={() => navigate(`/settings/application-category/${id}/delete`)}
 
                                             >
                                                 Slett
@@ -93,7 +93,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                     underline={false}
                     variant={"tertiary"}
                     icon={<PlusCircleIcon aria-hidden/>}
-                    href={`${basePath}/resources/settings/application-category/edit`}
+                    href={`${basePath}/settings/application-category/edit`}
                 >
                     Legg til ny kategori
                 </Button>

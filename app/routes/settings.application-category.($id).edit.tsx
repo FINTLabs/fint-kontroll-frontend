@@ -34,7 +34,7 @@ export async function action({params, request}: ActionFunctionArgs) {
                 name,
                 description
             )
-            return redirect(`/resources/settings/application-category?responseCode=${response.status}`)
+            return redirect(`/settings/application-category?responseCode=${response.status}`)
 
         }
         if (intent === "create") {
@@ -43,7 +43,7 @@ export async function action({params, request}: ActionFunctionArgs) {
                 name,
                 description
             )
-            return redirect(`/resources/settings/application-category?responseCode=${response.status}`)
+            return redirect(`/settings/application-category?responseCode=${response.status}`)
         }
     }
 }
@@ -80,7 +80,7 @@ export default function EditApplicationCategory() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/resources/settings/application-category`)}
+            onClose={() => navigate(`/settings/application-category`)}
             header={{
                 heading: isEdit ? "Rediger kategori" : "Legg til ny applikasjonskategori",
                 closeButton: false,
@@ -120,7 +120,7 @@ export default function EditApplicationCategory() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/resources/settings/application-category`)}
+                        onClick={() => navigate(`/settings/application-category`)}
                     >
                         Avbryt
                     </Button>

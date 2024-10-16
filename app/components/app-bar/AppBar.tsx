@@ -103,6 +103,12 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                                     Kontrolladministrasjon
                                 </LinkPanel.Title>
                             </LinkPanel>
+                            <LinkPanel border={false} href={`${props.basePath}/settings`}>
+                                <LinkPanel.Title>
+                                    <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
+                                    Innstillinger
+                                </LinkPanel.Title>
+                            </LinkPanel>
                         </Box>
 
                     </HGrid>

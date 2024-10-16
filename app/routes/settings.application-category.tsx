@@ -8,13 +8,12 @@ import {BASE_PATH} from "../../environment";
 import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
 import {ApplicationCategoryTable} from "~/components/resource/settings/ApplicationCategoryTable";
 
-// finn ut hvorfor instilliner-lenken ikke funker her
 export const handle = {
     breadcrumb: () => (
         <>
-            <Link to={`/resources/settings`}>Innstillinger</Link>
+            <Link to={`/settings`}>Innstillinger</Link>
             {" > "}
-            <Link to={`/resources/settings/application-category`}>Applikasjonskategori</Link>
+            <Link to={`/settings/application-category`}>Applikasjonskategori</Link>
         </>
     )
 }
@@ -29,7 +28,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     })
 }
 
-export default function ResourcesSettingsApplicationCategory() {
+export default function SettingsApplicationCategory() {
     const loaderData = useLoaderData<typeof loader>();
     const kodeverkApplicationCategories: IKodeverkApplicationCategory[] = loaderData.kodeverkApplicationCategories
     const basePath = loaderData.basePath
