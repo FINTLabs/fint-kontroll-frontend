@@ -24,12 +24,12 @@ export default function ResourcesSettings() {
             <CustomLinkPanel>
                 <CustomLink
                     title={"Brukertyper"}
-                    description={"Definer hvilke brukertyper som kan tildeles ressursen"}
+                    description={"Endre navn på brukertyper som kan tildeles ressursen."}
                     link={`${basePath}${SETTINGS_USER_TYPES}`}
                 />
                 <CustomLink
                     title={"Applikasjonskategori"}
-                    description={"Definer hvilke applikasjonskategorier ressursen tilhører"}
+                    description={"Innstillinger for applikasjonskategorier som kan brukes for å gruppere og beskrive ressurser."}
                     link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
                 />
             </CustomLinkPanel>
