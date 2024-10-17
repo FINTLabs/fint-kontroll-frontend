@@ -1,16 +1,23 @@
 import React, {SetStateAction} from "react";
 import {IApplicationResource} from "~/components/resource-admin/types";
 import {Checkbox, CheckboxGroup, Radio, RadioGroup, Select, TextField, VStack} from "@navikt/ds-react";
+import {IKodeverkApplicationCategory} from "~/data/types";
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource
     setNewApplicationResource: React.Dispatch<SetStateAction<IApplicationResource>>
+    applicationCategories: IKodeverkApplicationCategory[]
 }
 
-export default function ApplicationResourceData({
-                                                    newApplicationResource,
-                                                    setNewApplicationResource,
-                                                }: ResourceDataProps) {
+export default function ApplicationResourceData(
+    {
+        newApplicationResource,
+        setNewApplicationResource,
+        applicationCategories
+    }: ResourceDataProps
+) {
+
+    console.log("newApplicationResource", newApplicationResource)
 
     const doesValueContainNumbersOnly = (value: string) => {
         return /^\d*$/.test(value)
@@ -129,6 +136,9 @@ export default function ApplicationResourceData({
                                            };
                                        });
                                    }}>
+                        {applicationCategories?.map((category) => {
+                            return <Checkbox key={category.id} value={category.name}>{category.name}</Checkbox>
+                        })}
                         <Checkbox value={"Pedagogisk programvare"}>Pedagogisk programvare</Checkbox>
                     </CheckboxGroup>
                 </li>

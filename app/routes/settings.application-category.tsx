@@ -1,20 +1,23 @@
 import {Link, useLoaderData} from "@remix-run/react";
 import React from "react";
-import {BodyShort, Heading, VStack} from "@navikt/ds-react";
+import {BodyShort, Heading, HStack, VStack} from "@navikt/ds-react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
 import {ApplicationCategoryTable} from "~/components/resource/settings/ApplicationCategoryTable";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export const handle = {
     breadcrumb: () => (
-        <>
-            <Link to={`/settings`}>Innstillinger</Link>
-            {" > "}
-            <Link to={`/settings/application-category`}>Applikasjonskategori</Link>
-        </>
+        <HStack align={"start"}>
+            <HStack justify={"center"}>
+                <Link to={`/settings`}>Innstillinger</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/settings/application-category`}>Applikasjonskategori</Link>
+            </HStack>
+        </HStack>
     )
 }
 
