@@ -18,7 +18,7 @@ import {NotePencilIcon} from "@navikt/aksel-icons";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
-import {SETTING_APPLICATION_CATEGORY} from "~/data/constants";
+import {SETTINGS_APPLICATION_CATEGORY} from "~/data/constants";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -37,7 +37,7 @@ export async function action({params, request}: ActionFunctionArgs) {
             name,
             description
         )
-        return redirect(`${SETTING_APPLICATION_CATEGORY}?responseCode=${response.status}`)
+        return redirect(`${SETTINGS_APPLICATION_CATEGORY}?responseCode=${response.status}`)
 
     }
     if (intent === "create") {
@@ -46,7 +46,7 @@ export async function action({params, request}: ActionFunctionArgs) {
             name,
             description
         )
-        return redirect(`${SETTING_APPLICATION_CATEGORY}?responseCode=${response.status}`)
+        return redirect(`${SETTINGS_APPLICATION_CATEGORY}?responseCode=${response.status}`)
     }
 
 }
@@ -95,7 +95,7 @@ export default function EditApplicationCategory() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(SETTING_APPLICATION_CATEGORY)}
+            onClose={() => navigate(SETTINGS_APPLICATION_CATEGORY)}
             header={{
                 heading: isEdit ? "Rediger kategori" : "Legg til ny applikasjonskategori",
                 closeButton: false,
@@ -138,7 +138,7 @@ export default function EditApplicationCategory() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(SETTING_APPLICATION_CATEGORY)}
+                        onClick={() => navigate(SETTINGS_APPLICATION_CATEGORY)}
                     >
                         Avbryt
                     </Button>

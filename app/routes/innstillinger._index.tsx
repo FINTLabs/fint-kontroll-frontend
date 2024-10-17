@@ -4,7 +4,7 @@ import {CustomLinkPanel} from "~/components/resource/settings/CustomLinkPanel";
 import {BASE_PATH} from "../../environment";
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import {SETTING_APPLICATION_CATEGORY, SETTING_USER_TYPES} from "~/data/constants";
+import {SETTINGS_APPLICATION_CATEGORY, SETTINGS_USER_TYPES} from "~/data/constants";
 
 export async function loader() {
     return json({
@@ -25,12 +25,12 @@ export default function ResourcesSettings() {
                 <CustomLink
                     title={"Brukertyper"}
                     description={"Definer hvilke brukertyper som kan tildeles ressursen"}
-                    link={`${basePath}${SETTING_USER_TYPES}`}
+                    link={`${basePath}${SETTINGS_USER_TYPES}`}
                 />
                 <CustomLink
                     title={"Applikasjonskategori"}
                     description={"Definer hvilke applikasjonskategorier ressursen tilhører"}
-                    link={`${basePath}${SETTING_APPLICATION_CATEGORY}`}
+                    link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
                 />
             </CustomLinkPanel>
         </VStack>

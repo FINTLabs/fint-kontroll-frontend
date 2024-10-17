@@ -8,7 +8,7 @@ import {BASE_PATH} from "../../environment";
 import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
 import {ApplicationCategoryTable} from "~/components/resource/settings/ApplicationCategoryTable";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {SETTING_APPLICATION_CATEGORY, SETTINGS} from "~/data/constants";
+import {SETTINGS_APPLICATION_CATEGORY, SETTINGS} from "~/data/constants";
 
 export const handle = {
     breadcrumb: () => (
@@ -16,7 +16,7 @@ export const handle = {
             <HStack justify={"center"}>
                 <Link to={SETTINGS}>Innstillinger</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={SETTING_APPLICATION_CATEGORY}>Applikasjonskategori</Link>
+                <Link to={SETTINGS_APPLICATION_CATEGORY}>Applikasjonskategori</Link>
             </HStack>
         </HStack>
     )

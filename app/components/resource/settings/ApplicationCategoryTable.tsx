@@ -6,7 +6,7 @@ import {Outlet, useNavigate} from "@remix-run/react";
 import {
     getApplicationCategoryDeleteUrl,
     getApplicationCategoryEditUrl,
-    SETTING_APPLICATION_CATEGORY_CREATE
+    SETTINGS_APPLICATION_CATEGORY_CREATE
 } from "~/data/constants";
 
 type ApplicationCategoryTableProps = {
@@ -98,7 +98,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                     underline={false}
                     variant={"tertiary"}
                     icon={<PlusCircleIcon aria-hidden/>}
-                    href={`${basePath}${SETTING_APPLICATION_CATEGORY_CREATE}`}
+                    href={`${basePath}${SETTINGS_APPLICATION_CATEGORY_CREATE}`}
                 >
                     Legg til ny kategori
                 </Button>
