@@ -41,10 +41,9 @@ export default function SettingsApplicationCategory() {
                 <VStack gap="4">
                     <Heading level="1" size="large">Applikasjonskategori</Heading>
                     <BodyShort spacing>
-                        Her kan du endre egendefinerte kategorier som kan brukes for å gruppere og beskrive
-                        ressurser.Vil i
-                        fremtiden også kunne brukes til å begrense tilgang til ressurser basert på for eksempel
-                        brukertype.
+                        Her kan du endre egendefinerte kategorier som brukes for å gruppere og beskrive
+                        ressurser. Disse kategoriene vil i fremtiden også kunne brukes til å begrense tilgang
+                        til ressurser basert på for eksempel brukertype.
                     </BodyShort>
                 </VStack>
 
