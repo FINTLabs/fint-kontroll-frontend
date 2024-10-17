@@ -16,7 +16,7 @@ export const fetchApplicationCategories = async (request: Request) => {
     if (response.status === 401) {
         throw new Error("Påloggingen din er utløpt")
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error("En feil oppstod under henting av applikasjonskategorier")
 }
 
 export const fetchApplicationCategory = async (request: Request, id: string) => {
@@ -34,7 +34,7 @@ export const fetchApplicationCategory = async (request: Request, id: string) => 
     if (response.status === 401) {
         throw new Error("Påloggingen din er utløpt")
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error("En feil oppstod under henting av applikasjonskategorien")
 }
 
 export const createApplicationCategory = async (

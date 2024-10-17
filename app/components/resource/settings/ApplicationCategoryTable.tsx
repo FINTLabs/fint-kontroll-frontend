@@ -3,6 +3,11 @@ import {MenuElipsisHorizontalCircleIcon, PlusCircleIcon} from "@navikt/aksel-ico
 import React, {useMemo, useState} from "react";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {Outlet, useNavigate} from "@remix-run/react";
+import {
+    getApplicationCategoryDeleteUrl,
+    getApplicationCategoryEditUrl,
+    SETTING_APPLICATION_CATEGORY_CREATE
+} from "~/data/constants";
 
 type ApplicationCategoryTableProps = {
     applicationCategories: IKodeverkApplicationCategory[]
@@ -69,12 +74,12 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                                     <Dropdown.Menu>
                                         <Dropdown.Menu.GroupedList>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(`/settings/application-category/${id}/edit`)}
+                                                onClick={() => navigate(getApplicationCategoryEditUrl(id))}
                                             >
                                                 Rediger
                                             </Dropdown.Menu.GroupedList.Item>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(`/settings/application-category/${id}/delete`)}
+                                                onClick={() => navigate(getApplicationCategoryDeleteUrl(id))}
 
                                             >
                                                 Slett
@@ -93,7 +98,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                     underline={false}
                     variant={"tertiary"}
                     icon={<PlusCircleIcon aria-hidden/>}
-                    href={`${basePath}/settings/application-category/edit`}
+                    href={`${basePath}${SETTING_APPLICATION_CATEGORY_CREATE}`}
                 >
                     Legg til ny kategori
                 </Button>

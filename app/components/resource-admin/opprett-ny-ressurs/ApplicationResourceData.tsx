@@ -16,9 +16,6 @@ export default function ApplicationResourceData(
         applicationCategories
     }: ResourceDataProps
 ) {
-
-    console.log("newApplicationResource", newApplicationResource)
-
     const doesValueContainNumbersOnly = (value: string) => {
         return /^\d*$/.test(value)
     }

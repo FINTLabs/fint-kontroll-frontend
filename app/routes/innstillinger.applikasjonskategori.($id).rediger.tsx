@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Loader, Modal, Textarea, TextField, VStack} from "@navikt/ds-react";
 import {
-    Form,
+    Form, useActionData,
     useLoaderData,
     useNavigate,
     useNavigation,
@@ -18,6 +18,7 @@ import {NotePencilIcon} from "@navikt/aksel-icons";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
+import {SETTING_APPLICATION_CATEGORY} from "~/data/constants";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -26,26 +27,28 @@ export async function action({params, request}: ActionFunctionArgs) {
     const intent = data.get('intent') as string
     const categoryId = params.id
 
-    if (name) {
-        if (intent === "edit" && categoryId) {
-            const response = await editApplicationCategory(
-                request.headers.get("Authorization"),
-                categoryId,
-                name,
-                description
-            )
-            return redirect(`/settings/application-category?responseCode=${response.status}`)
+    if (!name) return null
 
-        }
-        if (intent === "create") {
-            const response = await createApplicationCategory(
-                request.headers.get("Authorization"),
-                name,
-                description
-            )
-            return redirect(`/settings/application-category?responseCode=${response.status}`)
-        }
+
+    if (intent === "edit" && categoryId) {
+        const response = await editApplicationCategory(
+            request.headers.get("Authorization"),
+            categoryId,
+            name,
+            description
+        )
+        return redirect(`${SETTING_APPLICATION_CATEGORY}?responseCode=${response.status}`)
+
     }
+    if (intent === "create") {
+        const response = await createApplicationCategory(
+            request.headers.get("Authorization"),
+            name,
+            description
+        )
+        return redirect(`${SETTING_APPLICATION_CATEGORY}?responseCode=${response.status}`)
+    }
+
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
@@ -70,6 +73,7 @@ export default function EditApplicationCategory() {
     const loaderData = useLoaderData<typeof loader>()
     const applicationCategory: IKodeverkApplicationCategory | undefined = loaderData?.applicationCategory
 
+    const [name, setName] = useState(applicationCategory?.name || "");
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
@@ -80,7 +84,7 @@ export default function EditApplicationCategory() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/settings/application-category`)}
+            onClose={() => navigate(SETTING_APPLICATION_CATEGORY)}
             header={{
                 heading: isEdit ? "Rediger kategori" : "Legg til ny applikasjonskategori",
                 closeButton: false,
@@ -97,6 +101,8 @@ export default function EditApplicationCategory() {
                             type="text"
                             autoComplete="off"
                             defaultValue={applicationCategory?.name}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                         <Textarea
                             label="Beskrivelse"
@@ -114,13 +120,14 @@ export default function EditApplicationCategory() {
                         loading={response.state === "submitting"}
                         name="intent"
                         value={isEdit ? "edit" : "create"}
+                        disabled={!name}
                     >
                         {isEdit ? "Lagre endringer" : "Opprett kategori"}
                     </Button>
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/settings/application-category`)}
+                        onClick={() => navigate(SETTING_APPLICATION_CATEGORY)}
                     >
                         Avbryt
                     </Button>

@@ -15,6 +15,7 @@ import {TrashIcon} from "@navikt/aksel-icons";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
+import {SETTING_APPLICATION_CATEGORY} from "~/data/constants";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const categoryId = params.id
@@ -23,7 +24,7 @@ export async function action({params, request}: ActionFunctionArgs) {
             request.headers.get("Authorization"),
             categoryId
         )
-        return redirect(`/settings/application-category?responseCode=${response.status}`)
+        return redirect(`${SETTING_APPLICATION_CATEGORY}?responseCode=${response.status}`)
     }
 
 }
@@ -57,7 +58,7 @@ export default function EditApplicationCategory() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/settings/application-category`)}
+            onClose={() => navigate(SETTING_APPLICATION_CATEGORY)}
             header={{
                 heading: `Slett kategori: ${applicationCategory?.name}`,
                 closeButton: false,
@@ -81,7 +82,7 @@ export default function EditApplicationCategory() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/settings/application-category`)}
+                        onClick={() => navigate(SETTING_APPLICATION_CATEGORY)}
                     >
                         Avbryt
                     </Button>
