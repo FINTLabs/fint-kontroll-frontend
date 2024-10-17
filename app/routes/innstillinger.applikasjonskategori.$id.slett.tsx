@@ -13,7 +13,6 @@ import {
 } from "~/data/fetch-kodeverk";
 import {TrashIcon} from "@navikt/aksel-icons";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
 import {SETTING_APPLICATION_CATEGORY} from "~/data/constants";
 
@@ -32,8 +31,7 @@ export async function action({params, request}: ActionFunctionArgs) {
 export async function loader({params, request}: LoaderFunctionArgs) {
     const categoryId = params.id
     if (categoryId === undefined) return null
-    const response = await fetchApplicationCategory(request, categoryId);
-    const applicationCategory: IKodeverkApplicationCategory = await response.json()
+    const applicationCategory = await fetchApplicationCategory(request, categoryId);
 
     return json({
         applicationCategory,
@@ -46,8 +44,7 @@ export default function EditApplicationCategory() {
     const response = useNavigation()
 
     const loaderData = useLoaderData<typeof loader>()
-    const applicationCategory: IKodeverkApplicationCategory | undefined = loaderData?.applicationCategory
-
+    const applicationCategory = loaderData?.applicationCategory
 
     if (response.state === "loading") {
         return <div className={"spinner"}>

@@ -23,18 +23,16 @@ export const handle = {
 }
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const response = await fetchApplicationCategories(request);
-    const kodeverkApplicationCategories: IKodeverkApplicationCategory[] = await response.json()
-
+    const applicationCategories = await fetchApplicationCategories(request);
     return json({
-        kodeverkApplicationCategories,
+        applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
 export default function SettingsApplicationCategory() {
     const loaderData = useLoaderData<typeof loader>();
-    const kodeverkApplicationCategories: IKodeverkApplicationCategory[] = loaderData.kodeverkApplicationCategories
+    const applicationCategories: IKodeverkApplicationCategory[] = loaderData.applicationCategories
     const basePath = loaderData.basePath
 
     return (
@@ -50,7 +48,7 @@ export default function SettingsApplicationCategory() {
                     </BodyShort>
                 </VStack>
 
-                <ApplicationCategoryTable applicationCategories={kodeverkApplicationCategories} basePath={basePath}/>
+                <ApplicationCategoryTable applicationCategories={applicationCategories} basePath={basePath}/>
             </VStack>
         </div>
     );

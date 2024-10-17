@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Button, Loader, Modal, Textarea, TextField, VStack} from "@navikt/ds-react";
 import {
     Form, useActionData,
@@ -11,7 +11,7 @@ import {ActionFunctionArgs, json} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {
     createApplicationCategory,
-    editApplicationCategory,
+    editApplicationCategory, fetchApplicationCategories,
     fetchApplicationCategory
 } from "~/data/fetch-kodeverk";
 import {NotePencilIcon} from "@navikt/aksel-icons";
@@ -53,12 +53,15 @@ export async function action({params, request}: ActionFunctionArgs) {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const categoryId = params.id
-    if (categoryId === undefined) return null
-    const response = await fetchApplicationCategory(request, categoryId);
-    const applicationCategory: IKodeverkApplicationCategory = await response.json()
+    const applicationCategories = await fetchApplicationCategories(request);
+    let category: IKodeverkApplicationCategory | undefined;
+    if (categoryId !== undefined) {
+        category = await fetchApplicationCategory(request, categoryId);
+    }
 
     return json({
-        applicationCategory,
+        category,
+        applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
@@ -71,15 +74,23 @@ export default function EditApplicationCategory() {
     const response = useNavigation()
 
     const loaderData = useLoaderData<typeof loader>()
-    const applicationCategory: IKodeverkApplicationCategory | undefined = loaderData?.applicationCategory
+    const category = loaderData?.category
+    const allCategories = loaderData.applicationCategories
 
-    const [name, setName] = useState(applicationCategory?.name || "");
+    const [name, setName] = useState(category?.name || "");
+    const nameAlreadyExist = useCallback(
+        (name: string) => allCategories.some(category => category.name === name.trim() && category.id !== category?.id),
+        [allCategories]
+    );
+
+    const duplicateName = useMemo(() => nameAlreadyExist(name), [nameAlreadyExist, name]);
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
             <Loader size="3xlarge" title="Venter..."/>
         </div>
     }
+
 
     return (
         <Modal
@@ -100,14 +111,14 @@ export default function EditApplicationCategory() {
                             name="categoryname"
                             type="text"
                             autoComplete="off"
-                            defaultValue={applicationCategory?.name}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            error={duplicateName ? "Denne kategorien finnes allerede." : undefined}
                         />
                         <Textarea
                             label="Beskrivelse"
                             name="description"
-                            defaultValue={applicationCategory?.description}
+                            defaultValue={category?.description}
                             minRows={4}
                         />
                     </VStack>
@@ -120,7 +131,7 @@ export default function EditApplicationCategory() {
                         loading={response.state === "submitting"}
                         name="intent"
                         value={isEdit ? "edit" : "create"}
-                        disabled={!name}
+                        disabled={!name || duplicateName}
                     >
                         {isEdit ? "Lagre endringer" : "Opprett kategori"}
                     </Button>

@@ -40,8 +40,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const resourceData = await resource.json()
     const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData)
     const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData)
-    const applicationCategoryResponse = await fetchApplicationCategories(auth)
-    const applicationCategories = await applicationCategoryResponse.json()
+    const applicationCategories = await fetchApplicationCategories(auth)
 
     return {
         orgUnitsWithIsChecked,
@@ -121,7 +120,7 @@ export default function EditApplikasjonsRessurs() {
     const orgUnitsWithIsChecked = loaderData.orgUnitsWithIsChecked.orgUnits as IUnitItem[];
     const orgUnitOwner = loaderData.orgUnitOwner.orgUnits as IUnitItem[]; // Her får du listen med kun én "checked" enhet
     const resource: IApplicationResource = loaderData.resource
-    const applicationCategories = loaderData.applicationCategories as IKodeverkApplicationCategory[]
+    const applicationCategories = loaderData.applicationCategories
 
     const navigate = useNavigate()
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)

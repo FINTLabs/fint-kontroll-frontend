@@ -1,31 +1,32 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
+import {IKodeverkApplicationCategory} from "~/data/types";
 
-export const fetchApplicationCategories = async (request: Request) => {
+export const fetchApplicationCategories = async (request: Request): Promise<IKodeverkApplicationCategory[]> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen");
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error("Påloggingen din er utløpt");
     }
-    throw new Error("En feil oppstod under henting av applikasjonskategorier")
+    throw new Error("En feil oppstod under henting av applikasjonskategorier");
 }
 
-export const fetchApplicationCategory = async (request: Request, id: string) => {
+export const fetchApplicationCategory = async (request: Request, id: string): Promise<IKodeverkApplicationCategory> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1/${id}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

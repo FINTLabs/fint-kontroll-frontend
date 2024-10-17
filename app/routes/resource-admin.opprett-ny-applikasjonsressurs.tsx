@@ -46,9 +46,7 @@ export async function loader({request}: LoaderFunctionArgs) {
     const orgUnitsResponse = await fetchOrgUnits(auth)
     const allOrgUnits = await orgUnitsResponse.json()
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
-
-    const applicationCategoryResponse = await fetchApplicationCategories(auth)
-    const applicationCategories = await applicationCategoryResponse.json()
+    const applicationCategories = await fetchApplicationCategories(auth)
 
     return {
         allOrgUnits: orgUnitsWithIsChecked,
