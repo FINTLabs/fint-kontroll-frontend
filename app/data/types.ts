@@ -243,6 +243,13 @@ export interface IUnitTree {
     orgUnits: IUnitItem[]
 }
 
+export interface IKodeverkApplicationCategory {
+    id: number
+    name: string
+    description: string
+    category: string
+}
+
 // General cookie interface
 export interface ICookie {
     key: string
