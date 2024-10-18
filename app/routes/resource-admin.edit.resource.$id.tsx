@@ -5,17 +5,17 @@ import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
+import {IKodeverkApplicationCategory, IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
+import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
 
 export const handle = {
-    // @ts-ignore
-    breadcrumb: ({params}) => (
+    breadcrumb: ({params}: { params: any }) => (
         <HStack align={"start"}>
             <HStack justify={"center"}>
                 <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
@@ -40,10 +40,13 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const resourceData = await resource.json()
     const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData)
     const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData)
+    const applicationCategories = await fetchApplicationCategories(auth)
+
     return {
         orgUnitsWithIsChecked,
         orgUnitOwner,
-        resource: resourceData
+        resource: resourceData,
+        applicationCategories
     };
 }
 
@@ -117,6 +120,8 @@ export default function EditApplikasjonsRessurs() {
     const orgUnitsWithIsChecked = loaderData.orgUnitsWithIsChecked.orgUnits as IUnitItem[];
     const orgUnitOwner = loaderData.orgUnitOwner.orgUnits as IUnitItem[]; // Her får du listen med kun én "checked" enhet
     const resource: IApplicationResource = loaderData.resource
+    const applicationCategories = loaderData.applicationCategories
+
     const navigate = useNavigate()
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
@@ -189,8 +194,10 @@ export default function EditApplikasjonsRessurs() {
                     <ExpansionCard.Title>Fyll ut informasjon om ressursen</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ApplicationResourceData newApplicationResource={newResource}
-                                             setNewApplicationResource={setNewResource}
+                    <ApplicationResourceData
+                        newApplicationResource={newResource}
+                        setNewApplicationResource={setNewResource}
+                        applicationCategories={applicationCategories}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
