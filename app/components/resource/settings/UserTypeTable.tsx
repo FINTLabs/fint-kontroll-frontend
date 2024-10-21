@@ -32,7 +32,7 @@ export const UserTypeTable = ({userTypes}: UserTypeTableProps) => {
                         .map(({id, fkLabel, label}) => (
                             <Table.Row key={id}>
                                 <Table.DataCell className="nowrap">{label}</Table.DataCell>
-                                <Table.DataCell className={"no-padding"}>
+                                <Table.DataCell className="nowrap">
                                     {fkLabel}
                                 </Table.DataCell>
                                 <Table.DataCell align="right">

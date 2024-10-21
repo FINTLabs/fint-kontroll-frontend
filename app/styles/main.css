@@ -172,10 +172,6 @@ button {
     white-space: nowrap;
 }
 
-.no-padding {
-    padding: 0;
-}
-
 .custom-link {
     text-decoration: none;
     color: var(--a-text-default);

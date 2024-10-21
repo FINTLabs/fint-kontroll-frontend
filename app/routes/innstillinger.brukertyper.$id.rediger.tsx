@@ -43,24 +43,33 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export default function EditUserType() {
-    const params = useParams<string>()
+    const params = useParams()
     const navigate = useNavigate()
     const response = useNavigation()
 
-    const loaderData = useLoaderData<typeof loader>()
-    const allUserTypes = loaderData.allUserTypes
+    const {allUserTypes} = useLoaderData<typeof loader>()
 
-    const currentUserType = useMemo(() => allUserTypes.find(userType => userType.id === Number(params.id)), [allUserTypes, params.id])
-    const [label, setLabel] = useState<string | undefined>(currentUserType?.fkLabel)
+    const currentUserType = useMemo(
+        () => allUserTypes.find(({id}) => id === Number(params.id)),
+        [allUserTypes, params.id]
+    );
+    const [label, setLabel] = useState(currentUserType?.fkLabel);
 
     const labelAlreadyExist = useCallback(
-        (label: string) => allUserTypes.some(userType => userType.fkLabel === label.trim() && userType.id !== currentUserType?.id),
+        (label: string) => allUserTypes.some(
+            ({fkLabel, id}) => fkLabel === label.trim() && id !== currentUserType?.id
+        ),
         [allUserTypes, currentUserType?.id]
-    );
+    )
 
-    const duplicateLabel = useMemo(() => labelAlreadyExist(label || ""), [labelAlreadyExist, label]);
-    const unchangedLabel = useMemo(() => label?.trim() === currentUserType?.fkLabel, [currentUserType?.fkLabel, label]);
-
+    const duplicateLabel = useMemo(
+        () => labelAlreadyExist(label || ""),
+        [labelAlreadyExist, label]
+    )
+    const unchangedLabel = useMemo(
+        () => label?.trim() === currentUserType?.fkLabel,
+        [currentUserType?.fkLabel, label]
+    )
 
     if (response.state === "loading") {
         return <div className={"spinner"}>
@@ -102,7 +111,7 @@ export default function EditUserType() {
                         loading={response.state === "submitting"}
                         disabled={!label || duplicateLabel || unchangedLabel}
                     >
-                        {"Lagre endringer"}
+                        Lagre endringer
                     </Button>
                     <Button
                         type="button"
@@ -111,7 +120,6 @@ export default function EditUserType() {
                     >
                         Avbryt
                     </Button>
-
                 </Modal.Footer>
             </Form>
         </Modal>
