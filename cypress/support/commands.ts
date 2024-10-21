@@ -51,7 +51,8 @@ declare global {
             goToResourceAdmin: typeof goToResourceAdmin
             goToCreateResource: typeof goToCreateResource
             goToDeleteResource: typeof goToDeleteResource
-            goToResourceAdminWithResponse: typeof goToResourceAdminWithResponse
+            goToResourceAdminWithResponse: typeof goToResourceAdminWithResponse,
+            goToSettings: typeof goToSettings
         }
     }
 }
@@ -124,6 +125,11 @@ export function goToDeleteResource() {
 }
 
 Cypress.Commands.add('goToDeleteResource', goToDeleteResource)
+
+export function goToSettings() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/innstillinger')
+}
+Cypress.Commands.add('goToSettings', goToSettings)
 
 export const setupFetchMocks = () => {
     beforeEach(() => {

@@ -1,6 +1,6 @@
 import {http, HttpResponse} from "msw";
 
-export const applicationCategoryHandlers = [
+export const applicationCategoriesHandlers = [
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/applikasjonskategori/v1', () => {
         return HttpResponse.json(
             [
@@ -19,9 +19,19 @@ export const applicationCategoryHandlers = [
                 {
                     "id": 1,
                     "name": "Pedagogisk programvare",
-                    "description": "heierferferrefeferf egea gea",
+                    "description": "Kjempefin beskrivelse av pedagogisk programvare.",
                     "category": null
                 }
             ]
+        )
+    }),
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/applikasjonskategori/v1/1', () => {
+        return HttpResponse.json(
+            {
+                "id": 1,
+                "name": "Pedagogisk programvare",
+                "description": "Kjempefin beskrivelse av pedagogisk programvare.",
+                "category": null
+            },
         )
     })]

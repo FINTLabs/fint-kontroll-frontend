@@ -181,7 +181,7 @@ button {
         color: var(--a-text-default);
     }
 
-    h1 {
+    h2 {
         text-decoration-line: underline;
         text-decoration-thickness: 1px;
     }
