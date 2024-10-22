@@ -259,5 +259,5 @@ export interface ICookie {
 export interface IKodeverkUserType {
     id: number
     fkLabel: string
-    label: string // TODO: specify string options???
+    label: string
 }
