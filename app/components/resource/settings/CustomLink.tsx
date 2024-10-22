@@ -17,7 +17,7 @@ export const CustomLink = ({title, description, link}: CustomLinkPanelProps) => 
 
         >
             <VStack>
-                <Heading size="small">
+                <Heading level="2" size="small">
                     {title}
                 </Heading>
                 {description && <BodyShort size="small">{description}</BodyShort>}

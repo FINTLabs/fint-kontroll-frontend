@@ -12,7 +12,7 @@ import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressur
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
-import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
+import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export const handle = {
     // @ts-ignore
@@ -47,10 +47,12 @@ export async function loader({request}: LoaderFunctionArgs) {
     const allOrgUnits = await orgUnitsResponse.json()
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
     const applicationCategories = await fetchApplicationCategories(auth)
+    const userTypes = await fetchUserTypes(auth)
 
     return {
         allOrgUnits: orgUnitsWithIsChecked,
-        applicationCategories
+        applicationCategories,
+        userTypes
     }
 
 }
@@ -106,7 +108,8 @@ export default function OpprettNyApplikasjonsRessurs() {
     })
     const loaderData = useLoaderData<typeof loader>();
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
-    const applicationCategories = loaderData.applicationCategories as IKodeverkApplicationCategory[]
+    const applicationCategories = loaderData.applicationCategories
+    const userTypes = loaderData.userTypes
     const navigate = useNavigate()
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
@@ -161,6 +164,7 @@ export default function OpprettNyApplikasjonsRessurs() {
                         newApplicationResource={newResource}
                         setNewApplicationResource={setNewResource}
                         applicationCategories={applicationCategories}
+                        userTypes={userTypes}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>

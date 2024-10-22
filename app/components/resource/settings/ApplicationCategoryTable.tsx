@@ -58,7 +58,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
 
                 <Table.Body>
                     {sortedApplicationCategories.map(({id, name, description}) => (
-                        <Table.Row key={id}>
+                        <Table.Row key={id} id={id.toString()}>
                             <Table.HeaderCell scope="row" className="nowrap">{name}</Table.HeaderCell>
                             <Table.DataCell textSize={"small"}>{description}</Table.DataCell>
                             <Table.DataCell align="right">

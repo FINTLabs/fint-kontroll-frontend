@@ -1,19 +1,21 @@
 import React, {SetStateAction} from "react";
 import {IApplicationResource} from "~/components/resource-admin/types";
 import {Checkbox, CheckboxGroup, Radio, RadioGroup, Select, TextField, VStack} from "@navikt/ds-react";
-import {IKodeverkApplicationCategory} from "~/data/types";
+import {IKodeverkApplicationCategory, IKodeverkUserType} from "~/data/types";
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource
     setNewApplicationResource: React.Dispatch<SetStateAction<IApplicationResource>>
     applicationCategories: IKodeverkApplicationCategory[]
+    userTypes: IKodeverkUserType[]
 }
 
 export default function ApplicationResourceData(
     {
         newApplicationResource,
         setNewApplicationResource,
-        applicationCategories
+        applicationCategories,
+        userTypes
     }: ResourceDataProps
 ) {
     const doesValueContainNumbersOnly = (value: string) => {
@@ -118,8 +120,9 @@ export default function ApplicationResourceData(
                                            };
                                        });
                                    }}>
-                        <Checkbox value={"Elev"}>Elev</Checkbox>
-                        <Checkbox value={"Ansatt skole"}>Ansatt skole</Checkbox>
+                        {userTypes?.map((userType) => {
+                            return <Checkbox key={userType.id} value={userType.label}>{userType.fkLabel}</Checkbox>
+                        })}
                     </CheckboxGroup>
                 </li>
                 <li>
@@ -136,7 +139,6 @@ export default function ApplicationResourceData(
                         {applicationCategories?.map((category) => {
                             return <Checkbox key={category.id} value={category.name}>{category.name}</Checkbox>
                         })}
-                        <Checkbox value={"Pedagogisk programvare"}>Pedagogisk programvare</Checkbox>
                     </CheckboxGroup>
                 </li>
                 <li>
