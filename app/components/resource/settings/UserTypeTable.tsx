@@ -21,7 +21,7 @@ export const UserTypeTable = ({userTypes}: UserTypeTableProps) => {
                     <Table.Row>
                         <Table.ColumnHeader scope="col">Brukertype</Table.ColumnHeader>
                         <Table.ColumnHeader scope="col">Egendefinert navn</Table.ColumnHeader>
-                        <Table.ColumnHeader scope="col" align="right">Endre</Table.ColumnHeader>
+                        <Table.ColumnHeader scope="col" align="right">Rediger</Table.ColumnHeader>
 
                     </Table.Row>
                 </Table.Header>
@@ -37,7 +37,7 @@ export const UserTypeTable = ({userTypes}: UserTypeTableProps) => {
                                 </Table.DataCell>
                                 <Table.DataCell align="right">
                                     <Button
-                                        icon={<PencilIcon title="Meny"/>}
+                                        icon={<PencilIcon title="Rediger"/>}
                                         size="small"
                                         variant="tertiary"
                                         onClick={() => navigate(getEditUserTypeUrl(id))}

@@ -34,4 +34,31 @@ export const applicationCategoriesHandlers = [
                 "category": null
             },
         )
-    })]
+    }),
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/brukertype/v1', () => {
+        return HttpResponse.json(
+            [
+                {
+                    "id": 1,
+                    "fkLabel": "Ansatt",
+                    "label": "EMPLOYEESTAFF"
+                },
+                {
+                    "id": 2,
+                    "fkLabel": "Ansatt i utdanning",
+                    "label": "EMPLOYEEFACULTY"
+                },
+                {
+                    "id": 3,
+                    "fkLabel": "Elev",
+                    "label": "STUDENT"
+                },
+                {
+                    "id": 4,
+                    "fkLabel": "Ekstern",
+                    "label": "EXTERNAL"
+                }
+            ]
+        )
+    })
+]
