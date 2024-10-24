@@ -13,6 +13,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {BASE_PATH} from "../../environment";
 import React from "react";
+import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -38,6 +39,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
     // const accessTypes: string[] = await responseAccessType.json()
+    const source = await fetchResourceDataSource(request)
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
@@ -45,6 +47,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         orgUnitList,
         applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        source
         // accessTypes
     })
 }
@@ -57,6 +60,7 @@ export default function ResourceAdminIndex() {
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const applicationCategories: string[] = loaderData.applicationCategories
+    const source = loaderData.source
     const navigate = useNavigate()
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     // const accessTypes: string[] = loaderData.accessTypes
@@ -76,15 +80,17 @@ export default function ResourceAdminIndex() {
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
             <HStack justify={"space-between"}>
-                <HStack justify={"end"} align={"end"}>
-                    <Button role="link"
-                            className={"no-underline-button"}
-                            variant={"secondary"}
-                            iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                            onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
-                        Opprett ny ressurs
-                    </Button>
-                </HStack>
+                {source === "gui" && (
+                    <HStack justify={"end"} align={"end"}>
+                        <Button role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                                onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                            Opprett ny ressurs
+                        </Button>
+                    </HStack>
+                )}
 
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>

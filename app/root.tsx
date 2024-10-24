@@ -20,6 +20,7 @@ import {Alert, Box, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
 import {BASE_PATH} from "../environment";
 import React from "react";
+import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 
 export const meta: MetaFunction = () => {
     return [
@@ -51,14 +52,16 @@ export const links: LinksFunction = () => [
 export async function loader({request}: LoaderFunctionArgs) {
     const response = await fetchMeInfo(request);
     const me = await response.json();
+    const source = await fetchResourceDataSource(request)
     return json({
         me,
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        source: source,
     });
 }
 
 export default function App() {
-    const {me, basePath} = useLoaderData<typeof loader>();
+    const {me, basePath, source} = useLoaderData<typeof loader>();
     const matches = useMatches();
     // @ts-ignore
     return (
@@ -70,7 +73,7 @@ export default function App() {
         <body>
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
-        <Layout me={me} basePath={basePath}>
+        <Layout me={me} basePath={basePath} source={source}>
             {/* @ts-ignore Ignore because this type of padding is legal for top-bottom relationship in padding, just not in the ts-spec from Aksel */}
             <Box padding={"0 8"}>
                 {matches
@@ -105,9 +108,10 @@ interface LayoutProps {
     children: any
     me?: any
     basePath?: string
+    source?: string
 }
 
-const Layout = ({children, me, basePath}: LayoutProps) => {
+const Layout = ({children, me, basePath, source}: LayoutProps) => {
     return (
         <Page
             footer={
@@ -117,7 +121,7 @@ const Layout = ({children, me, basePath}: LayoutProps) => {
         >
             <Box className={"footer"} as="header">
                 <Page.Block width="2xl">
-                    <AppBar me={me} basePath={basePath}/>
+                    <AppBar me={me} basePath={basePath} source={source}/>
                 </Page.Block>
             </Box>
             <Box
