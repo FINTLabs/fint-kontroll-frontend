@@ -2,6 +2,25 @@ import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IKodeverkApplicationCategory, IKodeverkUserType} from "~/data/types";
 
+export const fetchResourceDataSource = async (request: Request): Promise<string> => {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/source/v1`, {
+        headers: request.headers
+    });
+
+    if (response.ok) {
+        console.log("fetchResourceDataSource response", response)
+        return response.text();
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen");
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt");
+    }
+    throw new Error("En feil oppstod under henting av ressurskilder");
+}
+
 export const fetchApplicationCategories = async (request: Request): Promise<IKodeverkApplicationCategory[]> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`, {
         headers: request.headers

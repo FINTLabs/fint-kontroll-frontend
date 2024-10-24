@@ -12,9 +12,9 @@ import {Link} from "@remix-run/react";
 import MeInfo from "~/components/app-bar/MeInfo";
 import {IMeInfo} from "~/data/types";
 import {BodyShort, Box, Button, HGrid, Hide, HStack, LinkPanel, Popover} from "@navikt/ds-react";
+import {SETTINGS} from "~/data/constants";
 
-export function AppBar(props: { me: IMeInfo, basePath?: string }) {
-
+export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -103,12 +103,14 @@ export function AppBar(props: { me: IMeInfo, basePath?: string }) {
                                     Kontrolladministrasjon
                                 </LinkPanel.Title>
                             </LinkPanel>
-{/*                            <LinkPanel border={false} href={`${props.basePath}/settings`}>
-                                <LinkPanel.Title>
-                                    <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
-                                    Innstillinger
-                                </LinkPanel.Title>
-                            </LinkPanel>*/}
+                            {props.source === "gui" &&
+                                <LinkPanel border={false} href={`${props.basePath}${SETTINGS}`}>
+                                    <LinkPanel.Title>
+                                        <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
+                                        Innstillinger
+                                    </LinkPanel.Title>
+                                </LinkPanel>
+                            }
                         </Box>
 
                     </HGrid>
