@@ -8,7 +8,6 @@ export const fetchResourceDataSource = async (request: Request): Promise<string>
     });
 
     if (response.ok) {
-        console.log("fetchResourceDataSource response", response)
         return response.text();
     }
 
