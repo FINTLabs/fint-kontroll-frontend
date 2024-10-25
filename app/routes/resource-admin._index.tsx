@@ -27,10 +27,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
+    const [responseResource, responseOrgUnits, responseApplicationCategories, source] = await Promise.all([
         fetchResourcesForAdmin(request, size, page, search, status, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request),
         fetchApplicationCategory(request),
+        fetchResourceDataSource(request)
         // fetchAccessType(request)
 
     ]);
@@ -39,7 +40,6 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
     // const accessTypes: string[] = await responseAccessType.json()
-    const source = await fetchResourceDataSource(request)
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
@@ -119,7 +119,7 @@ export default function ResourceAdminIndex() {
                 successText={"Ressursen ble opprettet!"}
                 deleteText={"Ressursen ble slettet!"}
             />
-            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath}/>
+            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath} source={source}/>
         </VStack>
     );
 }

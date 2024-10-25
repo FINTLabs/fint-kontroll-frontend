@@ -92,6 +92,7 @@ table {
 
 .delete-icon-button:hover {
     background-color: #ffcccc;
+    color: var(--a-nav-red);
 }
 
 .button-outlined {
