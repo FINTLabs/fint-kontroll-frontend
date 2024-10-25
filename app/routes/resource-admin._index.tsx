@@ -1,4 +1,4 @@
-import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, HStack, Spacer, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
@@ -79,8 +79,8 @@ export default function ResourceAdminIndex() {
     return (
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
-            <HStack justify={"space-between"}>
-                {source === "gui" && (
+            <HStack justify={"space-between"} >
+                {source === "gui" ? (
                     <HStack justify={"end"} align={"end"}>
                         <Button role="link"
                                 className={"no-underline-button"}
@@ -90,7 +90,7 @@ export default function ResourceAdminIndex() {
                             Opprett ny ressurs
                         </Button>
                     </HStack>
-                )}
+                ): <Spacer />}
 
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>

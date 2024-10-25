@@ -60,5 +60,8 @@ export const applicationCategoriesHandlers = [
                 }
             ]
         )
+    }),
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/admin/source/v1', () => {
+        return HttpResponse.text("gui")
     })
 ]
