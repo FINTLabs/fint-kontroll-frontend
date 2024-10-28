@@ -1,6 +1,6 @@
 import {Heading, VStack} from "@navikt/ds-react";
-import {CustomLink} from "~/components/resource/settings/CustomLink";
-import {CustomLinkPanel} from "~/components/resource/settings/CustomLinkPanel";
+import {CustomLink} from "~/components/settings/CustomLink";
+import {CustomLinkPanel} from "~/components/settings/CustomLinkPanel";
 import {BASE_PATH} from "../../environment";
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
