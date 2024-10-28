@@ -255,3 +255,9 @@ export interface ICookie {
     key: string
     value: string
 }
+
+export interface IKodeverkUserType {
+    id: number
+    fkLabel: string
+    label: string
+}

@@ -1,6 +1,6 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
-import {IKodeverkApplicationCategory} from "~/data/types";
+import {IKodeverkApplicationCategory, IKodeverkUserType} from "~/data/types";
 
 export const fetchApplicationCategories = async (request: Request): Promise<IKodeverkApplicationCategory[]> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`, {
@@ -110,6 +110,49 @@ export const deleteApplicationCategory = async (
             'content-type': 'application/json'
         },
         method: 'DELETE'
+
+    })
+}
+
+export const fetchUserTypes = async (request: Request): Promise<IKodeverkUserType[]> => {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1`, {
+        headers: request.headers
+    });
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error("Det ser ut som om du mangler rettigheter i løsningen");
+    }
+    if (response.status === 401) {
+        throw new Error("Påloggingen din er utløpt");
+    }
+    throw new Error("En feil oppstod under henting av brukertypene");
+}
+
+export const editUserType = async (
+    token: string | null,
+    id: string,
+    label: string,
+) => {
+
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1/${id}`
+
+    logger.info("PATCH kodeverk - usertype to url:", url, " with body ", JSON.stringify({
+        fkLabel: label
+    }));
+
+    return await fetch(url, {
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
+        method: 'PATCH',
+        body: JSON.stringify({
+            fkLabel: label
+        })
 
     })
 }

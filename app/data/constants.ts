@@ -5,4 +5,5 @@ export const SETTINGS_APPLICATION_CATEGORY_CREATE = "/innstillinger/applikasjons
 export const getApplicationCategoryEditUrl = (id: number): string => `/innstillinger/applikasjonskategori/${id}/rediger`;
 export const getApplicationCategoryDeleteUrl = (id: number): string => `/innstillinger/applikasjonskategori/${id}/slett`;
 
-export const SETTINGS_USER_TYPES = "/innstillinger/user-types"
+export const SETTINGS_USER_TYPES = "/innstillinger/brukertyper"
+export const getEditUserTypeUrl = (id: number): string => `/innstillinger/brukertyper/${id}/rediger`;

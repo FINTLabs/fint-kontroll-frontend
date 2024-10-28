@@ -12,7 +12,7 @@ import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressur
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
-import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
+import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
@@ -41,12 +41,14 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData)
     const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData)
     const applicationCategories = await fetchApplicationCategories(auth)
+    const userTypes = await fetchUserTypes(auth)
 
     return {
         orgUnitsWithIsChecked,
         orgUnitOwner,
         resource: resourceData,
-        applicationCategories
+        applicationCategories,
+        userTypes
     };
 }
 
@@ -121,6 +123,7 @@ export default function EditApplikasjonsRessurs() {
     const orgUnitOwner = loaderData.orgUnitOwner.orgUnits as IUnitItem[]; // Her får du listen med kun én "checked" enhet
     const resource: IApplicationResource = loaderData.resource
     const applicationCategories = loaderData.applicationCategories
+    const userTypes = loaderData.userTypes
 
     const navigate = useNavigate()
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
@@ -198,6 +201,7 @@ export default function EditApplikasjonsRessurs() {
                         newApplicationResource={newResource}
                         setNewApplicationResource={setNewResource}
                         applicationCategories={applicationCategories}
+                        userTypes={userTypes}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
