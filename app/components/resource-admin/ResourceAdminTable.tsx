@@ -14,9 +14,10 @@ interface ResourceTableProps {
     resourcePage: IResourceAdminList,
     size: string,
     basePath?: string
+    source?: string
 }
 
-export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTableProps) => {
+export const ResourceAdminTable = ({resourcePage, size, basePath, source}: ResourceTableProps) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -68,7 +69,9 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                                     </Dropdown.Menu.GroupedList>
                                 </Dropdown.Menu>
                             </Dropdown></Table.HeaderCell>
-                        {/*<Table.HeaderCell scope="col">Slett</Table.HeaderCell>*/}
+                        {source === "gui" &&
+                            <Table.HeaderCell align={"center"} scope="col">Slett</Table.HeaderCell>
+                        }
                         <Table.HeaderCell scope="col" align="center">Se mer informasjon</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -78,29 +81,22 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{<StatusTag status={resource.status}/>}</Table.DataCell>
+                            {source === "gui" && (
+                                <Table.DataCell align={"center"}>
+                                    {resource.status === "DELETED" ?
+                                        <MinusIcon title="a11y-title" fontSize="1.5rem"/>
+                                        :
+                                        <Button
+                                            as={Link}
+                                            className="delete-icon-button"
+                                            variant={"tertiary"}
+                                            icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
+                                            href={`${basePath}/resource-admin/delete/resource/${resource.id}${prepareQueryParams(searchParams)}`}
 
-{/*                            <Table.DataCell>
-                                {resource.status === "DELETED" ?
-                                    <MinusIcon title="a11y-title" fontSize="1.5rem"/>
-                                    :
-                                    <Link id="delete-icon" className="delete-icon-button"
-                                          href={`${basePath}/resource-admin/delete/resource/${resource.id}${prepareQueryParams(searchParams)}`}>
-                                        {<TrashIcon title="Slett" fontSize="1.5rem"/>}
-                                    </Link>
-                                }
-                            </Table.DataCell>*/}
-                            {/*<Button
-                                    id={"delete-test"}
-                                    as={Link}
-                                    className={"button-outlined"}
-                                    variant={"secondary"}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                    href={`${basePath}/resource-admin/resource/${resource.id}/delete${prepareQueryParams(searchParams)}`}
-                                >
-                                    Slett
-                                </Button>*/}
-
+                                        />
+                                    }
+                                </Table.DataCell>
+                            )}
                             <Table.DataCell align="center">
                                 <SeeInfoButton
                                     id={`resourceAdminInfoButton-${resource.id}`}

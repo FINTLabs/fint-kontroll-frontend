@@ -10,6 +10,7 @@ import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTab
 import {StatusTag} from "~/components/resource-admin/StatusTag";
 import {ArrowRightIcon, PencilIcon} from "@navikt/aksel-icons";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -17,12 +18,15 @@ export function links() {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const [resource] = await Promise.all([
+    const [resource, source] = await Promise.all([
         fetchResourceById(request, params.id),
+        fetchResourceDataSource(request)
     ]);
+
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         resource: await resource.json(),
+        source
     })
 }
 
@@ -42,21 +46,24 @@ export const handle = {
 export default function ResourceById() {
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
+    const source = loaderData.source
     const responseCode: string | undefined = loaderData.responseCode
     const navigate = useNavigate()
 
     return (
         <VStack gap="8">
             <VStack gap="4">
-                <HStack justify={"end"} align={"end"}>
-                    <Button role="link"
-                            className={"no-underline-button"}
-                            variant={"secondary"}
-                            iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                            onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}>
-                        Rediger ressurs
-                    </Button>
-                </HStack>
+                {source === "gui" && (
+                    <HStack justify={"end"} align={"end"}>
+                        <Button role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                                onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}>
+                            Rediger ressurs
+                        </Button>
+                    </HStack>
+                )}
                 <HStack gap="8" align={"center"} justify={"center"}>
                     <Heading className={"heading"}
                              level="1"
@@ -76,15 +83,17 @@ export default function ResourceById() {
 
             <VStack gap="4">
                 <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende orgenheter</Heading>
-                <HStack justify={"end"} align={"end"}>
-                    <Button role="link"
-                            className={"no-underline-button"}
-                            variant={"secondary"}
-                            iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                            onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}>
-                        Rediger orgenheter
-                    </Button>
-                </HStack>
+                {source === "gui" && (
+                    <HStack justify={"end"} align={"end"}>
+                        <Button role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                                onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}>
+                            Rediger orgenheter
+                        </Button>
+                    </HStack>
+                )}
                 <ResourceDetailTable resource={resource}/>
             </VStack>
         </VStack>
