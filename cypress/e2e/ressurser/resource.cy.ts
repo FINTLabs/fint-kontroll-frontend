@@ -11,6 +11,14 @@ describe('Check the resource details page', () => {
         cy.wait(1000)
     });
 
+    it('Should display correct labels for user types', () => {
+        cy.get('h1').should('have.text', 'Creative Cloud All Apps for K-12 - User License')
+        cy.get('h2').contains('Ressursinformasjon').should('exist')
+        cy.get('div').find('div.navds-guide-panel__content').should('exist')
+            .find('ul li').should('have.length', 9)
+            .should('contain.text', 'Gyldig for:Elev, Ansatt, Ukjent')
+    })
+
     it('Check searchfield for user, type and remove the search name filter', () => {
         cy.get('#user-search').should('exist')
         cy.get('#user-search').should('have.value', '')
