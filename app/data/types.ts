@@ -243,12 +243,14 @@ export interface IUnitTree {
     orgUnits: IUnitItem[]
 }
 
-export interface IKodeverkApplicationCategory {
+export interface IKodeverkCustomListItem {
     id: number
     name: string
     description: string
     category: string
 }
+export type IKodeverkApplicationCategory = IKodeverkCustomListItem
+export type IKodeverkLicenseModel = IKodeverkCustomListItem
 
 // General cookie interface
 export interface ICookie {
@@ -257,6 +259,12 @@ export interface ICookie {
 }
 
 export interface IKodeverkUserType {
+    id: number
+    fkLabel: string
+    label: string
+}
+
+export interface IKodeverkLicenseEnforcement {
     id: number
     fkLabel: string
     label: string

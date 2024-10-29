@@ -9,6 +9,7 @@ import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {SETTINGS, SETTINGS_USER_TYPES} from "~/data/constants";
 import {UserTypeTable} from "~/components/resource/settings/UserTypeTable";
+import {SettingsHeader} from "~/components/resource/settings/SettingsHeader";
 
 export const handle = {
     breadcrumb: () => (
@@ -38,13 +39,10 @@ export default function SettingsUserTypes() {
     return (
         <div className={"content"}>
             <VStack gap="4">
-                <VStack gap="4">
-                    <Heading level="1" size="large">Brukertyper</Heading>
-                    <BodyShort spacing>
-                        Brukertyper definerer hvem som kan få tilgang til og benytte seg av ressursen og/eller lisensen. Her kan du sette egendefinerte navn på de ulike typene av brukere.
-                    </BodyShort>
-                </VStack>
-
+                <SettingsHeader
+                    title={"Brukertyper"}
+                    text={"Brukertyper definerer hvem som kan få tilgang til og benytte seg av ressursen og/eller lisensen. Her kan du sette egendefinerte navn på de ulike typene av brukere."}
+                />
                 <UserTypeTable userTypes={userTypes} basePath={basePath}/>
             </VStack>
         </div>

@@ -6,9 +6,15 @@ import {IKodeverkApplicationCategory} from "~/data/types";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
-import {ApplicationCategoryTable} from "~/components/resource/settings/ApplicationCategoryTable";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {SETTINGS_APPLICATION_CATEGORY, SETTINGS} from "~/data/constants";
+import {
+    SETTINGS_APPLICATION_CATEGORY,
+    SETTINGS,
+    getApplicationCategoryEditUrl,
+    getApplicationCategoryDeleteUrl, SETTINGS_APPLICATION_CATEGORY_CREATE
+} from "~/data/constants";
+import {EditableList} from "~/components/resource/settings/KodeverkEditableList/EditableList";
+import {SettingsHeader} from "~/components/resource/settings/SettingsHeader";
 
 export const handle = {
     breadcrumb: () => (
@@ -38,16 +44,18 @@ export default function SettingsApplicationCategory() {
     return (
         <div className={"content"}>
             <VStack gap="4">
-                <VStack gap="4">
-                    <Heading level="1" size="large">Applikasjonskategori</Heading>
-                    <BodyShort spacing>
-                        Her kan du endre egendefinerte kategorier som brukes for å gruppere og beskrive
-                        ressurser. Disse kategoriene vil i fremtiden også kunne brukes til å begrense tilgang
-                        til ressurser basert på for eksempel brukertype.
-                    </BodyShort>
-                </VStack>
+                <SettingsHeader
+                    title={"Applikasjonskategori"}
+                    text={"Her kan du endre egendefinerte kategorier som brukes for å gruppere og beskrive ressurser. Disse kategoriene vil i fremtiden også kunne brukes til å begrense tilgang til ressurser basert på for eksempel brukertype."}
+                />
 
-                <ApplicationCategoryTable applicationCategories={applicationCategories} basePath={basePath}/>
+                <EditableList
+                    list={applicationCategories}
+                    getEditUrl={getApplicationCategoryEditUrl}
+                    getDeleteUrl={getApplicationCategoryDeleteUrl}
+                    createNewUrl={`${basePath}${SETTINGS_APPLICATION_CATEGORY_CREATE}`}
+                    createNewText={"Legg til ny kategori"}
+                />
             </VStack>
         </div>
     );
