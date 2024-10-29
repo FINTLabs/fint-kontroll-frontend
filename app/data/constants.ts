@@ -13,4 +13,5 @@ export const SETTINGS_LICENSE_MODEL_CREATE = "/innstillinger/lisensmodeller/redi
 export const getLicenseModelEditUrl = (id: number): string => `/innstillinger/lisensmodeller/${id}/rediger`;
 export const getLicenseModelDeleteUrl = (id: number): string => `/innstillinger/lisensmodeller/${id}/slett`;
 
-export const SETTINGS_LICENSE_ENFORCEMENT = "/innstillinger/haandhevingstype"
+export const SETTINGS_LICENSE_ENFORCEMENT = "/innstillinger/haandhevingstyper"
+export const getEditLicenceEnforcement = (id: number): string => `/innstillinger/haandhevingstyper/${id}/rediger`;

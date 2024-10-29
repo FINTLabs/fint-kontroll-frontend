@@ -1,7 +1,7 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {
-    IKodeverkApplicationCategory,
+    IKodeverkApplicationCategory, IKodeverkLicenceEnforcement,
     IKodeverkLicenseEnforcement,
     IKodeverkLicenseModel,
     IKodeverkUserType
@@ -95,6 +95,8 @@ export const createLicenseModel = (token: string | null, name: string, descripti
 export const deleteLicenseModel = (token: string | null, id: string) =>
     sendRequest(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1/${id}`, 'DELETE', token, {});
 
-
-export const fetchLicenseEnforcements = (request: Request): Promise<IKodeverkLicenseEnforcement[]> =>
+export const fetchLicenseEnforcements = (request: Request): Promise<IKodeverkLicenceEnforcement[]> =>
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/handhevingstype/v1`, request);
+
+export const editLicenseEnforcement = (token: string | null, id: string, label: string) =>
+    sendRequest(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/handhevingstype/v1/${id}`, 'PATCH', token, {fkLabel: label});
