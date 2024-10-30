@@ -253,11 +253,6 @@ export const resourceHandlers = [
         const search = new URL(request.url).searchParams.get('search') ?? "0"
         const userType = new URL(request.url).searchParams.get('userType') ?? "0"
 
-        console.log("size: ", size)
-        console.log("page: ", page)
-        console.log("search: ", search)
-        console.log("userType: ", userType)
-
         if (userType === "STUDENT") {
             return HttpResponse.json(
                 {
