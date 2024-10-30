@@ -14,8 +14,8 @@ import {
     getLicenseModelDeleteUrl,
     SETTINGS_LICENSE_MODEL_CREATE
 } from "~/data/constants";
-import {EditableList} from "~/components/resource/settings/KodeverkEditableList/EditableList";
-import {SettingsHeader} from "~/components/resource/settings/SettingsHeader";
+import {EditableList} from "~/components/settings/KodeverkEditableList/EditableList";
+import {SettingsHeader} from "~/components/settings/SettingsHeader";
 
 export const handle = {
     breadcrumb: () => (

@@ -7,7 +7,7 @@ import {
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {SETTINGS_LICENSE_ENFORCEMENT} from "~/data/constants";
-import {MappingListModal} from "~/components/resource/settings/KodeverkMappingList/MappingListModal";
+import {MappingListModal} from "~/components/settings/KodeverkMappingList/MappingListModal";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()

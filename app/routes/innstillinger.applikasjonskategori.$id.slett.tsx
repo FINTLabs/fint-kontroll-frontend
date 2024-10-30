@@ -8,7 +8,7 @@ import {
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {BASE_PATH} from "../../environment";
 import {SETTINGS_APPLICATION_CATEGORY} from "~/data/constants";
-import {EditableListDeleteModal} from "~/components/resource/settings/KodeverkEditableList/EditableListDeleteModal";
+import {EditableListDeleteModal} from "~/components/settings/KodeverkEditableList/EditableListDeleteModal";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const categoryId = params.id
