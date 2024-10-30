@@ -6,7 +6,7 @@ import {IKodeverkLicenceEnforcement} from "~/data/types";
 import {json} from "@remix-run/node";
 import {fetchLicenseEnforcements} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {getEditLicenceEnforcement, SETTINGS, SETTINGS_LICENSE_ENFORCEMENT, SETTINGS_USER_TYPES} from "~/data/constants";
+import {getEditLicenceEnforcement, SETTINGS, SETTINGS_LICENSE_ENFORCEMENT} from "~/data/constants";
 import {SettingsHeader} from "~/components/resource/settings/SettingsHeader";
 import {MappingList} from "~/components/resource/settings/KodeverkMappingList/MappingList";
 

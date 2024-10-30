@@ -1,6 +1,6 @@
 import {Link, useLoaderData} from "@remix-run/react";
 import React from "react";
-import {BodyShort, Heading, HStack, VStack} from "@navikt/ds-react";
+import {HStack, VStack} from "@navikt/ds-react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {json} from "@remix-run/node";

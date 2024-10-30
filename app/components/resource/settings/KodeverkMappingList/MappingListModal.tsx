@@ -2,19 +2,11 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Button, Loader, Modal, TextField, VStack} from "@navikt/ds-react";
 import {
     Form,
-    useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
 } from "@remix-run/react";
-import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
-import {
-    editUserType,
-    fetchUserTypes
-} from "~/data/fetch-kodeverk";
 import {NotePencilIcon} from "@navikt/aksel-icons";
-import {LoaderFunctionArgs} from "@remix-run/router";
-import {SETTINGS_USER_TYPES} from "~/data/constants";
 import {IKodeverkMappingList} from "~/data/types";
 
 interface MappingListModalProps {
