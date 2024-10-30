@@ -38,9 +38,9 @@ export default function EditUserType() {
     return (
         <MappingListModal
             allItems={allUserTypes}
-            title={"Brukertype"}
+            title={"Rediger navn på brukertype"}
             onCloseUrl={SETTINGS_USER_TYPES}
-            duplicateErrorText={"En brukertype med samme navn eksisterer allerede"}
+            duplicateErrorText={"En brukertype med samme navn eksisterer allerede."}
         />
     )
 }
