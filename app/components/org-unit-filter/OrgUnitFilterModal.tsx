@@ -1,6 +1,6 @@
 import {Button, Modal, Switch} from "@navikt/ds-react"
 import React, {useRef, useState} from "react"
-import {Buldings3Icon} from "@navikt/aksel-icons"
+import {Buildings3Icon} from "@navikt/aksel-icons"
 import type {IUnitItem} from "~/data/types";
 import OrgUnitTree from "~/components/org-unit-filter/OrgUnitTree";
 import {useSearchParams} from "@remix-run/react";
@@ -50,7 +50,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 id="org-unit-filter"
                 variant={"secondary"}
                 iconPosition="right"
-                icon={<Buldings3Icon aria-hidden/>}
+                icon={<Buildings3Icon aria-hidden/>}
                 onClick={handleOpen}
             >
                 Orgenhetsfilter

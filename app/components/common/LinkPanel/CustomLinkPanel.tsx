@@ -6,6 +6,6 @@ interface CustomLinkPanelProps {
 }
 
 export const CustomLinkPanel = ({children}: CustomLinkPanelProps) =>
-    <HGrid gap="6" columns={{xs: 1, md: 2}}>
+    <HGrid gap="6" columns={{xs: 1, md: 2}} paddingBlock={"4 8"}>
         {children}
     </HGrid>
