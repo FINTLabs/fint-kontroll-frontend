@@ -231,8 +231,9 @@ export const resourceHandlers = [
                     }
                 ],
                 "validForRoles": [
-                    "Elev",
-                    "Ansatt skole"
+                    "STUDENT",
+                    "EMPLOYEESTAFF",
+                    "Ukjent"
                 ],
                 "applicationCategory": [
                     "Pedagogisk programvare"
