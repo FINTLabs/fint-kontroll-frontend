@@ -2,17 +2,12 @@ import {IKodeverkUserType, IResource} from "~/data/types";
 import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Spacer, Hide} from "@navikt/ds-react";
 import {InformationIcon} from "@navikt/aksel-icons";
 import * as React from "react";
+import {translateValidForRoleLabel} from "~/components/common/CommonFunctions";
 
 interface ResourceInfoBoxProps {
     resource: IResource,
     userTypes: IKodeverkUserType[] | undefined
 }
-
-const translateValidForRoleLabel = (role: string, usertTypes: IKodeverkUserType[] | undefined) => {
-    const userType = usertTypes?.find(userType => userType.label === role)
-    return userType ? userType.fkLabel : role
-}
-
 export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => {
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>

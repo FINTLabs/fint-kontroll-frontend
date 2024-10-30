@@ -1,9 +1,13 @@
 import {Select} from "@navikt/ds-react";
 import React from "react";
 import {Form, useSearchParams} from "@remix-run/react";
-import {filterResetPageParam} from "~/components/common/CommonFunctions";
+import {filterResetPageParam, translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {IKodeverkUserType} from "~/data/types";
 
-export const UserTypeFilter = () => {
+interface UserTypeFilterProps {
+    userTypes: IKodeverkUserType[]
+}
+export const UserTypeFilter = ({userTypes}: UserTypeFilterProps) => {
     const [currentSearchParams, setSearchParams] = useSearchParams()
     const [searchParams,] = useSearchParams();
 
@@ -17,6 +21,7 @@ export const UserTypeFilter = () => {
         filterResetPageParam(pageParam, setSearchParams)
     }
 
+    // @ts-ignore
     return (
         <Form className={"select-usertype"}>
             <Select label={"Filter for brukertype"}
@@ -25,10 +30,10 @@ export const UserTypeFilter = () => {
                     value={String(currentSearchParams.get("userType")) ?? ""}
             >
                 <option value={""}>Alle</option>
-                <option value={"STUDENT"}>STUDENT</option>
-                <option value={"EMPLOYEESTAFF"}>EMPLOYEESTAFF</option>
-                <option value={"EMPLOYEEFACULTY"}>EMPLOYEEFACULTY</option>
-                <option value={"EXTERNAL"}>EXTERNAL</option>
+                <option value={"STUDENT"}>{translateValidForRoleLabel("STUDENT", userTypes)}</option>
+                <option value={"EMPLOYEESTAFF"}>{translateValidForRoleLabel("EMPLOYEESTAFF", userTypes)}</option>
+                <option value={"EMPLOYEEFACULTY"}>{translateValidForRoleLabel("EMPLOYEEFACULTY", userTypes)}</option>
+                <option value={"EXTERNAL"}>{translateValidForRoleLabel("EXTERNAL", userTypes)}</option>
             </Select>
         </Form>
     );

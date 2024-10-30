@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
-import {IAssignedUsers, IResource} from "~/data/types";
+import {IAssignedUsers, IKodeverkUserType, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -15,6 +15,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
+import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -28,10 +29,17 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [assignedUsers, resourceById] = await Promise.all([
+    const [assignedUsers, resourceById, source] = await Promise.all([
         fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
         fetchResourceById(request, params.id),
+        fetchResourceDataSource(request)
     ])
+
+    let userTypes: IKodeverkUserType[] = []
+    if (source === "gui") {
+        userTypes = await fetchUserTypes(request)
+    }
+
 
     const resource: IResource = await resourceById.json()
     return json({
@@ -41,6 +49,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
         size,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
+        userTypes
     })
 }
 
@@ -69,13 +78,13 @@ export default function AssignedUsers() {
             <section className={"toolbar"}>
                 <SelectObjectType/>
                 <section className={"filters"}>
-                    <UserTypeFilter/>
+                    <UserTypeFilter userTypes={loaderData.userTypes}/>
                     <UserSearch/>
                 </section>
             </section>
 
             <HStack justify="end">
-                <ChipsFilters/>
+                <ChipsFilters userTypes={loaderData.userTypes}/>
             </HStack>
 
             <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
