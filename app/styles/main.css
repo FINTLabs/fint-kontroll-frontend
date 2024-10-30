@@ -173,11 +173,21 @@ button {
     white-space: nowrap;
 }
 
+.full-width {
+    width: 100%;
+}
+
+.list-style-none {
+    list-style: none;
+    padding: 0;
+}
+
 .custom-link {
     text-decoration: none;
     color: var(--a-text-default);
     transition: background .2s ease-in;
     background-color: var(--a-surface-action-subtle);
+
     p {
         color: var(--a-text-default);
     }
@@ -189,6 +199,7 @@ button {
 
     &:hover {
         background-color: var(--a-surface-hover);
+
         h1 {
             color: var(--a-text-action);
             text-decoration: none;

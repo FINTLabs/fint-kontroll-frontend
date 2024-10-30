@@ -6,7 +6,7 @@ import {IKodeverkApplicationCategory} from "~/data/types";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {fetchApplicationCategories} from "~/data/fetch-kodeverk";
-import {ApplicationCategoryTable} from "~/components/resource/settings/ApplicationCategoryTable";
+import {ApplicationCategoryTable} from "~/components/settings/ApplicationCategoryTable";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {SETTINGS_APPLICATION_CATEGORY, SETTINGS} from "~/data/constants";
 

@@ -8,7 +8,7 @@ import {BASE_PATH} from "../../environment";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {SETTINGS, SETTINGS_USER_TYPES} from "~/data/constants";
-import {UserTypeTable} from "~/components/resource/settings/UserTypeTable";
+import {UserTypeTable} from "~/components/settings/UserTypeTable";
 
 export const handle = {
     breadcrumb: () => (

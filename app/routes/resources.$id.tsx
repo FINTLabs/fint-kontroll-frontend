@@ -2,12 +2,13 @@ import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Heading, LinkPanel, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Outlet, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IResource} from "~/data/types";
+import {IKodeverkUserType, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
-import {ResourceInfo} from "~/components/resource/ResourceInfo";
 import {BASE_PATH} from "../../environment";
+import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
+import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -15,12 +16,20 @@ export function links() {
 
 export async function loader({params, request}: LoaderFunctionArgs) {
 
-    const [resource] = await Promise.all([
+    const [resource, source] = await Promise.all([
         fetchResourceById(request, params.id),
+        fetchResourceDataSource(request)
     ]);
+
+    let userTypes: IKodeverkUserType[] = []
+    if (source === "gui") {
+        userTypes = await fetchUserTypes(request)
+    }
+
     return json({
         resource: await resource.json(),
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        userTypes
     })
 }
 
@@ -32,7 +41,7 @@ export default function ResourceById() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
-    const basePath: string = loaderData.basePath
+    const { userTypes, basePath } = loaderData
 
     return (
         <section className={"content"}>
@@ -48,10 +57,10 @@ export default function ResourceById() {
                         {resource.resourceName}
                     </Heading>
 
-                    <ResourceInfo resource={resource}/>
+                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
                 </VStack>
 
-                <Outlet context={{ resource }} />
+                <Outlet context={{resource}}/>
             </VStack>
         </section>
     );
