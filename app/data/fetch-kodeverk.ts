@@ -1,8 +1,8 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {
-    IKodeverkApplicationCategory, IKodeverkLicenceEnforcement,
-    IKodeverkLicenseEnforcement,
+    IKodeverkApplicationCategory,
+    IKodeverkLicenceEnforcement,
     IKodeverkLicenseModel,
     IKodeverkUserType
 } from "~/data/types";
