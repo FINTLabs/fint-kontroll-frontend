@@ -1,40 +1,11 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
-import logger from "~/logging/logger";
 import {
     IKodeverkApplicationCategory,
     IKodeverkLicenceEnforcement,
     IKodeverkLicenseModel,
     IKodeverkUserType
 } from "~/data/types";
-
-
-// TODO: Move this to a common place
-const handleResponse = async (response: Response, errorMessage: string) => {
-    if (response.ok) return response.json();
-    if (response.status === 403) throw new Error("Det ser ut som om du mangler rettigheter i løsningen");
-    if (response.status === 401) throw new Error("Påloggingen din er utløpt");
-    throw new Error(errorMessage);
-};
-
-// TODO: Move this to a common place and use it in all post, put and delete functions
-const sendRequest = async (url: string, method: string, token: string | null, body: object) => {
-    logger.info(`${method} request to url:`, url, " with body ", JSON.stringify(body));
-    return await fetch(url, {
-        headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
-        },
-        method,
-        body: JSON.stringify(body)
-    });
-};
-
-// TODO: Move this to a common place and use it in all fetch functions that expects json
-const fetchData = async (url: string, request: Request) => {
-    const response = await fetch(url, {headers: request.headers});
-    return handleResponse(response, "En feil oppstod under henting av data");
-};
-
+import {fetchData, handleResponse, sendRequest} from "~/data/helpers";
 
 export const fetchResourceDataSource = async (request: Request): Promise<string> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/source/v1`, {
