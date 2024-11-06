@@ -46,7 +46,6 @@ export async function loader({request}: LoaderFunctionArgs) {
 
 export default function UsersIndex() {
     const data = useLoaderData<typeof loader>();
-    const size = data.size
 
     return (
         <div className={"content"}>
@@ -61,7 +60,7 @@ export default function UsersIndex() {
             <Box className={"filters"} paddingBlock={"1 8"}>
                 <ChipsFilters userTypes={data.userTypes}/>
             </Box>
-            <UserTable userPage={data.userList} size={size}/>
+            <UserTable />
         </div>
     );
 }

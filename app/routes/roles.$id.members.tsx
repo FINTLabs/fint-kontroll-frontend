@@ -8,19 +8,26 @@ import {MemberTable} from "~/components/role/MemberTable";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {Search} from "~/components/common/Search";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {IKodeverkUserType} from "~/data/types";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const search = url.searchParams.get("search") ?? "";
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
-    const response = await fetchMembers(request, params.id, size, page, search);
+    const members = await fetchMembers(request, params.id, size, page, search);
 
-    const members = await response.json()
+    const source = await fetchResourceDataSource(request)
+    let userTypes: IKodeverkUserType[] = []
+    if (source === "gui") {
+        userTypes = await fetchUserTypes(request)
+    }
 
     return json({
         members,
-        size
+        size,
+        userTypes
     })
 }
 
@@ -32,7 +39,6 @@ export const handle = {
 export default function Members() {
     const loaderData = useLoaderData<typeof loader>();
     const members = loaderData.members
-    const size = loaderData.size
 
     return (
         <section>
@@ -47,7 +53,7 @@ export default function Members() {
                         <ChipsFilters/>
                     </HStack>
                     <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
-                        <MemberTable memberPage={members} size={size}/>
+                        <MemberTable />
                     </Tabs.Panel>
                 </VStack>
             </Tabs>
