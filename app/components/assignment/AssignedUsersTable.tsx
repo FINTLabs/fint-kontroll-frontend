@@ -3,7 +3,7 @@ import type {IAssignedUsers} from "~/data/types";
 import React from "react";
 import {Outlet, useLoaderData, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
-import {prepareQueryParams, translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {prepareQueryParams, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
@@ -44,7 +44,7 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
                             <Table.Row key={user.assigneeRef}>
                                 <Table.HeaderCell
                                     scope="row">{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
-                                <Table.DataCell>{translateValidForRoleLabel(user.assigneeUserType, userTypes)}</Table.DataCell>
+                                <Table.DataCell>{translateUserTypeToLabel(user.assigneeUserType, userTypes)}</Table.DataCell>
                                 <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
                                 <Table.DataCell>{user.directAssignment ? "Direkte" : user.assignmentViaRoleName}</Table.DataCell>
                                 <Table.DataCell align={"center"}>

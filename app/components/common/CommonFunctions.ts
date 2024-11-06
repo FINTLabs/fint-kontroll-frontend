@@ -97,7 +97,7 @@ export const getSizeCookieFromRequestHeader = (request: Request): ICookie | null
     return null;
 };
 
-export const translateValidForRoleLabel = (role: string, userTypes: IKodeverkUserType[] | undefined) => {
+export const translateUserTypeToLabel = (role: string, userTypes: IKodeverkUserType[] | undefined) => {
     const userType = userTypes?.find(userType => userType.label === role)
     return userType ? userType.fkLabel : role
 }

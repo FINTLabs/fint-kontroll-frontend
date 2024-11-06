@@ -1,7 +1,7 @@
 import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
-import {filterResetPageParam, translateValidForRoleLabel,} from "~/components/common/CommonFunctions";
+import {filterResetPageParam, translateUserTypeToLabel,} from "~/components/common/CommonFunctions";
 import {IKodeverkUserType} from "~/data/types";
 
 interface ChipsFiltersProps {
@@ -91,7 +91,7 @@ const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
 
             {userType &&
                 <Chips.Removable onClick={() => removeFilter("userType")} id="user-type-chip">
-                    {translateValidForRoleLabel(userType, userTypes)}
+                    {translateUserTypeToLabel(userType, userTypes)}
                 </Chips.Removable>
             }
 

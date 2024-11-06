@@ -7,7 +7,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {loader} from "~/routes/assignment.resource.$id.user";
-import {translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 
 interface AssignUserTableProps {
@@ -51,7 +51,7 @@ export const AssignUserTable = (
                     {fetching ? <TableSkeleton/> : isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
-                            <Table.DataCell>{translateValidForRoleLabel(user.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {user.assigned ?

@@ -2,7 +2,7 @@ import {IKodeverkUserType, IResource} from "~/data/types";
 import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Spacer, Hide} from "@navikt/ds-react";
 import {InformationIcon} from "@navikt/aksel-icons";
 import * as React from "react";
-import {translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 interface ResourceInfoBoxProps {
     resource: IResource,
@@ -70,7 +70,7 @@ export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => 
                                     <Heading size="small" level="3">Gyldig for:</Heading>
                                     <BodyShort textColor="subtle">
                                         {resource.validForRoles
-                                            .map(role => translateValidForRoleLabel(role, userTypes))
+                                            .map(role => translateUserTypeToLabel(role, userTypes))
                                             .join(', ')
                                         }
                                     </BodyShort>

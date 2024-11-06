@@ -6,7 +6,7 @@ import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {useLoaderData} from "@remix-run/react";
 import {loader} from "~/routes/roles.$id.members";
-import {translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 export const MemberTable = () => {
     const {members: memberPage, size, userTypes} = useLoaderData<typeof loader>();
@@ -25,7 +25,7 @@ export const MemberTable = () => {
                     {fetching ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
-                            <Table.DataCell>{translateValidForRoleLabel(member.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(member.userType, userTypes)}</Table.DataCell>
                             {/*<Table.DataCell align="right">
                                 <Button
                                     id={`memberInfoButton-${member.id}`}

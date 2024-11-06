@@ -7,7 +7,7 @@ import {useLoadingState} from "~/components/common/customHooks";
 import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
 import {useLoaderData} from "@remix-run/react";
 import {loader} from "~/routes/users._index";
-import {translateValidForRoleLabel} from "~/components/common/CommonFunctions";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 export const UserTable = () => {
     const {userList: userPage, size, userTypes} = useLoaderData<typeof loader>();
@@ -29,7 +29,7 @@ export const UserTable = () => {
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell>{translateValidForRoleLabel(user.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
                             <Table.DataCell align="right">
                                 <SeeInfoButton
                                     id={`userInfoButton-${user.id}`}
