@@ -15,7 +15,7 @@ describe('Check the resource details page', () => {
         cy.get('h1').should('have.text', 'Creative Cloud All Apps for K-12 - User License')
         cy.get('h2').contains('Ressursinformasjon').should('exist')
         cy.get('div').find('div.navds-guide-panel__content').should('exist')
-            .find('ul li').should('have.length', 9)
+            .find('ul li').should('have.length', 6)
             .should('contain.text', 'Gyldig for:Elev, Ansatt, Ukjent')
     })
 
