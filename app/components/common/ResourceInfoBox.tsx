@@ -1,5 +1,5 @@
 import {IKodeverkUserType, IResource} from "~/data/types";
-import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Hide} from "@navikt/ds-react";
+import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Hide, Dropdown} from "@navikt/ds-react";
 import {InformationIcon} from "@navikt/aksel-icons";
 import * as React from "react";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
@@ -14,14 +14,13 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
             <VStack>
-
-                <HStack className={"nowrap"} align={"center"} justify={"center"}>
-                    <Hide asChild below="xl">
-                        <hr/>
+                <HStack wrap={false} align={"center"} justify={"center"} gap={"4"}>
+                    <Hide asChild below="md">
+                        <hr style={{width: "100%"}}/>
                     </Hide>
-                    <Heading size="medium" level="2">Ressursinformasjon</Heading>
-                    <Hide asChild below="xl">
-                        <hr/>
+                    <Heading align={"center"} size="medium" level="2">Ressursinformasjon</Heading>
+                    <Hide asChild below="md">
+                        <hr style={{width: "100%"}}/>
                     </Hide>
                 </HStack>
 
