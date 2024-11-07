@@ -4,7 +4,7 @@ describe('Applikasjonskategori i innstillinger', () => {
         cy.wait(1000)
         cy.get("h1").should('have.text', "Ressursinnstillinger")
 
-        cy.get("h2").should('have.length', 2)
+        cy.get("h2").should('have.length', 4)
     })
 
     it('should find card for applikasjonskategori and click', () => {

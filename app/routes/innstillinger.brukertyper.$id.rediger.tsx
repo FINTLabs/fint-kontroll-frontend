@@ -1,21 +1,13 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {Button, Loader, Modal, TextField, VStack} from "@navikt/ds-react";
-import {
-    Form,
-    useLoaderData,
-    useNavigate,
-    useNavigation,
-    useParams,
-} from "@remix-run/react";
+import React from 'react';
+import {useLoaderData} from "@remix-run/react";
 import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {
     editUserType,
     fetchUserTypes
 } from "~/data/fetch-kodeverk";
-import {NotePencilIcon} from "@navikt/aksel-icons";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {BASE_PATH} from "../../environment";
 import {SETTINGS_USER_TYPES} from "~/data/constants";
+import {MappingListModal} from "~/components/settings/KodeverkMappingList/MappingListModal";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -36,92 +28,19 @@ export async function action({params, request}: ActionFunctionArgs) {
 
 export async function loader({request}: LoaderFunctionArgs) {
     const allUserTypes = await fetchUserTypes(request);
-    return json({
-        allUserTypes,
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH
-    })
+    return json({allUserTypes})
 }
 
 export default function EditUserType() {
-    const params = useParams()
-    const navigate = useNavigate()
-    const response = useNavigation()
-
     const {allUserTypes} = useLoaderData<typeof loader>()
-
-    const currentUserType = useMemo(
-        () => allUserTypes.find(({id}) => id === Number(params.id)),
-        [allUserTypes, params.id]
-    );
-    const [label, setLabel] = useState(currentUserType?.fkLabel);
-
-    const labelAlreadyExist = useCallback(
-        (label: string) => allUserTypes.some(
-            ({fkLabel, id}) => fkLabel === label.trim() && id !== currentUserType?.id
-        ),
-        [allUserTypes, currentUserType?.id]
-    )
-
-    const duplicateLabel = useMemo(
-        () => labelAlreadyExist(label || ""),
-        [labelAlreadyExist, label]
-    )
-    const unchangedLabel = useMemo(
-        () => label?.trim() === currentUserType?.fkLabel,
-        [currentUserType?.fkLabel, label]
-    )
-
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
-    }
 
 
     return (
-        <Modal
-            open={true}
-            onClose={() => navigate(SETTINGS_USER_TYPES)}
-            header={{
-                heading: "Rediger navn på brukertype: " + currentUserType?.label,
-                closeButton: false,
-                icon: <NotePencilIcon aria-hidden/>
-            }}
-            width="small"
-        >
-            <Form method={"PATCH"}>
-                <Modal.Body>
-                    <VStack gap={"4"}>
-                        <TextField
-                            label="Egendefinert navn"
-                            name="fkLabel"
-                            type="text"
-                            autoComplete="off"
-                            value={label}
-                            onChange={(e) => setLabel(e.target.value)}
-                            error={duplicateLabel ? "Dette navnet finnes allerede på en annen brukertype." : undefined}
-                        />
-                    </VStack>
-                </Modal.Body>
-                <Modal.Footer>
-
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        loading={response.state === "submitting"}
-                        disabled={!label || duplicateLabel || unchangedLabel}
-                    >
-                        Lagre endringer
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        onClick={() => navigate(SETTINGS_USER_TYPES)}
-                    >
-                        Avbryt
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
+        <MappingListModal
+            allItems={allUserTypes}
+            title={"Rediger navn på brukertype"}
+            onCloseUrl={SETTINGS_USER_TYPES}
+            duplicateErrorText={"En brukertype med samme navn eksisterer allerede."}
+        />
     )
 }

@@ -4,7 +4,7 @@ describe('User Types i innstillinger', () => {
         cy.wait(1000)
         cy.get("h1").should('have.text', "Ressursinnstillinger")
 
-        cy.get("h2").should('have.length', 2)
+        cy.get("h2").should('have.length', 4)
     })
 
     it('should find card for brukertyper and click', () => {
@@ -39,7 +39,7 @@ describe('User Types i innstillinger', () => {
     })
 
     it("should give user feedback when input is unchanged or invalid", () => {
-        const errorMessage = "Dette navnet finnes allerede på en annen brukertype."
+        const errorMessage = "En brukertype med samme navn eksisterer allerede."
         const saveButtonText = "Lagre endringer"
         cy.get("dialog").find("button").contains(saveButtonText).parent().should('have.attr', 'disabled')
         cy.get("dialog").find("input").type(" i utdanning")
