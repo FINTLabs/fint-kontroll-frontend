@@ -70,38 +70,38 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                                     <BodyShort textColor="subtle">{resource.unitCost}</BodyShort>
                                 </li>
                             )}
-                            {isAdmin && resource.applicationAccessType && (
+{/*                            {isAdmin && resource.applicationAccessType && (
                                 <li>
                                     <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
                                     <BodyShort textColor="subtle">{resource.applicationAccessType}</BodyShort>
                                 </li>
-                            )}
-                            {isAdmin && resource.applicationAccessRole && (
+                            )}*/}
+{/*                            {isAdmin && resource.applicationAccessRole && (
                                 <li>
                                     <Heading size="small" level="3">Tilgangsrolle:</Heading>
                                     <BodyShort textColor="subtle">{resource.applicationAccessRole}</BodyShort>
                                 </li>
-                            )}
-                            {isAdmin && resource.accessType && (
+                            )}*/}
+    {/*                        {isAdmin && resource.accessType && (
                                 <li>
                                     <Heading size="small" level="3">Tilgangstype:</Heading>
                                     <BodyShort textColor="subtle">{resource.accessType}</BodyShort>
                                 </li>
-                            )}
+                            )}*/}
                             {isAdmin && resource.licenseEnforcement && (
                                 <li>
                                     <Heading size="small" level="3">Håndhevingsregel:</Heading>
                                     <BodyShort textColor="subtle">{resource.licenseEnforcement}</BodyShort>
                                 </li>
                             )}
-                            {isAdmin && resource.platform && (
+{/*                            {isAdmin && resource.platform && (
                                 <li>
                                     <Heading size="small" level="3">Plattform:</Heading>
                                     <BodyShort textColor="subtle">
                                         {resource.platform.join(', ')}
                                     </BodyShort>
                                 </li>
-                            )}
+                            )}*/}
                             {resource.resourceId && (
                                 <li>
                                     <Heading size="small" level="3">KildesystemID:</Heading>
