@@ -6,7 +6,7 @@ import {
     Meta,
     Outlet,
     Scripts,
-    ScrollRestoration,
+    ScrollRestoration, UIMatch,
     useLoaderData,
     useMatches,
     useRouteError,
@@ -16,11 +16,16 @@ import {fetchMeInfo} from "~/data/fetch-me-info";
 import meStyles from "~/components/app-bar/appBar.css?url";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {ToastContainer} from "react-toastify";
-import {Alert, Box, Page} from "@navikt/ds-react";
+import {Alert, Box, HStack, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
 import {BASE_PATH} from "../environment";
-import React from "react";
+import React, {ReactElement} from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
+import {RouteHandle} from "@remix-run/react/dist/routeModules";
+
+interface CustomRouteHandle {
+    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
+}
 
 export const meta: MetaFunction = () => {
     return [
@@ -63,7 +68,6 @@ export async function loader({request}: LoaderFunctionArgs) {
 export default function App() {
     const {me, basePath, source} = useLoaderData<typeof loader>();
     const matches = useMatches();
-    // @ts-ignore
     return (
         <html lang="no">
         <head>
@@ -74,26 +78,23 @@ export default function App() {
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
         <Layout me={me} basePath={basePath} source={source}>
-            {/* @ts-ignore Ignore because this type of padding is legal for top-bottom relationship in padding, just not in the ts-spec from Aksel */}
-            <Box padding={"0 8"}>
+            <HStack paddingBlock="0 8">
                 {matches
-                    .filter((match) =>
-                        // @ts-ignore Ignore for now because breadcrumb does not exist on type 'handle'
+                    .filter((match: any) =>
                         match.handle && match.handle.breadcrumb
                     )
-                    .map((match, index) => (
-                        // @ts-ignore Ignore for now because match.handle is type 'unknown'
+                    .map((match: any, index) => (
                         <span key={index}>{match.handle.breadcrumb(match)}</span>
                     ))
                     // Use reducer to add separator between each breadcrumb element
-                    .reduce((acc, curr, index, array) => {
+                    .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
                         if (index < array.length - 1) {
                             return acc.concat(curr, <span key={`sep-${index}`}> &gt; </span>);
                         } else {
                             return acc.concat(curr);
                         }
                     }, [])}
-            </Box>
+            </HStack>
             <Outlet/>
         </Layout>
 

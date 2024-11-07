@@ -7,3 +7,11 @@ export const getApplicationCategoryDeleteUrl = (id: number): string => `/innstil
 
 export const SETTINGS_USER_TYPES = "/innstillinger/brukertyper"
 export const getEditUserTypeUrl = (id: number): string => `/innstillinger/brukertyper/${id}/rediger`;
+
+export const SETTINGS_LICENSE_MODEL = "/innstillinger/lisensmodeller"
+export const SETTINGS_LICENSE_MODEL_CREATE = "/innstillinger/lisensmodeller/rediger"
+export const getLicenseModelEditUrl = (id: number): string => `/innstillinger/lisensmodeller/${id}/rediger`;
+export const getLicenseModelDeleteUrl = (id: number): string => `/innstillinger/lisensmodeller/${id}/slett`;
+
+export const SETTINGS_LICENSE_ENFORCEMENT = "/innstillinger/haandhevingstyper"
+export const getEditLicenceEnforcement = (id: number): string => `/innstillinger/haandhevingstyper/${id}/rediger`;

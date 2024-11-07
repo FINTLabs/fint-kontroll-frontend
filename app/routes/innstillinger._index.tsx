@@ -4,7 +4,12 @@ import {CustomLinkPanel} from "~/components/settings/CustomLinkPanel";
 import {BASE_PATH} from "../../environment";
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import {SETTINGS_APPLICATION_CATEGORY, SETTINGS_USER_TYPES} from "~/data/constants";
+import {
+    SETTINGS_APPLICATION_CATEGORY,
+    SETTINGS_LICENSE_ENFORCEMENT,
+    SETTINGS_LICENSE_MODEL,
+    SETTINGS_USER_TYPES
+} from "~/data/constants";
 
 export async function loader() {
     return json({
@@ -31,6 +36,16 @@ export default function ResourcesSettings() {
                     title={"Applikasjonskategori"}
                     description={"Innstillinger for applikasjonskategorier som kan brukes for å gruppere og beskrive ressurser."}
                     link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
+                />
+                <CustomLink
+                    title={"Lisensmodeller"}
+                    description={"Lisensmodeller som kan knyttes til en lisens."}
+                    link={`${basePath}${SETTINGS_LICENSE_MODEL}`}
+                />
+                <CustomLink
+                    title={"Håndhevingstype"}
+                    description={"Hvordan ulike lisensmodeller kan håndheves av systemer for forvaltning av applikasjonen."}
+                    link={`${basePath}${SETTINGS_LICENSE_ENFORCEMENT}`}
                 />
             </CustomLinkPanel>
         </VStack>

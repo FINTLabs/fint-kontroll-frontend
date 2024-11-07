@@ -1,21 +1,28 @@
 import {Box, Button, Dropdown, HStack, Link, SortState, Table, VStack} from "@navikt/ds-react";
 import {MenuElipsisHorizontalCircleIcon, PlusCircleIcon} from "@navikt/aksel-icons";
 import React, {useMemo, useState} from "react";
-import {IKodeverkApplicationCategory} from "~/data/types";
-import {Outlet, useNavigate} from "@remix-run/react";
-import {
-    getApplicationCategoryDeleteUrl,
-    getApplicationCategoryEditUrl,
-    SETTINGS_APPLICATION_CATEGORY_CREATE
-} from "~/data/constants";
+import {Outlet, useNavigate, useNavigation} from "@remix-run/react";
+import {IKodeverkCustomListItem} from "~/data/types";
 
-type ApplicationCategoryTableProps = {
-    applicationCategories: IKodeverkApplicationCategory[]
-    basePath?: string
+type EditableListProps = {
+    list: IKodeverkCustomListItem[]
+    getEditUrl: (id: number) => string
+    getDeleteUrl: (id: number) => string
+    createNewUrl: string
+    createNewText?: string
 }
 
-export const ApplicationCategoryTable = ({applicationCategories, basePath}: ApplicationCategoryTableProps) => {
+export const EditableList = (
+    {
+        list,
+        getEditUrl,
+        getDeleteUrl,
+        createNewUrl,
+        createNewText
+    }: EditableListProps
+) => {
     const navigate = useNavigate()
+
     const [sort, setSort] = useState<SortState | undefined>();
 
     const handleSortByName = () => {
@@ -27,8 +34,8 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
         );
     };
 
-    const sortedApplicationCategories = useMemo(() => {
-        return applicationCategories.sort((a, b) => {
+    const sortedList = useMemo(() => {
+        return list.sort((a, b) => {
             if (sort?.direction === "ascending") {
                 return a.name.localeCompare(b.name);
             }
@@ -37,7 +44,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
             }
             return 0;
         })
-    }, [applicationCategories, sort]);
+    }, [list, sort]);
 
     return (
         <VStack>
@@ -57,7 +64,7 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                 </Table.Header>
 
                 <Table.Body>
-                    {sortedApplicationCategories.map(({id, name, description}) => (
+                    {sortedList.map(({id, name, description}) => (
                         <Table.Row key={id} id={id.toString()}>
                             <Table.HeaderCell scope="row" className="nowrap">{name}</Table.HeaderCell>
                             <Table.DataCell textSize={"small"}>{description}</Table.DataCell>
@@ -74,12 +81,12 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                                     <Dropdown.Menu>
                                         <Dropdown.Menu.GroupedList>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(getApplicationCategoryEditUrl(id))}
+                                                onClick={() => navigate(getEditUrl(id))}
                                             >
                                                 Rediger
                                             </Dropdown.Menu.GroupedList.Item>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(getApplicationCategoryDeleteUrl(id))}
+                                                onClick={() => navigate(getDeleteUrl(id))}
 
                                             >
                                                 Slett
@@ -98,9 +105,9 @@ export const ApplicationCategoryTable = ({applicationCategories, basePath}: Appl
                     underline={false}
                     variant={"tertiary"}
                     icon={<PlusCircleIcon aria-hidden/>}
-                    href={`${basePath}${SETTINGS_APPLICATION_CATEGORY_CREATE}`}
+                    href={createNewUrl}
                 >
-                    Legg til ny kategori
+                    {createNewText ?? "Legg til ny"}
                 </Button>
             </Box>
         </VStack>
