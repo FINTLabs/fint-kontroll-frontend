@@ -1,17 +1,16 @@
 import {Table} from "@navikt/ds-react";
-import {IUserItem, IUserPage} from "~/data/types";
+import {IUserItem} from "~/data/types";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
+import {useLoaderData} from "@remix-run/react";
+import {loader} from "~/routes/users._index";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
-interface UserTableProps {
-    userPage: IUserPage
-    size: string
-}
-
-export const UserTable = ({userPage, size}: UserTableProps) => {
+export const UserTable = () => {
+    const {userList: userPage, size, userTypes} = useLoaderData<typeof loader>();
     const {fetching} = useLoadingState()
 
     return (
@@ -30,7 +29,7 @@ export const UserTable = ({userPage, size}: UserTableProps) => {
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell>{user.userType}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
                             <Table.DataCell align="right">
                                 <SeeInfoButton
                                     id={`userInfoButton-${user.id}`}

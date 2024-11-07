@@ -4,7 +4,16 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IAssignedUsers, IResource, IUnitItem, IUnitTree, IUser, IUserItem, IUserPage} from "~/data/types";
+import {
+    IAssignedUsers,
+    IKodeverkUserType,
+    IResource,
+    IUnitItem,
+    IUnitTree,
+    IUser,
+    IUserItem,
+    IUserPage
+} from "~/data/types";
 import {SelectObjectType} from "~/components/assignment/SelectObjectType";
 import {fetchOrgUnits, fetchResourceById} from "~/data/fetch-resources";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -14,6 +23,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {UserSearch} from "~/components/user/UserSearch";
+import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -25,17 +35,24 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseOrgUnits, responseAssignments, responseResource] = await Promise.all([
+    const [responseUsers, responseOrgUnits, responseAssignments, responseResource, source] = await Promise.all([
         fetchUsers(request, size, page, search, userType, orgUnits),
         fetchOrgUnits(request),
         fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits),
         fetchResourceById(request, params.id),
+        fetchResourceDataSource(request)
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedUsersList: IAssignedUsers = await responseAssignments.json()
     const resource: IResource = await responseResource.json()
+
+
+    let userTypes: IKodeverkUserType[] = []
+    if (source === "gui") {
+        userTypes = await fetchUserTypes(request)
+    }
 
     const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.assigneeRef, user]))
     const isAssignedUsers: IUserItem[] = userList.users.map(user => {
@@ -54,6 +71,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         isAssignedUsers,
         id: params.id,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        userTypes
     })
 }
 
@@ -99,13 +117,13 @@ export default function NewAssignment() {
                 <HStack justify="space-between">
                     <SelectObjectType/>
                     <section className={"filters"}>
-                        <UserTypeFilter/>
+                        <UserTypeFilter userTypes={loaderData.userTypes}/>
                         <UserSearch/>
                     </section>
                 </HStack>
 
                 <HStack justify="end">
-                    <ChipsFilters/>
+                    <ChipsFilters userTypes={loaderData.userTypes}/>
                 </HStack>
 
                 <ResponseAlert

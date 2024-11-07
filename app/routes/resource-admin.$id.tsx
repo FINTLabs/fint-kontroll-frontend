@@ -86,7 +86,13 @@ export default function ResourceById() {
                         successText={"Ressursen ble oppdatert!"}
                         deleteText={"Ressursen ble slettet!"}
                     />
-                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
+
+                    <ResourceInfoBox
+                        resource={resource}
+                        userTypes={userTypes}
+                        isAdmin={true}
+                    />
+
                 </VStack>
 
                 <VStack gap="4">
