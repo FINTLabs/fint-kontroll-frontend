@@ -28,7 +28,7 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                 <Box padding={"4"}>
                     <ul className="full-width list-style-none">
                         <HGrid gap={"8 4"} columns={{xs: 1, lg: 2, "2xl": 3}}>
-                            {resource.applicationCategory && (
+                            {isAdmin && resource.applicationCategory && (
                                 <li>
                                     <Heading size="small" level="3">Applikasjonskategori:</Heading>
                                     <BodyShort textColor="subtle">
@@ -59,19 +59,19 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                                     </BodyShort>
                                 </li>
                             )}
-                            {resource.resourceLimit !== undefined && (
+                            {isAdmin && resource.resourceLimit !== undefined && (
                                 <li>
                                     <Heading size="small" level="3">Totalt antall av ressursen:</Heading>
                                     <BodyShort textColor="subtle">{resource.resourceLimit}</BodyShort>
                                 </li>
                             )}
-                            {resource.licenseEnforcement && (
+                            {isAdmin && resource.licenseEnforcement && (
                                 <li>
                                     <Heading size="small" level="3">Håndhevingsregel:</Heading>
                                     <BodyShort textColor="subtle">{resource.licenseEnforcement}</BodyShort>
                                 </li>
                             )}
-                            {resource.unitCost !== undefined && (
+                            {isAdmin && resource.unitCost !== undefined && (
                                 <li>
                                     <Heading size="small" level="3">Kostnad pr. ressurs:</Heading>
                                     <BodyShort textColor="subtle">{resource.unitCost}</BodyShort>
