@@ -68,7 +68,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                                     </Dropdown.Menu.GroupedList>
                                 </Dropdown.Menu>
                             </Dropdown></Table.HeaderCell>
-                        {/*<Table.HeaderCell scope="col">Slett</Table.HeaderCell>*/}
+                        <Table.HeaderCell scope="col">Slett</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align="center">Se mer informasjon</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -79,7 +79,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{<StatusTag status={resource.status}/>}</Table.DataCell>
 
-{/*                            <Table.DataCell>
+                            <Table.DataCell>
                                 {resource.status === "DELETED" ?
                                     <MinusIcon title="a11y-title" fontSize="1.5rem"/>
                                     :
@@ -88,18 +88,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath}: ResourceTable
                                         {<TrashIcon title="Slett" fontSize="1.5rem"/>}
                                     </Link>
                                 }
-                            </Table.DataCell>*/}
-                            {/*<Button
-                                    id={"delete-test"}
-                                    as={Link}
-                                    className={"button-outlined"}
-                                    variant={"secondary"}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
-                                    iconPosition={"right"}
-                                    href={`${basePath}/resource-admin/resource/${resource.id}/delete${prepareQueryParams(searchParams)}`}
-                                >
-                                    Slett
-                                </Button>*/}
+                            </Table.DataCell>
 
                             <Table.DataCell align="center">
                                 <SeeInfoButton

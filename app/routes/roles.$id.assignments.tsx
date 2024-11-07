@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert, Box, Heading, Tabs, VStack} from "@navikt/ds-react";
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Alert, Box, Heading, Tabs, VStack, Link} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
@@ -32,7 +32,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
+    breadcrumb: ({params}) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
 }
 
 export default function AssignmentsForRole() {
@@ -47,7 +47,7 @@ export default function AssignmentsForRole() {
             <Tabs value={"assignments"}>
                 <VStack gap="4">
                     <Heading className={"heading"} level={"2"} size={"large"}>Tildelte ressurser</Heading>
-                    <Tabs.Panel value="assignments" className="h-24 w-full bg-gray-50 p-4">
+                    <Tabs.Panel value="assignments">
 
                         <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                                        deleteText={"Tildelingen ble slettet!"}/>

@@ -1,6 +1,6 @@
-import {Alert, Box, Heading, HStack, Select} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
@@ -31,20 +31,20 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         fetchResources(request, size, page, search, orgUnits, applicationCategory, accessType),
         fetchOrgUnits(request),
         fetchApplicationCategory(request),
-       // fetchAccessType(request)
+        // fetchAccessType(request)
     ]);
     const resourceList: IResourceList = await responseResource.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
-   // const accessTypes: string[] = await responseAccessType.json()
+    // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
         resourceList,
         size,
         orgUnitList,
         applicationCategories,
-       // accessTypes
+        // accessTypes
     })
 }
 
@@ -54,9 +54,9 @@ export default function Resource() {
     const size: string = loaderData.size
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
-   // const accessTypes: string[] = loaderData.accessTypes
+    // const accessTypes: string[] = loaderData.accessTypes
 
-   // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
+    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
 
     /*const setAccessType = (event: string) => {
         setAccessTypeSearchParams(searchParams => {
@@ -71,10 +71,9 @@ export default function Resource() {
     return (
         <div className={"content"}>
             <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
-            <HStack justify="end" align="end">
+            <HStack align={"center"} justify={"end"}>
                 <OrgUnitFilterModal orgUnitList={orgUnitList}/>
                 <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
-
                 {/*<Select
                     className={"select-applicationcategory"}
                     label={"Filter for lisensmodell"}
@@ -88,9 +87,9 @@ export default function Resource() {
                         </option>
                     ))}
                 </Select>*/}
-
                 <ResourceSearch/>
             </HStack>
+
 
             <Box className={"filters"} paddingBlock={"1 8"}>
                 <ChipsFilters/>

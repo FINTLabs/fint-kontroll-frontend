@@ -8,9 +8,7 @@ export const ResourceInfoBlock: any = (props: { resource: IResource }) => {
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
             <Box className={"info-icon-section"}>
-                <hr/>
                 <Heading size="medium" level="2">Ressursinformasjon</Heading>
-                <hr/>
             </Box>
 
             <ul className="resource-information-list">

@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert, Box, Detail, Heading, HStack, Tabs, VStack} from "@navikt/ds-react";
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Alert, Box, Detail, Heading, HStack, Tabs, VStack, Link} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchMembers} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
@@ -46,7 +46,7 @@ export default function Members() {
                     <HStack justify="end">
                         <ChipsFilters/>
                     </HStack>
-                    <Tabs.Panel value="members" className="h-24 w-full bg-gray-50 p-4">
+                    <Tabs.Panel value="members">
                         <MemberTable memberPage={members} size={size}/>
                     </Tabs.Panel>
                 </VStack>

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Alert, Box, Heading, HStack, LinkPanel, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Link, LinkPanel, Tabs} from "@navikt/ds-react";
 import {
-    Link,
     Links,
     Meta,
     Outlet,

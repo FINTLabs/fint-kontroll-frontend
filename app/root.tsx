@@ -16,10 +16,13 @@ import {fetchMeInfo} from "~/data/fetch-me-info";
 import meStyles from "~/components/app-bar/appBar.css?url";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {ToastContainer} from "react-toastify";
-import {Alert, Box, Page} from "@navikt/ds-react";
+import {Alert, Box, Link, Page} from "@navikt/ds-react";
 import {AppBar} from "~/components/app-bar/AppBar";
 import {BASE_PATH} from "../environment";
 import React from "react";
+import './tailwind.css';
+import './novari-theme.css';
+
 
 export const meta: MetaFunction = () => {
     return [
@@ -67,7 +70,7 @@ export default function App() {
             <Meta/>
             <Links/>
         </head>
-        <body>
+        <body data-theme="novari">
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
         <Layout me={me} basePath={basePath}>
@@ -111,11 +114,12 @@ const Layout = ({children, me, basePath}: LayoutProps) => {
     return (
         <Page
             footer={
-                <Box className={"footer"} padding="8" as="footer">
+                <Box className={'novari-footer'} padding="8" as="footer">
+                    <img src="Logo.png" alt={"logo"} style={{width: "8em"}}/>
                 </Box>
             }
         >
-            <Box className={"footer"} as="header">
+            <Box className={'novari-header'} as="header">
                 <Page.Block width="2xl">
                     <AppBar me={me} basePath={basePath}/>
                 </Page.Block>

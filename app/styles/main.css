@@ -6,10 +6,6 @@ body {
     height: 100vh;
 }
 
-.blueSection {
-    background-color: var(--a-blue-50);
-}
-
 .content {
     max-width: 70%;
     margin-left: auto;
@@ -67,7 +63,7 @@ body {
 }
 
 table {
-    background-color: white;
+    background-color: #FEFCFA;
 }
 
 .footer {
@@ -159,6 +155,8 @@ table {
     margin: var(--a-spacing-3) var(--a-spacing-5);
 }
 
-button {
+.button {
     white-space: nowrap;
 }
+
+

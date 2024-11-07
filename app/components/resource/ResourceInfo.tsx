@@ -6,14 +6,13 @@ import {InformationIcon} from "@navikt/aksel-icons";
 interface ResourceInfoProps {
     resource: IResource
 }
+
 export const ResourceInfo = ({resource}: ResourceInfoProps) => {
 
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
             <Box className={"info-icon-section"}>
-                <hr/>
-                    <Heading size="medium" level="2">Ressursinformasjon</Heading>
-                <hr/>
+                <Heading size="medium" level="2">Ressursinformasjon</Heading>
             </Box>
 
             <Box>
@@ -65,7 +64,7 @@ export const ResourceInfo = ({resource}: ResourceInfoProps) => {
                                 {index < resource.validForRoles.length - 1 ? ', ' : ''}
                             </span>
                         ))}
-                            </BodyShort>
+                        </BodyShort>
                     </li>
                 </ul>
             </Box>
