@@ -1,5 +1,5 @@
 import {IKodeverkUserType, IResource} from "~/data/types";
-import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Spacer, Hide} from "@navikt/ds-react";
+import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Hide} from "@navikt/ds-react";
 import {InformationIcon} from "@navikt/aksel-icons";
 import * as React from "react";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
@@ -7,8 +7,10 @@ import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 interface ResourceInfoBoxProps {
     resource: IResource,
     userTypes: IKodeverkUserType[] | undefined
+    isAdmin?: boolean
 }
-export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => {
+
+export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxProps) => {
     return (
         <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
             <VStack>
@@ -40,25 +42,6 @@ export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => 
                                     <BodyShort textColor="subtle">{resource.resourceType}</BodyShort>
                                 </li>
                             )}
-                            {resource.applicationAccessType && (
-                                <li>
-                                    <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
-                                    <BodyShort textColor="subtle">{resource.applicationAccessType}</BodyShort>
-                                </li>
-                            )}
-                            {resource.applicationAccessRole && (
-                                <li>
-                                    <Heading size="small" level="3">Tilgangsrolle:</Heading>
-                                    <BodyShort textColor="subtle">{resource.applicationAccessRole}</BodyShort>
-                                </li>
-                            )}
-                            {resource.accessType && (
-                                <li>
-                                    <Heading size="small" level="3">Tilgangstype:</Heading>
-                                    <BodyShort textColor="subtle">{resource.accessType}</BodyShort>
-                                </li>
-                            )}
-
                             {resource.resourceOwnerOrgUnitName && (
                                 <li>
                                     <Heading size="small" level="3">Ressurseier:</Heading>
@@ -73,14 +56,6 @@ export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => 
                                             .map(role => translateUserTypeToLabel(role, userTypes))
                                             .join(', ')
                                         }
-                                    </BodyShort>
-                                </li>
-                            )}
-                            {resource.platform && (
-                                <li>
-                                    <Heading size="small" level="3">Plattform:</Heading>
-                                    <BodyShort textColor="subtle">
-                                        {resource.platform.join(', ')}
                                     </BodyShort>
                                 </li>
                             )}
@@ -112,6 +87,32 @@ export const ResourceInfoBox = ({resource, userTypes}: ResourceInfoBoxProps) => 
                                 <li>
                                     <Heading size="small" level="3">KildesystemID:</Heading>
                                     <BodyShort textColor="subtle">{resource.resourceId}</BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.applicationAccessType && (
+                                <li>
+                                    <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
+                                    <BodyShort textColor="subtle">{resource.applicationAccessType}</BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.applicationAccessRole && (
+                                <li>
+                                    <Heading size="small" level="3">Tilgangsrolle:</Heading>
+                                    <BodyShort textColor="subtle">{resource.applicationAccessRole}</BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.accessType && (
+                                <li>
+                                    <Heading size="small" level="3">Tilgangstype:</Heading>
+                                    <BodyShort textColor="subtle">{resource.accessType}</BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.platform && (
+                                <li>
+                                    <Heading size="small" level="3">Plattform:</Heading>
+                                    <BodyShort textColor="subtle">
+                                        {resource.platform.join(', ')}
+                                    </BodyShort>
                                 </li>
                             )}
                         </HGrid>
