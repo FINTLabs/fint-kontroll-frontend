@@ -8,8 +8,10 @@
     --a-surface-action-active: var(--a-surface-alt-3-strong);
     --a-surface-action-selected: var(--a-surface-alt-3-strong);
     --a-surface-action-subtle-hover: var(--a-surface-alt-3-subtle);
+    --a-surface-action-subtle: #FB9582;
     --a-surface-action-selected-hover: #5149CA;
     --a-surface-default: var(--a-bg-default);
+    --a-surface-hover: #FDC3B4;
 
     --a-text-action-selected: var(--a-surface-alt-3-strong);
     --a-text-on-action: #ffffff;

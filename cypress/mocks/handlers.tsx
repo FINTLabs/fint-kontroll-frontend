@@ -10,6 +10,7 @@ import {usersHandlers} from "./handlers/usersHandlers";
 import {kontrollAdminHandlers} from "./handlers/kontrollAdminHandlers";
 import {resourceModulAdminHandlers} from "./handlers/resourceModulAdminHandlers";
 import {assignmentHandlers} from "./handlers/assignmentHandler";
+import {applicationCategoriesHandlers} from "./handlers/kodeverkHandlers";
 
 export const handlers = [
     // Common handlers
@@ -82,5 +83,7 @@ export const handlers = [
     ...createNewResourceHandlers,
 
     ... deleteResourceHandlers,
+
+    ...applicationCategoriesHandlers
 
 ]

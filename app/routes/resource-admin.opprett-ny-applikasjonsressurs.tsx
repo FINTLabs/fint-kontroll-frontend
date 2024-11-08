@@ -5,13 +5,14 @@ import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
+import {IKodeverkApplicationCategory, IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
+import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export const handle = {
     // @ts-ignore
@@ -45,7 +46,14 @@ export async function loader({request}: LoaderFunctionArgs) {
     const orgUnitsResponse = await fetchOrgUnits(auth)
     const allOrgUnits = await orgUnitsResponse.json()
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
-    return {allOrgUnits: orgUnitsWithIsChecked}
+    const applicationCategories = await fetchApplicationCategories(auth)
+    const userTypes = await fetchUserTypes(auth)
+
+    return {
+        allOrgUnits: orgUnitsWithIsChecked,
+        applicationCategories,
+        userTypes
+    }
 
 }
 
@@ -100,6 +108,8 @@ export default function OpprettNyApplikasjonsRessurs() {
     })
     const loaderData = useLoaderData<typeof loader>();
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
+    const applicationCategories = loaderData.applicationCategories
+    const userTypes = loaderData.userTypes
     const navigate = useNavigate()
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
@@ -150,8 +160,12 @@ export default function OpprettNyApplikasjonsRessurs() {
                     <ExpansionCard.Title>Fyll ut informasjon om ressursen</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ApplicationResourceData newApplicationResource={newResource}
-                                             setNewApplicationResource={setNewResource}/>
+                    <ApplicationResourceData
+                        newApplicationResource={newResource}
+                        setNewApplicationResource={setNewResource}
+                        applicationCategories={applicationCategories}
+                        userTypes={userTypes}
+                    />
                 </ExpansionCard.Content>
             </ExpansionCard>
             <ExpansionCard aria-label="Legg til orgenheter som skal ha tilgang til ressursen">

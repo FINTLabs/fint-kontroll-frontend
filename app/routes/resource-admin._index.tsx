@@ -1,4 +1,4 @@
-import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, Heading, HStack, Spacer, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
@@ -13,6 +13,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {BASE_PATH} from "../../environment";
 import React from "react";
+import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -26,10 +27,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
+    const [responseResource, responseOrgUnits, responseApplicationCategories, source] = await Promise.all([
         fetchResourcesForAdmin(request, size, page, search, status, orgUnits, applicationcategory, accessType),
         fetchOrgUnits(request),
         fetchApplicationCategory(request),
+        fetchResourceDataSource(request)
         // fetchAccessType(request)
 
     ]);
@@ -45,6 +47,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
         orgUnitList,
         applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        source
         // accessTypes
     })
 }
@@ -57,6 +60,7 @@ export default function ResourceAdminIndex() {
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
     const applicationCategories: string[] = loaderData.applicationCategories
+    const source = loaderData.source
     const navigate = useNavigate()
     // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     // const accessTypes: string[] = loaderData.accessTypes
@@ -75,16 +79,18 @@ export default function ResourceAdminIndex() {
     return (
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
-            <HStack justify={"space-between"}>
-                <HStack justify={"end"} align={"end"}>
-                    <Button role="link"
-                            className={"no-underline-button"}
-                            variant={"secondary"}
-                            iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                            onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
-                        Opprett ny ressurs
-                    </Button>
-                </HStack>
+            <HStack justify={"space-between"} >
+                {source === "gui" ? (
+                    <HStack justify={"end"} align={"end"}>
+                        <Button role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                                onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                            Opprett ny ressurs
+                        </Button>
+                    </HStack>
+                ): <Spacer />}
 
                 <HStack justify="end" align="end">
                     <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
@@ -113,7 +119,7 @@ export default function ResourceAdminIndex() {
                 successText={"Ressursen ble opprettet!"}
                 deleteText={"Ressursen ble slettet!"}
             />
-            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath}/>
+            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath} source={source}/>
         </VStack>
     );
 }

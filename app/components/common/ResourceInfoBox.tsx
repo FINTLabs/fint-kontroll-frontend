@@ -1,0 +1,123 @@
+import {IKodeverkUserType, IResource} from "~/data/types";
+import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Hide, Dropdown} from "@navikt/ds-react";
+import {InformationIcon} from "@navikt/aksel-icons";
+import * as React from "react";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+
+interface ResourceInfoBoxProps {
+    resource: IResource,
+    userTypes: IKodeverkUserType[] | undefined
+    isAdmin?: boolean
+}
+
+export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxProps) => {
+    return (
+        <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
+            <VStack>
+                <HStack wrap={false} align={"center"} justify={"center"} gap={"4"}>
+                    <Hide asChild below="md">
+                        <hr style={{width: "100%"}}/>
+                    </Hide>
+                    <Heading align={"center"} size="medium" level="2">Ressursinformasjon</Heading>
+                    <Hide asChild below="md">
+                        <hr style={{width: "100%"}}/>
+                    </Hide>
+                </HStack>
+
+                <Box padding={"4"}>
+                    <ul className="full-width list-style-none">
+                        <HGrid gap={"8 4"} columns={{xs: 1, lg: 2, "2xl": 3}}>
+                            {resource.applicationCategory && (
+                                <li>
+                                    <Heading size="small" level="3">Applikasjonskategori:</Heading>
+                                    <BodyShort textColor="subtle">
+                                        {resource.applicationCategory.join(', ')}
+                                    </BodyShort>
+                                </li>
+                            )}
+                            {resource.resourceType && (
+                                <li>
+                                    <Heading size="small" level="3">Ressurstype:</Heading>
+                                    <BodyShort textColor="subtle">{resource.resourceType}</BodyShort>
+                                </li>
+                            )}
+                            {resource.resourceOwnerOrgUnitName && (
+                                <li>
+                                    <Heading size="small" level="3">Ressurseier:</Heading>
+                                    <BodyShort textColor="subtle">{resource.resourceOwnerOrgUnitName}</BodyShort>
+                                </li>
+                            )}
+                            {resource.validForRoles && (
+                                <li>
+                                    <Heading size="small" level="3">Gyldig for:</Heading>
+                                    <BodyShort textColor="subtle">
+                                        {resource.validForRoles
+                                            .map(role => translateUserTypeToLabel(role, userTypes))
+                                            .join(', ')
+                                        }
+                                    </BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.resourceLimit !== undefined && (
+                                <li>
+                                    <Heading size="small" level="3">Totalt antall av ressursen:</Heading>
+                                    <BodyShort textColor="subtle">{resource.resourceLimit}</BodyShort>
+                                </li>
+                            )}
+                            {isAdmin && resource.unitCost !== undefined && (
+                                <li>
+                                    <Heading size="small" level="3">Kostnad pr. ressurs:</Heading>
+                                    <BodyShort textColor="subtle">{resource.unitCost}</BodyShort>
+                                </li>
+                            )}
+{/*                            {isAdmin && resource.applicationAccessType && (
+                                <li>
+                                    <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
+                                    <BodyShort textColor="subtle">{resource.applicationAccessType}</BodyShort>
+                                </li>
+                            )}*/}
+{/*                            {isAdmin && resource.applicationAccessRole && (
+                                <li>
+                                    <Heading size="small" level="3">Tilgangsrolle:</Heading>
+                                    <BodyShort textColor="subtle">{resource.applicationAccessRole}</BodyShort>
+                                </li>
+                            )}*/}
+    {/*                        {isAdmin && resource.accessType && (
+                                <li>
+                                    <Heading size="small" level="3">Tilgangstype:</Heading>
+                                    <BodyShort textColor="subtle">{resource.accessType}</BodyShort>
+                                </li>
+                            )}*/}
+                            {isAdmin && resource.licenseEnforcement && (
+                                <li>
+                                    <Heading size="small" level="3">Håndhevingsregel:</Heading>
+                                    <BodyShort textColor="subtle">{resource.licenseEnforcement}</BodyShort>
+                                </li>
+                            )}
+{/*                            {isAdmin && resource.platform && (
+                                <li>
+                                    <Heading size="small" level="3">Plattform:</Heading>
+                                    <BodyShort textColor="subtle">
+                                        {resource.platform.join(', ')}
+                                    </BodyShort>
+                                </li>
+                            )}*/}
+                            {resource.resourceId && (
+                                <li>
+                                    <Heading size="small" level="3">KildesystemID:</Heading>
+                                    <BodyShort textColor="subtle">{resource.resourceId}</BodyShort>
+                                </li>
+                            )}
+                            {resource.identityProviderGroupName && (
+                                <li>
+                                    <Heading size="small" level="3">Gruppenavn Entra ID:</Heading>
+                                    <BodyShort textColor="subtle">{resource.identityProviderGroupName}</BodyShort>
+                                </li>
+                            )}
+                        </HGrid>
+                    </ul>
+                </Box>
+            </VStack>
+        </GuidePanel>
+    )
+}
