@@ -3,7 +3,8 @@ import {useLoaderData} from "@remix-run/react";
 import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {
     createApplicationCategory,
-    editApplicationCategory, fetchApplicationCategories,
+    editApplicationCategory,
+    fetchApplicationCategories,
     fetchApplicationCategory
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";

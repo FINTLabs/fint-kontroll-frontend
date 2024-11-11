@@ -45,7 +45,13 @@ export default function SettingsApplicationCategory() {
     return (
         <div className={"content"}>
             <VStack gap="4">
-                <SettingsHeader title={"Lisensmodeller"} text={"Lisensmodeller som kan knyttes til en lisens."}/>
+                <SettingsHeader
+                    title={"Lisensmodeller"}
+                    text={
+                        "Her kan du legge til, endre og slette lisensmodeller. " +
+                        "I fremtiden vil det komme mer funksjonalitet knyttet til lisensmodeller."
+                    }
+                />
 
                 <EditableList
                     list={licenseModels}

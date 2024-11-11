@@ -17,14 +17,13 @@ export async function loader() {
     })
 }
 
-
 export default function ResourcesSettings() {
     const loaderData = useLoaderData<typeof loader>()
     const basePath = loaderData.basePath
 
     return (
         <VStack className={"content"} gap="4">
-            <Heading className={"heading"} level="1" size="xlarge">Ressursinnstillinger</Heading>
+            <Heading className={"heading"} level="1" size="xlarge">Innstillinger for kodeverk</Heading>
 
             <CustomLinkPanel>
                 <CustomLink
