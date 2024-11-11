@@ -24,7 +24,7 @@ export default function ResourcesSettings() {
 
     return (
         <VStack className={"content"} gap="4">
-            <Heading className={"heading"} level="1" size="xlarge">Ressursinnstillinger</Heading>
+            <Heading className={"heading"} level="1" size="xlarge">Rediger kodeverk</Heading>
 
             <CustomLinkPanel>
                 <CustomLink

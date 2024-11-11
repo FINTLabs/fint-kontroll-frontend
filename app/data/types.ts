@@ -265,9 +265,3 @@ export interface IKodeverkMappingList {
 }
 export type IKodeverkUserType = IKodeverkMappingList
 export type IKodeverkLicenceEnforcement = IKodeverkMappingList
-
-export interface IKodeverkLicenseEnforcement {
-    id: number
-    fkLabel: string
-    label: string
-}
