@@ -2,7 +2,7 @@ describe('Applikasjonskategori i innstillinger', () => {
     it('Navigate to "Innstillinger"', () => {
         cy.goToSettings();
         cy.wait(1000)
-        cy.get("h1").should('have.text', "Ressursinnstillinger")
+        cy.get("h1").should('have.text', "Innstillinger for kodeverk")
 
         cy.get("h2").should('have.length', 4)
     })
