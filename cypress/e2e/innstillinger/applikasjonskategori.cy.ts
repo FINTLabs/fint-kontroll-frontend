@@ -4,7 +4,8 @@ describe('Applikasjonskategori i innstillinger', () => {
         cy.wait(1000)
         cy.get("h1").should('have.text', "Innstillinger for kodeverk")
 
-        cy.get("h2").should('have.length', 4)
+        // TODO: edit to 4 when licemsemodel is added back
+        cy.get("h2").should('have.length', 3)
     })
 
     it('should find card for applikasjonskategori and click', () => {
