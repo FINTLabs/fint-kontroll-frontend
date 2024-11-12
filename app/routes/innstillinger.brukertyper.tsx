@@ -36,7 +36,12 @@ export default function SettingsUserTypes() {
             <VStack gap="4">
                 <SettingsHeader
                     title={"Brukertyper"}
-                    text={"Brukertyper definerer hvem som kan få tilgang til og benytte seg av ressursen og/eller lisensen. Her kan du sette egendefinerte navn på de ulike typene av brukere."}
+                    text={
+                        "FINT Kontroll har et sett ferdigdefinerte brukertyper. " +
+                        "Disse brukes til å kontrollere hvem som kan få tilgang til de ulike ressursene. " +
+                        "Her kan du endre navnet på disse brukertypene som vises i FINT Kontroll. " +
+                        "I fremtiden vil det komme mer funksjonalitet knyttet til brukertyper."
+                    }
                 />
                 <MappingList
                     listItems={userTypes}

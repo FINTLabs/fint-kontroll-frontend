@@ -11,7 +11,8 @@ import {
     SETTINGS_APPLICATION_CATEGORY,
     SETTINGS,
     getApplicationCategoryEditUrl,
-    getApplicationCategoryDeleteUrl, SETTINGS_APPLICATION_CATEGORY_CREATE
+    getApplicationCategoryDeleteUrl,
+    SETTINGS_APPLICATION_CATEGORY_CREATE
 } from "~/data/constants";
 import {EditableList} from "~/components/settings/KodeverkEditableList/EditableList";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
@@ -46,7 +47,12 @@ export default function SettingsApplicationCategory() {
             <VStack gap="4">
                 <SettingsHeader
                     title={"Applikasjonskategori"}
-                    text={"Her kan du endre egendefinerte kategorier som brukes for å gruppere og beskrive ressurser. Disse kategoriene vil i fremtiden også kunne brukes til å begrense tilgang til ressurser basert på for eksempel brukertype."}
+                    text={
+                        "Her kan du legge til, endre og slette applikasjonskategorier. " +
+                        "Disse kategoriene brukes til å gruppere og beskrive ressurser. " +
+                        "Disse vil i fremtiden også kunne brukes til å begrense tilgang til ressurser. " +
+                        "I fremtiden vil det komme mer funksjonalitet knyttet til applikasjonskategori."
+                    }
                 />
 
                 <EditableList

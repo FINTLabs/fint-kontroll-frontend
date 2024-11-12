@@ -5,13 +5,14 @@ import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
-import {IUnitItem, IUnitTree, IUserPage} from "~/data/types";
+import {IKodeverkUserType, IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -20,28 +21,31 @@ export async function loader({request}: LoaderFunctionArgs) {
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseOrgUnits] = await Promise.all([
+    const [responseUsers, responseOrgUnits, source] = await Promise.all([
         fetchUsers(request, size, page, search, userType, orgUnits),
-        fetchOrgUnits(request)
+        fetchOrgUnits(request),
+        fetchResourceDataSource(request)
     ]);
     const userList: IUserPage = await responseUsers.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
 
+    let userTypes: IKodeverkUserType[] = []
+    if (source === "gui") {
+        userTypes = await fetchUserTypes(request)
+    }
+
+
     return json({
         userList,
         orgUnitList,
-        size
+        size,
+        userTypes
     })
 }
 
 export default function UsersIndex() {
-    const data = useLoaderData<{
-        userList: IUserPage,
-        orgUnitList: IUnitItem[]
-        size: string
-    }>();
-    const size = data.size
+    const data = useLoaderData<typeof loader>();
 
     return (
         <div className={"content"}>
@@ -49,14 +53,14 @@ export default function UsersIndex() {
                 <Heading className={"heading"} level="1" size="xlarge">Brukere</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
                     <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
-                    <UserTypeFilter />
+                    <UserTypeFilter userTypes={data.userTypes}/>
                     <UserSearch />
                 </Box>
             </div>
             <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters />
+                <ChipsFilters userTypes={data.userTypes}/>
             </Box>
-            <UserTable userPage={data.userList} size={size}/>
+            <UserTable />
         </div>
     );
 }

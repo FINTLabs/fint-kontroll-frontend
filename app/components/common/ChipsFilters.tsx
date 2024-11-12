@@ -1,9 +1,14 @@
 import {Chips} from "@navikt/ds-react";
 import {useSearchParams} from "@remix-run/react";
 import {useEffect, useState} from "react";
-import {filterResetPageParam,} from "~/components/common/CommonFunctions";
+import {filterResetPageParam, translateUserTypeToLabel,} from "~/components/common/CommonFunctions";
+import {IKodeverkUserType} from "~/data/types";
 
-const ChipsFilters = () => {
+interface ChipsFiltersProps {
+    userTypes?: IKodeverkUserType[]
+}
+
+const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [orgUnits, setOrgUnits] = useState<string | undefined>()
@@ -86,7 +91,7 @@ const ChipsFilters = () => {
 
             {userType &&
                 <Chips.Removable onClick={() => removeFilter("userType")} id="user-type-chip">
-                    {userType}
+                    {translateUserTypeToLabel(userType, userTypes)}
                 </Chips.Removable>
             }
 

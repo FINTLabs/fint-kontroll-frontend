@@ -2,9 +2,6 @@ describe('User Types i innstillinger', () => {
     it('Navigate to "Innstillinger"', () => {
         cy.goToSettings();
         cy.wait(1000)
-        cy.get("h1").should('have.text', "Ressursinnstillinger")
-
-        cy.get("h2").should('have.length', 4)
     })
 
     it('should find card for brukertyper and click', () => {

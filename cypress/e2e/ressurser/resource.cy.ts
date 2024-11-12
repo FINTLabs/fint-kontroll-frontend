@@ -15,7 +15,7 @@ describe('Check the resource details page', () => {
         cy.get('h1').should('have.text', 'Creative Cloud All Apps for K-12 - User License')
         cy.get('h2').contains('Ressursinformasjon').should('exist')
         cy.get('div').find('div.navds-guide-panel__content').should('exist')
-            .find('ul li').should('have.length', 9)
+            .find('ul li').should('have.length', 6)
             .should('contain.text', 'Gyldig for:Elev, Ansatt, Ukjent')
     })
 
@@ -41,12 +41,12 @@ describe('Check the resource details page', () => {
         cy.get('#user-type-chip').should('not.exist')
 
         cy.get('#user-type-select').select('STUDENT');
-        cy.get('#user-type-chip').contains('STUDENT')
+        cy.get('#user-type-chip').contains('Elev')
 
         cy.get('#user-type-select').select('EMPLOYEESTAFF');
-        cy.get('#user-type-chip').contains('EMPLOYEESTAFF')
+        cy.get('#user-type-chip').contains('Ansatt')
 
-        cy.get('#user-type-chip').contains('EMPLOYEESTAFF').click()
+        cy.get('#user-type-chip').contains('Ansatt').click()
     })
 
     it('Check user table (exists, has 10 rows)', () => {

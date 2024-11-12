@@ -36,7 +36,13 @@ export default function SettingsLicenceEnforcement() {
             <VStack gap="4">
                 <SettingsHeader
                     title={"Håndhevingstyper"}
-                    text={"Hvordan ulike lisensmodeller kan håndheves av systemer for forvaltning av applikasjonen."}
+                    text={
+                        "FINT Kontroll har et sett ferdigdefinerte håndhevingstyper. " +
+                        "Disse bestemmer hvilke regler som skal gjelde for den bestemte ressursen. " +
+                        "For eksempel stopp av tildelinger når en grense har blitt nådd. " +
+                        "Her kan du endre navnet på disse håndhevingstypene som vises i FINT Kontroll. " +
+                        "I fremtiden vil det komme mer funksjonalitet knyttet til håndhevingstyper."
+                    }
                 />
                 <MappingList
                     listItems={licenseEnforcements}
