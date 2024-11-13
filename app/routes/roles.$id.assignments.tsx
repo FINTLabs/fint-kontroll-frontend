@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert, Box, Heading, Link, Tabs, VStack} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Alert, Box, Heading, Tabs, VStack} from "@navikt/ds-react";
+import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
