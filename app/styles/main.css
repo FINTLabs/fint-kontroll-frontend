@@ -177,32 +177,90 @@ button {
     width: 100%;
 }
 
+.full-height {
+    height: 100%;
+}
+
 .list-style-none {
     list-style: none;
     padding: 0;
 }
 
-.custom-link {
+.link-card {
     text-decoration: none;
     color: var(--a-text-default);
-    transition: background .2s ease-in;
-    background-color: var(--a-surface-action-subtle);
+    transition: background 0.2s ease-in;
+    background-color: white;
 
     p {
         color: var(--a-text-default);
     }
 
-    h2 {
-        text-decoration-line: underline;
-        text-decoration-thickness: 1px;
+    hr {
+        width: 100%;
+        border: 0;
+        height: 1px;
+        background: var(--a-text-default);
+    }
+
+    .circle {
+        transition: transform 0.2s ease-in-out;
+
+        > * {
+            transition: transform 0.2s ease-in-out;
+        }
+    }
+
+    .arrow-icon {
+        transition: transform 0.2s ease-in-out;
     }
 
     &:hover {
-        background-color: var(--a-surface-hover);
-
-        h1 {
-            color: var(--a-text-action);
+        h2 {
             text-decoration: none;
         }
+
+        .circle {
+            transform: scale(1.25);
+
+            > * {
+                transform: scale(0.8);
+            }
+        }
+
+        .arrow-icon {
+            transform: scale(1.5);
+        }
     }
+}
+
+:root {
+    --orange-dark: #A61D08;
+    --orange-primary: #F76650;
+    --orange-80: rgba(247, 102, 80, 0.8);
+    --orange-60: rgba(247, 102, 80, 0.6);
+    --orange-40: rgba(247, 102, 80, 0.4);
+    --orange-20: rgba(247, 102, 80, 0.2);
+
+    --red-dark: #570F31;
+    --red-primary: #6B133D;
+    --red-80: rgba(107, 19, 61, 0.8);
+    --red-60: rgba(107, 19, 61, 0.6);
+    --red-40: rgba(107, 19, 61, 0.4);
+    --red-20: rgba(107, 19, 61, 0.2);
+
+    --blue-dark: #5A51E1;
+    --blue-primary: #7F78E8;
+    --blue-80: rgba(127, 120, 232, 0.8);
+    --blue-60: rgba(127, 120, 232, 0.6);
+    --blue-40: rgba(127, 120, 232, 0.4);
+    --blue-20: rgba(127, 120, 232, 0.2);
+
+    --beige-darker: #D4B89A;
+    --beige-dark: #EFD8B8;
+    --beige-primary: #F8ECDC;
+    --beige-80: rgba(248, 236, 220, 0.8);
+    --beige-60: rgba(248, 236, 220, 0.6);
+    --beige-40: rgba(248, 236, 220, 0.4);
+    --beige-20: rgba(248, 236, 220, 0.2);
 }
