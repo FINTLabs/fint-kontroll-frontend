@@ -25,7 +25,7 @@ export default function KontrollAdminDefineRole() {
 
     return (
         <Tabs value={"define-role"}>
-            <Tabs.Panel value="define-role" className="h-24 w-full bg-gray-50 p-4">
+            <Tabs.Panel value="define-role">
                 <KontrollAccessRolesRadioGroup roles={roles} />
                 <Outlet context={context} />
             </Tabs.Panel>

@@ -29,7 +29,7 @@ export const RoleTable = ({rolePage, size}: RoleTableProps) => {
                     {fetching ? <TableSkeleton/> :
                         rolePage.roles.map((role) => (
                             <Table.Row key={role.id}>
-                                <Table.DataCell scope="row">{role.roleName}</Table.DataCell>
+                                <Table.DataCell>{role.roleName}</Table.DataCell>
                                 <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>{role.roleType}</Table.DataCell>
                                 <Table.DataCell align="right">

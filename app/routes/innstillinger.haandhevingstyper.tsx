@@ -13,10 +13,10 @@ import {MappingList} from "~/components/settings/KodeverkMappingList/MappingList
 export const handle = {
     breadcrumb: () => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={SETTINGS}>Innstillinger</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={SETTINGS} className={"breadcrumb-link"}>Innstillinger</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={SETTINGS_LICENSE_ENFORCEMENT}>Håndhevingstyper</Link>
+                <Link to={SETTINGS_LICENSE_ENFORCEMENT} className={"breadcrumb-link"}>Håndhevingstyper</Link>
             </HStack>
         </HStack>
     )

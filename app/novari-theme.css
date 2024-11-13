@@ -1,0 +1,62 @@
+[data-theme='novari'] {
+
+    --a-bg-default: #FEFCFA;
+    --a-bg-subtle:#FCF5ED;
+
+    --a-surface-action: var(--a-surface-alt-3-strong);
+    --a-surface-action-hover: #5149CA;
+    --a-surface-action-active: var(--a-surface-alt-3-strong);
+    --a-surface-action-selected: var(--a-surface-alt-3-strong);
+    --a-surface-action-subtle-hover: var(--a-surface-alt-3-subtle);
+    --a-surface-action-selected-hover: #5149CA;
+    --a-surface-default: var(--a-bg-default);
+    --a-surface-hover: #E5E4FA;
+
+    --a-text-action-selected: var(--a-surface-alt-3-strong);
+    --a-text-on-action: #ffffff;
+    --a-text-action: var(--a-surface-alt-3-strong);
+    --a-text-action-hover: var(--a-surface-alt-3-strong);
+    --a-text-action-on-action-subtle: var(--a-surface-alt-3-strong);
+
+    --a-border-action: var(--a-surface-alt-3-strong);
+    --a-border-action-hover: var(--a-surface-alt-3-strong);
+    --a-border-action-selected: var(--a-surface-alt-3-strong);
+    --a-border-focus: var(--a-surface-alt-3-strong);
+
+    --a-surface-alt-3-strong: #5A51E1;
+    --a-surface-alt-3-subtle: #E5E4FA;
+    --a-surface-alt-3-moderate: #6B133D;
+
+    .novari-header {
+        background:  #FCF5ED;
+    }
+
+    .novari-footer {
+        background: #6B133D;
+    }
+}
+
+/*
+Farge: #F76650 orange
+20 % lysere: #FB9582
+40 % lysere: #FDC3B4
+60 % lysere: #FFE0D5
+80 % lysere: #feeae7
+
+Farge: #6B133D  rød
+20 % lysere: #8C3E62
+40 % lysere: #AD697F
+60 % lysere: #CF93A3
+80 % lysere: #EBC1C9
+
+Farge: #7F78E8  blå
+20 % lysere: #A19CF0
+40 % lysere: #C3BEF7
+60 % lysere: #CCC9F6
+80 % lysere: #E5E4FA
+
+Farge: #F8ECDC
+20 % lysere: #FAF1E5
+40 % lysere: #FCF5ED
+60 % lysere: #FDF9F5
+80 % lysere: #FEFCFA*/

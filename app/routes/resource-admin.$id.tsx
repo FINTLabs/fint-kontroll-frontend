@@ -1,6 +1,15 @@
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
-import {Link as RemixLink, Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
+import {
+    Link,
+    Link as RemixLink,
+    Links,
+    Meta,
+    Scripts,
+    useLoaderData,
+    useNavigate,
+    useRouteError
+} from "@remix-run/react";
 import {IKodeverkUserType, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -11,6 +20,7 @@ import {ArrowRightIcon, PencilIcon} from "@navikt/aksel-icons";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
+import React from "react";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -40,10 +50,10 @@ export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <RemixLink to={`/resource-admin`}>Ressursadministrasjon</RemixLink>
+            <HStack justify={"center"} align={"center"}>
+                <RemixLink to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</RemixLink>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <RemixLink to={`/resource-admin/${params.id}`}>Ressursinfo</RemixLink>
+                <RemixLink to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</RemixLink>
             </HStack>
         </HStack>
     )
@@ -59,7 +69,7 @@ export default function ResourceById() {
     return (
         <section className={"content"}>
 
-            <VStack gap="8">
+            <VStack gap="12">
                 <VStack gap="4">
                     {source === "gui" && (
                         <HStack justify={"end"} align={"end"}>
@@ -72,15 +82,6 @@ export default function ResourceById() {
                             </Button>
                         </HStack>
                     )}
-                    <HStack gap="8" align={"center"} justify={"center"}>
-                        <Heading className={"heading"}
-                                 level="1"
-                                 size="xlarge"
-                        >
-                            {resource.resourceName}
-                        </Heading>
-                        <StatusTag status={resource.status}/>
-                    </HStack>
                     <ResponseAlert
                         responseCode={responseCode}
                         successText={"Ressursen ble oppdatert!"}

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Alert, Box, Heading, HStack, LinkPanel, Tabs} from "@navikt/ds-react";
+import {Alert, Box, Heading, HStack, Link, LinkPanel, Tabs} from "@navikt/ds-react";
 import {
-    Link,
     Links,
     Meta,
     Outlet,
@@ -34,7 +33,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/roles`}>Grupper</Link>
+    breadcrumb: ({ params, data }) => <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
 }
 
 export default function RolesId() {

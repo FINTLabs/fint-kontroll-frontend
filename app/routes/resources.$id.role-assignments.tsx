@@ -46,8 +46,8 @@ export function useResourceByIdLoaderData() {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) => {
-        return <Link to={`/resources/${params.id}/role-assignments`}>Ressursinfo</Link>
+    breadcrumb: ({params}) => {
+        return <Link to={`/resources/${params.id}/role-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
     }
 }
 
@@ -60,7 +60,7 @@ export default function AssignedRoles() {
 
     return (
         <VStack gap="4">
-            <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
+            <Heading className={"heading"} level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
 
             <section className={"toolbar"}>
                 <SelectObjectType/>

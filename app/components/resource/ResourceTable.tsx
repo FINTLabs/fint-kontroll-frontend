@@ -27,7 +27,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                 <Table.Body>
                     {fetching ? <TableSkeleton columns={3}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
-                            <Table.DataCell scope="row">{resource.resourceName}</Table.DataCell>
+                            <Table.DataCell >{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell align="center">
                                 <SeeInfoButton

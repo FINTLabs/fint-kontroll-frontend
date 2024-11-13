@@ -1,18 +1,10 @@
 import React, {useRef, useState} from "react";
-import {
-    ClipboardCheckmarkIcon,
-    MenuHamburgerIcon,
-    PersonGroupIcon,
-    PersonIcon,
-    SandboxIcon,
-    TasklistIcon,
-    XMarkIcon
-} from '@navikt/aksel-icons';
-import {Link} from "@remix-run/react";
+import {MenuHamburgerIcon, XMarkIcon} from '@navikt/aksel-icons';
 import MeInfo from "~/components/app-bar/MeInfo";
 import {IMeInfo} from "~/data/types";
 import {BodyShort, Box, Button, HGrid, Hide, HStack, LinkPanel, Popover} from "@navikt/ds-react";
 import {SETTINGS} from "~/data/constants";
+import {Link} from "@remix-run/react";
 
 export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -21,10 +13,9 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
 
     return (
         <>
-            <section className="grid h-20">
+            <section className="h-20">
                 <HStack as="nav" justify="space-between" align="center">
                     <HStack align="center">
-                        {/*<img src={logo} alt={"Logo"} style={{height: '6em', width: '6em'}}/>*/}
                         <Link to={"/"} className={"kontroll"}>
                             <BodyShort weight="semibold" size={"large"}>
                                 Kontroll
@@ -36,6 +27,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                         <HStack align="center">
                             {props.me ?
                                 <Button
+                                    className={"menu-button"}
                                     ref={buttonRef}
                                     icon={menuOpen ? <XMarkIcon aria-hidden/> : <MenuHamburgerIcon aria-hidden/>}
                                     variant="tertiary-neutral"
@@ -64,55 +56,51 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                 placement="bottom"
             >
                 <Popover.Content>
-                    <Link to="/#" onClick={() => setMenuOpen(false)}>Til forsiden</Link>
+                    <Link to="/#" onClick={() => setMenuOpen(false)} className={"breadcrumb-link"}>Til forsiden</Link>
                     <HGrid gap="4" columns={2}>
-
-
                         <Box>
                             <LinkPanel border={false} href={`${props.basePath}/users`}>
-                                <LinkPanel.Title><PersonIcon title="a11y-title"
-                                                             fontSize="1.5rem"/> Brukere</LinkPanel.Title>
+                                <LinkPanel.Title>
+                                    Brukere
+                                </LinkPanel.Title>
                             </LinkPanel>
 
                             <LinkPanel border={false} href={`${props.basePath}/roles`}>
-                                <LinkPanel.Title><PersonGroupIcon title="a11y-title"
-                                                                  fontSize="1.5rem"/> Grupper</LinkPanel.Title>
+                                <LinkPanel.Title>
+                                    Grupper
+                                </LinkPanel.Title>
                             </LinkPanel>
 
                             <LinkPanel border={false} href={`${props.basePath}/resources`}>
-                                <LinkPanel.Title><SandboxIcon title="a11y-title"
-                                                              fontSize="1.5rem"/> Ressurser</LinkPanel.Title>
+                                <LinkPanel.Title>
+                                    Ressurser
+                                </LinkPanel.Title>
                             </LinkPanel>
                         </Box>
                         <Box>
                             <LinkPanel border={false} href={`${props.basePath}/resource-module-admin`}>
                                 <LinkPanel.Title>
-                                    <ClipboardCheckmarkIcon title="a11y-title" fontSize="1.5rem"/>
                                     Ressursmoduladministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
                             <LinkPanel border={false} href={`${props.basePath}/resource-admin`}>
                                 <LinkPanel.Title>
-                                    <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
                                     Ressursadministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
                             <LinkPanel border={false} href={`${props.basePath}/kontroll-admin/define-role`}>
                                 <LinkPanel.Title>
-                                    <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
                                     Kontrolladministrasjon
                                 </LinkPanel.Title>
                             </LinkPanel>
                             {props.source === "gui" &&
                                 <LinkPanel border={false} href={`${props.basePath}${SETTINGS}`}>
                                     <LinkPanel.Title>
-                                        <TasklistIcon title="a11y-title" fontSize="1.5rem"/>
                                         Innstillinger
                                     </LinkPanel.Title>
                                 </LinkPanel>
                             }
                         </Box>
-
                     </HGrid>
                 </Popover.Content>
             </Popover>

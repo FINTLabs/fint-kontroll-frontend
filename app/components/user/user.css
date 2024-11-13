@@ -36,6 +36,16 @@ hr {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+}
+
+.user-info {
+    color: #570F31;
+}
+
+hr {
+    border-top: 1px solid #F76650;
+    width: 30%;
 }
 
 
