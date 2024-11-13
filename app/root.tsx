@@ -78,7 +78,7 @@ export default function App() {
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
         <Layout me={me} basePath={basePath} source={source}>
-            <HStack paddingBlock="0 8">
+            <HStack>
                 {matches
                     .filter((match: any) =>
                         match.handle && match.handle.breadcrumb

@@ -1,3 +1,7 @@
+export const USERS = "/users"
+export const ROLES = "/roles"
+export const RESOURCES = "/resources"
+
 export const SETTINGS = "/innstillinger"
 
 export const SETTINGS_APPLICATION_CATEGORY = "/innstillinger/applikasjonskategori"
