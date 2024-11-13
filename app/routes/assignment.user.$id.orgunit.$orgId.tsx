@@ -22,6 +22,8 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
+import React from "react";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -77,15 +79,16 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params}) => (
-        <>
-            <Link to={`/users`}>Brukere</Link>
-            {" > "}
-            <Link to={`/users/${params.id}/orgunit/${params.orgId}`}>Brukerinfo</Link>
-            {" > "}
-            <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`}>Ny tildeling</Link>
-        </>
-    )
+    breadcrumb: ({params}) =>
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/users`} className={"breadcrumb-link"}>Brukere</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/users/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Brukerinfo</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Ny tildeling</Link>
+            </HStack>
+        </HStack>
 }
 
 export default function NewAssignmentForUser() {

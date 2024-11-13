@@ -56,7 +56,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => {
-        return <Link to={`/resources/${params.id}/user-assignments`}>Ressursinfo</Link>
+        return <Link to={`/resources/${params.id}/user-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
     }
 }
 
@@ -74,7 +74,6 @@ export default function AssignedUsers() {
     return (
         <VStack gap="4">
             <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
-
             <section className={"toolbar"}>
                 <SelectObjectType/>
                 <section className={"filters"}>

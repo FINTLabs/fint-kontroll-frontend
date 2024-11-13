@@ -108,8 +108,6 @@ table {
     align-items: center;
     border: 1px solid gray;
     border-radius: 5px;
-    background-color: white;
-    padding: 0.6em;
     margin-top: 0.4em;
 }
 
@@ -117,10 +115,13 @@ table {
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    padding: 0.3em;
+    /* padding-top: 0.3em;
+     padding-bottom: 0.3em;*/
 }
 
 .objectTypeLink:hover {
-    background-color: var(--a-blue-50);
+    background-color: #E5E4FA;
 }
 
 .navds-radio-buttons {
@@ -201,4 +202,23 @@ table {
             text-decoration: none;
         }
     }
+
+}
+
+.breadcrumb-link {
+    @apply text-indigo-600 underline hover:text-indigo-800;
+}
+
+.menu-button:hover {
+    background-color: #FB9582;
+}
+
+/*.info-box {
+    background-color: #feeae7;
+    color: #570F31;
+}*/
+
+.info-box {
+    background-color: #feeae7;
+    color: #570F31;
 }

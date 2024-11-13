@@ -24,13 +24,11 @@ import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 import {RouteHandle} from "@remix-run/react/dist/routeModules";
 import './tailwind.css';
 import './novari-theme.css';
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
 }
-
-
-
 
 export const meta: MetaFunction = () => {
     return [
@@ -94,7 +92,8 @@ export default function App() {
                     // Use reducer to add separator between each breadcrumb element
                     .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
                         if (index < array.length - 1) {
-                            return acc.concat(curr, <span key={`sep-${index}`}> &gt; </span>);
+                            return acc.concat(curr,
+                                <ArrowRightIcon key={`sep-${index}`} title="a11y-title" fontSize="1.5rem"/>)
                         } else {
                             return acc.concat(curr);
                         }

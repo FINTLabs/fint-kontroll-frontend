@@ -20,10 +20,10 @@ import {SettingsHeader} from "~/components/settings/SettingsHeader";
 export const handle = {
     breadcrumb: () => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={SETTINGS}>Innstillinger</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={SETTINGS} className={"breadcrumb-link"}>Innstillinger</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={SETTINGS_LICENSE_MODEL}>Lisensmodeller</Link>
+                <Link to={SETTINGS_LICENSE_MODEL} className={"breadcrumb-link"}>Lisensmodeller</Link>
             </HStack>
         </HStack>
     )

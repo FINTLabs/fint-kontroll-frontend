@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Heading, Tabs, VStack, Link} from "@navikt/ds-react";
+import {Alert, Box, Heading, Link, Tabs, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
@@ -32,7 +32,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params}) => <Link to={`/roles/${params.id}/assignments`}>Ressurser</Link>
+    breadcrumb: ({params}) => <Link to={`/roles/${params.id}/assignments`}
+                                    className={"breadcrumb-link"}>Ressurser</Link>
 }
 
 export default function AssignmentsForRole() {

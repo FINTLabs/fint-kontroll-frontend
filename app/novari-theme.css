@@ -8,10 +8,9 @@
     --a-surface-action-active: var(--a-surface-alt-3-strong);
     --a-surface-action-selected: var(--a-surface-alt-3-strong);
     --a-surface-action-subtle-hover: var(--a-surface-alt-3-subtle);
-    --a-surface-action-subtle: #FB9582;
     --a-surface-action-selected-hover: #5149CA;
     --a-surface-default: var(--a-bg-default);
-    --a-surface-hover: #FDC3B4;
+    --a-surface-hover: #E5E4FA;
 
     --a-text-action-selected: var(--a-surface-alt-3-strong);
     --a-text-on-action: #ffffff;
@@ -28,18 +27,6 @@
     --a-surface-alt-3-subtle: #E5E4FA;
     --a-surface-alt-3-moderate: #6B133D;
 
-   /* --a-surface-neutral-subtle-hover: #FAF1E5;*/
-    --a-surface-neutral-subtle-hover: #FB9582;
-    --a-surface-neutral-moderate: #F8ECDC;
-
-/*    --a-shadow-focus-inverted:  var(--a-surface-alt-3-moderate);
-    --a-border-focus-on-inverted:  var(--a-surface-alt-3-moderate);*/
-
-    --ac-guide-panel-border: var(--a-surface-alt-3-moderate);
-    --ac-guide-panel-illustration-bg:#EBC1C9;
-    --ac-subtle-text:  var(--a-surface-alt-3-moderate);
-
-
     .novari-header {
         background:  #FCF5ED;
     }
@@ -50,26 +37,25 @@
 }
 
 /*
-
 Farge: #F76650 orange
 20 % lysere: #FB9582
 40 % lysere: #FDC3B4
 60 % lysere: #FFE0D5
-80 % lysere: #FFF4F1
+80 % lysere: #feeae7
 
-     Farge: #6B133D  rød
+Farge: #6B133D  rød
 20 % lysere: #8C3E62
 40 % lysere: #AD697F
 60 % lysere: #CF93A3
 80 % lysere: #EBC1C9
 
-     Farge: #7F78E8  blå
+Farge: #7F78E8  blå
 20 % lysere: #A19CF0
 40 % lysere: #C3BEF7
 60 % lysere: #CCC9F6
 80 % lysere: #E5E4FA
 
-     Farge: #F8ECDC
+Farge: #F8ECDC
 20 % lysere: #FAF1E5
 40 % lysere: #FCF5ED
 60 % lysere: #FDF9F5

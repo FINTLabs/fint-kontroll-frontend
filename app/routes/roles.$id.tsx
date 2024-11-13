@@ -33,7 +33,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params, data }) => <Link to={`/roles`}>Grupper</Link>
+    breadcrumb: ({ params, data }) => <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
 }
 
 export default function RolesId() {

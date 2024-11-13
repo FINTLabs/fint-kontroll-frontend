@@ -24,6 +24,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -78,19 +79,15 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) =>
-        <>
-            <span>
-                <Link to={`/resources`}>Ressurser</Link>
-            </span>
-            {" > "}
-            <span>
-                <Link to={`/resources/${params.id}/user-assignments`}>Ressursinfo</Link>
-            </span>
-            {" > "}
-            <span>
-                <Link to={`/assignment/resource/${params.id}/user`}>Tildeling</Link>
-            </span>
-        </>
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resources`} className={"breadcrumb-link"}>Ressurser</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resources/${params.id}/user-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/assignment/resource/${params.id}/user`} className={"breadcrumb-link"}>Tildeling</Link>
+            </HStack>
+        </HStack>
 }
 
 
@@ -105,6 +102,7 @@ export default function NewAssignment() {
     const id: string = loaderData.id
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
+
 
     return (
         <div className={"content"}>

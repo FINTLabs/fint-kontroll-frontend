@@ -15,14 +15,15 @@ import {
 } from "~/data/constants";
 import {EditableList} from "~/components/settings/KodeverkEditableList/EditableList";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
+import {Link as RemixLink} from "@remix-run/react/dist/components";
 
 export const handle = {
     breadcrumb: () => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={SETTINGS}>Innstillinger</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={SETTINGS} className={"breadcrumb-link"}>Innstillinger</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={SETTINGS_APPLICATION_CATEGORY}>Applikasjonskategori</Link>
+                <Link to={SETTINGS_APPLICATION_CATEGORY} className={"breadcrumb-link"}>Applikasjonskategori</Link>
             </HStack>
         </HStack>
     )

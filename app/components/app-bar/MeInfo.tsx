@@ -22,7 +22,7 @@ function MeInfo(props: { me: IMeInfo }) {
             <div className={"me-info"}>
                 <div className={"me-info"}>
                     <Buildings3Icon title="a11y-title" fontSize="1.5rem" />
-                    <BodyShort size="small" truncate className="max-w-[10vw]">
+                    <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
                         {props.me?.organisationId}
                     </BodyShort>
                 </div>

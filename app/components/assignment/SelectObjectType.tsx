@@ -10,12 +10,13 @@ export const SelectObjectType = () => {
     return (
         <div>
             <BodyShort weight="semibold" size="medium">Hvem ønsker du å gjøre tildelinger for?</BodyShort>
-            <HStack gap="12" className={"SelectObjectType"}>
+            <HStack gap="6" className={"SelectObjectType"}>
                 <NavLink to={`/assignment/resource/${params.id}/user`}
+                         className={"objectTypeLink"}
                          style={({isActive, isPending}) => {
                              return {
                                  fontWeight: isActive ? "bold" : "",
-                                 color: isPending ? "blue" : "black",
+                                 color: isPending ? "indigo" : "black",
                              };
                          }}
                 >
@@ -29,7 +30,7 @@ export const SelectObjectType = () => {
                          style={({isActive, isPending}) => {
                              return {
                                  fontWeight: isActive ? "bold" : "",
-                                 color: isPending ? "blue" : "black",
+                                 color: isPending ? "indigo" : "black",
                              };
                          }}>
                     <div className={"objectTypeLink"}>
@@ -37,22 +38,6 @@ export const SelectObjectType = () => {
                         Grupper
                     </div>
                 </NavLink>
-                {/*<Link underline={false}
-                      variant="neutral"
-                      value={"user-assignments"}
-                      className={"objectTypeLink"}
-                      href={`/assignment/resource/${params.id}/user`}>
-                    <PersonIcon title="a11y-title" fontSize="1.5rem"/>
-                    Brukere
-                </Link>
-                <Link underline={false}
-                      variant="neutral"
-                      value={"role-assignments"}
-                      className={"objectTypeLink"}
-                      href={`/assignment/resource/${params.id}/role`}>
-                    <PersonGroupIcon title="a11y-title" fontSize="1.5rem"/>
-                    Grupper
-                </Link>*/}
             </HStack>
         </div>
     );

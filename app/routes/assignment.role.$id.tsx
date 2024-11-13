@@ -23,6 +23,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import logger from "~/logging/logger";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -71,18 +72,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
-
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) => (
-        <>
-            <Link to={`/roles`}>Grupper</Link>
-            {" > "}
-            <Link to={`/roles/${params.id}/members`}>Gruppeinfo</Link>
-            {" > "}
-            <Link to={`/assignment/role/${params.id}`}>Ny tildeling</Link>
-        </>
-    )
+    breadcrumb: ({params}) =>
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/roles/${params.id}/members`} className={"breadcrumb-link"}>Gruppeinfo</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/assignment/role/${params.id}`} className={"breadcrumb-link"}>Ny tildeling</Link>
+            </HStack>
+        </HStack>
 }
 
 export default function NewAssignmentForRole() {

@@ -1,8 +1,9 @@
 import {IKodeverkUserType, IResource} from "~/data/types";
-import {BodyShort, Box, GuidePanel, HGrid, Heading, VStack, HStack, Hide, Dropdown} from "@navikt/ds-react";
-import {InformationIcon} from "@navikt/aksel-icons";
+import {BodyShort, Box, Heading, HGrid, Hide, HStack, VStack} from "@navikt/ds-react";
+import {InformationSquareIcon} from "@navikt/aksel-icons";
 import * as React from "react";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+import {StatusTag} from "~/components/resource-admin/StatusTag";
 
 interface ResourceInfoBoxProps {
     resource: IResource,
@@ -12,25 +13,30 @@ interface ResourceInfoBoxProps {
 
 export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxProps) => {
     return (
-        <GuidePanel poster={true} illustration={<InformationIcon title="a11y-title"/>}>
-            <VStack>
-                <HStack wrap={false} align={"center"} justify={"center"} gap={"4"}>
+        <Box id="resourceInfoBox" className="info-box" padding="8" borderRadius="xlarge">
+            <VStack gap={"4"}>
+                <HStack align={"center"} justify={"center"} gap={"8"}>
+                    <Heading size="xlarge" level="1">{resource.resourceName}</Heading>
+                    {isAdmin && (
+                        <StatusTag status={resource.status}/>
+                    )}
+                </HStack>
+                <HStack wrap={false} align={"center"} justify={"center"} gap={"8"}>
                     <Hide asChild below="md">
-                        <hr style={{width: "100%"}}/>
+                        <hr/>
                     </Hide>
-                    <Heading align={"center"} size="medium" level="2">Ressursinformasjon</Heading>
+                    <InformationSquareIcon title="a11y-title" fontSize="3rem" color={"#F76650"}/>
                     <Hide asChild below="md">
-                        <hr style={{width: "100%"}}/>
+                        <hr/>
                     </Hide>
                 </HStack>
-
-                <Box padding={"4"}>
+                <Box padding={"6"}>
                     <ul className="full-width list-style-none">
                         <HGrid gap={"8 4"} columns={{xs: 1, lg: 2, "2xl": 3}}>
                             {resource.applicationCategory && (
                                 <li>
                                     <Heading size="small" level="3">Applikasjonskategori:</Heading>
-                                    <BodyShort textColor="subtle">
+                                    <BodyShort textColor="subtle">{resource.resourceType}
                                         {resource.applicationCategory.join(', ')}
                                     </BodyShort>
                                 </li>
@@ -70,19 +76,19 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                                     <BodyShort textColor="subtle">{resource.unitCost}</BodyShort>
                                 </li>
                             )}
-{/*                            {isAdmin && resource.applicationAccessType && (
+                            {/*                            {isAdmin && resource.applicationAccessType && (
                                 <li>
                                     <Heading size="small" level="3">Applikasjonstilgangstype:</Heading>
                                     <BodyShort textColor="subtle">{resource.applicationAccessType}</BodyShort>
                                 </li>
                             )}*/}
-{/*                            {isAdmin && resource.applicationAccessRole && (
+                            {/*                            {isAdmin && resource.applicationAccessRole && (
                                 <li>
                                     <Heading size="small" level="3">Tilgangsrolle:</Heading>
                                     <BodyShort textColor="subtle">{resource.applicationAccessRole}</BodyShort>
                                 </li>
                             )}*/}
-    {/*                        {isAdmin && resource.accessType && (
+                            {/*                        {isAdmin && resource.accessType && (
                                 <li>
                                     <Heading size="small" level="3">Tilgangstype:</Heading>
                                     <BodyShort textColor="subtle">{resource.accessType}</BodyShort>
@@ -94,7 +100,7 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                                     <BodyShort textColor="subtle">{resource.licenseEnforcement}</BodyShort>
                                 </li>
                             )}
-{/*                            {isAdmin && resource.platform && (
+                            {/*                            {isAdmin && resource.platform && (
                                 <li>
                                     <Heading size="small" level="3">Plattform:</Heading>
                                     <BodyShort textColor="subtle">
@@ -118,6 +124,6 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                     </ul>
                 </Box>
             </VStack>
-        </GuidePanel>
+        </Box>
     )
 }
