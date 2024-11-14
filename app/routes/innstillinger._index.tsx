@@ -5,7 +5,6 @@ import {useLoaderData} from "@remix-run/react";
 import {
     SETTINGS_APPLICATION_CATEGORY,
     SETTINGS_LICENSE_ENFORCEMENT,
-    SETTINGS_LICENSE_MODEL,
     SETTINGS_USER_TYPES
 } from "~/data/constants";
 import {LinkCard, LinkCardGrid} from "~/components/common/LinkCard";
@@ -24,18 +23,22 @@ export default function ResourcesSettings() {
         <VStack className={"content"} gap="4">
             <Heading className={"heading"} level="1" size="xlarge">Innstillinger for kodeverk</Heading>
 
-            <LinkCardGrid>
+            <LinkCardGrid bleed={false}>
                 <LinkCard
                     title={"Brukertyper"}
                     description={"Endre navn på brukertyper som kan tildeles ressursen."}
                     link={`${basePath}${SETTINGS_USER_TYPES}`}
+                    hover={true}
+                    border={true}
                 />
                 <LinkCard
                     title={"Applikasjonskategori"}
                     description={"Innstillinger for applikasjonskategorier som kan brukes for å gruppere og beskrive ressurser."}
                     link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
+                    hover={true}
+                    border={true}
                 />
-{/*                <CustomLink
+                {/*                <CustomLink
                     title={"Lisensmodeller"}
                     description={"Lisensmodeller som kan knyttes til en lisens."}
                     link={`${basePath}${SETTINGS_LICENSE_MODEL}`}
@@ -44,6 +47,8 @@ export default function ResourcesSettings() {
                     title={"Håndhevingstype"}
                     description={"Hvordan ulike lisensmodeller kan håndheves av systemer for forvaltning av applikasjonen."}
                     link={`${basePath}${SETTINGS_LICENSE_ENFORCEMENT}`}
+                    hover={true}
+                    border={true}
                 />
             </LinkCardGrid>
         </VStack>

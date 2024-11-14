@@ -7,24 +7,29 @@ type Color = "blue" | "red" | "orange" | "beige"
 type ColorProfile = {
     iconColor: string;
     arrowColor: string;
+    hoverColor: string;
 }
 
 const colorProfiles: Record<Color, ColorProfile> = {
     blue: {
-        iconColor: "var(--blue-40)",
+        iconColor: "var(--blue-60)",
         arrowColor: "var(--blue-primary)",
+        hoverColor: "var(--blue-40)"
     },
     red: {
         iconColor: "var(--red-primary)",
         arrowColor: "var(--red-primary)",
+        hoverColor: "var(--red-40)"
     },
     orange: {
         iconColor: "var(--orange-40)",
         arrowColor: "var(--orange-primary)",
+        hoverColor: "var(--orange-20)"
     },
     beige: {
         iconColor: "var(--beige-primary)",
-        arrowColor: "var(--beige-darker)"
+        arrowColor: "var(--beige-darker)",
+        hoverColor: "var(--beige-40)"
     }
 }
 
@@ -33,7 +38,9 @@ type CustomLinkPanelProps = {
     description?: string;
     link: string;
     Icon?: ReactElement
-    colorProfile: Color
+    colorProfile?: Color
+    hover?: boolean
+    border?: boolean
 }
 
 export const LinkCard = (
@@ -42,10 +49,20 @@ export const LinkCard = (
         description,
         link,
         Icon,
-        colorProfile = "blue"
+        colorProfile = "blue",
+        hover,
+        border
     }: CustomLinkPanelProps) => {
     return (
-        <Box as="a" padding="8" borderRadius="large" href={link} className={`link-card ${colorProfile}`}>
+        <Box
+            as="a"
+            padding="8"
+            borderRadius="large"
+            href={link}
+            className={`link-card ${colorProfile} ${hover ? "hoverColor" : ""}`}
+            borderColor={border ? "border-subtle" : undefined}
+            borderWidth={border ? "1" : undefined}
+        >
             <VStack gap="4" height="100%">
                 <HStack wrap={false} gap="4" width="100%" align="center">
                     {Icon && (
@@ -94,30 +111,3 @@ export const LinkCard = (
         </Box>
     );
 }
-
-/*
-Farge: #F76650 orange
-20 % lysere: #FB9582
-40 % lysere: #FDC3B4
-60 % lysere: #FFE0D5
-80 % lysere: #FFF4F1
-
-mørk rød #570F31
-
-Farge: #6B133D  rød
-20 % lysere: #8C3E62
-40 % lysere: #AD697F
-60 % lysere: #CF93A3
-80 % lysere: #EBC1C9
-
-Farge: #7F78E8  blå
-20 % lysere: #A19CF0
-40 % lysere: #C3BEF7
-60 % lysere: #CCC9F6
-80 % lysere: #E5E4FA
-
-Farge: #F8ECDC
-20 % lysere: #FAF1E5
-40 % lysere: #FCF5ED
-60 % lysere: #FDF9F5
-80 % lysere: #FEFCFA*/

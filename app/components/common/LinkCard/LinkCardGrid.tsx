@@ -5,11 +5,12 @@ interface CustomLinkPanelProps {
     color?: string;
     children: ReactNode;
     title?: string;
+    bleed?: boolean;
 }
 
-export const LinkCardGrid = ({color, title, children}: CustomLinkPanelProps) =>
-    <Bleed marginInline="full" asChild>
-        <Box padding="4 12" className="p" style={{backgroundColor: color}}>
+export const LinkCardGrid = ({color, title, bleed = true, children}: CustomLinkPanelProps) =>
+    <Bleed marginInline={bleed ? "full" : "12"} asChild>
+        <Box paddingBlock="4" paddingInline="12" className="p" style={{backgroundColor: color}}>
             <Page.Block width={"2xl"}>
                 <VStack gap="4" paddingBlock={"4"}>
                     <Heading level="2" size="medium" style={{color: 'var(--red-dark)'}}>{title}</Heading>
