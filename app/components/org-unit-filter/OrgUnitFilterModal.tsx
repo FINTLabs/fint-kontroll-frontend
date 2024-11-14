@@ -45,7 +45,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     }
 
     return (
-        <div className="py-16">
+        <div className="org-unit-button">
             <Button
                 id="org-unit-filter"
                 variant={"secondary"}

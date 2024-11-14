@@ -35,7 +35,7 @@ export default () => {
 
     return (
         <Tabs value={"features-to-role"}>
-            <Tabs.Panel value="features-to-role" className="h-24 w-full bg-gray-50 p-4">
+            <Tabs.Panel value="features-to-role">
                 <KontrollAccessRolesRadioGroup roles={accessRoles} />
 
                 <Outlet/>

@@ -18,10 +18,10 @@ export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`}>Ny ressurs</Link>
+                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`} className={"breadcrumb-link"}>Ny ressurs</Link>
             </HStack>
         </HStack>
     )

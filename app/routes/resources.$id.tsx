@@ -34,7 +34,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export const handle = {
-    breadcrumb: () => <Link to="/resources">Ressurser</Link>,
+    breadcrumb: () => <Link to={"/resources"} className={"breadcrumb-link"}>Ressurser</Link>,
 };
 
 export default function ResourceById() {
@@ -47,19 +47,13 @@ export default function ResourceById() {
         <section className={"content"}>
             <VStack gap="8">
                 <VStack gap="4">
-                    <Box className={"filters"}>
+                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
+                    <Box className={"filters"} paddingBlock={"8"}>
                         <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/user`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
                     </Box>
-
-                    <Heading className={"heading"} level="1" size="xlarge" align={"center"}>
-                        {resource.resourceName}
-                    </Heading>
-
-                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
                 </VStack>
-
                 <Outlet context={{resource}}/>
             </VStack>
         </section>

@@ -15,12 +15,12 @@ export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/${params.id}`}>Ressursinfo</Link>
+                <Link to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/edit/resource${params.id}`}>Rediger ressurs</Link>
+                <Link to={`/resource-admin/edit/resource${params.id}`} className={"breadcrumb-link"}>Rediger ressurs</Link>
             </HStack>
         </HStack>
     )

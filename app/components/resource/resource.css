@@ -1,0 +1,30 @@
+.resource-information-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 2rem;
+    list-style: none;
+    padding: 1rem;
+}
+
+@media(min-width: 1220px) {
+    .resource-information-list {
+        flex-direction: row;
+    }
+    .resource-information-list > li {
+        flex: 30%;
+        min-width: 200px;
+    }
+}
+
+hr {
+    border-top: 1px solid #F76650;
+    width: 30%;
+}
+
+.info-icon-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2em;
+}

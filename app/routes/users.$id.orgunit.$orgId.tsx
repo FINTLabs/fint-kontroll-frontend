@@ -12,6 +12,7 @@ import {BASE_PATH} from "../../environment";
 import {UserInfo} from "~/components/user/UserInfo";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -39,11 +40,14 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => (
-        <>
-            <Link to={`/users`}>Brukere</Link>
-            {" > "}
-            <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}>Brukerinfo</Link>
-        </>
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/users`} className={"breadcrumb-link"}>Brukere</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}
+                      className={"breadcrumb-link"}>Brukerinfo</Link>
+            </HStack>
+        </HStack>
     )
 }
 
@@ -60,23 +64,18 @@ export default function Users() {
         <section className={"content"}>
             <VStack gap="8">
                 <VStack gap="4">
-                    <HStack justify="end">
+                    <UserInfo user={user}/>
+                    <Box className={"filters"} paddingBlock={"8"}>
                         <LinkPanel href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
-                    </HStack>
-
-                    <Heading className={"heading"} level="1" size="xlarge" align={"center"}>Brukerinformasjon</Heading>
-
-                    <UserInfo user={user}/>
-
+                    </Box>
                 </VStack>
 
                 <VStack gap="8">
                     <Heading className={"heading"} level="2" size="large">
                         Brukeren er tildelt følgende ressurser:
                     </Heading>
-
                     <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                                    deleteText={"Tildelingen ble slettet!"}/>
 

@@ -22,6 +22,9 @@ import {BASE_PATH} from "../environment";
 import React, {ReactElement} from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 import {RouteHandle} from "@remix-run/react/dist/routeModules";
+import './tailwind.css';
+import './novari-theme.css';
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -74,7 +77,7 @@ export default function App() {
             <Meta/>
             <Links/>
         </head>
-        <body>
+        <body data-theme="novari">
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
         <Layout me={me} basePath={basePath} source={source}>
@@ -89,7 +92,8 @@ export default function App() {
                     // Use reducer to add separator between each breadcrumb element
                     .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
                         if (index < array.length - 1) {
-                            return acc.concat(curr, <span key={`sep-${index}`}> &gt; </span>);
+                            return acc.concat(curr,
+                                <ArrowRightIcon key={`sep-${index}`} title="a11y-title" fontSize="1.5rem"/>)
                         } else {
                             return acc.concat(curr);
                         }
@@ -116,11 +120,12 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
     return (
         <Page
             footer={
-                <Box className={"footer"} padding="8" as="footer">
+                <Box className={'novari-footer'} padding="8" as="footer">
+                    <img src="Logo.png" alt={"logo"} style={{width: "8em"}}/>
                 </Box>
             }
         >
-            <Box className={"footer"} as="header">
+            <Box className={'novari-header'} as="header">
                 <Page.Block width="2xl">
                     <AppBar me={me} basePath={basePath} source={source}/>
                 </Page.Block>

@@ -50,7 +50,7 @@ export const AssignUserTable = (
                 <Table.Body>
                     {fetching ? <TableSkeleton/> : isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
-                            <Table.DataCell scope="row">{user.fullName} </Table.DataCell>
+                            <Table.DataCell>{user.fullName} </Table.DataCell>
                             <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
@@ -63,7 +63,7 @@ export const AssignUserTable = (
                                     <Button
                                         as={Link}
                                         variant={"secondary"}
-                                        icon={<PlusIcon/>}
+                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem" />}
                                         iconPosition="right"
                                         href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}

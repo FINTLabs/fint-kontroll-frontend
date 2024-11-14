@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert, Box, Heading} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IRoleList, IUnitItem, IUnitTree} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoles} from "~/data/fetch-roles";
@@ -48,22 +48,23 @@ export default function Roles_index() {
                 <Heading className={"heading"} level="1" size="xlarge">Grupper</Heading>
                 <Box className={"filters"} paddingBlock={"4 4"}>
                     <div>
-                        <OrgUnitFilterModal orgUnitList={orgUnitList} />
+                        <OrgUnitFilterModal orgUnitList={orgUnitList}/>
                     </div>
                     <div>
-                        <RoleSearch />
+                        <RoleSearch/>
                     </div>
                 </Box>
             </div>
 
             <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters />
+                <ChipsFilters/>
             </Box>
 
-            <RoleTable rolePage={roleList} size={size} />
+            <RoleTable rolePage={roleList} size={size}/>
         </div>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

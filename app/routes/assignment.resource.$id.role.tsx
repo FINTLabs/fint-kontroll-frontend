@@ -15,6 +15,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {RoleSearch} from "~/components/role/RoleSearch";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -57,28 +58,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     })
 }
 
-// @ts-ignore
-const generateBreadcrumbs = (params, data) => {
-    return (
-        <>
-            <span>
-                <Link to={`/resources/${params.id}`}>Ressurser</Link>
-            </span>
-            {" > "}
-            <span>
-                <Link to={`/resources/${params.id}/user-assignments`}>Ressursinfo</Link>
-            </span>
-            {" > "}
-            <span>
-                <Link to={`/assignment/resource/${params.id}/role`}>Tildeling</Link>
-            </span>
-        </>
-    );
-};
-
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params, data}) => generateBreadcrumbs(params, data),
+    breadcrumb: ({params}) =>
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resources`} className={"breadcrumb-link"}>Ressurser</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resources/${params.id}/user-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/assignment/resource/${params.id}/role`} className={"breadcrumb-link"}>Tildeling</Link>
+            </HStack>
+        </HStack>
 }
 
 export default function NewAssignmentForRole() {

@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo} from "react";
 import {useNavigate, useNavigation} from "@remix-run/react";
 import {Button} from "@navikt/ds-react";
-import {InformationSquareIcon} from "@navikt/aksel-icons";
+import {ArrowRightIcon, InformationSquareIcon} from "@navikt/aksel-icons";
 
 type SeeInfoButtonProps = {
     id: string
@@ -15,18 +15,16 @@ export const SeeInfoButton = ({id, url}: SeeInfoButtonProps) => {
 
     return (
         <Button
+            className={"info-button"}
             id={id}
             icon={
-                <InformationSquareIcon
-                    title="Informasjonsikon"
-                    fontSize="1.5rem"
-                />
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem" />
             }
             iconPosition={"right"}
             onClick={() =>
                 navigate(url)
             }
-            variant={"secondary"}
+            variant={"tertiary"}
             role="link"
             loading={isLoading}
         >
