@@ -1,4 +1,4 @@
-import {Button, Heading, List} from "@navikt/ds-react";
+import {Button, Heading, HStack, List} from "@navikt/ds-react";
 import {
     IResourceModuleAssignment,
     IResourceModuleUser,
@@ -20,7 +20,7 @@ const TildelUserSearchResultList = ({newAssignment, usersPage, handleSelectUser}
             }
             {usersPage.users.map((user) =>
                 <li key={user.resourceId} className={"list-item__space-between"}>
-                    <span>
+                    <HStack marginBlock={"4"}>
                         <Heading level={"2"} size={"small"}>{user.firstName + " " + user.lastName}</Heading>
                         {user.roles &&
                             <p>
@@ -38,7 +38,7 @@ const TildelUserSearchResultList = ({newAssignment, usersPage, handleSelectUser}
                                 }
                             </p>
                         }
-                    </span>
+                    </HStack>
                     {newAssignment.user?.resourceId === user.resourceId ?
                         <span>
                             <Button icon={<CheckmarkCircleIcon />} variant={"secondary"} onClick={() => handleSelectUser(user)}>Valgt</Button>

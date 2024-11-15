@@ -67,10 +67,12 @@ export default function ResourceModuleAdminIndex() {
                 CreateNewButton={
                     <Button
                         role="link"
+                        as="a"
+                        id="create-assignment"
                         className={"no-underline-button"}
                         variant={"secondary"}
                         iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                        onClick={() => navigate("resource-module-admin/opprett-ny-tildeling")}>
+                        onClick={() => navigate("opprett-ny-tildeling")}>
                         Opprett ny tildeling
                     </Button>
                 }
