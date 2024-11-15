@@ -23,7 +23,7 @@ export const UserTypeFilter = ({userTypes}: UserTypeFilterProps) => {
 
     // @ts-ignore
     return (
-        <Form className={"select-usertype"}>
+        <Form>
             <Select label={"Filter for brukertype"}
                     id="user-type-select"
                     onChange={(e) => setUserTypeFilter(e.target.value)}

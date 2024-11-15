@@ -13,6 +13,7 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -49,21 +50,18 @@ export default function UsersIndex() {
 
     return (
         <div className={"content"}>
-            <div className={"toolbar"}>
-                <Heading className={"heading"} level="1" size="xlarge">Brukere</Heading>
-                <Box className={"filters"} paddingBlock={"4 4"}>
-                    <OrgUnitFilterModal orgUnitList={data.orgUnitList}/>
-                    <UserTypeFilter userTypes={data.userTypes}/>
-                    <UserSearch />
-                </Box>
-            </div>
-            <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters userTypes={data.userTypes}/>
-            </Box>
-            <UserTable />
+            <TableHeaderLayout
+                title={"Brukere"}
+                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={data.orgUnitList}/>}
+                SearchComponent={<UserSearch/>}
+                FilterComponents={<UserTypeFilter userTypes={data.userTypes}/>}
+                ChipsFilters={<ChipsFilters userTypes={data.userTypes}/>}
+            />
+            <UserTable/>
         </div>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

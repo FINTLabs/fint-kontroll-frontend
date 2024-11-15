@@ -6,8 +6,9 @@ import {useNavigate, useParams} from "@remix-run/react";
 interface AccessRolesRadioGroupProps {
     roles: IRole[]
 }
+const roleNameSortOrder = ["systemadministrator", "ressursadministrator", "tjenesteadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
 
-export default function KontrollAccessRolesRadioGroup ({roles}: AccessRolesRadioGroupProps) {
+export default function KontrollAccessRolesRadioGroup({roles}: AccessRolesRadioGroupProps) {
     const params = useParams()
 
     const roleProp = params.id
@@ -27,10 +28,14 @@ export default function KontrollAccessRolesRadioGroup ({roles}: AccessRolesRadio
             onChange={(val: string) => handleChangeSelectedRole(val)}
             value={roleProp ? roleProp : ""}
         >
-            {roles.map((role, index) =>
-                <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
-                    {role.name}
-                </Radio>)
+            {roles
+                .sort((a, b) => {
+                    return roleNameSortOrder.indexOf(a.name.toLowerCase()) - roleNameSortOrder.indexOf(b.name.toLowerCase()) ;
+                })
+                .map((role, index) =>
+                    <Radio key={role.accessRoleId + index} value={role.accessRoleId}>
+                        {role.name}
+                    </Radio>)
             }
         </RadioGroup>
     )

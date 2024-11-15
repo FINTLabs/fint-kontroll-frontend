@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert, Box, Heading, HStack, Link, VStack} from "@navikt/ds-react";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
+import {Alert, Box, Button, Heading, HStack, Link, VStack} from "@navikt/ds-react";
+import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import ResourceModuleAdminUsersTable from "../components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
@@ -13,12 +13,17 @@ import {
     IResourceModuleUsersPage
 } from "~/data/resourceModuleAdmin/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import ResourceModuleToolbar from "~/components/resource-module-admin/ResourceModuleToolbar";
 import {PlusIcon} from "@navikt/aksel-icons";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
+import ResourceModuleRoleFilter from "~/components/resource-module-admin/ResourceModuleRoleFilter";
+import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
+
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const auth = request
@@ -49,16 +54,27 @@ export default function ResourceModuleAdminIndex() {
     const usersPage = data.usersPage as IResourceModuleUsersPage
     const roles = data.roles as IResourceModuleAccessRole[]
     const orgUnitList = data.orgUnitPage.orgUnits as IUnitItem[]
+    const navigate = useNavigate()
 
     return (
         <VStack className={"content"} gap="4">
-            <HStack justify={"end"} align={"end"}>
-                <Link href={"resource-module-admin/opprett-ny-tildeling"} id="create-assignment">
-                    <PlusIcon/> Opprett ny tildeling
-                </Link>
-            </HStack>
-            <Heading level={"1"} size={"xlarge"} spacing>Administrer brukere med rolletilknytning</Heading>
-            <ResourceModuleToolbar orgUnitList={orgUnitList} roles={roles}/>
+            <TableHeaderLayout
+                title={"Administrer brukere med rolletilknytning"}
+                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                FilterComponents={<ResourceModuleRoleFilter roles={roles}/>}
+                SearchComponent={<ResourceModuleSearch/>}
+                ChipsFilters={<ChipsFilters/>}
+                CreateNewButton={
+                    <Button
+                        role="link"
+                        className={"no-underline-button"}
+                        variant={"secondary"}
+                        iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                        onClick={() => navigate("resource-module-admin/opprett-ny-tildeling")}>
+                        Opprett ny tildeling
+                    </Button>
+                }
+            />
             <ResourceModuleAdminUsersTable usersPage={usersPage} orgUnitList={orgUnitList} roles={roles}/>
         </VStack>
     );

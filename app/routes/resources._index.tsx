@@ -11,6 +11,7 @@ import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -70,31 +71,13 @@ export default function Resource() {
 
     return (
         <div className={"content"}>
-            <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
-            <HStack align={"center"} justify={"end"}>
-                <OrgUnitFilterModal orgUnitList={orgUnitList}/>
-                <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
-                {/*<Select
-                    className={"select-applicationcategory"}
-                    label={"Filter for lisensmodell"}
-                    onChange={(e) => setAccessType(e.target.value)}
-                    value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
-                >
-                    <option value={""}>Alle</option>
-                    {accessTypes?.map((accessType) => (
-                        <option key={accessType} value={accessType}>
-                            {accessType}
-                        </option>
-                    ))}
-                </Select>*/}
-                <ResourceSearch/>
-            </HStack>
-
-
-            <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters/>
-            </Box>
-
+            <TableHeaderLayout
+                title={"Ressurser"}
+                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                SearchComponent={<ResourceSearch/>}
+                ChipsFilters={<ChipsFilters/>}
+                FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
+            />
             <ResourceTable resourcePage={resourceList} size={size}/>
         </div>
     );

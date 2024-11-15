@@ -11,6 +11,7 @@ import {fetchOrgUnits} from "~/data/fetch-resources";
 import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -44,22 +45,12 @@ export default function Roles_index() {
 
     return (
         <div className={"content"}>
-            <div className={"toolbar"}>
-                <Heading className={"heading"} level="1" size="xlarge">Grupper</Heading>
-                <Box className={"filters"} paddingBlock={"4 4"}>
-                    <div>
-                        <OrgUnitFilterModal orgUnitList={orgUnitList}/>
-                    </div>
-                    <div>
-                        <RoleSearch/>
-                    </div>
-                </Box>
-            </div>
-
-            <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters/>
-            </Box>
-
+            <TableHeaderLayout
+                title={"Grupper"}
+                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                SearchComponent={<RoleSearch/>}
+                ChipsFilters={<ChipsFilters/>}
+            />
             <RoleTable rolePage={roleList} size={size}/>
         </div>
     );
