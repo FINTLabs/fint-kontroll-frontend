@@ -6,21 +6,14 @@ interface ChooseAccessRoleProps {
     setNewAccessRole: (accessRoleId: string) => void
 }
 
-const roleNameSortOrder = ["systemadministrator", "systemadministrator", "systemadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
 const ChooseAccessRole = ({accessRoles, setNewAccessRole}: ChooseAccessRoleProps) => {
-
     return (
         <RadioGroup legend={"Velg aksessrolle"} onChange={setNewAccessRole}>
-            ???
-            {accessRoles
-                .sort((a, b) => {
-                    return roleNameSortOrder.indexOf(b.name.toLowerCase()) - roleNameSortOrder.indexOf(a.name.toLowerCase());
-                })
-                .map((accessRole) => (
-                    <Radio key={accessRole.accessRoleId} value={accessRole.accessRoleId}>
-                        {accessRole.name}
-                    </Radio>
-                ))}
+            {accessRoles.map((accessRole) => (
+                <Radio key={accessRole.accessRoleId} value={accessRole.accessRoleId}>
+                    {accessRole.name}
+                </Radio>
+            ))}
         </RadioGroup>
     )
 }
