@@ -84,14 +84,15 @@ export default function ResourceAdminIndex() {
                 SearchComponent={<Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>}
                 ChipsFilters={<ChipsFilters/>}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
-                CreateNewButton={<Button
-                    role="link"
-                    className={"no-underline-button"}
-                    variant={"secondary"}
-                    iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                    onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
-                    Opprett ny ressurs
-                </Button>
+                CreateNewButton={source === "gui" ?
+                    <Button
+                        role="link"
+                        className={"no-underline-button"}
+                        variant={"secondary"}
+                        iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                        onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                        Opprett ny ressurs
+                    </Button> : undefined
                 }
             />
             <ResponseAlert

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IRoleList, IUnitItem, IUnitTree} from "~/data/types";
@@ -8,7 +8,6 @@ import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
-import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
@@ -47,7 +46,7 @@ export default function Roles_index() {
         <div className={"content"}>
             <TableHeaderLayout
                 title={"Grupper"}
-                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                orgUnitsForFilter={orgUnitList}
                 SearchComponent={<RoleSearch/>}
                 ChipsFilters={<ChipsFilters/>}
             />

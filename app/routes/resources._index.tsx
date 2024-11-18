@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, HStack} from "@navikt/ds-react";
+import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
@@ -6,7 +6,6 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
@@ -73,7 +72,7 @@ export default function Resource() {
         <div className={"content"}>
             <TableHeaderLayout
                 title={"Ressurser"}
-                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                orgUnitsForFilter={orgUnitList}
                 SearchComponent={<ResourceSearch/>}
                 ChipsFilters={<ChipsFilters/>}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}

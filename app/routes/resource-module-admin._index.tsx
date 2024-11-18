@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Button, Heading, HStack, Link, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, VStack} from "@navikt/ds-react";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import ResourceModuleAdminUsersTable from "../components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -17,7 +17,6 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
 import ResourceModuleRoleFilter from "~/components/resource-module-admin/ResourceModuleRoleFilter";
-import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
@@ -60,7 +59,7 @@ export default function ResourceModuleAdminIndex() {
         <VStack className={"content"} gap="4">
             <TableHeaderLayout
                 title={"Administrer brukere med rolletilknytning"}
-                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={orgUnitList}/>}
+                orgUnitsForFilter={orgUnitList}
                 FilterComponents={<ResourceModuleRoleFilter roles={roles}/>}
                 SearchComponent={<ResourceModuleSearch/>}
                 ChipsFilters={<ChipsFilters/>}

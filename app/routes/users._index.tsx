@@ -1,13 +1,12 @@
 import React from 'react';
 import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
-import {Alert, Box, Heading} from "@navikt/ds-react";
+import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError, useSearchParams} from "@remix-run/react";
+import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
 import {IKodeverkUserType, IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
@@ -52,7 +51,7 @@ export default function UsersIndex() {
         <div className={"content"}>
             <TableHeaderLayout
                 title={"Brukere"}
-                OrgUnitFilterButton={<OrgUnitFilterModal orgUnitList={data.orgUnitList}/>}
+                orgUnitsForFilter={data.orgUnitList}
                 SearchComponent={<UserSearch/>}
                 FilterComponents={<UserTypeFilter userTypes={data.userTypes}/>}
                 ChipsFilters={<ChipsFilters userTypes={data.userTypes}/>}
