@@ -48,7 +48,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
         <div className="org-unit-button">
             <Button
                 id="org-unit-filter"
-                variant={"tertiary"}
+                variant={"secondary"}
                 iconPosition="right"
                 icon={<Buildings3Icon aria-hidden/>}
                 onClick={handleOpen}

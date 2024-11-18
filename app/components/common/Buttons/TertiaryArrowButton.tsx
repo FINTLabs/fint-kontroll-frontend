@@ -1,14 +1,15 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useMemo} from "react";
 import {useNavigate, useNavigation} from "@remix-run/react";
 import {Button} from "@navikt/ds-react";
-import {ArrowRightIcon, InformationSquareIcon} from "@navikt/aksel-icons";
+import {ArrowRightIcon} from "@navikt/aksel-icons";
 
 type SeeInfoButtonProps = {
     id: string
     url: string
+    title?: string
 }
 
-export const SeeInfoButton = ({id, url}: SeeInfoButtonProps) => {
+export const TertiaryArrowButton = ({id, url, title = "Se info"}: SeeInfoButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation()
     const isLoading = useMemo(() => navigation.state === "loading" && navigation.location.pathname.endsWith(url), [navigation, url])
@@ -28,7 +29,7 @@ export const SeeInfoButton = ({id, url}: SeeInfoButtonProps) => {
             role="link"
             loading={isLoading}
         >
-            Se info
+            {title}
         </Button>
     )
 }
