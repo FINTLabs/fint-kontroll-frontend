@@ -16,10 +16,10 @@ export const TertiaryArrowButton = ({id, url, title = "Se info"}: SeeInfoButtonP
 
     return (
         <Button
-            className={"info-button"}
+            className={"nowrap"}
             id={id}
             icon={
-                <ArrowRightIcon title="a11y-title" fontSize="1.5rem" />
+                <ArrowRightIcon fontSize="1.5rem"/>
             }
             iconPosition={"right"}
             onClick={() =>
