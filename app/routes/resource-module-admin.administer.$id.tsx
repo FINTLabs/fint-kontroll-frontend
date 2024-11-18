@@ -6,6 +6,7 @@ import {
     deleteAllAssignmentsOnUser, deleteUserAssignmentByAccessRoleId, deleteOrgUnitFromAssignment
 } from "~/data/resourceModuleAdmin/resource-module-admin";
 import {
+    Link,
     Links,
     Meta,
     Scripts,
@@ -15,7 +16,7 @@ import {
     useRouteError, useSearchParams
 } from "@remix-run/react";
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
-import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
+import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
@@ -64,7 +65,7 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     })
 }
 
-export const action = async({params, request}: ActionFunctionArgs) => {
+export const action = async ({params, request}: ActionFunctionArgs) => {
     const queryParams = new URLSearchParams(request.url.split("?")[1]);
 
     const auth = request
@@ -72,23 +73,34 @@ export const action = async({params, request}: ActionFunctionArgs) => {
     const formData = await request.formData()
 
 
-    if(formData.get("resetAllUserAssignments")) {
+    if (formData.get("resetAllUserAssignments")) {
         const res = await deleteAllAssignmentsOnUser(auth, params.id ?? "")
-        return res.ok ? {reset: true, status: true, redirect: "/resource-module-admin", message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
-    }
-
-    else if (formData.get("deleteOneAssignmentByRole")) {
+        return res.ok ? {
+            reset: true,
+            status: true,
+            redirect: "/resource-module-admin",
+            message: "Brukerobjekt ble nullstilt"
+        } : {reset: false, status: false, redirect: null, message: null}
+    } else if (formData.get("deleteOneAssignmentByRole")) {
         const accessRoleId = formData.get("accessRoleId") as string
         const objectTypeToDelete = formData.get("objectTypeToDelete") as string
         const res = await deleteUserAssignmentByAccessRoleId(auth, params.id ?? "", accessRoleId, objectTypeToDelete)
-        return res.ok ? {reset: false, status: true, redirect: null, message: "Brukerobjekt ble nullstilt"} : {reset: false, status: false, redirect: null, message: null}
-    }
-
-    else if (formData.get("deleteOrgUnitFromAssignment")) {
+        return res.ok ? {
+            reset: false,
+            status: true,
+            redirect: null,
+            message: "Brukerobjekt ble nullstilt"
+        } : {reset: false, status: false, redirect: null, message: null}
+    } else if (formData.get("deleteOrgUnitFromAssignment")) {
         const scopeId = formData.get("scopeId") as string
         const orgUnitId = formData.get("orgUnitId") as string
         const res = await deleteOrgUnitFromAssignment(auth, scopeId, orgUnitId)
-        return res.ok ? {reset: false, status: true, redirect: null, message: "Fjernet objekt fra tildelingen"} : {reset: false, status: false, redirect: null, message: null}
+        return res.ok ? {
+            reset: false,
+            status: true,
+            redirect: null,
+            message: "Fjernet objekt fra tildelingen"
+        } : {reset: false, status: false, redirect: null, message: null}
     }
 
     return {reset: false, status: true, redirect: null, message: null}
@@ -110,21 +122,21 @@ const ResourceModuleAdminAdministerId = () => {
 
     const navigate = useNavigate()
 
-    const [selectedRole, setSelectedRole] = useState<IResourceModuleAccessRole>({ accessRoleId: "", name: "" })
+    const [selectedRole, setSelectedRole] = useState<IResourceModuleAccessRole>({accessRoleId: "", name: ""})
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false)
 
     useEffect(() => {
-        if(!actionData) {
+        if (!actionData) {
             return
         }
-        if(!actionData?.status){
+        if (!actionData?.status) {
             toast.error("En feil oppstod")
             return
         }
 
-        if(actionData?.reset) {
+        if (actionData?.reset) {
             actionData.redirect ? navigate(actionData.redirect) : null
             toast.success("Brukerobjektet ble nullstilt")
             return
@@ -137,7 +149,10 @@ const ResourceModuleAdminAdministerId = () => {
             (role) => role.accessRoleId === roleProp
         )
 
-        paramMappedToAccessRoleType === undefined ? setSelectedRole({ accessRoleId: "", name: "" }) : setSelectedRole(paramMappedToAccessRoleType)
+        paramMappedToAccessRoleType === undefined ? setSelectedRole({
+            accessRoleId: "",
+            name: ""
+        }) : setSelectedRole(paramMappedToAccessRoleType)
     }, [roleProp]);
 
     const toggleRolesResetModal = (value: boolean) => {
@@ -148,10 +163,11 @@ const ResourceModuleAdminAdministerId = () => {
         setIsDeleteModalOpen(true)
     }
 
-    if(userDetails.roles.length === 0) {
+    if (userDetails.roles.length === 0) {
         return <VStack gap={"4"}>
             <section>
-                <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={() => navigate("/resource-module-admin")}>
+                <Button icon={<ArrowLeftIcon aria-hidden/>} variant={"secondary"}
+                        onClick={() => navigate("/resource-module-admin")}>
                     Gå til dashbord
                 </Button>
             </section>
@@ -165,7 +181,11 @@ const ResourceModuleAdminAdministerId = () => {
         <>
             <VStack gap={"4"}>
                 <section>
-                    <Button icon={<ArrowLeftIcon aria-hidden />} variant={"secondary"} onClick={() => navigate("/resource-module-admin")}>
+                    <Button
+                        icon={<ArrowLeftIcon aria-hidden/>}
+                        variant={"secondary"}
+                        onClick={() => navigate("/resource-module-admin")}
+                    >
                         Gå til dashbord
                     </Button>
                 </section>
@@ -180,7 +200,7 @@ const ResourceModuleAdminAdministerId = () => {
                     <Button
                         variant={"danger"}
                         onClick={() => toggleRolesResetModal(true)}
-                        icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                        icon={<TrashIcon title="a11y-title" fontSize="1.5rem"/>}
                         iconPosition={"right"}
                     >
                         Nullstill brukerroller
@@ -195,14 +215,14 @@ const ResourceModuleAdminAdministerId = () => {
                         <div className={"table-toolbar-pagination-container"}>
                             <HStack justify={"space-between"} align={"end"}>
 
-                                <ResourceModuleRoleFilter roles={userDetails.roles} />
+                                <ResourceModuleRoleFilter roles={userDetails.roles}/>
 
                                 <div>
                                     {selectedRole.accessRoleId !== "" && (
                                         <Button
                                             variant={"danger"}
                                             onClick={toggleDeleteModal}
-                                            icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                                            icon={<TrashIcon title="a11y-title" fontSize="1.5rem"/>}
                                             iconPosition={"right"}
                                         >
                                             Slett rolleobjekt
@@ -213,9 +233,12 @@ const ResourceModuleAdminAdministerId = () => {
 
                             <AdministerToolbar objectTypesForUser={objectTypesForUser}/>
 
-                            <ChipsFilters />
+                            <ChipsFilters/>
 
-                            <RoleAssignmentTable selectedRole={selectedRole} userAssignmentsPaginated={userAssignmentsPaginated} />
+                            <RoleAssignmentTable
+                                selectedRole={selectedRole}
+                                userAssignmentsPaginated={userAssignmentsPaginated}
+                            />
                         </div>
                     )}
                 </Box>
@@ -242,25 +265,40 @@ const ResourceModuleAdminAdministerId = () => {
 
 export default ResourceModuleAdminAdministerId
 
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({params}) => (
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resource-module-admin`} className={"breadcrumb-link"}>Ressursmoduladmoinistrasjon</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resource-module-admin/administer/${params.id}`} className={"breadcrumb-link"}>Rediger
+                    brukerroller</Link>
+            </HStack>
+        </HStack>
+    )
+}
+
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
         <html lang={"no"}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta/>
-                <Links/>
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts/>
-            </body>
+        <head>
+            <title>Feil oppstod</title>
+            <Meta/>
+            <Links/>
+        </head>
+        <body>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        <Scripts/>
+        </body>
         </html>
     );
 }
