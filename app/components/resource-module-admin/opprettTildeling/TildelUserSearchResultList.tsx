@@ -20,7 +20,7 @@ const TildelUserSearchResultList = ({newAssignment, usersPage, handleSelectUser}
             }
             {usersPage.users.map((user) =>
                 <li key={user.resourceId} className={"list-item__space-between"}>
-                    <VStack marginBlock={"2"}>
+                    <VStack marginBlock={"4"}>
                         <Heading level={"2"} size={"small"}>{user.firstName + " " + user.lastName}</Heading>
                         {user.roles &&
                             <BodyShort>
