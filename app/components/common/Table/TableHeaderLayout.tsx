@@ -7,6 +7,7 @@ interface TableHeaderLayoutProps {
     title: string
     titleAlignment?: "center" | "end" | "start" | undefined
     subTitle?: string
+    tableType?: "mainMain" | "subPage"
     SearchComponent?: ReactElement
     FilterComponents?: ReactElement | ReactElement[]
     ChipsFilters?: ReactElement
@@ -20,6 +21,7 @@ export const TableHeaderLayout = (
         title,
         titleAlignment = "start",
         subTitle,
+        tableType = "mainMain",
         SearchComponent,
         FilterComponents,
         ChipsFilters,
@@ -29,8 +31,15 @@ export const TableHeaderLayout = (
     }: TableHeaderLayoutProps) => {
     return (
         <VStack>
-            <Heading level="1" size="xlarge" align={titleAlignment} spacing={!subTitle}>{title}</Heading>
-            {subTitle && <Heading level="2" size="small">{subTitle}</Heading>}
+            <Heading
+                level={tableType === "mainMain" ? "1" : "2"}
+                size="xlarge"
+                align={titleAlignment}
+                spacing={!subTitle}
+            >
+                {title}
+            </Heading>
+            {subTitle && <Heading level={tableType === "mainMain" ? "2" : "3"} size="small">{subTitle}</Heading>}
             <HStack justify={"space-between"} paddingBlock={"4"}>
                 {(CreateNewButton || LeftAlignedFilters) ? (
                     <>

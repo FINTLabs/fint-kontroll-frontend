@@ -75,6 +75,7 @@ export default function AssignedUsers() {
     return (
         <VStack gap="4">
             <TableHeaderLayout
+                tableType={"subPage"}
                 title={"Tildelinger"}
                 titleAlignment={"center"}
                 LeftAlignedFilters={<SelectObjectType/>}
