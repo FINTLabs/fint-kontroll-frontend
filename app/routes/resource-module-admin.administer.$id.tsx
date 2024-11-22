@@ -178,7 +178,7 @@ const ResourceModuleAdminAdministerId = () => {
     }
 
     return (
-        <>
+        <section className={"content"}>
             <VStack gap={"4"}>
                 <section>
                     <Button
@@ -259,7 +259,7 @@ const ResourceModuleAdminAdministerId = () => {
                     objectTypesForUser={objectTypesForUser}
                 />
             )}
-        </>
+        </section>
     )
 }
 

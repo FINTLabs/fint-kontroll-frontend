@@ -1,5 +1,5 @@
-import {Button, Table} from "@navikt/ds-react";
-import {useNavigate, useSearchParams} from "@remix-run/react";
+import {Table} from "@navikt/ds-react";
+import {useSearchParams} from "@remix-run/react";
 import React from "react";
 import {
     IResourceModuleAccessRole,
@@ -10,6 +10,7 @@ import {IUnitItem} from "~/data/types";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
@@ -18,7 +19,6 @@ interface ResourceModuleAdminUsersTableI {
 }
 
 const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
-    const navigate = useNavigate()
     const [params] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -40,10 +40,11 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                                     <Table.DataCell>{user.firstName + " " + user.lastName}</Table.DataCell>
                                     <Table.DataCell>{user.userName}</Table.DataCell>
                                     <Table.DataCell align={"center"}>
-                                        <Button variant={"secondary"}
-                                                onClick={() => navigate(`administer/${user.resourceId}`)}>
-                                            Administrer
-                                        </Button>
+                                        <TertiaryArrowButton
+                                            id={`userInfoButton-${index + user.userName}`}
+                                            url={`administer/${user.resourceId}`}
+                                            title={"Administrer"}
+                                        />
                                     </Table.DataCell>
                                 </Table.Row>)
                         })}

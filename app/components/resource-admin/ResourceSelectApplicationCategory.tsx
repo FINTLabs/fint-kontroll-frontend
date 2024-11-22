@@ -23,7 +23,6 @@ export function ResourceSelectApplicationCategory ({applicationCategories}: Reso
     return (
         <Select
             id={"select-applicationcategory"}
-            className={"select-applicationcategory"}
             label={"Filter for applikasjonskategori"}
             onChange={(e) => setAppCategory(e.target.value)}
             value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}

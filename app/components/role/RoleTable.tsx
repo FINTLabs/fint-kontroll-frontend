@@ -4,7 +4,7 @@ import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
+import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 
 interface RoleTableProps {
     rolePage: IRoleList
@@ -33,7 +33,7 @@ export const RoleTable = ({rolePage, size}: RoleTableProps) => {
                                 <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>{role.roleType}</Table.DataCell>
                                 <Table.DataCell align="right">
-                                    <SeeInfoButton id={`roleInfoButton-${role.id}`} url={`/roles/${role.id}/members`}/>
+                                    <TertiaryArrowButton id={`roleInfoButton-${role.id}`} url={`/roles/${role.id}/members`}/>
                                 </Table.DataCell>
                             </Table.Row>
                         ))}

@@ -14,6 +14,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {BASE_PATH} from "../../environment";
 import React from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -78,42 +79,22 @@ export default function ResourceAdminIndex() {
 
     return (
         <VStack className={"content"} gap="4">
-            <Heading className={"heading"} level="1" size="xlarge">Ressursadministrasjon</Heading>
-            <HStack justify={"space-between"} >
-                {source === "gui" ? (
-                    <HStack justify={"end"} align={"end"}>
-                        <Button role="link"
-                                className={"no-underline-button"}
-                                variant={"secondary"}
-                                iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                                onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
-                            Opprett ny ressurs
-                        </Button>
-                    </HStack>
-                ): <Spacer />}
-
-                <HStack justify="end" align="end">
-                    <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
-
-                    {/*<Select
-                    className={"select-applicationcategory"}
-                    label={"Filter for lisensmodell"}
-                    onChange={(e) => setAccessType(e.target.value)}
-                    value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
-                >
-                    <option value={""}>Alle</option>
-                    {accessTypes?.map((accessType) => (
-                        <option key={accessType} value={accessType}>
-                            {accessType}
-                        </option>
-                    ))}
-                </Select>*/}
-                    <Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>
-                </HStack>
-            </HStack>
-            <HStack justify="end">
-                <ChipsFilters/>
-            </HStack>
+            <TableHeaderLayout
+                title={"Ressursadministrasjon"}
+                SearchComponent={<Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>}
+                ChipsFilters={<ChipsFilters/>}
+                FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
+                CreateNewButton={source === "gui" ?
+                    <Button
+                        role="link"
+                        className={"no-underline-button"}
+                        variant={"secondary"}
+                        iconPosition="right" icon={<PlusIcon aria-hidden/>}
+                        onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                        Opprett ny ressurs
+                    </Button> : undefined
+                }
+            />
             <ResponseAlert
                 responseCode={responseCode}
                 successText={"Ressursen ble opprettet!"}

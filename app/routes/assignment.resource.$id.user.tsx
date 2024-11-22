@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
@@ -25,6 +25,7 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
@@ -106,37 +107,28 @@ export default function NewAssignment() {
 
     return (
         <div className={"content"}>
+            <TableHeaderLayout
+                title={"Ny tildeling"}
+                subTitle={resource.resourceName}
+                LeftAlignedFilters={<SelectObjectType/>}
+                FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
+                SearchComponent={<UserSearch/>}
+                ChipsFilters={<ChipsFilters userTypes={loaderData.userTypes}/>}
+            />
             <VStack gap="4">
-                <div>
-                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                    <Heading level="2" size="small">{resource.resourceName}</Heading>
-                </div>
-
-                <HStack justify="space-between">
-                    <SelectObjectType/>
-                    <section className={"filters"}>
-                        <UserTypeFilter userTypes={loaderData.userTypes}/>
-                        <UserSearch/>
-                    </section>
-                </HStack>
-
-                <HStack justify="end">
-                    <ChipsFilters userTypes={loaderData.userTypes}/>
-                </HStack>
-
                 <ResponseAlert
                     responseCode={responseCode}
                     successText={"Tildelingen var vellykket!"}
                     deleteText={"Tildelingen ble slettet!"}
                     conflictText={"Denne ressursen er allerede tildelt brukeren. Vennligst gå til brukersiden for å se tildelingen."}
                 />
-
-                <AssignUserTable isAssignedUsers={isAssignedUsers}
-                                 resourceId={id}
-                                 size={userList.size}
-                                 currentPage={userList.currentPage}
-                                 totalPages={userList.totalPages}
-                                 basePath={basePath}
+                <AssignUserTable
+                    isAssignedUsers={isAssignedUsers}
+                    resourceId={id}
+                    size={userList.size}
+                    currentPage={userList.currentPage}
+                    totalPages={userList.totalPages}
+                    basePath={basePath}
                 />
             </VStack>
         </div>

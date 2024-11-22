@@ -4,7 +4,7 @@ import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
+import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 
 interface ResourceTableProps {
     resourcePage: IResourceList
@@ -30,7 +30,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                             <Table.DataCell >{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell align="center">
-                                <SeeInfoButton
+                                <TertiaryArrowButton
                                     id={`resourceInfoButton-${resource.id}`}
                                     url={`/resources/${resource.id}/user-assignments`}
                                 />

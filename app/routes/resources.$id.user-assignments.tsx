@@ -6,7 +6,7 @@ import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import ChipsFilters from "~/components/common/ChipsFilters";
@@ -16,6 +16,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -73,19 +74,15 @@ export default function AssignedUsers() {
 
     return (
         <VStack gap="4">
-            <Heading level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
-            <section className={"toolbar"}>
-                <SelectObjectType/>
-                <section className={"filters"}>
-                    <UserTypeFilter userTypes={loaderData.userTypes}/>
-                    <UserSearch/>
-                </section>
-            </section>
-
-            <HStack justify="end">
-                <ChipsFilters userTypes={loaderData.userTypes}/>
-            </HStack>
-
+            <TableHeaderLayout
+                tableType={"subPage"}
+                title={"Tildelinger"}
+                titleAlignment={"center"}
+                LeftAlignedFilters={<SelectObjectType/>}
+                FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
+                SearchComponent={<UserSearch/>}
+                ChipsFilters={<ChipsFilters userTypes={loaderData.userTypes}/>}
+            />
             <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>
 

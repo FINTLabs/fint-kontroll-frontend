@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
@@ -16,6 +16,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -87,24 +88,14 @@ export default function NewAssignmentForRole() {
 
     return (
         <div className={"content"}>
+            <TableHeaderLayout
+                title={"Ny tildeling"}
+                subTitle={data.resource.resourceName}
+                LeftAlignedFilters={<SelectObjectType/>}
+                SearchComponent={<RoleSearch/>}
+                ChipsFilters={<ChipsFilters/>}
+            />
             <VStack gap="4">
-                <div>
-                    <Heading level="1" size="xlarge">Ny tildeling </Heading>
-                    <Heading level="2" size="small">{data.resource.resourceName}</Heading>
-                </div>
-
-                <HStack justify="space-between">
-                    <SelectObjectType/>
-                    <section className={"filters"}>
-                        <RoleSearch/>
-                        {/*<NewAssignmentRoleSearch/>*/}
-                    </section>
-                </HStack>
-
-                <HStack justify="end">
-                    <ChipsFilters/>
-                </HStack>
-
                 <ResponseAlert
                     responseCode={data.responseCode}
                     successText={"Tildelingen var vellykket!"}

@@ -7,7 +7,7 @@ interface AccessRolesRadioGroupProps {
     roles: IRole[]
 }
 
-export default function KontrollAccessRolesRadioGroup ({roles}: AccessRolesRadioGroupProps) {
+export default function KontrollAccessRolesRadioGroup({roles}: AccessRolesRadioGroupProps) {
     const params = useParams()
 
     const roleProp = params.id
