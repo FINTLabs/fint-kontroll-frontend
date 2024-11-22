@@ -1,7 +1,7 @@
 import {json, LinksFunction, MetaFunction} from "@remix-run/node";
 import navStyles from "@navikt/ds-css/dist/index.css?url";
 import "react-toastify/dist/ReactToastify.css"
-import logo from "/Logo.png";
+
 
 import {
     Links,
@@ -27,6 +27,7 @@ import {RouteHandle} from "@remix-run/react/dist/routeModules";
 import './tailwind.css';
 import './novari-theme.css';
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {NovariIKS} from "~/components/images/NovariIKS";
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -128,7 +129,7 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
         <Page
             footer={
                 <Box className={'novari-footer'} padding="8" as="footer">
-                    <img src={logo} alt={"logo"} style={{width: "8em"}}/>
+                    <NovariIKS width={"9em"} />
                 </Box>
             }
         >

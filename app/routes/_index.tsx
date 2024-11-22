@@ -11,6 +11,7 @@ import {useLoaderData} from "@remix-run/react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
+import {WelcomeImage} from "~/components/images/WelcomeImage";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     return json({
@@ -33,7 +34,7 @@ export default function Index() {
                     gap={"8"}
                     style={{backgroundColor: 'var(--beige-60)'}}
                 >
-                    <img src={illustration} alt={"illustrasjon"} style={{height: '4em', width: '4em'}}/>
+                    <WelcomeImage width={"4em"} height={"4em"} color={"#fb9582"}/>
                     <Heading level="1" size="medium">Velkommen til FINT-Kontroll!</Heading>
                 </HStack>
             </Bleed>
