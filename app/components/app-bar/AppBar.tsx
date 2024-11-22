@@ -5,6 +5,7 @@ import {IMeInfo} from "~/data/types";
 import {BodyShort, Box, Button, HGrid, Hide, HStack, LinkPanel, Popover} from "@navikt/ds-react";
 import {SETTINGS} from "~/data/constants";
 import {Link} from "@remix-run/react";
+import {Menu} from "~/components/app-bar/Menu";
 
 export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -23,9 +24,11 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                         </Link>
                     </HStack>
 
+
                     <div className="grid h-full">
                         <HStack align="center">
                             {props.me ?
+
                                 <Button
                                     className={"menu-button"}
                                     ref={buttonRef}
@@ -41,7 +44,9 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                             }
                             <Hide below="md" asChild>
                                 <MeInfo me={props.me}/>
+
                             </Hide>
+                            <Menu me={props.me}/>
                         </HStack>
                     </div>
                 </HStack>
@@ -78,6 +83,11 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                             </LinkPanel>
                         </Box>
                         <Box>
+                            <LinkPanel border={false} href={`${props.basePath}/kontroll-admin/define-role`}>
+                                <LinkPanel.Title>
+                                    Kontrolladministrasjon
+                                </LinkPanel.Title>
+                            </LinkPanel>
                             <LinkPanel border={false} href={`${props.basePath}/resource-module-admin`}>
                                 <LinkPanel.Title>
                                     Ressursmoduladministrator
@@ -88,11 +98,7 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                                     Ressursadministrator
                                 </LinkPanel.Title>
                             </LinkPanel>
-                            <LinkPanel border={false} href={`${props.basePath}/kontroll-admin/define-role`}>
-                                <LinkPanel.Title>
-                                    Kontrolladministrasjon
-                                </LinkPanel.Title>
-                            </LinkPanel>
+
                             {props.source === "gui" &&
                                 <LinkPanel border={false} href={`${props.basePath}${SETTINGS}`}>
                                     <LinkPanel.Title>

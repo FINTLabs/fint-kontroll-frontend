@@ -11,6 +11,8 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const roleProp = searchParams.get("accessroleid")
     const pageParam = searchParams.get("page")
+    const roleNameSortOrder = ["systemadministrator", "ressursadministrator", "tjenesteadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
+
 
     const handleFilterRole = (value: string) => {
         setSearchParams((prev) => {
@@ -26,19 +28,27 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
 
     return (
         <Select
-            label={"Filtrer på brukerns rolle"}
+            label={"Filtrer på brukerens rolle"}
             onChange={(e) => handleFilterRole(e.target.value)}
-            value={roleProp ? roleProp : ""}
+            value={roleProp || ""}
         >
             <option key={'unset'} value={''}>Alle</option>
-            {newRoles.map((role: any) => (
-                <option
-                    key={isAccessRole ? role.accessRoleId : role.roleId}
-                    value={isAccessRole ? role.accessRoleId : role.roleId}
-                >
-                    {isAccessRole ? role.name : role.roleName}
-                </option>
-            ))}
+            {newRoles
+                .filter(role => role && role.name)
+                .sort((a: any, b: any) => {
+                    const nameA = a.name?.toLowerCase() || "";
+                    const nameB = b.name?.toLowerCase() || "";
+                    return roleNameSortOrder.indexOf(nameA) - roleNameSortOrder.indexOf(nameB);
+                })
+                .map((role: any) => (
+                    <option
+                        key={isAccessRole ? role.accessRoleId : role.roleId}
+                        value={isAccessRole ? role.accessRoleId : role.roleId}
+                    >
+                        {isAccessRole ? role.name : role.roleName}
+                    </option>
+                ))
+            }
         </Select>
     );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from "../components/user/user.css?url"
 import {Alert, Box, Heading, HStack, LinkPanel, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
