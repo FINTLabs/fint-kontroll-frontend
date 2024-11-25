@@ -7,7 +7,6 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
 import {Alert, Box, Tabs, VStack} from "@navikt/ds-react";
-import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {fetchResourceById} from "~/data/fetch-resources";
@@ -75,7 +74,6 @@ export default function AssignedUsers() {
         <Tabs.Panel value="user-assignments">
             <VStack gap="4">
                 <TableToolbar
-                    // LeftAlignedFilters={<SelectObjectType/>}
                     SearchComponent={<UserSearch/>}
                     FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
                 />

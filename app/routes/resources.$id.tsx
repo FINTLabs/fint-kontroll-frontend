@@ -1,14 +1,15 @@
 import React, {useCallback, useState} from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Alert, Box, Button, HStack, Loader, Tabs, VStack} from "@navikt/ds-react";
+import {Alert, Box, HStack, LinkPanel, Loader, Tabs, VStack} from "@navikt/ds-react";
 import {
     Link,
     Links,
     Meta,
     Outlet,
     Scripts,
-    useLoaderData, useLocation,
-    useNavigate, useNavigation,
+    useLoaderData,
+    useLocation,
+    useNavigate,
     useParams,
     useRouteError
 } from "@remix-run/react";
@@ -20,7 +21,7 @@ import {BASE_PATH} from "../../environment";
 import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
-import {PersonGroupIcon, PersonIcon, ArrowRightIcon, PlusIcon} from "@navikt/aksel-icons";
+import {PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
 import {useLoadingState} from "~/components/common/customHooks";
 
 export function links() {
@@ -70,17 +71,14 @@ export default function ResourceById() {
     return (
         <section className={"content"}>
             <VStack gap="4">
-                {/*                <VStack gap="4">
+                <VStack gap="4">
                     <ResourceInfoBox resource={resource} userTypes={userTypes}/>
                     <Box className={"filters"} paddingBlock={"8"}>
                         <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/user`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
                     </Box>
-                </VStack>*/}
-                <Box marginBlock={"0 4"}>
-                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
-                </Box>
+                </VStack>
 
                 <TableHeader
                     isSubHeader={true}
@@ -99,18 +97,6 @@ export default function ResourceById() {
                             label="Roller"
                             icon={<PersonGroupIcon fontSize="1.2rem"/>}
                         />
-                        <Box paddingBlock={"0 2"} marginInline={"auto 0"}>
-                            <Button
-                                variant={"secondary"}
-                                icon={<PlusIcon/>}
-                                iconPosition={"right"}
-                                onClick={() => navigate(`/assignment/resource/${resource.id}/user`)}
-
-                            >
-                                Ny tildeling
-                            </Button>
-                        </Box>
-
                     </Tabs.List>
 
                     {loading && !fetching &&
@@ -119,7 +105,6 @@ export default function ResourceById() {
                         </HStack>
                     }
                     <Outlet context={{resource}}/>
-
                 </Tabs>
             </VStack>
         </section>
