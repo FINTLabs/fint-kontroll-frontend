@@ -2,7 +2,7 @@ import React, {Fragment, ReactElement} from "react";
 import {IUnitItem} from "~/data/types";
 import {Box, HStack, Spacer, VStack} from "@navikt/ds-react";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
-import ChipsFiltersNew from "~/components/common/ChipsFiltersNew";
+import ChipsFilters from "~/components/common/ChipsFilters";
 
 interface TableToolbarProps {
     SearchComponent?: ReactElement
@@ -56,7 +56,7 @@ export const TableToolbar = (
 
             {showChipFilters &&
                 <Box className={"filters"} paddingBlock={"0 4"}>
-                    <ChipsFiltersNew/>
+                    <ChipsFilters/>
                 </Box>
             }
         </VStack>
