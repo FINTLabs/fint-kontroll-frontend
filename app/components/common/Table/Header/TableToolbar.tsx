@@ -55,9 +55,7 @@ export const TableToolbar = (
             </HStack>
 
             {showChipFilters &&
-                <Box className={"filters"} paddingBlock={"0 4"}>
-                    <ChipsFilters/>
-                </Box>
+                <ChipsFilters/>
             }
         </VStack>
     )

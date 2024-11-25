@@ -1,4 +1,4 @@
-import {Chips} from "@navikt/ds-react";
+import {Box, Chips} from "@navikt/ds-react";
 import {useLoaderData, useSearchParams} from "@remix-run/react";
 import {useCallback, useEffect, useState} from "react";
 import {filterResetPageParam, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
@@ -72,17 +72,19 @@ const ChipsFilters = () => {
     }, [userTypes])
 
     return (
-        <Chips>
-            {Object.entries(filters)
-                .filter(([, value]) => value !== null)
-                .map(([key, value]) =>
-                    value ? (
-                        <Chips.Removable key={key} onClick={() => removeFilter(key)} id={`${key}-chip`}>
-                            {filterToLabel(key, value)}
-                        </Chips.Removable>
-                    ) : null
-                )}
-        </Chips>
+        <Box className={"filters"} paddingBlock={"0 4"}>
+            <Chips>
+                {Object.entries(filters)
+                    .filter(([, value]) => value !== null)
+                    .map(([key, value]) =>
+                        value ? (
+                            <Chips.Removable key={key} onClick={() => removeFilter(key)} id={`${key}-chip`}>
+                                {filterToLabel(key, value)}
+                            </Chips.Removable>
+                        ) : null
+                    )}
+            </Chips>
+        </Box>
     );
 };
 
