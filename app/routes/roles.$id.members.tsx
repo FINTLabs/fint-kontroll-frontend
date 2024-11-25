@@ -11,7 +11,7 @@ import ChipsFilters from "~/components/common/ChipsFilters";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {IKodeverkUserType} from "~/data/types";
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({params, request, context}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const search = url.searchParams.get("search") ?? "";
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
@@ -27,7 +27,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     return json({
         members,
         size,
-        userTypes
+        userTypes,
+        context
     })
 }
 
@@ -37,8 +38,7 @@ export const handle = {
 }
 
 export default function Members() {
-    const loaderData = useLoaderData<typeof loader>();
-    const members = loaderData.members
+    const {members} = useLoaderData<typeof loader>();
 
     return (
         <section>
