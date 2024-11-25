@@ -21,7 +21,6 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
@@ -113,7 +112,6 @@ export default function NewAssignment() {
                 LeftAlignedFilters={<SelectObjectType/>}
                 FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
                 SearchComponent={<UserSearch/>}
-                ChipsFilters={<ChipsFilters userTypes={loaderData.userTypes}/>}
             />
             <VStack gap="4">
                 <ResponseAlert

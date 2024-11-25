@@ -9,7 +9,6 @@ import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
 import {Alert, Box, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
@@ -81,7 +80,6 @@ export default function AssignedUsers() {
                 LeftAlignedFilters={<SelectObjectType/>}
                 FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
                 SearchComponent={<UserSearch/>}
-                ChipsFilters={<ChipsFilters userTypes={loaderData.userTypes}/>}
             />
             <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>

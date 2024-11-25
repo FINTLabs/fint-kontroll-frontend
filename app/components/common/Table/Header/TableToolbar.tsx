@@ -2,11 +2,12 @@ import React, {Fragment, ReactElement} from "react";
 import {IUnitItem} from "~/data/types";
 import {Box, HStack, Spacer, VStack} from "@navikt/ds-react";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
+import ChipsFiltersNew from "~/components/common/ChipsFiltersNew";
 
 interface TableToolbarProps {
     SearchComponent?: ReactElement
     FilterComponents?: ReactElement | ReactElement[]
-    ChipsFilters?: ReactElement
+    showChipFilters?: boolean
     orgUnitsForFilter?: IUnitItem[]
     CreateNewButton?: ReactElement
     LeftAlignedFilters?: ReactElement // TODO: remove this when tabs are implemented
@@ -16,7 +17,7 @@ export const TableToolbar = (
     {
         SearchComponent,
         FilterComponents,
-        ChipsFilters,
+        showChipFilters = true,
         orgUnitsForFilter,
         CreateNewButton,
         LeftAlignedFilters
@@ -53,9 +54,9 @@ export const TableToolbar = (
                 </HStack>
             </HStack>
 
-            {ChipsFilters &&
-                <Box className={"filters"}>
-                    {ChipsFilters}
+            {showChipFilters &&
+                <Box className={"filters"} paddingBlock={"0 4"}>
+                    <ChipsFiltersNew/>
                 </Box>
             }
         </VStack>

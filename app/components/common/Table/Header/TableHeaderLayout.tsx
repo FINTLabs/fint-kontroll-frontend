@@ -11,7 +11,7 @@ interface TableHeaderLayoutProps {
     tableType?: "mainMain" | "subPage"
     SearchComponent?: ReactElement
     FilterComponents?: ReactElement | ReactElement[]
-    ChipsFilters?: ReactElement
+    showChipFilters?: boolean
     orgUnitsForFilter?: IUnitItem[]
     CreateNewButton?: ReactElement
     LeftAlignedFilters?: ReactElement // TODO: remove this when tabs are implemented
@@ -25,7 +25,7 @@ export const TableHeaderLayout = (
         tableType = "mainMain",
         SearchComponent,
         FilterComponents,
-        ChipsFilters,
+        showChipFilters,
         orgUnitsForFilter,
         CreateNewButton,
         LeftAlignedFilters
@@ -41,7 +41,7 @@ export const TableHeaderLayout = (
             <TableToolbar
                 SearchComponent={SearchComponent}
                 FilterComponents={FilterComponents}
-                ChipsFilters={ChipsFilters}
+                showChipFilters={showChipFilters}
                 orgUnitsForFilter={orgUnitsForFilter}
                 CreateNewButton={CreateNewButton}
                 LeftAlignedFilters={LeftAlignedFilters}

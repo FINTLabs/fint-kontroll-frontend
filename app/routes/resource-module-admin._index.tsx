@@ -17,7 +17,6 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
 import ResourceModuleRoleFilter from "~/components/resource-module-admin/ResourceModuleRoleFilter";
-import ChipsFilters from "~/components/common/ChipsFilters";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -62,7 +61,6 @@ export default function ResourceModuleAdminIndex() {
                 orgUnitsForFilter={orgUnitList}
                 FilterComponents={<ResourceModuleRoleFilter roles={roles}/>}
                 SearchComponent={<ResourceModuleSearch/>}
-                ChipsFilters={<ChipsFilters/>}
                 CreateNewButton={
                     <Button
                         role="link"

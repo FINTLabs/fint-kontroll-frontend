@@ -1,12 +1,8 @@
 import {Chips} from "@navikt/ds-react";
-import {useSearchParams} from "@remix-run/react";
-import {useEffect, useState} from "react";
+import {useLoaderData, useSearchParams} from "@remix-run/react";
+import {useCallback, useEffect, useState} from "react";
 import {filterResetPageParam, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 import {IKodeverkUserType} from "~/data/types";
-
-interface ChipsFiltersProps {
-    userTypes?: IKodeverkUserType[];
-}
 
 type Filters = {
     orgUnits: string | null;
@@ -15,11 +11,14 @@ type Filters = {
     userType: string | null;
     search: string | null;
     status: string | null;
-    applicationCategory: string | null;
+    applicationcategory: string | null;
     orgUnitName: string | null;
 }
 
-const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
+const ChipsFiltersNew = () => {
+    const loaderData = useLoaderData<{ userTypes?: IKodeverkUserType[] }>();
+    const userTypes = loaderData?.userTypes ?? undefined;
+
     const [searchParams, setSearchParams] = useSearchParams();
     const [filters, setFilters] = useState<Filters>({
         orgUnits: null,
@@ -28,7 +27,7 @@ const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
         userType: null,
         search: null,
         status: null,
-        applicationCategory: null,
+        applicationcategory: null,
         orgUnitName: null,
     });
 
@@ -42,22 +41,35 @@ const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
             userType: searchParams.get("userType"),
             search: searchParams.get("search"),
             status: searchParams.get("status"),
-            applicationCategory: searchParams.get("applicationcategory"),
+            applicationcategory: searchParams.get("applicationcategory"),
             orgUnitName: searchParams.get("orgUnitName"),
         };
         setFilters(newFilters);
     }, [searchParams]);
 
-    const removeFilter = (filterToRemove: string) => {
+    const removeFilter = useCallback((filterToRemove: string) => {
         setSearchParams((params) => {
             params.delete(filterToRemove);
             return params;
         });
         filterResetPageParam(pageParam, setSearchParams);
         setFilters((prev) => ({...prev, [filterToRemove]: undefined}));
-    };
+    }, [pageParam, setSearchParams]);
 
-    console.log(filters);
+    const filterToLabel = useCallback((filter: string, value: string) => {
+        switch (filter) {
+            case "userType":
+                return translateUserTypeToLabel(value, userTypes);
+            case "orgUnits":
+                return "Fjern orgenhetsfiltre";
+            case "applicationcategory":
+                return `Applikasjonskategori: ${value}`;
+            case "orgUnitName":
+                return `Søkenavn: ${value}`;
+            default:
+                return value;
+        }
+    }, [userTypes])
 
     return (
         <Chips>
@@ -66,7 +78,7 @@ const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
                 .map(([key, value]) =>
                     value ? (
                         <Chips.Removable key={key} onClick={() => removeFilter(key)} id={`${key}-chip`}>
-                            {key === "userType" ? translateUserTypeToLabel(value, userTypes) : value}
+                            {filterToLabel(key, value)}
                         </Chips.Removable>
                     ) : null
                 )}
@@ -74,4 +86,4 @@ const ChipsFilters = ({userTypes}: ChipsFiltersProps) => {
     );
 };
 
-export default ChipsFilters;
+export default ChipsFiltersNew;
