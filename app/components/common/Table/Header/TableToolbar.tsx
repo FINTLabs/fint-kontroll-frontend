@@ -1,13 +1,9 @@
-import {Box, Heading, HStack, Spacer, VStack} from "@navikt/ds-react";
 import React, {Fragment, ReactElement} from "react";
 import {IUnitItem} from "~/data/types";
+import {Box, HStack, Spacer, VStack} from "@navikt/ds-react";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 
-interface TableHeaderLayoutProps {
-    title: string
-    titleAlignment?: "center" | "end" | "start" | undefined
-    subTitle?: string
-    tableType?: "mainMain" | "subPage"
+interface TableToolbarProps {
     SearchComponent?: ReactElement
     FilterComponents?: ReactElement | ReactElement[]
     ChipsFilters?: ReactElement
@@ -16,30 +12,17 @@ interface TableHeaderLayoutProps {
     LeftAlignedFilters?: ReactElement // TODO: remove this when tabs are implemented
 }
 
-export const TableHeaderLayout = (
+export const TableToolbar = (
     {
-        title,
-        titleAlignment = "start",
-        subTitle,
-        tableType = "mainMain",
         SearchComponent,
         FilterComponents,
         ChipsFilters,
         orgUnitsForFilter,
         CreateNewButton,
         LeftAlignedFilters
-    }: TableHeaderLayoutProps) => {
+    }: TableToolbarProps) => {
     return (
         <VStack>
-            <Heading
-                level={tableType === "mainMain" ? "1" : "2"}
-                size="xlarge"
-                align={titleAlignment}
-                spacing={!subTitle}
-            >
-                {title}
-            </Heading>
-            {subTitle && <Heading level={tableType === "mainMain" ? "2" : "3"} size="small">{subTitle}</Heading>}
             <HStack justify={"space-between"} paddingBlock={"4"}>
                 {(CreateNewButton || LeftAlignedFilters) ? (
                     <>
@@ -70,9 +53,12 @@ export const TableHeaderLayout = (
                 </HStack>
             </HStack>
 
-            <Box className={"filters"} paddingBlock={"1 8"}>
-                {ChipsFilters}
-            </Box>
+            {ChipsFilters &&
+                <Box className={"filters"} paddingBlock={"1 8"}>
+                    {ChipsFilters}
+                </Box>
+            }
         </VStack>
     )
+
 }
