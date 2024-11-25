@@ -14,7 +14,7 @@ interface TableHeaderLayoutProps {
     showChipFilters?: boolean
     orgUnitsForFilter?: IUnitItem[]
     CreateNewButton?: ReactElement
-    LeftAlignedFilters?: ReactElement // TODO: remove this when tabs are implemented
+    LeftAlignedFilters?: ReactElement
 }
 
 export const TableHeaderLayout = (
