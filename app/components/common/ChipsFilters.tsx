@@ -6,7 +6,7 @@ import {IKodeverkUserType} from "~/data/types";
 
 type Filters = {
     orgUnits: string | null;
-    accessRoleId: string | null;
+    accessroleid: string | null;
     name: string | null;
     userType: string | null;
     search: string | null;
@@ -22,7 +22,7 @@ const ChipsFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [filters, setFilters] = useState<Filters>({
         orgUnits: null,
-        accessRoleId: null,
+        accessroleid: null,
         name: null,
         userType: null,
         search: null,
@@ -36,7 +36,7 @@ const ChipsFilters = () => {
     useEffect(() => {
         const newFilters: Filters = {
             orgUnits: searchParams.get("orgUnits"),
-            accessRoleId: searchParams.get("accessroleid"),
+            accessroleid: searchParams.get("accessroleid"),
             name: searchParams.get("name"),
             userType: searchParams.get("userType"),
             search: searchParams.get("search"),
