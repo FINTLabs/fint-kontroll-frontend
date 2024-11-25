@@ -54,7 +54,7 @@ export const TableToolbar = (
             </HStack>
 
             {ChipsFilters &&
-                <Box className={"filters"} paddingBlock={"1 8"}>
+                <Box className={"filters"}>
                     {ChipsFilters}
                 </Box>
             }
