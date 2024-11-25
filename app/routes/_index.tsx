@@ -33,8 +33,8 @@ export default function Index() {
                     gap={"8"}
                     style={{backgroundColor: 'var(--beige-60)'}}
                 >
-                    <img src={illustration} alt={"illustrasjon"} style={{height: '4em', width: '4em'}}/>
-                    <Heading level="1" size="medium">Velkommen til FINT-Kontroll!</Heading>
+                    <Heading level="1" size="medium" style={{color: "var(--red-primary)"}}>Velkommen til
+                        FINT-Kontroll!</Heading>
                 </HStack>
             </Bleed>
             <VStack gap="12">
