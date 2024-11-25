@@ -13,7 +13,7 @@ import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 interface AssignUserTableProps {
     isAssignedUsers: IUserItem[]
     size: string
-    resourceId: string
+    resourceId: string | undefined
     totalPages: number
     currentPage: number
     basePath?: string

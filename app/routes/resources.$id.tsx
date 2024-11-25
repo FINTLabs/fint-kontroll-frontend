@@ -61,7 +61,7 @@ export default function ResourceById() {
     const params = useParams();
     const {loading, fetching} = useLoadingState()
 
-    const [state, setState] = useState(location.pathname.endsWith("user-assignments") ? "user-assignments" : "role-assignments");
+    const [state, setState] = useState(location.pathname.includes("/user-assignments") ? "user-assignments" : "role-assignments");
 
     const handleChangeTab = useCallback((value: string) => {
         navigate(`/resources/${params.id}/${value}`)

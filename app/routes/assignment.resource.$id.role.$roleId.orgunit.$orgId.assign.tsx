@@ -10,7 +10,7 @@ import {
     useRouteError,
     useSearchParams
 } from "@remix-run/react";
-import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal, VStack} from "@navikt/ds-react";
+import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Modal, VStack} from "@navikt/ds-react";
 import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -56,12 +56,6 @@ export default function NewAssignment1() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
-
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
-    }
 
     function SaveButton() {
         if (response.state === "submitting") {
