@@ -25,8 +25,6 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
     return (
         <div>
             <VStack gap="8">
-                <Heading className={"heading"} size={"large"} level={"3"}>Brukere</Heading>
-
                 <Outlet/>
 
                 <Table id="assigned-users-table">

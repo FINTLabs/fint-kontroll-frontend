@@ -6,7 +6,7 @@ import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
-import {Alert, Box, VStack} from "@navikt/ds-react";
+import {Alert, Box, Tabs, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
@@ -15,7 +15,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
+import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -72,20 +72,19 @@ export default function AssignedUsers() {
     const responseCode: string | undefined = loaderData.responseCode
 
     return (
-        <VStack gap="4">
-            <TableHeaderLayout
-                title={"Tildelinger"}
-                titleAlignment={"center"}
-                LeftAlignedFilters={<SelectObjectType/>}
-                FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
-                SearchComponent={<UserSearch/>}
-                isSubHeader={true}
-            />
-            <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
-                           deleteText={"Tildelingen ble slettet!"}/>
+        <Tabs.Panel value="user-assignments">
+            <VStack gap="4">
+                <TableToolbar
+                    // LeftAlignedFilters={<SelectObjectType/>}
+                    SearchComponent={<UserSearch/>}
+                    FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
+                />
+                <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
 
-            <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath}/>
-        </VStack>
+                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} basePath={basePath}/>
+            </VStack>
+        </Tabs.Panel>
     );
 }
 

@@ -22,8 +22,6 @@ export const AssignedRolesTable: any = (props: {
     return (
         <div>
             <VStack gap="8">
-                <Heading className={"heading"} size={"large"} level={"3"}>Grupper</Heading>
-
                 <Outlet/>
 
                 <Table>
