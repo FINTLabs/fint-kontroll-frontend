@@ -74,12 +74,12 @@ export default function AssignedUsers() {
     return (
         <VStack gap="4">
             <TableHeaderLayout
-                tableType={"subPage"}
                 title={"Tildelinger"}
                 titleAlignment={"center"}
                 LeftAlignedFilters={<SelectObjectType/>}
                 FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
                 SearchComponent={<UserSearch/>}
+                isSubHeader={true}
             />
             <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>

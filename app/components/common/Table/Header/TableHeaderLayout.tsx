@@ -8,7 +8,7 @@ interface TableHeaderLayoutProps {
     title: string
     titleAlignment?: "center" | "end" | "start" | undefined
     subTitle?: string
-    tableType?: "mainMain" | "subPage"
+    isSubHeader?: boolean
     SearchComponent?: ReactElement
     FilterComponents?: ReactElement | ReactElement[]
     showChipFilters?: boolean
@@ -22,7 +22,7 @@ export const TableHeaderLayout = (
         title,
         titleAlignment = "start",
         subTitle,
-        tableType = "mainMain",
+        isSubHeader,
         SearchComponent,
         FilterComponents,
         showChipFilters,
@@ -36,7 +36,7 @@ export const TableHeaderLayout = (
                 title={title}
                 titleAlignment={titleAlignment}
                 subTitle={subTitle}
-                isSubHeader={tableType === "subPage"}
+                isSubHeader={isSubHeader}
             />
             <TableToolbar
                 SearchComponent={SearchComponent}

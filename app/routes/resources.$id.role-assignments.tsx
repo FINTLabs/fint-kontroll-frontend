@@ -61,11 +61,11 @@ export default function AssignedRoles() {
     return (
         <VStack gap="4">
             <TableHeaderLayout
-                tableType={"subPage"}
                 title={"Tildelinger"}
                 titleAlignment={"center"}
                 LeftAlignedFilters={<SelectObjectType/>}
                 SearchComponent={<RoleSearch/>}
+                isSubHeader={true}
             />
             <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>
