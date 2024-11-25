@@ -7,10 +7,9 @@ import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fe
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -74,7 +73,6 @@ export default function Resource() {
                 title={"Ressurser"}
                 orgUnitsForFilter={orgUnitList}
                 SearchComponent={<ResourceSearch/>}
-                ChipsFilters={<ChipsFilters/>}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
             />
             <ResourceTable resourcePage={resourceList} size={size}/>

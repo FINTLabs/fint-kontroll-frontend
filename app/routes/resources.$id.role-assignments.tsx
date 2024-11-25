@@ -12,10 +12,9 @@ import {BASE_PATH} from "../../environment";
 import React from "react";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {RoleSearch} from "~/components/role/RoleSearch";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -62,12 +61,11 @@ export default function AssignedRoles() {
     return (
         <VStack gap="4">
             <TableHeaderLayout
-                tableType={"subPage"}
                 title={"Tildelinger"}
                 titleAlignment={"center"}
                 LeftAlignedFilters={<SelectObjectType/>}
                 SearchComponent={<RoleSearch/>}
-                ChipsFilters={<ChipsFilters/>}
+                isSubHeader={true}
             />
             <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>

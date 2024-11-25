@@ -9,14 +9,13 @@ import {AssignedUsersTable} from "~/components/assignment/AssignedUsersTable";
 import {Alert, Box, VStack} from "@navikt/ds-react";
 import {SelectObjectType} from "~/components/resource/SelectObjectType";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {BASE_PATH} from "../../environment";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -75,13 +74,12 @@ export default function AssignedUsers() {
     return (
         <VStack gap="4">
             <TableHeaderLayout
-                tableType={"subPage"}
                 title={"Tildelinger"}
                 titleAlignment={"center"}
                 LeftAlignedFilters={<SelectObjectType/>}
                 FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
                 SearchComponent={<UserSearch/>}
-                ChipsFilters={<ChipsFilters userTypes={loaderData.userTypes}/>}
+                isSubHeader={true}
             />
             <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                            deleteText={"Tildelingen ble slettet!"}/>

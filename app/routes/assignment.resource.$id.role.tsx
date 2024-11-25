@@ -13,10 +13,9 @@ import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -93,7 +92,6 @@ export default function NewAssignmentForRole() {
                 subTitle={data.resource.resourceName}
                 LeftAlignedFilters={<SelectObjectType/>}
                 SearchComponent={<RoleSearch/>}
-                ChipsFilters={<ChipsFilters/>}
             />
             <VStack gap="4">
                 <ResponseAlert

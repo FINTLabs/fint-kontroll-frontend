@@ -9,10 +9,9 @@ import {IKodeverkUserType, IUnitItem, IUnitTree, IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -54,7 +53,6 @@ export default function UsersIndex() {
                 orgUnitsForFilter={data.orgUnitList}
                 SearchComponent={<UserSearch/>}
                 FilterComponents={<UserTypeFilter userTypes={data.userTypes}/>}
-                ChipsFilters={<ChipsFilters userTypes={data.userTypes}/>}
             />
             <UserTable/>
         </div>

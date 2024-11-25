@@ -18,13 +18,12 @@ import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -130,7 +129,6 @@ export default function NewAssignmentForUser() {
                     <ResourceSelectApplicationCategory applicationCategories={data.applicationCategories}/>
                 }
                 SearchComponent={<ResourceSearch/>}
-                ChipsFilters={<ChipsFilters/>}
             />
             <VStack gap="4">
                 <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}

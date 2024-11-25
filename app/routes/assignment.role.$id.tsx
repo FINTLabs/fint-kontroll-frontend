@@ -18,13 +18,12 @@ import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import logger from "~/logging/logger";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -107,7 +106,6 @@ export default function NewAssignmentForRole() {
                 subTitle={role.roleName}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
                 SearchComponent={<ResourceSearch/>}
-                ChipsFilters={<ChipsFilters/>}
             />
             <VStack gap="4">
                 <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}

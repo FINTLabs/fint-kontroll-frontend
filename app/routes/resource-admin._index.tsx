@@ -1,4 +1,4 @@
-import {Alert, Box, Button, Heading, HStack, Spacer, VStack} from "@navikt/ds-react";
+import {Alert, Box, Button, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
@@ -6,7 +6,6 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
 import {Search} from "~/components/common/Search";
 import {ResourceAdminTable} from "~/components/resource-admin/ResourceAdminTable";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
@@ -14,7 +13,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {BASE_PATH} from "../../environment";
 import React from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -82,7 +81,6 @@ export default function ResourceAdminIndex() {
             <TableHeaderLayout
                 title={"Ressursadministrasjon"}
                 SearchComponent={<Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>}
-                ChipsFilters={<ChipsFilters/>}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
                 CreateNewButton={source === "gui" ?
                     <Button

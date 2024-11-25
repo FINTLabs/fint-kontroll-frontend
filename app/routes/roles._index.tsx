@@ -8,9 +8,8 @@ import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {fetchOrgUnits} from "~/data/fetch-resources";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -48,7 +47,6 @@ export default function Roles_index() {
                 title={"Grupper"}
                 orgUnitsForFilter={orgUnitList}
                 SearchComponent={<RoleSearch/>}
-                ChipsFilters={<ChipsFilters/>}
             />
             <RoleTable rolePage={roleList} size={size}/>
         </div>
