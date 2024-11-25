@@ -13,7 +13,7 @@ export const MemberTable = () => {
     const {members: {members, currentPage, totalPages}, size, userTypes} = useLoaderData<typeof loader>();
     const {fetching} = useLoadingState()
 
-    const context = useOutletContext<IRole>()
+    const role = useOutletContext<IRole>()
 
     return (
         <>
@@ -33,7 +33,7 @@ export const MemberTable = () => {
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`memberInfoButton-${member.id}`}
-                                    url={`/users/${member.id}/orgunit/${context.organisationUnitId}`}
+                                    url={`/users/${member.id}/orgunit/${role.organisationUnitId}`}
                                 />
                             </Table.DataCell>
                         </Table.Row>
