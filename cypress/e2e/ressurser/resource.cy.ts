@@ -37,15 +37,15 @@ describe('Check the resource details page', () => {
 
     it('Check select usertype (options, clickable), and remove filter', () => {
         cy.get('#user-type-select').should('exist')
-        cy.get('#user-type-chip').should('not.exist')
+        cy.get('#userType-chip').should('not.exist')
 
         cy.get('#user-type-select').select('STUDENT');
-        cy.get('#user-type-chip').contains('Elev')
+        cy.get('#userType-chip').contains('Elev')
 
         cy.get('#user-type-select').select('EMPLOYEESTAFF');
-        cy.get('#user-type-chip').contains('Ansatt')
+        cy.get('#userType-chip').contains('Ansatt')
 
-        cy.get('#user-type-chip').contains('Ansatt').click()
+        cy.get('#userType-chip').contains('Ansatt').click()
     })
 
     it('Check user table (exists, has 10 rows)', () => {

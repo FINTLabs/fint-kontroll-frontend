@@ -68,8 +68,8 @@ describe('Check the user page', () => {
 
     it('Check select usertype (options, clickable)', () => {
         cy.get('#user-type-select').should('exist')
-        cy.get('#user-type-chip').should('not.exist')
+        cy.get('#userType-chip').should('not.exist')
         cy.get('#user-type-select').select("Elev");
-        cy.get('#user-type-chip').should('have.text', 'Elev')
+        cy.get('#userType-chip').should('have.text', 'Elev')
     })
 })
