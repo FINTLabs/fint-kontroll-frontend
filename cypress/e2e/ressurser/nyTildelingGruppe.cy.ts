@@ -8,7 +8,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
     })
 
     it('Go to groups and assign resource', () => {
-        cy.get("a.objectTypeLink").contains("Grupper").should('exist').click()
+        cy.get("Button").contains("Grupper").should('exist').click()
         cy.wait(1000)
         cy.get("h3").should('have.text', "Grupper")
 
@@ -23,7 +23,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
     it("Remove resource from group", () => {
         cy.goToSpecificResource();
         cy.wait(1000);
-        cy.get("a.objectTypeLink").contains("Grupper").should('exist').click()
+        cy.get("Button").contains("Roller").should('exist').click()
         cy.wait(1000)
         cy.get("table tr")
             .should("exist")
