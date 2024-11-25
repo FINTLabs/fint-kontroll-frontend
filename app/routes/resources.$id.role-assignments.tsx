@@ -15,7 +15,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {RoleSearch} from "~/components/role/RoleSearch";
-import {TableHeaderLayout} from "~/components/common/Table/TableHeaderLayout";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
