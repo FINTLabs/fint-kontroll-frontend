@@ -23,15 +23,10 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
 
-    console.log("=============loader==============")
-
     const [user, assignments] = await Promise.all([
         fetchUserById(request, params.userId),
         fetchAssignmentsForUser(request, params.userId, size, page)
     ]);
-
-    console.log("user", user)
-    console.log("assignments", assignments)
 
     return json({
         user: await user.json(),
@@ -44,36 +39,33 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export const handle = {
-    breadcrumb: ({params}: any) => {
-        return params.roleId ?
-            (
-                <HStack align={"start"}>
-                    <HStack justify={"center"} align={"center"}>
-                        <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
-                        <ArrowRightIcon fontSize="1.5rem"/>
-                        <Link to={`/roles/${params.roleId}/members`} className={"breadcrumb-link"}>Medlemmer</Link>
+    breadcrumb: ({params}: any) => (
+        <HStack align="start">
+            <HStack justify="center" align="center">
+                <Link to={params.roleId ? "/roles" : "/users"} className="breadcrumb-link">
+                    {params.roleId ? "Grupper" : "Brukere"}
+                </Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link
+                    to={params.roleId ? `/roles/${params.roleId}/members` : `/users/${params.userId}/orgunit/${params.orgId}`}
+                    className="breadcrumb-link"
+                >
+                    {params.roleId ? "Medlemmer" : "Brukerinfo"}
+                </Link>
+                {params.roleId && (
+                    <>
                         <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                        <Link to={`/roles/${params.userId}/members/${params.userId}/orgunit/${params.orgId}`}
-                              className={"breadcrumb-link"}>Brukerinfo</Link>
-                    </HStack>
-                </HStack>
-            ) : (
-                <HStack align={"start"}>
-                    <HStack justify={"center"} align={"center"}>
-                        <Link to={`/users`} className={"breadcrumb-link"}>Brukere</Link>
-                        <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                        <Link to={`/users/${params.userId}/orgunit/${params.orgId}`}
-                              className={"breadcrumb-link"}>Brukerinfo</Link>
-                    </HStack>
-                </HStack>
-            )
-    }
-}
-
-type PossibleParams = {
-    roleId?: string
-    userId: string
-    orgId: string
+                        <Link
+                            to={`/roles/${params.userId}/members/${params.userId}/orgunit/${params.orgId}`}
+                            className="breadcrumb-link"
+                        >
+                            Brukerinfo
+                        </Link>
+                    </>
+                )}
+            </HStack>
+        </HStack>
+    )
 }
 
 export default function UserInformation() {
@@ -83,9 +75,12 @@ export default function UserInformation() {
     const size = data.size
     const basePath: string = data.basePath
     const responseCode: string | undefined = data.responseCode
-    const params = useParams<PossibleParams>()
+    const params = useParams<{
+        roleId?: string
+        userId: string
+        orgId: string
+    }>()
 
-    console.log("params", params)
     return (
         <section className={"content"}>
             <VStack gap="8">

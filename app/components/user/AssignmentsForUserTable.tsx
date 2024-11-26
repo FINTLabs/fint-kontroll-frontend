@@ -14,18 +14,14 @@ interface AssignmentsForUserTableProps {
     basePath?: string
 }
 
-
-type PossibleParams = {
-    roleId?: string
-    userId: string
-    orgId: string
-}
-
-
 export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: AssignmentsForUserTableProps) => {
 
     const [searchParams] = useSearchParams()
-    const params = useParams<PossibleParams>()
+    const params = useParams<{
+        roleId?: string
+        userId: string
+        orgId: string
+    }>()
     const {fetching} = useLoadingState()
 
     return (
@@ -73,7 +69,11 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                 </Table.Body>
             </Table>
 
-            <TablePagination currentPage={assignmentsForUser.currentPage} totalPages={assignmentsForUser.totalPages} size={size}/>
+            <TablePagination
+                currentPage={assignmentsForUser.currentPage}
+                totalPages={assignmentsForUser.totalPages}
+                size={size}
+            />
         </>
     );
 };
