@@ -74,7 +74,7 @@ export default function ResourceById() {
                 <VStack gap="4">
                     <ResourceInfoBox resource={resource} userTypes={userTypes}/>
                     <Box className={"filters"} paddingBlock={"8"}>
-                        <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/user`} border>
+                        <LinkPanel href={`${basePath}/assignment/resource/${resource.id}/${state === "user-assignments" ? "user" : "role"}`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
                     </Box>
