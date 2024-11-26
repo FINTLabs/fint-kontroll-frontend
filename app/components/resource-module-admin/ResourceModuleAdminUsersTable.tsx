@@ -1,5 +1,4 @@
 import {Table} from "@navikt/ds-react";
-import {useSearchParams} from "@remix-run/react";
 import React from "react";
 import {
     IResourceModuleAccessRole,
@@ -16,10 +15,10 @@ interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
     orgUnitList: IUnitItem[]
     roles: IResourceModuleAccessRole[]
+    size: number
 }
 
-const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTableI) => {
-    const [params] = useSearchParams()
+const ResourceModuleAdminUsersTable = ({usersPage, size}: ResourceModuleAdminUsersTableI) => {
     const {fetching} = useLoadingState()
 
     return (
@@ -54,7 +53,7 @@ const ResourceModuleAdminUsersTable = ({usersPage}: ResourceModuleAdminUsersTabl
                 <TablePagination
                     currentPage={usersPage.currentPage}
                     totalPages={usersPage.totalPages}
-                    size={params.get("size") ?? 25}
+                    size={size}
                 />
             }
         </div>
