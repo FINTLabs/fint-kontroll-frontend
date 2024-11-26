@@ -2,7 +2,7 @@ import {IUnitItem} from "~/data/types";
 
 export interface IResourceModuleUsersPage {
     totalItems: number;
-    totalPages: number | any;
+    totalPages: number;
     currentPage: number;
     size: string;
     users: IResourceModuleUser[];
