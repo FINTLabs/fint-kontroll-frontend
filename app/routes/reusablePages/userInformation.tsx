@@ -109,7 +109,7 @@ export default function UserInformation() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    console.error("ERROR", error);
+    // console.error(error);
     return (
         <html lang={"no"}>
         <head>
