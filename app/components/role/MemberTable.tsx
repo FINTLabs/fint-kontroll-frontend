@@ -33,7 +33,7 @@ export const MemberTable = () => {
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`memberInfoButton-${member.id}`}
-                                    url={`/users/${member.id}/orgunit/${role.organisationUnitId}`}
+                                    url={`../members/${member.id}/orgunit/${role.organisationUnitId}`}
                                 />
                             </Table.DataCell>
                         </Table.Row>

@@ -14,10 +14,18 @@ interface AssignmentsForUserTableProps {
     basePath?: string
 }
 
+
+type PossibleParams = {
+    roleId?: string
+    userId: string
+    orgId: string
+}
+
+
 export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: AssignmentsForUserTableProps) => {
 
     const [searchParams] = useSearchParams()
-    const params = useParams()
+    const params = useParams<PossibleParams>()
     const {fetching} = useLoadingState()
 
     return (
@@ -49,7 +57,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                                         variant={"secondary"}
                                         icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                         iconPosition={"right"}
-                                        href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}/users/${params.userId}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
                                     >
                                         Slett
                                     </Button>
