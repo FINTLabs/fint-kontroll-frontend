@@ -35,4 +35,16 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.wait(1000);
         cy.get(".navds-alert--success").should("exist")
     });
+
+    it('Navigate to "Ny Tildeling" when "Roller"-tabs is selected', () => {
+        cy.goToSpecificResource();
+        cy.wait(1000)
+        cy.get("Button").contains("Roller").should('exist').click()
+        cy.wait(1000)
+        cy.get("a").contains("Ny tildeling").click()
+        cy.wait(1000)
+        cy.url().should('include', '/role')
+        cy.get("Button").contains("Grupper").parent().parent().should('have.attr','aria-selected', 'true')
+
+    })
 })
