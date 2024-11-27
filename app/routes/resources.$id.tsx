@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, HStack, LinkPanel, Loader, Tabs, VStack} from "@navikt/ds-react";
 import {
@@ -68,6 +68,14 @@ export default function ResourceById() {
         setState(value)
     }, [navigate, params.id])
 
+    useEffect(() => {
+        if (location.pathname.includes("/user-assignments")) {
+            setState("user-assignments")
+        } else {
+            setState("role-assignments")
+        }
+    }, [location.pathname])
+
     return (
         <section className={"content"}>
             <VStack gap="4">
@@ -101,7 +109,7 @@ export default function ResourceById() {
 
                     {loading && !fetching &&
                         <HStack margin={"4"} width="100%" justify="center">
-                            <Loader size="3xlarge" title="Venter..."/>
+                            <Loader size="2xlarge" title="Venter..."/>
                         </HStack>
                     }
                     <Outlet context={{resource}}/>

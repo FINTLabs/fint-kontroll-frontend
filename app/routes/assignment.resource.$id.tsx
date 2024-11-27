@@ -17,7 +17,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ArrowRightIcon, PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 
@@ -63,6 +63,13 @@ export default function NewAssignment() {
         setState(value)
     }, [navigate, params.id])
 
+    useEffect(() => {
+        if (location.pathname.includes("/user")) {
+            setState("user")
+        } else {
+            setState("role")
+        }
+    }, [location.pathname])
 
     return (
         <div className={"content"}>
@@ -94,7 +101,7 @@ export default function NewAssignment() {
 
                     {loading && !fetching &&
                         <HStack margin={"4"} width="100%" justify="center">
-                            <Loader size="3xlarge" title="Venter..."/>
+                            <Loader size="2xlarge" title="Venter..."/>
                         </HStack>
                     }
                     <Outlet context={{resource}}/>
