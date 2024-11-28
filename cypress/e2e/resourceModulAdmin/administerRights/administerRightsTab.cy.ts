@@ -12,7 +12,7 @@ describe("Test suite for 'Se brukere med roller'", () => {
 
 	it("Click into a 'menu' and select 'Ressursmoduladministrator", () => {
 		cy.get("#dropdown-button").click()
-		cy.contains("Ressursmoduladministrator").click()
+		cy.get("#resource-module-admin").click()
 		wait(1000)
 	})
 

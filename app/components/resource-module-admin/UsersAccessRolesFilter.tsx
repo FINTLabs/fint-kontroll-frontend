@@ -4,10 +4,10 @@ import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam} from "~/components/common/CommonFunctions";
 
 interface ResourceModuleRoleFilterProps {
-    roles: IResourceModuleAccessRole[] | IResourceModuleUserRole[]
+    roles: IResourceModuleUserRole[]
 }
 
-const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
+const UserAccessRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const roleProp = searchParams.get("accessroleid")
     const pageParam = searchParams.get("page")
@@ -22,10 +22,6 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
         filterResetPageParam(pageParam, setSearchParams)
     }
 
-    // Check which type roles is of, to allow reusability of this component.
-    const newRoles: any = roles;
-    const isAccessRole = roles.every(role => typeof role === 'object' && 'accessRoleId' in role);
-
     return (
         <Select
             label={"Filtrer på brukerens rolle"}
@@ -33,19 +29,18 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
             value={roleProp || ""}
         >
             <option key={'unset'} value={''}>Alle</option>
-            {newRoles
-                .filter(role => role && role.name)
-                .sort((a: any, b: any) => {
-                    const nameA = a.name?.toLowerCase() || "";
-                    const nameB = b.name?.toLowerCase() || "";
+            {roles
+                .sort((a, b) => {
+                    const nameA = a.roleName?.toLowerCase() || "";
+                    const nameB = b.roleName?.toLowerCase() || "";
                     return roleNameSortOrder.indexOf(nameA) - roleNameSortOrder.indexOf(nameB);
                 })
-                .map((role: any) => (
+                .map((role) => (
                     <option
-                        key={isAccessRole ? role.accessRoleId : role.roleId}
-                        value={isAccessRole ? role.accessRoleId : role.roleId}
+                        key={role.roleId }
+                        value={role.roleId}
                     >
-                        {isAccessRole ? role.name : role.roleName}
+                        {role.roleName}
                     </option>
                 ))
             }
@@ -53,4 +48,4 @@ const ResourceModuleRoleFilter = ({roles}: ResourceModuleRoleFilterProps) => {
     );
 }
 
-export default ResourceModuleRoleFilter
+export default UserAccessRoleFilter

@@ -14,8 +14,8 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                         className={"menu-button"}
                         variant="tertiary-neutral"
                         icon={<MenuHamburgerIcon aria-hidden/>}
-                        //icon={<ChevronDownIcon aria-hidden/>}
                         iconPosition="left"
+                        id="dropdown-button"
                     >
                         Meny
                     </Button>
@@ -32,23 +32,26 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     </ActionMenu.Item>
 
                     <ActionMenu.Group label="For systemadministrator" style={{fontSize: "100px"}}>
-                        <ActionMenu.Item onSelect={() => navigate(`kontroll-admin/define-role`)}>Definer
-                            rolle</ActionMenu.Item>
-                        <ActionMenu.Item onSelect={() => navigate(`kontroll-admin/features-to-role/sb`)}>
-                            Knytt features til rolle
+                        <ActionMenu.Item id="define-role" onSelect={() => navigate(`kontroll-admin/define-role`)}>
+                            Definer rolle
+                        </ActionMenu.Item>
+                        <ActionMenu.Item id="features-to-role"
+                                         onSelect={() => navigate(`kontroll-admin/features-to-role/sb`)}>
+                            Knytt rettigheter til rolle
                         </ActionMenu.Item>
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
 
                     <ActionMenu.Group label="For ressursadministrator">
-                        <ActionMenu.Item onSelect={() => navigate(`resource-module-admin`)}>
+                        <ActionMenu.Item id="resource-module-admin" onSelect={() => navigate(`resource-module-admin`)}>
                             Administrer brukere med rolle
                         </ActionMenu.Item>
                         <ActionMenu.Item onSelect={() => navigate(`resource-module-admin/opprett-ny-tildeling`)}>Tildel
                             rolle til bruker</ActionMenu.Item>
                         {props.source === "gui" &&
-                            <ActionMenu.Item onSelect={() => navigate(`innstillinger`)}>Administrer
-                                ressursdata</ActionMenu.Item>
+                            <ActionMenu.Item onSelect={() => navigate(`innstillinger`)}>
+                                Innstillinger
+                            </ActionMenu.Item>
                         }
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
@@ -56,14 +59,14 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     <ActionMenu.Group label="For tjenesteadministrator">
                         <ActionMenu.Item onSelect={() => navigate(`resource-admin`)}>Ressurser</ActionMenu.Item>
                         {props.source === "gui" &&
-                            <ActionMenu.Item onSelect={() => navigate(`resource-admin/opprett-ny-applikasjonsressurs`)}>Opprett
-                                ny ressurs</ActionMenu.Item>
+                            <ActionMenu.Item onSelect={() => navigate(`resource-admin/opprett-ny-applikasjonsressurs`)}>
+                                Opprett ny ressurs</ActionMenu.Item>
                         }
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
 
                     <ActionMenu.Group label="For tildeler">
-                        <ActionMenu.Item onSelect={() => navigate(`users`)}>
+                        <ActionMenu.Item id="users" onSelect={() => navigate(`users`)}>
                             Brukere
                         </ActionMenu.Item>
                         <ActionMenu.Item onSelect={() => navigate(`roles`)}>

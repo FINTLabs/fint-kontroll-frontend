@@ -21,8 +21,8 @@ describe('Check the user page', () => {
         cy.get("#dropdown-button").should("be.visible")
 
         cy.get("#dropdown-button").click()
-        cy.contains("a", "Brukere").click()
-        wait(1000)
+         cy.get("#users").click()
+         wait(1000)
     })
 
     it('Can see Karen Berg, and the Se Info button', () => {

@@ -42,8 +42,7 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
                     <Table.Body>
                         {fetching ? <TableSkeleton columns={5}/> : assignedUsers.users.map((user) => (
                             <Table.Row key={user.assigneeRef}>
-                                <Table.HeaderCell
-                                    scope="row">{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
+                                <Table.HeaderCell>{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
                                 <Table.DataCell>{translateUserTypeToLabel(user.assigneeUserType, userTypes)}</Table.DataCell>
                                 <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
                                 <Table.DataCell>{user.directAssignment ? "Direkte" : user.assignmentViaRoleName}</Table.DataCell>

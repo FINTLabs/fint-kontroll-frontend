@@ -54,7 +54,7 @@ export default function ResourceModuleAdminIndex() {
         <VStack className={"content"} gap="4">
             <HStack justify={"end"} align={"end"}>
                 <Link href={"resource-module-admin/opprett-ny-tildeling"} id="create-assignment">
-                    <PlusIcon/> Opprett ny tildeling
+                    <PlusIcon title="a11y-title" fontSize="1.5rem" /> Opprett ny tildeling
                 </Link>
             </HStack>
             <Heading level={"1"} size={"xlarge"} spacing>Administrer brukere med rolletilknytning</Heading>
