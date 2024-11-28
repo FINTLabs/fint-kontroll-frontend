@@ -8,7 +8,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
     })
 
     it('Go to groups and assign resource', () => {
-        cy.get("a.objectTypeLink").contains("Grupper").should('exist').click()
+        cy.get("Button").contains("Grupper").should('exist').click()
         cy.wait(1000)
         cy.get("h3").should('have.text', "Grupper")
 
@@ -23,7 +23,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
     it("Remove resource from group", () => {
         cy.goToSpecificResource();
         cy.wait(1000);
-        cy.get("a.objectTypeLink").contains("Grupper").should('exist').click()
+        cy.get("Button").contains("Roller").should('exist').click()
         cy.wait(1000)
         cy.get("table tr")
             .should("exist")
@@ -35,4 +35,16 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.wait(1000);
         cy.get(".navds-alert--success").should("exist")
     });
+
+    it('Navigate to "Ny Tildeling" when "Roller"-tabs is selected', () => {
+        cy.goToSpecificResource();
+        cy.wait(1000)
+        cy.get("Button").contains("Roller").should('exist').click()
+        cy.wait(1000)
+        cy.get("a").contains("Ny tildeling").click()
+        cy.wait(1000)
+        cy.url().should('include', '/role')
+        cy.get("Button").contains("Grupper").parent().parent().should('have.attr','aria-selected', 'true')
+
+    })
 })

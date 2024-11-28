@@ -7,16 +7,16 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 
-export const AssignRoleTable: any = (props: {
-    isAssignedRoles: IRole[],
-    size: string,
-    page: string,
-    resourceId: string,
-    totalPages: number,
-    currentPage: number,
-    basePath?: string
-}) => {
+interface AssignRoleTableProps {
+    isAssignedRoles: IRole[];
+    size: number;
+    resourceId: string | undefined;
+    totalPages: number;
+    currentPage: number;
+    basePath?: string;
+}
 
+export const AssignRoleTable = (props: AssignRoleTableProps) => {
     const [searchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -34,7 +34,7 @@ export const AssignRoleTable: any = (props: {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {fetching ? <TableSkeleton /> : props.isAssignedRoles.map((role: IRole) => (
+                    {fetching ? <TableSkeleton/> : props.isAssignedRoles.map((role: IRole) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
                             <Table.DataCell>{role.roleType}</Table.DataCell>
@@ -48,7 +48,7 @@ export const AssignRoleTable: any = (props: {
                                     <Button
                                         as={Link}
                                         variant={"secondary"}
-                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem" />}
+                                        icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
                                         iconPosition="right"
                                         href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}

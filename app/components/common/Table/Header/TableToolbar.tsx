@@ -59,5 +59,4 @@ export const TableToolbar = (
             }
         </VStack>
     )
-
 }
