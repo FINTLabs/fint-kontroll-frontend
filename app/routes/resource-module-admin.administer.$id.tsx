@@ -4,10 +4,11 @@ import {
     deleteOrgUnitFromAssignment,
     deleteUserAssignmentByAccessRoleId,
     fetchObjectTypesForUser,
+    fetchUserDetails,
     fetchUserAssignments,
-    fetchUserDetails
 } from "~/data/resourceModuleAdmin/resource-module-admin";
 import {
+    Link,
     Links,
     Meta,
     Scripts,
@@ -18,7 +19,7 @@ import {
     useSearchParams
 } from "@remix-run/react";
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
-import {ArrowLeftIcon, TrashIcon} from "@navikt/aksel-icons";
+import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
@@ -181,11 +182,14 @@ const ResourceModuleAdminAdministerId = () => {
     }
 
     return (
-        <>
+        <section className={"content"}>
             <VStack gap={"4"}>
                 <section>
-                    <Button icon={<ArrowLeftIcon aria-hidden/>} variant={"secondary"}
-                            onClick={() => navigate("/resource-module-admin")}>
+                    <Button
+                        icon={<ArrowLeftIcon aria-hidden/>}
+                        variant={"secondary"}
+                        onClick={() => navigate("/resource-module-admin")}
+                    >
                         Gå til dashbord
                     </Button>
                 </section>
@@ -235,8 +239,10 @@ const ResourceModuleAdminAdministerId = () => {
 
                             <ChipsFilters/>
 
-                            <RoleAssignmentTable selectedRole={selectedRole}
-                                                 userAssignmentsPaginated={userAssignmentsPaginated}/>
+                            <RoleAssignmentTable
+                                selectedRole={selectedRole}
+                                userAssignmentsPaginated={userAssignmentsPaginated}
+                            />
                         </div>
                     )}
                 </Box>
@@ -257,11 +263,26 @@ const ResourceModuleAdminAdministerId = () => {
                     objectTypesForUser={objectTypesForUser}
                 />
             )}
-        </>
+        </section>
     )
 }
 
 export default ResourceModuleAdminAdministerId
+
+export const handle = {
+    // @ts-ignore
+    breadcrumb: ({params}) => (
+        <HStack align={"start"}>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resource-module-admin`} className={"breadcrumb-link"}>Ressursmoduladmoinistrasjon</Link>
+                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
+                <Link to={`/resource-module-admin/administer/${params.id}`} className={"breadcrumb-link"}>Rediger
+                    brukerroller</Link>
+            </HStack>
+        </HStack>
+    )
+}
+
 
 export function ErrorBoundary() {
     const error: any = useRouteError();

@@ -75,30 +75,19 @@ export interface IRole {
     id: number
     roleName: string
     roleType: string
-    assignmentRef: number
-    assignerUsername: string
-    assignerDisplayname: string
+    assignmentRef?: number
+    assignerUsername?: string
+    assignerDisplayname?: string
     organisationUnitId: string
     organisationUnitName: string
-    assigned: boolean
-}
-
-export interface IRoleItem {
-    id: number
-    roleName: string
-    roleType: string
-    roleSubType: string
-    aggregatedRole: boolean
-    roleSource: string
-    organisationUnitId: string
-    organisationUnitName: string
+    assigned?: boolean
 }
 
 export interface IRoleList {
     totalItems: number
     totalPages: number | any
     currentPage: number
-    roles: IRoleItem[]
+    roles: IRole[]
 }
 
 export interface IMemberPage {
@@ -171,6 +160,7 @@ export interface IResourceItem {
     orgUnitName: string
     resourceLimit: number
 }
+
 export interface IResourceAdminItem {
     id: number
     resourceId: string
@@ -187,6 +177,7 @@ export interface IResourceAdminList {
     currentPage: number
     resources: IResourceAdminItem[]
 }
+
 export interface IResource {
     id: number
     resourceId: string
@@ -249,6 +240,7 @@ export interface IKodeverkCustomListItem {
     description: string
     category: string
 }
+
 export type IKodeverkApplicationCategory = IKodeverkCustomListItem
 export type IKodeverkLicenseModel = IKodeverkCustomListItem
 
@@ -263,6 +255,7 @@ export interface IKodeverkMappingList {
     fkLabel: string
     label: string
 }
+
 export type IKodeverkUserType = IKodeverkMappingList
 export type IKodeverkLicenceEnforcement = IKodeverkMappingList
 
@@ -270,4 +263,8 @@ export interface IKodeverkLicenseEnforcement {
     id: number
     fkLabel: string
     label: string
+}
+
+export interface BreadcrumbParams {
+    params: { id: string }
 }

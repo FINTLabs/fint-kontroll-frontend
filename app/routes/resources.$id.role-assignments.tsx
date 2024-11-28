@@ -6,15 +6,14 @@ import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
 import {AssignedRolesTable} from "~/components/assignment/AssignedRolesTable";
-import {SelectObjectType} from "~/components/resource/SelectObjectType";
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, Tabs, VStack} from "@navikt/ds-react";
 import {BASE_PATH} from "../../environment";
 import React from "react";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {RoleSearch} from "~/components/role/RoleSearch";
+import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -59,26 +58,16 @@ export default function AssignedRoles() {
     }>();
 
     return (
-        <VStack gap="4">
-            <Heading className={"heading"} level="2" size="xlarge" align={"center"}>Tildelinger</Heading>
-
-            <section className={"toolbar"}>
-                <SelectObjectType/>
-                <section className={"filters"}>
-                    {/*<AssignedRolesSearch/>*/}
-                    <RoleSearch/>
-                </section>
-            </section>
-
-            <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
-                           deleteText={"Tildelingen ble slettet!"}/>
-
-            <HStack justify="end">
-                <ChipsFilters/>
-            </HStack>
-
-            <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
-        </VStack>
+        <Tabs.Panel value="role-assignments">
+            <VStack gap="4">
+                <TableToolbar
+                    SearchComponent={<RoleSearch/>}
+                />
+                <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
+                               deleteText={"Tildelingen ble slettet!"}/>
+                <AssignedRolesTable assignedRoles={data.assignedRoles} basePath={data.basePath}/>
+            </VStack>
+        </Tabs.Panel>
     );
 }
 

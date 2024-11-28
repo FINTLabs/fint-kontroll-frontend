@@ -1,6 +1,8 @@
 import {json, LinksFunction, MetaFunction} from "@remix-run/node";
 import navStyles from "@navikt/ds-css/dist/index.css?url";
 import "react-toastify/dist/ReactToastify.css"
+
+
 import {
     Links,
     Meta,
@@ -25,6 +27,7 @@ import {RouteHandle} from "@remix-run/react/dist/routeModules";
 import './tailwind.css';
 import './novari-theme.css';
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {NovariIKS} from "~/components/images/NovariIKS";
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -81,24 +84,29 @@ export default function App() {
         <ToastContainer autoClose={5000} newestOnTop={true} role="alert"/>
 
         <Layout me={me} basePath={basePath} source={source}>
-            <HStack paddingBlock="0 8">
-                {matches
-                    .filter((match: any) =>
-                        match.handle && match.handle.breadcrumb
-                    )
-                    .map((match: any, index) => (
-                        <span key={index}>{match.handle.breadcrumb(match)}</span>
-                    ))
-                    // Use reducer to add separator between each breadcrumb element
-                    .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
-                        if (index < array.length - 1) {
-                            return acc.concat(curr,
-                                <ArrowRightIcon key={`sep-${index}`} title="a11y-title" fontSize="1.5rem"/>)
-                        } else {
-                            return acc.concat(curr);
-                        }
-                    }, [])}
-            </HStack>
+            {matches.find(match => {
+                // @ts-ignore
+                return match.handle?.breadcrumb;
+            }) && (
+                <HStack paddingBlock={"4"}>
+                    {matches
+                        .filter((match: any) =>
+                            match.handle && match.handle.breadcrumb
+                        )
+                        .map((match: any, index) => (
+                            <span key={index}>{match.handle.breadcrumb(match)}</span>
+                        ))
+                        // Use reducer to add separator between each breadcrumb element
+                        .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
+                            if (index < array.length - 1) {
+                                return acc.concat(curr,
+                                    <ArrowRightIcon key={`sep-${index}`} title="a11y-title" fontSize="1.5rem"/>)
+                            } else {
+                                return acc.concat(curr);
+                            }
+                        }, [])}
+                </HStack>
+            )}
             <Outlet/>
         </Layout>
 
@@ -121,7 +129,7 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
         <Page
             footer={
                 <Box className={'novari-footer'} padding="8" as="footer">
-                    <img src="Logo.png" alt={"logo"} style={{width: "8em"}}/>
+                    <NovariIKS width={"9em"} />
                 </Box>
             }
         >
@@ -131,8 +139,6 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
                 </Page.Block>
             </Box>
             <Box
-                padding="1"
-                paddingBlock="16"
                 as="main"
             >
                 <Page.Block gutters>

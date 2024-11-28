@@ -7,6 +7,7 @@ body {
 }
 
 .content {
+    padding-top: 2rem;
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
@@ -38,18 +39,6 @@ body {
     margin-top: 2.5em;
 }
 
-.searchField {
-    margin-left: 1em;
-}
-
-.select-usertype {
-    margin-left: 1em;
-}
-
-.select-applicationcategory {
-    margin-left: 1em;
-}
-
 .spinner {
     display: flex;
     justify-content: center;
@@ -65,7 +54,7 @@ body {
 }
 
 table {
-    background-color: #FEFCFA;
+    background-color: var(--beige-20);
 }
 
 .footer {
@@ -121,7 +110,7 @@ table {
 }
 
 .objectTypeLink:hover {
-    background-color: #E5E4FA;
+    background-color: var(--blue-20);
 }
 
 .navds-radio-buttons {
@@ -174,32 +163,72 @@ table {
     width: 100%;
 }
 
+.full-height {
+    height: 100%;
+}
+
 .list-style-none {
     list-style: none;
     padding: 0;
 }
 
-.custom-link {
+.link-card {
     text-decoration: none;
     color: var(--a-text-default);
-    transition: background .2s ease-in;
-    background-color: var(--a-surface-action-subtle);
+    transition: background 0.2s ease-in;
+    background-color: white;
 
     p {
         color: var(--a-text-default);
     }
 
-    h2 {
-        text-decoration-line: underline;
-        text-decoration-thickness: 1px;
+    hr {
+        width: 100%;
+        border: 0;
+        height: 1px;
+        background: var(--a-text-default);
+    }
+
+    .circle {
+        transition: transform 0.2s ease-in-out;
+
+        > * {
+            transition: transform 0.2s ease-in-out;
+        }
+    }
+
+    .arrow-icon {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    &.blue.hoverColor:hover {
+        background-color: var(--blue-20);
+    }
+    &.orange.hoverColor:hover {
+        background-color: var(--orange-20);
+    }
+    &.red.hoverColor:hover {
+        background-color: var(--red-20);
+    }
+    &.beige.hoverColor:hover {
+        background-color: var(--beige-80);
     }
 
     &:hover {
-        background-color: var(--a-surface-hover);
-
-        h1 {
-            color: var(--a-text-action);
+        h2 {
             text-decoration: none;
+        }
+
+        .circle {
+            transform: scale(1.25);
+
+            > * {
+                transform: scale(0.8);
+            }
+        }
+
+        .arrow-icon {
+            transform: scale(1.5);
         }
     }
 
@@ -210,7 +239,7 @@ table {
 }
 
 .menu-button:hover {
-    background-color: #FB9582;
+    background-color: var(--orange-80);
 }
 
 /*.info-box {
@@ -219,6 +248,37 @@ table {
 }*/
 
 .info-box {
-    background-color: #feeae7;
-    color: #570F31;
+    background-color: var(--orange-20);
+    color: var(--red-dark);
+}
+
+:root {
+    --orange-dark: #A61D08;
+    --orange-primary: #F76650;
+    --orange-80: #FB9582;
+    --orange-60: #FDC3B4;
+    --orange-40: #FFE0D5;
+    --orange-20: #feeae7;
+
+    --red-dark: #570F31;
+    --red-primary: #6B133D;
+    --red-80: #8C3E62;
+    --red-60: #AD697F;
+    --red-40: #CF93A3;
+    --red-20: #EBC1C9;
+
+    --blue-dark: #5A51E1;
+    --blue-primary: #7F78E8;
+    --blue-80: #A19CF0;
+    --blue-60: #C3BEF7;
+    --blue-40: #CCC9F6;
+    --blue-20: #E5E4FA;
+
+    --beige-darker: #D4B89A;
+    --beige-dark: #EFD8B8;
+    --beige-primary: #F8ECDC;
+    --beige-80: #FAF1E5;
+    --beige-60: #FCF5ED;
+    --beige-40: #FDF9F5;
+    --beige-20: #FEFCFA;
 }

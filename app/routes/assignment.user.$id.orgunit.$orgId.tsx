@@ -16,14 +16,14 @@ import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fe
 import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -86,7 +86,8 @@ export const handle = {
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
                 <Link to={`/users/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Brukerinfo</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Ny tildeling</Link>
+                <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Ny
+                    tildeling</Link>
             </HStack>
         </HStack>
 }
@@ -121,34 +122,15 @@ export default function NewAssignmentForUser() {
 
     return (
         <div className={"content"}>
-            <Heading level="1" size="xlarge">Ny tildeling </Heading>
-            <Heading level="2" size="small">{data.user.fullName}</Heading>
-
-            <VStack gap="4">
-                <HStack justify="end" align="end">
+            <TableHeaderLayout
+                title={"Ny tildeling"}
+                subTitle={data.user.fullName}
+                FilterComponents={
                     <ResourceSelectApplicationCategory applicationCategories={data.applicationCategories}/>
-
-                    {/*<Select
-                        className={"select-applicationcategory"}
-                        label={"Filter for lisensmodell"}
-                        onChange={(e) => setAccessType(e.target.value)}
-                        value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
-                    >
-                        <option value={""}>Alle</option>
-                        {data.accessTypes?.map((accessType) => (
-                            <option key={accessType} value={accessType}>
-                                {accessType}
-                            </option>
-                        ))}
-                    </Select>*/}
-
-                    <ResourceSearch/>
-                </HStack>
-
-                <HStack justify="end">
-                    <ChipsFilters/>
-                </HStack>
-
+                }
+                SearchComponent={<ResourceSearch/>}
+            />
+            <VStack gap="4">
                 <ResponseAlert responseCode={data.responseCode} successText={"Tildelingen var vellykket!"}
                                deleteText={"Tildelingen ble slettet!"}/>
 

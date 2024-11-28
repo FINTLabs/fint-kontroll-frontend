@@ -4,7 +4,7 @@ import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
+import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 import {useLoaderData} from "@remix-run/react";
 import {loader} from "~/routes/users._index";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
@@ -31,7 +31,7 @@ export const UserTable = () => {
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
                             <Table.DataCell align="right">
-                                <SeeInfoButton
+                                <TertiaryArrowButton
                                     id={`userInfoButton-${user.id}`}
                                     url={`/users/${user.id}/orgunit/${user.organisationUnitId}`}
                                 />

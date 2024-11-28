@@ -49,11 +49,9 @@ export default function Members() {
                         <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
                         <Search label={"Søk etter medlemmer"} id={"search-member"}/>
                     </HStack>
-                    <HStack justify="end">
-                        <ChipsFilters/>
-                    </HStack>
+                    <ChipsFilters/>
                     <Tabs.Panel value="members">
-                        <MemberTable />
+                        <MemberTable/>
                     </Tabs.Panel>
                 </VStack>
             </Tabs>

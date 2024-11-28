@@ -8,7 +8,7 @@ import {StatusTag} from "~/components/resource-admin/StatusTag";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {SeeInfoButton} from "~/components/common/Buttons/SeeInfoButton";
+import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -98,7 +98,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                                 </Table.DataCell>
                             )}
                             <Table.DataCell align="center">
-                                <SeeInfoButton
+                                <TertiaryArrowButton
                                     id={`resourceAdminInfoButton-${resource.id}`}
                                     url={`/resource-admin/${resource.id}`}
                                 />

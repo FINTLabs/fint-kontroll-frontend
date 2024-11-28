@@ -54,12 +54,6 @@ export default function NewAssignment1() {
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
 
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
-    }
-
     function SaveButton() {
         if (response.state === "submitting") {
             return <Button loading>Lagre</Button>;

@@ -39,14 +39,14 @@ describe('Check roles page with mock data', () => {
         cy.get('#role-table')
             .find('tr td')
                 .should('contain', 'OKO');
-        cy.get("#search-name-chip").should('be.visible')
+        cy.get("#search-chip").should('be.visible')
     });
 
     it('Remove filter and verify chips is gone', () => {
         cy.get('#search-role').clear().should('have.value', "");
         cy.get('#search-role').type('{enter}');
         cy.wait(1000)
-        cy.get("#search-name-chip").should('not.exist')
+        cy.get("#search-chip").should('not.exist')
     })
 
     it('Includes sub-org-units, and update table with result', () => {

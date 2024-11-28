@@ -13,17 +13,17 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
-import {Alert, Box, Heading, HStack, VStack} from "@navikt/ds-react";
+import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
 import React from "react";
 import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import logger from "~/logging/logger";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -101,16 +101,13 @@ export default function NewAssignmentForRole() {
 
     return (
         <div className={"content"}>
-            <Heading level="1" size="xlarge">Ny tildeling </Heading>
-            <Heading level="2" size="small">{role.roleName}</Heading>
+            <TableHeaderLayout
+                title={"Ny tildeling"}
+                subTitle={role.roleName}
+                FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
+                SearchComponent={<ResourceSearch/>}
+            />
             <VStack gap="4">
-                <HStack justify="end" align="end">
-                    <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
-                    <ResourceSearch/>
-                </HStack>
-                <HStack justify="end">
-                    <ChipsFilters/>
-                </HStack>
                 <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                                deleteText={"Tildelingen ble slettet!"}/>
 

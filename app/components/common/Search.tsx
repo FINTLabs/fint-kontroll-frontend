@@ -21,7 +21,6 @@ export const Search = ({label, id}: SearchInputProps) => {
 
     return (
         <Form
-            className={"searchField"}
             onSubmit={(event) => {
                 handleSearchFieldString(event, setSearchParams, searchString)
                 setSearchString("")

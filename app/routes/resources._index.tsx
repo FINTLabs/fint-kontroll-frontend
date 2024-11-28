@@ -1,4 +1,4 @@
-import {Alert, Box, Heading, HStack} from "@navikt/ds-react";
+import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
@@ -6,11 +6,10 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
-import OrgUnitFilterModal from "../components/org-unit-filter/OrgUnitFilterModal";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
-import ChipsFilters from "~/components/common/ChipsFilters";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -70,31 +69,12 @@ export default function Resource() {
 
     return (
         <div className={"content"}>
-            <Heading className={"heading"} level="1" size="xlarge">Ressurser</Heading>
-            <HStack align={"center"} justify={"end"}>
-                <OrgUnitFilterModal orgUnitList={orgUnitList}/>
-                <ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>
-                {/*<Select
-                    className={"select-applicationcategory"}
-                    label={"Filter for lisensmodell"}
-                    onChange={(e) => setAccessType(e.target.value)}
-                    value={String(accessTypeSearchParams.get("accesstype")) ?? ""}
-                >
-                    <option value={""}>Alle</option>
-                    {accessTypes?.map((accessType) => (
-                        <option key={accessType} value={accessType}>
-                            {accessType}
-                        </option>
-                    ))}
-                </Select>*/}
-                <ResourceSearch/>
-            </HStack>
-
-
-            <Box className={"filters"} paddingBlock={"1 8"}>
-                <ChipsFilters/>
-            </Box>
-
+            <TableHeaderLayout
+                title={"Ressurser"}
+                orgUnitsForFilter={orgUnitList}
+                SearchComponent={<ResourceSearch/>}
+                FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
+            />
             <ResourceTable resourcePage={resourceList} size={size}/>
         </div>
     );
