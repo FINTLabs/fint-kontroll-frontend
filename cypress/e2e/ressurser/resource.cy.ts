@@ -7,7 +7,7 @@ describe('Check the resource details page', () => {
         cy.wait(1000)
         cy.get('table tr').contains('User License').get('button').contains('Se info').click()
         cy.wait(1000)
-        cy.get('#brukere-link').click()
+        cy.get('Button').contains("Brukere").should('exist').click()
         cy.wait(1000)
     });
 

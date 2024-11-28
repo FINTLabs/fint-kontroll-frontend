@@ -20,12 +20,6 @@ export default function DeleteRoleAssignment() {
     const [searchParams] = useSearchParams()
     const response = useNavigation()
 
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
-    }
-
     return (
         <>
             <Modal
