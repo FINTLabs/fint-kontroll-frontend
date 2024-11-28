@@ -70,12 +70,6 @@ td {
     gap: 1rem;
 }
 
-/*.expansion-green {
-    --ac-expansioncard-bg: var(--a-surface-success-subtle);
-    --ac-expansioncard-border-open-color: var(--a-border-alt-3);
-    --ac-expansioncard-border-hover-color: var(--a-border-alt-3);
-}*/
-
 .expansion-green {
     --ac-expansioncard-header-bg: var(--a-surface-success-moderate);
     --ac-expansioncard-header-open-bg: var(--a-surface-success-moderate);

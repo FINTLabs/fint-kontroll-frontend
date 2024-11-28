@@ -96,7 +96,7 @@ const DefineRoleTab = () => {
     }
 
     const availableOperations = ["GET", "POST", "PUT", "DELETE"]
-    const readableOperations = ["Kan hente", "Kan lage ny", "Kan oppdatere", "Kan slette"]
+    const readableOperations = ["Kan se", "Kan lage ny", "Kan oppdatere", "Kan slette"]
 
     return (
         <div className={"tab-content-container"}>
@@ -111,7 +111,7 @@ const DefineRoleTab = () => {
             <Table id={"permissions-table"}>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Feature</Table.HeaderCell>
+                        <Table.HeaderCell>Rettighet</Table.HeaderCell>
                         {readableOperations.map((operation, index) => (
                             <Table.HeaderCell key={operation + index} align={"center"}>
                                 {operation}

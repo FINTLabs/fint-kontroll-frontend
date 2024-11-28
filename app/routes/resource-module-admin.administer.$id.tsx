@@ -1,9 +1,11 @@
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {
+    deleteAllAssignmentsOnUser,
+    deleteOrgUnitFromAssignment,
+    deleteUserAssignmentByAccessRoleId,
     fetchObjectTypesForUser,
     fetchUserDetails,
     fetchUserAssignments,
-    deleteAllAssignmentsOnUser, deleteUserAssignmentByAccessRoleId, deleteOrgUnitFromAssignment
 } from "~/data/resourceModuleAdmin/resource-module-admin";
 import {
     Link,
@@ -13,13 +15,15 @@ import {
     useActionData,
     useLoaderData,
     useNavigate,
-    useRouteError, useSearchParams
+    useRouteError,
+    useSearchParams
 } from "@remix-run/react";
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
-    IResourceModuleUser, IResourceModuleUserAssignmentsPaginated
+    IResourceModuleUser,
+    IResourceModuleUserAssignmentsPaginated
 } from "~/data/resourceModuleAdmin/types";
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import React, {useEffect, useState} from "react";
@@ -31,7 +35,7 @@ import RoleAssignmentTable from "../components/resource-module-admin/administer/
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import {toast} from "react-toastify";
 import ChipsFilters from "~/components/common/ChipsFilters";
-import ResourceModuleRoleFilter from "~/components/resource-module-admin/ResourceModuleRoleFilter";
+import UserAccessRoleFilter from "~/components/resource-module-admin/UsersAccessRolesFilter";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -215,7 +219,7 @@ const ResourceModuleAdminAdministerId = () => {
                         <div className={"table-toolbar-pagination-container"}>
                             <HStack justify={"space-between"} align={"end"}>
 
-                                <ResourceModuleRoleFilter roles={userDetails.roles}/>
+                                <UserAccessRoleFilter roles={userDetails.roles}/>
 
                                 <div>
                                     {selectedRole.accessRoleId !== "" && (

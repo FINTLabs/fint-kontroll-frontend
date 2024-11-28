@@ -32,7 +32,7 @@ export default function KontrollAdmin() {
 
     return (
         <section className={"content"}>
-            <Heading level={"1"} size={"xlarge"}>Kontrolladministrasjon</Heading>
+            <Heading level={"1"} size={"xlarge"}>Administrer roller</Heading>
 
             <Tabs defaultValue={selectedTab} value={selectedTab} onChange={handleTabChange}>
                 <Box paddingBlock="8">
@@ -45,13 +45,12 @@ export default function KontrollAdmin() {
                         />
                         <Tabs.Tab
                             value="features-to-role"
-                            label="Knytt features til roller"
+                            label="Knytt rettigheter til rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"feature-role-tab"}
                         />
                     </Tabs.List>
                 </Box>
-
                 <Outlet context={{isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate}}/>
             </Tabs>
         </section>

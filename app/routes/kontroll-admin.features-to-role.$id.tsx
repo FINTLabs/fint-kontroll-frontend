@@ -92,7 +92,7 @@ const KontrollAdminFeaturesToRoleId = () => {
                 <Table>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell scope={"col"}>Featurenavn</Table.HeaderCell>
+                            <Table.HeaderCell scope={"col"}>Rettighet</Table.HeaderCell>
                             <Table.HeaderCell scope={"col"}>Knytt til rolle</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -117,7 +117,7 @@ const KontrollAdminFeaturesToRoleId = () => {
             </div>
 
             <div>
-                <Heading size={"small"}>Features lagt til</Heading>
+                <Heading size={"small"}>Rettighet lagt til</Heading>
                 <List as={"ul"}>
                     {updatedPermissionData.features.map((feature) => (
                         <li key={feature.featureId}>{feature.featureName}</li>

@@ -35,7 +35,7 @@ export const ConfirmSafeRedirectModal = ({isModalVisible, setIsModalVisible, dis
     }
 
     return (
-        <div className="py-16">
+        <div className="py-6">
             <Modal
                 ref={ref}
                 header={{ heading: "Lagre endringer" }}

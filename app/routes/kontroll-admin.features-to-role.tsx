@@ -25,10 +25,6 @@ export default () => {
     const roleProp = params.id
     const navigate = useNavigate();
 
-    const handleChangeSelectedRole = (role: string) => {
-        navigate(role)
-    }
-
     useEffect(() => {
         !roleProp ? navigate(accessRoles[0].accessRoleId) : ""
     }, []);
@@ -37,7 +33,6 @@ export default () => {
         <Tabs value={"features-to-role"}>
             <Tabs.Panel value="features-to-role">
                 <KontrollAccessRolesRadioGroup roles={accessRoles} />
-
                 <Outlet/>
             </Tabs.Panel>
         </Tabs>
