@@ -12,8 +12,8 @@ describe('See that assignment.resource.$id.user renders with users', () => {
     it('Verify that data from resource loads, and that headings and toolbar loads', () => {
         cy.get("h2").should('have.text', "Creative Cloud All Apps for K-12 - User License")
 
-        cy.get("a").contains("Brukere").should('exist')
-        cy.get("a").contains("Grupper").should('exist')
+        cy.get("#user-tab").contains("Brukere").should('exist')
+        cy.get("#role-tab").contains("Grupper").should('exist')
 
         cy.get("#user-type-select").should('be.visible')
 

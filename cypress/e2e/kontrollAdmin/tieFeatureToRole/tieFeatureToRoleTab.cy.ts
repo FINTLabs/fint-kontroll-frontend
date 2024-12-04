@@ -12,7 +12,7 @@ describe("Check 'Knytt features til roller'", () => {
 
 	it("Click into a 'menu' and select 'Kontrolladministrasjon", () => {
 		cy.get("#dropdown-button").click()
-		cy.contains("a", "Kontrolladministrasjon").click()
+		cy.get("#features-to-role").click()
 		wait(1000)
 	})
 

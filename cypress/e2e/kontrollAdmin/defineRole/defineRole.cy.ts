@@ -12,7 +12,7 @@ describe("Test suite for 'Definer rolle'", () => {
 
 	it("Click into a 'menu' and select 'Kontrolladministrasjon", () => {
 		cy.get("#dropdown-button").click()
-		cy.contains("Kontrolladministrasjon").click()
+		cy.get("#define-role").click()
 		wait(1000)
 	})
 

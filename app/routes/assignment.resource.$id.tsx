@@ -91,11 +91,13 @@ export default function NewAssignment() {
                             value="user"
                             label="Brukere"
                             icon={<PersonIcon fontSize="1.2rem"/>}
+                            id="user-tab"
                         />
                         <Tabs.Tab
                             value="role"
                             label="Grupper"
                             icon={<PersonGroupIcon fontSize="1.2rem"/>}
+                            id="role-tab"
                         />
                     </Tabs.List>
 
