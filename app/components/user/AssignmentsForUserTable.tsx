@@ -17,7 +17,11 @@ interface AssignmentsForUserTableProps {
 export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: AssignmentsForUserTableProps) => {
 
     const [searchParams] = useSearchParams()
-    const params = useParams()
+    const params = useParams<{
+        roleId?: string
+        userId: string
+        orgId: string
+    }>()
     const {fetching} = useLoadingState()
 
     return (
@@ -49,7 +53,7 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                                         variant={"secondary"}
                                         icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                         iconPosition={"right"}
-                                        href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}/users/${params.userId}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
                                     >
                                         Slett
                                     </Button>
@@ -65,7 +69,11 @@ export const AssignmentsForUserTable = ({assignmentsForUser, size, basePath}: As
                 </Table.Body>
             </Table>
 
-            <TablePagination currentPage={assignmentsForUser.currentPage} totalPages={assignmentsForUser.totalPages} size={size}/>
+            <TablePagination
+                currentPage={assignmentsForUser.currentPage}
+                totalPages={assignmentsForUser.totalPages}
+                size={size}
+            />
         </>
     );
 };

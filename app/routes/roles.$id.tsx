@@ -78,7 +78,7 @@ export default function RolesId() {
                     </Tabs.List>
                 </div>
 
-                <Outlet/>
+                <Outlet context={role}/>
 
             </Tabs>
         </section>
