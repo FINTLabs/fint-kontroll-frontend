@@ -1,15 +1,15 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useState} from "react";
-import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import {Button, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import OrgUnitSelectWithAmount from "~/components/common/orgUnits/OrgUnitSelectWithAmount";
 
 export const handle = {
     // @ts-ignore
@@ -116,7 +116,7 @@ export default function EditOrgUnitsForResource() {
     const resource: IApplicationResource = loaderData.resource
     const navigate = useNavigate()
     const [selectedOrgUnit] = useState<IUnitItem | null>(null)
-    const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
+    const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>(orgUnitsWithIsChecked.filter(orgUnit => orgUnit.isChecked) ?? [])
 
     const response = useNavigation()
 
@@ -168,17 +168,31 @@ export default function EditOrgUnitsForResource() {
     return (
         <VStack className={"schema"} gap="8">
             <div>
-                <Heading level={"1"} size={"large"}>Endre eller legg orgeheter </Heading>
+                <Heading level={"1"} size={"large"}>Endre eller legg organisasjonsenheter </Heading>
                 <Heading level="2" size="small">{resource.resourceName}</Heading>
             </div>
             <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen" defaultOpen={true}>
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>
+                        Legg til organisasjonsenheter som skal ha tilgang til ressursen
+                    </ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedOrgUnits.length > 0 && (
+                            <List as="ul" size="small">
+                                {selectedOrgUnits.map((unit) => (
+                                    <List.Item key={unit.organisationUnitId}>
+                                        {`${unit.name}${unit.limit ? ` (Antall: ${unit.limit})` : ""}`}
+                                    </List.Item>
+                                ))}
+                            </List>
+                        )}
+                    </ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ValidForOrgUnitSelector orgUnitList={orgUnitsWithIsChecked}
-                                             selectedOrgUnits={selectedOrgUnits}
-                                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
+                    <OrgUnitSelectWithAmount
+                        orgUnitList={orgUnitsWithIsChecked}
+                        selectedOrgUnits={selectedOrgUnits}
+                        setSelectedOrgUnits={setSelectedOrgUnits}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>

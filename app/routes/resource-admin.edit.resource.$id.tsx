@@ -1,7 +1,7 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useState} from "react";
-import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import {Button, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
@@ -12,7 +12,7 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
+import OrgUnitSelectWithAmount from "~/components/common/orgUnits/OrgUnitSelectWithAmount";
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
@@ -59,20 +59,13 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 const CheckedValidForOrgUnits = (orgUnitTree: IUnitTree, resource: IApplicationResource): IUnitTree => {
     const checkedOrgUnits = resource.validForOrgUnits.map(checked => checked.orgUnitId);
 
-    const newList = orgUnitTree.orgUnits.map(orgUnit => {
-        const matchedUnit = resource.validForOrgUnits.find(unit => unit.orgUnitId === orgUnit.organisationUnitId);
+    const newList = orgUnitTree.orgUnits.map(orgUnit => ({
+        ...orgUnit,
+        isChecked: checkedOrgUnits.includes(orgUnit.organisationUnitId),
+        limit: resource.validForOrgUnits.find(unit => unit.orgUnitId === orgUnit.organisationUnitId)?.resourceLimit
+    }));
 
-        return {
-            ...orgUnit,
-            isChecked: checkedOrgUnits.includes(orgUnit.organisationUnitId),
-            limit: matchedUnit ? matchedUnit.resourceLimit : undefined
-        };
-    });
-
-    return {
-        ...orgUnitTree,
-        orgUnits: newList
-    };
+    return {...orgUnitTree, orgUnits: newList};
 };
 
 const CheckedResourceOwner = (orgUnitTree: IUnitTree, resource: IApplicationResource): IUnitTree => {
@@ -129,9 +122,8 @@ export default function EditApplikasjonsRessurs() {
     const userTypes = loaderData.userTypes
 
     const navigate = useNavigate()
-    const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
-    const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
     const [selectedOwnerOrgUnit, setSelectedOwnerOrgUnit] = useState<IUnitItem | null>(orgUnitOwner.find(orgUnit => orgUnit.isChecked) ?? null)
+    const [selectedValidForOrgUnits, setSelectedValidForOrgUnits] = useState<IUnitItem[]>(orgUnitsWithIsChecked.filter(orgUnit => orgUnit.isChecked))
     const response = useNavigation()
 
     const [newResource, setNewResource] = useState<IApplicationResource>({
@@ -213,12 +205,25 @@ export default function EditApplikasjonsRessurs() {
             </ExpansionCard>
             <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
-                </ExpansionCard.Header>
+                    <ExpansionCard.Title>
+                        Legg til organisasjonsenheter som skal ha tilgang til ressursen
+                    </ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedValidForOrgUnits.length > 0 && (
+                            <List as="ul" size="small">
+                                {selectedValidForOrgUnits.map((unit) => (
+                                    <List.Item key={unit.organisationUnitId}>
+                                        {`${unit.name}${unit.limit ? ` (Antall: ${unit.limit})` : ""}`}
+                                    </List.Item>
+                                ))}
+                            </List>
+                        )}
+                    </ExpansionCard.Description> </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ValidForOrgUnitSelector orgUnitList={orgUnitsWithIsChecked}
-                                             selectedOrgUnits={selectedOrgUnits}
-                                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
+                    <OrgUnitSelectWithAmount
+                        orgUnitList={orgUnitsWithIsChecked}
+                        selectedOrgUnits={selectedValidForOrgUnits}
+                        setSelectedOrgUnits={setSelectedValidForOrgUnits}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
@@ -246,7 +251,7 @@ export default function EditApplikasjonsRessurs() {
                         type="hidden"
                         name="validForOrgUnits"
                         id="validForOrgUnits"
-                        value={JSON.stringify(selectedOrgUnits.map(mapOrgUnitListToValidForOrgUnits))}
+                        value={JSON.stringify(selectedValidForOrgUnits.map(mapOrgUnitListToValidForOrgUnits))}
                     />
                     <input type="hidden" name="validForRoles" id="validForRoles"
                            value={newResource.validForRoles.join(",")}/>

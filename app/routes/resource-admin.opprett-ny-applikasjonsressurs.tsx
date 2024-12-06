@@ -1,7 +1,7 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useState} from "react";
-import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import {Button, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
@@ -12,7 +12,7 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
+import OrgUnitSelectWithAmount from "~/components/common/orgUnits/OrgUnitSelectWithAmount";
 
 export const handle = {
     // @ts-ignore
@@ -175,11 +175,23 @@ export default function OpprettNyApplikasjonsRessurs() {
             <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedOrgUnits.length > 0 && (
+                            <List as = "ul" size="small">
+                                {selectedOrgUnits.map((unit) => (
+                                    <List.Item key={unit.organisationUnitId}>
+                                        {`${unit.name}${unit.limit ? ` (Antall: ${unit.limit})` : ""}`}
+                                    </List.Item>
+                                ))}
+                            </List>
+                            )}
+                    </ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ValidForOrgUnitSelector orgUnitList={allOrgUnits}
-                                             selectedOrgUnits={selectedOrgUnits}
-                                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
+                    <OrgUnitSelectWithAmount
+                        orgUnitList={allOrgUnits}
+                        selectedOrgUnits={selectedOrgUnits}
+                        setSelectedOrgUnits={setSelectedOrgUnits}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
