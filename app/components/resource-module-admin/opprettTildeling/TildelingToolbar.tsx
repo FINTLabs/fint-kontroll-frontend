@@ -18,7 +18,7 @@ const TildelingToolbar = ({allOrgUnits, accessRoles}: TildelingToolbarProps) => 
                 <div className={"org-unit-filter-with-help-text"}>
                     <OrgUnitFilterModal orgUnitList={allOrgUnits}/>
                     <HelpText>Dette er kun filter for brukerens tilhørighet. Må ikke forveksles med
-                        orgenhetstildelingen.</HelpText>
+                        org.enhetstildelingen.</HelpText>
                 </div>
                 <AllAccessRolesFilter roles={accessRoles}/>
                 <ResourceModuleSearch/>

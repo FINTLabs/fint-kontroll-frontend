@@ -43,7 +43,7 @@ export const AssignUserTable = (
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>

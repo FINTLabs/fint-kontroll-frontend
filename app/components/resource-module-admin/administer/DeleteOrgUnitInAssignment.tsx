@@ -52,7 +52,7 @@ const DeleteOrgUnitInAssignment = ({
             onCancel={closeModal}
         >
             <Modal.Body>
-                Ønsker du å slette orgenhetknytning {orgUnitToDelete.name} til {roleToDeleteFrom}?
+                Ønsker du å slette org.enhetknytning {orgUnitToDelete.name} til {roleToDeleteFrom}?
             </Modal.Body>
             <Modal.Footer>
                 <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} name={"deleteOrgUnitFromAssignment"}>

@@ -20,7 +20,7 @@ const OrgUnitRadioSelection = ({orgUnitList, setSelectedOrgUnit, selectedOrgUnit
 
     return (
         <Accordion>
-            <RadioGroup onChange={handleChange} legend={"Velg orgenhet"} hideLegend={true} value={selectedOrgUnit?.organisationUnitId}>
+            <RadioGroup onChange={handleChange} legend={"Velg organisasjonsenhet"} hideLegend={true} value={selectedOrgUnit?.organisationUnitId}>
                 {topLevelUnits.map(unit => (
                     <AccordionItem
                         key={unit.id}

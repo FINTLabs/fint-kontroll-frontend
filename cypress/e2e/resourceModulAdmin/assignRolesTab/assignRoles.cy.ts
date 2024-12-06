@@ -33,7 +33,7 @@ describe("Check resources-admin", () => {
 		cy.contains("Velg rolle").should("be.visible")
 	})
 
-	it("Dropdown of 'Legg til orgenheter' should be visible", () => {
-		cy.contains("Legg til orgenheter").should("be.visible")
+	it("Dropdown of 'Legg til organisasjonsenheter' should be visible", () => {
+		cy.contains("Legg til organisasjonsenheter").should("be.visible")
 	})
 })

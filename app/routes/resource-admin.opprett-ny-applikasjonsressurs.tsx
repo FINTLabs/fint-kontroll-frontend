@@ -146,7 +146,7 @@ export default function OpprettNyApplikasjonsRessurs() {
     return (
         <VStack className={"schema"} gap="8">
             <Heading size={"large"} level={"1"}>Fyll ut ressursinformasjon</Heading>
-            <ExpansionCard aria-label="Velg orgenhet som er eier av ressursen">
+            <ExpansionCard aria-label="Velg organisasjonsenhet som er eier av ressursen">
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Velg organisasjonsenhet som er eier av ressursen</ExpansionCard.Title>
                     <ExpansionCard.Description>{selectedOrgUnit ? `Valgt enhet: ${selectedOrgUnit.name}` : ""}</ExpansionCard.Description>
@@ -172,9 +172,9 @@ export default function OpprettNyApplikasjonsRessurs() {
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
-            <ExpansionCard aria-label="Legg til orgenheter som skal ha tilgang til ressursen">
+            <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Legg til orgenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <ValidForOrgUnitSelector orgUnitList={allOrgUnits}

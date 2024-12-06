@@ -53,11 +53,11 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 icon={<Buildings3Icon aria-hidden/>}
                 onClick={handleOpen}
             >
-                Orgenhetsfilter
+                Org.enhetsfilter
             </Button>
             <Modal
                 ref={ref}
-                header={{heading: "Velg orgenhet(er)"}}
+                header={{heading: "Velg organisasjonsenhet(er)"}}
                 onAbort={handleClose}
                 onCancel={handleClose}
             >

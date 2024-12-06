@@ -34,7 +34,7 @@ export default function Index() {
                     style={{backgroundColor: 'var(--beige-60)'}}
                 >
                     <Heading level="1" size="medium" style={{color: "var(--red-primary)"}}>Velkommen til
-                        FINT-Kontroll!</Heading>
+                        FINT Kontroll!</Heading>
                 </HStack>
             </Bleed>
             <VStack gap="12">

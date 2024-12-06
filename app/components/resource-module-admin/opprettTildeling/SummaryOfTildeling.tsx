@@ -37,7 +37,7 @@ const SummaryOfTildeling = ({assignment, missingFields, accessRoles}: SummaryOfT
                     {assignment.orgUnits.length > 0 &&
                         (assignment.includeSubOrgUnits ?
                             <FormSummary.Answer>
-                                <FormSummary.Label>Inkluderte orgenheter - da MED tilhørende underenheter</FormSummary.Label>
+                                <FormSummary.Label>Inkluderte org.enheter - da MED tilhørende underenheter</FormSummary.Label>
                                 <FormSummary.Value>
                                     <List className={"list-two-columns"}>
                                         {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}
@@ -46,7 +46,7 @@ const SummaryOfTildeling = ({assignment, missingFields, accessRoles}: SummaryOfT
                             </FormSummary.Answer>
                         :
                             <FormSummary.Answer>
-                                <FormSummary.Label>Valgte orgenheter</FormSummary.Label>
+                                <FormSummary.Label>Valgte org.enheter</FormSummary.Label>
                                 <FormSummary.Value>
                                     <List className={"list-two-columns"}>
                                         {assignment.orgUnits.map(orgunit => <li key={orgunit.id}>{orgunit.name}</li>)}

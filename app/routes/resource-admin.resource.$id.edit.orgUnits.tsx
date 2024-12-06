@@ -171,9 +171,9 @@ export default function EditOrgUnitsForResource() {
                 <Heading level={"1"} size={"large"}>Endre eller legg orgeheter </Heading>
                 <Heading level="2" size="small">{resource.resourceName}</Heading>
             </div>
-            <ExpansionCard aria-label="Legg til orgenheter som skal ha tilgang til ressursen" defaultOpen={true}>
+            <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen" defaultOpen={true}>
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Legg til orgenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <ValidForOrgUnitSelector orgUnitList={orgUnitsWithIsChecked}

@@ -221,9 +221,9 @@ export default function ResourceModuleAdminTabTildel() {
                            className={newAssignment.orgUnits.length > 0 ? "expansion-green" : ""}>
                 <ExpansionCard.Header>
                     {newAssignment.orgUnits.length > 0 ?
-                        <ExpansionCard.Title><CheckmarkCircleIcon/> Orgenheter valgt</ExpansionCard.Title>
+                        <ExpansionCard.Title><CheckmarkCircleIcon/> Organisasjonsenheter valgt</ExpansionCard.Title>
                         :
-                        <ExpansionCard.Title>Legg til orgenheter</ExpansionCard.Title>
+                        <ExpansionCard.Title>Legg til organisasjonsenheter</ExpansionCard.Title>
                     }
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>

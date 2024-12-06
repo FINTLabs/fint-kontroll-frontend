@@ -61,7 +61,7 @@ const ChipsFilters = () => {
             case "userType":
                 return translateUserTypeToLabel(value, userTypes);
             case "orgUnits":
-                return "Fjern orgenhetsfiltre";
+                return "Fjern org.enhetsfiltre";
             case "applicationcategory":
                 return `Applikasjonskategori: ${value}`;
             case "orgUnitName":
