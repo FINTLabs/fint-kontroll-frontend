@@ -5,24 +5,25 @@ import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
-import {IKodeverkApplicationCategory, IUnitItem, IUnitTree} from "~/data/types";
+import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
-import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
+import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
+import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
         <HStack align={"start"}>
-            <HStack justify={"center"}>
-                <Link to={`/resource-admin`}>Ressursadministrasjon</Link>
-                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/${params.id}`}>Ressursinfo</Link>
-                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/edit/resource${params.id}`}>Rediger ressurs</Link>
+            <HStack justify={"center"} align={"center"}>
+                <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
+                <ArrowRightIcon fontSize="1.5rem"/>
+                <Link to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <ArrowRightIcon fontSize="1.5rem"/>
+                <Link to={`/resource-admin/edit/resource${params.id}`} className={"breadcrumb-link"}>Rediger
+                    ressurs</Link>
             </HStack>
         </HStack>
     )
@@ -33,15 +34,18 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request
-    const orgUnitsResponse = await fetchOrgUnits(auth)
-    const allOrgUnits = await orgUnitsResponse.json()
-    const resource = await fetchResourceById(request, params.id)
-    const resourceData = await resource.json()
-    const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData)
-    const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData)
-    const applicationCategories = await fetchApplicationCategories(auth)
-    const userTypes = await fetchUserTypes(auth)
+    const auth = request;
+    const [orgUnitsResponse, resource, applicationCategories, userTypes] = await Promise.all([
+        fetchOrgUnits(auth),
+        fetchResourceById(request, params.id),
+        fetchApplicationCategories(auth),
+        fetchUserTypes(auth)
+    ]);
+
+    const allOrgUnits = await orgUnitsResponse.json();
+    const resourceData = await resource.json();
+    const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData);
+    const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData);
 
     return {
         orgUnitsWithIsChecked,
@@ -117,7 +121,6 @@ export async function action({request}: ActionFunctionArgs) {
 }
 
 export default function EditApplikasjonsRessurs() {
-
     const loaderData = useLoaderData<typeof loader>();
     const orgUnitsWithIsChecked = loaderData.orgUnitsWithIsChecked.orgUnits as IUnitItem[];
     const orgUnitOwner = loaderData.orgUnitOwner.orgUnits as IUnitItem[]; // Her får du listen med kun én "checked" enhet
@@ -128,6 +131,7 @@ export default function EditApplikasjonsRessurs() {
     const navigate = useNavigate()
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
     const [selectedOrgUnits, setSelectedOrgUnits] = useState<IUnitItem[]>([])
+    const [selectedOwnerOrgUnit, setSelectedOwnerOrgUnit] = useState<IUnitItem | null>(orgUnitOwner.find(orgUnit => orgUnit.isChecked) ?? null)
     const response = useNavigation()
 
     const [newResource, setNewResource] = useState<IApplicationResource>({
@@ -183,12 +187,14 @@ export default function EditApplikasjonsRessurs() {
             </div>
             <ExpansionCard aria-label="Velg orgenhet som er eier av ressursen">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Velg orgenhet som er eier av ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>Velg organisasjonsenhet som er eier av ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Description>{selectedOwnerOrgUnit ? `Valgt enhet: ${selectedOwnerOrgUnit.name}` : ""}</ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ResourceOwnerSelector orgUnitList={orgUnitOwner}
-                                           selectedOrgUnit={selectedOrgUnit}
-                                           setSelectedOrgUnit={(selected) => setSelectedOrgUnit(selected)}
+                    <OrgUnitRadioSelection
+                        orgUnitList={orgUnitOwner}
+                        selectedOrgUnit={selectedOwnerOrgUnit}
+                        setSelectedOrgUnit={(selected) => setSelectedOwnerOrgUnit(selected)}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
@@ -233,9 +239,9 @@ export default function EditApplikasjonsRessurs() {
                     <input type="hidden" name="resourceLimit" id="resourceLimit"
                            value={newResource.resourceLimit.toString()}/>
                     <input type="hidden" name="resourceOwnerOrgUnitId" id="resourceOwnerOrgUnitId"
-                           value={selectedOrgUnit?.organisationUnitId}/>
+                           value={selectedOwnerOrgUnit?.organisationUnitId}/>
                     <input type="hidden" name="resourceOwnerOrgUnitName" id="resourceOwnerOrgUnitName"
-                           value={selectedOrgUnit?.name}/>
+                           value={selectedOwnerOrgUnit?.name}/>
                     <input
                         type="hidden"
                         name="validForOrgUnits"

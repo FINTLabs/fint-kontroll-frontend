@@ -113,6 +113,42 @@ table {
     background-color: var(--blue-20);
 }
 
+.org-unit-accordion {
+    width: 100%;
+    animation: "fadeExpansionCard 250ms ease";
+    align-content: start;
+
+    .org-unit-accordion__button {
+        justify-content: start;
+        width: 100%;
+        color: var(--a-text-default);
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .chevron-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+
+            &.open {
+                transform: rotate(90deg);
+            }
+
+            &.closed {
+                transform: rotate(0deg);
+            }
+        }
+
+        span:last-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+
+        }
+    }
+
+}
+
 .navds-radio-buttons {
     display: flex;
     flex-direction: row;

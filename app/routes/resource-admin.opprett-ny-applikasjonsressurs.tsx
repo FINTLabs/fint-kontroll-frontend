@@ -5,14 +5,14 @@ import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
-import {IKodeverkApplicationCategory, IUnitItem, IUnitTree} from "~/data/types";
+import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
-import ResourceOwnerSelector from "~/components/resource-admin/opprett-ny-ressurs/resourceOwnerSelector";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
+import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
+import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
 
 export const handle = {
     // @ts-ignore
@@ -20,8 +20,10 @@ export const handle = {
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
                 <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
-                <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`} className={"breadcrumb-link"}>Ny ressurs</Link>
+                <ArrowRightIcon fontSize="1.5rem"/>
+                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`} className={"breadcrumb-link"}>
+                    Ny ressurs
+                </Link>
             </HStack>
         </HStack>
     )
@@ -146,12 +148,14 @@ export default function OpprettNyApplikasjonsRessurs() {
             <Heading size={"large"} level={"1"}>Fyll ut ressursinformasjon</Heading>
             <ExpansionCard aria-label="Velg orgenhet som er eier av ressursen">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Velg orgenhet som er eier av ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>Velg organisasjonsenhet som er eier av ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Description>{selectedOrgUnit ? `Valgt enhet: ${selectedOrgUnit.name}` : ""}</ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ResourceOwnerSelector orgUnitList={allOrgUnits}
-                                           selectedOrgUnit={selectedOrgUnit}
-                                           setSelectedOrgUnit={(selected) => setSelectedOrgUnit(selected)}
+                    <OrgUnitRadioSelection
+                        orgUnitList={allOrgUnits}
+                        selectedOrgUnit={selectedOrgUnit}
+                        setSelectedOrgUnit={(selected) => setSelectedOrgUnit(selected)}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
