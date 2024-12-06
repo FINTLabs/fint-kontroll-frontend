@@ -60,7 +60,7 @@ const DeleteAssignment = ({
         <Modal ref={deleteRef} header={{ heading: `Slett ${selectedRoleToDeleteFrom.name}?` }} onClose={closeModal}>
             <Modal.Body>
                 Ønsker du å slette brukertilknytningen til {selectedRoleToDeleteFrom.name} og de underliggende
-                orgenhetene?
+                organisasjonsenhetene?
                 <Switch onClick={() => setCompleteDelete(!completeDelete)} checked={completeDelete}>
                     Fjern hele knytningen uavhengig objekttyper?{" "}
                 </Switch>

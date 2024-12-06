@@ -97,7 +97,7 @@ export default function ResourceById() {
                 </VStack>
 
                 <VStack gap="4">
-                    <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende orgenheter</Heading>
+                    <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende organisasjonsenheter</Heading>
                     {source === "gui" && (
                         <HStack justify={"end"} align={"end"}>
                             <Button role="link"
@@ -105,7 +105,7 @@ export default function ResourceById() {
                                     variant={"secondary"}
                                     iconPosition="right" icon={<PencilIcon aria-hidden/>}
                                     onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}>
-                                Rediger orgenheter
+                                Rediger organisasjonsenheter
                             </Button>
                         </HStack>
                     )}

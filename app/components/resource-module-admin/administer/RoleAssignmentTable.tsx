@@ -53,7 +53,7 @@ const RoleAssignmentTable = ({selectedRole, userAssignmentsPaginated}: RoleAssig
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Objekttype</Table.HeaderCell>
-                        <Table.HeaderCell>Orgenhet</Table.HeaderCell>
+                        <Table.HeaderCell>Org.enhet</Table.HeaderCell>
                         {selectedRole.accessRoleId === "" && <Table.HeaderCell>Rolle</Table.HeaderCell>}
                         {/* REMOVED UNTIL NEW TABLE ROWS ARE IMPLEMENTED CORRECTLY */}
                         {/*<Table.HeaderCell align={"center"}>Slett</Table.HeaderCell>*/}

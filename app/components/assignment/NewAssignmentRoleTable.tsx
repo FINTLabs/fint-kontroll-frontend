@@ -29,7 +29,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                     <Table.Row>
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Orgenhet</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={"center"}>Tildelinger</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>

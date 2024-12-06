@@ -45,7 +45,7 @@ const AdministerToolbar = ({objectTypesForUser}: ToolbarProps) => {
                 handleSearch()
                 event.preventDefault()
             }}>
-                <Search label="Søk på orgenhetsnavn"
+                <Search label="Søk på org.enhetsnavn"
                         variant="secondary"
                         hideLabel={false}
                         onChange={event => setSearchValue(event)}
