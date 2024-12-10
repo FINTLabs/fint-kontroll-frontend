@@ -9,7 +9,7 @@ import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import OrgUnitSelectWithAmount from "~/components/common/orgUnits/OrgUnitSelectWithAmount";
+import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 
 export const handle = {
     // @ts-ignore
@@ -189,10 +189,11 @@ export default function EditOrgUnitsForResource() {
                     </ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <OrgUnitSelectWithAmount
-                        orgUnitList={orgUnitsWithIsChecked}
+                    <OrgUnitSelect
+                        allOrgUnits={orgUnitsWithIsChecked}
                         selectedOrgUnits={selectedOrgUnits}
                         setSelectedOrgUnits={setSelectedOrgUnits}
+                        selectType="allocation"
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>

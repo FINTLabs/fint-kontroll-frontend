@@ -1,10 +1,10 @@
-import {Button, Modal, Switch} from "@navikt/ds-react"
+import {Box, Button, Modal, Switch} from "@navikt/ds-react"
 import React, {useRef, useState} from "react"
 import {Buildings3Icon} from "@navikt/aksel-icons"
 import type {IUnitItem} from "~/data/types";
-import OrgUnitTree from "~/components/org-unit-filter/OrgUnitTree";
 import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam} from "~/components/common/CommonFunctions";
+import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 
 interface OrgUnitFilterModalProps {
     orgUnitList: IUnitItem[]
@@ -60,20 +60,32 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 header={{heading: "Velg organisasjonsenhet(er)"}}
                 onAbort={handleClose}
                 onCancel={handleClose}
+                size={"medium"}
+                width={"medium"}
             >
                 <Modal.Body className={"modal-body"}>
-                    <>
-                        <Switch id="sub-org-unit-switch" onClick={() => setAggregated(!aggregated)} checked={aggregated}>
+
+                    <Box paddingInline={"4"} paddingBlock={"0 4"}>
+                        <Switch id="sub-org-unit-switch" onClick={() => setAggregated(!aggregated)}
+                                checked={aggregated}>
                             Inkluder underliggende enheter
                         </Switch>
+                    </Box>
 
-                        <OrgUnitTree
+                    <OrgUnitSelect
+                        allOrgUnits={orgUnitList}
+                        selectedOrgUnits={orgUnitsFilter}
+                        setSelectedOrgUnits={setOrgUnitsFilter}
+                        aggregated={aggregated}
+                    />
+
+                    {/*                        <OrgUnitTree
                             orgUnitList={orgUnitList}
                             selectedOrgUnits={orgUnitsFilter}
                             setSelectedOrgUnits={setOrgUnitsFilter}
                             aggregated={aggregated}
-                        />
-                    </>
+                        />*/}
+
                 </Modal.Body>
 
                 <Modal.Footer>

@@ -15,3 +15,18 @@ export const getUnitById = (orgUnitList: IUnitItem[], id: string): IUnitItem | n
     return orgUnitList.find(unit => unit.organisationUnitId === id) || null
 }
 
+export const getAllNestedChildrenOrgUnits = (unit: IUnitItem, allOrgUnits: IUnitItem[]): IUnitItem[] => {
+    const orgUnits: IUnitItem[] = [];
+    const collectChildren = (unit: IUnitItem) => {
+        unit.childrenRef.forEach(childId => {
+            const child = allOrgUnits.find(u => u.organisationUnitId === childId);
+            if (child) {
+                orgUnits.push(child);
+                collectChildren(child);
+            }
+        });
+    };
+    collectChildren(unit);
+    return orgUnits;
+};
+
