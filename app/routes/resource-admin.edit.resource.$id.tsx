@@ -12,7 +12,7 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import OrgUnitSelectWithAmount from "~/components/common/orgUnits/OrgUnitSelectWithAmount";
+import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
@@ -220,10 +220,11 @@ export default function EditApplikasjonsRessurs() {
                         )}
                     </ExpansionCard.Description> </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <OrgUnitSelectWithAmount
-                        orgUnitList={orgUnitsWithIsChecked}
+                    <OrgUnitSelect
+                        allOrgUnits={orgUnitsWithIsChecked}
                         selectedOrgUnits={selectedValidForOrgUnits}
                         setSelectedOrgUnits={setSelectedValidForOrgUnits}
+                        selectType="allocation"
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>

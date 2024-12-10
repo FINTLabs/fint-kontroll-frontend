@@ -17,7 +17,7 @@ const Accordion = ({children}: AccordionProps) => {
 };
 
 const AccordionItem = ({title, children, isTopLevel}: AccordionItemProps) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(!!isTopLevel);
 
     return (
         <VStack
@@ -29,7 +29,10 @@ const AccordionItem = ({title, children, isTopLevel}: AccordionItemProps) => {
                 className={"org-unit-accordion__button"}
                 size={"small"}
                 variant={"tertiary"}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={(event) => {
+                    if (event.target instanceof HTMLInputElement) return;
+                    setIsOpen(!isOpen)
+                }}
                 icon={
                     children ? (
                         <span className={`chevron-icon ${isOpen ? 'open' : 'closed'}`}>

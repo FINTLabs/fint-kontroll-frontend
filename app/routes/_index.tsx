@@ -1,4 +1,3 @@
-import illustration from "/illustrasjon.svg"
 import {Bleed, Heading, HStack, VStack} from "@navikt/ds-react";
 import {LinkCard, LinkCardGrid} from "~/components/common/LinkCard";
 import {RESOURCES, ROLES, USERS} from "~/data/constants";
