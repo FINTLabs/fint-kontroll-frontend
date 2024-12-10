@@ -1,13 +1,13 @@
 import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
 import type {IUserItem} from "~/data/types";
-import React from "react";
 import {Outlet, useLoaderData, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {loader} from "~/routes/assignment.resource.$id.user";
+import {loader} from "~/routes/ressurs.$id.ny-tildeling.brukere";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+import {getResourceConfirmUserAssignmentUrl} from "~/data/constants";
 
 
 interface AssignUserTableProps {
@@ -65,7 +65,7 @@ export const AssignUserTable = (
                                         variant={"secondary"}
                                         icon={<PlusIcon title="a11y-title" fontSize="1.5rem" />}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/resource/${resourceId}/user/${user.id}/orgunit/${user.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${basePath}${getResourceConfirmUserAssignmentUrl(Number(resourceId), user.id, user.organisationUnitId)}?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel

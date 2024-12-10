@@ -1,20 +1,21 @@
-import React from 'react';
-import {BodyShort, Button, Loader, Modal} from "@navikt/ds-react";
+import {BodyShort, Button, Modal} from "@navikt/ds-react";
 import {Form, useNavigate, useNavigation, useParams, useSearchParams} from "@remix-run/react";
 import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
-import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getResourceRoleAssignmentsUrl} from "~/data/constants";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
-    const response = await deleteAssignment(request, data.get("assignmentRef") as string)
-    searchParams.set("responseCode", String(response.status))
-    return redirect(`/resources/${data.get("resourceRef")}/user-assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
+
+    const response = await deleteAssignment(request.headers.get("Authorization"), request, data.get("assignmentRef") as string)
+
+    return redirect(`${getResourceRoleAssignmentsUrl(Number(data.get("resourceRef")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
-export default function DeleteUserAssignment() {
+export default function DeleteRoleAssignment() {
     const params = useParams<string>()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
@@ -24,7 +25,7 @@ export default function DeleteUserAssignment() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/resources/${params.id}/user-assignments${prepareQueryParams(searchParams)}`)}
+                onClose={() => navigate(`${getResourceRoleAssignmentsUrl(Number(params.id))}?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
@@ -52,7 +53,7 @@ export default function DeleteUserAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/resources/${params.id}/user-assignments${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${getResourceRoleAssignmentsUrl(Number(params.id))}?page=${searchParams.get("page")}&search=${searchParams.get("search")}`)}
                     >
                         Avbryt
                     </Button>

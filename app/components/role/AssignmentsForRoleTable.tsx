@@ -1,7 +1,6 @@
 import {Button, Link, Table} from "@navikt/ds-react";
 import type {IAssignmentPage, IResourceAssignment} from "~/data/types";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
-import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TablePagination} from "~/components/common/Table/TablePagination";
@@ -38,8 +37,8 @@ export const AssignmentsForRoleTable  = ({
                 <Table.Body>
 
                     {assignmentsForRole.resources.map((resource: IResourceAssignment) => (
-                        <Table.Row key={resource.resourceRef}>
-                            <Table.DataCell scope="row">{resource.resourceName}</Table.DataCell>
+                        <Table.Row key={resource.assignmentRef}>
+                            <Table.DataCell>{resource.resourceName}</Table.DataCell>
                             <Table.DataCell>{resource.resourceType}</Table.DataCell>
                             <Table.DataCell>{resource.assignerDisplayname ? resource.assignerDisplayname : resource.assignerUsername}</Table.DataCell>
                             <Table.DataCell align={"center"}>

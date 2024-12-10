@@ -1,8 +1,5 @@
 import {
     Form,
-    Links,
-    Meta,
-    Scripts,
     useLoaderData,
     useNavigate,
     useNavigation,
@@ -18,6 +15,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {useState} from "react";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getResourceNewRoleAssignmentUrl} from "~/data/constants";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -39,12 +37,9 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
-   // const responseCode = response !== undefined ? response.status : 0
+    // const responseCode = response !== undefined ? response.status : 0
 
-
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/role${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
-   // return redirect(`/assignment/resource/${data.get("resourceRef")}/role?page=${searchParams.get("page")}&search=${searchParams.get("search")}&responseCode=${responseCode}`)
-
+    return redirect(`${getResourceNewRoleAssignmentUrl(Number(data.get("resourceRef")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function NewAssignment1() {
@@ -75,7 +70,7 @@ export default function NewAssignment1() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParamsWithResponseCode(searchParams)}`)}
+                onClose={() => navigate(`${getResourceNewRoleAssignmentUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -115,7 +110,7 @@ export default function NewAssignment1() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/resource/${params.id}/role${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${getResourceNewRoleAssignmentUrl(Number(params.id))}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>
@@ -127,23 +122,12 @@ export default function NewAssignment1() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

@@ -6,6 +6,7 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {getResourceConfirmRoleAssignmentUrl} from "~/data/constants";
 
 interface AssignRoleTableProps {
     isAssignedRoles: IRole[];
@@ -50,7 +51,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                         variant={"secondary"}
                                         icon={<PlusIcon title="a11y-title" fontSize="1.5rem"/>}
                                         iconPosition="right"
-                                        href={`${props.basePath}/assignment/resource/${props.resourceId}/role/${role.id}/orgunit/${role.organisationUnitId}/assign?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
+                                        href={`${props.basePath}${getResourceConfirmRoleAssignmentUrl(Number(props.resourceId), role.id, role.organisationUnitId)}?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
                                         underline={false}
                                     >
                                         Tildel

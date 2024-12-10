@@ -85,13 +85,13 @@ export function goToGrupper() {
 Cypress.Commands.add('goToGrupper', goToGrupper)
 
 export function goToRessurser() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resources')
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/ressurser')
 }
 
 Cypress.Commands.add('goToRessurser', goToRessurser)
 
 export function goToSpecificResource() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resources/5/user-assignments')
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/ressurser/5/bruker-tildelinger')
 }
 
 Cypress.Commands.add('goToSpecificResource', goToSpecificResource)

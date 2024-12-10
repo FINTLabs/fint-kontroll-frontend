@@ -3,15 +3,8 @@ import {AssignUserTable} from "~/components/assignment/NewAssignmentUserTable";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json, TypedResponse} from "@remix-run/node";
-import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {
-    BreadcrumbParams,
-    IAssignedUsers,
-    IKodeverkUserType,
-    IUser,
-    IUserItem,
-    IUserPage
-} from "~/data/types";
+import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import {BreadcrumbParams, IAssignedUsers, IKodeverkUserType, IUser, IUserItem, IUserPage} from "~/data/types";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
@@ -19,9 +12,10 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
+import {getResourceNewUserAssignmentUrl} from "~/data/constants";
 
 type LoaderData = {
-    userList: IUserPage ,
+    userList: IUserPage,
     isAssignedUsers: IUserItem[],
     basePath: string,
     userTypes: IKodeverkUserType[]
@@ -64,11 +58,11 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
 }
 
 export default function NewAssignment() {
-    const { userList, isAssignedUsers, basePath, userTypes } = useLoaderData<LoaderData>();
-    const { id } = useParams<string>();
+    const {userList, isAssignedUsers, basePath, userTypes} = useLoaderData<LoaderData>();
+    const {id} = useParams<string>();
 
     return (
-        <Tabs.Panel value="user">
+        <Tabs.Panel value="brukere">
             <TableToolbar
                 FilterComponents={<UserTypeFilter userTypes={userTypes}/>}
                 SearchComponent={<UserSearch/>}
@@ -87,28 +81,18 @@ export default function NewAssignment() {
 
 export const handle = {
     breadcrumb: ({params}: BreadcrumbParams) =>
-        <Link to={`/assignment/resource/${params.id}/user`} className={"breadcrumb-link"}>Brukertildeling</Link>
+        <Link to={getResourceNewUserAssignmentUrl(Number(params.id))}
+              className={"breadcrumb-link"}>Brukertildeling</Link>
 }
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

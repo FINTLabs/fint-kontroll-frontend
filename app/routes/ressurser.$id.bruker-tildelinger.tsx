@@ -1,6 +1,5 @@
-import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
+import {Link, useLoaderData, useRouteError} from "@remix-run/react";
 import {IAssignedUsers, IKodeverkUserType, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
@@ -15,6 +14,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
+import {getResourceUserAssignmentsUrl} from "~/data/constants";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -28,19 +28,19 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [assignedUsers, resourceById, source] = await Promise.all([
-        fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
+    const [resourceById, source, assignedUsers] = await Promise.all([
         fetchResourceById(request, params.id),
-        fetchResourceDataSource(request)
+        fetchResourceDataSource(request),
+        fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits)
     ])
-
     let userTypes: IKodeverkUserType[] = []
+
     if (source === "gui") {
         userTypes = await fetchUserTypes(request)
     }
-
-
     const resource: IResource = await resourceById.json()
+
+
     return json({
         context,
         assignedUsers: await assignedUsers.json(),
@@ -55,12 +55,8 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => {
-        return <Link to={`/resources/${params.id}/user-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
+        return <Link to={getResourceUserAssignmentsUrl(params.id)} className={"breadcrumb-link"}>Ressursinfo</Link>
     }
-}
-
-export function useResourceByIdLoaderData() {
-    return useRouteLoaderData<typeof loader>("resource.$id")
 }
 
 export default function AssignedUsers() {
@@ -71,7 +67,7 @@ export default function AssignedUsers() {
     const responseCode: string | undefined = loaderData.responseCode
 
     return (
-        <Tabs.Panel value="user-assignments">
+        <Tabs.Panel value="bruker-tildelinger">
             <VStack gap="4">
                 <TableToolbar
                     SearchComponent={<UserSearch/>}
@@ -91,21 +87,11 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

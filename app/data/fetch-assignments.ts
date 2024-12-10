@@ -1,10 +1,8 @@
 import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
 import logger from "~/logging/logger";
-import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
 export const fetchAssignedUsers = async (request: Request, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
-    const response = await fetch
-    (`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`,
         {
             headers: request.headers
         });
@@ -19,7 +17,7 @@ export const fetchAssignedUsers = async (request: Request, id: string | undefine
     if (response.status === 401) {
         throw new Error("Påloggingen din er utløpt!")
     }
-    throw new Error("Det virker ikke som om du er pålogget?")
+    throw new Error(`Det oppstod en uventet feil. Status kode: ${response.status}`);
 
 }
 
@@ -150,10 +148,10 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
     }));
 
     const response = await fetch(url, {
-       headers: {
-           Authorization: token ?? "",
-           'content-type': 'application/json'
-       },
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,
@@ -166,12 +164,15 @@ export const createRoleAssignment = async (token: string | null, resourceRef: nu
 }
 
 
-export const deleteAssignment = async (request: Request, assignmentRef: string) => {
+export const deleteAssignment = async (token: string | null, request: Request, assignmentRef: string) => {
 
     const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`
     logger.debug("Delete assignment ", url);
     const response = await fetch(url, {
-        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+        headers: {
+            Authorization: token ?? "",
+            'content-type': 'application/json'
+        },
         method: 'DELETE'
     });
     logger.debug("Response from deleteAssignments", url, response.status);

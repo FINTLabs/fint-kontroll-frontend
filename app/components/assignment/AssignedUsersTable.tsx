@@ -7,7 +7,8 @@ import {prepareQueryParams, translateUserTypeToLabel} from "~/components/common/
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {loader} from "~/routes/resources.$id.user-assignments";
+import {loader} from "~/routes/ressurser.$id.bruker-tildelinger";
+import {getResourceDeleteUserAssignmentUrl} from "~/data/constants";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers,
@@ -17,7 +18,6 @@ interface AssignedUsersTableProps {
 
 export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUsersTableProps) => {
     const {userTypes} = useLoaderData<typeof loader>()
-
     const [searchParams] = useSearchParams()
     const params = useParams()
     const {fetching} = useLoadingState()
@@ -53,7 +53,8 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
                                             variant={"secondary"}
                                             icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                             iconPosition={"right"}
-                                            href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
+                                            href={`${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                           // href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
                                         >
                                             Slett
                                         </Button>
