@@ -1,8 +1,5 @@
 import {
     Form,
-    Links,
-    Meta,
-    Scripts,
     useLoaderData,
     useNavigate,
     useNavigation,
@@ -11,13 +8,14 @@ import {
     useSearchParams
 } from "@remix-run/react";
 import {useState} from "react";
-import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal, VStack} from "@navikt/ds-react";
+import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Modal, VStack} from "@navikt/ds-react";
 import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createUserAssignment} from "~/data/fetch-assignments";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getResourceNewUserAssignmentUrl} from "~/data/constants";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -40,7 +38,7 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)
 
-    return redirect(`/assignment/resource/${data.get("resourceRef")}/user${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${getResourceNewUserAssignmentUrl(Number(data.get("resourceRef")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function NewAssignment1() {
@@ -72,7 +70,7 @@ export default function NewAssignment1() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/resource/${params.id}/user${prepareQueryParamsWithResponseCode(searchParams)}`)}
+                onClose={() => navigate(`${getResourceNewUserAssignmentUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -112,7 +110,7 @@ export default function NewAssignment1() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/resource/${params.id}/user${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${getResourceNewUserAssignmentUrl(Number(params.id))}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>
@@ -124,23 +122,12 @@ export default function NewAssignment1() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

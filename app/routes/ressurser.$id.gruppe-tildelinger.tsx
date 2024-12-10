@@ -58,7 +58,7 @@ export default function AssignedRoles() {
     }>();
 
     return (
-        <Tabs.Panel value="role-assignments">
+        <Tabs.Panel value="gruppe-tildelinger">
             <VStack gap="4">
                 <TableToolbar
                     SearchComponent={<RoleSearch/>}
@@ -73,23 +73,13 @@ export default function AssignedRoles() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
+     console.error(error, "Her er error i grppe-tildelinger");
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

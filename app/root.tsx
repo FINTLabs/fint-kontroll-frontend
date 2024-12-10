@@ -153,17 +153,8 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
 export function ErrorBoundary() {
     const error: any = useRouteError();
     console.error(error);
-
     const me = null
-
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Layout me={me}>
             <Box paddingBlock="8">
                 <Alert variant="error">
@@ -173,7 +164,5 @@ export function ErrorBoundary() {
             </Box>
             <Scripts/>
         </Layout>
-        </body>
-        </html>
     );
 }

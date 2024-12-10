@@ -6,7 +6,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
         cy.wait(1000)
         cy.get("a").contains("Ny tildeling").click()
         cy.wait(1000)
-        cy.url().should('include', '/user')
+        cy.url().should('include', '/brukere')
     })
 
     it('Verify that data from resource loads, and that headings and toolbar loads', () => {

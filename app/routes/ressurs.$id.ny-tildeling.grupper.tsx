@@ -1,8 +1,7 @@
-import React from 'react';
 import {Alert, Box, Tabs} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json, TypedResponse} from "@remix-run/node";
-import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
+import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import type {BreadcrumbParams, IAssignedRoles, IRole, IRoleList} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {fetchRoles} from "~/data/fetch-roles";
@@ -18,7 +17,7 @@ type LoaderData = {
     basePath: string,
 }
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>>  {
+export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
@@ -52,7 +51,7 @@ export default function NewAssignmentForRole() {
     const params = useParams<string>()
 
     return (
-        <Tabs.Panel value="role">
+        <Tabs.Panel value="grupper">
             <TableToolbar
                 SearchComponent={<RoleSearch/>}
             />
@@ -76,21 +75,11 @@ export const handle = {
 export function ErrorBoundary() {
     const error: any = useRouteError();
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

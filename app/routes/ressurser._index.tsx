@@ -84,7 +84,13 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+        /*<html lang={"no"}>
         <head>
             <title>Feil oppstod</title>
             <Meta/>
@@ -99,6 +105,6 @@ export function ErrorBoundary() {
         </Box>
         <Scripts/>
         </body>
-        </html>
+        </html>*/
     );
 }

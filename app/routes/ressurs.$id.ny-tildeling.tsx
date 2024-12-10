@@ -1,25 +1,16 @@
 import {Alert, Box, HStack, Loader, Tabs, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import {
-    Link,
-    Links,
-    Meta,
-    Outlet,
-    Scripts,
-    useLoaderData,
-    useLocation,
-    useNavigate, useParams,
-    useRouteError
-} from "@remix-run/react";
+import {Link, Outlet, useLoaderData, useLocation, useNavigate, useParams, useRouteError} from "@remix-run/react";
 import {BreadcrumbParams, IResource} from "~/data/types";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ArrowRightIcon, PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
-import React, {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
+import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/constants";
 
 
 export async function loader({params, request}: LoaderFunctionArgs) {
@@ -39,9 +30,10 @@ export const handle = {
     breadcrumb: ({params}: BreadcrumbParams) =>
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/resources`} className={"breadcrumb-link"}>Ressurser</Link>
+                <Link to={RESOURCES} className={"breadcrumb-link"}>Ressurser</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resources/${params.id}/user-assignments`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <Link to={getResourceUserAssignmentsUrl(Number(params.id))}
+                      className={"breadcrumb-link"}>Ressursinfo</Link>
             </HStack>
         </HStack>
 }
@@ -56,18 +48,18 @@ export default function NewAssignment() {
     const responseCode: string | undefined = loaderData.responseCode
 
 
-    const [state, setState] = useState(location.pathname.includes("/user") ? "user" : "role");
+    const [state, setState] = useState(location.pathname.includes("/brukere") ? "brukere" : "grupper");
 
     const handleChangeTab = useCallback((value: string) => {
-        navigate(`/assignment/resource/${params.id}/${value}`)
+        navigate(`${getResourceNewAssignmentUrl(Number(params.id))}/${value}`)
         setState(value)
     }, [navigate, params.id])
 
     useEffect(() => {
-        if (location.pathname.includes("/user")) {
-            setState("user")
+        if (location.pathname.includes("/brukere")) {
+            setState("brukere")
         } else {
-            setState("role")
+            setState("grupper")
         }
     }, [location.pathname])
 
@@ -88,13 +80,13 @@ export default function NewAssignment() {
                 <Tabs value={state} onChange={handleChangeTab}>
                     <Tabs.List>
                         <Tabs.Tab
-                            value="user"
+                            value="brukere"
                             label="Brukere"
                             icon={<PersonIcon fontSize="1.2rem"/>}
                             id="user-tab"
                         />
                         <Tabs.Tab
-                            value="role"
+                            value="grupper"
                             label="Grupper"
                             icon={<PersonGroupIcon fontSize="1.2rem"/>}
                             id="role-tab"
@@ -117,21 +109,11 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

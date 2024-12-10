@@ -2,6 +2,7 @@ import {MenuHamburgerIcon,} from "@navikt/aksel-icons";
 import {ActionMenu, BodyShort, Button, HGrid} from "@navikt/ds-react";
 import {useNavigate} from "@remix-run/react";
 import {IMeInfo} from "~/data/types";
+import {RESOURCES, ROLES, USERS} from "~/data/constants";
 
 export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string }) => {
     const navigate = useNavigate();
@@ -66,13 +67,13 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     <ActionMenu.Divider/>
 
                     <ActionMenu.Group label="For tildeler">
-                        <ActionMenu.Item id="users" onSelect={() => navigate(`users`)}>
+                        <ActionMenu.Item id="users" onSelect={() => navigate(USERS)}>
                             Brukere
                         </ActionMenu.Item>
-                        <ActionMenu.Item onSelect={() => navigate(`roles`)}>
+                        <ActionMenu.Item onSelect={() => navigate(ROLES)}>
                             Grupper
                         </ActionMenu.Item>
-                        <ActionMenu.Item onSelect={() => navigate(`resources`)}>
+                        <ActionMenu.Item onSelect={() => navigate(RESOURCES)}>
                             Ressurser
                         </ActionMenu.Item>
                     </ActionMenu.Group>

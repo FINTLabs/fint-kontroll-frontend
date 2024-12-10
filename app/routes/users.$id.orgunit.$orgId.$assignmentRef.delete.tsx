@@ -10,7 +10,7 @@ export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
 
-    const response = await deleteAssignment(request, data.get("assignmentRef") as string)
+    const response = await deleteAssignment(request.headers.get("Authorization"), request, data.get("assignmentRef") as string)
 
     return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
