@@ -134,6 +134,20 @@ jobs:
             ./build
           key: ${{ github.sha }}
 
+      - name: Get environment
+        uses: actions/github-script@v6
+        id: environment
+        with:
+          script: return '${{ inputs.cluster }}'.split('-')[1]
+          result-encoding: string
+
+      - name: Get resource group name
+        uses: actions/github-script@v6
+        id: resource-group
+        with:
+          script: return 'rg-aks-${{ steps.environment.outputs.result }}'
+          result-encoding: string
+
       - name: Bake manifests with Kustomize
         uses: azure/k8s-bake@v2
         with:
