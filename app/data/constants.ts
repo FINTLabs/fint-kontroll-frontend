@@ -1,8 +1,13 @@
 export const USERS = "/brukere"
+export const getUserByIdUrl = (id: number, orgId: string | undefined): string => `/brukere/${id}/org/${orgId}`;
+export const getUserNewAssignmentUrl = (id: number, orgId: string | undefined): string => `/bruker/${id}/org/${orgId}/ny-tildeling`;
+export const getDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string => `/brukere/${id}/tildeling/${assignmentRef}/slett`;
+export const getConfirmUserAssignmentUrl = (id: number, resourceId: number, orgId: string): string => `/bruker/${id}/ressurs/${resourceId}/org/${orgId}/tildel`;
+
+
 export const ROLES = "/roles"
 
 export const RESOURCES = "/ressurser"
-
 export const getResourceUserAssignmentsUrl = (id: number): string => `/ressurser/${id}/bruker-tildelinger`;
 export const getResourceRoleAssignmentsUrl = (id: number): string => `/ressurser/${id}/gruppe-tildelinger`;
 export const getResourceDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string => `/ressurser/${id}/bruker-tildelinger/${assignmentRef}/slett`;

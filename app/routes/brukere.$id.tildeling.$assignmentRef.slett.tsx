@@ -5,6 +5,7 @@ import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getUserByIdUrl} from "~/data/constants";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()
@@ -12,7 +13,8 @@ export async function action({params, request}: ActionFunctionArgs) {
 
     const response = await deleteAssignment(request.headers.get("Authorization"), request, data.get("assignmentRef") as string)
 
-    return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${getUserByIdUrl(Number(params.id), params.orgId)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+   // return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function DeleteUserAssignment() {
@@ -31,7 +33,7 @@ export default function DeleteUserAssignment() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams)}`)}
+                onClose={() => navigate(`${getUserByIdUrl(Number(params.id), params.orgId)}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Ønsker du å trekke tilgangen?",
                     size: "small",
@@ -59,7 +61,7 @@ export default function DeleteUserAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/users/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${getUserByIdUrl(Number(params.id), params.orgId)}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {UserTable} from "~/components/user/UserTable";
 import {UserSearch} from "~/components/user/UserSearch";
 import {Alert, Box} from "@navikt/ds-react";

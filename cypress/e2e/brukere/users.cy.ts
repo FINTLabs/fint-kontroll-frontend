@@ -8,10 +8,10 @@ describe('Check the user page', () => {
         const baseUrl = "http://localhost:3000/api";
         cy.interceptAndReturnFile("GET", `${baseUrl}/orgunits`, "orgunits.json");
         cy.interceptAndReturnFile("GET", `${baseUrl}/orgunits/orgTree`, "orgunits.json");
-        cy.interceptAndReturnFile("GET", `${baseUrl}/users/?size=5`, "users.json");
-        cy.interceptAndReturnFile("GET", `${baseUrl}/users/?search=${searchText}&orgUnits=36`, "users.json");
-        cy.interceptAndReturnFile("GET", `${baseUrl}/users/?userType=${userType}`, "users.json");
-        cy.interceptAndReturnFile("GET", `${baseUrl}/users`, "users.json");
+        cy.interceptAndReturnFile("GET", `${baseUrl}/brukere/?size=5`, "users.json");
+        cy.interceptAndReturnFile("GET", `${baseUrl}/brukere/?search=${searchText}&orgUnits=36`, "users.json");
+        cy.interceptAndReturnFile("GET", `${baseUrl}/brukere/?userType=${userType}`, "users.json");
+        cy.interceptAndReturnFile("GET", `${baseUrl}/brukere`, "users.json");
     });
 
     it('Go to home and navigate to Brukere', () => {

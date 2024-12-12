@@ -24,6 +24,7 @@ import {ResourceSelectApplicationCategory} from "~/components/resource-admin/Res
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
+import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/constants";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -82,11 +83,11 @@ export const handle = {
     breadcrumb: ({params}) =>
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/users`} className={"breadcrumb-link"}>Brukere</Link>
+                <Link to={USERS} className={"breadcrumb-link"}>Brukere</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/users/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Brukerinfo</Link>
+                <Link to={getUserByIdUrl(params.id, params.orgId)} className={"breadcrumb-link"}>Brukerinfo</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/assignment/user/${params.id}/orgunit/${params.orgId}`} className={"breadcrumb-link"}>Ny
+                <Link to={getUserNewAssignmentUrl(params.id, params.orgId)} className={"breadcrumb-link"}>Ny
                     tildeling</Link>
             </HStack>
         </HStack>
@@ -146,7 +147,7 @@ export default function NewAssignmentForUser() {
                     />
                     :
                     <>
-                        <Alert variant="error">Data mangler for å hente tildelte ressurser.</Alert>
+                        <Alert variant="error">Data mangler for å hente ressurser.</Alert>
                     </>
                 }
             </VStack>
@@ -166,7 +167,7 @@ export function ErrorBoundary() {
         <body>
         <Box paddingBlock="8">
             <Alert variant="error">
-                Det oppsto en feil med følgende melding:
+                Det oppsto en feil med følgende melding nå:
                 <div>{error.message}</div>
             </Alert>
         </Box>

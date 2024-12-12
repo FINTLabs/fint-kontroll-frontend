@@ -66,6 +66,7 @@ export interface IUserDetails {
     fullName: string
     userName: string
     organisationUnitName: string
+    organisationUnitId: string
     mobilePhone: string
     email: string
     valid: boolean
