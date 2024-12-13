@@ -8,7 +8,7 @@ import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButt
 import {useLoaderData} from "@remix-run/react";
 import {loader} from "~/routes/brukere._index";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
-import {getUserByIdUrl} from "~/data/constants";
+import {getUserByIdUrl} from "~/data/paths";
 
 export const UserTable = () => {
     const {userList: userPage, size, userTypes} = useLoaderData<typeof loader>();

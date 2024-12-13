@@ -7,6 +7,7 @@ import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {getConfirmRoleAssignmentUrl} from "~/data/paths";
 
 interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[],
@@ -59,7 +60,7 @@ export const AssignResourceToRoleTable = (
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/role/${roleId}/resource/${resource.id}/orgunit/${orgId}/assign${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}${getConfirmRoleAssignmentUrl(roleId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel

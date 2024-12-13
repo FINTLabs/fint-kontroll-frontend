@@ -6,7 +6,7 @@ import {
     SETTINGS_APPLICATION_CATEGORY,
     SETTINGS_LICENSE_ENFORCEMENT,
     SETTINGS_USER_TYPES
-} from "~/data/constants";
+} from "~/data/paths";
 import {LinkCard, LinkCardGrid} from "~/components/common/LinkCard";
 
 export async function loader() {

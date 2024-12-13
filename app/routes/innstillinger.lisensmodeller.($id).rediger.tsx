@@ -7,7 +7,7 @@ import {
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkLicenseModel} from "~/data/types";
 import {BASE_PATH} from "../../environment";
-import {SETTINGS_LICENSE_MODEL} from "~/data/constants";
+import {SETTINGS_LICENSE_MODEL} from "~/data/paths";
 import {EditableListEditModal} from "~/components/settings/KodeverkEditableList/EditableListEditModal";
 
 export async function action({params, request}: ActionFunctionArgs) {

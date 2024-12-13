@@ -5,6 +5,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
+import {getRoleMembersUrl} from "~/data/paths";
 
 interface RoleTableProps {
     rolePage: IRoleList
@@ -33,7 +34,7 @@ export const RoleTable = ({rolePage, size}: RoleTableProps) => {
                                 <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>{role.roleType}</Table.DataCell>
                                 <Table.DataCell align="right">
-                                    <TertiaryArrowButton id={`roleInfoButton-${role.id}`} url={`/roles/${role.id}/members`}/>
+                                    <TertiaryArrowButton id={`roleInfoButton-${role.id}`} url={getRoleMembersUrl(role.id)}/>
                                 </Table.DataCell>
                             </Table.Row>
                         ))}

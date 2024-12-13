@@ -79,7 +79,7 @@ export function goToUser() {
 Cypress.Commands.add('goToInfo', goToUser)
 
 export function goToGrupper() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/roles');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/grupper');
 }
 
 Cypress.Commands.add('goToGrupper', goToGrupper)

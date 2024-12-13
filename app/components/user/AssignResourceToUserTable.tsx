@@ -7,7 +7,7 @@ import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {getConfirmUserAssignmentUrl} from "~/data/constants";
+import {getConfirmUserAssignmentUrl} from "~/data/paths";
 
 interface AssignResourceToUserTableProps {
     isAssignedResources: IResourceForList[]

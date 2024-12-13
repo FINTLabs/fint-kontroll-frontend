@@ -12,7 +12,7 @@ import {UserInfo} from "~/components/user/UserInfo";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/constants";
+import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -59,8 +59,6 @@ export default function Users() {
     const basePath: string = data.basePath
     const responseCode: string | undefined = data.responseCode
     const params = useParams()
-
-    //href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`}
 
     return (
         <section className={"content"}>

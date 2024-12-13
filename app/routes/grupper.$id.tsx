@@ -17,6 +17,7 @@ import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";
 import styles from "../components/user/user.css?url";
 import {BASE_PATH} from "../../environment";
+import {getRoleNewAssignmentUrl, ROLES} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -34,7 +35,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: () => <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
+    breadcrumb: () => <Link to={ROLES} className={"breadcrumb-link"}>Grupper</Link>
 }
 
 export default function RolesId() {
@@ -44,10 +45,10 @@ export default function RolesId() {
 
     const pathname = useLocation();
 
-    const tabList = ["members", "assignments"];
+    const tabList = ["medlemmer", "tildelinger"];
     const currentTab = tabList.find(tab => pathname.pathname.includes(tab))
 
-    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "members");
+    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "medlemmer");
     const navigate = useNavigate();
 
     const handleTabChange = (value: string) => {
@@ -57,7 +58,7 @@ export default function RolesId() {
     return (
         <section className={"content"}>
             <HStack justify="end">
-                <LinkPanel href={`${basePath}/assignment/role/${role.id}`} border>
+                <LinkPanel href={`${basePath}${getRoleNewAssignmentUrl(role.id)}`} border>
                     <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                 </LinkPanel>
             </HStack>
@@ -68,11 +69,11 @@ export default function RolesId() {
                 <div style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Tabs.List>
                         <Tabs.Tab
-                            value="members"
+                            value="medlemmer"
                             label="Medlemmer"
                         />
                         <Tabs.Tab
-                            value="assignments"
+                            value="tildelinger"
                             label="Ressurser"
                         />
                     </Tabs.List>
@@ -84,6 +85,7 @@ export default function RolesId() {
         </section>
     );
 }
+
 export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);

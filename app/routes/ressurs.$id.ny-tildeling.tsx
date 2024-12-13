@@ -10,7 +10,7 @@ import {ArrowRightIcon, PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
 import {useCallback, useEffect, useState} from "react";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
-import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/constants";
+import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/paths";
 
 
 export async function loader({params, request}: LoaderFunctionArgs) {

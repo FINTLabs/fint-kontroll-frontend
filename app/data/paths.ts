@@ -1,11 +1,17 @@
 export const USERS = "/brukere"
 export const getUserByIdUrl = (id: number, orgId: string | undefined): string => `/brukere/${id}/org/${orgId}`;
 export const getUserNewAssignmentUrl = (id: number, orgId: string | undefined): string => `/bruker/${id}/org/${orgId}/ny-tildeling`;
-export const getDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string => `/brukere/${id}/tildeling/${assignmentRef}/slett`;
+export const getDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string => `/brukere/${id}/tildelinger/${assignmentRef}/slett`;
 export const getConfirmUserAssignmentUrl = (id: number, resourceId: number, orgId: string): string => `/bruker/${id}/ressurs/${resourceId}/org/${orgId}/tildel`;
 
 
-export const ROLES = "/roles"
+export const ROLES = "/grupper"
+export const getRoleMembersUrl = (id: number): string => `/grupper/${id}/medlemmer`;
+export const getRoleAssignmentsUrl = (id: number): string => `/grupper/${id}/tildelinger`;
+export const getDeleteRoleAssignmentUrl = (id: number, assignmentRef: number): string => `/grupper/${id}/tildelinger/${assignmentRef}/slett`;
+export const getConfirmRoleAssignmentUrl = (id: number, resourceId: number, orgId: string): string => `/gruppe/${id}/ny-tildeling/ressurs/${resourceId}/org/${orgId}/tildel`;
+export const getRoleNewAssignmentUrl = (id: number): string => `/gruppe/${id}/ny-tildeling`;
+
 
 export const RESOURCES = "/ressurser"
 export const getResourceUserAssignmentsUrl = (id: number): string => `/ressurser/${id}/bruker-tildelinger`;

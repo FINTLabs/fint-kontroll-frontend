@@ -5,7 +5,7 @@ import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
-import {getUserByIdUrl} from "~/data/constants";
+import {getUserByIdUrl} from "~/data/paths";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()

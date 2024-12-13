@@ -6,7 +6,7 @@ import {TrashIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {getResourceDeleteRoleAssignmentUrl} from "~/data/constants";
+import {getResourceDeleteRoleAssignmentUrl} from "~/data/paths";
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles,

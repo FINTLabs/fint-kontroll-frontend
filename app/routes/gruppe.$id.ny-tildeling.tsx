@@ -24,6 +24,7 @@ import logger from "~/logging/logger";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
+import {getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES} from "~/data/paths";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -77,11 +78,11 @@ export const handle = {
     breadcrumb: ({params}) =>
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/roles`} className={"breadcrumb-link"}>Grupper</Link>
+                <Link to={ROLES} className={"breadcrumb-link"}>Grupper</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/roles/${params.id}/members`} className={"breadcrumb-link"}>Gruppeinfo</Link>
+                <Link to={getRoleMembersUrl(params.id)} className={"breadcrumb-link"}>Gruppeinfo</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/assignment/role/${params.id}`} className={"breadcrumb-link"}>Ny tildeling</Link>
+                <Link to={getRoleNewAssignmentUrl(params.id)} className={"breadcrumb-link"}>Ny tildeling</Link>
             </HStack>
         </HStack>
 }

@@ -6,7 +6,7 @@ import {PlusIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
-import {getResourceConfirmRoleAssignmentUrl} from "~/data/constants";
+import {getResourceConfirmRoleAssignmentUrl} from "~/data/paths";
 
 interface AssignRoleTableProps {
     isAssignedRoles: IRole[];

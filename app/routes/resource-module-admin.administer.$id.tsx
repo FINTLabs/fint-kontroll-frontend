@@ -170,12 +170,6 @@ const ResourceModuleAdminAdministerId = () => {
     if (userDetails.roles.length === 0) {
         return <VStack gap={"4"}>
             <section>
-                <Button icon={<ArrowLeftIcon aria-hidden/>} variant={"secondary"}
-                        onClick={() => navigate("/resource-module-admin")}>
-                    Gå til dashbord
-                </Button>
-            </section>
-            <section>
                 {`${userDetails.firstName} ${userDetails.lastName}`} har ingen roller
             </section>
         </VStack>
@@ -184,15 +178,6 @@ const ResourceModuleAdminAdministerId = () => {
     return (
         <section className={"content"}>
             <VStack gap={"4"}>
-                <section>
-                    <Button
-                        icon={<ArrowLeftIcon aria-hidden/>}
-                        variant={"secondary"}
-                        onClick={() => navigate("/resource-module-admin")}
-                    >
-                        Gå til dashbord
-                    </Button>
-                </section>
 
                 <HStack justify={"space-between"}>
                     <div>
@@ -274,10 +259,10 @@ export const handle = {
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/resource-module-admin`} className={"breadcrumb-link"}>Ressursmoduladmoinistrasjon</Link>
+                <Link to={`/resource-module-admin`} className={"breadcrumb-link"}>Brukere med rolletilknytning</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
                 <Link to={`/resource-module-admin/administer/${params.id}`} className={"breadcrumb-link"}>Rediger
-                    brukerroller</Link>
+                    rolletilknytning</Link>
             </HStack>
         </HStack>
     )

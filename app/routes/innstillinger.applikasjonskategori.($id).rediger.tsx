@@ -10,7 +10,7 @@ import {
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
-import {SETTINGS_APPLICATION_CATEGORY} from "~/data/constants";
+import {SETTINGS_APPLICATION_CATEGORY} from "~/data/paths";
 import {EditableListEditModal} from "~/components/settings/KodeverkEditableList/EditableListEditModal";
 
 export async function action({params, request}: ActionFunctionArgs) {

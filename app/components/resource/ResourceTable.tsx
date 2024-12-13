@@ -5,7 +5,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
-import {getResourceUserAssignmentsUrl} from "~/data/constants";
+import {getResourceUserAssignmentsUrl} from "~/data/paths";
 
 interface ResourceTableProps {
     resourcePage: IResourceList

@@ -10,6 +10,7 @@ import {Search} from "~/components/common/Search";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {IKodeverkUserType} from "~/data/types";
+import {getRoleMembersUrl} from "~/data/paths";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -33,7 +34,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params}) => <Link to={`/roles/${params.id}/members`} className={"breadcrumb-link"}>Medlemmer</Link>
+    breadcrumb: ({params}) => <Link to={getRoleMembersUrl(params.id)} className={"breadcrumb-link"}>Medlemmer</Link>
 }
 
 export default function Members() {

@@ -24,7 +24,7 @@ import {ResourceSelectApplicationCategory} from "~/components/resource-admin/Res
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
-import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/constants";
+import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/paths";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>

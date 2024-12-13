@@ -7,7 +7,7 @@ import {
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {BASE_PATH} from "../../environment";
-import {SETTINGS_APPLICATION_CATEGORY} from "~/data/constants";
+import {SETTINGS_APPLICATION_CATEGORY} from "~/data/paths";
 import {EditableListDeleteModal} from "~/components/settings/KodeverkEditableList/EditableListDeleteModal";
 
 export async function action({params, request}: ActionFunctionArgs) {

@@ -15,7 +15,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {useState} from "react";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
-import {getResourceNewRoleAssignmentUrl} from "~/data/constants";
+import {getResourceNewRoleAssignmentUrl} from "~/data/paths";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 

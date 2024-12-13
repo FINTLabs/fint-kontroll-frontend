@@ -9,6 +9,7 @@ import {fetchAssignmentsForRole} from "~/data/fetch-assignments";
 import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
+import {getRoleAssignmentsUrl} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -32,8 +33,8 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({params}) => <Link to={`/roles/${params.id}/assignments`}
-                                    className={"breadcrumb-link"}>Ressurser</Link>
+    breadcrumb: ({params}) => <Link to={getRoleAssignmentsUrl(params.id)}
+                                    className={"breadcrumb-link"}>Tildelte ressurser</Link>
 }
 
 export default function AssignmentsForRole() {

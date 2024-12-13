@@ -14,7 +14,7 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
-import {getResourceUserAssignmentsUrl} from "~/data/constants";
+import {getResourceUserAssignmentsUrl} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

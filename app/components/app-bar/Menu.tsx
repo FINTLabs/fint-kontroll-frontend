@@ -2,7 +2,7 @@ import {MenuHamburgerIcon,} from "@navikt/aksel-icons";
 import {ActionMenu, BodyShort, Button, HGrid} from "@navikt/ds-react";
 import {useNavigate} from "@remix-run/react";
 import {IMeInfo} from "~/data/types";
-import {RESOURCES, ROLES, USERS} from "~/data/constants";
+import {RESOURCES, ROLES, USERS} from "~/data/paths";
 
 export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string }) => {
     const navigate = useNavigate();
