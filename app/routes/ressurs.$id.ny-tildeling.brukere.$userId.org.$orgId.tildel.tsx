@@ -15,7 +15,7 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
-import {getResourceNewUserAssignmentUrl} from "~/data/constants";
+import {getResourceNewUserAssignmentUrl} from "~/data/paths";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 

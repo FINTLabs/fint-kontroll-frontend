@@ -8,7 +8,8 @@ import {
     Meta,
     Outlet,
     Scripts,
-    ScrollRestoration, UIMatch,
+    ScrollRestoration,
+    UIMatch,
     useLoaderData,
     useMatches,
     useRouteError,
@@ -129,7 +130,7 @@ const Layout = ({children, me, basePath, source}: LayoutProps) => {
         <Page
             footer={
                 <Box className={'novari-footer'} padding="8" as="footer">
-                    <NovariIKS width={"9em"} />
+                    <NovariIKS width={"9em"}/>
                 </Box>
             }
         >
@@ -156,6 +157,13 @@ export function ErrorBoundary() {
     const me = null
     return (
         <Layout me={me}>
+            <html lang={"no"}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta/>
+                <Links/>
+            </head>
+            <body>
             <Box paddingBlock="8">
                 <Alert variant="error">
                     Det oppsto en feil med følgende melding:
@@ -163,6 +171,8 @@ export function ErrorBoundary() {
                 </Alert>
             </Box>
             <Scripts/>
+            </body>
+            </html>
         </Layout>
     );
 }

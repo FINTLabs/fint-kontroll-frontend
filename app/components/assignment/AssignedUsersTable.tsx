@@ -8,7 +8,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {loader} from "~/routes/ressurser.$id.bruker-tildelinger";
-import {getResourceDeleteUserAssignmentUrl} from "~/data/constants";
+import {getResourceDeleteUserAssignmentUrl} from "~/data/paths";
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers,

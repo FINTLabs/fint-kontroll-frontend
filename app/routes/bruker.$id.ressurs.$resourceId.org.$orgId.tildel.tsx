@@ -1,8 +1,5 @@
 import {
     Form,
-    Links,
-    Meta,
-    Scripts,
     useLoaderData,
     useNavigate,
     useNavigation,
@@ -18,6 +15,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {IResource} from "~/data/types";
 import {useState} from "react";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getUserNewAssignmentUrl} from "~/data/paths";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -40,10 +38,8 @@ export async function action({request}: ActionFunctionArgs) {
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("userRef") as string),
         data.get("organizationUnitId") as string)
+    return redirect(`${getUserNewAssignmentUrl(parseInt(data.get("userRef") as string), data.get("organizationUnitId") as string | null || undefined)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 
-    return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
-
-  //  return redirect(`/assignment/user/${data.get("userRef")}/orgunit/${data.get("organizationUnitId")}?page=${searchParams.get("page")}&responseCode=${response.status}`)
 }
 
 export default function NewAssignment() {
@@ -80,7 +76,7 @@ export default function NewAssignment() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams)}`)}
+                onClose={() => navigate(`${getUserNewAssignmentUrl(Number(params.id), params.orgId)}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Fullfør tildelingen",
                     size: "small",
@@ -121,7 +117,7 @@ export default function NewAssignment() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/assignment/user/${params.id}/orgunit/${params.orgId}${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${getUserNewAssignmentUrl(Number(params.id), params.orgId)}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>
@@ -135,21 +131,11 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
         <Box paddingBlock="8">
             <Alert variant="error">
                 Det oppsto en feil med følgende melding:
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        <Scripts/>
-        </body>
-        </html>
     );
 }

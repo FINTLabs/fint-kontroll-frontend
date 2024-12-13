@@ -5,13 +5,14 @@ import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
+import {getRoleAssignmentsUrl} from "~/data/paths";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const {searchParams} = new URL(request.url)
     const response = await deleteAssignment(request.headers.get("Authorization"), request, params.assignmentRef as string)
     searchParams.set("responseCode", String(response.status))
 
-    return redirect(`/roles/${params.id}/assignments${prepareQueryParamsWithResponseCode(searchParams)}`)
+    return redirect(`${getRoleAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
 export default function DeleteRoleAssignment() {
@@ -29,7 +30,7 @@ export default function DeleteRoleAssignment() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/roles/${params.id}/assignments${prepareQueryParamsWithResponseCode(searchParams)}`)}
+            onClose={() => navigate(`${getRoleAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`)}
             header={{
                 heading: "Ønsker du å trekke tilgangen?",
                 size: "small",
@@ -55,7 +56,7 @@ export default function DeleteRoleAssignment() {
                 <Button
                     type="button"
                     variant="secondary"
-                    onClick={() => navigate(`/roles/${params.id}/assignments${prepareQueryParams(searchParams)}`)}
+                    onClick={() => navigate(`${getRoleAssignmentsUrl(Number(params.id))}${prepareQueryParams(searchParams)}`)}
                 >
                     Avbryt
                 </Button>

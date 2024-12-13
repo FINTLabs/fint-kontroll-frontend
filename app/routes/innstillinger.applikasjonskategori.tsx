@@ -13,7 +13,7 @@ import {
     getApplicationCategoryEditUrl,
     getApplicationCategoryDeleteUrl,
     SETTINGS_APPLICATION_CATEGORY_CREATE
-} from "~/data/constants";
+} from "~/data/paths";
 import {EditableList} from "~/components/settings/KodeverkEditableList/EditableList";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
 import {Link as RemixLink} from "@remix-run/react/dist/components";

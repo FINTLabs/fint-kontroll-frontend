@@ -7,6 +7,7 @@ import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {getConfirmUserAssignmentUrl} from "~/data/paths";
 
 interface AssignResourceToUserTableProps {
     isAssignedResources: IResourceForList[]
@@ -55,7 +56,8 @@ export const AssignResourceToUserTable = ({
                                         variant={"secondary"}
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
-                                        href={`${basePath}/assignment/user/${userId}/orgunit/${orgId}/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
+                                        href={`${basePath}${getConfirmUserAssignmentUrl(Number(userId), resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                       // href={`${basePath}/assignment/user/${userId}/orgunit/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel

@@ -6,7 +6,7 @@ import {
     fetchUserTypes
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {SETTINGS_USER_TYPES} from "~/data/constants";
+import {SETTINGS_USER_TYPES} from "~/data/paths";
 import {MappingListModal} from "~/components/settings/KodeverkMappingList/MappingListModal";
 
 export async function action({params, request}: ActionFunctionArgs) {

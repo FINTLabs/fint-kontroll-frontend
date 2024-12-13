@@ -34,7 +34,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     })
 }
 
-export default function Roles_index() {
+export default function Grupper_index() {
     const data = useLoaderData<typeof loader>()
 
     const roleList: IRoleList = data.roleList

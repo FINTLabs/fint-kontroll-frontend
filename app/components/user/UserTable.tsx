@@ -8,6 +8,7 @@ import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButt
 import {useLoaderData} from "@remix-run/react";
 import {loader} from "~/routes/brukere._index";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+import {getUserByIdUrl} from "~/data/paths";
 
 export const UserTable = () => {
     const {userList: userPage, size, userTypes} = useLoaderData<typeof loader>();
@@ -33,7 +34,7 @@ export const UserTable = () => {
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`userInfoButton-${user.id}`}
-                                    url={`/users/${user.id}/orgunit/${user.organisationUnitId}`}
+                                    url={getUserByIdUrl(user.id, user.organisationUnitId)}
                                 />
                             </Table.DataCell>
                         </Table.Row>

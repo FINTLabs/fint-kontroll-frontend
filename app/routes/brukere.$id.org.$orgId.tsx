@@ -12,6 +12,7 @@ import {UserInfo} from "~/components/user/UserInfo";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
+import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -41,9 +42,9 @@ export const handle = {
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/users`} className={"breadcrumb-link"}>Brukere</Link>
+                <Link to={USERS} className={"breadcrumb-link"}>Brukere</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/users/${params.id}/orgunit/${params.orgunit}`}
+                <Link to={getUserByIdUrl(params.id, params.orgId)}
                       className={"breadcrumb-link"}>Brukerinfo</Link>
             </HStack>
         </HStack>
@@ -65,7 +66,7 @@ export default function Users() {
                 <VStack gap="4">
                     <UserInfo user={user}/>
                     <Box className={"filters"} paddingBlock={"8"}>
-                        <LinkPanel href={`${basePath}/assignment/user/${user.id}/orgunit/${params.orgId}`} border>
+                        <LinkPanel href={`${basePath}${getUserNewAssignmentUrl(user.id, params.orgId)}`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
                     </Box>

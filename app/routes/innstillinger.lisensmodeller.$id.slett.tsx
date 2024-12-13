@@ -7,7 +7,7 @@ import {
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {BASE_PATH} from "../../environment";
-import {SETTINGS_LICENSE_MODEL} from "~/data/constants";
+import {SETTINGS_LICENSE_MODEL} from "~/data/paths";
 import {IKodeverkLicenseModel} from "~/data/types";
 import {EditableListDeleteModal} from "~/components/settings/KodeverkEditableList/EditableListDeleteModal";
 

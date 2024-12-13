@@ -12,7 +12,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {UserSearch} from "~/components/user/UserSearch";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
-import {getResourceNewUserAssignmentUrl} from "~/data/constants";
+import {getResourceNewUserAssignmentUrl} from "~/data/paths";
 
 type LoaderData = {
     userList: IUserPage,

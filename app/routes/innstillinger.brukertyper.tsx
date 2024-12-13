@@ -6,7 +6,7 @@ import {IKodeverkUserType} from "~/data/types";
 import {json} from "@remix-run/node";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {getEditUserTypeUrl, SETTINGS, SETTINGS_USER_TYPES} from "~/data/constants";
+import {getEditUserTypeUrl, SETTINGS, SETTINGS_USER_TYPES} from "~/data/paths";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
 import {MappingList} from "~/components/settings/KodeverkMappingList/MappingList";
 

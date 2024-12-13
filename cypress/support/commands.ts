@@ -73,13 +73,13 @@ export function goToHome() {
 Cypress.Commands.add("goToHome", goToHome)
 
 export function goToUser() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/users/442/orgunit/194');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/brukere/442/org/194');
 }
 
 Cypress.Commands.add('goToInfo', goToUser)
 
 export function goToGrupper() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/roles');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/grupper');
 }
 
 Cypress.Commands.add('goToGrupper', goToGrupper)
@@ -97,7 +97,7 @@ export function goToSpecificResource() {
 Cypress.Commands.add('goToSpecificResource', goToSpecificResource)
 
 export function goToBrukereNyTildeling() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/assignment/user/1232/orgunit/198')
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/bruker/1232/org/198/ny-tildeling')
 }
 
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling)

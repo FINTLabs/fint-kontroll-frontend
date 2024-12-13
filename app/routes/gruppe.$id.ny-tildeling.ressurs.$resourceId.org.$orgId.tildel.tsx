@@ -2,7 +2,8 @@ import {
     Form,
     Links,
     Meta,
-    Scripts, useLoaderData,
+    Scripts,
+    useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
@@ -17,6 +18,7 @@ import {IResource} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {useState} from "react";
+import {getRoleNewAssignmentUrl} from "~/data/paths";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 
@@ -35,14 +37,14 @@ export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url)
 
-       // const queryParams = new URLSearchParams()
+    // const queryParams = new URLSearchParams()
 
     const response = await createRoleAssignment(request.headers.get("Authorization"),
         parseInt(data.get("resourceRef") as string),
         parseInt(data.get("roleRef") as string),
         data.get("organizationUnitId") as string)
 
-    return redirect(`/assignment/role/${data.get("roleRef")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${getRoleNewAssignmentUrl(Number(data.get("roleRef")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function AssignResourceToRole() {
@@ -78,7 +80,7 @@ export default function AssignResourceToRole() {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(`/assignment/role/${params.id}${prepareQueryParamsWithResponseCode(searchParams)}`)}
+            onClose={() => navigate(`${getRoleNewAssignmentUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`)}
             header={{
                 heading: "Fullfør tildelingen",
                 size: "small",
@@ -119,7 +121,7 @@ export default function AssignResourceToRole() {
                 <Button
                     type="button"
                     variant="secondary"
-                    onClick={() => navigate(`/assignment/role/${params.id}${prepareQueryParams(searchParams)}`)}
+                    onClick={() => navigate(`${getRoleNewAssignmentUrl(Number(params.id))}${prepareQueryParams(searchParams)}`)}
                 >
                     Avbryt
                 </Button>

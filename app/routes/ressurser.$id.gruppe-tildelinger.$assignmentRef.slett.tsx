@@ -4,7 +4,7 @@ import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {deleteAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
-import {getResourceRoleAssignmentsUrl} from "~/data/constants";
+import {getResourceRoleAssignmentsUrl} from "~/data/paths";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()

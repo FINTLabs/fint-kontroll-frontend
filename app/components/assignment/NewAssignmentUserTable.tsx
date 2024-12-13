@@ -7,7 +7,7 @@ import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {loader} from "~/routes/ressurs.$id.ny-tildeling.brukere";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
-import {getResourceConfirmUserAssignmentUrl} from "~/data/constants";
+import {getResourceConfirmUserAssignmentUrl} from "~/data/paths";
 
 
 interface AssignUserTableProps {

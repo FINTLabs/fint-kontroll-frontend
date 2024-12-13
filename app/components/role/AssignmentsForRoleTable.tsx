@@ -4,6 +4,7 @@ import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TablePagination} from "~/components/common/Table/TablePagination";
+import {getDeleteRoleAssignmentUrl} from "~/data/paths";
 
 
 interface AssignmentsForRoleTableProps {
@@ -48,7 +49,7 @@ export const AssignmentsForRoleTable  = ({
                                     variant={"secondary"}
                                     icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                     iconPosition={"right"}
-                                    href={`${basePath}/roles/${params.id}/assignments/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
+                                    href={`${basePath}${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
                                 >
                                     Slett
                                 </Button>

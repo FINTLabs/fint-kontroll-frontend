@@ -3,7 +3,7 @@ import React from "react";
 import {IKodeverkUserType} from "~/data/types";
 import {Outlet, useNavigate} from "@remix-run/react";
 import {PencilIcon} from "@navikt/aksel-icons";
-import {getEditUserTypeUrl} from "~/data/constants";
+import {getEditUserTypeUrl} from "~/data/paths";
 
 type UserTypeTableProps = {
     userTypes: IKodeverkUserType[]
