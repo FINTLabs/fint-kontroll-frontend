@@ -5,27 +5,37 @@ import {
     getOrgUnitByChildrenRef,
 } from "~/components/common/orgUnits/utils";
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
-import {BodyShort, Box, Checkbox, CheckboxGroup, HStack, Label, Switch, TextField, VStack} from "@navikt/ds-react";
-import React, {Dispatch, SetStateAction, useCallback, useState} from "react";
+import {BodyShort, Box, Checkbox, CheckboxGroup, HStack, Label, Switch, TextField} from "@navikt/ds-react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 
 interface OrgUnitAllocationProps {
     allOrgUnits: IUnitItem[];
     selectedOrgUnits: IUnitItem[];
     setSelectedOrgUnits: Dispatch<SetStateAction<IUnitItem[]>>;
-    aggregated?: boolean;
     selectType?: "filter" | "allocation";
+    aggregated?: boolean;
+    setAggregated?: Dispatch<SetStateAction<boolean>>;
 }
+
+// TODO: finn ut av hvordan jeg kan åpne alle accordions whis en av de nested children er selected
 
 const OrgUnitSelect = (
     {
         allOrgUnits,
         selectedOrgUnits,
         setSelectedOrgUnits,
-        selectType = "filter"
+        selectType = "filter",
+        aggregated,
+        setAggregated
     }: OrgUnitAllocationProps) => {
     const topLevelUnits = getAllTopLevelUnits(allOrgUnits);
     const [selectedIds, setSelectedIds] = useState<string[]>(selectedOrgUnits.map(unit => unit.organisationUnitId));
-    const [aggregated, setAggregated] = useState(selectType === "allocation")
+
+    useEffect(() => {
+        if (selectedOrgUnits.length === 0 && selectedIds.length > 0) {
+            setSelectedIds([]);
+        }
+    }, [selectedIds.length, selectedOrgUnits]);
 
     const updateSelectedOrgUnits = (ids: string[], isAggregated?: boolean) => {
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
@@ -58,12 +68,14 @@ const OrgUnitSelect = (
     };
 
     const handleSwitchAggregated = (newAggregated: boolean) => {
-        setAggregated(newAggregated);
+        if (setAggregated) {
+            setAggregated(newAggregated);
+        }
         updateSelectedOrgUnits(selectedIds, newAggregated);
     };
 
     const handleChange = (ids: string[]): void => {
-        updateSelectedOrgUnits(ids, aggregated);
+        updateSelectedOrgUnits(ids, aggregated || selectType === "allocation");
     };
 
     return (
@@ -82,12 +94,11 @@ const OrgUnitSelect = (
             )}
             {selectType === "allocation" && (
                 <HStack width={"100%"} justify={"end"} paddingInline={"4"}>
-
                     <Label
                         size="small"
                         htmlFor="org-unit-amount"
                     >
-                        Antall lisenser per enhet
+                        Max antall tilganger per enhet
                     </Label>
                 </HStack>
             )}
@@ -98,7 +109,7 @@ const OrgUnitSelect = (
                             isTopLevel
                             key={unit.id}
                             unit={unit}
-                            isAggregated={aggregated}
+                            isAggregated={aggregated || selectType === "allocation"}
                             orgUnitList={allOrgUnits}
                             selectedIds={selectedIds}
                             selectedOrgUnits={selectedOrgUnits}
@@ -175,10 +186,14 @@ const CheckboxTreeNode = (
                             label="Antall"
                             hideLabel
                             disabled={!selectedIds.includes(unit.organisationUnitId)}
-                            min={0}
+                            min={1}
                             value={!selectedIds.includes(unit.organisationUnitId) ? "" : currentUnit?.limit}
                             onChange={e => {
                                 handleLimitChange(unit.organisationUnitId, parseInt(e.target.value))
+                            }}
+                            onError={(e) => {
+                                console.log("error", e)
+                                return "Ugyldig antall"
                             }}
                         />
                     )}

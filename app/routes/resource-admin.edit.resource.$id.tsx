@@ -1,7 +1,7 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
-import React, {useState} from "react";
-import {Button, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
+import React, {useMemo, useState} from "react";
+import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
@@ -125,6 +125,7 @@ export default function EditApplikasjonsRessurs() {
     const [selectedOwnerOrgUnit, setSelectedOwnerOrgUnit] = useState<IUnitItem | null>(orgUnitOwner.find(orgUnit => orgUnit.isChecked) ?? null)
     const [selectedValidForOrgUnits, setSelectedValidForOrgUnits] = useState<IUnitItem[]>(orgUnitsWithIsChecked.filter(orgUnit => orgUnit.isChecked))
     const response = useNavigation()
+    const totalAssignedResources = useMemo(() => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0), [selectedValidForOrgUnits])
 
     const [newResource, setNewResource] = useState<IApplicationResource>({
         id: resource.id,
@@ -200,6 +201,37 @@ export default function EditApplikasjonsRessurs() {
                         setNewApplicationResource={setNewResource}
                         applicationCategories={applicationCategories}
                         userTypes={userTypes}
+                    />
+                </ExpansionCard.Content>
+            </ExpansionCard>
+            <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
+                <ExpansionCard.Header>
+                    <ExpansionCard.Title>
+                        Legg til organisasjonsenheter som skal ha tilgang til ressursen
+                    </ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedValidForOrgUnits.length > 0 && (
+                            <VStack>
+                                <BodyShort>{selectedValidForOrgUnits.length} enheter valgt.</BodyShort>
+                                {newResource.resourceLimit && totalAssignedResources > newResource.resourceLimit ? (
+                                    <ErrorMessage>
+                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
+                                    </ErrorMessage>
+                                ) : (
+                                    <BodyShort>
+                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
+                                    </BodyShort>
+                                )}
+                            </VStack>
+                        )}
+                    </ExpansionCard.Description>
+                </ExpansionCard.Header>
+                <ExpansionCard.Content>
+                    <OrgUnitSelect
+                        allOrgUnits={orgUnitsWithIsChecked}
+                        selectedOrgUnits={selectedValidForOrgUnits}
+                        setSelectedOrgUnits={setSelectedValidForOrgUnits}
+                        selectType="allocation"
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
