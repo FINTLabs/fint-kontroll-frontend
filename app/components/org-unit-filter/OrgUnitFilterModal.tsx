@@ -64,6 +64,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 width={"medium"}
             >
                 <Modal.Body className={"modal-body"}>
+{/*
 
                     <Box paddingInline={"4"} paddingBlock={"0 4"}>
                         <Switch id="sub-org-unit-switch" onClick={() => setAggregated(!aggregated)}
@@ -71,6 +72,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                             Inkluder underliggende enheter
                         </Switch>
                     </Box>
+*/}
 
                     <OrgUnitSelect
                         allOrgUnits={orgUnitList}

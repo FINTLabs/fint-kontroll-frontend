@@ -1,13 +1,12 @@
 import type {IUnitItem} from "~/data/types";
 import {
-    getAllNestedChildrenOrgUnits,
+    getOrgUnitAndAllNestedChildren,
     getAllTopLevelUnits,
     getOrgUnitByChildrenRef,
-    getUnitById
 } from "~/components/common/orgUnits/utils";
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
-import {Checkbox, CheckboxGroup, HStack, TextField} from "@navikt/ds-react";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import {BodyShort, Box, Checkbox, CheckboxGroup, HStack, Label, Switch, TextField, VStack} from "@navikt/ds-react";
+import React, {Dispatch, SetStateAction, useCallback, useState} from "react";
 
 interface OrgUnitAllocationProps {
     allOrgUnits: IUnitItem[];
@@ -17,34 +16,30 @@ interface OrgUnitAllocationProps {
     selectType?: "filter" | "allocation";
 }
 
-// TODO: merge this with the one with amount
 const OrgUnitSelect = (
     {
         allOrgUnits,
         selectedOrgUnits,
         setSelectedOrgUnits,
-        aggregated,
         selectType = "filter"
     }: OrgUnitAllocationProps) => {
     const topLevelUnits = getAllTopLevelUnits(allOrgUnits);
     const [selectedIds, setSelectedIds] = useState<string[]>(selectedOrgUnits.map(unit => unit.organisationUnitId));
+    const [aggregated, setAggregated] = useState(selectType === "allocation")
 
-    const handleChangeIfIsFilter = (ids: string[]) => {
+    const updateSelectedOrgUnits = (ids: string[], isAggregated?: boolean) => {
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
-        const removedOrgUnits = selectedOrgUnits.filter(unit => !currentSelectedOrgUnits.includes(unit));
 
-        if (aggregated) {
-            let selectedOrgUnitsWithAllChildren = currentSelectedOrgUnits.flatMap(unit => [
-                unit,
-                ...getAllNestedChildrenOrgUnits(unit, allOrgUnits)
-            ]);
+        if (isAggregated) {
+            let selectedOrgUnitsWithAllChildren = getOrgUnitAndAllNestedChildren(currentSelectedOrgUnits, allOrgUnits);
 
-            removedOrgUnits.forEach(unit => {
-                const allNestedChildrenToRemove = getAllNestedChildrenOrgUnits(unit, allOrgUnits);
+            const removedOrgUnits = selectedOrgUnits.filter(unit => !currentSelectedOrgUnits.includes(unit));
+            if (removedOrgUnits.length) {
+                const allOrgUnitsToRemove = getOrgUnitAndAllNestedChildren(removedOrgUnits, allOrgUnits);
                 selectedOrgUnitsWithAllChildren = selectedOrgUnitsWithAllChildren.filter(
-                    selectedUnit => !allNestedChildrenToRemove.includes(selectedUnit)
+                    unit => !allOrgUnitsToRemove.includes(unit)
                 );
-            });
+            }
 
             setSelectedIds(selectedOrgUnitsWithAllChildren.map(unit => unit.organisationUnitId));
             setSelectedOrgUnits(selectedOrgUnitsWithAllChildren);
@@ -52,34 +47,7 @@ const OrgUnitSelect = (
             setSelectedIds(ids);
             setSelectedOrgUnits(currentSelectedOrgUnits);
         }
-    }
-
-    const handleChangeIsIsAllocation = (ids: string[]) => {
-        const unselectChildren = (unit: IUnitItem) => {
-            unit.childrenRef.forEach(childId => {
-                const childIndex = ids.indexOf(childId);
-                if (childIndex > -1) ids.splice(childIndex, 1);
-                const child = allOrgUnits.find(u => u.organisationUnitId === childId);
-                if (child) unselectChildren(child);
-            });
-        };
-
-        const newSelected = allOrgUnits.filter(unit => {
-            if (ids.includes(unit.organisationUnitId)) unselectChildren(unit);
-            return ids.includes(unit.organisationUnitId);
-        });
-
-        const newSelectedIds = newSelected.map(unit => unit.organisationUnitId);
-        const addedIds = newSelectedIds.filter(id => !selectedIds.includes(id));
-        const removedIds = selectedIds.filter(id => !newSelectedIds.includes(id));
-
-        const updatedSelected = selectedOrgUnits.filter(unit => !removedIds.includes(unit.organisationUnitId))
-            .concat(allOrgUnits.filter(unit => addedIds.includes(unit.organisationUnitId)));
-
-        setSelectedIds(newSelectedIds);
-        setSelectedOrgUnits(updatedSelected);
-    }
-
+    };
 
     const handleLimitChange = (id: string, limit: number) => {
         setSelectedOrgUnits(prevSelected =>
@@ -89,66 +57,65 @@ const OrgUnitSelect = (
         );
     };
 
-    const handleChange = (ids: string[]): void => {
-        if (selectType === "filter") {
-            handleChangeIfIsFilter(ids);
-        } else if (selectType === "allocation") {
-            handleChangeIsIsAllocation(ids);
-        }
+    const handleSwitchAggregated = (newAggregated: boolean) => {
+        setAggregated(newAggregated);
+        updateSelectedOrgUnits(selectedIds, newAggregated);
     };
 
+    const handleChange = (ids: string[]): void => {
+        updateSelectedOrgUnits(ids, aggregated);
+    };
 
     return (
-        <Accordion>
-            <CheckboxGroup legend="Velg organisasjonsenhet" hideLegend value={selectedIds} onChange={handleChange}>
-                {topLevelUnits.map(unit => (
-                    <AccordionItem
-                        key={unit.id}
-                        isTopLevel
-                        title={
-                            <HStack width="100%" align="center" justify="space-between" gap="8">
-                                <Checkbox name="orgUnit" value={unit.organisationUnitId}>
-                                    {unit.name}
-                                </Checkbox>
-                                {selectType === "allocation" && selectedIds.includes(unit.organisationUnitId) && (
-                                    <TextField
-                                        type="number"
-                                        size="small"
-                                        label="Antall"
-                                        hideLabel
-                                        placeholder="Antall"
-                                        min={0}
-                                        value={selectedOrgUnits.find(u => u.organisationUnitId === unit.organisationUnitId)?.limit}
-                                        onChange={e => handleLimitChange(unit.organisationUnitId, parseInt(e.target.value))}
-                                    />
-                                )}
-                            </HStack>
-                        }
+        <HStack>
+
+            {selectType === "filter" && (
+                <Box paddingInline={"4"} paddingBlock={"0 4"}>
+                    <Switch
+                        id="sub-org-unit-switch"
+                        checked={aggregated}
+                        onChange={(event) => handleSwitchAggregated(event.target.checked)}
                     >
-                        {unit.childrenRef.length > 0 && (selectType === "filter" || (selectType === "allocation" && !selectedIds.includes(unit.organisationUnitId))) && unit.childrenRef.map(childRef => {
-                            const child = getUnitById(allOrgUnits, childRef);
-                            if (!child) return null;
-                            return (
-                                <CheckboxTreeNode
-                                    key={child.id}
-                                    unit={child}
-                                    orgUnitList={allOrgUnits}
-                                    selectedIds={selectedIds}
-                                    selectedOrgUnits={selectedOrgUnits}
-                                    isAggregated={aggregated}
-                                    handleLimitChange={handleLimitChange}
-                                    selectType={selectType}
-                                />
-                            );
-                        })}
-                    </AccordionItem>
-                ))}
-            </CheckboxGroup>
-        </Accordion>
-    );
+                        Inkluder underliggende enheter
+                    </Switch>
+                </Box>
+            )}
+            {selectType === "allocation" && (
+                <HStack width={"100%"} justify={"end"} paddingInline={"4"}>
+
+                    <Label
+                        size="small"
+                        htmlFor="org-unit-amount"
+                    >
+                        Antall lisenser per enhet
+                    </Label>
+                </HStack>
+            )}
+            <Accordion>
+                <CheckboxGroup legend="Velg organisasjonsenhet" hideLegend value={selectedIds} onChange={handleChange}>
+                    {topLevelUnits.map(unit => (
+                        <CheckboxTreeNode
+                            isTopLevel
+                            key={unit.id}
+                            unit={unit}
+                            isAggregated={aggregated}
+                            orgUnitList={allOrgUnits}
+                            selectedIds={selectedIds}
+                            selectedOrgUnits={selectedOrgUnits}
+                            handleLimitChange={handleLimitChange}
+                            selectType={selectType}
+                        />
+                    ))}
+                </CheckboxGroup>
+            </Accordion>
+        </HStack>
+
+    )
+        ;
 };
 
 interface CheckboxTreeNodeProps {
+    isTopLevel?: boolean;
     unit: IUnitItem;
     orgUnitList: IUnitItem[];
     selectedIds: string[];
@@ -160,6 +127,7 @@ interface CheckboxTreeNodeProps {
 
 const CheckboxTreeNode = (
     {
+        isTopLevel,
         unit,
         orgUnitList,
         selectedIds,
@@ -170,34 +138,55 @@ const CheckboxTreeNode = (
     }: CheckboxTreeNodeProps) => {
     const children = getOrgUnitByChildrenRef(orgUnitList, unit.childrenRef);
     const currentUnit = selectedOrgUnits.find(u => u.organisationUnitId === unit.organisationUnitId);
+    const disabled = isAggregated && selectedOrgUnits.some(selectedUnit => selectedUnit.organisationUnitId === unit.parentRef);
 
     return (
         <AccordionItem
+            isTopLevel={isTopLevel}
             title={
-                <HStack width="100%" align="center" justify="space-between" gap="8">
-                    <Checkbox
-                        name="orgUnit"
-                        value={unit.organisationUnitId}
-                        disabled={isAggregated && selectedOrgUnits.some(selectedUnit => selectedUnit.organisationUnitId === unit.parentRef)}
-                    >
-                        {unit.name}
-                    </Checkbox>
-                    {selectType === "allocation" && selectedIds.includes(unit.organisationUnitId) && (
+                <HStack
+                    width="100%"
+                    align="center"
+                    justify="space-between"
+                    style={{textAlign: "start"}}
+                    wrap={false}
+                >
+                    <HStack align={"center"} gap={"2"}>
+
+                        <Checkbox
+                            name="orgUnit"
+                            id={unit.organisationUnitId}
+                            value={unit.organisationUnitId}
+                            disabled={!isTopLevel && disabled}
+                            hideLabel={true}
+                        >
+                            {unit.name}
+                        </Checkbox>
+                        <Label htmlFor={unit.organisationUnitId}><BodyShort
+                            textColor={!isTopLevel && disabled && selectType === "filter" ? "subtle" : "default"}>
+                            {unit.name}
+                        </BodyShort></Label>
+                    </HStack>
+                    {selectType === "allocation" && (
                         <TextField
+                            className={"org-unit-amount"}
                             type="number"
                             size="small"
                             label="Antall"
                             hideLabel
-                            placeholder="Antall"
+                            disabled={!selectedIds.includes(unit.organisationUnitId)}
                             min={0}
-                            value={currentUnit?.limit}
-                            onChange={e => handleLimitChange(unit.organisationUnitId, parseInt(e.target.value))}
+                            value={!selectedIds.includes(unit.organisationUnitId) ? "" : currentUnit?.limit}
+                            onChange={e => {
+                                handleLimitChange(unit.organisationUnitId, parseInt(e.target.value))
+                            }}
                         />
                     )}
                 </HStack>
             }
         >
-            {children && children.length > 0 && (selectType === "filter" || (selectType === "allocation" && !selectedIds.includes(unit.organisationUnitId))) && children.map(child => (
+            {/*(selectType === "filter" || (selectType === "allocation" && !selectedIds.includes(unit.organisationUnitId))) */}
+            {children && children.length > 0 && children.map(child => (
                 <CheckboxTreeNode
                     key={child.id}
                     unit={child}

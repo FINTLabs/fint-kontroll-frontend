@@ -175,7 +175,7 @@ export default function OpprettNyApplikasjonsRessurs() {
             <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
-                    <ExpansionCard.Description>
+{/*                    <ExpansionCard.Description>
                         {selectedOrgUnits.length > 0 && (
                             <List as = "ul" size="small">
                                 {selectedOrgUnits.map((unit) => (
@@ -185,7 +185,7 @@ export default function OpprettNyApplikasjonsRessurs() {
                                 ))}
                             </List>
                             )}
-                    </ExpansionCard.Description>
+                    </ExpansionCard.Description>*/}
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <OrgUnitSelect
