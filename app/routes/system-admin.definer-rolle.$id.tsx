@@ -14,6 +14,7 @@ import PermissionsTableCheckbox from "../components/kontroll-admin/PermissionsTa
 import {toast} from "react-toastify";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import {ConfirmSafeRedirectModal} from "~/components/kontroll-admin/ConfirmSafeRedirectModal";
+import {getDefineRoleByIdUrl} from "~/data/paths";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const response = await fetchFeaturesInRole(request, params.id);
@@ -38,7 +39,7 @@ const DefineRoleTab = () => {
     const params = useParams()
     // @ts-ignore
     // TODO: Should this be moved into its own Context-file? Or should we refactor it differently?
-    const {isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate} = useOutletContext() // Context from kontroll-admin.tsx
+    const {isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate} = useOutletContext() // Context from system-admin.tsx
 
     const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] = useState<IPermissionData>()
     const [saving, setSaving] = useState(false)
@@ -141,7 +142,7 @@ const DefineRoleTab = () => {
                 </Table.Body>
             </Table>
 
-            <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={`/kontroll-admin/define-role/${params.id}`}>
+            <Form method={"put"} name={"putForm"} id="putForm" onSubmit={handleSubmit} action={getDefineRoleByIdUrl(params.id)}>
                 <input type={"hidden"} name={"dataForForm"} id={"dataForForm"} value={""} />
                 <HStack justify="end">
                     <Button id="save-button">

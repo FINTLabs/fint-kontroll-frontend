@@ -19,13 +19,13 @@ export async function loader({request}: LoaderFunctionArgs) {
     return json(await response.json());
 }
 
-export default function KontrollAdminDefineRole() {
+export default function SystemAdminDefinerRolle() {
     const roles: IRole[] = useLoaderData<typeof loader>();
     const context = useOutletContext()
 
     return (
-        <Tabs value={"define-role"}>
-            <Tabs.Panel value="define-role">
+        <Tabs value={"definer-rolle"}>
+            <Tabs.Panel value="definer-rolle">
                 <KontrollAccessRolesRadioGroup roles={roles} />
                 <Outlet context={context} />
             </Tabs.Panel>

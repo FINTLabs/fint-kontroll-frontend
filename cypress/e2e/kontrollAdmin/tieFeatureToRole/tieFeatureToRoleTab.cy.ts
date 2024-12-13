@@ -17,10 +17,10 @@ describe("Check 'Knytt features til roller'", () => {
 	})
 
 	it("Navigate to features-to-role", () => {
-		cy.visit('http://localhost:3000/beta/fintlabs-no/kontroll-admin/features-to-role')
+		cy.visit('http://localhost:3000/beta/fintlabs-no/system-admin/knytt-rettigheter-til-rolle')
 		wait(1000)
 		cy.location('pathname').then((pathname) => {
-			expect(pathname).to.contain('features-to-role');
+			expect(pathname).to.contain('knytt-rettigheter-til-rolle');
 		})
 	})
 

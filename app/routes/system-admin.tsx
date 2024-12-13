@@ -3,12 +3,12 @@ import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
 import {Links, Meta, Outlet, Scripts, useLocation, useNavigate, useRouteError} from "@remix-run/react";
 import {PersonCheckmarkIcon} from "@navikt/aksel-icons";
 
-export default function KontrollAdmin() {
-    const tabsList = ["define-role", "features-to-role"]
+export default function SystemAdmin() {
+    const tabsList = ["definer-rolle", "knytt-rettigheter-til-rolle"]
     const location = useLocation()
     const currentTab = tabsList.find(tab => location.pathname.includes(tab))
 
-    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "define-role")
+    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "definer-rolle")
     const navigate = useNavigate();
 
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -38,13 +38,14 @@ export default function KontrollAdmin() {
                 <Box paddingBlock="8">
                     <Tabs.List>
                         <Tabs.Tab
-                            value="define-role"
+                            value="definer-rolle"
                             label="Definer rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"define-role-tab"}
+
                         />
                         <Tabs.Tab
-                            value="features-to-role"
+                            value="knytt-rettigheter-til-rolle"
                             label="Knytt rettigheter til rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"feature-role-tab"}
