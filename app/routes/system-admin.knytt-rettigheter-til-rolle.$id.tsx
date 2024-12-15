@@ -23,9 +23,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export async function action({request}: ActionFunctionArgs) {
-    logger.info("jente", request.headers.get("Authorization"))
     const formData = await request.formData()
-
     const response = await putPermissionDataForRole(request, formData.get("permissionData"))
 
     return {didUpdate: !!response.status}
