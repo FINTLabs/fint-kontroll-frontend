@@ -77,13 +77,6 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                     <Button type="button" variant="secondary" onClick={handleClose}>
                         Lukk
                     </Button>
-                    <Button
-                        type="button"
-                        variant="tertiary"
-                        onClick={reset}
-                    >
-                        Nullstill valg
-                    </Button>
                 </Modal.Footer>
             </Modal>
         </div>

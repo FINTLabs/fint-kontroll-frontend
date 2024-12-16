@@ -1,7 +1,7 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useMemo, useState} from "react";
-import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
+import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
