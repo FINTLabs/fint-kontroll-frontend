@@ -42,7 +42,10 @@ export const fetchFeaturesInRole = async (request: Request, roleId: string | und
 
 export const putPermissionDataForRole = async (request: Request, updatedPermissionRole: any) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission`, {
-        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+        headers: {
+            Authorization: request.headers.get("Authorization") ?? "",
+            'content-type': 'application/json'
+        },
         method: "PUT",
         body: updatedPermissionRole,
     })

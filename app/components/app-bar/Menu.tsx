@@ -2,7 +2,7 @@ import {MenuHamburgerIcon,} from "@navikt/aksel-icons";
 import {ActionMenu, BodyShort, Button, HGrid} from "@navikt/ds-react";
 import {useNavigate} from "@remix-run/react";
 import {IMeInfo} from "~/data/types";
-import {RESOURCES, ROLES, USERS} from "~/data/paths";
+import {RESOURCES, ROLES, SYSTEM_ADMIN_DEFINE_ROLE, SYSTEM_ADMIN_FEATURE_TO_ROLE, USERS} from "~/data/paths";
 
 export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string }) => {
     const navigate = useNavigate();
@@ -33,11 +33,11 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     </ActionMenu.Item>
 
                     <ActionMenu.Group label="For systemadministrator" style={{fontSize: "100px"}}>
-                        <ActionMenu.Item id="define-role" onSelect={() => navigate(`kontroll-admin/define-role`)}>
+                        <ActionMenu.Item id="define-role" onSelect={() => navigate(SYSTEM_ADMIN_DEFINE_ROLE)}>
                             Definer rolle
                         </ActionMenu.Item>
                         <ActionMenu.Item id="features-to-role"
-                                         onSelect={() => navigate(`kontroll-admin/features-to-role/sb`)}>
+                                         onSelect={() => navigate(SYSTEM_ADMIN_FEATURE_TO_ROLE)}>
                             Knytt rettigheter til rolle
                         </ActionMenu.Item>
                     </ActionMenu.Group>

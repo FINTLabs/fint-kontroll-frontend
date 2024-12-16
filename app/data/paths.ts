@@ -25,6 +25,12 @@ export const getResourceConfirmUserAssignmentUrl = (id: number, userId: number, 
 export const getResourceConfirmRoleAssignmentUrl = (id: number, roleId: number, orgId: string): string => `/ressurs/${id}/ny-tildeling/grupper/${roleId}/org/${orgId}/tildel`;
 
 
+export const SYSTEM_ADMIN_DEFINE_ROLE = "/system-admin/definer-rolle";
+export const getDefineRoleByIdUrl = (id: string | undefined): string => `/system-admin/definer-rolle/${id}`;
+
+export const SYSTEM_ADMIN_FEATURE_TO_ROLE = "/system-admin/knytt-rettigheter-til-rolle/sa";
+
+
 export const SETTINGS = "/innstillinger"
 
 export const SETTINGS_APPLICATION_CATEGORY = "/innstillinger/applikasjonskategori"

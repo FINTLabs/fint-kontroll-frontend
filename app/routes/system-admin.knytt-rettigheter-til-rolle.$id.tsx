@@ -10,6 +10,7 @@ import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin
 import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
+import logger from "~/logging/logger";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const permissionDataRes = await fetchFeaturesInRole(request, params.id)
@@ -22,14 +23,11 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 }
 
 export async function action({request}: ActionFunctionArgs) {
-    const auth = request
     const formData = await request.formData()
-
-    const response = await putPermissionDataForRole(auth, formData.get("permissionData"))
+    const response = await putPermissionDataForRole(request, formData.get("permissionData"))
 
     return {didUpdate: !!response.status}
 }
-
 
 const KontrollAdminFeaturesToRoleId = () => {
     const loaderData = useLoaderData<typeof loader>()

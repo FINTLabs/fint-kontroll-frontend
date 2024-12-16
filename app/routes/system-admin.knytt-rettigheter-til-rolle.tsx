@@ -30,8 +30,8 @@ export default () => {
     }, []);
 
     return (
-        <Tabs value={"features-to-role"}>
-            <Tabs.Panel value="features-to-role">
+        <Tabs value={"knytt-rettigheter-til-rolle"}>
+            <Tabs.Panel value="knytt-rettigheter-til-rolle">
                 <KontrollAccessRolesRadioGroup roles={accessRoles} />
                 <Outlet/>
             </Tabs.Panel>
