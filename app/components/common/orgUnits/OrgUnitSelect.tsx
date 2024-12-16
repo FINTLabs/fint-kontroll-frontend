@@ -166,6 +166,7 @@ const CheckboxTreeNode = (
 
                         <Checkbox
                             name="orgUnit"
+                            className="org-unit-checkbox"
                             id={unit.organisationUnitId}
                             value={unit.organisationUnitId}
                             disabled={!isTopLevel && disabled}
