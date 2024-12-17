@@ -1,6 +1,6 @@
 import React, {SetStateAction} from "react";
 import {IApplicationResource} from "~/components/resource-admin/types";
-import {Checkbox, CheckboxGroup, Radio, RadioGroup, Select, TextField, VStack} from "@navikt/ds-react";
+import {Checkbox, CheckboxGroup, Radio, RadioGroup, TextField, VStack} from "@navikt/ds-react";
 import {IKodeverkApplicationCategory, IKodeverkUserType} from "~/data/types";
 
 interface ResourceDataProps {
@@ -26,25 +26,16 @@ export default function ApplicationResourceData(
         <ul>
             <VStack gap={"8"}>
                 <li>
-                    <TextField className={"input-large"}
-                               label="Ressurs ID"
-                               description={"Skriv inn unik id til ressursen uten mellomrom"}
-                               value={newApplicationResource.resourceId || ""}
-                               onChange={(event) =>
-                                   setNewApplicationResource({
-                                       ...newApplicationResource,
-                                       resourceId: event.target.value,
-                                   })}/>
-                </li>
-                <li>
-                    <TextField className={"input-large"}
-                               label="Navn på ressurs"
-                               description={"Fullt navn på ressursen"}
-                               value={newApplicationResource.resourceName || ""}
-                               onChange={(event) => setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   resourceName: event.target.value
-                               })}/>
+                    <TextField
+                        className={"input-large"}
+                        label="Navn på ressurs"
+                        description={"Fullt navn på ressursen"}
+                        value={newApplicationResource.resourceName || ""}
+                        onChange={(event) => setNewApplicationResource({
+                            ...newApplicationResource,
+                            resourceName: event.target.value
+                        })}
+                    />
                 </li>
                 {/*
                 Denne skal brukes på et senere tidspungt, foreløpig hardkodes pga. ApplicationResource er eneste valg

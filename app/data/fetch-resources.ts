@@ -1,7 +1,8 @@
 import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/resource-admin/types";
-import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
+import {changeAppTypeInHeadersAndReturnHeaders, fetchData} from "~/data/helpers";
+import {IUnitTree} from "~/data/types";
 
 export const fetchResources = async (request: Request, size: string, page: string, search: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
 
@@ -247,6 +248,10 @@ export const deleteResource = async (request: Request, id: string) => {
 }
 
 
+/**
+ * @deprecated This function is deprecated and will be removed in future versions.
+ * Use fetchAllOrgUnits() instead.
+ */
 export const fetchOrgUnits = async (request: Request) => {
     const response = await fetch(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, {
         headers: request.headers
@@ -265,3 +270,7 @@ export const fetchOrgUnits = async (request: Request) => {
     throw new Error("Det virker ikke som om du er pålogget")
 
 }
+
+export const fetchAllOrgUnits = async (request: Request): Promise<IUnitTree> =>
+    fetchData(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, request)
+
