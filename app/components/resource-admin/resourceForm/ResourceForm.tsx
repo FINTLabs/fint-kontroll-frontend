@@ -70,7 +70,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
 
 
     return (
-        <VStack className={"schema"} gap="8">
+        <VStack className={"schema content"} gap="8">
             <VStack>
                 <Heading size="large" level="1">
                     {newResource.resourceName ? "Endre eller legg til ressursinformasjon" : "Fyll ut ressursinformasjon"}
