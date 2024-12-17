@@ -1,7 +1,7 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
-import React, {useState} from "react";
-import {Button, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import React, {useMemo, useState} from "react";
+import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {createResource, fetchOrgUnits} from "~/data/fetch-resources";
@@ -12,7 +12,7 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import ValidForOrgUnitSelector from "~/components/resource-admin/opprett-ny-ressurs/ValidForOrgUnitSelector";
+import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 
 export const handle = {
     // @ts-ignore
@@ -117,6 +117,9 @@ export default function OpprettNyApplikasjonsRessurs() {
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<IUnitItem | null>(null)
     const response = useNavigation()
 
+    // TODO: gjør det samme de ndre skjemastedene, inntil det er refaktirisert
+    const totalAssignedResources = useMemo(() => selectedOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0), [selectedOrgUnits])
+
     const mapOrgUnitListToValidForOrgUnits = (orgUnit: IUnitItem): IValidForOrgUnits => {
         return {
             resourceId: newResource.resourceId,
@@ -174,12 +177,31 @@ export default function OpprettNyApplikasjonsRessurs() {
             </ExpansionCard>
             <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Title>Legg til organisasjonsenheter som skal ha tilgang til
+                        ressursen</ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedOrgUnits.length > 0 && (
+                            <VStack>
+                                <BodyShort>{selectedOrgUnits.length} enheter valgt.</BodyShort>
+                                {newResource.resourceLimit && totalAssignedResources > newResource.resourceLimit ? (
+                                    <ErrorMessage>
+                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
+                                    </ErrorMessage>
+                                ) : (
+                                    <BodyShort>
+                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
+                                    </BodyShort>
+                                )}
+                            </VStack>
+                        )}
+                    </ExpansionCard.Description>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <ValidForOrgUnitSelector orgUnitList={allOrgUnits}
-                                             selectedOrgUnits={selectedOrgUnits}
-                                             setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
+                    <OrgUnitSelect
+                        allOrgUnits={allOrgUnits}
+                        selectedOrgUnits={selectedOrgUnits}
+                        setSelectedOrgUnits={setSelectedOrgUnits}
+                        selectType="allocation"
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>

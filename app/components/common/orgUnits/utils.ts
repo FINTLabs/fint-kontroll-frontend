@@ -15,3 +15,20 @@ export const getUnitById = (orgUnitList: IUnitItem[], id: string): IUnitItem | n
     return orgUnitList.find(unit => unit.organisationUnitId === id) || null
 }
 
+const getAllChildren = (unit: IUnitItem, allOrgUnits: IUnitItem[]): IUnitItem[] => {
+    const collectChildren = (currentUnit: IUnitItem, collected: IUnitItem[]): IUnitItem[] => {
+        const children = allOrgUnits.filter(u => currentUnit.childrenRef.includes(u.organisationUnitId));
+        return children.reduce((acc, child) => collectChildren(child, [...acc, child]), collected);
+    };
+    return collectChildren(unit, []);
+};
+
+export const getOrgUnitAndAllNestedChildren = (
+    orgUnits: IUnitItem[],
+    allOrgUnits: IUnitItem[]
+) => {
+    return orgUnits.flatMap(unit => [
+        unit,
+        ...getAllChildren(unit, allOrgUnits)
+    ]);
+}

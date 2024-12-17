@@ -1,10 +1,10 @@
-import {Button, Modal, Switch} from "@navikt/ds-react"
+import {Button, Modal} from "@navikt/ds-react"
 import React, {useRef, useState} from "react"
 import {Buildings3Icon} from "@navikt/aksel-icons"
 import type {IUnitItem} from "~/data/types";
-import OrgUnitTree from "~/components/org-unit-filter/OrgUnitTree";
 import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam} from "~/components/common/CommonFunctions";
+import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 
 interface OrgUnitFilterModalProps {
     orgUnitList: IUnitItem[]
@@ -15,9 +15,7 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
     const [aggregated, setAggregated] = useState(false)
     const [orgUnitsFilter, setOrgUnitsFilter] = useState<IUnitItem[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
-
     const pageParam = searchParams.get("page")
-
 
     const handleOpen = () => {
         ref.current?.showModal()
@@ -29,7 +27,6 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
 
     const handleSubmit = () => {
         const orgUnitsToString: string[] = orgUnitsFilter.flatMap((orgUnit) => String(orgUnit.organisationUnitId))
-
         setSearchParams((prev) => {
             prev.set("orgUnits", `${[orgUnitsToString]}`);
             return prev;
@@ -60,20 +57,17 @@ const OrgUnitFilterModal = ({orgUnitList}: OrgUnitFilterModalProps) => {
                 header={{heading: "Velg organisasjonsenhet(er)"}}
                 onAbort={handleClose}
                 onCancel={handleClose}
+                size={"medium"}
+                width={"medium"}
             >
                 <Modal.Body className={"modal-body"}>
-                    <>
-                        <Switch id="sub-org-unit-switch" onClick={() => setAggregated(!aggregated)} checked={aggregated}>
-                            Inkluder underliggende enheter
-                        </Switch>
-
-                        <OrgUnitTree
-                            orgUnitList={orgUnitList}
-                            selectedOrgUnits={orgUnitsFilter}
-                            setSelectedOrgUnits={setOrgUnitsFilter}
-                            aggregated={aggregated}
-                        />
-                    </>
+                    <OrgUnitSelect
+                        allOrgUnits={orgUnitList}
+                        selectedOrgUnits={orgUnitsFilter}
+                        setSelectedOrgUnits={setOrgUnitsFilter}
+                        aggregated={aggregated}
+                        setAggregated={setAggregated}
+                    />
                 </Modal.Body>
 
                 <Modal.Footer>

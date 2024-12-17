@@ -125,6 +125,10 @@ table {
         padding-top: 0;
         padding-bottom: 0;
 
+        &:active {
+            background-color: var(--a-surface-action-subtle-hover);
+        }
+
         .chevron-icon {
             display: inline-block;
             transition: transform 0.3s ease;
@@ -143,6 +147,11 @@ table {
             justify-content: space-between;
             align-items: center;
             width: 100%;
+
+            .org-unit-amount {
+                background-color: #5ac8fa;
+                float: right;
+            }
 
         }
     }
@@ -240,12 +249,15 @@ table {
     &.blue.hoverColor:hover {
         background-color: var(--blue-20);
     }
+
     &.orange.hoverColor:hover {
         background-color: var(--orange-20);
     }
+
     &.red.hoverColor:hover {
         background-color: var(--red-20);
     }
+
     &.beige.hoverColor:hover {
         background-color: var(--beige-80);
     }
