@@ -1,7 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {
-    Link,
     Link as RemixLink,
     Links,
     Meta,
@@ -15,7 +14,6 @@ import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
-import {StatusTag} from "~/components/resource-admin/StatusTag";
 import {ArrowRightIcon, PencilIcon} from "@navikt/aksel-icons";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
@@ -73,11 +71,13 @@ export default function ResourceById() {
                 <VStack gap="4">
                     {source === "gui" && (
                         <HStack justify={"end"} align={"end"}>
-                            <Button role="link"
-                                    className={"no-underline-button"}
-                                    variant={"secondary"}
-                                    iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                                    onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}>
+                            <Button
+                                role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                                onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}
+                            >
                                 Rediger ressurs
                             </Button>
                         </HStack>
@@ -97,14 +97,18 @@ export default function ResourceById() {
                 </VStack>
 
                 <VStack gap="4">
-                    <Heading level="2" size="xlarge" align={"center"}>Tilgjengelig for følgende organisasjonsenheter</Heading>
+                    <Heading level="2" size="large" align={"center"} spacing>
+                        Tilgjengelig for følgende organisasjonsenheter
+                    </Heading>
                     {source === "gui" && (
                         <HStack justify={"end"} align={"end"}>
-                            <Button role="link"
-                                    className={"no-underline-button"}
-                                    variant={"secondary"}
-                                    iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                                    onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}>
+                            <Button
+                                role="link"
+                                className={"no-underline-button"}
+                                variant={"secondary"}
+                                iconPosition="right" icon={<PencilIcon aria-hidden/>}
+                                onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}
+                            >
                                 Rediger organisasjonsenheter
                             </Button>
                         </HStack>

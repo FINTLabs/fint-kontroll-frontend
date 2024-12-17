@@ -2,7 +2,7 @@ import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, VStack}
 import React, {useMemo, useState} from "react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import {IKodeverkApplicationCategory, IKodeverkUserType, IUnitItem} from "~/data/types";
+import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType, IUnitItem} from "~/data/types";
 import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 import {Form, useNavigate, useNavigation} from "@remix-run/react";
@@ -12,6 +12,7 @@ interface ResourseFormProps {
     allOrgUnits: IUnitItem[];
     applicationCategories: IKodeverkApplicationCategory[];
     userTypes: IKodeverkUserType[];
+    licenseEnforcements: IKodeverkLicenseEnforcement[];
 }
 
 export const ResourceForm: React.FC<ResourseFormProps> = (
@@ -19,7 +20,8 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
         resource,
         allOrgUnits,
         applicationCategories,
-        userTypes
+        userTypes,
+        licenseEnforcements
     }) => {
     const navigate = useNavigate()
     const response = useNavigation()
@@ -45,9 +47,10 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
     const [newResource, setNewResource] = useState<IApplicationResource>(initialResourceState);
 
     const [selectedOwnerOrgUnit, setSelectedOwnerOrgUnit] = useState<IUnitItem | null>(
-        newResource.resourceOwnerOrgUnitId ? allOrgUnits.find(orgUnit => orgUnit.organisationUnitId === newResource.resourceOwnerOrgUnitId) || null : null
+        newResource.resourceOwnerOrgUnitId
+            ? allOrgUnits.find(orgUnit => orgUnit.organisationUnitId === newResource.resourceOwnerOrgUnitId) || null
+            : null
     );
-
 
     const [selectedValidForOrgUnits, setSelectedValidForOrgUnits] = useState<IUnitItem[]>(
         allOrgUnits
@@ -61,8 +64,9 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
             })
     );
 
-
-    const totalAssignedResources = useMemo(() => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0), [selectedValidForOrgUnits])
+    const totalAssignedResources = useMemo(() =>
+        selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0), [selectedValidForOrgUnits]
+    )
 
 
     return (
@@ -76,7 +80,10 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                 )}
             </VStack>
 
-            <ExpansionCard aria-label="Velg organisasjonsenhet som er eier av ressursen">
+            <ExpansionCard
+                aria-label="Velg organisasjonsenhet som er eier av ressursen"
+                defaultOpen={!selectedOwnerOrgUnit?.name}
+            >
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Velg organisasjonsenhet som er eier av ressursen</ExpansionCard.Title>
                     <ExpansionCard.Description>{selectedOwnerOrgUnit ? `Valgt enhet: ${selectedOwnerOrgUnit.name}` : ""}</ExpansionCard.Description>
@@ -90,7 +97,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard aria-label="Fyll ut informasjon om ressursen">
+            <ExpansionCard aria-label="Fyll ut informasjon om ressursen" defaultOpen>
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>Fyll ut informasjon om ressursen</ExpansionCard.Title>
                 </ExpansionCard.Header>
@@ -100,12 +107,16 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                         setNewApplicationResource={setNewResource}
                         applicationCategories={applicationCategories}
                         userTypes={userTypes}
+                        licenseEnforcements={licenseEnforcements}
                     />
                 </ExpansionCard.Content>
             </ExpansionCard>
 
 
-            <ExpansionCard aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen">
+            <ExpansionCard
+                aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
+                defaultOpen={!selectedValidForOrgUnits.length}
+            >
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>
                         Legg til organisasjonsenheter som skal ha tilgang til ressursen

@@ -14,10 +14,10 @@ body {
 }
 
 .schema {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1rem;
+
+    ul {
+        list-style: none;
+    }
 }
 
 @media only screen and (max-width: 1200px) {

@@ -2,65 +2,14 @@ import {Link, useLoaderData, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React from "react";
 import {HStack, Loader} from "@navikt/ds-react";
-import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
+import {IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchResourceById, fetchAllOrgUnits, updateResource} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchApplicationCategories, fetchLicenseEnforcements, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ResourceForm} from "~/components/resource-admin/resourceForm/ResourceForm";
-
-export async function loader({params, request}: LoaderFunctionArgs) {
-    const auth = request;
-    const [allOrgUnits, resource, applicationCategories, userTypes] = await Promise.all([
-        fetchAllOrgUnits(auth),
-        fetchResourceById(request, params.id),
-        fetchApplicationCategories(auth),
-        fetchUserTypes(auth)
-    ]);
-
-    const resourceData = await resource.json();
-    const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData);
-    const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData);
-
-    return {
-        orgUnitsWithIsChecked,
-        orgUnitOwner,
-        resource: resourceData,
-        applicationCategories,
-        userTypes,
-        allOrgUnits
-    };
-}
-
-
-export default function EditApplikasjonsRessurs() {
-    const loaderData = useLoaderData<typeof loader>();
-    const orgUnitsWithIsChecked = loaderData.orgUnitsWithIsChecked.orgUnits as IUnitItem[];
-    const orgUnitOwner = loaderData.orgUnitOwner.orgUnits as IUnitItem[]; // Her får du listen med kun én "checked" enhet
-    const resource: IApplicationResource = loaderData.resource
-    const applicationCategories = loaderData.applicationCategories
-    const userTypes = loaderData.userTypes
-    const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
-    const response = useNavigation()
-
-
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
-    }
-    return (
-        <ResourceForm
-            resource={resource}
-            allOrgUnits={allOrgUnits}
-            applicationCategories={applicationCategories}
-            userTypes={userTypes}
-        />
-    )
-}
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
@@ -80,6 +29,61 @@ export const handle = {
 export const links: LinksFunction = () => [
     {rel: "stylesheet", href: resourceAdmin},
 ];
+
+export async function loader({params, request}: LoaderFunctionArgs) {
+    const auth = request;
+
+    const [
+        allOrgUnits,
+        resourceResponse,
+        applicationCategories,
+        userTypes,
+        licenseEnforcements
+    ] = await Promise.all([
+        fetchAllOrgUnits(auth),
+        fetchResourceById(request, params.id),
+        fetchApplicationCategories(auth),
+        fetchUserTypes(auth),
+        fetchLicenseEnforcements(auth)
+    ]);
+
+    const resource = await resourceResponse.json();
+
+    return {
+        resource,
+        applicationCategories,
+        userTypes,
+        allOrgUnits,
+        licenseEnforcements
+    };
+}
+
+
+export default function EditApplikasjonsRessurs() {
+    const {
+        resource,
+        applicationCategories,
+        userTypes,
+        allOrgUnits,
+        licenseEnforcements
+    } = useLoaderData<typeof loader>();
+    const response = useNavigation()
+
+    if (response.state === "loading") {
+        return <div className={"spinner"}>
+            <Loader size="3xlarge" title="Venter..."/>
+        </div>
+    }
+    return (
+        <ResourceForm
+            resource={resource}
+            allOrgUnits={allOrgUnits.orgUnits}
+            applicationCategories={applicationCategories}
+            userTypes={userTypes}
+            licenseEnforcements={licenseEnforcements}
+        />
+    )
+}
 
 
 export async function action({request}: ActionFunctionArgs) {
@@ -110,31 +114,4 @@ export async function action({request}: ActionFunctionArgs) {
     const response = await updateResource(request.headers.get("Authorization"), id, resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitId, resourceOwnerOrgUnitName, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
 
     return redirect(`/resource-admin/${data.get("id")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
-
 }
-
-
-const CheckedValidForOrgUnits = (orgUnitTree: IUnitTree, resource: IApplicationResource): IUnitTree => {
-    const checkedOrgUnits = resource.validForOrgUnits.map(checked => checked.orgUnitId);
-
-    const newList = orgUnitTree.orgUnits.map(orgUnit => ({
-        ...orgUnit,
-        isChecked: checkedOrgUnits.includes(orgUnit.organisationUnitId),
-        limit: resource.validForOrgUnits.find(unit => unit.orgUnitId === orgUnit.organisationUnitId)?.resourceLimit
-    }));
-
-    return {...orgUnitTree, orgUnits: newList};
-};
-
-const CheckedResourceOwner = (orgUnitTree: IUnitTree, resource: IApplicationResource): IUnitTree => {
-    const checkedOrgUnitId = resource.resourceOwnerOrgUnitId;
-    const newList = orgUnitTree.orgUnits.map(orgUnit => ({
-        ...orgUnit,
-        isChecked: orgUnit.organisationUnitId === checkedOrgUnitId
-    }));
-
-    return {
-        ...orgUnitTree,
-        orgUnits: newList
-    };
-};

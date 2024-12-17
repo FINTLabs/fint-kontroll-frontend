@@ -1,13 +1,14 @@
 import React, {SetStateAction} from "react";
 import {IApplicationResource} from "~/components/resource-admin/types";
 import {Checkbox, CheckboxGroup, Radio, RadioGroup, TextField, VStack} from "@navikt/ds-react";
-import {IKodeverkApplicationCategory, IKodeverkUserType} from "~/data/types";
+import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types";
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource
     setNewApplicationResource: React.Dispatch<SetStateAction<IApplicationResource>>
     applicationCategories: IKodeverkApplicationCategory[]
     userTypes: IKodeverkUserType[]
+    licenseEnforcements: IKodeverkLicenseEnforcement[]
 }
 
 export default function ApplicationResourceData(
@@ -15,16 +16,18 @@ export default function ApplicationResourceData(
         newApplicationResource,
         setNewApplicationResource,
         applicationCategories,
-        userTypes
+        userTypes,
+        licenseEnforcements
     }: ResourceDataProps
 ) {
     const doesValueContainNumbersOnly = (value: string) => {
         return /^\d*$/.test(value)
     }
 
+
     return (
         <ul>
-            <VStack gap={"8"}>
+            <VStack gap={"8"} marginInline={"4"}>
                 <li>
                     <TextField
                         className={"input-large"}
@@ -37,146 +40,115 @@ export default function ApplicationResourceData(
                         })}
                     />
                 </li>
-                {/*
-                Denne skal brukes på et senere tidspungt, foreløpig hardkodes pga. ApplicationResource er eneste valg
                 <li>
-                    <Select
-                        className={"input-medium"}
-                        label={"Velg ressurstype"}
-                        value={newApplicationResource.resourceType}
+                    <TextField
+                        className={"input-small"}
+                        label="Ressursgrense"
+                        description={"Totalt antall av ressursen"}
+                        value={newApplicationResource.resourceLimit || 0}
                         onChange={(event) => setNewApplicationResource({
                             ...newApplicationResource,
-                            resourceType: event.target.value
+                            resourceLimit: Number(event.target.value)
                         })}
-                    >
-                        <option value={""}></option>
-                        <option value={"ApplicationResource"}>Applikasjonsressurs</option>
-                    </Select>
-                </li>*/}
-                {/*
-                Denne skal brukes på et senere tidspungt, foreløpig hardkodes
-                <li>
-                    <CheckboxGroup legend="Velg plattform"
-                                   value={newApplicationResource.platform || []}
-                                   onChange={(value: string[]) => {
-                                       setNewApplicationResource((prevState) => {
-                                           return {
-                                               ...prevState,
-                                               platform: value
-                                           };
-                                       });
-                                   }}>
-                        <Checkbox value="win">Win</Checkbox>
-                        <Checkbox value="mac">Mac</Checkbox>
-                        <Checkbox value="linux">Linux</Checkbox>
-                        <Checkbox value="web">Web</Checkbox>
-                        <Checkbox value="android">Android</Checkbox>
-                        <Checkbox value="ios">iOS</Checkbox>
-                    </CheckboxGroup>
-                </li>*/}
-                {/*
-                Denne skal brukes på et senere tidspungt, foreløpig hardkodes
-                <li>
-                    <Select
-                        className={"input-medium"}
-                        label={"Velg tilgangstype"}
-                        value={newApplicationResource.accessType}
-                        onChange={(event) => setNewApplicationResource({
-                            ...newApplicationResource,
-                            accessType: event.target.value
-                        })}>
-                        <option value={""}></option>
-                        <option value={"Device based license"}>Device based license</option>
-
-                    </Select>
-                </li>*/}
-                <li>
-                    <TextField className={"input-small"}
-                               label="Ressursgrense"
-                               description={"Totalt antall av ressursen"}
-                               value={newApplicationResource.resourceLimit || 0}
-                               onChange={(event) => setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   resourceLimit: Number(event.target.value)
-                               })}/>
+                    />
                 </li>
                 <li>
-                    <CheckboxGroup legend="Velg roller ressursen skal være gyldig for"
-                                   value={newApplicationResource.validForRoles || []}
-                                   onChange={(value: string[]) => {
-                                       setNewApplicationResource((prevState) => {
-                                           return {
-                                               ...prevState,
-                                               validForRoles: value
-                                           };
-                                       });
-                                   }}>
+                    <CheckboxGroup
+                        legend="Velg roller ressursen skal være gyldig for"
+                        value={newApplicationResource.validForRoles || []}
+                        onChange={(value: string[]) => {
+                            setNewApplicationResource((prevState) => {
+                                return {
+                                    ...prevState,
+                                    validForRoles: value
+                                };
+                            });
+                        }}
+                    >
                         {userTypes?.map((userType) => {
                             return <Checkbox key={userType.id} value={userType.label}>{userType.fkLabel}</Checkbox>
                         })}
                     </CheckboxGroup>
                 </li>
                 <li>
-                    <CheckboxGroup legend="Velg applikasjonskategori"
-                                   value={newApplicationResource.applicationCategory || []}
-                                   onChange={(value: string[]) => {
-                                       setNewApplicationResource((prevState) => {
-                                           return {
-                                               ...prevState,
-                                               applicationCategory: value
-                                           };
-                                       });
-                                   }}>
+                    <CheckboxGroup
+                        legend="Velg applikasjonskategori"
+                        value={newApplicationResource.applicationCategory || []}
+                        onChange={(value: string[]) => {
+                            setNewApplicationResource((prevState) => {
+                                return {
+                                    ...prevState,
+                                    applicationCategory: value
+                                };
+                            });
+                        }}
+                    >
                         {applicationCategories?.map((category) => {
                             return <Checkbox key={category.id} value={category.name}>{category.name}</Checkbox>
                         })}
                     </CheckboxGroup>
                 </li>
                 <li>
-                    <RadioGroup legend="Har ressursen en kostnad?"
-                                value={newApplicationResource.hasCost || false}
-                                onChange={(value: boolean) => setNewApplicationResource({
-                                    ...newApplicationResource,
-                                    hasCost: value
-                                })}>
+                    <RadioGroup
+                        legend="Har ressursen en kostnad?"
+                        value={newApplicationResource.hasCost || false}
+                        onChange={(value: boolean) => setNewApplicationResource({
+                            ...newApplicationResource,
+                            hasCost: value
+                        })}
+                    >
                         <Radio value={true}>Ja</Radio>
                         <Radio value={false}>Nei</Radio>
                     </RadioGroup>
                 </li>
                 <li>
-                    <RadioGroup legend="Håndhevingsregel"
-                                value={newApplicationResource.licenseEnforcement || false}
-                                onChange={(value: string) => setNewApplicationResource({
-                                    ...newApplicationResource,
-                                    licenseEnforcement: value
-                                })}>
-                        <Radio value={"Hard stop"}>Kan ikke overskrides</Radio>
-                        <Radio value={"kan overskrides"}>Kan overskrides</Radio>
-                        <Radio value={"free"}>Fri bruk</Radio>
+                    <RadioGroup
+                        legend="Håndhevingsregel"
+                        value={newApplicationResource.licenseEnforcement || false}
+                        onChange={(value: string) => setNewApplicationResource({
+                            ...newApplicationResource,
+                            licenseEnforcement: value
+                        })}
+                    >
+                        <VStack>
+                            {licenseEnforcements?.map((enforcement) => {
+                                return <Radio key={enforcement.id} value={enforcement.label}>
+                                    {enforcement.fkLabel}
+                                </Radio>
+                            })}
+                        </VStack>
                     </RadioGroup>
                 </li>
                 <li>
-                    <TextField className={"input-small"}
-                               label="Kostnad ressurs (pr. stk.)"
-                               value={newApplicationResource.unitCost || 0}
-                               inputMode="numeric"
-                               {...(!doesValueContainNumbersOnly(String(newApplicationResource.unitCost)) ? {error: "Kan ikke inneholde annet enn tall"} : {})}
-                               onChange={(event) => doesValueContainNumbersOnly(event.target.value) && setNewApplicationResource({
-                                   ...newApplicationResource,
-                                   unitCost: Number(event.target.value)
-                               })}
+                    <TextField
+                        className={"input-small"}
+                        label="Kostnad ressurs (pr. stk.)"
+                        value={Number(newApplicationResource.unitCost) || 0}
+                        inputMode="numeric"
+                        onChange={(event) => {
+                            Number(event.target.value) &&
+                            setNewApplicationResource({
+                                ...newApplicationResource,
+                                unitCost: Number(event.target.value)
+                            });
+                        }}
                     />
                 </li>
                 <li>
-                    <RadioGroup legend="Status"
-                                value={newApplicationResource.status || false}
-                                onChange={(value: string) => setNewApplicationResource({
-                                    ...newApplicationResource,
-                                    status: value
-                                })}>
-                        <Radio value={"ACTIVE"}>Aktiv</Radio>
-                        <Radio value={"DISABLED"}>Disabled</Radio>
-                        <Radio value={"DELETED"}>Slettet</Radio>
+                    <RadioGroup
+                        legend="Status"
+                        value={newApplicationResource.status || false}
+                        onChange={(value: string) => setNewApplicationResource({
+                            ...newApplicationResource,
+                            status: value
+                        })}
+                    >
+                        <VStack>
+
+                            <Radio value={"ACTIVE"}>Aktiv</Radio>
+                            <Radio value={"DISABLED"}>Deaktivert</Radio>
+                            <Radio value={"DELETED"}>Slettet</Radio>
+                        </VStack>
                     </RadioGroup>
                 </li>
             </VStack>

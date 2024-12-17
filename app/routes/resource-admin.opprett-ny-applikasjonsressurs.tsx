@@ -9,7 +9,7 @@ import {IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
-import {fetchApplicationCategories, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchApplicationCategories, fetchLicenseEnforcements, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ResourceForm} from "~/components/resource-admin/resourceForm/ResourceForm";
 
 export const handle = {
@@ -43,25 +43,28 @@ const loopAndSetIsCheck = (orgUnitTree: IUnitTree): IUnitTree => {
 
 export async function loader({request}: LoaderFunctionArgs) {
     const auth = request
-    const allOrgUnits = await fetchAllOrgUnits(auth)
+
+    const [allOrgUnits, applicationCategories, userTypes, licenseEnforcements] = await Promise.all([
+        fetchAllOrgUnits(auth),
+        fetchApplicationCategories(auth),
+        fetchUserTypes(auth),
+        fetchLicenseEnforcements(auth)
+    ])
+
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
-    const applicationCategories = await fetchApplicationCategories(auth)
-    const userTypes = await fetchUserTypes(auth)
 
     return {
         allOrgUnits: orgUnitsWithIsChecked.orgUnits,
         applicationCategories,
-        userTypes
+        userTypes,
+        licenseEnforcements
     }
 
 }
 
 
 export default function OpprettNyApplikasjonsRessurs() {
-    const loaderData = useLoaderData<typeof loader>();
-    const allOrgUnits = loaderData.allOrgUnits
-    const applicationCategories = loaderData.applicationCategories
-    const userTypes = loaderData.userTypes
+    const {allOrgUnits, applicationCategories, userTypes, licenseEnforcements} = useLoaderData<typeof loader>();
     const response = useNavigation()
 
     if (response.state === "loading") {
@@ -75,6 +78,7 @@ export default function OpprettNyApplikasjonsRessurs() {
             allOrgUnits={allOrgUnits}
             applicationCategories={applicationCategories}
             userTypes={userTypes}
+            licenseEnforcements={licenseEnforcements}
         />
     )
 }

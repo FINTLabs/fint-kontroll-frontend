@@ -1,7 +1,18 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useMemo, useState} from "react";
-import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, List, Loader, VStack} from "@navikt/ds-react";
+import {
+    BodyShort,
+    Box,
+    Button,
+    ErrorMessage,
+    ExpansionCard,
+    Heading,
+    HStack,
+    List,
+    Loader,
+    VStack
+} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
 import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
@@ -168,21 +179,25 @@ export default function EditOrgUnitsForResource() {
     }
 
     return (
-        <VStack className={"schema"} gap="8">
-            <div>
-                <Heading level={"1"} size={"large"}>Endre eller legg organisasjonsenheter </Heading>
-                <Heading level="2" size="small">{resource.resourceName}</Heading>
-            </div>
-            <ExpansionCard
-                aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
-                defaultOpen={true}
-            >
-                <ExpansionCard.Header>
-                    <ExpansionCard.Title>
-                        Legg til organisasjonsenheter som skal ha tilgang til ressursen
-                    </ExpansionCard.Title>
-                    <ExpansionCard.Description>
-                        {selectedValidForOrgUnits.length > 0 && (
+        <div className={"content"}>
+            <VStack className={"schema"} gap="8">
+                <VStack>
+                    <Heading level={"1"} size={"large"}>Endre eller legg organisasjonsenheter </Heading>
+                    <Heading level="2" size="small">{resource.resourceName}</Heading>
+                </VStack>
+                <Box
+                    padding={"8"}
+                    borderWidth="1"
+                    borderColor="border-default"
+                    borderRadius={"large"}
+                >
+                    {selectedValidForOrgUnits.length > 0 && (
+                        <Box
+                            paddingBlock={"0 4"}
+                            borderWidth={"0 0 1 0"}
+                            borderColor={"border-divider"}
+                            marginBlock={"0 4"}
+                        >
                             <VStack>
                                 <BodyShort>{selectedValidForOrgUnits.length} enheter valgt.</BodyShort>
                                 {newResource.resourceLimit && totalAssignedResources > newResource.resourceLimit ? (
@@ -195,56 +210,53 @@ export default function EditOrgUnitsForResource() {
                                     </BodyShort>
                                 )}
                             </VStack>
-                        )}
-                    </ExpansionCard.Description>
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
+                        </Box>
+                    )}
                     <OrgUnitSelect
                         allOrgUnits={orgUnitsWithIsChecked}
                         selectedOrgUnits={selectedValidForOrgUnits}
                         setSelectedOrgUnits={setSelectedValidForOrgUnits}
                         selectType="allocation"
                     />
-                </ExpansionCard.Content>
-            </ExpansionCard>
-
-            <HStack gap="4" justify={"end"}>
-                <Button type="button"
-                        variant="secondary"
-                        onClick={() => navigate(`/resource-admin`)}>
-                    Avbryt
-                </Button>
-                <Form method="PUT">
-                    <input type="hidden" name="id" id="id" value={newResource.id}/>
-                    <input type="hidden" name="resourceId" id="resourceId" value={newResource.resourceId}/>
-                    <input type="hidden" name="resourceName" id="resourceName" value={newResource.resourceName}/>
-                    <input type="hidden" name="resourceType" id="resourceType" value={newResource.resourceType}/>
-                    <input type="hidden" name="platform" id="platform" value={newResource.platform.join(",")}/>
-                    <input type="hidden" name="accessType" id="accessType" value={newResource.accessType}/>
-                    <input type="hidden" name="resourceLimit" id="resourceLimit"
-                           value={newResource.resourceLimit.toString()}/>
-                    <input type="hidden" name="resourceOwnerOrgUnitId" id="resourceOwnerOrgUnitId"
-                           value={selectedOwnerOrgUnit?.organisationUnitId}/>
-                    <input type="hidden" name="resourceOwnerOrgUnitName" id="resourceOwnerOrgUnitName"
-                           value={selectedOwnerOrgUnit?.name}/>
-                    <input
-                        type="hidden"
-                        name="validForOrgUnits"
-                        id="validForOrgUnits"
-                        value={JSON.stringify(selectedValidForOrgUnits.map(mapOrgUnitListToValidForOrgUnits))}
-                    />
-                    <input type="hidden" name="validForRoles" id="validForRoles"
-                           value={newResource.validForRoles.join(",")}/>
-                    <input type="hidden" name="applicationCategory" id="applicationCategory"
-                           value={newResource.applicationCategory.join(",")}/>
-                    <input type="hidden" name="hasCost" id="hasCost" value={newResource.hasCost.toString()}/>
-                    <input type="hidden" name="licenseEnforcement" id="licenseEnforcement"
-                           value={newResource.licenseEnforcement}/>
-                    <input type="hidden" name="unitCost" id="unitCost" value={newResource.unitCost}/>
-                    <input type="hidden" name="status" id="status" value={newResource.status}/>
-                    {SaveButton()}
-                </Form>
-            </HStack>
-        </VStack>
+                </Box>
+                <HStack gap="4" justify={"end"}>
+                    <Button type="button"
+                            variant="secondary"
+                            onClick={() => navigate(`/resource-admin`)}>
+                        Avbryt
+                    </Button>
+                    <Form method="PUT">
+                        <input type="hidden" name="id" id="id" value={newResource.id}/>
+                        <input type="hidden" name="resourceId" id="resourceId" value={newResource.resourceId}/>
+                        <input type="hidden" name="resourceName" id="resourceName" value={newResource.resourceName}/>
+                        <input type="hidden" name="resourceType" id="resourceType" value={newResource.resourceType}/>
+                        <input type="hidden" name="platform" id="platform" value={newResource.platform.join(",")}/>
+                        <input type="hidden" name="accessType" id="accessType" value={newResource.accessType}/>
+                        <input type="hidden" name="resourceLimit" id="resourceLimit"
+                               value={newResource.resourceLimit.toString()}/>
+                        <input type="hidden" name="resourceOwnerOrgUnitId" id="resourceOwnerOrgUnitId"
+                               value={selectedOwnerOrgUnit?.organisationUnitId}/>
+                        <input type="hidden" name="resourceOwnerOrgUnitName" id="resourceOwnerOrgUnitName"
+                               value={selectedOwnerOrgUnit?.name}/>
+                        <input
+                            type="hidden"
+                            name="validForOrgUnits"
+                            id="validForOrgUnits"
+                            value={JSON.stringify(selectedValidForOrgUnits.map(mapOrgUnitListToValidForOrgUnits))}
+                        />
+                        <input type="hidden" name="validForRoles" id="validForRoles"
+                               value={newResource.validForRoles.join(",")}/>
+                        <input type="hidden" name="applicationCategory" id="applicationCategory"
+                               value={newResource.applicationCategory.join(",")}/>
+                        <input type="hidden" name="hasCost" id="hasCost" value={newResource.hasCost.toString()}/>
+                        <input type="hidden" name="licenseEnforcement" id="licenseEnforcement"
+                               value={newResource.licenseEnforcement}/>
+                        <input type="hidden" name="unitCost" id="unitCost" value={newResource.unitCost}/>
+                        <input type="hidden" name="status" id="status" value={newResource.status}/>
+                        {SaveButton()}
+                    </Form>
+                </HStack>
+            </VStack>
+        </div>
     )
 }
