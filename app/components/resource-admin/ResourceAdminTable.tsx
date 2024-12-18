@@ -9,6 +9,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
+import {boolean} from "property-information/lib/util/types";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -39,7 +40,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Applikasjonskategori</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align="left">
                             <Dropdown>
                                 <HStack align={"center"}>
@@ -61,7 +62,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                                             Aktiv
                                         </Dropdown.Menu.GroupedList.Item>
                                         <Dropdown.Menu.GroupedList.Item onClick={(e) => setStatusFilter("DISABLED")}>
-                                            Disabled
+                                            Deaktivert
                                         </Dropdown.Menu.GroupedList.Item>
                                         <Dropdown.Menu.GroupedList.Item onClick={(e) => setStatusFilter("DELETED")}>
                                             Slettet
@@ -72,14 +73,14 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                         {source === "gui" &&
                             <Table.HeaderCell align={"center"} scope="col">Slett</Table.HeaderCell>
                         }
-                        <Table.HeaderCell scope="col" align="center">Se mer informasjon</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align="right">Se mer informasjon</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {fetching ? <TableSkeleton columns={5}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
-                            <Table.DataCell>{resource.resourceType}</Table.DataCell>
+                            <Table.DataCell>{resource.applicationCategory?.filter(Boolean).join(', ')}</Table.DataCell>
                             <Table.DataCell>{<StatusTag status={resource.status}/>}</Table.DataCell>
                             {source === "gui" && (
                                 <Table.DataCell align={"center"}>
@@ -97,7 +98,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                                     }
                                 </Table.DataCell>
                             )}
-                            <Table.DataCell align="center">
+                            <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`resourceAdminInfoButton-${resource.id}`}
                                     url={`/resource-admin/${resource.id}`}

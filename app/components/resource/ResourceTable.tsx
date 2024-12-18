@@ -21,16 +21,16 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align="center">Se mer informasjon</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Applikasjonstype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align="right">Se mer informasjon</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {fetching ? <TableSkeleton columns={3}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell >{resource.resourceName}</Table.DataCell>
-                            <Table.DataCell>{resource.resourceType}</Table.DataCell>
-                            <Table.DataCell align="center">
+                            <Table.DataCell>{resource.applicationCategory?.filter(Boolean).join(', ')}</Table.DataCell>
+                            <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`resourceInfoButton-${resource.id}`}
                                     url={getResourceUserAssignmentsUrl(resource.id)}

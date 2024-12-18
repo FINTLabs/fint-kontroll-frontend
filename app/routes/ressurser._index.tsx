@@ -1,9 +1,9 @@
 import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IResourceList, IUnitItem, IUnitTree} from "~/data/types";
+import {useLoaderData, useRouteError} from "@remix-run/react";
+import type {IResourceList, IUnitItem} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
@@ -26,24 +26,19 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationCategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, responseOrgUnits, responseApplicationCategories] = await Promise.all([
+    const [responseResource, orgUnitTree, responseApplicationCategories] = await Promise.all([
         fetchResources(request, size, page, search, orgUnits, applicationCategory, accessType),
-        fetchOrgUnits(request),
+        fetchAllOrgUnits(request),
         fetchApplicationCategory(request),
-        // fetchAccessType(request)
     ]);
     const resourceList: IResourceList = await responseResource.json()
-    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
-    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
-    // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
         resourceList,
         size,
-        orgUnitList,
+        orgUnitList: orgUnitTree.orgUnits,
         applicationCategories,
-        // accessTypes
     })
 }
 
@@ -53,19 +48,6 @@ export default function Resource() {
     const size: string = loaderData.size
     const orgUnitList: IUnitItem[] = loaderData.orgUnitList
     const applicationCategories: string[] = loaderData.applicationCategories
-    // const accessTypes: string[] = loaderData.accessTypes
-
-    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    /*const setAccessType = (event: string) => {
-        setAccessTypeSearchParams(searchParams => {
-            searchParams.set("accesstype", event);
-            if (searchParams.get("accesstype") === "") {
-                searchParams.delete("accesstype")
-            }
-            return searchParams;
-        })
-    }*/
 
     return (
         <div className={"content"}>
@@ -82,7 +64,6 @@ export default function Resource() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
     return (
         <Box paddingBlock="8">
             <Alert variant="error">
@@ -90,21 +71,5 @@ export function ErrorBoundary() {
                 <div>{error.message}</div>
             </Alert>
         </Box>
-        /*<html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
-        </html>*/
     );
 }

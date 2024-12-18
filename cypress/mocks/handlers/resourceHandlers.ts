@@ -24,6 +24,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Creative Cloud All Apps for K-12 - User License",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 10000,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "ACTIVE",
                         "identityProviderGroupObjectId": "96f6d0ac-64ef-4c3b-bb1f-91db7b39426d"
                     },
@@ -33,6 +34,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 25,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "ACTIVE",
                         "identityProviderGroupObjectId": "df6b0f04-3dac-489c-abcf-31313d9b85c2"
                     },
@@ -42,6 +44,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Solid Works Edu",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 50,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "DELETED",
                         "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
                     },
@@ -51,6 +54,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "TOtally LegIt textbooks",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 10000,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "DELETED",
                         "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
                     },
@@ -60,6 +64,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Flash Media Player",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 25,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "DELETED",
                         "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
                     },
@@ -69,6 +74,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Powerpoint",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 50,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "DELETED",
                         "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
                     },
@@ -78,6 +84,7 @@ export const resourceAdminHandlers = [
                         "resourceName": "Runekit",
                         "resourceType": "ApplicationResource",
                         "resourceLimit": 50,
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "status": "DELETED",
                         "identityProviderGroupObjectId": "6b75d8f8-83e7-483c-92f1-19c620cd7571"
                     },
@@ -122,6 +129,7 @@ export const resourceHandlers = [
                         "resourceId": "ff75076c4ce53f5ca51b1cbb",
                         "resourceName": "Creative Cloud All Apps for K-12 - User License",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "resourceLimit": 10000
                     },
                     {
@@ -129,6 +137,7 @@ export const resourceHandlers = [
                         "resourceId": "f887f35a0fab01f3e3e2c5c2",
                         "resourceName": "Creative Cloud All Apps for K-12 - Shared Device",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": [],
                         "resourceLimit": 25
                     },
                     {
@@ -136,6 +145,7 @@ export const resourceHandlers = [
                         "resourceId": "ff75076c4ce53f5ca518989",
                         "resourceName": "Solid Works Edu",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["Pedagogisk programvare", "Fagsystemer"],
                         "resourceLimit": 50
                     },
                     {
@@ -143,6 +153,7 @@ export const resourceHandlers = [
                         "resourceId": "ff75076c4ce53f5ca51b1ccb",
                         "resourceName": "TOtally LegIt textbooks",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["", "Pedagogisk programvare"],
                         "resourceLimit": 10000
                     },
                     {
@@ -150,6 +161,7 @@ export const resourceHandlers = [
                         "resourceId": "f887f35a0fab01f3e3e2c5c3",
                         "resourceName": "Flash Media Player",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "resourceLimit": 25
                     },
                     {
@@ -157,6 +169,7 @@ export const resourceHandlers = [
                         "resourceId": "ff75076c4ce53f5ca518949",
                         "resourceName": "Powerpoint",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "resourceLimit": 50
                     },
                     {
@@ -164,6 +177,7 @@ export const resourceHandlers = [
                         "resourceId": "ff75076c4ce53f5ca513989",
                         "resourceName": "Runekit",
                         "resourceType": "ApplicationResource",
+                        "applicationCategory": ["Pedagogisk programvare"],
                         "resourceLimit": 50
                     },
                 ]

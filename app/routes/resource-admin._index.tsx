@@ -1,9 +1,13 @@
 import {Alert, Box, Button, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
-import {IResourceAdminList, IUnitItem, IUnitTree} from "~/data/types";
+import {IResourceAdminList} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchApplicationCategory, fetchOrgUnits, fetchResourcesForAdmin} from "~/data/fetch-resources";
+import {
+    fetchAllOrgUnits,
+    fetchApplicationCategory,
+    fetchResourcesForAdmin
+} from "~/data/fetch-resources";
 import {Search} from "~/components/common/Search";
 import {ResourceAdminTable} from "~/components/resource-admin/ResourceAdminTable";
 import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
@@ -27,28 +31,22 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, responseOrgUnits, responseApplicationCategories, source] = await Promise.all([
+    const [responseResource, orgUnitTree, responseApplicationCategories, source] = await Promise.all([
         fetchResourcesForAdmin(request, size, page, search, status, orgUnits, applicationcategory, accessType),
-        fetchOrgUnits(request),
+        fetchAllOrgUnits(request),
         fetchApplicationCategory(request),
         fetchResourceDataSource(request)
-        // fetchAccessType(request)
-
     ]);
     const resourceList: IResourceAdminList = await responseResource.json()
-    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
-    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const applicationCategories: string[] = await responseApplicationCategories.json()
-    // const accessTypes: string[] = await responseAccessType.json()
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
-        orgUnitList,
+        orgUnitList: orgUnitTree.orgUnits,
         applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         source
-        // accessTypes
     })
 }
 
@@ -62,19 +60,6 @@ export default function ResourceAdminIndex() {
     const applicationCategories: string[] = loaderData.applicationCategories
     const source = loaderData.source
     const navigate = useNavigate()
-    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList
-    // const accessTypes: string[] = loaderData.accessTypes
-    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    /*const setAccessType = (event: string) => {
-        setAccessTypeSearchParams(searchParams => {
-            searchParams.set("accesstype", event);
-            if (searchParams.get("accesstype") === "") {
-                searchParams.delete("accesstype")
-            }
-            return searchParams;
-        })
-    }*/
 
     return (
         <VStack className={"content"} gap="4">
