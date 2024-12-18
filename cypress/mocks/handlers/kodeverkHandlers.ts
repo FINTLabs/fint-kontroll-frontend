@@ -35,6 +35,42 @@ export const applicationCategoriesHandlers = [
             },
         )
     }),
+    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/handhevingstype/v1', () => {
+        return HttpResponse.json(
+            [
+                {
+                    "id": 1,
+                    "fkLabel": "Maks antall",
+                    "label": "HARDSTOP"
+                },
+                {
+                    "id": 2,
+                    "fkLabel": "Kan overskrides",
+                    "label": "FLOATING"
+                },
+                {
+                    "id": 3,
+                    "fkLabel": "Fri for alle",
+                    "label": "FREEALL"
+                },
+                {
+                    "id": 4,
+                    "fkLabel": "Fri for elever",
+                    "label": "FREESTUDENT"
+                },
+                {
+                    "id": 5,
+                    "fkLabel": "Fri for utdanning",
+                    "label": "FREEEDU"
+                },
+                {
+                    "id": 6,
+                    "fkLabel": "Ikke satt håndhevingstype",
+                    "label": "NOTSET"
+                }
+            ]
+        )
+    }),
     http.get('http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/brukertype/v1', () => {
         return HttpResponse.json(
             [

@@ -36,7 +36,7 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                             {resource.applicationCategory && (
                                 <li>
                                     <Heading size="small" level="3">Applikasjonskategori:</Heading>
-                                    <BodyShort textColor="subtle">{resource.resourceType}
+                                    <BodyShort textColor="subtle">
                                         {resource.applicationCategory.join(', ')}
                                     </BodyShort>
                                 </li>
