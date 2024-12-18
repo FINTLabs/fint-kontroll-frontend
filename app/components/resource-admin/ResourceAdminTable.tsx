@@ -80,7 +80,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                     {fetching ? <TableSkeleton columns={5}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
-                            <Table.DataCell>{resource.applicationCategory.filter(Boolean).join(', ')}</Table.DataCell>
+                            <Table.DataCell>{resource.applicationCategory?.filter(Boolean).join(', ')}</Table.DataCell>
                             <Table.DataCell>{<StatusTag status={resource.status}/>}</Table.DataCell>
                             {source === "gui" && (
                                 <Table.DataCell align={"center"}>

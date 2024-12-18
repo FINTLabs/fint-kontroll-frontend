@@ -29,7 +29,7 @@ export const ResourceTable = ({resourcePage, size}: ResourceTableProps) => {
                     {fetching ? <TableSkeleton columns={3}/> : resourcePage.resources.map((resource) => (
                         <Table.Row key={resource.id}>
                             <Table.DataCell >{resource.resourceName}</Table.DataCell>
-                            <Table.DataCell>{resource.applicationCategory.filter(Boolean).join(', ')}</Table.DataCell>
+                            <Table.DataCell>{resource.applicationCategory?.filter(Boolean).join(', ')}</Table.DataCell>
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`resourceInfoButton-${resource.id}`}
