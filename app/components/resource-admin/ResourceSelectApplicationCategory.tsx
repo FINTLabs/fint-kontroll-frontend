@@ -28,7 +28,7 @@ export function ResourceSelectApplicationCategory ({applicationCategories}: Reso
             value={String(applicationCategorySearchParams.get("applicationcategory")) ?? ""}
         >
             <option value={""}>Alle</option>
-            {applicationCategories?.map((category) => (
+            {applicationCategories?.filter(Boolean).map((category) => (
                 <option key={category} value={category}>
                     {category}
                 </option>

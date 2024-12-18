@@ -151,6 +151,8 @@ export interface IResourceForList {
     resourceName: string
     resourceType: string
     resourceLimit: number
+    identityProviderGroupObjectId: string
+    applicationCategory: string[]
     assigned?: boolean
 }
 
@@ -170,6 +172,7 @@ export interface IResourceAdminItem {
     resourceLimit: number
     status: string
     identityProviderGroupObjectId: string
+    applicationCategory: string[]
 }
 
 export interface IResourceAdminList {
