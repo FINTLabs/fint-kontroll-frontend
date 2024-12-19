@@ -23,10 +23,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+
     const [responseRoles, responseAssignments] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
         fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits)
     ]);
+
     const roleList: IRoleList = await responseRoles.json()
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
 
