@@ -1,5 +1,5 @@
 import React, {useState, ReactNode} from "react";
-import {Button, VStack} from "@navikt/ds-react";
+import {Button, VStack, VStackProps} from "@navikt/ds-react";
 import {ChevronRightIcon} from '@navikt/aksel-icons';
 
 interface AccordionProps {
@@ -9,20 +9,21 @@ interface AccordionProps {
 interface AccordionItemProps {
     title: ReactNode | string;
     children: ReactNode;
-    isTopLevel?: boolean;
+    initialState?: boolean;
+    paddingInline?: VStackProps['paddingInline'];
 }
 
 const Accordion = ({children}: AccordionProps) => {
     return <VStack className="org-unit-accordion">{children}</VStack>;
 };
 
-const AccordionItem = ({title, children, isTopLevel}: AccordionItemProps) => {
-    const [isOpen, setIsOpen] = useState(!!isTopLevel);
+const AccordionItem = ({title, children, initialState, paddingInline = "8 0"}: AccordionItemProps) => {
+    const [isOpen, setIsOpen] = useState(initialState);
 
     return (
         <VStack
             width={"100%"}
-            paddingInline={!isTopLevel ? "8 0" : "0"}
+            paddingInline={paddingInline}
             aria-expanded={isOpen ? "true" : "false"}
         >
             <Button

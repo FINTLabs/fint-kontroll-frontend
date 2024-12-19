@@ -3,10 +3,11 @@ import {
     getOrgUnitAndAllNestedChildren,
     getAllTopLevelUnits,
     getOrgUnitByChildrenRef,
+    getAllParents
 } from "~/components/common/orgUnits/utils";
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
 import {BodyShort, Box, Checkbox, CheckboxGroup, HStack, Label, Switch, TextField} from "@navikt/ds-react";
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
 
 interface OrgUnitAllocationProps {
     allOrgUnits: IUnitItem[];
@@ -17,8 +18,6 @@ interface OrgUnitAllocationProps {
     setAggregated?: Dispatch<SetStateAction<boolean>>;
 }
 
-// TODO: finn ut av hvordan jeg kan åpne alle accordions whis en av de nested children er selected
-
 const OrgUnitSelect = (
     {
         allOrgUnits,
@@ -28,8 +27,9 @@ const OrgUnitSelect = (
         aggregated,
         setAggregated
     }: OrgUnitAllocationProps) => {
-    const topLevelUnits = getAllTopLevelUnits(allOrgUnits);
+    const topLevelUnits = useMemo(() => getAllTopLevelUnits(allOrgUnits), [allOrgUnits]);
     const [selectedIds, setSelectedIds] = useState<string[]>(selectedOrgUnits.map(unit => unit.organisationUnitId));
+    const accordionItemsToOpenOnRender = useMemo(() => getAllParents(selectedOrgUnits, allOrgUnits), [selectedOrgUnits, allOrgUnits]);
 
     useEffect(() => {
         if (selectedOrgUnits.length === 0 && selectedIds.length > 0) {
@@ -37,7 +37,7 @@ const OrgUnitSelect = (
         }
     }, [selectedIds.length, selectedOrgUnits]);
 
-    const updateSelectedOrgUnits = (ids: string[], isAggregated?: boolean) => {
+    const updateSelectedOrgUnits = useCallback((ids: string[], isAggregated?: boolean) => {
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
 
         if (isAggregated) {
@@ -57,30 +57,29 @@ const OrgUnitSelect = (
             setSelectedIds(ids);
             setSelectedOrgUnits(currentSelectedOrgUnits);
         }
-    };
+    }, [allOrgUnits, selectedOrgUnits, setSelectedOrgUnits]);
 
-    const handleLimitChange = (id: string, limit: number) => {
+    const handleLimitChange = useCallback((id: string, limit: number) => {
         setSelectedOrgUnits(prevSelected =>
             prevSelected.map(unit =>
                 unit.organisationUnitId === id ? {...unit, limit} : unit
             )
         );
-    };
+    }, [setSelectedOrgUnits]);
 
-    const handleSwitchAggregated = (newAggregated: boolean) => {
+    const handleSwitchAggregated = useCallback((newAggregated: boolean) => {
         if (setAggregated) {
             setAggregated(newAggregated);
         }
         updateSelectedOrgUnits(selectedIds, newAggregated);
-    };
+    }, [setAggregated, selectedIds, updateSelectedOrgUnits]);
 
-    const handleChange = (ids: string[]): void => {
+    const handleChange = useCallback((ids: string[]): void => {
         updateSelectedOrgUnits(ids, aggregated || selectType === "allocation");
-    };
+    }, [aggregated, selectType, updateSelectedOrgUnits]);
 
     return (
         <HStack>
-
             {selectType === "filter" && (
                 <Box paddingInline={"4"} paddingBlock={"0 4"}>
                     <Switch
@@ -94,10 +93,7 @@ const OrgUnitSelect = (
             )}
             {selectType === "allocation" && (
                 <HStack width={"100%"} justify={"end"} paddingInline={"4"}>
-                    <Label
-                        size="small"
-                        htmlFor="org-unit-amount"
-                    >
+                    <Label size="small" htmlFor="org-unit-amount">
                         Max antall tilganger per enhet
                     </Label>
                 </HStack>
@@ -106,7 +102,6 @@ const OrgUnitSelect = (
                 <CheckboxGroup legend="Velg organisasjonsenhet" hideLegend value={selectedIds} onChange={handleChange}>
                     {topLevelUnits.map(unit => (
                         <CheckboxTreeNode
-                            isTopLevel
                             key={unit.id}
                             unit={unit}
                             isAggregated={aggregated || selectType === "allocation"}
@@ -115,18 +110,16 @@ const OrgUnitSelect = (
                             selectedOrgUnits={selectedOrgUnits}
                             handleLimitChange={handleLimitChange}
                             selectType={selectType}
+                            openOnRender={accordionItemsToOpenOnRender}
                         />
                     ))}
                 </CheckboxGroup>
             </Accordion>
         </HStack>
-
-    )
-        ;
+    );
 };
 
 interface CheckboxTreeNodeProps {
-    isTopLevel?: boolean;
     unit: IUnitItem;
     orgUnitList: IUnitItem[];
     selectedIds: string[];
@@ -134,26 +127,33 @@ interface CheckboxTreeNodeProps {
     isAggregated?: boolean;
     handleLimitChange: (orgUnitId: string, limit: number) => void;
     selectType?: "filter" | "allocation";
+    openOnRender: IUnitItem[];
 }
 
 const CheckboxTreeNode = (
     {
-        isTopLevel,
         unit,
         orgUnitList,
         selectedIds,
         selectedOrgUnits,
         isAggregated,
         handleLimitChange,
-        selectType = "filter"
+        selectType = "filter",
+        openOnRender = []
     }: CheckboxTreeNodeProps) => {
-    const children = getOrgUnitByChildrenRef(orgUnitList, unit.childrenRef);
-    const currentUnit = selectedOrgUnits.find(u => u.organisationUnitId === unit.organisationUnitId);
-    const disabled = isAggregated && selectedOrgUnits.some(selectedUnit => selectedUnit.organisationUnitId === unit.parentRef);
+    const children = useMemo(() => getOrgUnitByChildrenRef(orgUnitList, unit.childrenRef), [orgUnitList, unit.childrenRef]);
+    const currentUnit = useMemo(() => selectedOrgUnits.find(u => u.organisationUnitId === unit.organisationUnitId), [selectedOrgUnits, unit.organisationUnitId]);
+    const disabled = useMemo(() => isAggregated && selectedOrgUnits.some(selectedUnit => selectedUnit.organisationUnitId === unit.parentRef), [isAggregated, selectedOrgUnits, unit.parentRef]);
+    const isTopLevel = useMemo(() => unit.parentRef === unit.organisationUnitId, [unit]);
+
+    const handleTextFieldChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        handleLimitChange(unit.organisationUnitId, parseInt(e.target.value));
+    }, [handleLimitChange, unit.organisationUnitId]);
 
     return (
         <AccordionItem
-            isTopLevel={isTopLevel}
+            paddingInline={isTopLevel ? "0" : "8 0"}
+            initialState={isTopLevel || openOnRender.some(openUnit => openUnit.organisationUnitId === unit.organisationUnitId)}
             title={
                 <HStack
                     width="100%"
@@ -163,7 +163,6 @@ const CheckboxTreeNode = (
                     wrap={false}
                 >
                     <HStack align={"center"} gap={"2"}>
-
                         <Checkbox
                             name="orgUnit"
                             className="org-unit-checkbox"
@@ -189,9 +188,7 @@ const CheckboxTreeNode = (
                             disabled={!selectedIds.includes(unit.organisationUnitId)}
                             min={1}
                             value={!selectedIds.includes(unit.organisationUnitId) ? "" : currentUnit?.limit}
-                            onChange={e => {
-                                handleLimitChange(unit.organisationUnitId, parseInt(e.target.value))
-                            }}
+                            onChange={handleTextFieldChange}
                             onError={(e) => {
                                 console.log("error", e)
                                 return "Ugyldig antall"
@@ -201,7 +198,6 @@ const CheckboxTreeNode = (
                 </HStack>
             }
         >
-            {/*(selectType === "filter" || (selectType === "allocation" && !selectedIds.includes(unit.organisationUnitId))) */}
             {children && children.length > 0 && children.map(child => (
                 <CheckboxTreeNode
                     key={child.id}
@@ -212,6 +208,7 @@ const CheckboxTreeNode = (
                     isAggregated={isAggregated}
                     handleLimitChange={handleLimitChange}
                     selectType={selectType}
+                    openOnRender={openOnRender}
                 />
             ))}
         </AccordionItem>
