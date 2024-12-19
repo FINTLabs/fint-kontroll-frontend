@@ -1,8 +1,12 @@
 import type {IUnitItem} from "~/data/types";
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction, useMemo} from "react";
 import {Radio, RadioGroup} from "@navikt/ds-react";
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
-import {getAllTopLevelUnits, getOrgUnitByChildrenRef, getUnitById} from "~/components/common/orgUnits/utils";
+import {
+    getAllParents,
+    getAllTopLevelUnits,
+    getOrgUnitByChildrenRef,
+} from "~/components/common/orgUnits/utils";
 
 interface ValidForOrgUnitSelectorProps {
     orgUnitList: IUnitItem[];
@@ -12,6 +16,7 @@ interface ValidForOrgUnitSelectorProps {
 
 const OrgUnitRadioSelection = ({orgUnitList, setSelectedOrgUnit, selectedOrgUnit}: ValidForOrgUnitSelectorProps) => {
     const topLevelUnits = getAllTopLevelUnits(orgUnitList);
+    const accordionItemsToOpenOnRender = useMemo(() => selectedOrgUnit ? getAllParents([selectedOrgUnit], orgUnitList) : [], [selectedOrgUnit, orgUnitList]);
 
     const handleChange = (value: string) => {
         const unit = orgUnitList.find(u => u.organisationUnitId === value)
@@ -20,43 +25,21 @@ const OrgUnitRadioSelection = ({orgUnitList, setSelectedOrgUnit, selectedOrgUnit
 
     return (
         <Accordion>
-            <RadioGroup onChange={handleChange} legend={"Velg organisasjonsenhet"} hideLegend={true} value={selectedOrgUnit?.organisationUnitId}>
+            <RadioGroup
+                onChange={handleChange}
+                legend={"Velg organisasjonsenhet"}
+                hideLegend={true}
+                value={selectedOrgUnit?.organisationUnitId}
+            >
                 {topLevelUnits.map(unit => (
-                    <AccordionItem
-                        key={unit.id}
-                        isTopLevel={true}
-                        title={
-                            <Radio
-                                name="orgUnit"
-                                value={unit.organisationUnitId}
-                                checked={selectedOrgUnit?.organisationUnitId === unit.organisationUnitId}
-                                onChange={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedOrgUnit(unit);
-                                }}
-                                size={"medium"}
-                            >
-                                {unit.name}
-                            </Radio>
-                        }
-                    >
-
-                        {unit.childrenRef.length > 0 && unit.childrenRef.map(childRef => {
-                            const child = getUnitById(orgUnitList, childRef)
-                            if (!child) return null
-                            return (
-                                <RadioTreeNode
-                                    key={child.organisationUnitId}
-                                    unit={child}
-                                    orgUnitList={orgUnitList}
-                                    selectedOrgUnit={selectedOrgUnit}
-                                    setSelectedOrgUnit={setSelectedOrgUnit}
-                                />
-                            )
-                        })}
-
-                    </AccordionItem>
-
+                    <RadioTreeNode
+                        key={unit.organisationUnitId}
+                        unit={unit}
+                        orgUnitList={orgUnitList}
+                        selectedOrgUnit={selectedOrgUnit}
+                        setSelectedOrgUnit={setSelectedOrgUnit}
+                        openOnRender={accordionItemsToOpenOnRender}
+                    />
                 ))}
             </RadioGroup>
         </Accordion>
@@ -69,6 +52,7 @@ interface RadioTreeNodeProps {
     orgUnitList: IUnitItem[];
     selectedOrgUnit: IUnitItem | null;
     setSelectedOrgUnit: (newSelected: IUnitItem | null) => void;
+    openOnRender?: IUnitItem[];
 }
 
 const RadioTreeNode = (
@@ -76,12 +60,16 @@ const RadioTreeNode = (
         unit,
         orgUnitList,
         selectedOrgUnit,
-        setSelectedOrgUnit
+        setSelectedOrgUnit,
+        openOnRender = []
     }: RadioTreeNodeProps) => {
     const children = getOrgUnitByChildrenRef(orgUnitList, unit.childrenRef);
+    const isTopLevel = useMemo(() => unit.parentRef === unit.organisationUnitId, [unit]);
 
     return (
         <AccordionItem
+            paddingInline={isTopLevel ? "0" : "8 0"}
+            initialState={isTopLevel || openOnRender.some(openUnit => openUnit.organisationUnitId === unit.organisationUnitId)}
             title={
                 <Radio
                     name="orgUnit"
@@ -100,6 +88,7 @@ const RadioTreeNode = (
                     orgUnitList={orgUnitList}
                     selectedOrgUnit={selectedOrgUnit}
                     setSelectedOrgUnit={setSelectedOrgUnit}
+                    openOnRender={openOnRender}
                 />
             ))}
 
