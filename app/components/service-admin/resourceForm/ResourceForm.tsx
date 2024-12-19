@@ -124,18 +124,15 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                     </ExpansionCard.Title>
                     <ExpansionCard.Description>
                         {selectedValidForOrgUnits.length > 0 && (
-                            <VStack>
-                                <BodyShort>{selectedValidForOrgUnits.length} enheter valgt.</BodyShort>
+                            <>
+                                {`${selectedValidForOrgUnits.length} enheter valgt.`}
+                                <br/>
                                 {newResource.resourceLimit && totalAssignedResources > newResource.resourceLimit ? (
                                     <ErrorMessage>
                                         {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
                                     </ErrorMessage>
-                                ) : (
-                                    <BodyShort>
-                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`}
-                                    </BodyShort>
-                                )}
-                            </VStack>
+                                ) : (`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ""} tilganger er fordelt.`)}
+                            </>
                         )}
                     </ExpansionCard.Description>
                 </ExpansionCard.Header>

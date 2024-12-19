@@ -147,7 +147,11 @@ const CheckboxTreeNode = (
     const isTopLevel = useMemo(() => unit.parentRef === unit.organisationUnitId, [unit]);
 
     const handleTextFieldChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        handleLimitChange(unit.organisationUnitId, parseInt(e.target.value));
+        const value = e.target.value;
+        const limit = value ? Number(value) : 0;
+        if (!isNaN(limit)) {
+            handleLimitChange(unit.organisationUnitId, limit);
+        }
     }, [handleLimitChange, unit.organisationUnitId]);
 
     return (
@@ -181,13 +185,13 @@ const CheckboxTreeNode = (
                     {selectType === "allocation" && (
                         <TextField
                             className={"org-unit-amount"}
-                            type="number"
+                            inputMode={"numeric"}
                             size="small"
                             label="Antall"
                             hideLabel
                             disabled={!selectedIds.includes(unit.organisationUnitId)}
                             min={1}
-                            value={!selectedIds.includes(unit.organisationUnitId) ? "" : currentUnit?.limit}
+                            value={selectedIds.includes(unit.organisationUnitId) ? (currentUnit?.limit ?? "") : ""}
                             onChange={handleTextFieldChange}
                             onError={(e) => {
                                 console.log("error", e)
