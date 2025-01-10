@@ -3,48 +3,39 @@ import styles from "../components/resource/resource.css?url"
 import {Alert, Box, HStack, LinkPanel, Loader, Tabs, VStack} from "@navikt/ds-react";
 import {
     Link,
-    Links,
-    Meta,
     Outlet,
-    Scripts,
     useLoaderData,
     useLocation,
     useNavigate,
     useParams,
     useRouteError
 } from "@remix-run/react";
-import {IKodeverkUserType, IResource} from "~/data/types";
+import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
 import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
-import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
 import {useLoadingState} from "~/components/common/customHooks";
-import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/paths";
+import {getResourceNewAssignmentUrl, RESOURCES} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-
-    const [resource, source] = await Promise.all([
+    const [resource, userTypeKodeverk] = await Promise.all([
         fetchResourceById(request, params.id),
-        fetchResourceDataSource(request)
+        fetchUserTypes(request)
     ]);
-
-    let userTypes: IKodeverkUserType[] = []
-    if (source === "gui") {
-        userTypes = await fetchUserTypes(request)
-    }
 
     return json({
         resource: await resource.json(),
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-        userTypes
+        userTypeKodeverk
     })
 }
 
@@ -55,7 +46,7 @@ export const handle = {
 export default function ResourceById() {
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource
-    const {userTypes, basePath} = loaderData
+    const {userTypeKodeverk, basePath} = loaderData
 
     const navigate = useNavigate()
     const location = useLocation();
@@ -81,7 +72,7 @@ export default function ResourceById() {
         <section className={"content"}>
             <VStack gap="4">
                 <VStack gap="4">
-                    <ResourceInfoBox resource={resource} userTypes={userTypes}/>
+                    <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk}/>
                     <Box className={"filters"} paddingBlock={"8"}>
                         <LinkPanel href={`${basePath}${getResourceNewAssignmentUrl(resource.id)}/${state === "bruker-tildelinger" ? "brukere" : "grupper"}`} border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>

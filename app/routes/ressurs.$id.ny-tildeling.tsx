@@ -1,7 +1,16 @@
-import {Alert, Box, HStack, Loader, Tabs, VStack} from "@navikt/ds-react";
+import {Alert, BodyShort, Box, HStack, Loader, Tabs, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import {Link, Outlet, useLoaderData, useLocation, useNavigate, useParams, useRouteError} from "@remix-run/react";
+import {
+    Link,
+    Outlet,
+    useLoaderData,
+    useLocation,
+    useNavigate,
+    useParams,
+    useRouteError,
+    useSearchParams
+} from "@remix-run/react";
 import {BreadcrumbParams, IResource} from "~/data/types";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
@@ -12,12 +21,11 @@ import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/paths";
 
-
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const responseResource = await fetchResourceById(request, params.id);
-
     const resource: IResource = await responseResource.json()
+
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
@@ -43,17 +51,30 @@ export default function NewAssignment() {
     const navigate = useNavigate()
     const location = useLocation();
     const params = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const {loading, fetching} = useLoadingState()
     const resource: IResource = loaderData.resource
     const responseCode: string | undefined = loaderData.responseCode
+    console.log("validForRoles", resource.validForRoles)
 
+    /*
+
+        useEffect(() => {
+            if (!searchParams.has("validForRoles") || searchParams.get("validForRoles") !== resource.validForRoles.join(',')) {
+                console.log("validForRoles", resource.validForRoles)
+                const validForRoles = resource.validForRoles;
+                setSearchParams({validForRoles: validForRoles.join(',')})
+            }
+        }, [resource.validForRoles, searchParams, setSearchParams]);
+
+    */
 
     const [state, setState] = useState(location.pathname.includes("/brukere") ? "brukere" : "grupper");
 
     const handleChangeTab = useCallback((value: string) => {
-        navigate(`${getResourceNewAssignmentUrl(Number(params.id))}/${value}`)
+        navigate(`${getResourceNewAssignmentUrl(Number(params.id))}/${value}${location.search}`)
         setState(value)
-    }, [navigate, params.id])
+    }, [location.search, navigate, params.id])
 
     useEffect(() => {
         if (location.pathname.includes("/brukere")) {
@@ -69,6 +90,9 @@ export default function NewAssignment() {
                 title={"Ny tildeling"}
                 subTitle={resource.resourceName}
             />
+
+            <BodyShort>{resource.validForRoles.join(', ')}</BodyShort>
+
 
             <VStack gap="4" marginBlock={"8 0"}>
                 <ResponseAlert

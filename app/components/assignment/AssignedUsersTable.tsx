@@ -1,4 +1,4 @@
-import {Button, Heading, Link, Table, Tag, VStack} from "@navikt/ds-react";
+import {Button, Link, Table, Tag, VStack} from "@navikt/ds-react";
 import type {IAssignedUsers} from "~/data/types";
 import React from "react";
 import {Outlet, useLoaderData, useParams, useSearchParams} from "@remix-run/react";
@@ -17,7 +17,7 @@ interface AssignedUsersTableProps {
 }
 
 export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUsersTableProps) => {
-    const {userTypes} = useLoaderData<typeof loader>()
+    const {userTypesKodeverk} = useLoaderData<typeof loader>()
     const [searchParams] = useSearchParams()
     const params = useParams()
     const {fetching} = useLoadingState()
@@ -41,7 +41,7 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
                         {fetching ? <TableSkeleton columns={5}/> : assignedUsers.users.map((user) => (
                             <Table.Row key={user.assigneeRef}>
                                 <Table.HeaderCell>{user.assigneeFirstName} {user.assigneeLastName}</Table.HeaderCell>
-                                <Table.DataCell>{translateUserTypeToLabel(user.assigneeUserType, userTypes)}</Table.DataCell>
+                                <Table.DataCell>{translateUserTypeToLabel(user.assigneeUserType, userTypesKodeverk)}</Table.DataCell>
                                 <Table.DataCell>{user.assignerDisplayname ? user.assignerDisplayname : user.assignerUsername}</Table.DataCell>
                                 <Table.DataCell>{user.directAssignment ? "Direkte" : user.assignmentViaRoleName}</Table.DataCell>
                                 <Table.DataCell align={"center"}>
@@ -54,7 +54,6 @@ export const AssignedUsersTable = ({assignedUsers, size, basePath}: AssignedUser
                                             icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
                                             iconPosition={"right"}
                                             href={`${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`}
-                                           // href={`${basePath}/resources/${params.id}/user-assignments/${user.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
                                         >
                                             Slett
                                         </Button>

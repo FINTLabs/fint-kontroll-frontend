@@ -8,8 +8,7 @@ import {MemberTable} from "~/components/role/MemberTable";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {Search} from "~/components/common/Search";
 import ChipsFilters from "~/components/common/ChipsFilters";
-import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {IKodeverkUserType} from "~/data/types";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {getRoleMembersUrl} from "~/data/paths";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
@@ -17,18 +16,16 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const search = url.searchParams.get("search") ?? "";
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
-    const members = await fetchMembers(request, params.id, size, page, search);
 
-    const source = await fetchResourceDataSource(request)
-    let userTypes: IKodeverkUserType[] = []
-    if (source === "gui") {
-        userTypes = await fetchUserTypes(request)
-    }
+    const [members, userTypesKodeverk] = await Promise.all([
+        fetchMembers(request, params.id, size, page, search),
+        fetchUserTypes(request)
+    ]);
 
     return json({
         members,
         size,
-        userTypes
+        userTypesKodeverk
     })
 }
 

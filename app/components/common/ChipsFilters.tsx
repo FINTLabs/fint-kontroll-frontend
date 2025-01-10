@@ -16,8 +16,8 @@ type Filters = {
 }
 
 const ChipsFilters = () => {
-    const loaderData = useLoaderData<{ userTypes?: IKodeverkUserType[] }>();
-    const userTypes = loaderData?.userTypes ?? undefined;
+    const loaderData = useLoaderData<{ userTypes?: IKodeverkUserType[], userTypesKodeverk?: IKodeverkUserType[] }>();
+    const userTypes = loaderData?.userTypesKodeverk ??  undefined;
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [filters, setFilters] = useState<Filters>({

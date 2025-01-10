@@ -1,8 +1,14 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
 import {IMemberPage} from "~/data/types";
 
-export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[]) => {
-    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgunits=' + orgUnits : ""}`, {
+export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[], userTypes?: string[]) => {
+    const sizeFilter = size ? `&size=${size}` : '';
+    const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
+    const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(",")}` : '';
+    const userTypeFilter = userTypes && userTypes.length > 0 ? `&userType=${userTypes.join(",")}` : "";
+
+    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${userTypeFilter}`, {
         headers: request.headers,
     });
 

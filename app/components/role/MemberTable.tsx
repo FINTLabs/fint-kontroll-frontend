@@ -1,5 +1,4 @@
 import {Table} from "@navikt/ds-react";
-import type {IMemberPage} from "~/data/types";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
@@ -9,7 +8,7 @@ import {loader} from "~/routes/grupper.$id.medlemmer";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 export const MemberTable = () => {
-    const {members: memberPage, size, userTypes} = useLoaderData<typeof loader>();
+    const {members: memberPage, size, userTypesKodeverk} = useLoaderData<typeof loader>();
     const {fetching} = useLoadingState()
 
     return (
@@ -25,7 +24,7 @@ export const MemberTable = () => {
                     {fetching ? <TableSkeleton columns={2} height={30}/> : memberPage.members.map((member) => (
                         <Table.Row key={member.id}>
                             <Table.HeaderCell scope="row">{member.firstName} {member.lastName}</Table.HeaderCell>
-                            <Table.DataCell>{translateUserTypeToLabel(member.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(member.userType, userTypesKodeverk)}</Table.DataCell>
                             {/*<Table.DataCell align="right">
                                 <Button
                                     id={`memberInfoButton-${member.id}`}

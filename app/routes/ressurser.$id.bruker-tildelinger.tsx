@@ -1,6 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Link, useLoaderData, useRouteError} from "@remix-run/react";
-import {IAssignedUsers, IKodeverkUserType, IResource} from "~/data/types";
+import {IAssignedUsers, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -12,7 +12,7 @@ import {fetchResourceById} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {UserSearch} from "~/components/user/UserSearch";
-import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {getResourceUserAssignmentsUrl} from "~/data/paths";
 
@@ -28,16 +28,11 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [resourceById, source, assignedUsers] = await Promise.all([
+    const [resourceById, assignedUsers, userTypesKodeverk] = await Promise.all([
         fetchResourceById(request, params.id),
-        fetchResourceDataSource(request),
-        fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits)
+        fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
+        fetchUserTypes(request)
     ])
-    let userTypes: IKodeverkUserType[] = []
-
-    if (source === "gui") {
-        userTypes = await fetchUserTypes(request)
-    }
     const resource: IResource = await resourceById.json()
 
 
@@ -48,7 +43,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
         size,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
-        userTypes
+        userTypesKodeverk
     })
 }
 
@@ -71,7 +66,7 @@ export default function AssignedUsers() {
             <VStack gap="4">
                 <TableToolbar
                     SearchComponent={<UserSearch/>}
-                    FilterComponents={<UserTypeFilter userTypes={loaderData.userTypes}/>}
+                    FilterComponents={<UserTypeFilter kodeverk={loaderData.userTypesKodeverk}/>}
                 />
                 <ResponseAlert responseCode={responseCode} successText={"Tildelingen var vellykket!"}
                                deleteText={"Tildelingen ble slettet!"}/>

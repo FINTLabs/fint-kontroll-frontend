@@ -1,12 +1,14 @@
 import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
 import type {IRole} from "~/data/types";
 import React from "react";
-import {Outlet, useSearchParams} from "@remix-run/react";
+import {Outlet, useLoaderData, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {getResourceConfirmRoleAssignmentUrl} from "~/data/paths";
+import {loader} from "~/routes/ressurs.$id.ny-tildeling.brukere";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 interface AssignRoleTableProps {
     isAssignedRoles: IRole[];
@@ -18,6 +20,8 @@ interface AssignRoleTableProps {
 }
 
 export const AssignRoleTable = (props: AssignRoleTableProps) => {
+    const {userTypesKodeverk} = useLoaderData<typeof loader>()
+
     const [searchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -38,7 +42,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                     {fetching ? <TableSkeleton/> : props.isAssignedRoles.map((role: IRole) => (
                         <Table.Row key={role.id}>
                             <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
-                            <Table.DataCell>{role.roleType}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(role.roleType, userTypesKodeverk)}</Table.DataCell>
                             <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {role.assigned ?

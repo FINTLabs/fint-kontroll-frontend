@@ -2,7 +2,7 @@ import {Alert, Box, Tabs} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json, TypedResponse} from "@remix-run/node";
 import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import type {BreadcrumbParams, IAssignedRoles, IRole, IRoleList} from "~/data/types";
+import {BreadcrumbParams, IAssignedRoles, IKodeverkUserType, IRole, IRoleList} from "~/data/types";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {fetchRoles} from "~/data/fetch-roles";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
@@ -10,11 +10,14 @@ import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
+import {fetchResourceById} from "~/data/fetch-resources";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 
 type LoaderData = {
     roleList: IRoleList,
     isAssignedRoles: IRole[],
     basePath: string,
+    userTypesKodeverk: IKodeverkUserType[]
 }
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
@@ -23,9 +26,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseRoles, responseAssignments] = await Promise.all([
-        fetchRoles(request, size, page, search, orgUnits),
-        fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits)
+    const resourceResponse = await fetchResourceById(request, params.id)
+    const resource = await resourceResponse.json()
+
+    const [responseRoles, responseAssignments, userTypesKodeverk] = await Promise.all([
+        fetchRoles(request, size, page, search, orgUnits, resource.validForRoles),
+        fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits),
+        fetchUserTypes(request)
     ]);
     const roleList: IRoleList = await responseRoles.json()
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
@@ -42,7 +49,8 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     return json({
         roleList,
         isAssignedRoles,
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
+        userTypesKodeverk
     })
 }
 

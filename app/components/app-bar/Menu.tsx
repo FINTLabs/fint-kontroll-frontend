@@ -55,12 +55,11 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                             Administrer brukere med rolle
                         </ActionMenu.Item>
                         <ActionMenu.Item onSelect={() => navigate(RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT)}>Tildel
-                            rolle til bruker</ActionMenu.Item>
-                        {props.source === "gui" &&
-                            <ActionMenu.Item onSelect={() => navigate(SETTINGS)}>
-                                Innstillinger
-                            </ActionMenu.Item>
-                        }
+                            rolle til bruker
+                        </ActionMenu.Item>
+                        <ActionMenu.Item onSelect={() => navigate(SETTINGS)}>
+                            Innstillinger
+                        </ActionMenu.Item>
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
 
@@ -68,7 +67,8 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                         <ActionMenu.Item onSelect={() => navigate(SERVICE_ADMIN)}>Ressurser</ActionMenu.Item>
                         {props.source === "gui" &&
                             <ActionMenu.Item onSelect={() => navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)}>
-                                Opprett ny ressurs</ActionMenu.Item>
+                                Opprett ny ressurs
+                            </ActionMenu.Item>
                         }
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
