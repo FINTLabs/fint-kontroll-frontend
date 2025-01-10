@@ -23,10 +23,10 @@ export const getOrgUnitAndAllNestedChildren = (
     orgUnits: IUnitItem[],
     allOrgUnits: IUnitItem[]
 ) => {
-    return orgUnits.flatMap(unit => [
+    return Array.from(new Set(orgUnits.flatMap(unit => [
         unit,
         ...getAllChildren(unit, allOrgUnits)
-    ]);
+    ])));
 }
 
 export const getAllParents = (selectedUnits: IUnitItem[], allOrgUnits: IUnitItem[]): IUnitItem[] => {
