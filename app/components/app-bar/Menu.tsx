@@ -2,7 +2,14 @@ import {MenuHamburgerIcon,} from "@navikt/aksel-icons";
 import {ActionMenu, BodyShort, Button, HGrid} from "@navikt/ds-react";
 import {useNavigate} from "@remix-run/react";
 import {IMeInfo} from "~/data/types";
-import {RESOURCES, ROLES, SYSTEM_ADMIN_DEFINE_ROLE, SYSTEM_ADMIN_FEATURE_TO_ROLE, USERS} from "~/data/paths";
+import {
+    RESOURCE_ADMIN, RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT,
+    RESOURCES,
+    ROLES, SERVICE_ADMIN, SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE, SETTINGS,
+    SYSTEM_ADMIN_DEFINE_ROLE,
+    SYSTEM_ADMIN_FEATURE_TO_ROLE,
+    USERS
+} from "~/data/paths";
 
 export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string }) => {
     const navigate = useNavigate();
@@ -44,13 +51,13 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     <ActionMenu.Divider/>
 
                     <ActionMenu.Group label="For ressursadministrator">
-                        <ActionMenu.Item id="resource-module-admin" onSelect={() => navigate(`resource-module-admin`)}>
+                        <ActionMenu.Item id="resource-module-admin" onSelect={() => navigate(RESOURCE_ADMIN)}>
                             Administrer brukere med rolle
                         </ActionMenu.Item>
-                        <ActionMenu.Item onSelect={() => navigate(`resource-module-admin/opprett-ny-tildeling`)}>Tildel
+                        <ActionMenu.Item onSelect={() => navigate(RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT)}>Tildel
                             rolle til bruker</ActionMenu.Item>
                         {props.source === "gui" &&
-                            <ActionMenu.Item onSelect={() => navigate(`innstillinger`)}>
+                            <ActionMenu.Item onSelect={() => navigate(SETTINGS)}>
                                 Innstillinger
                             </ActionMenu.Item>
                         }
@@ -58,9 +65,9 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                     <ActionMenu.Divider/>
 
                     <ActionMenu.Group label="For tjenesteadministrator">
-                        <ActionMenu.Item onSelect={() => navigate(`resource-admin`)}>Ressurser</ActionMenu.Item>
+                        <ActionMenu.Item onSelect={() => navigate(SERVICE_ADMIN)}>Ressurser</ActionMenu.Item>
                         {props.source === "gui" &&
-                            <ActionMenu.Item onSelect={() => navigate(`resource-admin/opprett-ny-applikasjonsressurs`)}>
+                            <ActionMenu.Item onSelect={() => navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)}>
                                 Opprett ny ressurs</ActionMenu.Item>
                         }
                     </ActionMenu.Group>

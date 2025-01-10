@@ -1,26 +1,16 @@
 import {Form, Link, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React, {useMemo, useState} from "react";
-import {
-    BodyShort,
-    Box,
-    Button,
-    ErrorMessage,
-    ExpansionCard,
-    Heading,
-    HStack,
-    List,
-    Loader,
-    VStack
-} from "@navikt/ds-react";
-import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
-import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
+import {BodyShort, Box, Button, ErrorMessage, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
+import {IApplicationResource, IValidForOrgUnits} from "~/components/service-admin/types";
+import resourceAdmin from "~/components/service-admin/serviceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
 import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
+import {getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
 
 export const handle = {
     // @ts-ignore
@@ -29,10 +19,11 @@ export const handle = {
             <HStack justify={"center"} align={"center"}>
                 <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <Link to={getResourceByIdUrl(params.id)} className={"breadcrumb-link"}>Ressursinfo</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-admin/edit/resource${params.id}`} className={"breadcrumb-link"}>Rediger
-                    ressurs</Link>
+                <Link to={getEditResourceUrl(params.id)} className={"breadcrumb-link"}>
+                    Rediger ressurs
+                </Link>
             </HStack>
         </HStack>
     )
@@ -117,7 +108,7 @@ export async function action({request}: ActionFunctionArgs) {
     const status = data.get("status") as string
     const response = await updateResource(request.headers.get("Authorization"), id, resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitId, resourceOwnerOrgUnitName, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
 
-    return redirect(`/resource-admin/${data.get("id")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${getResourceByIdUrl(Number(data.get("id")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function EditOrgUnitsForResource() {
@@ -222,7 +213,7 @@ export default function EditOrgUnitsForResource() {
                 <HStack gap="4" justify={"end"}>
                     <Button type="button"
                             variant="secondary"
-                            onClick={() => navigate(`/resource-admin`)}>
+                            onClick={() => navigate(SERVICE_ADMIN)}>
                         Avbryt
                     </Button>
                     <Form method="PUT">

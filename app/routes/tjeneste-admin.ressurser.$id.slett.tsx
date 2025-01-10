@@ -5,13 +5,14 @@ import type {ActionFunctionArgs} from "@remix-run/node";
 import {redirect} from "@remix-run/node";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {deleteResource} from "~/data/fetch-resources";
+import {SERVICE_ADMIN} from "~/data/paths";
 
 export async function action({request}: ActionFunctionArgs) {
     const data = await request.formData()
     const {searchParams} = new URL(request.url);
-    const response = await deleteResource(request, data.get("id") as string)
+    const response = await deleteResource(request.headers.get("Authorization"), request, data.get("id") as string)
     searchParams.set("responseCode", String(response.status))
-    return redirect(`/resource-admin/${prepareQueryParamsWithResponseCode(searchParams)}`)
+    return redirect(`${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams)}`)
 }
 
 export default function DeleteResource() {
@@ -30,7 +31,7 @@ export default function DeleteResource() {
         <>
             <Modal
                 open={true}
-                onClose={() => navigate(`/resource-admin${prepareQueryParamsWithResponseCode(searchParams)}`)}
+                onClose={() => navigate(`${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams)}`)}
                 header={{
                     heading: "Ønsker du å slette denne ressursen?",
                     size: "small",
@@ -57,7 +58,7 @@ export default function DeleteResource() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(`/resource-admin${prepareQueryParams(searchParams)}`)}
+                        onClick={() => navigate(`${SERVICE_ADMIN}${prepareQueryParams(searchParams)}`)}
                     >
                         Avbryt
                     </Button>

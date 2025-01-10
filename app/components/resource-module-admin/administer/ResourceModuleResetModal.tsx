@@ -1,4 +1,4 @@
-import {IResourceModuleUser} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleUser} from "~/data/resourceAdmin/types";
 import {useEffect, useRef} from "react";
 import {Alert, Button, Modal, VStack} from "@navikt/ds-react";
 import {Form} from "@remix-run/react";

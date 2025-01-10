@@ -2,24 +2,25 @@ import {Link, useLoaderData, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React from "react";
 import {HStack, Loader} from "@navikt/ds-react";
-import {IValidForOrgUnits} from "~/components/resource-admin/types";
-import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
+import {IValidForOrgUnits} from "~/components/service-admin/types";
+import resourceAdmin from "~/components/service-admin/serviceAdmin.css?url"
 import {fetchResourceById, fetchAllOrgUnits, updateResource} from "~/data/fetch-resources";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {fetchApplicationCategories, fetchLicenseEnforcements, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {ResourceForm} from "~/components/resource-admin/resourceForm/ResourceForm";
+import {ResourceForm} from "~/components/service-admin/resourceForm/ResourceForm";
+import {getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
 
 export const handle = {
     breadcrumb: ({params}: { params: any }) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
+                <Link to={SERVICE_ADMIN} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
                 <ArrowRightIcon fontSize="1.5rem"/>
-                <Link to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</Link>
+                <Link to={getResourceByIdUrl(params.id)} className={"breadcrumb-link"}>Ressursinfo</Link>
                 <ArrowRightIcon fontSize="1.5rem"/>
-                <Link to={`/resource-admin/edit/resource${params.id}`} className={"breadcrumb-link"}>Rediger
+                <Link to={getEditResourceUrl(params.id)} className={"breadcrumb-link"}>Rediger
                     ressurs</Link>
             </HStack>
         </HStack>
@@ -113,5 +114,5 @@ export async function action({request}: ActionFunctionArgs) {
     const status = data.get("status") as string
     const response = await updateResource(request.headers.get("Authorization"), id, resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitId, resourceOwnerOrgUnitName, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
 
-    return redirect(`/resource-admin/${data.get("id")}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${getResourceByIdUrl(Number(data.get("id")))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }

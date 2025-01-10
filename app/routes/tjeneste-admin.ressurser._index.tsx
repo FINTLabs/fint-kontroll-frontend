@@ -3,14 +3,10 @@ import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IResourceAdminList} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
-import {
-    fetchAllOrgUnits,
-    fetchApplicationCategory,
-    fetchResourcesForAdmin
-} from "~/data/fetch-resources";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchResourcesForAdmin} from "~/data/fetch-resources";
 import {Search} from "~/components/common/Search";
-import {ResourceAdminTable} from "~/components/resource-admin/ResourceAdminTable";
-import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ServiceAdminTable} from "~/components/service-admin/ServiceAdminTable";
+import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
@@ -18,6 +14,7 @@ import {BASE_PATH} from "../../environment";
 import React from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
+import {SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE} from "~/data/paths";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -50,7 +47,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     })
 }
 
-export default function ResourceAdminIndex() {
+export default function ServiceAdminIndex() {
 
     const loaderData = useLoaderData<typeof loader>();
     const resourceList: IResourceAdminList = loaderData.resourceList
@@ -65,7 +62,7 @@ export default function ResourceAdminIndex() {
         <VStack className={"content"} gap="4">
             <TableHeaderLayout
                 title={"Ressursadministrasjon"}
-                SearchComponent={<Search label={"Søk etter ressurs"} id={"search-resource-admin"}/>}
+                SearchComponent={<Search label={"Søk etter ressurs"} id={"search-service-admin"}/>}
                 FilterComponents={<ResourceSelectApplicationCategory applicationCategories={applicationCategories}/>}
                 CreateNewButton={source === "gui" ?
                     <Button
@@ -73,7 +70,7 @@ export default function ResourceAdminIndex() {
                         className={"no-underline-button"}
                         variant={"secondary"}
                         iconPosition="right" icon={<PlusIcon aria-hidden/>}
-                        onClick={() => navigate("/resource-admin/opprett-ny-applikasjonsressurs")}>
+                        onClick={() => navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)}>
                         Opprett ny ressurs
                     </Button> : undefined
                 }
@@ -83,7 +80,7 @@ export default function ResourceAdminIndex() {
                 successText={"Ressursen ble opprettet!"}
                 deleteText={"Ressursen ble slettet!"}
             />
-            <ResourceAdminTable resourcePage={resourceList} size={size} basePath={basePath} source={source}/>
+            <ServiceAdminTable resourcePage={resourceList} size={size} basePath={basePath} source={source}/>
         </VStack>
     );
 }

@@ -3,7 +3,7 @@ import {
     IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 
 interface TildelUserSearchResultListProps {

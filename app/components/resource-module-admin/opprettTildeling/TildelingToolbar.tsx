@@ -1,7 +1,7 @@
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 import {IUnitItem} from "~/data/types";
 import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
-import {IResourceModuleAccessRole} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
 import {HelpText, HStack} from "@navikt/ds-react";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import AllAccessRolesFilter from "~/components/resource-module-admin/AllAccessRolesFilter";

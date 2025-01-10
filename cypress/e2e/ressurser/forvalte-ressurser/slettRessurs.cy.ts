@@ -1,6 +1,6 @@
 /*
 describe('Test delete resource', () => {
-    it('Navigate to resource-admin and click delete on resource in table', () => {
+    it('Navigate to service-admin and click delete on resource in table', () => {
         cy.goToResourceAdmin();
         cy.wait(1000)
         cy.get("table tr")

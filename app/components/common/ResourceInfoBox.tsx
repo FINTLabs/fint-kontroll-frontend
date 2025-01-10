@@ -3,7 +3,7 @@ import {BodyShort, Box, Heading, HGrid, Hide, HStack, VStack} from "@navikt/ds-r
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import * as React from "react";
 import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
-import {StatusTag} from "~/components/resource-admin/StatusTag";
+import {StatusTag} from "~/components/service-admin/StatusTag";
 
 interface ResourceInfoBoxProps {
     resource: IResource,

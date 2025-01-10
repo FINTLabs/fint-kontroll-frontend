@@ -4,12 +4,12 @@ import {Outlet, useSearchParams} from "@remix-run/react";
 import type {IResourceAdminList} from "~/data/types";
 import React from "react";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
-import {StatusTag} from "~/components/resource-admin/StatusTag";
+import {StatusTag} from "~/components/service-admin/StatusTag";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
-import {boolean} from "property-information/lib/util/types";
+import {getDeleteResourceUrl, getResourceByIdUrl} from "~/data/paths";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,
@@ -18,7 +18,7 @@ interface ResourceTableProps {
     source?: string
 }
 
-export const ResourceAdminTable = ({resourcePage, size, basePath, source}: ResourceTableProps) => {
+export const ServiceAdminTable = ({resourcePage, size, basePath, source}: ResourceTableProps) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -92,8 +92,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                                             className="delete-icon-button"
                                             variant={"tertiary"}
                                             icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem"/>}
-                                            href={`${basePath}/resource-admin/delete/resource/${resource.id}${prepareQueryParams(searchParams)}`}
-
+                                            href={`${basePath}${getDeleteResourceUrl(resource.id)}${prepareQueryParams(searchParams)}`}
                                         />
                                     }
                                 </Table.DataCell>
@@ -101,7 +100,7 @@ export const ResourceAdminTable = ({resourcePage, size, basePath, source}: Resou
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`resourceAdminInfoButton-${resource.id}`}
-                                    url={`/resource-admin/${resource.id}`}
+                                    url={getResourceByIdUrl(resource.id)}
                                 />
                             </Table.DataCell>
                         </Table.Row>

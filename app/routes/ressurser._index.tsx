@@ -8,7 +8,7 @@ import {ResourceTable} from "~/components/resource/ResourceTable";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export function links() {

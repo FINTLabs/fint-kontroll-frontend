@@ -21,7 +21,7 @@ import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import logger from "~/logging/logger";
-import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES} from "~/data/paths";
