@@ -2,24 +2,25 @@ import {Link, useLoaderData, useNavigation} from "@remix-run/react";
 import {ActionFunctionArgs, LinksFunction, redirect} from "@remix-run/node";
 import React from "react";
 import {HStack, Loader} from "@navikt/ds-react";
-import {IValidForOrgUnits} from "~/components/resource-admin/types";
-import resourceAdmin from "../components/resource-admin/resourceAdmin.css?url"
+import {IValidForOrgUnits} from "~/components/service-admin/types";
+import resourceAdmin from "~/components/service-admin/serviceAdmin.css?url"
 import {createResource, fetchAllOrgUnits} from "~/data/fetch-resources";
 import {IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {fetchApplicationCategories, fetchLicenseEnforcements, fetchUserTypes} from "~/data/fetch-kodeverk";
-import {ResourceForm} from "~/components/resource-admin/resourceForm/ResourceForm";
+import {ResourceForm} from "~/components/service-admin/resourceForm/ResourceForm";
+import {SERVICE_ADMIN, SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE} from "~/data/paths";
 
 export const handle = {
     // @ts-ignore
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
+                <Link to={SERVICE_ADMIN} className={"breadcrumb-link"}>Ressursadministrasjon</Link>
                 <ArrowRightIcon fontSize="1.5rem"/>
-                <Link to={`/resource-admin/opprett-ny-applikasjonsressurs`} className={"breadcrumb-link"}>
+                <Link to={SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE} className={"breadcrumb-link"}>
                     Ny ressurs
                 </Link>
             </HStack>
@@ -110,6 +111,6 @@ export async function action({request}: ActionFunctionArgs) {
     const status = data.get("status") as string
     const response = await createResource(request.headers.get("Authorization"), resourceId, resourceName, resourceType, platform, accessType, resourceLimit, resourceOwnerOrgUnitId, resourceOwnerOrgUnitName, validForOrgUnits, validForRoles, applicationCategory, hasCost, licenseEnforcement, unitCost, status)
 
-    return redirect(`/resource-admin${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
+    return redirect(`${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 
 }

@@ -1,24 +1,17 @@
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
-import {
-    Link as RemixLink,
-    Links,
-    Meta,
-    Scripts,
-    useLoaderData,
-    useNavigate,
-    useRouteError
-} from "@remix-run/react";
+import {Link as RemixLink, Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
 import {IKodeverkUserType, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
-import {ResourceDetailTable} from "~/components/resource-admin/ResourceDetailTable";
+import {ResourceDetailTable} from "~/components/service-admin/ResourceDetailTable";
 import {ArrowRightIcon, PencilIcon} from "@navikt/aksel-icons";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
 import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
 import React from "react";
+import {getEditResourceUrl, getEditValidForOrgUnitsUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -49,9 +42,9 @@ export const handle = {
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <RemixLink to={`/resource-admin`} className={"breadcrumb-link"}>Ressursadministrasjon</RemixLink>
+                <RemixLink to={SERVICE_ADMIN} className={"breadcrumb-link"}>Ressursadministrasjon</RemixLink>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <RemixLink to={`/resource-admin/${params.id}`} className={"breadcrumb-link"}>Ressursinfo</RemixLink>
+                <RemixLink to={getResourceByIdUrl(params.id)} className={"breadcrumb-link"}>Ressursinfo</RemixLink>
             </HStack>
         </HStack>
     )
@@ -76,12 +69,13 @@ export default function ResourceById() {
                                 className={"no-underline-button"}
                                 variant={"secondary"}
                                 iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                                onClick={() => navigate(`/resource-admin/edit/resource/${resource.id}`)}
+                                onClick={() => navigate(getEditResourceUrl(resource.id))}
                             >
                                 Rediger ressurs
                             </Button>
                         </HStack>
                     )}
+
                     <ResponseAlert
                         responseCode={responseCode}
                         successText={"Ressursen ble oppdatert!"}
@@ -107,7 +101,7 @@ export default function ResourceById() {
                                 className={"no-underline-button"}
                                 variant={"secondary"}
                                 iconPosition="right" icon={<PencilIcon aria-hidden/>}
-                                onClick={() => navigate(`/resource-admin/resource/${resource.id}/edit/orgUnits`)}
+                                onClick={() => navigate(getEditValidForOrgUnitsUrl(resource.id))}
                             >
                                 Rediger organisasjonsenheter
                             </Button>

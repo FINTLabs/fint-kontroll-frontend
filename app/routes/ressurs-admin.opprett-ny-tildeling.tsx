@@ -20,12 +20,12 @@ import {
     IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import TildelUserSearchResultList from "../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
 import {
     fetchUsersWhoCanGetAssignments,
     postNewTildelingForUser,
-} from "~/data/resourceModuleAdmin/resource-module-admin";
+} from "~/data/resourceAdmin/resource-admin";
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import OrgUnitTreeSelector from "../components/org-unit-selector/OrgUnitTreeSelector";
 import SummaryOfTildeling from "../components/resource-module-admin/opprettTildeling/SummaryOfTildeling";
@@ -33,6 +33,7 @@ import ChooseAccessRole from "../components/resource-module-admin/opprettTildeli
 import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
+import {RESOURCE_ADMIN} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -89,7 +90,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
 
     return res.ok ? {
         status: true,
-        redirect: "/resource-module-admin",
+        redirect: RESOURCE_ADMIN,
         message: "Tildeling gjennomført!"
     } : {status: false, redirect: null, message: null}
 }

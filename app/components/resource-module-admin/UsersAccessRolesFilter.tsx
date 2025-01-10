@@ -1,5 +1,5 @@
 import {Select} from "@navikt/ds-react";
-import {IResourceModuleAccessRole, IResourceModuleUserRole} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleAccessRole, IResourceModuleUserRole} from "~/data/resourceAdmin/types";
 import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam} from "~/components/common/CommonFunctions";
 

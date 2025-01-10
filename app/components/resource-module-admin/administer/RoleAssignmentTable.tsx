@@ -5,7 +5,7 @@ import {
     IResourceModuleAccessRole,
     IResourceModuleOrgUnitDetail,
     IResourceModuleUserAssignmentsPaginated
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";

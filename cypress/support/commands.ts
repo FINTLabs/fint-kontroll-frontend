@@ -103,19 +103,19 @@ export function goToBrukereNyTildeling() {
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling)
 
 export function goToResourceAdmin() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin?status=ACTIVE');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/tjeneste-admin?status=ACTIVE');
 }
 
 Cypress.Commands.add('goToResourceAdmin', goToResourceAdmin)
 
 export function goToResourceAdminWithResponse() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin??status=ACTIVE&responseCode=204');
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/tjeneste-admin??status=ACTIVE&responseCode=204');
 }
 
 Cypress.Commands.add('goToResourceAdminWithResponse', goToResourceAdminWithResponse)
 
 export function goToCreateResource() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/opprett-ny-applikasjonsressurs?responseCode=201')
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/tjeneste-admin/opprett-ny-applikasjonsressurs?responseCode=201')
 }
 
 Cypress.Commands.add('goToCreateResource', goToCreateResource)

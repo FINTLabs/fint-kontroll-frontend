@@ -1,11 +1,12 @@
 import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, VStack} from "@navikt/ds-react";
 import React, {useMemo, useState} from "react";
-import {IApplicationResource, IValidForOrgUnits} from "~/components/resource-admin/types";
+import {IApplicationResource, IValidForOrgUnits} from "~/components/service-admin/types";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
 import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType, IUnitItem} from "~/data/types";
-import ApplicationResourceData from "~/components/resource-admin/opprett-ny-ressurs/ApplicationResourceData";
+import ApplicationResourceData from "~/components/service-admin/opprett-ny-ressurs/ApplicationResourceData";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 import {Form, useNavigate, useNavigation} from "@remix-run/react";
+import {SERVICE_ADMIN} from "~/data/paths";
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -152,7 +153,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                 <Button
                     type="button"
                     variant="secondary"
-                    onClick={() => navigate(`/resource-admin`)}
+                    onClick={() => navigate(SERVICE_ADMIN)}
                 >
                     Avbryt
                 </Button>
@@ -196,8 +197,6 @@ export const ResourceForm: React.FC<ResourseFormProps> = (
                     </Button>
                 </Form>
             </HStack>
-
-
         </VStack>
     )
 }

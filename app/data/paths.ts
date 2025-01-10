@@ -4,14 +4,12 @@ export const getUserNewAssignmentUrl = (id: number, orgId: string | undefined): 
 export const getDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string => `/brukere/${id}/tildelinger/${assignmentRef}/slett`;
 export const getConfirmUserAssignmentUrl = (id: number, resourceId: number, orgId: string): string => `/bruker/${id}/ressurs/${resourceId}/org/${orgId}/tildel`;
 
-
 export const ROLES = "/grupper"
 export const getRoleMembersUrl = (id: number): string => `/grupper/${id}/medlemmer`;
 export const getRoleAssignmentsUrl = (id: number): string => `/grupper/${id}/tildelinger`;
 export const getDeleteRoleAssignmentUrl = (id: number, assignmentRef: number): string => `/grupper/${id}/tildelinger/${assignmentRef}/slett`;
 export const getConfirmRoleAssignmentUrl = (id: number, resourceId: number, orgId: string): string => `/gruppe/${id}/ny-tildeling/ressurs/${resourceId}/org/${orgId}/tildel`;
 export const getRoleNewAssignmentUrl = (id: number): string => `/gruppe/${id}/ny-tildeling`;
-
 
 export const RESOURCES = "/ressurser"
 export const getResourceUserAssignmentsUrl = (id: number): string => `/ressurser/${id}/bruker-tildelinger`;
@@ -24,12 +22,20 @@ export const getResourceNewRoleAssignmentUrl = (id: number): string => `/ressurs
 export const getResourceConfirmUserAssignmentUrl = (id: number, userId: number, orgId: string): string => `/ressurs/${id}/ny-tildeling/brukere/${userId}/org/${orgId}/tildel`;
 export const getResourceConfirmRoleAssignmentUrl = (id: number, roleId: number, orgId: string): string => `/ressurs/${id}/ny-tildeling/grupper/${roleId}/org/${orgId}/tildel`;
 
-
 export const SYSTEM_ADMIN_DEFINE_ROLE = "/system-admin/definer-rolle";
+export const SYSTEM_ADMIN_FEATURE_TO_ROLE = "/system-admin/knytt-rettigheter-til-rolle/sa";
 export const getDefineRoleByIdUrl = (id: string | undefined): string => `/system-admin/definer-rolle/${id}`;
 
-export const SYSTEM_ADMIN_FEATURE_TO_ROLE = "/system-admin/knytt-rettigheter-til-rolle/sa";
+export const RESOURCE_ADMIN = "/ressurs-admin";
+export const RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT = "/ressurs-admin/opprett-ny-tildeling";
+export const getAdministerRoleByIdUrl = (id: string | undefined): string => `/ressurs-admin/administrer/${id}`;
 
+export const SERVICE_ADMIN = "/tjeneste-admin/ressurser";
+export const SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE = "/tjeneste-admin/opprett-ny-applikasjonsressurs";
+export const getResourceByIdUrl = (id: number | null): string => `/tjeneste-admin/ressurs/${id}`;
+export const getEditResourceUrl = (id: number | undefined): string => `/tjeneste-admin/rediger/ressurs/${id}`;
+export const getEditValidForOrgUnitsUrl = (id: number | undefined): string => `/tjeneste-admin/rediger/org-enheter/ressurs/${id}`;
+export const getDeleteResourceUrl = (id: number | null): string => `/tjeneste-admin/ressurser/${id}/slett`;
 
 export const SETTINGS = "/innstillinger"
 

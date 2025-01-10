@@ -6,7 +6,7 @@ import {
     fetchObjectTypesForUser,
     fetchUserDetails,
     fetchUserAssignments,
-} from "~/data/resourceModuleAdmin/resource-module-admin";
+} from "~/data/resourceAdmin/resource-admin";
 import {
     Link,
     Links,
@@ -19,12 +19,12 @@ import {
     useSearchParams
 } from "@remix-run/react";
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
-import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
+import {ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUserAssignmentsPaginated
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import React, {useEffect, useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
@@ -36,6 +36,7 @@ import styles from "../components/resource-module-admin/resourceModuleAdmin.css?
 import {toast} from "react-toastify";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import UserAccessRoleFilter from "~/components/resource-module-admin/UsersAccessRolesFilter";
+import {getAdministerRoleByIdUrl, RESOURCE_ADMIN} from "~/data/paths";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -259,9 +260,9 @@ export const handle = {
     breadcrumb: ({params}) => (
         <HStack align={"start"}>
             <HStack justify={"center"} align={"center"}>
-                <Link to={`/resource-module-admin`} className={"breadcrumb-link"}>Brukere med rolletilknytning</Link>
+                <Link to={RESOURCE_ADMIN} className={"breadcrumb-link"}>Brukere med rolletilknytning</Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem"/>
-                <Link to={`/resource-module-admin/administer/${params.id}`} className={"breadcrumb-link"}>Rediger
+                <Link to={getAdministerRoleByIdUrl(params.id)} className={"breadcrumb-link"}>Rediger
                     rolletilknytning</Link>
             </HStack>
         </HStack>

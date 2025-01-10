@@ -4,14 +4,14 @@ import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@
 import ResourceModuleAdminUsersTable from "../components/resource-module-admin/ResourceModuleAdminUsersTable";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {json, TypedResponse} from "@remix-run/node";
-import {fetchUsersWithAssignment} from "~/data/resourceModuleAdmin/resource-module-admin";
+import {fetchUsersWithAssignment} from "~/data/resourceAdmin/resource-admin";
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import {IUnitItem} from "~/data/types";
-import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAllOrgUnits, fetchOrgUnits} from "~/data/fetch-resources";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUsersPage
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
@@ -42,12 +42,13 @@ export async function loader({request}: LoaderFunctionArgs): Promise<TypedRespon
     const [responseUsersPage, responseRoles, responseOrgUnits] = await Promise.all([
         fetchUsersWithAssignment(auth, page, size, orgunits, name, role),
         fetchAccessRoles(auth),
-        fetchOrgUnits(auth)
+        fetchAllOrgUnits(auth)
+      //  fetchOrgUnits(auth)
     ]);
 
     const usersPage = await responseUsersPage.json()
     const roles = await responseRoles.json()
-    const orgUnitPage = await responseOrgUnits.json()
+    const orgUnitPage = responseOrgUnits
 
     return json({
         usersPage,
@@ -57,7 +58,7 @@ export async function loader({request}: LoaderFunctionArgs): Promise<TypedRespon
     })
 }
 
-export default function ResourceModuleAdminIndex() {
+export default function ResourceAdminIndex() {
     const {usersPage, roles, orgUnitPage, size} = useLoaderData<LoaderData>()
     const navigate = useNavigate()
 

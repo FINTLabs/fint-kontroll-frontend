@@ -20,7 +20,7 @@ import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
-import {ResourceSelectApplicationCategory} from "~/components/resource-admin/ResourceSelectApplicationCategory";
+import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";

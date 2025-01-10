@@ -1,4 +1,4 @@
-import {IResourceModuleAccessRole, IResourceModuleAssignment} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleAccessRole, IResourceModuleAssignment} from "~/data/resourceAdmin/types";
 import {Alert, FormSummary, List} from "@navikt/ds-react";
 
 interface SummaryOfTildelingProps {

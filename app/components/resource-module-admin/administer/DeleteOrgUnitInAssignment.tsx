@@ -1,6 +1,6 @@
 import { Button, Modal } from "@navikt/ds-react"
 import React, { useEffect, useRef } from "react"
-import {IResourceModuleOrgUnitDetail} from "~/data/resourceModuleAdmin/types";
+import {IResourceModuleOrgUnitDetail} from "~/data/resourceAdmin/types";
 import {Form} from "@remix-run/react";
 
 interface DeleteOrgUnitsInAssignmentProps {

@@ -4,7 +4,7 @@ import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUsersPage
-} from "~/data/resourceModuleAdmin/types";
+} from "~/data/resourceAdmin/types";
 import {IUnitItem} from "~/data/types";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
@@ -41,7 +41,7 @@ const ResourceModuleAdminUsersTable = ({usersPage, size}: ResourceModuleAdminUse
                                     <Table.DataCell align={"center"}>
                                         <TertiaryArrowButton
                                             id={`userInfoButton-${index + user.userName}`}
-                                            url={`administer/${user.resourceId}`}
+                                            url={`administrer/${user.resourceId}`}
                                             title={"Administrer"}
                                         />
                                     </Table.DataCell>
