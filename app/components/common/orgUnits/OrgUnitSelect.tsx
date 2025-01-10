@@ -39,10 +39,8 @@ const OrgUnitSelect = (
 
     const updateSelectedOrgUnits = useCallback((ids: string[], isAggregated?: boolean) => {
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
-
         if (isAggregated) {
             let selectedOrgUnitsWithAllChildren = getOrgUnitAndAllNestedChildren(currentSelectedOrgUnits, allOrgUnits);
-
             const removedOrgUnits = selectedOrgUnits.filter(unit => !currentSelectedOrgUnits.includes(unit));
             if (removedOrgUnits.length) {
                 const allOrgUnitsToRemove = getOrgUnitAndAllNestedChildren(removedOrgUnits, allOrgUnits);
@@ -50,7 +48,6 @@ const OrgUnitSelect = (
                     unit => !allOrgUnitsToRemove.includes(unit)
                 );
             }
-
             setSelectedIds(selectedOrgUnitsWithAllChildren.map(unit => unit.organisationUnitId));
             setSelectedOrgUnits(selectedOrgUnitsWithAllChildren);
         } else {
@@ -59,7 +56,7 @@ const OrgUnitSelect = (
         }
     }, [allOrgUnits, selectedOrgUnits, setSelectedOrgUnits]);
 
-    const handleLimitChange = useCallback((id: string, limit: number) => {
+    const handleLimitChange = useCallback((id: string, limit: number | undefined) => {
         setSelectedOrgUnits(prevSelected =>
             prevSelected.map(unit =>
                 unit.organisationUnitId === id ? {...unit, limit} : unit
@@ -125,7 +122,7 @@ interface CheckboxTreeNodeProps {
     selectedIds: string[];
     selectedOrgUnits: IUnitItem[];
     isAggregated?: boolean;
-    handleLimitChange: (orgUnitId: string, limit: number) => void;
+    handleLimitChange: (orgUnitId: string, limit: number | undefined) => void;
     selectType?: "filter" | "allocation";
     openOnRender: IUnitItem[];
 }
@@ -149,8 +146,8 @@ const CheckboxTreeNode = (
     const handleTextFieldChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const limit = value ? Number(value) : 0;
-        if (!isNaN(limit)) {
-            handleLimitChange(unit.organisationUnitId, limit);
+        if (!isNaN(limit) && limit >= 0) {
+            handleLimitChange(unit.organisationUnitId, limit === 0 ? undefined : limit);
         }
     }, [handleLimitChange, unit.organisationUnitId]);
 
@@ -194,7 +191,6 @@ const CheckboxTreeNode = (
                             value={selectedIds.includes(unit.organisationUnitId) ? (currentUnit?.limit ?? "") : ""}
                             onChange={handleTextFieldChange}
                             onError={(e) => {
-                                console.log("error", e)
                                 return "Ugyldig antall"
                             }}
                         />
