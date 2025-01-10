@@ -37,6 +37,24 @@ const OrgUnitSelect = (
         }
     }, [selectedIds.length, selectedOrgUnits]);
 
+    const updateNewSelectionAndKeepLimitInputs = useCallback((selectedOrgUnitsWithAllChildren: IUnitItem[]) => {
+        setSelectedOrgUnits(prevSelectedOrgUnits => {
+            const newOrgUnits = selectedOrgUnitsWithAllChildren.filter(
+                newUnit => !prevSelectedOrgUnits.some(
+                    prevUnit => prevUnit.organisationUnitId === newUnit.organisationUnitId
+                )
+            );
+
+            const remainingOrgUnits = prevSelectedOrgUnits.filter(
+                prevUnit => selectedOrgUnitsWithAllChildren.some(
+                    newUnit => newUnit.organisationUnitId === prevUnit.organisationUnitId
+                )
+            );
+
+            return [...remainingOrgUnits, ...newOrgUnits];
+        });
+    }, [setSelectedOrgUnits]);
+
     const updateSelectedOrgUnits = useCallback((ids: string[], isAggregated?: boolean) => {
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
         if (isAggregated) {
@@ -53,10 +71,10 @@ const OrgUnitSelect = (
                 );
             }
             setSelectedIds(selectedOrgUnitsWithAllChildren.map(unit => unit.organisationUnitId));
-            setSelectedOrgUnits(selectedOrgUnitsWithAllChildren);
+            updateNewSelectionAndKeepLimitInputs(selectedOrgUnitsWithAllChildren);
         } else {
             setSelectedIds(ids);
-            setSelectedOrgUnits(currentSelectedOrgUnits);
+            updateNewSelectionAndKeepLimitInputs(currentSelectedOrgUnits);
         }
     }, [allOrgUnits, selectedOrgUnits, setSelectedOrgUnits]);
 
