@@ -41,7 +41,11 @@ const OrgUnitSelect = (
         const currentSelectedOrgUnits = allOrgUnits.filter(unit => ids.includes(unit.organisationUnitId));
         if (isAggregated) {
             let selectedOrgUnitsWithAllChildren = getOrgUnitAndAllNestedChildren(currentSelectedOrgUnits, allOrgUnits);
-            const removedOrgUnits = selectedOrgUnits.filter(unit => !currentSelectedOrgUnits.includes(unit));
+            const removedOrgUnits = selectedOrgUnits.filter(
+                selectedUnit => !currentSelectedOrgUnits.some(
+                    currentUnit => currentUnit.organisationUnitId === selectedUnit.organisationUnitId
+                )
+            );
             if (removedOrgUnits.length) {
                 const allOrgUnitsToRemove = getOrgUnitAndAllNestedChildren(removedOrgUnits, allOrgUnits);
                 selectedOrgUnitsWithAllChildren = selectedOrgUnitsWithAllChildren.filter(
