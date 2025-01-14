@@ -1,6 +1,6 @@
 import MeInfo from "~/components/app-bar/MeInfo";
 import {IMeInfo} from "~/data/types";
-import {BodyShort, Hide, HStack} from "@navikt/ds-react";
+import {BodyShort, Button, Hide, HStack} from "@navikt/ds-react";
 import {Link} from "@remix-run/react";
 import {Menu} from "~/components/app-bar/Menu";
 
@@ -32,7 +32,19 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                                 :
                                 null
                             }
+                            {/*<Button variant="primary"
+                                    as={Link}
+                                    to="/_oauth/logout">
+                                Logg ut
+                            </Button>
 
+
+                            <Button variant="primary"
+                                    as="a"
+                                    href={`${props.basePath}/_oauth/logout`}>
+                                Logg ut
+                            </Button>
+*/}
                         </HStack>
                     </div>
                 </HStack>

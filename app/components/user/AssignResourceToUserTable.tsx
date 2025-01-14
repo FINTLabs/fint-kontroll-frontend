@@ -57,7 +57,6 @@ export const AssignResourceToUserTable = ({
                                         icon={<PlusIcon/>}
                                         iconPosition="right"
                                         href={`${basePath}${getConfirmUserAssignmentUrl(Number(userId), resource.id, orgId)}${prepareQueryParams(searchParams)}`}
-                                       // href={`${basePath}/assignment/user/${userId}/orgunit/resource/${resource.id}/assign${prepareQueryParams(searchParams)}`}
                                         underline={false}
                                     >
                                         Tildel

@@ -37,18 +37,23 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
+    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
+    const resourceList: IResourceList = await resourceResponse.json()
 
-    const [responseResources, responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
-        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+    let filter = ""
+    resourceList.resources.forEach(value => {
+        filter += `&resourcefilter=${value.id}`
+
+    })
+
+    const [responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
         fetchOrgUnits(request),
-        fetchAssignedResourcesUser(request, params.id, "1000", "0"),
+        fetchAssignedResourcesUser(request, params.id, "1000", "0", "ALLTYPES", filter),
         fetchUserById(request, params.id),
         fetchApplicationCategory(request),
         // fetchAccessType(request)
-
-
     ]);
-    const resourceList: IResourceList = await responseResources.json()
+
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
