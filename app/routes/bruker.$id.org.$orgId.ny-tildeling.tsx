@@ -48,7 +48,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
     const [responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
         fetchOrgUnits(request),
-        fetchAssignedResourcesUser(request, params.id, "1000", "0", "ALLTYPES", filter),
+        fetchAssignedResourcesUser(request, params.id, size, "0", "ALLTYPES", filter),
         fetchUserById(request, params.id),
         fetchApplicationCategory(request),
         // fetchAccessType(request)
