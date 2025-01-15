@@ -1,7 +1,6 @@
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
     IAssignedResourcesList,
-    IAssignedUsers,
     IResourceAssignment,
     IResourceForList,
     IResourceList,
@@ -20,7 +19,6 @@ import {AssignResourceToRoleTable} from "~/components/role/AssignResourceToRoleT
 import {ResourceSearch} from "~/components/resource/ResourceSearch";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
-import logger from "~/logging/logger";
 import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
@@ -37,14 +35,20 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResources, responseOrgUnits, responseAssignments, responseRole, responseApplicationCategories] = await Promise.all([
-        fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType),
+    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
+    const resourceList: IResourceList = await resourceResponse.json()
+
+    let filter = ""
+    resourceList.resources.forEach(value => {
+        filter += `&resourcefilter=${value.id}`
+    })
+
+    const [responseOrgUnits, responseAssignments, responseRole, responseApplicationCategories] = await Promise.all([
         fetchOrgUnits(request),
-        fetchAssignedResourcesRole(request, params.id, "1000", "0"),
+        fetchAssignedResourcesRole(request, params.id, size, "0", "ALLTYPES", filter),
         fetchRoleById(request, params.id),
         fetchApplicationCategory(request),
     ]);
-    const resourceList: IResourceList = await responseResources.json()
     const orgUnitTree: IUnitTree = await responseOrgUnits.json()
     const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
@@ -52,7 +56,6 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationCategories: string[] = await responseApplicationCategories.json()
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
-    logger.info("Her er mapfunksjonen som sjekker på tildelte ressurser", assignedResourcesMap);
     const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {
         return {
             ...resource,
@@ -91,8 +94,7 @@ export default function NewAssignmentForRole() {
     const loaderData = useLoaderData<typeof loader>();
 
     const resourceList: IResourceList = loaderData.resourceList
-    const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Might use this later once filters are added
-    const assignedUsersList: IAssignedUsers = loaderData.assignedUsersList // Might use this later once filters are added
+    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Might use this later once filters are added
     const isAssignedResources: IResourceForList[] = loaderData.isAssignedResources
     const basePath: string = loaderData.basePath
     const responseCode: string | undefined = loaderData.responseCode
