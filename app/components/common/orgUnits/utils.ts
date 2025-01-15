@@ -11,10 +11,6 @@ export const getOrgUnitByChildrenRef = (orgUnitList: IUnitItem[], childrenRef: s
         .filter(Boolean) as IUnitItem[]
 }
 
-export const getUnitById = (orgUnitList: IUnitItem[], id: string): IUnitItem | null => {
-    return orgUnitList.find(unit => unit.organisationUnitId === id) || null
-}
-
 const getAllChildren = (unit: IUnitItem, allOrgUnits: IUnitItem[]): IUnitItem[] => {
     const collectChildren = (currentUnit: IUnitItem, collected: IUnitItem[]): IUnitItem[] => {
         const children = allOrgUnits.filter(u => currentUnit.childrenRef.includes(u.organisationUnitId));
@@ -27,8 +23,23 @@ export const getOrgUnitAndAllNestedChildren = (
     orgUnits: IUnitItem[],
     allOrgUnits: IUnitItem[]
 ) => {
-    return orgUnits.flatMap(unit => [
+    return Array.from(new Set(orgUnits.flatMap(unit => [
         unit,
         ...getAllChildren(unit, allOrgUnits)
-    ]);
+    ])));
 }
+
+export const getAllParents = (selectedUnits: IUnitItem[], allOrgUnits: IUnitItem[]): IUnitItem[] => {
+    const parentSet = new Set<IUnitItem>();
+
+    const collectParents = (unit: IUnitItem): void => {
+        const parent = allOrgUnits.find(u => u.organisationUnitId === unit.parentRef);
+        if (parent && !parentSet.has(parent)) {
+            parentSet.add(parent);
+            collectParents(parent);
+        }
+    };
+
+    selectedUnits.forEach(unit => collectParents(unit));
+    return Array.from(parentSet);
+};
