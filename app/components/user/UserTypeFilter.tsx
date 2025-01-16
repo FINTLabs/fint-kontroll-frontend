@@ -39,10 +39,6 @@ export const UserTypeFilter = (
                 {userTypeOptions.map((userType) => {
                     return <option key={userType} value={userType}>{translateUserTypeToLabel(userType, kodeverk)}</option>
                 })}
-                {/*<option value={"STUDENT"}>{translateUserTypeToLabel("STUDENT", userTypes)}</option>*/}
-                {/*<option value={"EMPLOYEESTAFF"}>{translateUserTypeToLabel("EMPLOYEESTAFF", userTypes)}</option>*/}
-                {/*<option value={"EMPLOYEEFACULTY"}>{translateUserTypeToLabel("EMPLOYEEFACULTY", userTypes)}</option>*/}
-                {/*<option value={"EXTERNAL"}>{translateUserTypeToLabel("EXTERNAL", userTypes)}</option>*/}
             </Select>
         </Form>
     )
