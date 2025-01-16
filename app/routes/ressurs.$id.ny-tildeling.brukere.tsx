@@ -36,8 +36,6 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
 
     if (selectedUserTypes.length === 0) {
         selectedUserTypes = resource.validForRoles
-    } else {
-        selectedUserTypes = selectedUserTypes.filter((userType) => resource.validForRoles.includes(userType))
     }
 
     const [responseUsers, responseAssignments, userTypesKodeverk] = await Promise.all([

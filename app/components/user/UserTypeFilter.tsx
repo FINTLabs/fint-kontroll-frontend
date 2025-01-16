@@ -27,6 +27,9 @@ export const UserTypeFilter = (
         filterResetPageParam(pageParam, setSearchParams)
     }
 
+    const options = userTypeOptions.includes("ALLTYPES")
+        ? ["STUDENT", "EMPLOYEESTAFF", "EMPLOYEEFACULTY", "EXTERNAL"]
+        : userTypeOptions;
 
     return (
         <Form>
@@ -36,7 +39,7 @@ export const UserTypeFilter = (
                     value={String(currentSearchParams.get("userType")) ?? ""}
             >
                 <option value={""}>Alle</option>
-                {userTypeOptions.map((userType) => {
+                {options.map((userType) => {
                     return <option key={userType} value={userType}>{translateUserTypeToLabel(userType, kodeverk)}</option>
                 })}
             </Select>
