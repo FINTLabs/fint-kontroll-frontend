@@ -57,9 +57,11 @@ export const Menu = (props: { me: IMeInfo, basePath?: string, source?: string })
                         <ActionMenu.Item onSelect={() => navigate(RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT)}>Tildel
                             rolle til bruker
                         </ActionMenu.Item>
-                        <ActionMenu.Item onSelect={() => navigate(SETTINGS)}>
-                            Innstillinger
-                        </ActionMenu.Item>
+                        {props.source === "gui" &&
+                            <ActionMenu.Item onSelect={() => navigate(SETTINGS)}>
+                                Innstillinger
+                            </ActionMenu.Item>
+                        }
                     </ActionMenu.Group>
                     <ActionMenu.Divider/>
 

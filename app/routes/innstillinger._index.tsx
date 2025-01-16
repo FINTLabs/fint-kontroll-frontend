@@ -8,14 +8,10 @@ import {
     SETTINGS_USER_TYPES
 } from "~/data/paths";
 import {LinkCard, LinkCardGrid} from "~/components/common/LinkCard";
-import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
-import type {LoaderFunctionArgs} from "@remix-run/router";
 
-export async function loader({request}: LoaderFunctionArgs) {
-    const source = await fetchResourceDataSource(request)
+export async function loader() {
     return json({
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-        source
+        basePath: BASE_PATH === "/" ? "" : BASE_PATH
     })
 }
 
@@ -35,15 +31,13 @@ export default function ResourcesSettings() {
                     hover={true}
                     border={true}
                 />
-                {loaderData.source === "gui" &&
-                    <LinkCard
-                        title={"Applikasjonskategori"}
-                        description={"Innstillinger for applikasjonskategorier som kan brukes for å gruppere og beskrive ressurser."}
-                        link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
-                        hover={true}
-                        border={true}
-                    />
-                }
+                <LinkCard
+                    title={"Applikasjonskategori"}
+                    description={"Innstillinger for applikasjonskategorier som kan brukes for å gruppere og beskrive ressurser."}
+                    link={`${basePath}${SETTINGS_APPLICATION_CATEGORY}`}
+                    hover={true}
+                    border={true}
+                />
                 {/*<CustomLink
                     title={"Lisensmodeller"}
                     description={"Lisensmodeller som kan knyttes til en lisens."}
