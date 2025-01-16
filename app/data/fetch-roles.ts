@@ -6,7 +6,7 @@ export const fetchRoles = async (request: Request, size: string, page: string, s
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
     const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(",")}` : '';
-    const userTypeFilter = userTypes && userTypes.length > 0 ? `&userType=${userTypes.join(",")}` : "";
+    const userTypeFilter = userTypes && userTypes.length > 0 ? `&roletype=${userTypes.join(",")}` : "";
 
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${userTypeFilter}`, {
         headers: request.headers,
