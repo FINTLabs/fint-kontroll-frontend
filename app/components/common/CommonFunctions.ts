@@ -1,6 +1,6 @@
 import React from "react";
 import {SetURLSearchParams} from "react-router-dom";
-import {ICookie, IKodeverkUserType} from "~/data/types";
+import {ICookie, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types";
 import {Navigation} from "@remix-run/react";
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
@@ -100,4 +100,9 @@ export const getSizeCookieFromRequestHeader = (request: Request): ICookie | null
 export const translateUserTypeToLabel = (role: string, userTypes: IKodeverkUserType[] | undefined) => {
     const userType = userTypes?.find(userType => userType.label === role)
     return userType ? userType.fkLabel : role
+}
+
+export const translateLicenseEnforcementToLabel = (licenseEnforcement: string, licenseEnforcementKodeverk: IKodeverkLicenseEnforcement[] | undefined) => {
+    const enforcement = licenseEnforcementKodeverk?.find(enforcement => enforcement.label === licenseEnforcement)
+    return enforcement ? enforcement.fkLabel : licenseEnforcement
 }

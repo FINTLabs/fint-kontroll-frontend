@@ -28,7 +28,7 @@ export const AssignUserTable = (
         currentPage,
         basePath,
     }: AssignUserTableProps) => {
-    const {userTypes} = useLoaderData<typeof loader>()
+    const {userTypesKodeverk} = useLoaderData<typeof loader>()
     const [searchParams] = useSearchParams()
     const {fetching} = useLoadingState()
 
@@ -51,7 +51,7 @@ export const AssignUserTable = (
                     {fetching ? <TableSkeleton/> : isAssignedUsers.map((user: IUserItem) => (
                         <Table.Row key={user.id}>
                             <Table.DataCell>{user.fullName} </Table.DataCell>
-                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypesKodeverk)}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                             <Table.DataCell align={"center"}>
                                 {user.assigned ?

@@ -4,12 +4,12 @@ import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
-import {IKodeverkUserType, IUnitItem, IUnitTree, IUserPage} from "~/data/types";
+import {IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 
 export async function loader({request}: LoaderFunctionArgs) {
@@ -19,26 +19,18 @@ export async function loader({request}: LoaderFunctionArgs) {
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseOrgUnits, source] = await Promise.all([
-        fetchUsers(request, size, page, search, userType, orgUnits),
-        fetchOrgUnits(request),
-        fetchResourceDataSource(request)
+    const [responseUsers, responseOrgUnits, userTypesKodeverk] = await Promise.all([
+        fetchUsers(request, size, page, search, [userType], orgUnits),
+        fetchAllOrgUnits(request),
+        fetchUserTypes(request)
     ]);
     const userList: IUserPage = await responseUsers.json()
-    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
-    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
-
-    let userTypes: IKodeverkUserType[] = []
-    if (source === "gui") {
-        userTypes = await fetchUserTypes(request)
-    }
-
 
     return json({
         userList,
-        orgUnitList,
+        orgUnitList: responseOrgUnits.orgUnits,
         size,
-        userTypes
+        userTypesKodeverk
     })
 }
 
@@ -51,7 +43,7 @@ export default function UsersIndex() {
                 title={"Brukere"}
                 orgUnitsForFilter={data.orgUnitList}
                 SearchComponent={<UserSearch/>}
-                FilterComponents={<UserTypeFilter userTypes={data.userTypes}/>}
+                FilterComponents={<UserTypeFilter kodeverk={data.userTypesKodeverk}/>}
             />
             <UserTable/>
         </div>

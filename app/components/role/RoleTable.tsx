@@ -6,6 +6,9 @@ import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 import {getRoleMembersUrl} from "~/data/paths";
+import {useLoaderData} from "@remix-run/react";
+import {loader} from "~/routes/grupper._index";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 interface RoleTableProps {
     rolePage: IRoleList
@@ -13,6 +16,7 @@ interface RoleTableProps {
 }
 
 export const RoleTable = ({rolePage, size}: RoleTableProps) => {
+    const {userTypesKodeverk} = useLoaderData<typeof loader>()
     const {fetching} = useLoadingState()
 
     return (
@@ -32,7 +36,7 @@ export const RoleTable = ({rolePage, size}: RoleTableProps) => {
                             <Table.Row key={role.id}>
                                 <Table.DataCell>{role.roleName}</Table.DataCell>
                                 <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
-                                <Table.DataCell>{role.roleType}</Table.DataCell>
+                                <Table.DataCell>{translateUserTypeToLabel(role.roleType, userTypesKodeverk)}</Table.DataCell>
                                 <Table.DataCell align="right">
                                     <TertiaryArrowButton id={`roleInfoButton-${role.id}`} url={getRoleMembersUrl(role.id)}/>
                                 </Table.DataCell>

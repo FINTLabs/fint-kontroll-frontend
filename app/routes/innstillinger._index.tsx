@@ -38,7 +38,7 @@ export default function ResourcesSettings() {
                     hover={true}
                     border={true}
                 />
-                {/*                <CustomLink
+                {/*<CustomLink
                     title={"Lisensmodeller"}
                     description={"Lisensmodeller som kan knyttes til en lisens."}
                     link={`${basePath}${SETTINGS_LICENSE_MODEL}`}

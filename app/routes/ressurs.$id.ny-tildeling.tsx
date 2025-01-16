@@ -1,7 +1,15 @@
 import {Alert, Box, HStack, Loader, Tabs, VStack} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
-import {Link, Outlet, useLoaderData, useLocation, useNavigate, useParams, useRouteError} from "@remix-run/react";
+import {
+    Link,
+    Outlet,
+    useLoaderData,
+    useLocation,
+    useNavigate,
+    useParams,
+    useRouteError,
+} from "@remix-run/react";
 import {BreadcrumbParams, IResource} from "~/data/types";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
@@ -12,12 +20,11 @@ import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/paths";
 
-
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const responseResource = await fetchResourceById(request, params.id);
-
     const resource: IResource = await responseResource.json()
+
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
@@ -47,13 +54,12 @@ export default function NewAssignment() {
     const resource: IResource = loaderData.resource
     const responseCode: string | undefined = loaderData.responseCode
 
-
     const [state, setState] = useState(location.pathname.includes("/brukere") ? "brukere" : "grupper");
 
     const handleChangeTab = useCallback((value: string) => {
-        navigate(`${getResourceNewAssignmentUrl(Number(params.id))}/${value}`)
+        navigate(`${getResourceNewAssignmentUrl(Number(params.id))}/${value}${location.search}`)
         setState(value)
-    }, [navigate, params.id])
+    }, [location.search, navigate, params.id])
 
     useEffect(() => {
         if (location.pathname.includes("/brukere")) {
@@ -69,7 +75,6 @@ export default function NewAssignment() {
                 title={"Ny tildeling"}
                 subTitle={resource.resourceName}
             />
-
             <VStack gap="4" marginBlock={"8 0"}>
                 <ResponseAlert
                     responseCode={responseCode}

@@ -10,15 +10,17 @@ import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {UserSearch} from "~/components/user/UserSearch";
-import {fetchResourceDataSource, fetchUserTypes} from "~/data/fetch-kodeverk";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {getResourceNewUserAssignmentUrl} from "~/data/paths";
+import {fetchResourceById} from "~/data/fetch-resources";
 
 type LoaderData = {
     userList: IUserPage,
     isAssignedUsers: IUserItem[],
     basePath: string,
-    userTypes: IKodeverkUserType[]
+    userTypesKodeverk: IKodeverkUserType[],
+    validForRoles: string[]
 }
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
@@ -26,10 +28,17 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
-    const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    let selectedUserTypes = url.searchParams.get("userType")?.split(",").filter(type => type) ?? [];
 
-    const userResponse = await fetchUsers(request, size, page, search, userType, orgUnits)
+    const resourceResponse = await fetchResourceById(request, params.id)
+    const resource = await resourceResponse.json()
+
+    if (selectedUserTypes.length === 0) {
+        selectedUserTypes = resource.validForRoles
+    }
+
+    const userResponse = await fetchUsers(request, size, page, search, selectedUserTypes, orgUnits)
     const userList: IUserPage = await userResponse.json()
 
     let filter = ""
@@ -37,16 +46,11 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
         filter += `&userfilter=${value.id}`
     })
 
-    const [responseAssignments, source] = await Promise.all([
+    const [responseAssignments, userTypesKodeverk] = await Promise.all([
         fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits, filter),
-        fetchResourceDataSource(request)
+        fetchUserTypes(request)
     ]);
     const assignedUsersList: IAssignedUsers = await responseAssignments.json()
-
-    let userTypes: IKodeverkUserType[] = []
-    if (source === "gui") {
-        userTypes = await fetchUserTypes(request)
-    }
 
     const assignedUsersMap: Map<number, IUser> = new Map(assignedUsersList.users.map(user => [user.assigneeRef, user]))
     const isAssignedUsers: IUserItem[] = userList.users.map(user => {
@@ -55,23 +59,29 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
             "assigned": assignedUsersMap.has(user.id)
         }
     })
-
     return json({
         userList,
         isAssignedUsers,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-        userTypes
+        userTypesKodeverk,
+        validForRoles: resource.validForRoles,
     })
 }
 
 export default function NewAssignment() {
-    const {userList, isAssignedUsers, basePath, userTypes} = useLoaderData<LoaderData>();
+    const {
+        userList,
+        isAssignedUsers,
+        basePath,
+        userTypesKodeverk,
+        validForRoles
+    } = useLoaderData<LoaderData>();
     const {id} = useParams<string>();
 
     return (
         <Tabs.Panel value="brukere">
             <TableToolbar
-                FilterComponents={<UserTypeFilter userTypes={userTypes}/>}
+                FilterComponents={<UserTypeFilter userTypeOptions={validForRoles} kodeverk={userTypesKodeverk}/>}
                 SearchComponent={<UserSearch/>}
             />
             <AssignUserTable

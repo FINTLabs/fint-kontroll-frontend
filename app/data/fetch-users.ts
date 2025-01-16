@@ -1,7 +1,13 @@
 import {BASE_PATH, USER_API_URL} from "../../environment";
 
-export const fetchUsers = async (request: Request, size: string, page: string, search: string, userType: string, orgUnits: string[]) => {
-    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users?size=${size}&page=${page}${search ? '&search=' + search : ""}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
+export const fetchUsers = async (request: Request, size: string, page: string, search: string, userTypes: string[], orgUnits: string[]) => {
+    const sizeFilter = size ? `&size=${size}` : '';
+    const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
+    const userTypeFilter = userTypes.length > 0 ? `&userType=${userTypes.join(",")}` : "";
+    const orgUnitsFilter = orgUnits.length > 0 ? `&orgUnits=${orgUnits.join(",")}` : '';
+
+    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users?${sizeFilter}${pageFilter}${searchFilter}${userTypeFilter}${orgUnitsFilter}`, {
         headers: request.headers
     });
 

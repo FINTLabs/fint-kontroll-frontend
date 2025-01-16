@@ -11,7 +11,7 @@ import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 import {getUserByIdUrl} from "~/data/paths";
 
 export const UserTable = () => {
-    const {userList: userPage, size, userTypes} = useLoaderData<typeof loader>();
+    const {userList: userPage, size, userTypesKodeverk} = useLoaderData<typeof loader>();
     const {fetching} = useLoadingState()
 
     return (
@@ -30,7 +30,7 @@ export const UserTable = () => {
                         <Table.Row key={user.id} id={`row-${user.fullName.replace(/\s+/g, '-')}`}>
                             <Table.DataCell>{user.fullName}</Table.DataCell>
                             <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
-                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypes)}</Table.DataCell>
+                            <Table.DataCell>{translateUserTypeToLabel(user.userType, userTypesKodeverk)}</Table.DataCell>
                             <Table.DataCell align="right">
                                 <TertiaryArrowButton
                                     id={`userInfoButton-${user.id}`}

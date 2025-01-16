@@ -5,9 +5,15 @@ import {filterResetPageParam, translateUserTypeToLabel} from "~/components/commo
 import {IKodeverkUserType} from "~/data/types";
 
 interface UserTypeFilterProps {
-    userTypes: IKodeverkUserType[]
+    userTypeOptions?: string[];
+    kodeverk?: IKodeverkUserType[];
 }
-export const UserTypeFilter = ({userTypes}: UserTypeFilterProps) => {
+
+export const UserTypeFilter = (
+    {
+        userTypeOptions = ["STUDENT", "EMPLOYEESTAFF", "EMPLOYEEFACULTY", "EXTERNAL"],
+        kodeverk
+    }: UserTypeFilterProps) => {
     const [currentSearchParams, setSearchParams] = useSearchParams()
     const [searchParams,] = useSearchParams();
 
@@ -21,7 +27,10 @@ export const UserTypeFilter = ({userTypes}: UserTypeFilterProps) => {
         filterResetPageParam(pageParam, setSearchParams)
     }
 
-    // @ts-ignore
+    const options = userTypeOptions.includes("ALLTYPES")
+        ? ["STUDENT", "EMPLOYEESTAFF", "EMPLOYEEFACULTY", "EXTERNAL"]
+        : userTypeOptions;
+
     return (
         <Form>
             <Select label={"Filter for brukertype"}
@@ -30,11 +39,11 @@ export const UserTypeFilter = ({userTypes}: UserTypeFilterProps) => {
                     value={String(currentSearchParams.get("userType")) ?? ""}
             >
                 <option value={""}>Alle</option>
-                <option value={"STUDENT"}>{translateUserTypeToLabel("STUDENT", userTypes)}</option>
-                <option value={"EMPLOYEESTAFF"}>{translateUserTypeToLabel("EMPLOYEESTAFF", userTypes)}</option>
-                <option value={"EMPLOYEEFACULTY"}>{translateUserTypeToLabel("EMPLOYEEFACULTY", userTypes)}</option>
-                <option value={"EXTERNAL"}>{translateUserTypeToLabel("EXTERNAL", userTypes)}</option>
+                {options.map((userType) => {
+                    return <option key={userType} value={userType}>{translateUserTypeToLabel(userType, kodeverk)}</option>
+                })}
             </Select>
         </Form>
-    );
+    )
+        ;
 }

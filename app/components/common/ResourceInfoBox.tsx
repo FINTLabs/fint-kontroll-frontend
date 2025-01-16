@@ -1,17 +1,18 @@
-import {IKodeverkUserType, IResource} from "~/data/types";
+import {IKodeverkLicenseEnforcement, IKodeverkUserType, IResource} from "~/data/types";
 import {BodyShort, Box, Heading, HGrid, Hide, HStack, VStack} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import * as React from "react";
-import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+import {translateLicenseEnforcementToLabel, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 import {StatusTag} from "~/components/service-admin/StatusTag";
 
 interface ResourceInfoBoxProps {
     resource: IResource,
-    userTypes: IKodeverkUserType[] | undefined
+    userTypeKodeverk: IKodeverkUserType[] | undefined
     isAdmin?: boolean
+    licenseEnforcementKodeverk?: IKodeverkLicenseEnforcement[] | undefined
 }
 
-export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxProps) => {
+export const ResourceInfoBox = ({resource, userTypeKodeverk, isAdmin, licenseEnforcementKodeverk}: ResourceInfoBoxProps) => {
     return (
         <Box id="resourceInfoBox" className="info-box" padding="8" borderRadius="xlarge">
             <VStack gap={"4"}>
@@ -58,7 +59,7 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                                     <Heading size="small" level="3">Gyldig for:</Heading>
                                     <BodyShort textColor="subtle">
                                         {resource.validForRoles
-                                            .map(role => translateUserTypeToLabel(role, userTypes))
+                                            .map(role => translateUserTypeToLabel(role, userTypeKodeverk))
                                             .join(', ')
                                         }
                                     </BodyShort>
@@ -97,7 +98,7 @@ export const ResourceInfoBox = ({resource, userTypes, isAdmin}: ResourceInfoBoxP
                             {isAdmin && resource.licenseEnforcement && (
                                 <li>
                                     <Heading size="small" level="3">Håndhevingsregel:</Heading>
-                                    <BodyShort textColor="subtle">{resource.licenseEnforcement}</BodyShort>
+                                    <BodyShort textColor="subtle">{translateLicenseEnforcementToLabel(resource.licenseEnforcement, licenseEnforcementKodeverk)}</BodyShort>
                                 </li>
                             )}
                             {/*                            {isAdmin && resource.platform && (
