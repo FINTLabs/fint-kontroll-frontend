@@ -28,12 +28,19 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseAssignments, source] = await Promise.all([
-        fetchUsers(request, size, page, search, userType, orgUnits),
-        fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits),
+
+    const userResponse = await fetchUsers(request, size, page, search, userType, orgUnits)
+    const userList: IUserPage = await userResponse.json()
+
+    let filter = ""
+    userList.users.forEach(value => {
+        filter += `&userfilter=${value.id}`
+    })
+
+    const [responseAssignments, source] = await Promise.all([
+        fetchAssignedUsers(request, params.id, "1000", "0", "", "", orgUnits, filter),
         fetchResourceDataSource(request)
     ]);
-    const userList: IUserPage = await responseUsers.json()
     const assignedUsersList: IAssignedUsers = await responseAssignments.json()
 
     let userTypes: IKodeverkUserType[] = []
