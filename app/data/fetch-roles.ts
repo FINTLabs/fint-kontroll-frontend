@@ -26,6 +26,7 @@ export const fetchRoles = async (request: Request, size: string, page: string, s
 }
 
 export const fetchRoleById = async (request: Request, id: string | undefined) => {
+    console.log("fetchRoleById", `${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`)
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
         headers: request.headers
     });

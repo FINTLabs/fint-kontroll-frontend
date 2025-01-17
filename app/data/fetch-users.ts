@@ -26,6 +26,7 @@ export const fetchUsers = async (request: Request, size: string, page: string, s
 }
 
 export const fetchUserById = async (request: Request, id: string | undefined) => {
+    console.log("fetchUserById", `${USER_API_URL}${BASE_PATH}/api/users/${id}`)
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/${id}`, {
         headers: request.headers
     });
