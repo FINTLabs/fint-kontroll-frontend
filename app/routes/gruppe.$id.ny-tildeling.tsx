@@ -43,10 +43,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const role = await fetchRoleById(request, params.id)
     const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, role.roleType)
 
-    let filter = ""
-    resourceList.resources.forEach(value => {
-        filter += `&resourcefilter=${value.id}`
-    })
+    const filter = resourceList.resources.map(value => `&resourcefilter=${value.id}`).join("");
 
     const [orgUnitTree, responseAssignments, responseApplicationCategories] = await Promise.all([
         fetchAllOrgUnits(request),

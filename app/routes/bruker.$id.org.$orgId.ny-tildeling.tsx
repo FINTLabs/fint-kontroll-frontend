@@ -35,18 +35,10 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const responseUser = await fetchUserById(request, params.id)
-    const user: IUserDetails = await responseUser.json()
+    const user = await fetchUserById(request, params.id)
+    const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, user.userType)
 
-    console.log("USER", user)
-
-    const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
-
-    let filter = ""
-    resourceList.resources.forEach(value => {
-        filter += `&resourcefilter=${value.id}`
-
-    })
+    const filter = resourceList.resources.map(value => `&resourcefilter=${value.id}`).join("");
 
     const [orgUnitTree, responseAssignmentsForUser, responseApplicationCategories] = await Promise.all([
         fetchAllOrgUnits(request),
@@ -106,14 +98,6 @@ export default function NewAssignmentForUser() {
         applicationCategories: string[]
     }>();
     const {id, orgId} = useParams<string>()
-
-/*
-    console.log("resourceList", data.resourceList)
-    console.log("isAssignedResources", data.isAssignedResources)
-    console.log("assignedUsersList", data.assignedResourceList)
-*/
-
-
 
     return (
         <div className={"content"}>

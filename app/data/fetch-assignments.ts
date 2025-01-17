@@ -22,7 +22,6 @@ export const fetchAssignedUsers = async (request: Request, id: string | undefine
 }
 
 export const fetchAssignedResourcesForUser = async (request: Request, id: string | undefined, size: string, page: string, resourceType: string, resourceFilter: string) => {
-    console.log("fetchAssignedResourcesForUser", `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}` )
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
         {
             headers: request.headers

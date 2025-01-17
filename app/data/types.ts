@@ -69,6 +69,7 @@ export interface IUserDetails {
     organisationUnitId: string
     mobilePhone: string
     email: string
+    userType: string
     valid: boolean
 }
 

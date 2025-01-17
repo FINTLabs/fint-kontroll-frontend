@@ -28,7 +28,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         fetchAssignmentsForUser(request, params.id, size, page)
     ]);
     return json({
-        user: await user.json(),
+        user,
         assignments: await assignments.json(),
         size,
         page,
