@@ -2,9 +2,18 @@ import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/service-admin/types";
 import {fetchData} from "~/data/helpers";
-import {IUnitTree} from "~/data/types";
+import {IResourceList, IUnitTree} from "~/data/types";
 
-export const fetchResources = async (request: Request, size: string, page: string, search: string, orgUnits: string[], applicationCategory: string, accessType: string, userType?: string) => {
+export const fetchResources = async (
+    request: Request,
+    size: string,
+    page: string,
+    search: string,
+    orgUnits: string[],
+    applicationCategory: string,
+    accessType: string,
+    userType?: string
+): Promise<IResourceList> => {
 
     const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : ""
     const sizeParameter = size ? `&size=${size}` : "";
@@ -14,15 +23,12 @@ export const fetchResources = async (request: Request, size: string, page: strin
     const accesstypeParameter = accessType.length > 0 ? `&accesstype=${accessType}` : ""
     const userTypeParameter = userType ? `&usertype=${userType}` : ""
 
-    console.log("fetchResources", `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`)
-
-
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

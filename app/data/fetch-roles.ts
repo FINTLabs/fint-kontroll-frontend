@@ -1,5 +1,5 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
-import {IMemberPage} from "~/data/types";
+import {IMemberPage, IRole} from "~/data/types";
 
 export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[], userTypes?: string[]) => {
     const sizeFilter = size ? `&size=${size}` : '';
@@ -25,14 +25,13 @@ export const fetchRoles = async (request: Request, size: string, page: string, s
     throw new Error("Det virker ikke som om du er pålogget")
 }
 
-export const fetchRoleById = async (request: Request, id: string | undefined) => {
-    console.log("fetchRoleById", `${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`)
+export const fetchRoleById = async (request: Request, id: string | undefined): Promise<IRole> => {
     const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

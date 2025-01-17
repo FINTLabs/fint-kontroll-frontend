@@ -7,7 +7,7 @@ import {json, TypedResponse} from "@remix-run/node";
 import {fetchUsersWithAssignment} from "~/data/resourceAdmin/resource-admin";
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
 import {IUnitItem} from "~/data/types";
-import {fetchAllOrgUnits, fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUsersPage
@@ -39,16 +39,14 @@ export async function loader({request}: LoaderFunctionArgs): Promise<TypedRespon
     const name = url.searchParams.get("search") ?? "";
     const role = url.searchParams.get("accessroleid") ?? "";
 
-    const [responseUsersPage, responseRoles, responseOrgUnits] = await Promise.all([
+    const [responseUsersPage, responseRoles, orgUnitPage] = await Promise.all([
         fetchUsersWithAssignment(auth, page, size, orgunits, name, role),
         fetchAccessRoles(auth),
         fetchAllOrgUnits(auth)
-      //  fetchOrgUnits(auth)
     ]);
 
     const usersPage = await responseUsersPage.json()
     const roles = await responseRoles.json()
-    const orgUnitPage = responseOrgUnits
 
     return json({
         usersPage,

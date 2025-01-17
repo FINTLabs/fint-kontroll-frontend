@@ -1,16 +1,13 @@
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
-    IAssignedResourcesList,
-    IResourceAssignment,
+    IAssignedResourcesList, IResourceAssignment,
     IResourceForList,
     IResourceList,
-    IRole,
-    IUnitItem,
-    IUnitTree
+    IRole, IUnitItem,
 } from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchAllOrgUnits, fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
-import {json} from "@remix-run/node";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
+import {json, TypedResponse} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
 import {fetchAssignedResourcesRole, fetchRoleById} from "~/data/fetch-roles";
@@ -24,22 +21,27 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES} from "~/data/paths";
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
-    json(): Promise<any>
-}> {
+export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<{
+    responseCode: string | undefined
+    size: string
+    resourceList: IResourceList
+    orgUnitList: IUnitItem[]
+    assignedResourceList: IAssignedResourcesList
+    isAssignedResources: any
+    role: IRole
+    applicationCategories: string[]
+    basePath: string
+}>> {
     const url = new URL(request.url);
-    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25";
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const responseRole = await fetchRoleById(request, params.id)
-    const role: IRole = await responseRole.json()
-
-    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, role.roleType)
-    const resourceList: IResourceList = await resourceResponse.json()
+    const role = await fetchRoleById(request, params.id)
+    const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, role.roleType)
 
     let filter = ""
     resourceList.resources.forEach(value => {
@@ -72,7 +74,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         role,
         applicationCategories,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-    })
+    });
 }
 
 export const handle = {
@@ -90,16 +92,15 @@ export const handle = {
 }
 
 export default function NewAssignmentForRole() {
-    const loaderData = useLoaderData<typeof loader>();
-
-    const resourceList: IResourceList = loaderData.resourceList
-    // const orgUnitList: IUnitItem[] = loaderData.orgUnitList // Might use this later once filters are added
-    const isAssignedResources: IResourceForList[] = loaderData.isAssignedResources
-    const basePath: string = loaderData.basePath
-    const responseCode: string | undefined = loaderData.responseCode
-    const role: IRole = loaderData.role
-    const size: string = loaderData.size
-    const applicationCategories: string[] = loaderData.applicationCategories
+    const {
+        resourceList,
+        isAssignedResources,
+        basePath,
+        responseCode,
+        role,
+        size,
+        applicationCategories
+    } = useLoaderData<typeof loader>();
 
     return (
         <div className={"content"}>

@@ -2,17 +2,15 @@ import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserT
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {
     IAssignedResourcesList,
-    IAssignedUsers,
     IResourceAssignment,
     IResourceForList,
     IResourceList,
     IUnitItem,
-    IUnitTree,
     IUserDetails
 } from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUserById} from "~/data/fetch-users";
-import {fetchAllOrgUnits, fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
 import {fetchAssignedResourcesForUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
@@ -42,8 +40,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
     console.log("USER", user)
 
-    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
-    const resourceList: IResourceList = await resourceResponse.json()
+    const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
 
     let filter = ""
     resourceList.resources.forEach(value => {
