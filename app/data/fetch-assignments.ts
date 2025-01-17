@@ -61,8 +61,8 @@ export const fetchAssignmentsForUser = async (request: Request, id: string | und
 
 }
 
-export const fetchAssignedRoles = async (request: Request, id: string | undefined, size: string, page: string, search: string, orgUnits: string[]) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}`, {
+export const fetchAssignedRoles = async (request: Request, id: string | undefined, size: string, page: string, search: string, orgUnits: string[], roleFilter?: string) => {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}${roleFilter}`, {
         headers: request.headers
     });
 
