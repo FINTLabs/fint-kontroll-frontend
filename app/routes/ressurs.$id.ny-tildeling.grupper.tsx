@@ -29,12 +29,18 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const resourceResponse = await fetchResourceById(request, params.id)
     const resource = await resourceResponse.json()
 
-    const [responseRoles, responseAssignments, userTypesKodeverk] = await Promise.all([
-        fetchRoles(request, size, page, search, orgUnits, resource.validForRoles),
-        fetchAssignedRoles(request, params.id, "1000", "0", "", orgUnits),
+    const responseRoles = await fetchRoles(request, size, page, search, orgUnits, resource.validForRoles)
+    const roleList: IRoleList = await responseRoles.json()
+
+    let filter = ""
+    roleList.roles.forEach(value => {
+        filter += `&rolefilter=${value.id}`
+    })
+
+    const [responseAssignments, userTypesKodeverk] = await Promise.all([
+        fetchAssignedRoles(request, params.id, size, "0", "", orgUnits, filter),
         fetchUserTypes(request)
     ]);
-    const roleList: IRoleList = await responseRoles.json()
     const assignedRolesList: IAssignedRoles = await responseAssignments.json()
 
     const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
