@@ -13,7 +13,7 @@ describe('Check roles page with mock data', () => {
     })
 
     it('Pagination (select number of rows in table)', () => {
-        cy.get('#pagination').should('be.visible')
+        cy.get('#select-number-of-rows').should('be.visible')
     });
 
     it('Check table exists, cookie "size" is 25, has 11 rows, then change to 5 rows and confirm length', () => {
@@ -25,6 +25,8 @@ describe('Check roles page with mock data', () => {
             .should('have.length', 11);
         cy.get("#select-number-of-rows").select("5")
         wait(1500)
+        cy.get('#pagination').should('be.visible')
+
         cy.get('#role-table').should('be.visible')
             .find('tbody tr')
             .should('have.length', 5);
