@@ -1,6 +1,6 @@
 //import React from 'react';
 import styles from "../components/resource/resource.css?url"
-import {Link, Links, Meta, Scripts, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
+import {Link, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
 import {IAssignedRoles, IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -14,6 +14,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
+import {fetchUserTypes} from "~/data/fetch-kodeverk";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -25,9 +26,10 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [assignedRoles, resourceById] = await Promise.all([
+    const [assignedRoles, resourceById, userTypesKodeverk] = await Promise.all([
         fetchAssignedRoles(request, params.id, size, page, search, orgUnits),
         fetchResourceById(request, params.id),
+        fetchUserTypes(request)
     ])
 
     const resource: IResource = await resourceById.json()
@@ -36,6 +38,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         resourceName: resource.resourceName,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         responseCode: url.searchParams.get("responseCode") ?? undefined,
+        userTypesKodeverk
     })
 }
 

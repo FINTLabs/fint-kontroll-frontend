@@ -1,7 +1,7 @@
 import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
 import logger from "~/logging/logger";
 
-export const fetchAssignedUsers = async (request: Request, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[], userFilter: string) => {
+export const fetchAssignedUsers = async (request: Request, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[], userFilter?: string) => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}${userFilter}`,
         {
             headers: request.headers
