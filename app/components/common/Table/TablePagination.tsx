@@ -34,7 +34,7 @@ export const TablePagination = ({totalPages = 1, size = 25, currentPage}: Pagina
                 <option value={25}>25</option>
                 <option value={50}>50</option>
             </Select>
-            {totalPages > 1 &&
+            {Number(totalPages) > 1 &&
                 <AkselPagination
                     id="pagination"
                     page={currentPage + 1}
