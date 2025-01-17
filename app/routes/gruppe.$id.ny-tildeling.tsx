@@ -9,7 +9,7 @@ import {
     IUnitTree
 } from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
@@ -35,7 +35,10 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
+    const responseRole = await fetchRoleById(request, params.id)
+    const role: IRole = await responseRole.json()
+
+    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, role.roleType)
     const resourceList: IResourceList = await resourceResponse.json()
 
     let filter = ""
@@ -43,16 +46,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         filter += `&resourcefilter=${value.id}`
     })
 
-    const [responseOrgUnits, responseAssignments, responseRole, responseApplicationCategories] = await Promise.all([
-        fetchOrgUnits(request),
+    const [orgUnitTree, responseAssignments, responseApplicationCategories] = await Promise.all([
+        fetchAllOrgUnits(request),
         fetchAssignedResourcesRole(request, params.id, size, "0", "ALLTYPES", filter),
-        fetchRoleById(request, params.id),
         fetchApplicationCategory(request),
     ]);
-    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
-    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
     const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
-    const role: IRole = await responseRole.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
@@ -67,7 +66,7 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         size,
         resourceList,
-        orgUnitList,
+        orgUnitList: orgUnitTree.orgUnits,
         assignedResourceList,
         isAssignedResources,
         role,
