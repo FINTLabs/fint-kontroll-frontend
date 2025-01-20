@@ -26,12 +26,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationCategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, orgUnitTree, responseApplicationCategories] = await Promise.all([
+    const [resourceList, orgUnitTree, responseApplicationCategories] = await Promise.all([
         fetchResources(request, size, page, search, orgUnits, applicationCategory, accessType),
         fetchAllOrgUnits(request),
         fetchApplicationCategory(request),
     ]);
-    const resourceList: IResourceList = await responseResource.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
 
     return json({

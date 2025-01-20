@@ -1,12 +1,14 @@
 import {Button, Heading, Link, Table, VStack} from "@navikt/ds-react";
 import type {IAssignedRoles} from "~/data/types";
 import React from "react";
-import {Outlet, useParams, useSearchParams} from "@remix-run/react";
+import {Outlet, useLoaderData, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {getResourceDeleteRoleAssignmentUrl} from "~/data/paths";
+import {loader} from "~/routes/ressurser.$id.gruppe-tildelinger";
+import {translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles,
@@ -15,7 +17,7 @@ export const AssignedRolesTable: any = (props: {
     search: string,
     basePath?: string
 }) => {
-
+    const {userTypesKodeverk} = useLoaderData<typeof loader>()
     const [searchParams] = useSearchParams()
     const params = useParams()
     const {fetching} = useLoadingState()
@@ -38,7 +40,7 @@ export const AssignedRolesTable: any = (props: {
                         {fetching ? <TableSkeleton /> : props.assignedRoles.roles.map((role) => (
                             <Table.Row key={role.id}>
                                 <Table.HeaderCell scope="row">{role.roleName}</Table.HeaderCell>
-                                <Table.DataCell>{role.roleType}</Table.DataCell>
+                                <Table.DataCell>{translateUserTypeToLabel(role.roleType, userTypesKodeverk)}</Table.DataCell>
                                 <Table.DataCell>{role.assignerDisplayname ? role.assignerDisplayname : role.assignerUsername}</Table.DataCell>
                                 <Table.DataCell align={"center"}>
                                     <Button

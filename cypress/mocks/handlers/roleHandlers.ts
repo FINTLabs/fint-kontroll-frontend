@@ -162,7 +162,7 @@ export const roleHandlers = [
                 }
             )
         }
-        else if (size === "5" && page === "1") {
+        else if (size === "5" && (page === "1" || page === "0")) {
             return HttpResponse.json(
                 {
                     "totalItems": 11,

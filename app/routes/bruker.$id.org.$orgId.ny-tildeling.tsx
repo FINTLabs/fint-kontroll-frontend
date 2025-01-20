@@ -2,18 +2,16 @@ import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserT
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {
     IAssignedResourcesList,
-    IAssignedUsers,
     IResourceAssignment,
     IResourceForList,
     IResourceList,
     IUnitItem,
-    IUnitTree,
     IUserDetails
 } from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUserById} from "~/data/fetch-users";
-import {fetchApplicationCategory, fetchOrgUnits, fetchResources} from "~/data/fetch-resources";
-import {fetchAssignedResourcesUser} from "~/data/fetch-assignments";
+import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
+import {fetchAssignedResourcesForUser} from "~/data/fetch-assignments";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {Alert, Box, HStack, VStack} from "@navikt/ds-react";
@@ -37,31 +35,21 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const resourceResponse = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType)
-    const resourceList: IResourceList = await resourceResponse.json()
+    const user = await fetchUserById(request, params.id)
+    const resourceList = await fetchResources(request, size, page, search, orgUnits, applicationcategory, accessType, user.userType)
 
-    let filter = ""
-    resourceList.resources.forEach(value => {
-        filter += `&resourcefilter=${value.id}`
+    const filter = resourceList.resources.map(value => `&resourcefilter=${value.id}`).join("");
 
-    })
-
-    const [responseOrgUnits, responseAssignments, responseUser, responseApplicationCategories] = await Promise.all([
-        fetchOrgUnits(request),
-        fetchAssignedResourcesUser(request, params.id, size, "0", "ALLTYPES", filter),
-        fetchUserById(request, params.id),
+    const [orgUnitTree, responseAssignmentsForUser, responseApplicationCategories] = await Promise.all([
+        fetchAllOrgUnits(request),
+        fetchAssignedResourcesForUser(request, params.id, size, "0", "ALLTYPES", filter),
         fetchApplicationCategory(request),
-        // fetchAccessType(request)
     ]);
 
-    const orgUnitTree: IUnitTree = await responseOrgUnits.json()
-    const orgUnitList: IUnitItem[] = orgUnitTree.orgUnits
-    const assignedResourceList: IAssignedResourcesList = await responseAssignments.json()
-    const user: IUserDetails = await responseUser.json()
+    const assignedResourceListForUser: IAssignedResourcesList = await responseAssignmentsForUser.json()
     const applicationCategories: string[] = await responseApplicationCategories.json()
-    // const accessTypes: string[] = await responseAccessType.json()
 
-    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceList.resources.map(resource => [resource.resourceRef, resource]))
+    const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceListForUser.resources.map(resource => [resource.resourceRef, resource]))
     const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {
         return {
             ...resource,
@@ -72,13 +60,12 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
         resourceList,
-        orgUnitList,
-        assignedResourceList,
+        orgUnitList: orgUnitTree.orgUnits,
+        assignedResourceList: assignedResourceListForUser,
         isAssignedResources,
         size,
         user,
         applicationCategories,
-        // accessTypes,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
     })
 }
@@ -100,31 +87,17 @@ export const handle = {
 
 export default function NewAssignmentForUser() {
     const data = useLoaderData<{
-
         resourceList: IResourceList,
         orgUnitList: IUnitItem[]
-        assignedUsersList: IAssignedUsers,
+        assignedResourceList: IAssignedResourcesList,
         isAssignedResources: IResourceForList[],
         basePath: string,
         responseCode: string | undefined,
         size: string,
         user: IUserDetails,
         applicationCategories: string[]
-        // accessTypes: string[]
     }>();
     const {id, orgId} = useParams<string>()
-
-    // const [accessTypeSearchParams, setAccessTypeSearchParams] = useSearchParams()
-
-    /* const setAccessType = (event: string) => {
-         setAccessTypeSearchParams(searchParams => {
-             searchParams.set("accesstype", event);
-             if (searchParams.get("accesstype") === "") {
-                 searchParams.delete("accesstype")
-             }
-             return searchParams;
-         })
-     }*/
 
     return (
         <div className={"content"}>

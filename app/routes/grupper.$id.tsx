@@ -24,8 +24,7 @@ export function links() {
 }
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const response = await fetchRoleById(request, params.id);
-    const role: IRole = await response.json()
+    const role = await fetchRoleById(request, params.id);
 
     return json({
         role,

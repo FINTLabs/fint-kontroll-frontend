@@ -39,7 +39,7 @@ describe('Check the user page', () => {
     })
 
     it('Pagination (select number of rows in table)', () => {
-        cy.get('#pagination').should('be.visible')
+        cy.get('#select-number-of-rows').should('be.visible')
     });
 
     it('Check table length = 10 first, change rows to 5, verify row length is 5', () => {
@@ -48,6 +48,7 @@ describe('Check the user page', () => {
            .should('have.length', 10);
         cy.get("#select-number-of-rows").select("5")
         wait(1000)
+        cy.get('#pagination').should('be.visible')
         cy.get('#user-table').should('be.visible')
             .find('tbody tr')
             .should('have.length', 5);

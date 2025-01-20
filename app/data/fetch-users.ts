@@ -1,4 +1,5 @@
 import {BASE_PATH, USER_API_URL} from "../../environment";
+import {IUserDetails} from "~/data/types";
 
 export const fetchUsers = async (request: Request, size: string, page: string, search: string, userTypes: string[], orgUnits: string[]) => {
     const sizeFilter = size ? `&size=${size}` : '';
@@ -25,13 +26,13 @@ export const fetchUsers = async (request: Request, size: string, page: string, s
 
 }
 
-export const fetchUserById = async (request: Request, id: string | undefined) => {
+export const fetchUserById = async (request: Request, id: string | undefined): Promise<IUserDetails> => {
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/${id}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

@@ -6,7 +6,7 @@ import {setSizeCookieClientSide} from "~/components/common/CommonFunctions";
 type PaginationProps = {
     currentPage: number
     totalPages?: number
-    size?:  string | number | readonly string[] | undefined
+    size?: string | number | readonly string[] | undefined
 }
 
 export const TablePagination = ({totalPages = 1, size = 25, currentPage}: PaginationProps) => {
@@ -34,19 +34,21 @@ export const TablePagination = ({totalPages = 1, size = 25, currentPage}: Pagina
                 <option value={25}>25</option>
                 <option value={50}>50</option>
             </Select>
-            <AkselPagination
-                id="pagination"
-                page={currentPage + 1}
-                onPageChange={(e) => {
-                    setSearchParams(searchParams => {
-                        searchParams.set("page", (e - 1).toString());
-                        return searchParams;
-                    })
-                }}
-                count={Math.max(totalPages, 1)}
-                size="small"
-                prevNextTexts
-            />
+            {Number(totalPages) > 1 &&
+                <AkselPagination
+                    id="pagination"
+                    page={currentPage + 1}
+                    onPageChange={(e) => {
+                        setSearchParams(searchParams => {
+                            searchParams.set("page", (e - 1).toString());
+                            return searchParams;
+                        })
+                    }}
+                    count={Math.max(totalPages, 1)}
+                    size="small"
+                    prevNextTexts
+                />
+            }
         </Form>
     )
 }

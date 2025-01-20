@@ -36,7 +36,7 @@ describe('Check the user detail page', () => {
     });
 
     it('Pagination exists and visible, select number of rows to be "5"', () => {
-        cy.get('#pagination').should('be.visible')
+        cy.get('#select-number-of-rows').should('be.visible')
         cy.get("#select-number-of-rows").select("5")
         wait(1000)
         cy.get('#resources-for-user-table').should('be.visible')
@@ -45,6 +45,7 @@ describe('Check the user detail page', () => {
     });
 
     it('Pagination go to "Neste", and verify page variable is "1"', () => {
+        cy.get('#pagination').should('be.visible')
         cy.get("button").contains("Neste").click()
         cy.wait(1000)
 

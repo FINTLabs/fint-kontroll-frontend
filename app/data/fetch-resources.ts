@@ -1,20 +1,34 @@
 import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/service-admin/types";
-import {changeAppTypeInHeadersAndReturnHeaders, fetchData} from "~/data/helpers";
-import {IUnitTree} from "~/data/types";
+import {fetchData} from "~/data/helpers";
+import {IResourceList, IUnitTree} from "~/data/types";
 
-export const fetchResources = async (request: Request, size: string, page: string, search: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
+export const fetchResources = async (
+    request: Request,
+    size: string,
+    page: string,
+    search: string,
+    orgUnits: string[],
+    applicationCategory: string,
+    accessType: string,
+    userType?: string
+): Promise<IResourceList> => {
 
-    const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined
-    const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined
+    const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : ""
+    const sizeParameter = size ? `&size=${size}` : "";
+    const pageParameter = page ? `&page=${page}` : "";
+    const searchParameter = search.length > 0 ? `&search=${search}` : ""
+    const orgUnitsParameter = orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""
+    const accesstypeParameter = accessType.length > 0 ? `&accesstype=${accessType}` : ""
+    const userTypeParameter = userType ? `&usertype=${userType}` : ""
 
-    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""}&${accesstypeParameter}`, {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
