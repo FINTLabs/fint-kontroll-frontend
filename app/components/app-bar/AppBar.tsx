@@ -3,6 +3,7 @@ import {IMeInfo} from "~/data/types";
 import {BodyShort, Button, Hide, HStack} from "@navikt/ds-react";
 import {Link} from "@remix-run/react";
 import {Menu} from "~/components/app-bar/Menu";
+import {LeaveIcon} from "@navikt/aksel-icons";
 
 export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string }) {
 
@@ -32,19 +33,12 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
                                 :
                                 null
                             }
-                            {/*<Button variant="primary"
-                                    as={Link}
-                                    to="/_oauth/logout">
-                                Logg ut
-                            </Button>
-
-
-                            <Button variant="primary"
+                            <Button variant="tertiary"
+                                    icon={<LeaveIcon aria-hidden/>}
                                     as="a"
                                     href={`${props.basePath}/_oauth/logout`}>
                                 Logg ut
                             </Button>
-*/}
                         </HStack>
                     </div>
                 </HStack>
