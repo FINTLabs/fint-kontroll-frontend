@@ -71,7 +71,7 @@ patches:
   - patch: |-
       - op: replace
         path: "/spec/image"
-        value: ghcr.io/fintlabs/fint-kontroll-frontend-afk-no-api
+        value: ghcr.io/fintlabs/fint-kontroll-frontend
     target:
       kind: Application
       name: fint-kontroll-frontend
