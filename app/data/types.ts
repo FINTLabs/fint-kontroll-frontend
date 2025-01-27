@@ -1,8 +1,22 @@
+export interface IMeRole {
+    id: string
+    name: string
+}
+
+export interface IMenuItems {
+    id?: number
+    url: string
+    text: string
+    order: number
+}
+
 export interface IMeInfo {
     firstName: string
     lastName: string
     organisationId: string
     mail: string
+    roles: IMeRole[],
+    menuItems: IMenuItems[]
 }
 
 export interface IUser {
@@ -83,6 +97,12 @@ export interface IRole {
     organisationUnitId: string
     organisationUnitName: string
     assigned?: boolean
+}
+
+export interface IAccessRole {
+    accessRoleId: string
+    name: string
+    menuItems: IMenuItems[]
 }
 
 export interface IRoleList {
