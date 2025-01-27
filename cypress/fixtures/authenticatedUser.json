@@ -1,6 +1,32 @@
 {
-	"firstName": "Mock",
-	"lastName": "Name",
-	"mail": "mock@novari.no",
-	"organisationId": "mock.no"
+  "firstName": "Mock",
+  "lastName": "Name",
+  "mail": "mock@novari.no",
+  "organisationId": "mock.no",
+  "roles": [
+    {
+      "id": "pa",
+      "name": "Portaladmin"
+    },
+    {
+      "id": "l",
+      "name": "Leder"
+    },
+    {
+      "id": "sa",
+      "name": "Systemadministrator"
+    },
+    {
+      "id": "sb",
+      "name": "Sluttbruker"
+    },
+    {
+      "id": "ta",
+      "name": "Tjenesteadministrator"
+    },
+    {
+      "id": "td",
+      "name": "Tildeler"
+    }
+  ]
 }

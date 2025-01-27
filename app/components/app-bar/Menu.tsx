@@ -43,7 +43,7 @@ export const Menu = ({me, source}: { me: IMeInfo, basePath?: string, source?: st
                         Til forsiden
                     </ActionMenu.Item>
 
-                    {me?.roles.some(role => role.id === "sa") && (
+                    {me?.roles?.some(role => role.id === "sa") && (
                         <>
                             <ActionMenu.Group label="For systemadministrator" style={{fontSize: "100px"}}>
                                 <ActionMenu.Item
@@ -63,7 +63,7 @@ export const Menu = ({me, source}: { me: IMeInfo, basePath?: string, source?: st
                         </>
                     )}
 
-                    {me?.roles.some(role => ["sa", "ra"].includes(role.id)) && (
+                    {me?.roles?.some(role => ["sa", "ra"].includes(role.id)) && (
                         <>
                             <ActionMenu.Group label="For ressursadministrator">
                                 <ActionMenu.Item
@@ -87,7 +87,7 @@ export const Menu = ({me, source}: { me: IMeInfo, basePath?: string, source?: st
                         </>
                     )}
 
-                    {me?.roles.some(role => ["sa", "ra", "ta"].includes(role.id)) && (
+                    {me?.roles?.some(role => ["sa", "ra", "ta"].includes(role.id)) && (
                         <>
                             <ActionMenu.Group label="For tjenesteadministrator">
                                 <ActionMenu.Item
@@ -103,7 +103,7 @@ export const Menu = ({me, source}: { me: IMeInfo, basePath?: string, source?: st
                             <ActionMenu.Divider/>
                         </>
                     )}
-                    {me?.roles.some(role => ["sa", "ra", "ta", "td"].includes(role.id)) && (
+                    {me?.roles?.some(role => ["sa", "ra", "ta", "td"].includes(role.id)) && (
                         <>
                             <ActionMenu.Group label="For tildeler">
                                 <ActionMenu.Item id="users" onSelect={() => navigate(USERS)}>
