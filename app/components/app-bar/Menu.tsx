@@ -91,7 +91,11 @@ export const Menu = ({me, source}: { me: IMeInfo, basePath?: string, source?: st
                         <>
                             <ActionMenu.Group label="For tjenesteadministrator">
                                 <ActionMenu.Item
-                                    onSelect={() => navigate(SERVICE_ADMIN)}>Ressurser</ActionMenu.Item>
+                                    onSelect={() => navigate(SERVICE_ADMIN)}
+                                    id="service-admin"
+                                >
+                                    Ressurser
+                                </ActionMenu.Item>
                                 {source === "gui" &&
                                     <ActionMenu.Item
                                         onSelect={() => navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)}
