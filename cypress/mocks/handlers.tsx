@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw'
+import {http, HttpResponse} from 'msw'
 import {
     createNewResourceHandlers,
     deleteResourceHandlers,
@@ -16,18 +16,44 @@ export const handlers = [
     // Common handlers
     http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
         return HttpResponse.json(
-        {
+            {
                 "firstName": "Mock",
                 "lastName": "Name",
                 "mail": "mock@novari.no",
-                "organisationId": "mock.no"
+                "organisationId": "mock.no",
+                "roles": [
+                    {
+                        "id": "pa",
+                        "name": "Portaladmin"
+                    },
+                    {
+                        "id": "l",
+                        "name": "Leder"
+                    },
+                    {
+                        "id": "sa",
+                        "name": "Systemadministrator"
+                    },
+                    {
+                        "id": "sb",
+                        "name": "Sluttbruker"
+                    },
+                    {
+                        "id": "ta",
+                        "name": "Tjenesteadministrator"
+                    },
+                    {
+                        "id": "td",
+                        "name": "Tildeler"
+                    }
+                ]
             }
         )
     }),
 
     http.get('http://localhost:8060/beta/fintlabs-no/api/orgunits', () => {
         return HttpResponse.json(
-        {
+            {
                 "totalItems": 3,
                 "orgUnits": [
                     {
@@ -82,7 +108,7 @@ export const handlers = [
 
     ...createNewResourceHandlers,
 
-    ... deleteResourceHandlers,
+    ...deleteResourceHandlers,
 
     ...applicationCategoriesHandlers
 
