@@ -4,7 +4,7 @@ import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUsers} from "~/data/fetch-users";
 import {json, TypedResponse} from "@remix-run/node";
 import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {BreadcrumbParams, IAssignedUsers, IKodeverkUserType, IUser, IUserItem, IUserPage} from "~/data/types";
+import {IAssignedUsers, IUser, IUserItem, IUserPage} from "~/data/types/userTypes";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
 import {BASE_PATH} from "../../environment";
@@ -14,6 +14,8 @@ import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {getResourceNewUserAssignmentUrl} from "~/data/paths";
 import {fetchResourceById} from "~/data/fetch-resources";
+import {BreadcrumbParams} from "~/data/types/generalTypes";
+import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 type LoaderData = {
     userList: IUserPage,

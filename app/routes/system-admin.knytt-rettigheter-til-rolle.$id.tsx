@@ -6,11 +6,11 @@ import {
 } from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {Alert, Box, Button, Heading, List, Table} from "@navikt/ds-react";
 import {Form, Links, Meta, Scripts, useActionData, useLoaderData, useRouteError} from "@remix-run/react";
-import {IFeature, IFeatureOperation, IPermissionData} from "~/data/kontrollAdmin/types";
 import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 import logger from "~/logging/logger";
+import {IFeature, IFeatureOperation, IPermissionData} from "~/data/types/userTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const permissionDataRes = await fetchFeaturesInRole(request, params.id)

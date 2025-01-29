@@ -1,4 +1,3 @@
-import type {IUnitItem} from "~/data/types";
 import {
     getOrgUnitAndAllNestedChildren,
     getAllTopLevelUnits,
@@ -8,6 +7,7 @@ import {
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
 import {BodyShort, Box, Checkbox, CheckboxGroup, HStack, Label, Switch, TextField} from "@navikt/ds-react";
 import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface OrgUnitAllocationProps {
     allOrgUnits: IUnitItem[];

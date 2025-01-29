@@ -1,5 +1,4 @@
 import {Button, Link, Table, Tag} from "@navikt/ds-react";
-import type {IAssignmentPage} from "~/data/types";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import React from "react";
 import {TrashIcon} from "@navikt/aksel-icons";
@@ -8,6 +7,7 @@ import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {getDeleteUserAssignmentUrl} from "~/data/paths";
+import {IAssignmentPage} from "~/data/types/resourceTypes";
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage

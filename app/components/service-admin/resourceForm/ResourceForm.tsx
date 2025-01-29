@@ -2,11 +2,12 @@ import {BodyShort, Button, ErrorMessage, ExpansionCard, Heading, HStack, VStack}
 import React, {useMemo, useState} from "react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/service-admin/types";
 import OrgUnitRadioSelection from "~/components/common/orgUnits/OrgUnitRadioSelection";
-import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType, IUnitItem} from "~/data/types";
 import ApplicationResourceData from "~/components/service-admin/opprett-ny-ressurs/ApplicationResourceData";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 import {Form, useNavigate, useNavigation} from "@remix-run/react";
 import {SERVICE_ADMIN} from "~/data/paths";
+import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types/kodeverkTypes";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface ResourseFormProps {
     resource?: IApplicationResource;

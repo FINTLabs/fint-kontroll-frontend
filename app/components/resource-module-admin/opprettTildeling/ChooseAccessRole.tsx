@@ -1,4 +1,4 @@
-import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
+import {IResourceModuleAccessRole} from "~/data/types/resourceTypes";
 import {Radio, RadioGroup, VStack} from "@navikt/ds-react";
 
 interface ChooseAccessRoleProps {

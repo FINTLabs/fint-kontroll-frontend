@@ -1,7 +1,6 @@
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchFeaturesInRole, putPermissionDataForRole} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {ActionFunctionArgs, json} from "@remix-run/node";
-import {IPermissionData} from "~/data/kontrollAdmin/types";
 import {
     Form, Links, Meta, Scripts,
     useActionData,
@@ -15,6 +14,7 @@ import {toast} from "react-toastify";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import {ConfirmSafeRedirectModal} from "~/components/kontroll-admin/ConfirmSafeRedirectModal";
 import {getDefineRoleByIdUrl} from "~/data/paths";
+import {IPermissionData} from "~/data/types/userTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const response = await fetchFeaturesInRole(request, params.id);

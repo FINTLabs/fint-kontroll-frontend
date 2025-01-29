@@ -4,12 +4,12 @@ import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUsersPage
-} from "~/data/resourceAdmin/types";
-import {IUnitItem} from "~/data/types";
+} from "~/data/types/resourceTypes";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage

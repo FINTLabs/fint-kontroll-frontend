@@ -1,9 +1,10 @@
 import React from "react";
 import {SetURLSearchParams} from "react-router-dom";
-import {ICookie, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types";
 import {Navigation} from "@remix-run/react";
-import {IRole} from "~/data/kontrollAdmin/types";
-import {IResourceModuleUserRole} from "~/data/resourceAdmin/types";
+import {IResourceModuleUserRole} from "~/data/types/resourceTypes";
+import {ICookie} from "~/data/types/generalTypes";
+import {IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types/kodeverkTypes";
+import {IAccessRole} from "~/data/types/userTypes";
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
@@ -111,7 +112,7 @@ export const translateLicenseEnforcementToLabel = (licenseEnforcement: string, l
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const sortAndCapitalizeRoles = <T extends IRole | IResourceModuleUserRole>(roles: T[]): T[] => {
+export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUserRole>(roles: T[]): T[] => {
     const roleNameSortOrder = ["systemadministrator", "ressursadministrator", "tjenesteadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
     return roles.sort((a, b) => {
         const aName = 'name' in a ? a.name : a.roleName;

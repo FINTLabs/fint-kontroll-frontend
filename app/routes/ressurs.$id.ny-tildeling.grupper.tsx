@@ -2,7 +2,7 @@ import {Alert, Box, Tabs} from "@navikt/ds-react";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json, TypedResponse} from "@remix-run/node";
 import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {BreadcrumbParams, IAssignedRoles, IKodeverkUserType, IRole, IRoleList} from "~/data/types";
+import {IAssignedRoles, IRole, IRoleList} from "~/data/types/userTypes";
 import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
 import {fetchRoles} from "~/data/fetch-roles";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
@@ -12,6 +12,8 @@ import {RoleSearch} from "~/components/role/RoleSearch";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
+import {BreadcrumbParams} from "~/data/types/generalTypes";
+import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 type LoaderData = {
     roleList: IRoleList,

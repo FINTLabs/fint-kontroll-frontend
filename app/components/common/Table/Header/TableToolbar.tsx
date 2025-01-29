@@ -1,8 +1,8 @@
 import React, {Fragment, ReactElement} from "react";
-import {IUnitItem} from "~/data/types";
 import {HStack, Spacer, VStack} from "@navikt/ds-react";
 import OrgUnitFilterModal from "~/components/org-unit-filter/OrgUnitFilterModal";
 import ChipsFilters from "~/components/common/ChipsFilters";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface TableToolbarProps {
     SearchComponent?: ReactElement

@@ -1,5 +1,5 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
-import {IMemberPage, IRole} from "~/data/types";
+import {IMemberPage, IRole} from "~/data/types/userTypes";
 
 export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[], userTypes?: string[]) => {
     const sizeFilter = size ? `&size=${size}` : '';

@@ -2,7 +2,8 @@ import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
 import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/service-admin/types";
 import {fetchData} from "~/data/helpers";
-import {IResourceList, IUnitTree} from "~/data/types";
+import {IUnitTree} from "~/data/types/orgUnitTypes";
+import {IResourceList} from "~/data/types/resourceTypes";
 
 export const fetchResources = async (
     request: Request,

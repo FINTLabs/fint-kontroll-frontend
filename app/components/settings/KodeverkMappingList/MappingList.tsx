@@ -1,8 +1,8 @@
 import {Button, Table} from "@navikt/ds-react";
 import React from "react";
-import {IKodeverkMappingList} from "~/data/types";
 import {Outlet, useNavigate} from "@remix-run/react";
 import {PencilIcon} from "@navikt/aksel-icons";
+import {IKodeverkMappingList} from "~/data/types/kodeverkTypes";
 
 type MappingListProps = {
     listItems: IKodeverkMappingList[]

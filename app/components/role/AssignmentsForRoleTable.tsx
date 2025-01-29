@@ -1,10 +1,10 @@
 import {Button, Link, Table} from "@navikt/ds-react";
-import type {IAssignmentPage, IResourceAssignment} from "~/data/types";
 import {Outlet, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {getDeleteRoleAssignmentUrl} from "~/data/paths";
+import {IAssignmentPage, IResourceAssignment} from "~/data/types/resourceTypes";
 
 
 interface AssignmentsForRoleTableProps {

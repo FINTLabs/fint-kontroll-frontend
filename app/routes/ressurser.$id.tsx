@@ -10,7 +10,6 @@ import {
     useParams,
     useRouteError
 } from "@remix-run/react";
-import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
@@ -21,6 +20,7 @@ import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
 import {useLoadingState} from "~/components/common/customHooks";
 import {getResourceNewAssignmentUrl, RESOURCES} from "~/data/paths";
+import {IResource} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

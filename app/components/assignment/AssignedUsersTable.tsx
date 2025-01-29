@@ -1,5 +1,5 @@
 import {Button, Link, Table, Tag, VStack} from "@navikt/ds-react";
-import type {IAssignedUsers} from "~/data/types";
+import type {IAssignedUsers} from "~/data/types/userTypes";
 import React from "react";
 import {Outlet, useLoaderData, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";

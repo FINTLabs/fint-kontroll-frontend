@@ -6,18 +6,18 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {json, TypedResponse} from "@remix-run/node";
 import {fetchUsersWithAssignment} from "~/data/resourceAdmin/resource-admin";
 import styles from "../components/resource-module-admin/resourceModuleAdmin.css?url";
-import {IUnitItem} from "~/data/types";
 import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {
     IResourceModuleAccessRole,
     IResourceModuleUsersPage
-} from "~/data/resourceAdmin/types";
+} from "~/data/types/resourceTypes";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import ResourceModuleSearch from "~/components/resource-module-admin/ResourceModuleSearch";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import AllAccessRolesFilter from "~/components/resource-module-admin/AllAccessRolesFilter";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

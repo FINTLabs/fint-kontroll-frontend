@@ -5,10 +5,10 @@ import {
     createLicenseModel, editLicenseModel, fetchLicenseModel, fetchLicenseModels
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {IKodeverkLicenseModel} from "~/data/types";
 import {BASE_PATH} from "../../environment";
 import {SETTINGS_LICENSE_MODEL} from "~/data/paths";
 import {EditableListEditModal} from "~/components/settings/KodeverkEditableList/EditableListEditModal";
+import {IKodeverkLicenseModel} from "~/data/types/kodeverkTypes";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()

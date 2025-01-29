@@ -2,7 +2,8 @@ import {Button, Loader, Modal, Textarea, TextField, VStack} from "@navikt/ds-rea
 import {NotePencilIcon} from "@navikt/aksel-icons";
 import {Form, useNavigate, useNavigation, useParams} from "@remix-run/react";
 import React, {useCallback, useMemo, useState} from "react";
-import {IKodeverkCustomListItem} from "~/data/types";
+
+import {IKodeverkCustomListItem} from "~/data/types/kodeverkTypes";
 
 interface EditableListEditModalProps {
     onCloseUrl: string;

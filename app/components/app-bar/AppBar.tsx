@@ -1,6 +1,6 @@
 import MeInfo from "~/components/app-bar/MeInfo";
-import {IMeInfo} from "~/data/types";
-import {BodyShort, Button, Hide, HStack} from "@navikt/ds-react";
+import {IMeInfo} from "~/data/types/userTypes";
+import {BodyShort, Hide, HStack} from "@navikt/ds-react";
 import {Link} from "@remix-run/react";
 import {Menu} from "~/components/app-bar/Menu";
 

@@ -12,10 +12,10 @@ import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
-import {IResource} from "~/data/types";
 import {useState} from "react";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {getResourceNewRoleAssignmentUrl} from "~/data/paths";
+import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 

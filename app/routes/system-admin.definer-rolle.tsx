@@ -10,8 +10,8 @@ import {
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {json} from "@remix-run/node";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {IRole} from "~/data/kontrollAdmin/types";
 import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollAccessRolesRadioGroup";
+import {IAccessRole} from "~/data/types/userTypes";
 
 
 export async function loader({request}: LoaderFunctionArgs) {
@@ -20,7 +20,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export default function SystemAdminDefinerRolle() {
-    const roles: IRole[] = useLoaderData<typeof loader>();
+    const roles: IAccessRole[] = useLoaderData<typeof loader>();
     const context = useOutletContext()
 
     return (

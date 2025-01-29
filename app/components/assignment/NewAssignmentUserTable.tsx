@@ -1,5 +1,5 @@
 import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
-import type {IUserItem} from "~/data/types";
+import type {IUserItem} from "~/data/types/userTypes";
 import {Outlet, useLoaderData, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";

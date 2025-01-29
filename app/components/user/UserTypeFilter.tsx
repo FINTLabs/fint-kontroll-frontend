@@ -2,7 +2,8 @@ import {Select} from "@navikt/ds-react";
 import React from "react";
 import {Form, useSearchParams} from "@remix-run/react";
 import {filterResetPageParam, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
-import {IKodeverkUserType} from "~/data/types";
+
+import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 interface UserTypeFilterProps {
     userTypeOptions?: string[];

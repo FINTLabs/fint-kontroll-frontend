@@ -2,7 +2,8 @@ import {Box, Button, Dropdown, HStack, Link, SortState, Table, VStack} from "@na
 import {MenuElipsisHorizontalCircleIcon, PlusCircleIcon} from "@navikt/aksel-icons";
 import React, {useMemo, useState} from "react";
 import {Outlet, useNavigate, useNavigation} from "@remix-run/react";
-import {IKodeverkCustomListItem} from "~/data/types";
+
+import {IKodeverkCustomListItem} from "~/data/types/kodeverkTypes";
 
 type EditableListProps = {
     list: IKodeverkCustomListItem[]

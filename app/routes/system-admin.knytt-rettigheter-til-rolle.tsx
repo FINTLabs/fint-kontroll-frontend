@@ -3,7 +3,7 @@ import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, use
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
+import {IResourceModuleAccessRole} from "~/data/types/resourceTypes";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollAccessRolesRadioGroup";
 

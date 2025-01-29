@@ -1,5 +1,5 @@
 import {Button, Heading, Link, Table, VStack} from "@navikt/ds-react";
-import type {IAssignedRoles} from "~/data/types";
+import type {IAssignedRoles} from "~/data/types/userTypes";
 import React from "react";
 import {Outlet, useLoaderData, useParams, useSearchParams} from "@remix-run/react";
 import {TrashIcon} from "@navikt/aksel-icons";

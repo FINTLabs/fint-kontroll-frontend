@@ -1,5 +1,4 @@
 import {ACCESS_MANAGEMENT_API_URL, BASE_PATH} from "../../../environment";
-import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
 export const fetchAllFeatures = async (request: Request) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/feature`, {

@@ -1,5 +1,5 @@
 import {Button, Heading, Link, Table, Tag} from "@navikt/ds-react";
-import type {IRole} from "~/data/types";
+import type {IRole} from "~/data/types/userTypes";
 import React from "react";
 import {Outlet, useLoaderData, useSearchParams} from "@remix-run/react";
 import {PlusIcon} from "@navikt/aksel-icons";

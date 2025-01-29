@@ -1,10 +1,7 @@
 import {Link, Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {
-    IAssignedResourcesList, IResourceAssignment,
-    IResourceForList,
-    IResourceList,
-    IRole, IUnitItem,
-} from "~/data/types";
+    IRole,
+} from "~/data/types/userTypes";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
 import {json, TypedResponse} from "@remix-run/node";
@@ -20,6 +17,8 @@ import {ResourceSelectApplicationCategory} from "~/components/service-admin/Reso
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES} from "~/data/paths";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
+import {IAssignedResourcesList, IResourceAssignment, IResourceForList, IResourceList} from "~/data/types/resourceTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<{
     responseCode: string | undefined

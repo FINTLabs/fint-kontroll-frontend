@@ -8,10 +8,10 @@ import {
     fetchApplicationCategory
 } from "~/data/fetch-kodeverk";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {IKodeverkApplicationCategory} from "~/data/types";
 import {BASE_PATH} from "../../environment";
 import {SETTINGS_APPLICATION_CATEGORY} from "~/data/paths";
 import {EditableListEditModal} from "~/components/settings/KodeverkEditableList/EditableListEditModal";
+import {IKodeverkApplicationCategory} from "~/data/types/kodeverkTypes";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const data = await request.formData()

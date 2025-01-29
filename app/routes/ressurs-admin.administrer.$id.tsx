@@ -24,7 +24,7 @@ import {
     IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUserAssignmentsPaginated
-} from "~/data/resourceAdmin/types";
+} from "~/data/types/resourceTypes";
 import {ActionFunctionArgs, json} from "@remix-run/node";
 import React, {useEffect, useState} from "react";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";

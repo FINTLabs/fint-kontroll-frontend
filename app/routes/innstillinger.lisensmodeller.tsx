@@ -2,7 +2,6 @@ import {Link, useLoaderData} from "@remix-run/react";
 import React from "react";
 import {HStack, VStack} from "@navikt/ds-react";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {IKodeverkLicenseModel} from "~/data/types";
 import {json} from "@remix-run/node";
 import {BASE_PATH} from "../../environment";
 import {fetchLicenseModels} from "~/data/fetch-kodeverk";
@@ -16,6 +15,7 @@ import {
 } from "~/data/paths";
 import {EditableList} from "~/components/settings/KodeverkEditableList/EditableList";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
+import {IKodeverkLicenseModel} from "~/data/types/kodeverkTypes";
 
 export const handle = {
     breadcrumb: () => (

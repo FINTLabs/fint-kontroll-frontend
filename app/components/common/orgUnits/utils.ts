@@ -1,4 +1,4 @@
-import type {IUnitItem} from "~/data/types";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 export const getAllTopLevelUnits = (orgUnitList: IUnitItem[]) => {
     return orgUnitList.filter(unit => unit.parentRef === unit.organisationUnitId)

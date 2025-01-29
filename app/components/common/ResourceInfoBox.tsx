@@ -1,9 +1,10 @@
-import {IKodeverkLicenseEnforcement, IKodeverkUserType, IResource} from "~/data/types";
 import {BodyShort, Box, Heading, HGrid, Hide, HStack, VStack} from "@navikt/ds-react";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 import * as React from "react";
 import {translateLicenseEnforcementToLabel, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
 import {StatusTag} from "~/components/service-admin/StatusTag";
+import {IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types/kodeverkTypes";
+import {IResource} from "~/data/types/resourceTypes";
 
 interface ResourceInfoBoxProps {
     resource: IResource,

@@ -7,7 +7,8 @@ import {
     useParams,
 } from "@remix-run/react";
 import {NotePencilIcon} from "@navikt/aksel-icons";
-import {IKodeverkMappingList} from "~/data/types";
+
+import {IKodeverkMappingList} from "~/data/types/kodeverkTypes";
 
 interface MappingListModalProps {
     allItems: IKodeverkMappingList[];

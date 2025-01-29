@@ -11,7 +11,7 @@ import {
     useNavigate,
     useRouteError
 } from "@remix-run/react";
-import {IRole} from "~/data/types";
+import {IRole} from "~/data/types/userTypes";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoleById} from "~/data/fetch-roles";
 import {json} from "@remix-run/node";

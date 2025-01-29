@@ -13,14 +13,13 @@ import {LoaderFunctionArgs} from "@remix-run/router";
 import {useEffect, useState} from "react";
 import TildelingToolbar from "../components/resource-module-admin/opprettTildeling/TildelingToolbar";
 import {fetchOrgUnits} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {
     IResourceModuleAccessRole,
     IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage
-} from "~/data/resourceAdmin/types";
+} from "~/data/types/resourceTypes";
 import TildelUserSearchResultList from "../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
 import {
     fetchUsersWhoCanGetAssignments,
@@ -34,6 +33,7 @@ import {CheckmarkCircleIcon} from "@navikt/aksel-icons";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 import {RESOURCE_ADMIN} from "~/data/paths";
+import {IUnitItem, IUnitTree} from "~/data/types/orgUnitTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

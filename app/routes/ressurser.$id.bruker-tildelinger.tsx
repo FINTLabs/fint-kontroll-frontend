@@ -1,6 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Link, useLoaderData, useRouteError} from "@remix-run/react";
-import {IAssignedUsers, IResource} from "~/data/types";
+import {IAssignedUsers} from "~/data/types/userTypes";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -15,6 +15,7 @@ import {UserSearch} from "~/components/user/UserSearch";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {getResourceUserAssignmentsUrl} from "~/data/paths";
+import {IResource} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

@@ -14,11 +14,11 @@ import {Alert, BodyShort, Box, Button, ConfirmationPanel, Heading, Loader, Modal
 import {ActionFunctionArgs, json, redirect} from "@remix-run/node";
 import {createRoleAssignment} from "~/data/fetch-assignments";
 import {prepareQueryParams, prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
-import {IResource} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {useState} from "react";
 import {getRoleNewAssignmentUrl} from "~/data/paths";
+import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
 

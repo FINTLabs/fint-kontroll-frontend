@@ -1,5 +1,5 @@
 import {BASE_PATH, USER_API_URL} from "../../environment";
-import {IUserDetails} from "~/data/types";
+import {IUserDetails} from "~/data/types/userTypes";
 
 export const fetchUsers = async (request: Request, size: string, page: string, search: string, userTypes: string[], orgUnits: string[]) => {
     const sizeFilter = size ? `&size=${size}` : '';

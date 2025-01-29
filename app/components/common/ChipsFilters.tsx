@@ -2,7 +2,8 @@ import {Box, Chips} from "@navikt/ds-react";
 import {useLoaderData, useSearchParams} from "@remix-run/react";
 import {useCallback, useEffect, useState} from "react";
 import {filterResetPageParam, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
-import {IKodeverkUserType} from "~/data/types";
+
+import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 type Filters = {
     orgUnits: string | null;

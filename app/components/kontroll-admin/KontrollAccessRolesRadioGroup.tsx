@@ -1,11 +1,11 @@
-import {Radio, RadioGroup, VStack} from "@navikt/ds-react";
+import {Radio, RadioGroup} from "@navikt/ds-react";
 import {useEffect} from "react";
-import {IRole} from "~/data/kontrollAdmin/types";
 import {useNavigate, useParams} from "@remix-run/react";
 import {sortAndCapitalizeRoles} from "~/components/common/CommonFunctions";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface AccessRolesRadioGroupProps {
-    roles: IRole[]
+    roles: IAccessRole[]
 }
 
 export default function KontrollAccessRolesRadioGroup({roles}: AccessRolesRadioGroupProps) {

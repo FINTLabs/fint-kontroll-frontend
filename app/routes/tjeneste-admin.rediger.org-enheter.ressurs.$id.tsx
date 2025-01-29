@@ -5,12 +5,12 @@ import {BodyShort, Box, Button, ErrorMessage, Heading, HStack, Loader, VStack} f
 import {IApplicationResource, IValidForOrgUnits} from "~/components/service-admin/types";
 import resourceAdmin from "~/components/service-admin/serviceAdmin.css?url"
 import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 import {getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
+import {IUnitItem, IUnitTree} from "~/data/types/orgUnitTypes";
 
 export const handle = {
     // @ts-ignore

@@ -10,7 +10,6 @@ import {
     useParams,
     useRouteError,
 } from "@remix-run/react";
-import {BreadcrumbParams, IResource} from "~/data/types";
 import {fetchResourceById} from "~/data/fetch-resources";
 import {BASE_PATH} from "../../environment";
 import {ResponseAlert} from "~/components/common/ResponseAlert";
@@ -19,6 +18,8 @@ import {useCallback, useEffect, useState} from "react";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {getResourceNewAssignmentUrl, getResourceUserAssignmentsUrl, RESOURCES} from "~/data/paths";
+import {BreadcrumbParams} from "~/data/types/generalTypes";
+import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);

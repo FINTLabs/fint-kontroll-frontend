@@ -1,6 +1,6 @@
 import {Button, Modal, Select, Switch} from "@navikt/ds-react";
 import {useEffect, useRef, useState} from "react";
-import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
+import {IResourceModuleAccessRole} from "~/data/types/resourceTypes";
 import {Form} from "@remix-run/react";
 
 

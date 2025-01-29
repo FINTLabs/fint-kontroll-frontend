@@ -1,11 +1,11 @@
 import {BASE_PATH, RESOURCE_API_URL} from "../../environment";
+import {fetchData, handleResponse, sendRequest} from "~/data/helpers";
 import {
     IKodeverkApplicationCategory,
     IKodeverkLicenceEnforcement,
     IKodeverkLicenseModel,
     IKodeverkUserType
-} from "~/data/types";
-import {fetchData, handleResponse, sendRequest} from "~/data/helpers";
+} from "~/data/types/kodeverkTypes";
 
 export const fetchResourceDataSource = async (request: Request): Promise<string> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/source/v1`, {
