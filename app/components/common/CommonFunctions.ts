@@ -2,6 +2,8 @@ import React from "react";
 import {SetURLSearchParams} from "react-router-dom";
 import {ICookie, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types";
 import {Navigation} from "@remix-run/react";
+import {IRole} from "~/data/kontrollAdmin/types";
+import {IResourceModuleUserRole} from "~/data/resourceAdmin/types";
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
@@ -11,7 +13,7 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
     const orgunit = searchParams.get("orgunit") // These are used in tandem since some apis don't use capitalization the same way
     const orgUnit = searchParams.get("orgUnit") // These are used in tandem since some apis don't use capitalization the same way
     const name = searchParams.get("name")
-   // const responseCode = searchParams.get("responseCode")
+    // const responseCode = searchParams.get("responseCode")
 
     const queryParams = [
         search && `search=${encodeURIComponent(search)}`,
@@ -20,7 +22,7 @@ export const prepareQueryParams = (searchParams: URLSearchParams): string => {
         orgunit && `orgunit=${encodeURIComponent(orgunit)}`,
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
         name && `name=${encodeURIComponent(name)}`,
-       // responseCode && `responseCode=${encodeURIComponent(responseCode)}`
+        // responseCode && `responseCode=${encodeURIComponent(responseCode)}`
     ].filter(Boolean).join('&')
 
     return queryParams ? `?${queryParams}` : ''
@@ -82,7 +84,7 @@ export const keyValueParseCookies = (cookies: string): ICookie[] => {
     return cookies.split(";").map(cookie => {
         const [key, ...valueParts] = cookie.trim().split('=');
         const value = decodeURIComponent(valueParts.join('='));
-        return { key, value };
+        return {key, value};
     });
 };
 
@@ -105,4 +107,18 @@ export const translateUserTypeToLabel = (role: string, userTypes: IKodeverkUserT
 export const translateLicenseEnforcementToLabel = (licenseEnforcement: string, licenseEnforcementKodeverk: IKodeverkLicenseEnforcement[] | undefined) => {
     const enforcement = licenseEnforcementKodeverk?.find(enforcement => enforcement.label === licenseEnforcement)
     return enforcement ? enforcement.fkLabel : licenseEnforcement
+}
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export const sortAndCapitalizeRoles = <T extends IRole | IResourceModuleUserRole>(roles: T[]): T[] => {
+    const roleNameSortOrder = ["systemadministrator", "ressursadministrator", "tjenesteadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
+    return roles.sort((a, b) => {
+        const aName = 'name' in a ? a.name : a.roleName;
+        const bName = 'name' in b ? b.name : b.roleName;
+        return roleNameSortOrder.indexOf(aName.toLowerCase()) - roleNameSortOrder.indexOf(bName.toLowerCase());
+    }).map((role) => ({
+        ...role,
+        ...('name' in role ? { name: capitalize(role.name) } : { roleName: capitalize(role.roleName) })
+    }));
 }
