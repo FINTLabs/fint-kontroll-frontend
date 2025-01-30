@@ -1,13 +1,8 @@
 import {AssignResourceToUserTable} from "~/components/user/AssignResourceToUserTable";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
 import {
-    IAssignedResourcesList,
-    IResourceAssignment,
-    IResourceForList,
-    IResourceList,
-    IUnitItem,
     IUserDetails
-} from "~/data/types";
+} from "~/data/types/userTypes";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchUserById} from "~/data/fetch-users";
 import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
@@ -23,6 +18,8 @@ import {ArrowRightIcon} from "@navikt/aksel-icons";
 import React from "react";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/paths";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
+import {IAssignedResourcesList, IResourceAssignment, IResourceForList, IResourceList} from "~/data/types/resourceTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -40,14 +37,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
     const filter = resourceList.resources.map(value => `&resourcefilter=${value.id}`).join("");
 
-    const [orgUnitTree, responseAssignmentsForUser, responseApplicationCategories] = await Promise.all([
+    const [orgUnitTree, responseAssignmentsForUser, applicationCategories] = await Promise.all([
         fetchAllOrgUnits(request),
         fetchAssignedResourcesForUser(request, params.id, size, "0", "ALLTYPES", filter),
         fetchApplicationCategory(request),
     ]);
 
     const assignedResourceListForUser: IAssignedResourcesList = await responseAssignmentsForUser.json()
-    const applicationCategories: string[] = await responseApplicationCategories.json()
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceListForUser.resources.map(resource => [resource.resourceRef, resource]))
     const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {

@@ -1,7 +1,6 @@
 import {Button, Dropdown, HStack, Link, Table} from "@navikt/ds-react";
 import {FunnelIcon, MinusIcon, TrashIcon} from "@navikt/aksel-icons";
 import {Outlet, useSearchParams} from "@remix-run/react";
-import type {IResourceAdminList} from "~/data/types";
 import React from "react";
 import {prepareQueryParams} from "~/components/common/CommonFunctions";
 import {StatusTag} from "~/components/service-admin/StatusTag";
@@ -10,6 +9,7 @@ import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 import {getDeleteResourceUrl, getResourceByIdUrl} from "~/data/paths";
+import {IResourceAdminList} from "~/data/types/resourceTypes";
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList,

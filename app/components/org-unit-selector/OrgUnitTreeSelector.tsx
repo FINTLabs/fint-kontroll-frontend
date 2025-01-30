@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {Accordion, Checkbox} from "@navikt/ds-react"
-import type {IUnitItem} from "~/data/types";
+
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface OrgUnitTreeProps {
     orgUnitList: IUnitItem[]

@@ -1,36 +1,36 @@
 import {ACCESS_MANAGEMENT_API_URL, BASE_PATH} from "../../../environment";
-import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
+import {IAccessRole, IFeature, IPermissionData} from "~/data/types/userTypes";
 
-export const fetchAllFeatures = async (request: Request) => {
+export const fetchAllFeatures = async (request: Request): Promise<IFeature[]> => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/feature`, {
         headers: request.headers
     })
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     return generalErrorResponse(response)
 }
 
-export const fetchAccessRoles = async (request: Request) => {
+export const fetchAccessRoles = async (request: Request): Promise<IAccessRole[]> => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessrole`, {
         headers: request.headers
     })
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     return generalErrorResponse(response)
 }
 
-export const fetchFeaturesInRole = async (request: Request, roleId: string | undefined) => {
+export const fetchFeaturesInRole = async (request: Request, roleId: string | undefined): Promise<IPermissionData> => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission/accessrole/${roleId}`, {
         headers: request.headers
     })
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

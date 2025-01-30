@@ -1,5 +1,5 @@
 import {Table} from "@navikt/ds-react";
-import type {IRoleList} from "~/data/types";
+import type {IRoleList} from "~/data/types/userTypes";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";

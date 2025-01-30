@@ -1,6 +1,7 @@
 import {Checkbox} from "@navikt/ds-react"
 import React, {useState} from "react"
-import {IFeatureOperation} from "~/data/kontrollAdmin/types";
+
+import {IFeatureOperation} from "~/data/types/userTypes";
 
 interface IPermissionTableCheckbox {
     indexForOperationsList: number

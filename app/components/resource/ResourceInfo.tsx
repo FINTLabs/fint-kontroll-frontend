@@ -1,7 +1,7 @@
 import * as React from "react";
 import {BodyShort, Box, GuidePanel, Heading} from "@navikt/ds-react";
-import type {IResource} from "~/data/types";
 import {InformationIcon} from "@navikt/aksel-icons";
+import {IResource} from "~/data/types/resourceTypes";
 
 interface ResourceInfoProps {
     resource: IResource

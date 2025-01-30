@@ -7,9 +7,9 @@ export const handleResponse = async (response: Response, errorMessage: string) =
     throw new Error(errorMessage);
 };
 
-export const fetchData = async (url: string, request: Request) => {
+export const fetchData = async (url: string, request: Request, defaultErrorMessage = "En feil oppstod under henting av data") => {
     const response = await fetch(url, {headers: request.headers});
-    return handleResponse(response, "En feil oppstod under henting av data");
+    return handleResponse(response, defaultErrorMessage);
 };
 
 export const sendRequest = async (url: string, method: string, token: string | null, body: object) => {

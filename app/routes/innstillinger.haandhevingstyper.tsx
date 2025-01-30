@@ -2,13 +2,13 @@ import {Link, useLoaderData} from "@remix-run/react";
 import React from "react";
 import {HStack, VStack} from "@navikt/ds-react";
 import {LoaderFunctionArgs} from "@remix-run/router";
-import {IKodeverkLicenceEnforcement} from "~/data/types";
 import {json} from "@remix-run/node";
 import {fetchLicenseEnforcements} from "~/data/fetch-kodeverk";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {getEditLicenceEnforcement, SETTINGS, SETTINGS_LICENSE_ENFORCEMENT} from "~/data/paths";
 import {SettingsHeader} from "~/components/settings/SettingsHeader";
 import {MappingList} from "~/components/settings/KodeverkMappingList/MappingList";
+import {IKodeverkLicenceEnforcement} from "~/data/types/kodeverkTypes";
 
 export const handle = {
     breadcrumb: () => (

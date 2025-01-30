@@ -1,7 +1,6 @@
 import {Alert, Box, Button, VStack} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
-import {IResourceAdminList} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAllOrgUnits, fetchApplicationCategory, fetchResourcesForAdmin} from "~/data/fetch-resources";
 import {Search} from "~/components/common/Search";
@@ -15,6 +14,7 @@ import React from "react";
 import {fetchResourceDataSource} from "~/data/fetch-kodeverk";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE} from "~/data/paths";
+import {IResourceAdminList} from "~/data/types/resourceTypes";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -28,14 +28,12 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationcategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [responseResource, orgUnitTree, responseApplicationCategories, source] = await Promise.all([
+    const [resourceList, orgUnitTree, applicationCategories, source] = await Promise.all([
         fetchResourcesForAdmin(request, size, page, search, status, orgUnits, applicationcategory, accessType),
         fetchAllOrgUnits(request),
         fetchApplicationCategory(request),
         fetchResourceDataSource(request)
     ]);
-    const resourceList: IResourceAdminList = await responseResource.json()
-    const applicationCategories: string[] = await responseApplicationCategories.json()
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,

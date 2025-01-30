@@ -4,7 +4,6 @@ import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
 import {fetchUsers} from "~/data/fetch-users";
-import {IUserPage} from "~/data/types";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {UserTypeFilter} from "~/components/user/UserTypeFilter";
@@ -19,12 +18,11 @@ export async function loader({request}: LoaderFunctionArgs) {
     const search = url.searchParams.get("search") ?? "";
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseUsers, responseOrgUnits, userTypesKodeverk] = await Promise.all([
+    const [userList, responseOrgUnits, userTypesKodeverk] = await Promise.all([
         fetchUsers(request, size, page, search, [userType], orgUnits),
         fetchAllOrgUnits(request),
         fetchUserTypes(request)
     ]);
-    const userList: IUserPage = await responseUsers.json()
 
     return json({
         userList,

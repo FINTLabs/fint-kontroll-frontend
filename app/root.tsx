@@ -62,9 +62,10 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const response = await fetchMeInfo(request);
-    const me = await response.json();
-    const source = await fetchResourceDataSource(request)
+    const [me, source] = await Promise.all([
+        fetchMeInfo(request),
+        fetchResourceDataSource(request)
+    ]);
     return json({
         me,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,

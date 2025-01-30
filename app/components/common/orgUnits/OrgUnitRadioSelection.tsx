@@ -1,4 +1,3 @@
-import type {IUnitItem} from "~/data/types";
 import React, {Dispatch, SetStateAction, useMemo} from "react";
 import {Radio, RadioGroup} from "@navikt/ds-react";
 import {Accordion, AccordionItem} from "~/components/common/orgUnits/CustomAccordion";
@@ -7,6 +6,7 @@ import {
     getAllTopLevelUnits,
     getOrgUnitByChildrenRef,
 } from "~/components/common/orgUnits/utils";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface ValidForOrgUnitSelectorProps {
     orgUnitList: IUnitItem[];

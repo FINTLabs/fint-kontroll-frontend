@@ -1,7 +1,7 @@
 import styles from "../components/user/user.css?url"
 import {Alert, Box, Heading, HStack, LinkPanel, VStack} from "@navikt/ds-react";
 import {Link, Links, Meta, Scripts, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {IAssignmentPage, IUserDetails} from "~/data/types";
+import {IUserDetails} from "~/data/types/userTypes";
 import {fetchUserById} from "~/data/fetch-users";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
@@ -13,6 +13,7 @@ import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunction
 import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import {getUserByIdUrl, getUserNewAssignmentUrl, USERS} from "~/data/paths";
+import {IAssignmentPage} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]

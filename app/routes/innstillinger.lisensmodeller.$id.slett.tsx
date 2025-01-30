@@ -8,8 +8,8 @@ import {
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {BASE_PATH} from "../../environment";
 import {SETTINGS_LICENSE_MODEL} from "~/data/paths";
-import {IKodeverkLicenseModel} from "~/data/types";
 import {EditableListDeleteModal} from "~/components/settings/KodeverkEditableList/EditableListDeleteModal";
+import {IKodeverkLicenseModel} from "~/data/types/kodeverkTypes";
 
 export async function action({params, request}: ActionFunctionArgs) {
     const licenseModelId = params.id

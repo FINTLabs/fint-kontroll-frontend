@@ -1,7 +1,8 @@
 import {ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL} from "../../environment";
-import {IMemberPage, IRole} from "~/data/types";
+import {IMemberPage, IRole, IRoleList} from "~/data/types/userTypes";
+import {IAssignedResourcesList} from "~/data/types/resourceTypes";
 
-export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[], userTypes?: string[]) => {
+export const fetchRoles = async (request: Request, size: string, page: string, search: string, orgUnits: string[], userTypes?: string[]): Promise<IRoleList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
@@ -13,7 +14,7 @@ export const fetchRoles = async (request: Request, size: string, page: string, s
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
@@ -63,14 +64,14 @@ export const fetchMembers = async (request: Request, id: string | undefined, siz
 
 }
 
-export const fetchAssignedResourcesRole = async (request: Request, id: string | undefined, size: string, page: string, resourceType: string, resourceFilter: string) => {
+export const fetchAssignedResourcesRole = async (request: Request, id: string | undefined, size: string, page: string, resourceType: string, resourceFilter: string): Promise<IAssignedResourcesList> => {
     const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/role/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
         {
             headers: request.headers
         });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {

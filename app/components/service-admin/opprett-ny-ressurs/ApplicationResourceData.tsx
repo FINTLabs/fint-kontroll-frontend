@@ -1,7 +1,8 @@
 import React, {SetStateAction} from "react";
 import {IApplicationResource} from "~/components/service-admin/types";
 import {Checkbox, CheckboxGroup, Radio, RadioGroup, TextField, VStack} from "@navikt/ds-react";
-import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types";
+
+import {IKodeverkApplicationCategory, IKodeverkLicenseEnforcement, IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource

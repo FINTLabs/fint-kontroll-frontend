@@ -1,6 +1,5 @@
 // This is potentially deprecated. Consider removing
 import {ACCESS_MANAGEMENT_API_URL, BASE_PATH} from "../../../environment";
-import {changeAppTypeInHeadersAndReturnHeaders} from "~/data/helpers";
 
 export const fetchAssignmentUsers = async (currentPage: number, itemsPerPage: number, orgUnitIds: string[], searchString: string, roleFilter: string) => {
     const response = await fetch(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/users`, {

@@ -4,13 +4,13 @@ import React, {useMemo, useState} from "react";
 import {BodyShort, Box, Button, ErrorMessage, Heading, HStack, Loader, VStack} from "@navikt/ds-react";
 import {IApplicationResource, IValidForOrgUnits} from "~/components/service-admin/types";
 import resourceAdmin from "~/components/service-admin/serviceAdmin.css?url"
-import {fetchOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
-import {IUnitItem, IUnitTree} from "~/data/types";
+import {fetchAllOrgUnits, fetchResourceById, updateResource} from "~/data/fetch-resources";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {prepareQueryParamsWithResponseCode} from "~/components/common/CommonFunctions";
 import {ArrowRightIcon} from "@navikt/aksel-icons";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
 import {getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
+import {IUnitItem, IUnitTree} from "~/data/types/orgUnitTypes";
 
 export const handle = {
     // @ts-ignore
@@ -35,16 +35,14 @@ export const links: LinksFunction = () => [
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const auth = request
-    const orgUnitsResponse = await fetchOrgUnits(auth)
-    const allOrgUnits = await orgUnitsResponse.json()
+    const allOrgUnits = await fetchAllOrgUnits(auth)
     const resource = await fetchResourceById(request, params.id)
-    const resourceData = await resource.json()
-    const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resourceData)
-    const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resourceData)
+    const orgUnitsWithIsChecked = CheckedValidForOrgUnits(allOrgUnits, resource)
+    const orgUnitOwner = CheckedResourceOwner(allOrgUnits, resource)
     return {
         orgUnitsWithIsChecked,
         orgUnitOwner,
-        resource: resourceData
+        resource
     };
 }
 

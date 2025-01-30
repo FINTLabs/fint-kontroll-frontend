@@ -1,6 +1,6 @@
 import {Table} from "@navikt/ds-react";
-import {IResource} from "~/data/types";
 import React from "react";
+import {IResource} from "~/data/types/resourceTypes";
 
 export const ResourceDetailTable = (props: { resource: IResource }) => {
 

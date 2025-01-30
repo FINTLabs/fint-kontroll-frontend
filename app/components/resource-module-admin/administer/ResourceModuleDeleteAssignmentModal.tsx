@@ -1,11 +1,11 @@
 import {Button, Modal, Select, Switch} from "@navikt/ds-react";
 import {useEffect, useRef, useState} from "react";
-import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
 import {Form} from "@remix-run/react";
+import {IAccessRole} from "~/data/types/userTypes";
 
 
 interface DeleteAssignmentsModalProps {
-    selectedRoleToDeleteFrom: IResourceModuleAccessRole
+    selectedRoleToDeleteFrom: IAccessRole
     modalOpenProp: boolean
     setIsDeleteModalOpen: (isOpen: boolean) => void
     objectTypesForUser: string[]

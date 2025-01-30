@@ -1,9 +1,9 @@
 import {Button, Table} from "@navikt/ds-react";
 import React from "react";
-import {IKodeverkUserType} from "~/data/types";
 import {Outlet, useNavigate} from "@remix-run/react";
 import {PencilIcon} from "@navikt/aksel-icons";
 import {getEditUserTypeUrl} from "~/data/paths";
+import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
 
 type UserTypeTableProps = {
     userTypes: IKodeverkUserType[]

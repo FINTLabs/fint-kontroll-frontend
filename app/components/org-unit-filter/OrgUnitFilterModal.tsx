@@ -1,10 +1,10 @@
 import {Button, Modal} from "@navikt/ds-react"
 import React, {useRef, useState} from "react"
 import {Buildings3Icon} from "@navikt/aksel-icons"
-import type {IUnitItem} from "~/data/types";
 import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam} from "~/components/common/CommonFunctions";
 import OrgUnitSelect from "~/components/common/orgUnits/OrgUnitSelect";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface OrgUnitFilterModalProps {
     orgUnitList: IUnitItem[]

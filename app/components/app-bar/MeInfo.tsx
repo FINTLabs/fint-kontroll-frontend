@@ -2,7 +2,7 @@ import {Buildings3Icon, PersonCircleIcon} from '@navikt/aksel-icons';
 import React from "react";
 import {BodyShort} from "@navikt/ds-react";
 import appStyles from "./appBar.css?url"
-import {IMeInfo} from "~/data/types";
+import {IMeInfo} from "~/data/types/userTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: appStyles}]

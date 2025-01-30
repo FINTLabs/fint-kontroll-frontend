@@ -1,8 +1,8 @@
-import {IResourceModuleAccessRole} from "~/data/resourceAdmin/types";
 import {Radio, RadioGroup, VStack} from "@navikt/ds-react";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface ChooseAccessRoleProps {
-    accessRoles: IResourceModuleAccessRole[]
+    accessRoles: IAccessRole[]
     setNewAccessRole: (accessRoleId: string) => void
 }
 

@@ -1,11 +1,11 @@
 import {Table} from "@navikt/ds-react";
-import type {IResourceList} from "~/data/types";
 import React from "react";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 import {getResourceUserAssignmentsUrl} from "~/data/paths";
+import {IResourceList} from "~/data/types/resourceTypes";
 
 interface ResourceTableProps {
     resourcePage: IResourceList

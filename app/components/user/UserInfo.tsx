@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BodyShort, Box, Heading, Hide, HStack, VStack} from "@navikt/ds-react";
-import {IUserDetails} from "~/data/types";
+import {IUserDetails} from "~/data/types/userTypes";
 import {InformationSquareIcon} from "@navikt/aksel-icons";
 
 export const UserInfo: any = (props: { user: IUserDetails }) => {

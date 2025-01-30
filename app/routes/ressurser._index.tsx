@@ -1,7 +1,6 @@
 import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {useLoaderData, useRouteError} from "@remix-run/react";
-import type {IResourceList, IUnitItem} from "~/data/types";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAllOrgUnits, fetchApplicationCategory, fetchResources} from "~/data/fetch-resources";
 import {ResourceTable} from "~/components/resource/ResourceTable";
@@ -10,6 +9,8 @@ import styles from "../components/org-unit-filter/orgUnitFilter.css?url"
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {ResourceSelectApplicationCategory} from "~/components/service-admin/ResourceSelectApplicationCategory";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
+import {IResourceList} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -26,12 +27,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const applicationCategory = url.searchParams.get("applicationcategory") ?? "";
     const accessType = url.searchParams.get("accesstype") ?? "";
 
-    const [resourceList, orgUnitTree, responseApplicationCategories] = await Promise.all([
+    const [resourceList, orgUnitTree, applicationCategories] = await Promise.all([
         fetchResources(request, size, page, search, orgUnits, applicationCategory, accessType),
         fetchAllOrgUnits(request),
         fetchApplicationCategory(request),
     ]);
-    const applicationCategories: string[] = await responseApplicationCategories.json()
 
     return json({
         resourceList,

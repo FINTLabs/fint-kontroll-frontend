@@ -1,7 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {Link as RemixLink, Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError} from "@remix-run/react";
-import {IResource} from "~/data/types";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchResourceById} from "~/data/fetch-resources";
@@ -12,6 +11,7 @@ import {fetchLicenseEnforcements, fetchResourceDataSource, fetchUserTypes} from 
 import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
 import React from "react";
 import {getEditResourceUrl, getEditValidForOrgUnitsUrl, getResourceByIdUrl, SERVICE_ADMIN} from "~/data/paths";
+import {IResource} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -28,7 +28,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
-        resource: await resource.json(),
+        resource,
         source,
         userTypesKodeverk,
         licenseEnforcementKodeverk

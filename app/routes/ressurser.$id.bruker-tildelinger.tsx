@@ -1,6 +1,6 @@
 import styles from "../components/resource/resource.css?url"
 import {Link, useLoaderData, useRouteError} from "@remix-run/react";
-import {IAssignedUsers, IResource} from "~/data/types";
+import {IAssignedUsers} from "~/data/types/userTypes";
 import {json} from "@remix-run/node";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedUsers} from "~/data/fetch-assignments";
@@ -28,13 +28,11 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [resourceById, assignedUsers, userTypesKodeverk] = await Promise.all([
+    const [resource, assignedUsers, userTypesKodeverk] = await Promise.all([
         fetchResourceById(request, params.id),
         fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
         fetchUserTypes(request)
     ])
-    const resource: IResource = await resourceById.json()
-
 
     return json({
         context,

@@ -1,7 +1,7 @@
 //import React from 'react';
 import styles from "../components/resource/resource.css?url"
 import {Link, useLoaderData, useRouteError, useRouteLoaderData} from "@remix-run/react";
-import {IAssignedRoles, IResource} from "~/data/types";
+import {IAssignedRoles} from "~/data/types/userTypes";
 import {json} from "@remix-run/node";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAssignedRoles} from "~/data/fetch-assignments";
@@ -26,13 +26,12 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [assignedRoles, resourceById, userTypesKodeverk] = await Promise.all([
+    const [assignedRoles, resource, userTypesKodeverk] = await Promise.all([
         fetchAssignedRoles(request, params.id, size, page, search, orgUnits),
         fetchResourceById(request, params.id),
         fetchUserTypes(request)
     ])
 
-    const resource: IResource = await resourceById.json()
     return json({
         assignedRoles: await assignedRoles.json(),
         resourceName: resource.resourceName,

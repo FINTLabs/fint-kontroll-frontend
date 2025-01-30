@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, Box} from "@navikt/ds-react";
 import {json} from "@remix-run/node";
 import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IRoleList, IUnitItem} from "~/data/types";
+import type {IRoleList} from "~/data/types/userTypes";
 import type {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchRoles} from "~/data/fetch-roles";
 import {RoleTable} from "~/components/role/RoleTable";
@@ -11,6 +11,7 @@ import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
 import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
     json(): Promise<any>
@@ -20,12 +21,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseRoles, responseOrgUnits, userTypesKodeverk] = await Promise.all([
+    const [roleList, responseOrgUnits, userTypesKodeverk] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
         fetchAllOrgUnits(request),
         fetchUserTypes(request)
     ]);
-    const roleList: IRoleList = await responseRoles.json()
 
     return json({
         roleList,

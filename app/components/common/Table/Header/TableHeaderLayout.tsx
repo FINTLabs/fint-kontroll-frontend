@@ -1,8 +1,8 @@
 import {VStack} from "@navikt/ds-react";
 import React, { ReactElement} from "react";
-import {IUnitItem} from "~/data/types";
 import {TableHeader} from "~/components/common/Table/Header/TableHeader";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
+import {IUnitItem} from "~/data/types/orgUnitTypes";
 
 interface TableHeaderLayoutProps {
     title: string
