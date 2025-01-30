@@ -36,7 +36,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     const [
         allOrgUnits,
-        resourceResponse,
+        resource,
         applicationCategories,
         userTypes,
         licenseEnforcements
@@ -47,9 +47,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
         fetchUserTypes(auth),
         fetchLicenseEnforcements(auth)
     ]);
-
-    const resource = await resourceResponse.json();
-
+    
     return {
         resource,
         applicationCategories,

@@ -15,7 +15,6 @@ import {ResponseAlert} from "~/components/common/ResponseAlert";
 import {RoleSearch} from "~/components/role/RoleSearch";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
-import {IResource} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -27,13 +26,12 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [assignedRoles, resourceById, userTypesKodeverk] = await Promise.all([
+    const [assignedRoles, resource, userTypesKodeverk] = await Promise.all([
         fetchAssignedRoles(request, params.id, size, page, search, orgUnits),
         fetchResourceById(request, params.id),
         fetchUserTypes(request)
     ])
 
-    const resource: IResource = await resourceById.json()
     return json({
         assignedRoles: await assignedRoles.json(),
         resourceName: resource.resourceName,

@@ -9,16 +9,13 @@ import {Form, Links, Meta, Scripts, useActionData, useLoaderData, useRouteError}
 import React, {useEffect, useState} from "react";
 import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
-import logger from "~/logging/logger";
 import {IFeature, IFeatureOperation, IPermissionData} from "~/data/types/userTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const permissionDataRes = await fetchFeaturesInRole(request, params.id)
-    const allFeaturesRes = await fetchAllFeatures(request)
-
-    const permissionData = await permissionDataRes.json()
-    const allFeatures = await allFeaturesRes.json()
-
+    const [permissionData, allFeatures] = await Promise.all([
+        fetchFeaturesInRole(request, params.id),
+        fetchAllFeatures(request)
+    ])
     return {permissionData: permissionData, allFeatures: allFeatures}
 }
 
@@ -44,7 +41,7 @@ const KontrollAdminFeaturesToRoleId = () => {
     }, [loaderData]);
 
     useEffect(() => {
-        if(didUpdate !== undefined) {
+        if (didUpdate !== undefined) {
             didUpdate ? toast.success("Oppdatering av rolle gjennomført") : toast.error("Oppdatering av rolle feilet")
         } else {
             didUpdate = undefined
@@ -64,7 +61,7 @@ const KontrollAdminFeaturesToRoleId = () => {
             }
             const newFeatureList = updatedPermissionData.features
             newFeatureList.push(featureConverted)
-            setUpdatedPermissionData({ ...updatedPermissionData, features: newFeatureList })
+            setUpdatedPermissionData({...updatedPermissionData, features: newFeatureList})
         } else {
             const featureConverted: IFeatureOperation = {
                 featureId: Number(feature.id),
@@ -74,7 +71,7 @@ const KontrollAdminFeaturesToRoleId = () => {
             const newFeatureList = updatedPermissionData.features.filter(
                 (ele) => ele.featureId !== featureConverted.featureId
             )
-            setUpdatedPermissionData({ ...updatedPermissionData, features: newFeatureList })
+            setUpdatedPermissionData({...updatedPermissionData, features: newFeatureList})
         }
     }
 
@@ -100,7 +97,8 @@ const KontrollAdminFeaturesToRoleId = () => {
                                 <Table.DataCell>{feature.name}</Table.DataCell>
                                 <Table.DataCell>
                                     {!flatListOfIds.includes(String(feature.id)) ? (
-                                        <Button variant={"secondary"} onClick={() => handleUpdatePermissionData(feature)}>
+                                        <Button variant={"secondary"}
+                                                onClick={() => handleUpdatePermissionData(feature)}>
                                             Lag knytning til bruker
                                         </Button>
                                     ) : (
@@ -109,7 +107,7 @@ const KontrollAdminFeaturesToRoleId = () => {
                                         </Button>
                                     )}
                                 </Table.DataCell>
-                        </Table.Row>)}
+                            </Table.Row>)}
                     </Table.Body>
                 </Table>
             </div>
@@ -122,8 +120,8 @@ const KontrollAdminFeaturesToRoleId = () => {
                     ))}
                 </List>
                 <Form onSubmit={handleSubmit} method={"put"}>
-                    <input type={"hidden"} name={"permissionData"} id={"permissionData"} />
-                    <Button variant={"primary"} >
+                    <input type={"hidden"} name={"permissionData"} id={"permissionData"}/>
+                    <Button variant={"primary"}>
                         Lagre rolle
                     </Button>
                 </Form>

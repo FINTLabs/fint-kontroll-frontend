@@ -17,8 +17,7 @@ import {getDefineRoleByIdUrl} from "~/data/paths";
 import {IPermissionData} from "~/data/types/userTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
-    const response = await fetchFeaturesInRole(request, params.id);
-    const data = await response.json()
+    const data = await fetchFeaturesInRole(request, params.id);
     return json(data);
 }
 

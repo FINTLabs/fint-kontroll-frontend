@@ -1,7 +1,6 @@
 import {Table} from "@navikt/ds-react";
 import React from "react";
 import {
-    IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUsersPage
 } from "~/data/types/resourceTypes";
@@ -10,11 +9,12 @@ import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
 import {TertiaryArrowButton} from "~/components/common/Buttons/TertiaryArrowButton";
 import {IUnitItem} from "~/data/types/orgUnitTypes";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface ResourceModuleAdminUsersTableI {
     usersPage: IResourceModuleUsersPage
     orgUnitList: IUnitItem[]
-    roles: IResourceModuleAccessRole[]
+    roles: IAccessRole[]
     size: number
 }
 

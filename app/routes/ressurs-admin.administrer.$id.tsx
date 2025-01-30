@@ -21,7 +21,6 @@ import {
 import {Alert, Box, Button, Heading, HStack, VStack} from "@navikt/ds-react";
 import {ArrowRightIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
-    IResourceModuleAccessRole,
     IResourceModuleUser,
     IResourceModuleUserAssignmentsPaginated
 } from "~/data/types/resourceTypes";
@@ -37,6 +36,7 @@ import {toast} from "react-toastify";
 import ChipsFilters from "~/components/common/ChipsFilters";
 import UserAccessRoleFilter from "~/components/resource-module-admin/UsersAccessRolesFilter";
 import {getAdministerRoleByIdUrl, RESOURCE_ADMIN} from "~/data/paths";
+import {IAccessRole} from "~/data/types/userTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -53,14 +53,16 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     const objectType: string = url.searchParams.get("objectType") ?? "";
     const role = url.searchParams.get("accessRoleId") ?? "";
 
-    const objectTypesResponse = await fetchObjectTypesForUser(auth, resourceId)
-    const userDetailsResponse = await fetchUserDetails(auth, resourceId)
-    const userAssignmentsPaginatedResponse = await fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size)
-    const accessRolesResponse = await fetchAccessRoles(auth)
+    const [objectTypesResponse, userDetailsResponse, userAssignmentsPaginatedResponse, accessRoles] = await Promise.all([
+        fetchObjectTypesForUser(auth, resourceId),
+        fetchUserDetails(auth, resourceId),
+        fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size),
+        fetchAccessRoles(auth)
+    ]);
+
     const objectTypesForUser = await objectTypesResponse.json()
     const userDetails = await userDetailsResponse.json()
     const userAssignmentsPaginated = await userAssignmentsPaginatedResponse.json()
-    const accessRoles = await accessRolesResponse.json()
 
     return json({
         objectTypesForUser,
@@ -118,7 +120,7 @@ const ResourceModuleAdminAdministerId = () => {
     const userDetails = loaderData.userDetails as IResourceModuleUser
     const objectTypesForUser = loaderData.objectTypesForUser as string[]
     const userAssignmentsPaginated = loaderData.userAssignmentsPaginated as IResourceModuleUserAssignmentsPaginated
-    const accessRoles = loaderData.accessRoles as IResourceModuleAccessRole[]
+    const accessRoles = loaderData.accessRoles as IAccessRole[]
 
     const [searchParams, setSearchParams] = useSearchParams()
     const roleProp = searchParams.get("accessroleid")
@@ -127,7 +129,7 @@ const ResourceModuleAdminAdministerId = () => {
 
     const navigate = useNavigate()
 
-    const [selectedRole, setSelectedRole] = useState<IResourceModuleAccessRole>({accessRoleId: "", name: ""})
+    const [selectedRole, setSelectedRole] = useState<IAccessRole>({accessRoleId: "", name: ""})
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false)
@@ -150,7 +152,7 @@ const ResourceModuleAdminAdministerId = () => {
     }, [actionData]);
 
     useEffect(() => {
-        const paramMappedToAccessRoleType: IResourceModuleAccessRole | undefined = accessRoles.find(
+        const paramMappedToAccessRoleType: IAccessRole | undefined = accessRoles.find(
             (role) => role.accessRoleId === roleProp
         )
 

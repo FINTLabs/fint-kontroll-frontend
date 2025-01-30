@@ -28,11 +28,9 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const resourceResponse = await fetchResourceById(request, params.id)
-    const resource = await resourceResponse.json()
+    const resource = await fetchResourceById(request, params.id)
 
-    const responseRoles = await fetchRoles(request, size, page, search, orgUnits, resource.validForRoles)
-    const roleList: IRoleList = await responseRoles.json()
+    const roleList = await fetchRoles(request, size, page, search, orgUnits, resource.validForRoles)
 
     let filter = ""
     roleList.roles.forEach(value => {

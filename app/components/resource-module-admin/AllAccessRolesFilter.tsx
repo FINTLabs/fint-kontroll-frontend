@@ -1,10 +1,10 @@
 import {Select} from "@navikt/ds-react";
-import {IResourceModuleAccessRole} from "~/data/types/resourceTypes";
 import {useSearchParams} from "@remix-run/react";
 import {filterResetPageParam, sortAndCapitalizeRoles} from "~/components/common/CommonFunctions";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface ResourceModuleRoleFilterProps {
-    roles: IResourceModuleAccessRole[]
+    roles: IAccessRole[]
 }
 
 const AllAccessRolesFilter = ({roles}: ResourceModuleRoleFilterProps) => {

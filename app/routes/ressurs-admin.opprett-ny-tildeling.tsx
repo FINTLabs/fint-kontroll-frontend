@@ -12,15 +12,15 @@ import {
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {useEffect, useState} from "react";
 import TildelingToolbar from "../components/resource-module-admin/opprettTildeling/TildelingToolbar";
-import {fetchOrgUnits} from "~/data/fetch-resources";
+import {fetchAllOrgUnits} from "~/data/fetch-resources";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
 import {
-    IResourceModuleAccessRole,
     IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage
 } from "~/data/types/resourceTypes";
-import TildelUserSearchResultList from "../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
+import TildelUserSearchResultList
+    from "../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList";
 import {
     fetchUsersWhoCanGetAssignments,
     postNewTildelingForUser,
@@ -34,6 +34,7 @@ import {ActionFunctionArgs} from "@remix-run/node";
 import {toast} from "react-toastify";
 import {RESOURCE_ADMIN} from "~/data/paths";
 import {IUnitItem, IUnitTree} from "~/data/types/orgUnitTypes";
+import {IAccessRole} from "~/data/types/userTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -59,17 +60,17 @@ export async function loader({request}: LoaderFunctionArgs) {
     const name = url.searchParams.get("search") ?? "";
     const roleFilter = url.searchParams.get("accessroleid") ?? ""
 
-    const usersPageResponse = await fetchUsersWhoCanGetAssignments(auth, Number(currentPage), Number(itemsPerPage), orgUnitIds, name, roleFilter);
-    if (name) {
-        // usersPageResponse =
-    }
-
-    const accessRolesResponse = await fetchAccessRoles(auth);
-    const orgUnitsResponse = await fetchOrgUnits(auth)
+    const [
+        usersPageResponse,
+        accessRoles,
+        allOrgUnits
+    ] = await Promise.all([
+        fetchUsersWhoCanGetAssignments(auth, Number(currentPage), Number(itemsPerPage), orgUnitIds, name, roleFilter),
+        fetchAccessRoles(auth),
+        fetchAllOrgUnits(auth)
+    ])
 
     const usersPage = await usersPageResponse?.json()
-    const accessRoles = await accessRolesResponse.json()
-    const allOrgUnits = await orgUnitsResponse.json()
 
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits)
 
@@ -99,7 +100,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
 export default function ResourceModuleAdminTabTildel() {
     const loaderData = useLoaderData<typeof loader>();
     const usersPage = loaderData.usersPage as IResourceModuleUsersPage
-    const accessRoles = loaderData.accessRoles as IResourceModuleAccessRole[]
+    const accessRoles = loaderData.accessRoles as IAccessRole[]
     const allOrgUnits = loaderData.allOrgUnits.orgUnits as IUnitItem[]
 
     const actionData = useActionData<typeof action>()

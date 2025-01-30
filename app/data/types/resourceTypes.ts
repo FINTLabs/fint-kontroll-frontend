@@ -43,11 +43,6 @@ export interface IOrgUnitForScope {
     shortName: string
 }
 
-export interface IResourceModuleAccessRole {
-    accessRoleId: string
-    name: string
-}
-
 // Used for a User's tildelingsadministrasjon page
 export interface IResourceModuleUserAssignmentsPaginated {
     totalItems: number

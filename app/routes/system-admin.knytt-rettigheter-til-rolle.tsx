@@ -3,21 +3,20 @@ import {Links, Meta, Outlet, Scripts, useLoaderData, useNavigate, useParams, use
 import React, {useEffect} from "react";
 import {LoaderFunctionArgs} from "@remix-run/router";
 import {fetchAccessRoles} from "~/data/kontrollAdmin/kontroll-admin-define-role";
-import {IResourceModuleAccessRole} from "~/data/types/resourceTypes";
 import styles from "../components/kontroll-admin/kontroll-admin.css?url";
 import KontrollAccessRolesRadioGroup from "~/components/kontroll-admin/KontrollAccessRolesRadioGroup";
+import {IAccessRole} from "~/data/types/userTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
 }
 
 export async function loader({request}: LoaderFunctionArgs) {
-    const accessRolesRes = await fetchAccessRoles(request)
-    return await accessRolesRes.json()
+    return await fetchAccessRoles(request)
 }
 
 export default () => {
-    const accessRoles: IResourceModuleAccessRole[] = useLoaderData<typeof loader>()
+    const accessRoles: IAccessRole[] = useLoaderData<typeof loader>()
 
 
     const params = useParams()
@@ -32,7 +31,7 @@ export default () => {
     return (
         <Tabs value={"knytt-rettigheter-til-rolle"}>
             <Tabs.Panel value="knytt-rettigheter-til-rolle">
-                <KontrollAccessRolesRadioGroup roles={accessRoles} />
+                <KontrollAccessRolesRadioGroup roles={accessRoles}/>
                 <Outlet/>
             </Tabs.Panel>
         </Tabs>

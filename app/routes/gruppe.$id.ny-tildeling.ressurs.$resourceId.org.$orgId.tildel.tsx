@@ -21,12 +21,7 @@ import {getRoleNewAssignmentUrl} from "~/data/paths";
 import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
-
-    const [responseResource] = await Promise.all([
-        fetchResourceById(request, params.resourceId),
-    ]);
-
-    const resource: IResource = await responseResource.json()
+    const resource = await fetchResourceById(request, params.resourceId);
 
     return json({
         resource,

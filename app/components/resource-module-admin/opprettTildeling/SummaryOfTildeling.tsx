@@ -1,10 +1,11 @@
-import {IResourceModuleAccessRole, IResourceModuleAssignment} from "~/data/types/resourceTypes";
+import {IResourceModuleAssignment} from "~/data/types/resourceTypes";
 import {Alert, FormSummary, List} from "@navikt/ds-react";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface SummaryOfTildelingProps {
     assignment: IResourceModuleAssignment
     missingFields: boolean
-    accessRoles: IResourceModuleAccessRole[]
+    accessRoles: IAccessRole[]
 }
 
 const SummaryOfTildeling = ({assignment, missingFields, accessRoles}: SummaryOfTildelingProps) => {

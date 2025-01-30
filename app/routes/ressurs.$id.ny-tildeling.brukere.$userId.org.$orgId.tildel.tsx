@@ -18,11 +18,7 @@ import {getResourceNewUserAssignmentUrl} from "~/data/paths";
 import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({request, params}: LoaderFunctionArgs) {
-
-    const [responseResource] = await Promise.all([
-        fetchResourceById(request, params.id),
-    ]);
-    const resource: IResource = await responseResource.json()
+    const resource = await fetchResourceById(request, params.id);
 
     return json({
         resource,

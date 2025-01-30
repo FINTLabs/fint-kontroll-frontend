@@ -33,7 +33,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
     ]);
 
     return json({
-        resource: await resource.json(),
+        resource,
         basePath: BASE_PATH === "/" ? "" : BASE_PATH,
         userTypeKodeverk
     })

@@ -23,9 +23,7 @@ import {IResource} from "~/data/types/resourceTypes";
 
 export async function loader({params, request}: LoaderFunctionArgs) {
     const url = new URL(request.url);
-    const responseResource = await fetchResourceById(request, params.id);
-    const resource: IResource = await responseResource.json()
-
+    const resource = await fetchResourceById(request, params.id);
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,

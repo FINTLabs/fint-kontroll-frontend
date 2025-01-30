@@ -37,14 +37,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Omi
 
     const filter = resourceList.resources.map(value => `&resourcefilter=${value.id}`).join("");
 
-    const [orgUnitTree, responseAssignmentsForUser, responseApplicationCategories] = await Promise.all([
+    const [orgUnitTree, responseAssignmentsForUser, applicationCategories] = await Promise.all([
         fetchAllOrgUnits(request),
         fetchAssignedResourcesForUser(request, params.id, size, "0", "ALLTYPES", filter),
         fetchApplicationCategory(request),
     ]);
 
     const assignedResourceListForUser: IAssignedResourcesList = await responseAssignmentsForUser.json()
-    const applicationCategories: string[] = await responseApplicationCategories.json()
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(assignedResourceListForUser.resources.map(resource => [resource.resourceRef, resource]))
     const isAssignedResources: IResourceForList[] = resourceList.resources.map(resource => {

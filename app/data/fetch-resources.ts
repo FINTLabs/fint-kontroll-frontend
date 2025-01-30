@@ -3,7 +3,7 @@ import logger from "~/logging/logger";
 import {IValidForOrgUnits} from "~/components/service-admin/types";
 import {fetchData} from "~/data/helpers";
 import {IUnitTree} from "~/data/types/orgUnitTypes";
-import {IResourceList} from "~/data/types/resourceTypes";
+import {IResource, IResourceAdminList, IResourceList} from "~/data/types/resourceTypes";
 
 export const fetchResources = async (
     request: Request,
@@ -42,7 +42,16 @@ export const fetchResources = async (
 
 }
 
-export const fetchResourcesForAdmin = async (request: Request, size: string, page: string, search: string, status: string, orgUnits: string[], applicationCategory: string, accessType: string) => {
+export const fetchResourcesForAdmin = async (
+    request: Request,
+    size: string,
+    page: string,
+    search: string,
+    status: string,
+    orgUnits: string[],
+    applicationCategory: string,
+    accessType: string
+): Promise<IResourceAdminList> => {
 
     const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined
     const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined
@@ -51,7 +60,7 @@ export const fetchResourcesForAdmin = async (request: Request, size: string, pag
         headers: request.headers
     });
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
@@ -64,13 +73,13 @@ export const fetchResourcesForAdmin = async (request: Request, size: string, pag
 
 }
 
-export const fetchResourceById = async (request: Request, id: string | undefined) => {
+export const fetchResourceById = async (request: Request, id: string | undefined): Promise<IResource> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
@@ -83,13 +92,13 @@ export const fetchResourceById = async (request: Request, id: string | undefined
 
 }
 
-export const fetchApplicationCategory = async (request: Request) => {
+export const fetchApplicationCategory = async (request: Request): Promise<string[]> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`, {
         headers: request.headers
     });
 
     if (response.ok) {
-        return response;
+        return response.json();
     }
 
     if (response.status === 403) {
@@ -121,22 +130,24 @@ export const fetchAccessType = async (request: Request) => {
 
 }
 
-export const createResource = async (token: string | null,
-                                     resourceId: string,
-                                     resourceName: string,
-                                     resourceType: string,
-                                     platform: string[],
-                                     accessType: string,
-                                     resourceLimit: number,
-                                     resourceOwnerOrgUnitId: string,
-                                     resourceOwnerOrgUnitName: string,
-                                     validForOrgUnits: IValidForOrgUnits[],
-                                     validForRoles: string[],
-                                     applicationCategory: string[],
-                                     hasCost: boolean,
-                                     licenseEnforcement: string,
-                                     unitCost: string,
-                                     status: string) => {
+export const createResource = async (
+    token: string | null,
+    resourceId: string,
+    resourceName: string,
+    resourceType: string,
+    platform: string[],
+    accessType: string,
+    resourceLimit: number,
+    resourceOwnerOrgUnitId: string,
+    resourceOwnerOrgUnitName: string,
+    validForOrgUnits: IValidForOrgUnits[],
+    validForRoles: string[],
+    applicationCategory: string[],
+    hasCost: boolean,
+    licenseEnforcement: string,
+    unitCost: string,
+    status: string
+) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
     logger.debug("POST CREATE RESOURCE to ", url, " with body ", JSON.stringify({
         resourceId: resourceId,
@@ -184,23 +195,25 @@ export const createResource = async (token: string | null,
     return response;
 }
 
-export const updateResource = async (token: string | null,
-                                     id: number,
-                                     resourceId: string,
-                                     resourceName: string,
-                                     resourceType: string,
-                                     platform: string[],
-                                     accessType: string,
-                                     resourceLimit: number,
-                                     resourceOwnerOrgUnitId: string,
-                                     resourceOwnerOrgUnitName: string,
-                                     validForOrgUnits: IValidForOrgUnits[],
-                                     validForRoles: string[],
-                                     applicationCategory: string[],
-                                     hasCost: boolean,
-                                     licenseEnforcement: string,
-                                     unitCost: string,
-                                     status: string) => {
+export const updateResource = async (
+    token: string | null,
+    id: number,
+    resourceId: string,
+    resourceName: string,
+    resourceType: string,
+    platform: string[],
+    accessType: string,
+    resourceLimit: number,
+    resourceOwnerOrgUnitId: string,
+    resourceOwnerOrgUnitName: string,
+    validForOrgUnits: IValidForOrgUnits[],
+    validForRoles: string[],
+    applicationCategory: string[],
+    hasCost: boolean,
+    licenseEnforcement: string,
+    unitCost: string,
+    status: string
+) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
     logger.debug("EDIT CREATE RESOURCE to ", url, " with body ", JSON.stringify({
         id: id,
@@ -251,7 +264,6 @@ export const updateResource = async (token: string | null,
 }
 
 export const deleteResource = async (token: string | null, request: Request, id: string) => {
-
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`
     const response = await fetch(url, {
         headers: {
@@ -263,30 +275,6 @@ export const deleteResource = async (token: string | null, request: Request, id:
     logger.debug("Response from deleteResource", url, response.status);
 
     return response;
-}
-
-
-/**
- * @deprecated This function is deprecated and will be removed in future versions.
- * Use fetchAllOrgUnits() instead.
- */
-export const fetchOrgUnits = async (request: Request) => {
-    const response = await fetch(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, {
-        headers: request.headers
-    });
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
-    }
-    if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
-    }
-    throw new Error("Det virker ikke som om du er pålogget")
-
 }
 
 export const fetchAllOrgUnits = async (request: Request): Promise<IUnitTree> =>

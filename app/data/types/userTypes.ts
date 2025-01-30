@@ -140,7 +140,7 @@ export interface IAssignedRoles {
 export interface IAccessRole {
     accessRoleId: string
     name: string
-    menuItems: IMenuItems[]
+    menuItems?: IMenuItems[]
 }
 
 // PermissionData is a role and its subsequent mapping to features and operation sets

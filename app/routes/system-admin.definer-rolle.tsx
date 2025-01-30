@@ -16,7 +16,7 @@ import {IAccessRole} from "~/data/types/userTypes";
 
 export async function loader({request}: LoaderFunctionArgs) {
     const response = await fetchAccessRoles(request);
-    return json(await response.json());
+    return json(response);
 }
 
 export default function SystemAdminDefinerRolle() {

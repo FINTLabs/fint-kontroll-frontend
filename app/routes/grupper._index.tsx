@@ -21,12 +21,11 @@ export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Respon
     const page = url.searchParams.get("page") ?? "0";
     const search = url.searchParams.get("search") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const [responseRoles, responseOrgUnits, userTypesKodeverk] = await Promise.all([
+    const [roleList, responseOrgUnits, userTypesKodeverk] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
         fetchAllOrgUnits(request),
         fetchUserTypes(request)
     ]);
-    const roleList: IRoleList = await responseRoles.json()
 
     return json({
         roleList,

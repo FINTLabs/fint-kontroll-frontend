@@ -28,7 +28,7 @@ export async function loader({params, request}: LoaderFunctionArgs) {
 
     return json({
         responseCode: url.searchParams.get("responseCode") ?? undefined,
-        resource: await resource.json(),
+        resource,
         source,
         userTypesKodeverk,
         licenseEnforcementKodeverk

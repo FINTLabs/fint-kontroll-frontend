@@ -33,15 +33,13 @@ export async function loader({params, request}: LoaderFunctionArgs): Promise<Typ
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
     let selectedUserTypes = url.searchParams.get("userType")?.split(",").filter(type => type) ?? [];
 
-    const resourceResponse = await fetchResourceById(request, params.id)
-    const resource = await resourceResponse.json()
+    const resource = await fetchResourceById(request, params.id)
 
     if (selectedUserTypes.length === 0) {
         selectedUserTypes = resource.validForRoles
     }
 
-    const userResponse = await fetchUsers(request, size, page, search, selectedUserTypes, orgUnits)
-    const userList: IUserPage = await userResponse.json()
+    const userList = await fetchUsers(request, size, page, search, selectedUserTypes, orgUnits)
 
     let filter = ""
     userList.users.forEach(value => {

@@ -2,18 +2,17 @@ import {Alert, Table} from "@navikt/ds-react";
 import React, {useState} from "react";
 import {useSearchParams} from "@remix-run/react";
 import {
-    IResourceModuleAccessRole,
     IResourceModuleOrgUnitDetail,
     IResourceModuleUserAssignmentsPaginated
 } from "~/data/types/resourceTypes";
-import {TrashIcon} from "@navikt/aksel-icons";
 import DeleteOrgUnitInAssignment from "~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment";
 import {TableSkeleton} from "~/components/common/Table/TableSkeleton";
 import {TablePagination} from "~/components/common/Table/TablePagination";
 import {useLoadingState} from "~/components/common/customHooks";
+import {IAccessRole} from "~/data/types/userTypes";
 
 interface RoleAssignmentTableProps {
-    selectedRole: IResourceModuleAccessRole
+    selectedRole: IAccessRole
     userAssignmentsPaginated: IResourceModuleUserAssignmentsPaginated
 }
 

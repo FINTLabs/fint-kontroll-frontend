@@ -15,7 +15,6 @@ import {UserSearch} from "~/components/user/UserSearch";
 import {fetchUserTypes} from "~/data/fetch-kodeverk";
 import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
 import {getResourceUserAssignmentsUrl} from "~/data/paths";
-import {IResource} from "~/data/types/resourceTypes";
 
 export function links() {
     return [{rel: 'stylesheet', href: styles}]
@@ -29,13 +28,11 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     const userType = url.searchParams.get("userType") ?? "";
     const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
 
-    const [resourceById, assignedUsers, userTypesKodeverk] = await Promise.all([
+    const [resource, assignedUsers, userTypesKodeverk] = await Promise.all([
         fetchResourceById(request, params.id),
         fetchAssignedUsers(request, params.id, size, page, search, userType, orgUnits),
         fetchUserTypes(request)
     ])
-    const resource: IResource = await resourceById.json()
-
 
     return json({
         context,
