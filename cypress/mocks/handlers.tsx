@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw'
+import {http, HttpResponse} from 'msw'
 import {
     createNewResourceHandlers,
     deleteResourceHandlers,
@@ -14,20 +14,93 @@ import {applicationCategoriesHandlers} from "./handlers/kodeverkHandlers";
 
 export const handlers = [
     // Common handlers
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', () => {
-        return HttpResponse.json(
-        {
-                "firstName": "Mock",
-                "lastName": "Name",
-                "mail": "mock@novari.no",
-                "organisationId": "mock.no"
-            }
-        )
+    http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', ({cookies}) => {
+        if (cookies.cypresstestuser === 'ra') {
+            return HttpResponse.json(
+                {
+                    "firstName": "Mock",
+                    "lastName": "Name",
+                    "mail": "mock@novari.no",
+                    "organisationId": "mock.no",
+                    "roles": [
+                        {
+                            "id": "ra",
+                            "name": "Ressursadministrator"
+                        }
+                    ]
+                }
+            )
+        } else if (cookies.cypresstestuser === 'ta') {
+            return HttpResponse.json(
+                {
+                    "firstName": "Mock",
+                    "lastName": "Name",
+                    "mail": "mock@novari.no",
+                    "organisationId": "mock.no",
+                    "roles": [
+                        {
+                            "id": "ta",
+                            "name": "Tjenesteadministrator"
+                        }
+                    ]
+                }
+            )
+        } else if (cookies.cypresstestuser === 'td') {
+            return HttpResponse.json(
+                {
+                    "firstName": "Mock",
+                    "lastName": "Name",
+                    "mail": "mock@novari.no",
+                    "organisationId": "mock.no",
+                    "roles": [
+                        {
+                            "id": "td",
+                            "name": "Tildeler"
+                        }
+                    ]
+                }
+            )
+        } else {
+            return HttpResponse.json(
+                {
+                    "firstName": "Mock",
+                    "lastName": "Name",
+                    "mail": "mock@novari.no",
+                    "organisationId": "mock.no",
+                    "roles": [
+                        {
+                            "id": "pa",
+                            "name": "Portaladmin"
+                        },
+                        {
+                            "id": "l",
+                            "name": "Leder"
+                        },
+                        {
+                            "id": "sa",
+                            "name": "Systemadministrator"
+                        },
+                        {
+                            "id": "sb",
+                            "name": "Sluttbruker"
+                        },
+                        {
+                            "id": "ta",
+                            "name": "Tjenesteadministrator"
+                        },
+                        {
+                            "id": "td",
+                            "name": "Tildeler"
+                        }
+                    ]
+                }
+            )
+        }
     }),
 
     http.get('http://localhost:8060/beta/fintlabs-no/api/orgunits', () => {
         return HttpResponse.json(
-        {
+            {
                 "totalItems": 3,
                 "orgUnits": [
                     {
@@ -82,7 +155,7 @@ export const handlers = [
 
     ...createNewResourceHandlers,
 
-    ... deleteResourceHandlers,
+    ...deleteResourceHandlers,
 
     ...applicationCategoriesHandlers
 
