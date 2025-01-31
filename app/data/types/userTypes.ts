@@ -3,11 +3,11 @@ export interface IMeRole {
     name: string
 }
 
-export interface IMenuItems {
+export interface IMenuItem {
     id?: number
     url: string
     text: string
-    order: number
+    sortOrder: number
 }
 
 export interface IMeInfo {
@@ -16,7 +16,7 @@ export interface IMeInfo {
     organisationId: string
     mail: string
     roles: IMeRole[],
-    menuItems: IMenuItems[]
+    menuItems: IMenuItem[]
 }
 
 export interface IUser {
@@ -140,7 +140,7 @@ export interface IAssignedRoles {
 export interface IAccessRole {
     accessRoleId: string
     name: string
-    menuItems?: IMenuItems[]
+    menuItems?: IMenuItem[]
 }
 
 // PermissionData is a role and its subsequent mapping to features and operation sets
