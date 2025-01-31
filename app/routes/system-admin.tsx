@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
 import {Links, Meta, Outlet, Scripts, useLocation, useNavigate, useRouteError} from "@remix-run/react";
-import {PersonCheckmarkIcon} from "@navikt/aksel-icons";
+import {ArrowRightLeftIcon, CogIcon, MenuHamburgerIcon, PersonCheckmarkIcon} from "@navikt/aksel-icons";
 
 export default function SystemAdmin() {
-    const tabsList = ["definer-rolle", "knytt-rettigheter-til-rolle"]
+    const tabsList = ["definer-rolle", "knytt-rettigheter-til-rolle", "menystyring"]
     const location = useLocation()
     const currentTab = tabsList.find(tab => location.pathname.includes(tab))
 
@@ -49,6 +49,12 @@ export default function SystemAdmin() {
                             label="Knytt rettigheter til rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
                             id={"feature-role-tab"}
+                        />
+                        <Tabs.Tab
+                            value="menystyring"
+                            label="Menystyring"
+                            icon={<CogIcon />}
+                            id={"menu-settings-tab"}
                         />
                     </Tabs.List>
                 </Box>
