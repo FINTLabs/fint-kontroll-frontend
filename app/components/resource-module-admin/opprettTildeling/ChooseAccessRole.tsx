@@ -1,5 +1,6 @@
 import {Radio, RadioGroup, VStack} from "@navikt/ds-react";
 import {IAccessRole} from "~/data/types/userTypes";
+import {sortAndCapitalizeRoles} from "~/components/common/CommonFunctions";
 
 interface ChooseAccessRoleProps {
     accessRoles: IAccessRole[]
@@ -11,7 +12,7 @@ const ChooseAccessRole = ({accessRoles, setNewAccessRole}: ChooseAccessRoleProps
     return (
         <RadioGroup legend={"Velg aksessrolle"} onChange={setNewAccessRole}>
             <VStack>
-                {accessRoles
+                {sortAndCapitalizeRoles(accessRoles)
                     .sort((a, b) => {
                         return roleNameSortOrder.indexOf(a.name.toLowerCase()) - roleNameSortOrder.indexOf(b.name.toLowerCase());
                     })

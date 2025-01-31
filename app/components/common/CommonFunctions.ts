@@ -112,9 +112,19 @@ export const translateLicenseEnforcementToLabel = (licenseEnforcement: string, l
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUserRole>(roles: T[]): T[] => {
+export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUserRole>(roles: T[], removeUnusedRoles?: boolean): T[] => {
     const roleNameSortOrder = ["systemadministrator", "ressursadministrator", "tjenesteadministrator", "tildeler", "leder", "godkjenner", "sluttbruker"]
-    return roles.sort((a, b) => {
+    const unusedRoles = ["leder", "godkjenner", "sluttbruker"];
+    let filteredRoles = roles;
+
+    if (removeUnusedRoles) {
+        filteredRoles = roles.filter(role => {
+            const roleName = 'name' in role ? role.name : role.roleName;
+            return !unusedRoles.includes(roleName.toLowerCase());
+        });
+    }
+
+    return filteredRoles.sort((a, b) => {
         const aName = 'name' in a ? a.name : a.roleName;
         const bName = 'name' in b ? b.name : b.roleName;
         return roleNameSortOrder.indexOf(aName.toLowerCase()) - roleNameSortOrder.indexOf(bName.toLowerCase());
