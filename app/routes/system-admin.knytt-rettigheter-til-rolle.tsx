@@ -18,16 +18,6 @@ export async function loader({request}: LoaderFunctionArgs) {
 export default () => {
     const accessRoles: IAccessRole[] = useLoaderData<typeof loader>()
 
-
-    const params = useParams()
-
-    const roleProp = params.id
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        !roleProp ? navigate(accessRoles[0].accessRoleId) : ""
-    }, []);
-
     return (
         <Tabs value={"knytt-rettigheter-til-rolle"}>
             <Tabs.Panel value="knytt-rettigheter-til-rolle">
