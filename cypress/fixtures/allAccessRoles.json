@@ -1,10 +1,10 @@
 [
-	{
-		"accessRoleId": "a1",
-		"name": "accessRole1"
-	},
-	{
-		"accessRoleId": "a2",
-		"name": "accessRole2"
-	}
+    {
+        "accessRoleId": "a1",
+        "name": "accessRole1"
+    },
+    {
+        "accessRoleId": "a2",
+        "name": "accessRole2"
+    }
 ]

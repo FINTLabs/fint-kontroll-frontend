@@ -1,22 +1,22 @@
 [
-	{
-		"id": "1",
-		"name": "Alle brukere"
-	},
-	{
-		"id": "2",
-		"name": "En bruker"
-	},
-	{
-		"id": "3",
-		"name": "Grupper"
-	},
-	{
-		"id": "4",
-		"name": "En gruppe"
-	},
-	{
-		"id": "5",
-		"name": "Ressurser"
-	}
+    {
+        "id": "1",
+        "name": "Alle brukere"
+    },
+    {
+        "id": "2",
+        "name": "En bruker"
+    },
+    {
+        "id": "3",
+        "name": "Grupper"
+    },
+    {
+        "id": "4",
+        "name": "En gruppe"
+    },
+    {
+        "id": "5",
+        "name": "Ressurser"
+    }
 ]

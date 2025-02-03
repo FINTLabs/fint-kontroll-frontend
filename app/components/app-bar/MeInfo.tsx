@@ -1,15 +1,14 @@
-import {Buildings3Icon, PersonCircleIcon} from '@navikt/aksel-icons';
-import React from "react";
-import {BodyShort} from "@navikt/ds-react";
-import appStyles from "./appBar.css?url"
-import {IMeInfo} from "~/data/types/userTypes";
+import { Buildings3Icon, PersonCircleIcon } from '@navikt/aksel-icons';
+import React from 'react';
+import { BodyShort } from '@navikt/ds-react';
+import appStyles from './appBar.css?url';
+import { IMeInfo } from '~/data/types/userTypes';
 
 export function links() {
-    return [{rel: 'stylesheet', href: appStyles}]
+    return [{ rel: 'stylesheet', href: appStyles }];
 }
 
 function MeInfo(props: { me: IMeInfo }) {
-
     return (
         <>
             {/*<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>*/}
@@ -19,21 +18,20 @@ function MeInfo(props: { me: IMeInfo }) {
             {/*    </p>*/}
             {/*</div>*/}
             {/*:*/}
-            <div className={"me-info"}>
-                <div className={"me-info"}>
+            <div className={'me-info'}>
+                <div className={'me-info'}>
                     <Buildings3Icon title="a11y-title" fontSize="1.5rem" />
                     <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
                         {props.me?.organisationId}
                     </BodyShort>
                 </div>
-                <div className={"me-info"}>
-                    <PersonCircleIcon title="a11y-title" fontSize="1.5rem"/>
+                <div className={'me-info'}>
+                    <PersonCircleIcon title="a11y-title" fontSize="1.5rem" />
                     <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
                         {props.me?.firstName} {props.me?.lastName}
                     </BodyShort>
                 </div>
             </div>
-
         </>
     );
 }

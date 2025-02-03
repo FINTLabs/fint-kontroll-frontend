@@ -1,47 +1,47 @@
-import { Button, Modal } from "@navikt/ds-react"
-import React, { useEffect, useRef } from "react"
-import {IResourceModuleOrgUnitDetail} from "~/data/types/resourceTypes";
-import {Form} from "@remix-run/react";
+import { Button, Modal } from '@navikt/ds-react';
+import React, { useEffect, useRef } from 'react';
+import { IResourceModuleOrgUnitDetail } from '~/data/types/resourceTypes';
+import { Form } from '@remix-run/react';
 
 interface DeleteOrgUnitsInAssignmentProps {
-    modalOpenProp: boolean
-    setIsDeleteModalOpen: (isOpen: boolean) => void
-    roleToDeleteFrom: string
-    scopeId: string
-    orgUnitToDelete: IResourceModuleOrgUnitDetail
+    modalOpenProp: boolean;
+    setIsDeleteModalOpen: (isOpen: boolean) => void;
+    roleToDeleteFrom: string;
+    scopeId: string;
+    orgUnitToDelete: IResourceModuleOrgUnitDetail;
 }
 
 const DeleteOrgUnitInAssignment = ({
-           modalOpenProp,
-           orgUnitToDelete,
-           roleToDeleteFrom,
-           setIsDeleteModalOpen,
-           scopeId,
-       }: DeleteOrgUnitsInAssignmentProps) => {
-    const deleteRef = useRef<HTMLDialogElement>(null)
+    modalOpenProp,
+    orgUnitToDelete,
+    roleToDeleteFrom,
+    setIsDeleteModalOpen,
+    scopeId,
+}: DeleteOrgUnitsInAssignmentProps) => {
+    const deleteRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
-        modalOpenProp ? openModal() : closeModal()
+        modalOpenProp ? openModal() : closeModal();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [modalOpenProp])
+    }, [modalOpenProp]);
     const openModal = () => {
-        setIsDeleteModalOpen(true)
-        deleteRef.current?.showModal()
-    }
+        setIsDeleteModalOpen(true);
+        deleteRef.current?.showModal();
+    };
 
     const closeModal = () => {
-        setIsDeleteModalOpen(false)
-        deleteRef.current?.close()
-    }
+        setIsDeleteModalOpen(false);
+        deleteRef.current?.close();
+    };
 
     const handleDeleteAssignmentData = () => {
-        const scopeIdEle = document.getElementById("scopeId")
-        const orgUnitEle = document.getElementById("orgUnitId")
+        const scopeIdEle = document.getElementById('scopeId');
+        const orgUnitEle = document.getElementById('orgUnitId');
 
-        scopeIdEle ? scopeIdEle.setAttribute("value", scopeId) : ""
-        orgUnitEle ? orgUnitEle.setAttribute("value", orgUnitToDelete.orgUnitId) : ""
-        closeModal()
-    }
+        scopeIdEle ? scopeIdEle.setAttribute('value', scopeId) : '';
+        orgUnitEle ? orgUnitEle.setAttribute('value', orgUnitToDelete.orgUnitId) : '';
+        closeModal();
+    };
 
     return (
         <Modal
@@ -49,18 +49,24 @@ const DeleteOrgUnitInAssignment = ({
             header={{ heading: `Slett ${orgUnitToDelete.name}?` }}
             onAbort={closeModal}
             onClose={closeModal}
-            onCancel={closeModal}
-        >
+            onCancel={closeModal}>
             <Modal.Body>
                 Ønsker du å slette org.enhetknytning {orgUnitToDelete.name} til {roleToDeleteFrom}?
             </Modal.Body>
             <Modal.Footer>
-                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} name={"deleteOrgUnitFromAssignment"}>
-                    <input type={"hidden"} name={"deleteOrgUnitFromAssignment"} value={"deleteOrgUnitFromAssignment"} />
-                    <input type={"hidden"} name={"scopeId"} id={"scopeId"} />
-                    <input type={"hidden"} name={"orgUnitId"} id={"orgUnitId"} />
+                <Form
+                    onSubmit={handleDeleteAssignmentData}
+                    method={'DELETE'}
+                    name={'deleteOrgUnitFromAssignment'}>
+                    <input
+                        type={'hidden'}
+                        name={'deleteOrgUnitFromAssignment'}
+                        value={'deleteOrgUnitFromAssignment'}
+                    />
+                    <input type={'hidden'} name={'scopeId'} id={'scopeId'} />
+                    <input type={'hidden'} name={'orgUnitId'} id={'orgUnitId'} />
 
-                    <Button type="submit" variant={"danger"}>
+                    <Button type="submit" variant={'danger'}>
                         Slett
                     </Button>
                 </Form>
@@ -69,7 +75,7 @@ const DeleteOrgUnitInAssignment = ({
                 </Button>
             </Modal.Footer>
         </Modal>
-    )
-}
+    );
+};
 
-export default DeleteOrgUnitInAssignment
+export default DeleteOrgUnitInAssignment;

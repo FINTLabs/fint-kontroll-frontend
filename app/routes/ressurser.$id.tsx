@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import styles from "../components/resource/resource.css?url"
-import {Alert, Box, HStack, LinkPanel, Loader, Tabs, VStack} from "@navikt/ds-react";
+import React, { useCallback, useEffect, useState } from 'react';
+import styles from '../components/resource/resource.css?url';
+import { Alert, Box, HStack, LinkPanel, Loader, Tabs, VStack } from '@navikt/ds-react';
 import {
     Link,
     Outlet,
@@ -8,103 +8,112 @@ import {
     useLocation,
     useNavigate,
     useParams,
-    useRouteError
-} from "@remix-run/react";
-import {json} from "@remix-run/node";
-import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchResourceById} from "~/data/fetch-resources";
-import {BASE_PATH} from "../../environment";
-import {ResourceInfoBox} from "~/components/common/ResourceInfoBox";
-import {fetchUserTypes} from "~/data/fetch-kodeverk";
-import {TableHeader} from "~/components/common/Table/Header/TableHeader";
-import {PersonGroupIcon, PersonIcon} from "@navikt/aksel-icons";
-import {useLoadingState} from "~/components/common/customHooks";
-import {getResourceNewAssignmentUrl, RESOURCES} from "~/data/paths";
-import {IResource} from "~/data/types/resourceTypes";
+    useRouteError,
+} from '@remix-run/react';
+import { json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from '@remix-run/router';
+import { fetchResourceById } from '~/data/fetch-resources';
+import { BASE_PATH } from '../../environment';
+import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
+import { fetchUserTypes } from '~/data/fetch-kodeverk';
+import { TableHeader } from '~/components/common/Table/Header/TableHeader';
+import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
+import { useLoadingState } from '~/components/common/customHooks';
+import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
+import { IResource } from '~/data/types/resourceTypes';
 
 export function links() {
-    return [{rel: 'stylesheet', href: styles}]
+    return [{ rel: 'stylesheet', href: styles }];
 }
 
-export async function loader({params, request}: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const [resource, userTypeKodeverk] = await Promise.all([
         fetchResourceById(request, params.id),
-        fetchUserTypes(request)
+        fetchUserTypes(request),
     ]);
 
     return json({
         resource,
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-        userTypeKodeverk
-    })
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
+        userTypeKodeverk,
+    });
 }
 
 export const handle = {
-    breadcrumb: () => <Link to={RESOURCES} className={"breadcrumb-link"}>Ressurser</Link>,
+    breadcrumb: () => (
+        <Link to={RESOURCES} className={'breadcrumb-link'}>
+            Ressurser
+        </Link>
+    ),
 };
 
 export default function ResourceById() {
     const loaderData = useLoaderData<typeof loader>();
-    const resource: IResource = loaderData.resource
-    const {userTypeKodeverk, basePath} = loaderData
+    const resource: IResource = loaderData.resource;
+    const { userTypeKodeverk, basePath } = loaderData;
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const location = useLocation();
     const params = useParams();
-    const {loading, fetching} = useLoadingState()
+    const { loading, fetching } = useLoadingState();
 
-    const [state, setState] = useState(location.pathname.includes("/bruker-tildelinger") ? "bruker-tildelinger" : "gruppe-tildelinger");
+    const [state, setState] = useState(
+        location.pathname.includes('/bruker-tildelinger')
+            ? 'bruker-tildelinger'
+            : 'gruppe-tildelinger'
+    );
 
-    const handleChangeTab = useCallback((value: string) => {
-        navigate(`/ressurser/${params.id}/${value}`)
-        setState(value)
-    }, [navigate, params.id])
+    const handleChangeTab = useCallback(
+        (value: string) => {
+            navigate(`/ressurser/${params.id}/${value}`);
+            setState(value);
+        },
+        [navigate, params.id]
+    );
 
     useEffect(() => {
-        if (location.pathname.includes("/bruker-tildelinger")) {
-            setState("bruker-tildelinger")
+        if (location.pathname.includes('/bruker-tildelinger')) {
+            setState('bruker-tildelinger');
         } else {
-            setState("gruppe-tildelinger")
+            setState('gruppe-tildelinger');
         }
-    }, [location.pathname])
+    }, [location.pathname]);
 
     return (
-        <section className={"content"}>
+        <section className={'content'}>
             <VStack gap="4">
                 <VStack gap="4">
-                    <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk}/>
-                    <Box className={"filters"} paddingBlock={"8"}>
-                        <LinkPanel href={`${basePath}${getResourceNewAssignmentUrl(resource.id)}/${state === "bruker-tildelinger" ? "brukere" : "grupper"}`} border>
+                    <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
+                    <Box className={'filters'} paddingBlock={'8'}>
+                        <LinkPanel
+                            href={`${basePath}${getResourceNewAssignmentUrl(resource.id)}/${state === 'bruker-tildelinger' ? 'brukere' : 'grupper'}`}
+                            border>
                             <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
                         </LinkPanel>
                     </Box>
                 </VStack>
 
-                <TableHeader
-                    isSubHeader={true}
-                    title={"Tildelinger"}
-                    titleAlignment={"center"}
-                />
+                <TableHeader isSubHeader={true} title={'Tildelinger'} titleAlignment={'center'} />
                 <Tabs value={state} onChange={handleChangeTab}>
                     <Tabs.List>
                         <Tabs.Tab
                             value="bruker-tildelinger"
                             label="Brukere"
-                            icon={<PersonIcon fontSize="1.2rem"/>}
+                            icon={<PersonIcon fontSize="1.2rem" />}
                         />
                         <Tabs.Tab
                             value="gruppe-tildelinger"
                             label="Grupper"
-                            icon={<PersonGroupIcon fontSize="1.2rem"/>}
+                            icon={<PersonGroupIcon fontSize="1.2rem" />}
                         />
                     </Tabs.List>
 
-                    {loading && !fetching &&
-                        <HStack margin={"4"} width="100%" justify="center">
-                            <Loader size="2xlarge" title="Venter..."/>
+                    {loading && !fetching && (
+                        <HStack margin={'4'} width="100%" justify="center">
+                            <Loader size="2xlarge" title="Venter..." />
                         </HStack>
-                    }
-                    <Outlet context={{resource}}/>
+                    )}
+                    <Outlet context={{ resource }} />
                 </Tabs>
             </VStack>
         </section>
@@ -113,7 +122,7 @@ export default function ResourceById() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-     console.error(error);
+    console.error(error);
     return (
         <Box paddingBlock="8">
             <Alert variant="error">

@@ -1,50 +1,55 @@
-import {Select} from "@navikt/ds-react";
-import React from "react";
-import {Form, useSearchParams} from "@remix-run/react";
-import {filterResetPageParam, translateUserTypeToLabel} from "~/components/common/CommonFunctions";
+import { Select } from '@navikt/ds-react';
+import React from 'react';
+import { Form, useSearchParams } from '@remix-run/react';
+import {
+    filterResetPageParam,
+    translateUserTypeToLabel,
+} from '~/components/common/CommonFunctions';
 
-import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
+import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 
 interface UserTypeFilterProps {
     userTypeOptions?: string[];
     kodeverk?: IKodeverkUserType[];
 }
 
-export const UserTypeFilter = (
-    {
-        userTypeOptions = ["STUDENT", "EMPLOYEESTAFF", "EMPLOYEEFACULTY", "EXTERNAL"],
-        kodeverk
-    }: UserTypeFilterProps) => {
-    const [currentSearchParams, setSearchParams] = useSearchParams()
-    const [searchParams,] = useSearchParams();
+export const UserTypeFilter = ({
+    userTypeOptions = ['STUDENT', 'EMPLOYEESTAFF', 'EMPLOYEEFACULTY', 'EXTERNAL'],
+    kodeverk,
+}: UserTypeFilterProps) => {
+    const [currentSearchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    const pageParam = searchParams.get("page")
+    const pageParam = searchParams.get('page');
 
     const setUserTypeFilter = (event: string) => {
-        setSearchParams(searchParams => {
-            searchParams.set("userType", event);
+        setSearchParams((searchParams) => {
+            searchParams.set('userType', event);
             return searchParams;
-        })
-        filterResetPageParam(pageParam, setSearchParams)
-    }
+        });
+        filterResetPageParam(pageParam, setSearchParams);
+    };
 
-    const options = userTypeOptions.includes("ALLTYPES")
-        ? ["STUDENT", "EMPLOYEESTAFF", "EMPLOYEEFACULTY", "EXTERNAL"]
+    const options = userTypeOptions.includes('ALLTYPES')
+        ? ['STUDENT', 'EMPLOYEESTAFF', 'EMPLOYEEFACULTY', 'EXTERNAL']
         : userTypeOptions;
 
     return (
         <Form>
-            <Select label={"Filter for brukertype"}
-                    id="user-type-select"
-                    onChange={(e) => setUserTypeFilter(e.target.value)}
-                    value={String(currentSearchParams.get("userType")) ?? ""}
-            >
-                <option value={""}>Alle</option>
+            <Select
+                label={'Filter for brukertype'}
+                id="user-type-select"
+                onChange={(e) => setUserTypeFilter(e.target.value)}
+                value={String(currentSearchParams.get('userType')) ?? ''}>
+                <option value={''}>Alle</option>
                 {options.map((userType) => {
-                    return <option key={userType} value={userType}>{translateUserTypeToLabel(userType, kodeverk)}</option>
+                    return (
+                        <option key={userType} value={userType}>
+                            {translateUserTypeToLabel(userType, kodeverk)}
+                        </option>
+                    );
                 })}
             </Select>
         </Form>
-    )
-        ;
-}
+    );
+};

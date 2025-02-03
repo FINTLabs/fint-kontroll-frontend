@@ -1,8 +1,6 @@
-import React from "react";
-import {Search} from "~/components/common/Search";
+import React from 'react';
+import { Search } from '~/components/common/Search';
 
 export const UserSearch = () => {
-    return (
-        <Search label={"Søk etter bruker"} id={"user-search"} />
-    );
+    return <Search label={'Søk etter bruker'} id={'user-search'} />;
 };

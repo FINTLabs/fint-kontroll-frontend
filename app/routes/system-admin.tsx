@@ -1,38 +1,47 @@
-import React, {useState} from 'react';
-import {Alert, Box, Heading, Tabs} from "@navikt/ds-react";
-import {Links, Meta, Outlet, Scripts, useLocation, useNavigate, useRouteError} from "@remix-run/react";
-import {PersonCheckmarkIcon} from "@navikt/aksel-icons";
+import React, { useState } from 'react';
+import { Alert, Box, Heading, Tabs } from '@navikt/ds-react';
+import {
+    Links,
+    Meta,
+    Outlet,
+    Scripts,
+    useLocation,
+    useNavigate,
+    useRouteError,
+} from '@remix-run/react';
+import { PersonCheckmarkIcon } from '@navikt/aksel-icons';
 
 export default function SystemAdmin() {
-    const tabsList = ["definer-rolle", "knytt-rettigheter-til-rolle"]
-    const location = useLocation()
-    const currentTab = tabsList.find(tab => location.pathname.includes(tab))
+    const tabsList = ['definer-rolle', 'knytt-rettigheter-til-rolle'];
+    const location = useLocation();
+    const currentTab = tabsList.find((tab) => location.pathname.includes(tab));
 
-    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : "definer-rolle")
+    const [selectedTab, setSelectedTab] = useState(currentTab ? currentTab : 'definer-rolle');
     const navigate = useNavigate();
 
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [hasChanges, setHasChanges] = useState(false)
-    const [desiredTab, setDesiredTab] = useState("")
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [hasChanges, setHasChanges] = useState(false);
+    const [desiredTab, setDesiredTab] = useState('');
 
     const handleTabChange = (value: string) => {
-        if(!hasChanges) {
-            handleNavigate(value)
+        if (!hasChanges) {
+            handleNavigate(value);
+        } else {
+            setIsModalVisible(true);
+            setDesiredTab(value);
         }
-        else {
-            setIsModalVisible(true)
-            setDesiredTab(value)
-        }
-    }
+    };
 
     const handleNavigate = (value: string) => {
         setSelectedTab(value);
-        navigate(value)
-    }
+        navigate(value);
+    };
 
     return (
-        <section className={"content"}>
-            <Heading level={"1"} size={"xlarge"}>Administrer roller</Heading>
+        <section className={'content'}>
+            <Heading level={'1'} size={'xlarge'}>
+                Administrer roller
+            </Heading>
 
             <Tabs defaultValue={selectedTab} value={selectedTab} onChange={handleTabChange}>
                 <Box paddingBlock="8">
@@ -41,18 +50,26 @@ export default function SystemAdmin() {
                             value="definer-rolle"
                             label="Definer rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
-                            id={"define-role-tab"}
-
+                            id={'define-role-tab'}
                         />
                         <Tabs.Tab
                             value="knytt-rettigheter-til-rolle"
                             label="Knytt rettigheter til rolle"
                             icon={<PersonCheckmarkIcon title="inbox" />}
-                            id={"feature-role-tab"}
+                            id={'feature-role-tab'}
                         />
                     </Tabs.List>
                 </Box>
-                <Outlet context={{isModalVisible, setIsModalVisible, hasChanges, setHasChanges, desiredTab, handleNavigate}}/>
+                <Outlet
+                    context={{
+                        isModalVisible,
+                        setIsModalVisible,
+                        hasChanges,
+                        setHasChanges,
+                        desiredTab,
+                        handleNavigate,
+                    }}
+                />
             </Tabs>
         </section>
     );
@@ -62,21 +79,21 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
         </html>
     );
 }

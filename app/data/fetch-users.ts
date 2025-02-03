@@ -1,34 +1,46 @@
-import {BASE_PATH, USER_API_URL} from "../../environment";
-import {IUserDetails, IUserPage} from "~/data/types/userTypes";
+import { BASE_PATH, USER_API_URL } from '../../environment';
+import { IUserDetails, IUserPage } from '~/data/types/userTypes';
 
-export const fetchUsers = async (request: Request, size: string, page: string, search: string, userTypes: string[], orgUnits: string[]): Promise<IUserPage>  => {
+export const fetchUsers = async (
+    request: Request,
+    size: string,
+    page: string,
+    search: string,
+    userTypes: string[],
+    orgUnits: string[]
+): Promise<IUserPage> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
-    const userTypeFilter = userTypes.length > 0 ? `&userType=${userTypes.join(",")}` : "";
-    const orgUnitsFilter = orgUnits.length > 0 ? `&orgUnits=${orgUnits.join(",")}` : '';
+    const userTypeFilter = userTypes.length > 0 ? `&userType=${userTypes.join(',')}` : '';
+    const orgUnitsFilter = orgUnits.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
 
-    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users?${sizeFilter}${pageFilter}${searchFilter}${userTypeFilter}${orgUnitsFilter}`, {
-        headers: request.headers
-    });
+    const response = await fetch(
+        `${USER_API_URL}${BASE_PATH}/api/users?${sizeFilter}${pageFilter}${searchFilter}${userTypeFilter}${orgUnitsFilter}`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response.json();
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
-}
-
-export const fetchUserById = async (request: Request, id: string | undefined): Promise<IUserDetails> => {
+export const fetchUserById = async (
+    request: Request,
+    id: string | undefined
+): Promise<IUserDetails> => {
     const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/${id}`, {
-        headers: request.headers
+        headers: request.headers,
     });
 
     if (response.ok) {
@@ -36,11 +48,10 @@ export const fetchUserById = async (request: Request, id: string | undefined): P
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
-
-}
+    throw new Error('Det virker ikke som om du er pålogget');
+};

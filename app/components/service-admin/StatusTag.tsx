@@ -1,26 +1,26 @@
-import {Tag} from "@navikt/ds-react";
+import { Tag } from '@navikt/ds-react';
 
 export const StatusTag = (prop: { status: string | undefined }) => {
-    if (prop.status === undefined || prop.status == "") return null;
+    if (prop.status === undefined || prop.status == '') return null;
 
-    let variant: "success" | "info" | "error" | "neutral";
+    let variant: 'success' | 'info' | 'error' | 'neutral';
     let label: string;
 
     switch (prop.status) {
-        case "ACTIVE":
-            variant = "success";
-            label = "Aktiv";
+        case 'ACTIVE':
+            variant = 'success';
+            label = 'Aktiv';
             break;
-        case "DISABLED":
-            variant = "info";
-            label = "Deaktivert";
+        case 'DISABLED':
+            variant = 'info';
+            label = 'Deaktivert';
             break;
-        case "DELETED":
-            variant = "error";
-            label = "Slettet";
+        case 'DELETED':
+            variant = 'error';
+            label = 'Slettet';
             break;
         default:
-            variant = "neutral";
+            variant = 'neutral';
             label = prop.status;
     }
 

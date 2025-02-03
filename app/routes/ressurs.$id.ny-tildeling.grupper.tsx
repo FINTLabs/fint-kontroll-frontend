@@ -1,74 +1,83 @@
-import {Alert, Box, Tabs} from "@navikt/ds-react";
-import type {LoaderFunctionArgs} from "@remix-run/router";
-import {json, TypedResponse} from "@remix-run/node";
-import {Link, useLoaderData, useParams, useRouteError} from "@remix-run/react";
-import {IAssignedRoles, IRole, IRoleList} from "~/data/types/userTypes";
-import {AssignRoleTable} from "~/components/assignment/NewAssignmentRoleTable";
-import {fetchRoles} from "~/data/fetch-roles";
-import {fetchAssignedRoles} from "~/data/fetch-assignments";
-import {BASE_PATH} from "../../environment";
-import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import {RoleSearch} from "~/components/role/RoleSearch";
-import {TableToolbar} from "~/components/common/Table/Header/TableToolbar";
-import {fetchResourceById} from "~/data/fetch-resources";
-import {fetchUserTypes} from "~/data/fetch-kodeverk";
-import {BreadcrumbParams} from "~/data/types/generalTypes";
-import {IKodeverkUserType} from "~/data/types/kodeverkTypes";
+import { Alert, Box, Tabs } from '@navikt/ds-react';
+import type { LoaderFunctionArgs } from '@remix-run/router';
+import { json, TypedResponse } from '@remix-run/node';
+import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
+import { IAssignedRoles, IRole, IRoleList } from '~/data/types/userTypes';
+import { AssignRoleTable } from '~/components/assignment/NewAssignmentRoleTable';
+import { fetchRoles } from '~/data/fetch-roles';
+import { fetchAssignedRoles } from '~/data/fetch-assignments';
+import { BASE_PATH } from '../../environment';
+import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
+import { RoleSearch } from '~/components/role/RoleSearch';
+import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
+import { fetchResourceById } from '~/data/fetch-resources';
+import { fetchUserTypes } from '~/data/fetch-kodeverk';
+import { BreadcrumbParams } from '~/data/types/generalTypes';
+import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 
 type LoaderData = {
-    roleList: IRoleList,
-    isAssignedRoles: IRole[],
-    basePath: string,
-    userTypesKodeverk: IKodeverkUserType[]
-}
+    roleList: IRoleList;
+    isAssignedRoles: IRole[];
+    basePath: string;
+    userTypesKodeverk: IKodeverkUserType[];
+};
 
-export async function loader({params, request}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({
+    params,
+    request,
+}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
     const url = new URL(request.url);
-    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
-    const page = url.searchParams.get("page") ?? "0";
-    const search = url.searchParams.get("search") ?? "";
-    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
-    const resource = await fetchResourceById(request, params.id)
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
+    const page = url.searchParams.get('page') ?? '0';
+    const search = url.searchParams.get('search') ?? '';
+    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
+    const resource = await fetchResourceById(request, params.id);
 
-    const roleList = await fetchRoles(request, size, page, search, orgUnits, resource.validForRoles)
+    const roleList = await fetchRoles(
+        request,
+        size,
+        page,
+        search,
+        orgUnits,
+        resource.validForRoles
+    );
 
-    let filter = ""
-    roleList.roles.forEach(value => {
-        filter += `&rolefilter=${value.id}`
-    })
+    let filter = '';
+    roleList.roles.forEach((value) => {
+        filter += `&rolefilter=${value.id}`;
+    });
 
     const [responseAssignments, userTypesKodeverk] = await Promise.all([
-        fetchAssignedRoles(request, params.id, size, "0", "", orgUnits, filter),
-        fetchUserTypes(request)
+        fetchAssignedRoles(request, params.id, size, '0', '', orgUnits, filter),
+        fetchUserTypes(request),
     ]);
-    const assignedRolesList: IAssignedRoles = await responseAssignments.json()
+    const assignedRolesList: IAssignedRoles = await responseAssignments.json();
 
-    const assignedRolesMap: Map<number, IRole> = new Map(assignedRolesList.roles.map(role => [role.id, role]))
-    const isAssignedRoles: IRole[] = roleList.roles.map(role => {
-
+    const assignedRolesMap: Map<number, IRole> = new Map(
+        assignedRolesList.roles.map((role) => [role.id, role])
+    );
+    const isAssignedRoles: IRole[] = roleList.roles.map((role) => {
         return {
             ...role,
-            "assigned": assignedRolesMap.has(role.id)
-        }
-    })
+            assigned: assignedRolesMap.has(role.id),
+        };
+    });
 
     return json({
         roleList,
         isAssignedRoles,
-        basePath: BASE_PATH === "/" ? "" : BASE_PATH,
-        userTypesKodeverk
-    })
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
+        userTypesKodeverk,
+    });
 }
 
 export default function NewAssignmentForRole() {
-    const {isAssignedRoles, roleList, basePath} = useLoaderData<LoaderData>();
-    const params = useParams<string>()
+    const { isAssignedRoles, roleList, basePath } = useLoaderData<LoaderData>();
+    const params = useParams<string>();
 
     return (
         <Tabs.Panel value="grupper">
-            <TableToolbar
-                SearchComponent={<RoleSearch/>}
-            />
+            <TableToolbar SearchComponent={<RoleSearch />} />
             <AssignRoleTable
                 isAssignedRoles={isAssignedRoles}
                 resourceId={params.id}
@@ -82,9 +91,12 @@ export default function NewAssignmentForRole() {
 }
 
 export const handle = {
-    breadcrumb: ({params}: BreadcrumbParams) =>
-        <Link to={`/assignment/resource/${params.id}/role`} className={"breadcrumb-link"}>Gruppetildeling</Link>
-}
+    breadcrumb: ({ params }: BreadcrumbParams) => (
+        <Link to={`/assignment/resource/${params.id}/role`} className={'breadcrumb-link'}>
+            Gruppetildeling
+        </Link>
+    ),
+};
 
 export function ErrorBoundary() {
     const error: any = useRouteError();

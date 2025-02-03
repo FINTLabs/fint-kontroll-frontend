@@ -1,14 +1,13 @@
 describe('Test creation of new resource', () => {
     it('Navigate to opprett-ny-applikasjonsressurs', () => {
         cy.goToCreateResource();
-        cy.wait(1000)
+        cy.wait(1000);
     });
 
     it('Submits form and handles response', () => {
         cy.intercept('POST', 'http://localhost:8063/beta/fintlabs-no/api/resources/v1', {
             statusCode: 201,
         }).as('formSubmit');
-
 
         cy.get('input[name="resourceId"]').invoke('val', 'cypressTestRessurs');
         cy.get('input[name="resourceName"]').invoke('val', 'Cypress Test Ressurs');
@@ -38,11 +37,10 @@ describe('Test creation of new resource', () => {
         cy.get('input[name="unitCost"]').invoke('val', '199');
         cy.get('input[name="status"]').invoke('val', 'ACTIVE');
 
-        cy.get("button[type=submit]").contains("Lagre ressurs").should("exist").click();
+        cy.get('button[type=submit]').contains('Lagre ressurs').should('exist').click();
         cy.wait(1000);
-        cy.get(".navds-box .navds-alert").should("exist");
+        cy.get('.navds-box .navds-alert').should('exist');
         cy.wait(1000);
-        cy.get(".navds-box .navds-alert").contains("Ressursen ble opprettet!");
-
+        cy.get('.navds-box .navds-alert').contains('Ressursen ble opprettet!');
     });
-})
+});

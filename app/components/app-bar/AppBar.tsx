@@ -1,18 +1,17 @@
-import MeInfo from "~/components/app-bar/MeInfo";
-import {IMeInfo} from "~/data/types/userTypes";
-import {BodyShort, Hide, HStack} from "@navikt/ds-react";
-import {Link} from "@remix-run/react";
-import {Menu} from "~/components/app-bar/Menu";
+import MeInfo from '~/components/app-bar/MeInfo';
+import { IMeInfo } from '~/data/types/userTypes';
+import { BodyShort, Hide, HStack } from '@navikt/ds-react';
+import { Link } from '@remix-run/react';
+import { Menu } from '~/components/app-bar/Menu';
 
-export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string }) {
-
+export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string }) {
     return (
         <>
             <section className="h-20">
                 <HStack as="nav" justify="space-between" align="center">
                     <HStack align="center">
-                        <Link to={"/"} className={"kontroll"}>
-                            <BodyShort weight="semibold" size={"large"}>
+                        <Link to={'/'} className={'kontroll'}>
+                            <BodyShort weight="semibold" size={'large'}>
                                 FINT Kontroll
                             </BodyShort>
                         </Link>
@@ -20,18 +19,12 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
 
                     <div className="grid h-full">
                         <HStack align="center">
-                            {props.me ?
-                                <Menu me={props.me} source={props.source}/>
-                                :
-                                null
-                            }
-                            {props.me ?
+                            {props.me ? <Menu me={props.me} source={props.source} /> : null}
+                            {props.me ? (
                                 <Hide below="md" asChild>
-                                    <MeInfo me={props.me}/>
+                                    <MeInfo me={props.me} />
                                 </Hide>
-                                :
-                                null
-                            }
+                            ) : null}
                             {/*<Button variant="primary"
                                     as={Link}
                                     to="/_oauth/logout">
@@ -52,4 +45,3 @@ export function AppBar(props: { me: IMeInfo, basePath?: string, source?: string 
         </>
     );
 }
-

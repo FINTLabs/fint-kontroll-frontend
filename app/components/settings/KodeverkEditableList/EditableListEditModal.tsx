@@ -1,9 +1,9 @@
-import {Button, Loader, Modal, Textarea, TextField, VStack} from "@navikt/ds-react";
-import {NotePencilIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useNavigation, useParams} from "@remix-run/react";
-import React, {useCallback, useMemo, useState} from "react";
+import { Button, Loader, Modal, Textarea, TextField, VStack } from '@navikt/ds-react';
+import { NotePencilIcon } from '@navikt/aksel-icons';
+import { Form, useNavigate, useNavigation, useParams } from '@remix-run/react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import {IKodeverkCustomListItem} from "~/data/types/kodeverkTypes";
+import { IKodeverkCustomListItem } from '~/data/types/kodeverkTypes';
 
 interface EditableListEditModalProps {
     onCloseUrl: string;
@@ -17,37 +17,38 @@ interface EditableListEditModalProps {
     items: IKodeverkCustomListItem[];
 }
 
-export const EditableListEditModal = (
-    {
-        onCloseUrl,
-        editTitle,
-        createNewTitle,
-        errorText,
-        nameText,
-        descriptionText,
-        saveChangesButtonText,
-        saveNewButtonText,
-        items,
-    }: EditableListEditModalProps
-) => {
-    const navigate = useNavigate()
-    const response = useNavigation()
+export const EditableListEditModal = ({
+    onCloseUrl,
+    editTitle,
+    createNewTitle,
+    errorText,
+    nameText,
+    descriptionText,
+    saveChangesButtonText,
+    saveNewButtonText,
+    items,
+}: EditableListEditModalProps) => {
+    const navigate = useNavigate();
+    const response = useNavigation();
 
-    const params = useParams<string>()
-    const isEdit = !!params.id
+    const params = useParams<string>();
+    const isEdit = !!params.id;
 
-    const [name, setName] = useState(nameText || "");
+    const [name, setName] = useState(nameText || '');
 
     const nameAlreadyExist = useCallback(
-        (name: string) => items.some(category => category.name === name.trim() && category.id !== category?.id),
+        (name: string) =>
+            items.some((category) => category.name === name.trim() && category.id !== category?.id),
         [items]
     );
     const duplicateName = useMemo(() => nameAlreadyExist(name), [nameAlreadyExist, name]);
 
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
+    if (response.state === 'loading') {
+        return (
+            <div className={'spinner'}>
+                <Loader size="3xlarge" title="Venter..." />
+            </div>
+        );
     }
 
     return (
@@ -57,13 +58,12 @@ export const EditableListEditModal = (
             header={{
                 heading: isEdit ? editTitle : createNewTitle,
                 closeButton: false,
-                icon: <NotePencilIcon aria-hidden/>
+                icon: <NotePencilIcon aria-hidden />,
             }}
-            width="small"
-        >
-            <Form method={isEdit ? "PUT" : "POST"}>
+            width="small">
+            <Form method={isEdit ? 'PUT' : 'POST'}>
                 <Modal.Body>
-                    <VStack gap={"4"}>
+                    <VStack gap={'4'}>
                         <TextField
                             label="Navn"
                             name="categoryname"
@@ -82,27 +82,20 @@ export const EditableListEditModal = (
                     </VStack>
                 </Modal.Body>
                 <Modal.Footer>
-
                     <Button
                         type="submit"
                         variant="primary"
-                        loading={response.state === "submitting"}
+                        loading={response.state === 'submitting'}
                         name="intent"
-                        value={isEdit ? "edit" : "create"}
-                        disabled={!name || duplicateName}
-                    >
+                        value={isEdit ? 'edit' : 'create'}
+                        disabled={!name || duplicateName}>
                         {isEdit ? saveChangesButtonText : saveNewButtonText}
                     </Button>
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        onClick={() => navigate(onCloseUrl)}
-                    >
+                    <Button type="button" variant="secondary" onClick={() => navigate(onCloseUrl)}>
                         Avbryt
                     </Button>
-
                 </Modal.Footer>
             </Form>
         </Modal>
-    )
-}
+    );
+};

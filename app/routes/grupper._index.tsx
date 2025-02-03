@@ -1,55 +1,57 @@
 import React from 'react';
-import {Alert, Box} from "@navikt/ds-react";
-import {json} from "@remix-run/node";
-import {Links, Meta, Scripts, useLoaderData, useRouteError} from "@remix-run/react";
-import type {IRoleList} from "~/data/types/userTypes";
-import type {LoaderFunctionArgs} from "@remix-run/router";
-import {fetchRoles} from "~/data/fetch-roles";
-import {RoleTable} from "~/components/role/RoleTable";
-import {RoleSearch} from "~/components/role/RoleSearch";
-import {fetchAllOrgUnits} from "~/data/fetch-resources";
-import {getSizeCookieFromRequestHeader} from "~/components/common/CommonFunctions";
-import {TableHeaderLayout} from "~/components/common/Table/Header/TableHeaderLayout";
-import {fetchUserTypes} from "~/data/fetch-kodeverk";
-import {IUnitItem} from "~/data/types/orgUnitTypes";
+import { Alert, Box } from '@navikt/ds-react';
+import { json } from '@remix-run/node';
+import { Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
+import type { IRoleList } from '~/data/types/userTypes';
+import type { LoaderFunctionArgs } from '@remix-run/router';
+import { fetchRoles } from '~/data/fetch-roles';
+import { RoleTable } from '~/components/role/RoleTable';
+import { RoleSearch } from '~/components/role/RoleSearch';
+import { fetchAllOrgUnits } from '~/data/fetch-resources';
+import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
+import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
+import { fetchUserTypes } from '~/data/fetch-kodeverk';
+import { IUnitItem } from '~/data/types/orgUnitTypes';
 
-export async function loader({request}: LoaderFunctionArgs): Promise<Omit<Response, "json"> & {
-    json(): Promise<any>
-}> {
+export async function loader({ request }: LoaderFunctionArgs): Promise<
+    Omit<Response, 'json'> & {
+        json(): Promise<any>;
+    }
+> {
     const url = new URL(request.url);
-    const size = getSizeCookieFromRequestHeader(request)?.value ?? "25"
-    const page = url.searchParams.get("page") ?? "0";
-    const search = url.searchParams.get("search") ?? "";
-    const orgUnits = url.searchParams.get("orgUnits")?.split(",") ?? [];
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
+    const page = url.searchParams.get('page') ?? '0';
+    const search = url.searchParams.get('search') ?? '';
+    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
     const [roleList, responseOrgUnits, userTypesKodeverk] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
         fetchAllOrgUnits(request),
-        fetchUserTypes(request)
+        fetchUserTypes(request),
     ]);
 
     return json({
         roleList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
-        userTypesKodeverk
-    })
+        userTypesKodeverk,
+    });
 }
 
 export default function Grupper_index() {
-    const data = useLoaderData<typeof loader>()
+    const data = useLoaderData<typeof loader>();
 
-    const roleList: IRoleList = data.roleList
-    const orgUnitList: IUnitItem[] = data.orgUnitList
-    const size = data.size
+    const roleList: IRoleList = data.roleList;
+    const orgUnitList: IUnitItem[] = data.orgUnitList;
+    const size = data.size;
 
     return (
-        <div className={"content"}>
+        <div className={'content'}>
             <TableHeaderLayout
-                title={"Grupper"}
+                title={'Grupper'}
                 orgUnitsForFilter={orgUnitList}
-                SearchComponent={<RoleSearch/>}
+                SearchComponent={<RoleSearch />}
             />
-            <RoleTable rolePage={roleList} size={size}/>
+            <RoleTable rolePage={roleList} size={size} />
         </div>
     );
 }
@@ -58,21 +60,21 @@ export function ErrorBoundary() {
     const error: any = useRouteError();
     // console.error(error);
     return (
-        <html lang={"no"}>
-        <head>
-            <title>Feil oppstod</title>
-            <Meta/>
-            <Links/>
-        </head>
-        <body>
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-        <Scripts/>
-        </body>
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
         </html>
     );
 }

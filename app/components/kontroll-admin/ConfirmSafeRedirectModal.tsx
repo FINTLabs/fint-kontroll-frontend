@@ -1,48 +1,52 @@
-import React, {useEffect, useRef} from "react";
-import {Button, Modal} from "@navikt/ds-react";
-
+import React, { useEffect, useRef } from 'react';
+import { Button, Modal } from '@navikt/ds-react';
 
 interface ConfirmSafeRedirectModalProps {
-    isModalVisible: boolean
-    setIsModalVisible: (newVal: boolean) => void
-    discardChanges: () => void
+    isModalVisible: boolean;
+    setIsModalVisible: (newVal: boolean) => void;
+    discardChanges: () => void;
 }
 
-export const ConfirmSafeRedirectModal = ({isModalVisible, setIsModalVisible, discardChanges}: ConfirmSafeRedirectModalProps) => {
-    const ref = useRef<HTMLDialogElement>(null)
+export const ConfirmSafeRedirectModal = ({
+    isModalVisible,
+    setIsModalVisible,
+    discardChanges,
+}: ConfirmSafeRedirectModalProps) => {
+    const ref = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
-        isModalVisible ? handleOpenModal() : null
-    }, [isModalVisible])
+        isModalVisible ? handleOpenModal() : null;
+    }, [isModalVisible]);
 
     const handleSaveChanges = () => {
-        setIsModalVisible(false)
-        ref.current?.close()
-    }
+        setIsModalVisible(false);
+        ref.current?.close();
+    };
 
     const handleOpenModal = () => {
-        ref.current?.showModal()
-    }
+        ref.current?.showModal();
+    };
 
     const handleDiscardChanges = () => {
-        setIsModalVisible(false)
-        ref.current?.close()
-    }
+        setIsModalVisible(false);
+        ref.current?.close();
+    };
 
     const handleDiscardAndNavigate = () => {
-        handleDiscardChanges()
-        discardChanges()
-    }
+        handleDiscardChanges();
+        discardChanges();
+    };
 
     return (
         <div className="py-6">
             <Modal
                 ref={ref}
-                header={{ heading: "Lagre endringer" }}
+                header={{ heading: 'Lagre endringer' }}
                 onClose={handleDiscardChanges}
-                onCancel={handleDiscardChanges}
-            >
-                <Modal.Body>Du har data som ikke er lagret. Ønsker du å forkaste endringene?</Modal.Body>
+                onCancel={handleDiscardChanges}>
+                <Modal.Body>
+                    Du har data som ikke er lagret. Ønsker du å forkaste endringene?
+                </Modal.Body>
                 <Modal.Footer>
                     <Button type="button" onClick={handleSaveChanges}>
                         Lagre endringer
@@ -53,5 +57,5 @@ export const ConfirmSafeRedirectModal = ({isModalVisible, setIsModalVisible, dis
                 </Modal.Footer>
             </Modal>
         </div>
-    )
-}
+    );
+};

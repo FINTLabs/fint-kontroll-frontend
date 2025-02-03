@@ -14,14 +14,13 @@ body {
 }
 
 .schema {
-
     ul {
         list-style: none;
     }
 }
 
 @media only screen and (max-width: 1200px) {
-    [class*="schema"] {
+    [class*='schema'] {
         width: 100%;
     }
 }
@@ -30,7 +29,6 @@ body {
     display: flex;
     justify-content: end;
     align-items: end;
-
 }
 
 .toolbar {
@@ -68,7 +66,7 @@ table {
     align-items: center;
     padding: 6rem;
     margin-top: 5rem;
-    background-color: #F2F3F5;
+    background-color: #f2f3f5;
 }
 
 .delete-icon-button {
@@ -82,7 +80,8 @@ table {
 
 .button-outlined {
     color: var(--a-nav-red);
-    box-shadow: inset 0 0 0 2px var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
+    box-shadow: inset 0 0 0 2px
+        var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
 }
 
 .button-outlined:hover {
@@ -115,7 +114,7 @@ table {
 
 .org-unit-accordion {
     width: 100%;
-    animation: "fadeExpansionCard 250ms ease";
+    animation: 'fadeExpansionCard 250ms ease';
     align-content: start;
 
     .org-unit-accordion__button {
@@ -152,10 +151,8 @@ table {
                 background-color: #5ac8fa;
                 float: right;
             }
-
         }
     }
-
 }
 
 .navds-radio-buttons {
@@ -184,7 +181,8 @@ table {
 /* Nav AKSEL customized styling */
 .button-secondary-danger {
     color: var(--a-nav-red);
-    box-shadow: inset 0 0 0 2px var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
+    box-shadow: inset 0 0 0 2px
+        var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
 }
 
 .button-secondary-danger:hover {
@@ -279,7 +277,6 @@ table {
             transform: scale(1.5);
         }
     }
-
 }
 
 .breadcrumb-link {
@@ -301,32 +298,32 @@ table {
 }
 
 :root {
-    --orange-dark: #A61D08;
-    --orange-primary: #F76650;
-    --orange-80: #FB9582;
-    --orange-60: #FDC3B4;
-    --orange-40: #FFE0D5;
+    --orange-dark: #a61d08;
+    --orange-primary: #f76650;
+    --orange-80: #fb9582;
+    --orange-60: #fdc3b4;
+    --orange-40: #ffe0d5;
     --orange-20: #feeae7;
 
-    --red-dark: #570F31;
-    --red-primary: #6B133D;
-    --red-80: #8C3E62;
-    --red-60: #AD697F;
-    --red-40: #CF93A3;
-    --red-20: #EBC1C9;
+    --red-dark: #570f31;
+    --red-primary: #6b133d;
+    --red-80: #8c3e62;
+    --red-60: #ad697f;
+    --red-40: #cf93a3;
+    --red-20: #ebc1c9;
 
-    --blue-dark: #5A51E1;
-    --blue-primary: #7F78E8;
-    --blue-80: #A19CF0;
-    --blue-60: #C3BEF7;
-    --blue-40: #CCC9F6;
-    --blue-20: #E5E4FA;
+    --blue-dark: #5a51e1;
+    --blue-primary: #7f78e8;
+    --blue-80: #a19cf0;
+    --blue-60: #c3bef7;
+    --blue-40: #ccc9f6;
+    --blue-20: #e5e4fa;
 
-    --beige-darker: #D4B89A;
-    --beige-dark: #EFD8B8;
-    --beige-primary: #F8ECDC;
-    --beige-80: #FAF1E5;
-    --beige-60: #FCF5ED;
-    --beige-40: #FDF9F5;
-    --beige-20: #FEFCFA;
+    --beige-darker: #d4b89a;
+    --beige-dark: #efd8b8;
+    --beige-primary: #f8ecdc;
+    --beige-80: #faf1e5;
+    --beige-60: #fcf5ed;
+    --beige-40: #fdf9f5;
+    --beige-20: #fefcfa;
 }
