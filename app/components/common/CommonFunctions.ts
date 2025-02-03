@@ -147,10 +147,15 @@ export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUs
         'sluttbruker',
     ];
     const unusedRoles = ['leder', 'godkjenner', 'sluttbruker'];
-    let filteredRoles = roles;
+    let filteredRoles = roles.map((role) => ({
+        ...role,
+        ...('name' in role
+            ? { name: role.name.toLowerCase() }
+            : { roleName: role.roleName.toLowerCase() }),
+    }));
 
     if (removeUnusedRoles) {
-        filteredRoles = roles.filter((role) => {
+        filteredRoles = filteredRoles.filter((role) => {
             const roleName = 'name' in role ? role.name : role.roleName;
             return !unusedRoles.includes(roleName.toLowerCase());
         });
