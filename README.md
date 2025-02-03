@@ -20,10 +20,12 @@ CYPRESS_TESTS=false
 ## Development
 
 ### Start locally:
+
 1. **Start Port Forwarding**  
    Run portall in package.json
 1. **Start React**  
    Run the provided script:
+
 ```sh
 npm run dev
 ```
@@ -39,6 +41,7 @@ cypress run
 ```
 
 Open tests in browser:
+
 ```bash
 cypress open
 ```

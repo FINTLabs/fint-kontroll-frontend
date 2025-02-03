@@ -1,11 +1,11 @@
-import {Skeleton, Table} from "@navikt/ds-react";
-import React from "react";
+import { Skeleton, Table } from '@navikt/ds-react';
+import React from 'react';
 
 type LoadingSpinnerProps = {
-    columns?: number
-    rows?: number
-    height?: number
-}
+    columns?: number;
+    rows?: number;
+    height?: number;
+};
 
 const SkeletonRow = ({ columns = 4, height = 50 }: LoadingSpinnerProps) => (
     <Table.Row>
@@ -20,7 +20,7 @@ const SkeletonRow = ({ columns = 4, height = 50 }: LoadingSpinnerProps) => (
 export const TableSkeleton = ({ rows = 4, columns = 4, height = 50 }: LoadingSpinnerProps) => (
     <>
         {Array.from({ length: rows }).map((_, index) => (
-            <SkeletonRow key={index} columns={columns} height={height}/>
+            <SkeletonRow key={index} columns={columns} height={height} />
         ))}
     </>
 );

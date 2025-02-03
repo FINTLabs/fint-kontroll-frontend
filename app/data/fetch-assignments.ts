@@ -1,126 +1,177 @@
-import {ASSIGNMENT_API_URL, BASE_PATH} from "../../environment";
-import logger from "~/logging/logger";
+import { ASSIGNMENT_API_URL, BASE_PATH } from '../../environment';
+import logger from '~/logging/logger';
 
-export const fetchAssignedUsers = async (request: Request, id: string | undefined, size: string, page: string, search: string, userType: string, orgUnits: string[], userFilter?: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}${userFilter}`,
+export const fetchAssignedUsers = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    search: string,
+    userType: string,
+    orgUnits: string[],
+    userFilter?: string
+) => {
+    const response = await fetch(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${userFilter}`,
         {
-            headers: request.headers
-        });
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response;
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen?")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt!")
+        throw new Error('Påloggingen din er utløpt!');
     }
     throw new Error(`Det oppstod en uventet feil. Status kode: ${response.status}`);
+};
 
-}
-
-export const fetchAssignedResourcesForUser = async (request: Request, id: string | undefined, size: string, page: string, resourceType: string, resourceFilter: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
+export const fetchAssignedResourcesForUser = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    resourceType: string,
+    resourceFilter: string
+) => {
+    const response = await fetch(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
         {
-            headers: request.headers
-        });
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response;
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen?")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt!")
+        throw new Error('Påloggingen din er utløpt!');
     }
-    throw new Error("Det virker ikke som om du er pålogget?")
+    throw new Error('Det virker ikke som om du er pålogget?');
+};
 
-}
-
-
-export const fetchAssignmentsForUser = async (request: Request, id: string | undefined, size: string, page: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}`, {
-        headers: request.headers
-    });
+export const fetchAssignmentsForUser = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string
+) => {
+    const response = await fetch(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response;
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
-}
-
-export const fetchAssignedRoles = async (request: Request, id: string | undefined, size: string, page: string, search: string, orgUnits: string[], roleFilter?: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ""}${roleFilter}`, {
-        headers: request.headers
-    });
+export const fetchAssignedRoles = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    search: string,
+    orgUnits: string[],
+    roleFilter?: string
+) => {
+    const response = await fetch(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${roleFilter}`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response;
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
-}
-
-export const fetchAssignmentsForRole = async (request: Request, id: string | undefined, size: string, page: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`, {
-        headers: request.headers
-    });
+export const fetchAssignmentsForRole = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string
+) => {
+    const response = await fetch(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response;
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
-}
-
-export const createUserAssignment = async (token: string | null, resourceRef: number, userRef: number, organizationUnitId: string) => {
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
-    logger.info("POST user assignment to ", url, " with body ", JSON.stringify({
-        resourceRef: resourceRef,
-        userRef: userRef,
-        organizationUnitId: organizationUnitId,
-    }));
+export const createUserAssignment = async (
+    token: string | null,
+    resourceRef: number,
+    userRef: number,
+    organizationUnitId: string
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
+    logger.info(
+        'POST user assignment to ',
+        url,
+        ' with body ',
+        JSON.stringify({
+            resourceRef: resourceRef,
+            userRef: userRef,
+            organizationUnitId: organizationUnitId,
+        })
+    );
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,
             userRef: userRef,
             organizationUnitId: organizationUnitId,
-        })
+        }),
     });
-    logger.debug("Response from CRETE USER Assignments????", url, response.status);
+    logger.debug('Response from CRETE USER Assignments????', url, response.status);
     return response;
-}
+};
 
 /* Dette er opprinnelig
 export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
@@ -136,46 +187,55 @@ export const createRoleAssignment = async (request: Request, resourceRef: number
     return response;
 }*/
 
+export const createRoleAssignment = async (
+    token: string | null,
+    resourceRef: number,
+    roleRef: number,
+    organizationUnitId: string
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
 
-export const createRoleAssignment = async (token: string | null, resourceRef: number, roleRef: number, organizationUnitId: string) => {
-
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`
-
-    logger.info("POST Role assignment to url:", url, " with body ", JSON.stringify({
-        resourceRef: resourceRef,
-        roleRef: roleRef,
-        organizationUnitId: organizationUnitId,
-    }));
+    logger.info(
+        'POST Role assignment to url:',
+        url,
+        ' with body ',
+        JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        })
+    );
 
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
             resourceRef: resourceRef,
             roleRef: roleRef,
             organizationUnitId: organizationUnitId,
-        })
-
+        }),
     });
-    return response
-}
+    return response;
+};
 
-
-export const deleteAssignment = async (token: string | null, request: Request, assignmentRef: string) => {
-
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`
-    logger.debug("Delete assignment ", url);
+export const deleteAssignment = async (
+    token: string | null,
+    request: Request,
+    assignmentRef: string
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`;
+    logger.debug('Delete assignment ', url);
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
-        method: 'DELETE'
+        method: 'DELETE',
     });
-    logger.debug("Response from deleteAssignments", url, response.status);
+    logger.debug('Response from deleteAssignments', url, response.status);
 
     return response;
-}
+};

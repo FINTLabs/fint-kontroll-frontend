@@ -1,7 +1,7 @@
-import {BodyShort, Button, Loader, Modal} from "@navikt/ds-react";
-import {TrashIcon} from "@navikt/aksel-icons";
-import {Form, useNavigate, useNavigation} from "@remix-run/react";
-import React from "react";
+import { BodyShort, Button, Loader, Modal } from '@navikt/ds-react';
+import { TrashIcon } from '@navikt/aksel-icons';
+import { Form, useNavigate, useNavigation } from '@remix-run/react';
+import React from 'react';
 
 interface EditableListDeleteModalProps {
     title: string;
@@ -9,14 +9,20 @@ interface EditableListDeleteModalProps {
     onCloseUrl: string;
 }
 
-export const EditableListDeleteModal = ({title, text, onCloseUrl}: EditableListDeleteModalProps) => {
-    const response = useNavigation()
-    const navigate = useNavigate()
+export const EditableListDeleteModal = ({
+    title,
+    text,
+    onCloseUrl,
+}: EditableListDeleteModalProps) => {
+    const response = useNavigation();
+    const navigate = useNavigate();
 
-    if (response.state === "loading") {
-        return <div className={"spinner"}>
-            <Loader size="3xlarge" title="Venter..."/>
-        </div>
+    if (response.state === 'loading') {
+        return (
+            <div className={'spinner'}>
+                <Loader size="3xlarge" title="Venter..." />
+            </div>
+        );
     }
 
     return (
@@ -26,33 +32,25 @@ export const EditableListDeleteModal = ({title, text, onCloseUrl}: EditableListD
             header={{
                 heading: title,
                 closeButton: false,
-                icon: <TrashIcon aria-hidden/>
+                icon: <TrashIcon aria-hidden />,
             }}
-            width="small"
-        >
-            <Form method={"DELETE"}>
+            width="small">
+            <Form method={'DELETE'}>
                 <Modal.Body>
                     <BodyShort>{text}</BodyShort>
                 </Modal.Body>
                 <Modal.Footer>
-
                     <Button
                         type="submit"
                         variant="danger"
-                        loading={response.state === "submitting"}
-                    >
+                        loading={response.state === 'submitting'}>
                         Slett
                     </Button>
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        onClick={() => navigate(onCloseUrl)}
-                    >
+                    <Button type="button" variant="secondary" onClick={() => navigate(onCloseUrl)}>
                         Avbryt
                     </Button>
-
                 </Modal.Footer>
             </Form>
         </Modal>
-    )
-}
+    );
+};

@@ -1,59 +1,59 @@
 {
-	"totalItems": 8,
-	"currentPage": 0,
-	"totalPages": 2,
-	"size": 5,
-	"users": [
-		{
-			"id": "1",
-			"resourceId": "1",
-			"firstName": "Petter",
-			"lastName": "Pettersen",
-			"userType": "STUDENT",
-			"userName": "petter@petter.com"
-		},
-		{
-			"id": "2",
-			"resourceId": "2",
-			"firstName": "Lurifaks",
-			"lastName": "Bodilsen",
-			"userType": "ADMIN",
-			"userName": "bodilsen@luri.no"
-		},
-		{
-			"id": 442,
-			"fullName": "Karen Berg",
-			"organisationUnitName": "VGMIDT Midtbyen videregående skole",
-			"organisationUnitId": "194",
-			"userType": "STUDENT"
-		},
-		{
-			"id": 443,
-			"fullName": "Lasse Luft",
-			"organisationUnitName": "VGMIDT Midtbyen videregående skole",
-			"organisationUnitId": "194",
-			"userType": "EMPLOYEE"
-		},
-		{
-			"id": 105,
-			"fullName": "Marie Henriksen",
-			"organisationUnitName": "VGMIDT Realfag",
-			"organisationUnitId": "204",
-			"userType": "EMPLOYEE"
-		},
-		{
-			"id": 109,
-			"fullName": "Hans Berg",
-			"organisationUnitName": "VGMIDT Realfag",
-			"organisationUnitId": "204",
-			"userType": "EMPLOYEE"
-		},
-		{
-			"id": 113,
-			"fullName": "Ingar Johansen",
-			"organisationUnitName": "VGMIDT Realfag",
-			"organisationUnitId": "204",
-			"userType": "EMPLOYEE"
-		}
-	]
+    "totalItems": 8,
+    "currentPage": 0,
+    "totalPages": 2,
+    "size": 5,
+    "users": [
+        {
+            "id": "1",
+            "resourceId": "1",
+            "firstName": "Petter",
+            "lastName": "Pettersen",
+            "userType": "STUDENT",
+            "userName": "petter@petter.com"
+        },
+        {
+            "id": "2",
+            "resourceId": "2",
+            "firstName": "Lurifaks",
+            "lastName": "Bodilsen",
+            "userType": "ADMIN",
+            "userName": "bodilsen@luri.no"
+        },
+        {
+            "id": 442,
+            "fullName": "Karen Berg",
+            "organisationUnitName": "VGMIDT Midtbyen videregående skole",
+            "organisationUnitId": "194",
+            "userType": "STUDENT"
+        },
+        {
+            "id": 443,
+            "fullName": "Lasse Luft",
+            "organisationUnitName": "VGMIDT Midtbyen videregående skole",
+            "organisationUnitId": "194",
+            "userType": "EMPLOYEE"
+        },
+        {
+            "id": 105,
+            "fullName": "Marie Henriksen",
+            "organisationUnitName": "VGMIDT Realfag",
+            "organisationUnitId": "204",
+            "userType": "EMPLOYEE"
+        },
+        {
+            "id": 109,
+            "fullName": "Hans Berg",
+            "organisationUnitName": "VGMIDT Realfag",
+            "organisationUnitId": "204",
+            "userType": "EMPLOYEE"
+        },
+        {
+            "id": 113,
+            "fullName": "Ingar Johansen",
+            "organisationUnitName": "VGMIDT Realfag",
+            "organisationUnitId": "204",
+            "userType": "EMPLOYEE"
+        }
+    ]
 }

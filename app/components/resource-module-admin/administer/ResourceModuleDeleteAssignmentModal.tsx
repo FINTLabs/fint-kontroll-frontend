@@ -1,74 +1,78 @@
-import {Button, Modal, Select, Switch} from "@navikt/ds-react";
-import {useEffect, useRef, useState} from "react";
-import {Form} from "@remix-run/react";
-import {IAccessRole} from "~/data/types/userTypes";
-
+import { Button, Modal, Select, Switch } from '@navikt/ds-react';
+import { useEffect, useRef, useState } from 'react';
+import { Form } from '@remix-run/react';
+import { IAccessRole } from '~/data/types/userTypes';
 
 interface DeleteAssignmentsModalProps {
-    selectedRoleToDeleteFrom: IAccessRole
-    modalOpenProp: boolean
-    setIsDeleteModalOpen: (isOpen: boolean) => void
-    objectTypesForUser: string[]
+    selectedRoleToDeleteFrom: IAccessRole;
+    modalOpenProp: boolean;
+    setIsDeleteModalOpen: (isOpen: boolean) => void;
+    objectTypesForUser: string[];
 }
 
 const DeleteAssignment = ({
-        setIsDeleteModalOpen,
-        modalOpenProp,
-        selectedRoleToDeleteFrom,
-        objectTypesForUser
-    }: DeleteAssignmentsModalProps) => {
-    const deleteRef = useRef<HTMLDialogElement>(null)
-    const [completeDelete, setCompleteDelete] = useState(false)
+    setIsDeleteModalOpen,
+    modalOpenProp,
+    selectedRoleToDeleteFrom,
+    objectTypesForUser,
+}: DeleteAssignmentsModalProps) => {
+    const deleteRef = useRef<HTMLDialogElement>(null);
+    const [completeDelete, setCompleteDelete] = useState(false);
 
-    const [objectTypeToDelete, setObjectTypeToDelete] = useState(objectTypesForUser[0])
-
+    const [objectTypeToDelete, setObjectTypeToDelete] = useState(objectTypesForUser[0]);
 
     useEffect(() => {
         if (selectedRoleToDeleteFrom.accessRoleId.length > 0 || modalOpenProp) {
-            openModal()
+            openModal();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedRoleToDeleteFrom, modalOpenProp])
+    }, [selectedRoleToDeleteFrom, modalOpenProp]);
 
     useEffect(() => {
         if (completeDelete) {
-            setObjectTypeToDelete("")
+            setObjectTypeToDelete('');
         }
-    }, [completeDelete])
+    }, [completeDelete]);
 
     const openModal = () => {
-        setIsDeleteModalOpen(true)
-        deleteRef.current?.showModal()
-    }
+        setIsDeleteModalOpen(true);
+        deleteRef.current?.showModal();
+    };
 
     const closeModal = () => {
-        setIsDeleteModalOpen(false)
-        deleteRef.current?.close()
-    }
+        setIsDeleteModalOpen(false);
+        deleteRef.current?.close();
+    };
 
     const handleDeleteAssignmentData = () => {
-        const accessRoleIdEle = document.getElementById("accessRoleId")
-        const objectTypeToDeleteEle = document.getElementById("objectTypeToDelete")
+        const accessRoleIdEle = document.getElementById('accessRoleId');
+        const objectTypeToDeleteEle = document.getElementById('objectTypeToDelete');
 
-        accessRoleIdEle ? accessRoleIdEle.setAttribute("value", selectedRoleToDeleteFrom.accessRoleId) : ""
-        objectTypeToDeleteEle ? objectTypeToDeleteEle.setAttribute("value", objectTypeToDelete) : ""
+        accessRoleIdEle
+            ? accessRoleIdEle.setAttribute('value', selectedRoleToDeleteFrom.accessRoleId)
+            : '';
+        objectTypeToDeleteEle
+            ? objectTypeToDeleteEle.setAttribute('value', objectTypeToDelete)
+            : '';
 
-        closeModal()
-    }
+        closeModal();
+    };
 
     return (
-        <Modal ref={deleteRef} header={{ heading: `Slett ${selectedRoleToDeleteFrom.name}?` }} onClose={closeModal}>
+        <Modal
+            ref={deleteRef}
+            header={{ heading: `Slett ${selectedRoleToDeleteFrom.name}?` }}
+            onClose={closeModal}>
             <Modal.Body>
-                Ønsker du å slette brukertilknytningen til {selectedRoleToDeleteFrom.name} og de underliggende
-                organisasjonsenhetene?
+                Ønsker du å slette brukertilknytningen til {selectedRoleToDeleteFrom.name} og de
+                underliggende organisasjonsenhetene?
                 <Switch onClick={() => setCompleteDelete(!completeDelete)} checked={completeDelete}>
-                    Fjern hele knytningen uavhengig objekttyper?{" "}
+                    Fjern hele knytningen uavhengig objekttyper?{' '}
                 </Switch>
                 {!completeDelete && (
                     <Select
-                        label={"Velg objekttype å inkludere i sletting"}
-                        onChange={(e) => setObjectTypeToDelete(e.target.value)}
-                    >
+                        label={'Velg objekttype å inkludere i sletting'}
+                        onChange={(e) => setObjectTypeToDelete(e.target.value)}>
                         {objectTypesForUser.map((objectType, index) => (
                             <option key={index}>{objectType}</option>
                         ))}
@@ -76,11 +80,18 @@ const DeleteAssignment = ({
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Form onSubmit={handleDeleteAssignmentData} method={"DELETE"} name={"deleteOneAssignmentByRole"}>
-                    <input type={"hidden"} name={"deleteOneAssignmentByRole"} value={"deleteOneAssignmentByRole"} />
-                    <input type={"hidden"} name={"accessRoleId"} id={"accessRoleId"} />
-                    <input type={"hidden"} name={"objectTypeToDelete"} id={"objectTypeToDelete"} />
-                    <Button type="submit" variant={"danger"}>
+                <Form
+                    onSubmit={handleDeleteAssignmentData}
+                    method={'DELETE'}
+                    name={'deleteOneAssignmentByRole'}>
+                    <input
+                        type={'hidden'}
+                        name={'deleteOneAssignmentByRole'}
+                        value={'deleteOneAssignmentByRole'}
+                    />
+                    <input type={'hidden'} name={'accessRoleId'} id={'accessRoleId'} />
+                    <input type={'hidden'} name={'objectTypeToDelete'} id={'objectTypeToDelete'} />
+                    <Button type="submit" variant={'danger'}>
                         Slett
                     </Button>
                 </Form>
@@ -89,7 +100,7 @@ const DeleteAssignment = ({
                 </Button>
             </Modal.Footer>
         </Modal>
-    )
-}
+    );
+};
 
-export default DeleteAssignment
+export default DeleteAssignment;

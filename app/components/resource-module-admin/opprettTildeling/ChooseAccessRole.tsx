@@ -1,24 +1,23 @@
-import {Radio, RadioGroup, VStack} from "@navikt/ds-react";
-import {IAccessRole} from "~/data/types/userTypes";
-import {sortAndCapitalizeRoles} from "~/components/common/CommonFunctions";
+import { Radio, RadioGroup, VStack } from '@navikt/ds-react';
+import { IAccessRole } from '~/data/types/userTypes';
+import { sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
 
 interface ChooseAccessRoleProps {
-    accessRoles: IAccessRole[]
-    setNewAccessRole: (accessRoleId: string) => void
+    accessRoles: IAccessRole[];
+    setNewAccessRole: (accessRoleId: string) => void;
 }
 
-const ChooseAccessRole = ({accessRoles, setNewAccessRole}: ChooseAccessRoleProps) => {
+const ChooseAccessRole = ({ accessRoles, setNewAccessRole }: ChooseAccessRoleProps) => {
     return (
-        <RadioGroup legend={"Velg aksessrolle"} onChange={setNewAccessRole}>
+        <RadioGroup legend={'Velg aksessrolle'} onChange={setNewAccessRole}>
             <VStack>
-                {sortAndCapitalizeRoles(accessRoles)
-                    .map((accessRole, index) =>
-                        <Radio key={accessRole.accessRoleId} value={accessRole.accessRoleId}>
-                            {accessRole.name}
-                        </Radio>
-                    )}
+                {sortAndCapitalizeRoles(accessRoles).map((accessRole, index) => (
+                    <Radio key={accessRole.accessRoleId} value={accessRole.accessRoleId}>
+                        {accessRole.name}
+                    </Radio>
+                ))}
             </VStack>
         </RadioGroup>
-    )
-}
-export default ChooseAccessRole
+    );
+};
+export default ChooseAccessRole;

@@ -14,12 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-Cypress.on("uncaught:exception", (err) => {
+Cypress.on('uncaught:exception', (err) => {
     // Cypress and React Hydrating the document don't get along
     // for some unknown reason. Hopefully we figure out why eventually
     // so we can remove this.

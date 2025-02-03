@@ -1,39 +1,33 @@
 [
-	{
-		"currentPage": 0,
-		"totalItems": 2,
-		"totalPages": 1,
-		"orgUnits": [
-			{
-				"id": "1",
-				"name": "org1",
-				"organisationUnitId": "1",
-				"parentRef": "0",
-				"parentName": null,
-				"childrenRef": [
-					"2"
-				]
-			},
-			{
-				"id": "2",
-				"name": "org2",
-				"organisationUnitId": "2",
-				"parentRef": "1",
-				"parentName": "org1",
-				"childrenRef": [
-					""
-				]
-			},
-			{
-				"id": "3",
-				"name": "org3",
-				"organisationUnitId": "3",
-				"parentRef": "",
-				"parentName": null,
-				"childrenRef": [
-					""
-				]
-			}
-		]
-	}
+    {
+        "currentPage": 0,
+        "totalItems": 2,
+        "totalPages": 1,
+        "orgUnits": [
+            {
+                "id": "1",
+                "name": "org1",
+                "organisationUnitId": "1",
+                "parentRef": "0",
+                "parentName": null,
+                "childrenRef": ["2"]
+            },
+            {
+                "id": "2",
+                "name": "org2",
+                "organisationUnitId": "2",
+                "parentRef": "1",
+                "parentName": "org1",
+                "childrenRef": [""]
+            },
+            {
+                "id": "3",
+                "name": "org3",
+                "organisationUnitId": "3",
+                "parentRef": "",
+                "parentName": null,
+                "childrenRef": [""]
+            }
+        ]
+    }
 ]

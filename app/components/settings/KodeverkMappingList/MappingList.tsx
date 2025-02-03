@@ -1,49 +1,41 @@
-import {Button, Table} from "@navikt/ds-react";
-import React from "react";
-import {Outlet, useNavigate} from "@remix-run/react";
-import {PencilIcon} from "@navikt/aksel-icons";
-import {IKodeverkMappingList} from "~/data/types/kodeverkTypes";
+import { Button, Table } from '@navikt/ds-react';
+import React from 'react';
+import { Outlet, useNavigate } from '@remix-run/react';
+import { PencilIcon } from '@navikt/aksel-icons';
+import { IKodeverkMappingList } from '~/data/types/kodeverkTypes';
 
 type MappingListProps = {
-    listItems: IKodeverkMappingList[]
-    name: string
-    getEditItemUrl: (id: number) => string
-}
+    listItems: IKodeverkMappingList[];
+    name: string;
+    getEditItemUrl: (id: number) => string;
+};
 
-
-export const MappingList = (
-    {
-        listItems,
-        name,
-        getEditItemUrl,
-    }: MappingListProps
-) => {
-    const navigate = useNavigate()
+export const MappingList = ({ listItems, name, getEditItemUrl }: MappingListProps) => {
+    const navigate = useNavigate();
     return (
         <>
-            <Outlet/>
+            <Outlet />
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.ColumnHeader scope="col">{name}</Table.ColumnHeader>
                         <Table.ColumnHeader scope="col">Egendefinert navn</Table.ColumnHeader>
-                        <Table.ColumnHeader scope="col" align="right">Rediger</Table.ColumnHeader>
-
+                        <Table.ColumnHeader scope="col" align="right">
+                            Rediger
+                        </Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                     {listItems
                         .sort((a, b) => a.id - b.id)
-                        .map(({id, fkLabel, label}) => (
+                        .map(({ id, fkLabel, label }) => (
                             <Table.Row key={id}>
                                 <Table.DataCell className="nowrap">{label}</Table.DataCell>
-                                <Table.DataCell className="nowrap">
-                                    {fkLabel}
-                                </Table.DataCell>
+                                <Table.DataCell className="nowrap">{fkLabel}</Table.DataCell>
                                 <Table.DataCell align="right">
                                     <Button
-                                        icon={<PencilIcon title="Rediger"/>}
+                                        icon={<PencilIcon title="Rediger" />}
                                         size="small"
                                         variant="tertiary"
                                         onClick={() => navigate(getEditItemUrl(id))}
@@ -54,5 +46,5 @@ export const MappingList = (
                 </Table.Body>
             </Table>
         </>
-    )
-}
+    );
+};

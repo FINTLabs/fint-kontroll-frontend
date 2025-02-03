@@ -1,9 +1,9 @@
-import {BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL} from "../../environment";
-import logger from "~/logging/logger";
-import {IValidForOrgUnits} from "~/components/service-admin/types";
-import {fetchData} from "~/data/helpers";
-import {IUnitTree} from "~/data/types/orgUnitTypes";
-import {IResource, IResourceAdminList, IResourceList} from "~/data/types/resourceTypes";
+import { BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL } from '../../environment';
+import logger from '~/logging/logger';
+import { IValidForOrgUnits } from '~/components/service-admin/types';
+import { fetchData } from '~/data/helpers';
+import { IUnitTree } from '~/data/types/orgUnitTypes';
+import { IResource, IResourceAdminList, IResourceList } from '~/data/types/resourceTypes';
 
 export const fetchResources = async (
     request: Request,
@@ -15,32 +15,34 @@ export const fetchResources = async (
     accessType: string,
     userType?: string
 ): Promise<IResourceList> => {
+    const applicationCategoryParameter =
+        applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : '';
+    const sizeParameter = size ? `&size=${size}` : '';
+    const pageParameter = page ? `&page=${page}` : '';
+    const searchParameter = search.length > 0 ? `&search=${search}` : '';
+    const orgUnitsParameter = orgUnits.length > 0 ? '&orgunits=' + orgUnits : '';
+    const accesstypeParameter = accessType.length > 0 ? `&accesstype=${accessType}` : '';
+    const userTypeParameter = userType ? `&usertype=${userType}` : '';
 
-    const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : ""
-    const sizeParameter = size ? `&size=${size}` : "";
-    const pageParameter = page ? `&page=${page}` : "";
-    const searchParameter = search.length > 0 ? `&search=${search}` : ""
-    const orgUnitsParameter = orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""
-    const accesstypeParameter = accessType.length > 0 ? `&accesstype=${accessType}` : ""
-    const userTypeParameter = userType ? `&usertype=${userType}` : ""
-
-    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`, {
-        headers: request.headers
-    });
+    const response = await fetch(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response.json();
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
-
-}
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const fetchResourcesForAdmin = async (
     request: Request,
@@ -52,30 +54,32 @@ export const fetchResourcesForAdmin = async (
     applicationCategory: string,
     accessType: string
 ): Promise<IResourceAdminList> => {
-
-    const applicationCategoryParameter = applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined
-    const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined
-    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${status.length > 0 ? '&status=' + status : ""}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ""}&${accesstypeParameter}`
+    const applicationCategoryParameter =
+        applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined;
+    const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined;
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${status.length > 0 ? '&status=' + status : ''}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ''}&${accesstypeParameter}`;
     const response = await fetch(url, {
-        headers: request.headers
+        headers: request.headers,
     });
     if (response.ok) {
         return response.json();
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
-}
-
-export const fetchResourceById = async (request: Request, id: string | undefined): Promise<IResource> => {
+export const fetchResourceById = async (
+    request: Request,
+    id: string | undefined
+): Promise<IResource> => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, {
-        headers: request.headers
+        headers: request.headers,
     });
 
     if (response.ok) {
@@ -83,37 +87,38 @@ export const fetchResourceById = async (request: Request, id: string | undefined
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
-
-}
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const fetchApplicationCategory = async (request: Request): Promise<string[]> => {
-    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`, {
-        headers: request.headers
-    });
+    const response = await fetch(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`,
+        {
+            headers: request.headers,
+        }
+    );
 
     if (response.ok) {
         return response.json();
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
-
-}
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const fetchAccessType = async (request: Request) => {
     const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/accesstypes`, {
-        headers: request.headers
+        headers: request.headers,
     });
 
     if (response.ok) {
@@ -121,14 +126,13 @@ export const fetchAccessType = async (request: Request) => {
     }
 
     if (response.status === 403) {
-        throw new Error("Det ser ut som om du mangler rettigheter i løsningen")
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
     }
     if (response.status === 401) {
-        throw new Error("Påloggingen din er utløpt")
+        throw new Error('Påloggingen din er utløpt');
     }
-    throw new Error("Det virker ikke som om du er pålogget")
-
-}
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const createResource = async (
     token: string | null,
@@ -148,29 +152,34 @@ export const createResource = async (
     unitCost: string,
     status: string
 ) => {
-    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
-    logger.debug("POST CREATE RESOURCE to ", url, " with body ", JSON.stringify({
-        resourceId: resourceId,
-        resourceName: resourceName,
-        resourceType: resourceType,
-        platform: platform,
-        accessType: accessType,
-        resourceLimit: resourceLimit,
-        resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-        resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-        validForOrgUnits: validForOrgUnits,
-        validForRoles: validForRoles,
-        applicationCategory: applicationCategory,
-        hasCost: hasCost,
-        licenseEnforcement: licenseEnforcement,
-        unitCost: unitCost,
-        status: status
-    }));
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`;
+    logger.debug(
+        'POST CREATE RESOURCE to ',
+        url,
+        ' with body ',
+        JSON.stringify({
+            resourceId: resourceId,
+            resourceName: resourceName,
+            resourceType: resourceType,
+            platform: platform,
+            accessType: accessType,
+            resourceLimit: resourceLimit,
+            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+            validForOrgUnits: validForOrgUnits,
+            validForRoles: validForRoles,
+            applicationCategory: applicationCategory,
+            hasCost: hasCost,
+            licenseEnforcement: licenseEnforcement,
+            unitCost: unitCost,
+            status: status,
+        })
+    );
     const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
@@ -188,12 +197,12 @@ export const createResource = async (
             hasCost: hasCost,
             licenseEnforcement: licenseEnforcement,
             unitCost: unitCost,
-            status: status
-        })
+            status: status,
+        }),
     });
-    logger.debug("(((Response from CREATE Resource)))", url, response.status);
+    logger.debug('(((Response from CREATE Resource)))', url, response.status);
     return response;
-}
+};
 
 export const updateResource = async (
     token: string | null,
@@ -214,30 +223,35 @@ export const updateResource = async (
     unitCost: string,
     status: string
 ) => {
-    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`
-    logger.debug("EDIT CREATE RESOURCE to ", url, " with body ", JSON.stringify({
-        id: id,
-        resourceId: resourceId,
-        resourceName: resourceName,
-        resourceType: resourceType,
-        platform: platform,
-        accessType: accessType,
-        resourceLimit: resourceLimit,
-        resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-        resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-        validForOrgUnits: validForOrgUnits,
-        validForRoles: validForRoles,
-        applicationCategory: applicationCategory,
-        hasCost: hasCost,
-        licenseEnforcement: licenseEnforcement,
-        unitCost: unitCost,
-        status: status
-    }));
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`;
+    logger.debug(
+        'EDIT CREATE RESOURCE to ',
+        url,
+        ' with body ',
+        JSON.stringify({
+            id: id,
+            resourceId: resourceId,
+            resourceName: resourceName,
+            resourceType: resourceType,
+            platform: platform,
+            accessType: accessType,
+            resourceLimit: resourceLimit,
+            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
+            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
+            validForOrgUnits: validForOrgUnits,
+            validForRoles: validForRoles,
+            applicationCategory: applicationCategory,
+            hasCost: hasCost,
+            licenseEnforcement: licenseEnforcement,
+            unitCost: unitCost,
+            status: status,
+        })
+    );
     const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
         method: 'PUT',
         body: JSON.stringify({
@@ -256,27 +270,26 @@ export const updateResource = async (
             hasCost: hasCost,
             licenseEnforcement: licenseEnforcement,
             unitCost: unitCost,
-            status: status
-        })
+            status: status,
+        }),
     });
-    logger.debug("Response from EDIT Resource", url, response.status);
+    logger.debug('Response from EDIT Resource', url, response.status);
     return response;
-}
+};
 
 export const deleteResource = async (token: string | null, request: Request, id: string) => {
-    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`
+    const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`;
     const response = await fetch(url, {
         headers: {
-            Authorization: token ?? "",
-            'content-type': 'application/json'
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
-        method: 'DELETE'
+        method: 'DELETE',
     });
-    logger.debug("Response from deleteResource", url, response.status);
+    logger.debug('Response from deleteResource', url, response.status);
 
     return response;
-}
+};
 
 export const fetchAllOrgUnits = async (request: Request): Promise<IUnitTree> =>
-    fetchData(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, request)
-
+    fetchData(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, request);

@@ -1,16 +1,15 @@
 [data-theme='novari'] {
-
-    --a-bg-default: #FEFCFA;
-    --a-bg-subtle:#FCF5ED;
+    --a-bg-default: #fefcfa;
+    --a-bg-subtle: #fcf5ed;
 
     --a-surface-action: var(--a-surface-alt-3-strong);
-    --a-surface-action-hover: #5149CA;
+    --a-surface-action-hover: #5149ca;
     --a-surface-action-active: var(--a-surface-alt-3-strong);
     --a-surface-action-selected: var(--a-surface-alt-3-strong);
     --a-surface-action-subtle-hover: var(--a-surface-alt-3-subtle);
-    --a-surface-action-selected-hover: #5149CA;
+    --a-surface-action-selected-hover: #5149ca;
     --a-surface-default: var(--a-bg-default);
-    --a-surface-hover: #E5E4FA;
+    --a-surface-hover: #e5e4fa;
 
     --a-text-action-selected: var(--a-surface-alt-3-strong);
     --a-text-on-action: #ffffff;
@@ -23,15 +22,15 @@
     --a-border-action-selected: var(--a-surface-alt-3-strong);
     --a-border-focus: var(--a-surface-alt-3-strong);
 
-    --a-surface-alt-3-strong: #5A51E1;
-    --a-surface-alt-3-subtle: #E5E4FA;
-    --a-surface-alt-3-moderate: #6B133D;
+    --a-surface-alt-3-strong: #5a51e1;
+    --a-surface-alt-3-subtle: #e5e4fa;
+    --a-surface-alt-3-moderate: #6b133d;
 
     .novari-header {
-        background:  #FCF5ED;
+        background: #fcf5ed;
     }
 
     .novari-footer {
-        background: #6B133D;
+        background: #6b133d;
     }
 }

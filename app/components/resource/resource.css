@@ -7,7 +7,7 @@
     padding: 1rem;
 }
 
-@media(min-width: 1220px) {
+@media (min-width: 1220px) {
     .resource-information-list {
         flex-direction: row;
     }
@@ -18,7 +18,7 @@
 }
 
 hr {
-    border-top: 1px solid #F76650;
+    border-top: 1px solid #f76650;
     width: 30%;
 }
 
