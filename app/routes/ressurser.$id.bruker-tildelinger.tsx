@@ -5,7 +5,7 @@ import { json } from '@remix-run/node';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { AssignedUsersTable } from '~/components/assignment/AssignedUsersTable';
-import { Alert, Box, Tabs, VStack } from '@navikt/ds-react';
+import { Tabs, VStack } from '@navikt/ds-react';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -15,6 +15,8 @@ import { UserSearch } from '~/components/user/UserSearch';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
+import React from 'react';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -88,13 +90,5 @@ export default function AssignedUsers() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-    );
+    return <ErrorMessage error={error} />;
 }

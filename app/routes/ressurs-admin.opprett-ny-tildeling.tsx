@@ -1,9 +1,6 @@
-import { Alert, Box, Button, ExpansionCard, Heading, Switch } from '@navikt/ds-react';
+import { Button, ExpansionCard, Heading, Switch } from '@navikt/ds-react';
 import {
     Form,
-    Links,
-    Meta,
-    Scripts,
     useActionData,
     useLoaderData,
     useNavigate,
@@ -11,7 +8,7 @@ import {
     useSearchParams,
 } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TildelingToolbar from '../components/resource-module-admin/opprettTildeling/TildelingToolbar';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
@@ -35,6 +32,7 @@ import { toast } from 'react-toastify';
 import { RESOURCE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -304,23 +302,5 @@ export default function ResourceModuleAdminTabTildel() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

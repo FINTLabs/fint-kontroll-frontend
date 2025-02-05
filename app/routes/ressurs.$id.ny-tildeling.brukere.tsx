@@ -1,4 +1,4 @@
-import { Alert, Box, Tabs } from '@navikt/ds-react';
+import { Tabs } from '@navikt/ds-react';
 import { AssignUserTable } from '~/components/assignment/NewAssignmentUserTable';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUsers } from '~/data/fetch-users';
@@ -16,6 +16,8 @@ import { getResourceNewUserAssignmentUrl } from '~/data/paths';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
+import React from 'react';
 
 type LoaderData = {
     userList: IUserPage;
@@ -112,12 +114,5 @@ export const handle = {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return (
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-    );
+    return <ErrorMessage error={error} />;
 }

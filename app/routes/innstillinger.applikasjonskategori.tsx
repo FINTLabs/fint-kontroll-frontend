@@ -15,7 +15,6 @@ import {
 } from '~/data/paths';
 import { EditableList } from '~/components/settings/KodeverkEditableList/EditableList';
 import { SettingsHeader } from '~/components/settings/SettingsHeader';
-import { Link as RemixLink } from '@remix-run/react/dist/components';
 import { IKodeverkApplicationCategory } from '~/data/types/kodeverkTypes';
 
 export const handle = {

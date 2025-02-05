@@ -1,4 +1,4 @@
-import { Alert, Box, Tabs } from '@navikt/ds-react';
+import { Tabs } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { json, TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
@@ -14,6 +14,8 @@ import { fetchResourceById } from '~/data/fetch-resources';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
+import React from 'react';
 
 type LoaderData = {
     roleList: IRoleList;
@@ -100,12 +102,5 @@ export const handle = {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return (
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-    );
+    return <ErrorMessage error={error} />;
 }
