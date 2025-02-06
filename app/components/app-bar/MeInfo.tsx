@@ -8,31 +8,25 @@ export function links() {
     return [{ rel: 'stylesheet', href: appStyles }];
 }
 
-function MeInfo(props: { me: IMeInfo }) {
+function MeInfo({ me }: { me?: IMeInfo }) {
     return (
         <>
-            {/*<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>*/}
-            {/*    <ExclamationmarkTriangleIcon title="a11y-title" fontSize="1rem"/>*/}
-            {/*    <p style={{margin: "1em"}}>*/}
-            {/*        Det ser ut som du mangler rettigheter i løsningen*/}
-            {/*    </p>*/}
-            {/*</div>*/}
-            {/*:*/}
-
-            <HStack gap={'8'} justify={'center'}>
-                <HStack gap={'1'} align={'center'}>
-                    <Buildings3Icon fontSize="1.5rem" />
-                    <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
-                        {props.me?.organisationId}
-                    </BodyShort>
+            {me && (
+                <HStack gap={'8'} justify={'center'}>
+                    <HStack gap={'1'} align={'center'}>
+                        <Buildings3Icon fontSize="1.5rem" />
+                        <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
+                            {me?.organisationId}
+                        </BodyShort>
+                    </HStack>
+                    <HStack gap={'1'} align={'center'}>
+                        <PersonCircleIcon fontSize="1.5rem" />
+                        <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
+                            {me?.firstName} {me?.lastName}
+                        </BodyShort>
+                    </HStack>
                 </HStack>
-                <HStack gap={'1'} align={'center'}>
-                    <PersonCircleIcon fontSize="1.5rem" />
-                    <BodyShort size="small" weight="semibold" truncate className="max-w-[10vw]">
-                        {props.me?.firstName} {props.me?.lastName}
-                    </BodyShort>
-                </HStack>
-            </HStack>
+            )}
         </>
     );
 }

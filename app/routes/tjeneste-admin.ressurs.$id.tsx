@@ -1,14 +1,6 @@
 import styles from '../components/resource/resource.css?url';
-import { Alert, Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
-import {
-    Link as RemixLink,
-    Links,
-    Meta,
-    Scripts,
-    useLoaderData,
-    useNavigate,
-    useRouteError,
-} from '@remix-run/react';
+import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Link as RemixLink, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';

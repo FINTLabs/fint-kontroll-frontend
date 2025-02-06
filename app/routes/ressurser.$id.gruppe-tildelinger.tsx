@@ -34,7 +34,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     ]);
 
     return json({
-        assignedRoles: await assignedRoles.json(),
+        assignedRoles,
         resourceName: resource.resourceName,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,

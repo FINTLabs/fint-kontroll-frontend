@@ -12,7 +12,6 @@ export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string 
                 justify="space-between"
                 align="center"
                 className={'h-full'}
-                // paddingInline="space-16"
                 paddingInline={{ xs: '12', sm: '12', md: '12', lg: '20', xl: '32' }}>
                 <HStack align="center">
                     <Link to={'/'} className={'kontroll'}>
@@ -24,11 +23,9 @@ export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string 
 
                 <HStack align="center" gap={'8'}>
                     {props.me ? <Menu me={props.me} source={props.source} /> : null}
-                    {props.me ? (
-                        <Hide below="lg" asChild>
-                            <MeInfo me={props.me} />
-                        </Hide>
-                    ) : null}
+                    <Hide below="lg" asChild>
+                        <MeInfo me={props.me} />
+                    </Hide>
                     {/*<Button variant="primary"
                                     as={Link}
                                     to="/_oauth/logout">

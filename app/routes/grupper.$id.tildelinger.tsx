@@ -20,9 +20,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
-    const response = await fetchAssignmentsForRole(request, params.id, size, page);
-
-    const assignments = await response.json();
+    const assignments = await fetchAssignmentsForRole(request, params.id, size, page);
 
     return json({
         assignments,
@@ -42,11 +40,7 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const loaderData = useLoaderData<typeof loader>();
-    const assignments = loaderData.assignments;
-    const size = loaderData.size;
-    const basePath = loaderData.basePath;
-    const responseCode: string | undefined = loaderData.responseCode;
+    const { assignments, size, basePath, responseCode } = useLoaderData<typeof loader>();
 
     return (
         <section>

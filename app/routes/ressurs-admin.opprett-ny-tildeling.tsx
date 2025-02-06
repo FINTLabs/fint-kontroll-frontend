@@ -33,6 +33,7 @@ import { RESOURCE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { getErrorTextFromResponse } from '~/data/helpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -59,7 +60,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const name = url.searchParams.get('search') ?? '';
     const roleFilter = url.searchParams.get('accessroleid') ?? '';
 
-    const [usersPageResponse, accessRoles, allOrgUnits] = await Promise.all([
+    const [usersPage, accessRoles, allOrgUnits] = await Promise.all([
         fetchUsersWhoCanGetAssignments(
             auth,
             Number(currentPage),
@@ -71,8 +72,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchAccessRoles(auth),
         fetchAllOrgUnits(auth),
     ]);
-
-    const usersPage = await usersPageResponse?.json();
 
     const orgUnitsWithIsChecked = loopAndSetIsCheck(allOrgUnits);
 
@@ -97,13 +96,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         includeSubOrgUnits
     );
 
-    return res.ok
-        ? {
-              status: true,
-              redirect: RESOURCE_ADMIN,
-              message: 'Tildeling gjennomført!',
-          }
-        : { status: false, redirect: null, message: null };
+    if (res?.ok) {
+        return {
+            status: true,
+            redirect: RESOURCE_ADMIN,
+            message: 'Tildeling gjennomført!',
+        };
+    } else {
+        const errorMessage = await getErrorTextFromResponse(res);
+        if (errorMessage.includes('User already has assignments for this role')) {
+            return {
+                status: false,
+                redirect: null,
+                message: 'Brukeren har allerede tildelinger for denne rollen.',
+            };
+        }
+
+        return {
+            status: false,
+            redirect: null,
+            message: 'En feil oppstod ved forsøkt lagring. Prøv igjen.',
+        };
+    }
 };
 
 export default function ResourceModuleAdminTabTildel() {
@@ -142,7 +156,7 @@ export default function ResourceModuleAdminTabTildel() {
             return;
         }
         if (!actionData?.status) {
-            toast.error('En feil oppstod ved forsøkt lagring. Prøv igjen.');
+            toast.error(actionData.message);
             return;
         }
 

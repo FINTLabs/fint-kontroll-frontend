@@ -43,13 +43,16 @@ export function links() {
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
-    const response = await putPermissionDataForRole(request, formData.get('dataForForm'));
-    return { didUpdate: !!response.status };
+    const dataForForm = formData.get('dataForForm');
+    if (dataForForm) {
+        const response = await putPermissionDataForRole(request, dataForForm as string);
+        return { didUpdate: response.ok };
+    }
 }
 
 const DefineRoleTab = () => {
     const loaderData: IPermissionData = useLoaderData<typeof loader>();
-    let didUpdate = useActionData<typeof action>();
+    let actionData = useActionData<typeof action>();
     const params = useParams();
     const {
         isModalVisible,
@@ -72,17 +75,17 @@ const DefineRoleTab = () => {
     }, [loaderData]);
 
     useEffect(() => {
-        if (didUpdate !== undefined) {
-            didUpdate
+        if (actionData !== undefined) {
+            actionData.didUpdate
                 ? toast.success('Oppdatering av rolle gjennomført')
                 : toast.error('Oppdatering av rolle feilet');
             !saving ? handleNavigate(desiredTab) : null;
             setHasChanges(false);
         } else {
-            didUpdate = undefined;
+            actionData = undefined;
         }
         setSaving(false);
-    }, [didUpdate]);
+    }, [actionData]);
 
     const discardChanges = () => {
         handleNavigate(desiredTab);

@@ -51,21 +51,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     const objectType: string = url.searchParams.get('objectType') ?? '';
     const role = url.searchParams.get('accessRoleId') ?? '';
 
-    const [
-        objectTypesResponse,
-        userDetailsResponse,
-        userAssignmentsPaginatedResponse,
-        accessRoles,
-    ] = await Promise.all([
-        fetchObjectTypesForUser(auth, resourceId),
-        fetchUserDetails(auth, resourceId),
-        fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size),
-        fetchAccessRoles(auth),
-    ]);
-
-    const objectTypesForUser = await objectTypesResponse.json();
-    const userDetails = await userDetailsResponse.json();
-    const userAssignmentsPaginated = await userAssignmentsPaginatedResponse.json();
+    const [objectTypesForUser, userDetails, userAssignmentsPaginated, accessRoles] =
+        await Promise.all([
+            fetchObjectTypesForUser(auth, resourceId),
+            fetchUserDetails(auth, resourceId),
+            fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size),
+            fetchAccessRoles(auth),
+        ]);
 
     return json({
         objectTypesForUser,
@@ -88,7 +80,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
             ? {
                   reset: true,
                   status: true,
-                  redirect: '/resource-module-admin',
+                  redirect: RESOURCE_ADMIN,
                   message: 'Brukerobjekt ble nullstilt',
               }
             : { reset: false, status: false, redirect: null, message: null };

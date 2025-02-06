@@ -49,11 +49,10 @@ export async function loader({
         filter += `&rolefilter=${value.id}`;
     });
 
-    const [responseAssignments, userTypesKodeverk] = await Promise.all([
+    const [assignedRolesList, userTypesKodeverk] = await Promise.all([
         fetchAssignedRoles(request, params.id, size, '0', '', orgUnits, filter),
         fetchUserTypes(request),
     ]);
-    const assignedRolesList: IAssignedRoles = await responseAssignments.json();
 
     const assignedRolesMap: Map<number, IRole> = new Map(
         assignedRolesList.roles.map((role) => [role.id, role])

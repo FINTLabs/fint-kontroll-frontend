@@ -1,7 +1,7 @@
 import styles from '../components/resource/resource.css?url';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { IAssignedUsers } from '~/data/types/userTypes';
-import { json } from '@remix-run/node';
+import { json, TypedResponse } from '@remix-run/node';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { AssignedUsersTable } from '~/components/assignment/AssignedUsersTable';
@@ -17,12 +17,26 @@ import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
+import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
 }
 
-export async function loader({ params, request, context }: LoaderFunctionArgs) {
+type LoaderData = {
+    assignedUsers: IAssignedUsers;
+    resourceName: string;
+    size: string;
+    basePath: string;
+    responseCode?: string;
+    userTypesKodeverk: IKodeverkUserType[];
+};
+
+export async function loader({
+    params,
+    request,
+    context,
+}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -38,7 +52,7 @@ export async function loader({ params, request, context }: LoaderFunctionArgs) {
 
     return json({
         context,
-        assignedUsers: await assignedUsers.json(),
+        assignedUsers: assignedUsers,
         resourceName: resource.resourceName,
         size,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
@@ -59,7 +73,7 @@ export const handle = {
 };
 
 export default function AssignedUsers() {
-    const loaderData = useLoaderData<typeof loader>();
+    const loaderData = useLoaderData<LoaderData>();
     const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers;
     const size = loaderData.size;
     const basePath: string = loaderData.basePath;

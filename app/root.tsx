@@ -67,8 +67,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchResourceDataSource(request),
     ]);
 
-    //throw new Error('Test error');
-
     return json({
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,

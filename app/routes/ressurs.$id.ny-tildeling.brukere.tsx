@@ -4,7 +4,7 @@ import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUsers } from '~/data/fetch-users';
 import { json, TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
-import { IAssignedUsers, IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
+import { IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
@@ -55,11 +55,10 @@ export async function loader({
         filter += `&userfilter=${value.id}`;
     });
 
-    const [responseAssignments, userTypesKodeverk] = await Promise.all([
+    const [assignedUsersList, userTypesKodeverk] = await Promise.all([
         fetchAssignedUsers(request, params.id, '1000', '0', '', '', orgUnits, filter),
         fetchUserTypes(request),
     ]);
-    const assignedUsersList: IAssignedUsers = await responseAssignments.json();
 
     const assignedUsersMap: Map<number, IUser> = new Map(
         assignedUsersList.users.map((user) => [user.assigneeRef, user])

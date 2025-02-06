@@ -38,13 +38,11 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResp
     const name = url.searchParams.get('search') ?? '';
     const role = url.searchParams.get('accessroleid') ?? '';
 
-    const [responseUsersPage, roles, orgUnitPage] = await Promise.all([
+    const [usersPage, roles, orgUnitPage] = await Promise.all([
         fetchUsersWithAssignment(auth, page, size, orgunits, name, role),
         fetchAccessRoles(auth),
         fetchAllOrgUnits(auth),
     ]);
-
-    const usersPage = await responseUsersPage.json();
 
     return json({
         usersPage,
