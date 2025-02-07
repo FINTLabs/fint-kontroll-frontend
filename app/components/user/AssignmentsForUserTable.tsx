@@ -24,6 +24,42 @@ export const AssignmentsForUserTable = ({
     const params = useParams();
     const { fetching } = useLoadingState();
 
+    function ShowButtonOrTagComponent(
+        directAssignment: boolean,
+        deletableAssignment: boolean,
+        assignmentRef: number
+    ) {
+        if (!directAssignment) {
+            return (
+                <Tag variant="info" size="small" className="navds-tag-in-table">
+                    Gruppetildeling
+                </Tag>
+            );
+        } else if (!deletableAssignment) {
+            return (
+                <Tag
+                    variant="neutral"
+                    size="small"
+                    className="navds-tag-in-table"
+                    style={{ whiteSpace: 'nowrap' }}>
+                    Kan ikke slettes
+                </Tag>
+            );
+        } else {
+            return (
+                <Button
+                    as={Link}
+                    className={'button-outlined'}
+                    variant={'secondary'}
+                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem" />}
+                    iconPosition={'right'}
+                    href={`${basePath}${getDeleteUserAssignmentUrl(Number(params.id), assignmentRef)}${prepareQueryParams(searchParams)}`}>
+                    Slett
+                </Button>
+            );
+        }
+    }
+
     return (
         <>
             <Outlet />
@@ -58,27 +94,10 @@ export const AssignmentsForUserTable = ({
                                         : resource.assignmentViaRoleName}
                                 </Table.DataCell>
                                 <Table.DataCell align={'center'}>
-                                    {resource.directAssignment ? (
-                                        <Button
-                                            as={Link}
-                                            className={'button-outlined'}
-                                            variant={'secondary'}
-                                            icon={
-                                                <TrashIcon title="søppelbøtte" fontSize="1.5rem" />
-                                            }
-                                            iconPosition={'right'}
-                                            href={`${basePath}${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
-                                            // href={`${basePath}/users/${params.id}/orgunit/${params.orgId}/${resource.assignmentRef}/delete${prepareQueryParams(searchParams)}`}
-                                        >
-                                            Slett
-                                        </Button>
-                                    ) : (
-                                        <Tag
-                                            variant="info"
-                                            size="small"
-                                            className="navds-tag-in-table">
-                                            Gruppetildeling
-                                        </Tag>
+                                    {ShowButtonOrTagComponent(
+                                        resource.directAssignment,
+                                        resource.deletableAssignment,
+                                        resource.assignmentRef
                                     )}
                                 </Table.DataCell>
                             </Table.Row>

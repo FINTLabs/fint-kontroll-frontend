@@ -33,6 +33,7 @@ export interface IUser {
     assignmentViaRoleName: string;
     assignerUsername: string;
     assignerDisplayname: string;
+    deletableAssignment: boolean;
     assigned?: boolean;
     roles?: IUserRole[]; // Optional to allow use of same type
 }
