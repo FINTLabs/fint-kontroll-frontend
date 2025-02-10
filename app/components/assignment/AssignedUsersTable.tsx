@@ -1,14 +1,14 @@
-import { Button, Link, Table, Tag, VStack } from '@navikt/ds-react';
+import { Table, VStack } from '@navikt/ds-react';
 import type { IAssignedUsers } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useParams, useSearchParams } from '@remix-run/react';
-import { TrashIcon } from '@navikt/aksel-icons';
 import { prepareQueryParams, translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { loader } from '~/routes/ressurser.$id.bruker-tildelinger';
 import { getResourceDeleteUserAssignmentUrl } from '~/data/paths';
+import { DeleteButtonOrTagComponent } from '~/components/common/DeleteButtonOrTagComponent';
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers;
@@ -22,7 +22,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
     const params = useParams();
     const { fetching } = useLoadingState();
 
-    function ShowButtonOrTagComponent(
+    /*function ShowButtonOrTagComponent(
         directAssignment: boolean,
         deletableAssignment: boolean,
         assignmentRef: number
@@ -57,7 +57,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                 </Button>
             );
         }
-    }
+    }*/
 
     return (
         <div>
@@ -102,10 +102,10 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                             : user.assignmentViaRoleName}
                                     </Table.DataCell>
                                     <Table.DataCell align={'center'}>
-                                        {ShowButtonOrTagComponent(
+                                        {DeleteButtonOrTagComponent(
                                             user.directAssignment,
                                             user.deletableAssignment,
-                                            user.assignmentRef
+                                            `${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`
                                         )}
                                     </Table.DataCell>
                                 </Table.Row>
