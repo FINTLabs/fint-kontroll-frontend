@@ -1,6 +1,6 @@
-import { Alert, Box, Button, VStack } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
-import { Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
+import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import {
     fetchAllOrgUnits,
@@ -19,6 +19,7 @@ import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<
     Omit<Response, 'json'> & {
@@ -111,22 +112,5 @@ export default function ServiceAdminIndex() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

@@ -18,7 +18,7 @@ import { fetchMeInfo } from '~/data/fetch-me-info';
 import meStyles from '~/components/app-bar/appBar.css?url';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { ToastContainer } from 'react-toastify';
-import { Alert, Box, HStack, Page } from '@navikt/ds-react';
+import { Box, HStack, Page } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
 import React, { ReactElement } from 'react';
@@ -28,6 +28,7 @@ import './tailwind.css';
 import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -65,6 +66,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchMeInfo(request),
         fetchResourceDataSource(request),
     ]);
+
     return json({
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
@@ -137,14 +139,10 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <Box className={'novari-header'} as="header">
-                <Page.Block width="2xl">
-                    <AppBar me={me} basePath={basePath} source={source} />
-                </Page.Block>
-            </Box>
-            <Box as="main">
-                <Page.Block gutters>{children}</Page.Block>
-            </Box>
+            <AppBar me={me} basePath={basePath} source={source} />
+            <Page.Block as={'main'} gutters>
+                {children}
+            </Page.Block>
         </Page>
     );
 };
@@ -152,25 +150,20 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
 export function ErrorBoundary() {
     const error: any = useRouteError();
     console.error(error);
-    const me = null;
+
     return (
-        <Layout me={me}>
-            <html lang={'no'}>
-                <head>
-                    <title>Feil oppstod</title>
-                    <Meta />
-                    <Links />
-                </head>
-                <body>
-                    <Box paddingBlock="8">
-                        <Alert variant="error">
-                            Det oppsto en feil med følgende melding:
-                            <div>{error.message}</div>
-                        </Alert>
-                    </Box>
-                    <Scripts />
-                </body>
-            </html>
-        </Layout>
+        <html lang="no">
+            <head>
+                <Meta />
+                <Links />
+            </head>
+            <body data-theme="novari">
+                <Layout me={null}>
+                    <div className={'content'}>
+                        <ErrorMessage error={error} />
+                    </div>
+                </Layout>
+            </body>
+        </html>
     );
 }

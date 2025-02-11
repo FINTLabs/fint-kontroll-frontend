@@ -1,8 +1,5 @@
 import {
     Form,
-    Links,
-    Meta,
-    Scripts,
     useLoaderData,
     useNavigate,
     useNavigation,
@@ -11,9 +8,7 @@ import {
     useSearchParams,
 } from '@remix-run/react';
 import {
-    Alert,
     BodyShort,
-    Box,
     Button,
     ConfirmationPanel,
     Heading,
@@ -29,9 +24,10 @@ import {
 } from '~/components/common/CommonFunctions';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { getRoleNewAssignmentUrl } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.resourceId);
@@ -148,23 +144,5 @@ export default function AssignResourceToRole() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

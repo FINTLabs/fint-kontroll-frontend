@@ -1,13 +1,5 @@
 import { AssignResourceToUserTable } from '~/components/user/AssignResourceToUserTable';
-import {
-    Link,
-    Links,
-    Meta,
-    Scripts,
-    useLoaderData,
-    useParams,
-    useRouteError,
-} from '@remix-run/react';
+import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
 import { IUserDetails } from '~/data/types/userTypes';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUserById } from '~/data/fetch-users';
@@ -15,7 +7,7 @@ import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/da
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
 import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
-import { Alert, Box, HStack, VStack } from '@navikt/ds-react';
+import { Alert, HStack, VStack } from '@navikt/ds-react';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
@@ -31,6 +23,7 @@ import {
     IResourceForList,
     IResourceList,
 } from '~/data/types/resourceTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ params, request }: LoaderFunctionArgs): Promise<
     Omit<Response, 'json'> & {
@@ -59,14 +52,11 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
-    const [orgUnitTree, responseAssignmentsForUser, applicationCategories] = await Promise.all([
+    const [orgUnitTree, assignedResourceListForUser, applicationCategories] = await Promise.all([
         fetchAllOrgUnits(request),
         fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategory(request),
     ]);
-
-    const assignedResourceListForUser: IAssignedResourcesList =
-        await responseAssignmentsForUser.json();
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
         assignedResourceListForUser.resources.map((resource) => [resource.resourceRef, resource])
@@ -169,22 +159,5 @@ export default function NewAssignmentForUser() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding nå:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

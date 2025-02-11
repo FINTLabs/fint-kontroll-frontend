@@ -1,10 +1,10 @@
-import { Alert, Box, Tabs } from '@navikt/ds-react';
+import { Tabs } from '@navikt/ds-react';
 import { AssignUserTable } from '~/components/assignment/NewAssignmentUserTable';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUsers } from '~/data/fetch-users';
 import { json, TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
-import { IAssignedUsers, IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
+import { IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
@@ -16,6 +16,8 @@ import { getResourceNewUserAssignmentUrl } from '~/data/paths';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
+import React from 'react';
 
 type LoaderData = {
     userList: IUserPage;
@@ -53,11 +55,10 @@ export async function loader({
         filter += `&userfilter=${value.id}`;
     });
 
-    const [responseAssignments, userTypesKodeverk] = await Promise.all([
+    const [assignedUsersList, userTypesKodeverk] = await Promise.all([
         fetchAssignedUsers(request, params.id, '1000', '0', '', '', orgUnits, filter),
         fetchUserTypes(request),
     ]);
-    const assignedUsersList: IAssignedUsers = await responseAssignments.json();
 
     const assignedUsersMap: Map<number, IUser> = new Map(
         assignedUsersList.users.map((user) => [user.assigneeRef, user])
@@ -112,12 +113,5 @@ export const handle = {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return (
-        <Box paddingBlock="8">
-            <Alert variant="error">
-                Det oppsto en feil med følgende melding:
-                <div>{error.message}</div>
-            </Alert>
-        </Box>
-    );
+    return <ErrorMessage error={error} />;
 }

@@ -1,5 +1,7 @@
 import { ASSIGNMENT_API_URL, BASE_PATH } from '../../environment';
-import logger from '~/logging/logger';
+import { fetchData, sendRequest } from '~/data/helpers';
+import { IAssignedResourcesList, IAssignmentPage } from '~/data/types/resourceTypes';
+import { IAssignedRoles, IAssignedUsers } from '~/data/types/userTypes';
 
 export const fetchAssignedUsers = async (
     request: Request,
@@ -10,26 +12,11 @@ export const fetchAssignedUsers = async (
     userType: string,
     orgUnits: string[],
     userFilter?: string
-) => {
-    const response = await fetch(
+): Promise<IAssignedUsers> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${userFilter}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt!');
-    }
-    throw new Error(`Det oppstod en uventet feil. Status kode: ${response.status}`);
-};
 
 export const fetchAssignedResourcesForUser = async (
     request: Request,
@@ -38,52 +25,22 @@ export const fetchAssignedResourcesForUser = async (
     page: string,
     resourceType: string,
     resourceFilter: string
-) => {
-    const response = await fetch(
+): Promise<IAssignedResourcesList> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt!');
-    }
-    throw new Error('Det virker ikke som om du er pålogget?');
-};
 
 export const fetchAssignmentsForUser = async (
     request: Request,
     id: string | undefined,
     size: string,
     page: string
-) => {
-    const response = await fetch(
+): Promise<IAssignmentPage> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
-};
 
 export const fetchAssignedRoles = async (
     request: Request,
@@ -93,149 +50,60 @@ export const fetchAssignedRoles = async (
     search: string,
     orgUnits: string[],
     roleFilter?: string
-) => {
-    const response = await fetch(
+): Promise<IAssignedRoles> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${roleFilter}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
-};
 
 export const fetchAssignmentsForRole = async (
     request: Request,
     id: string | undefined,
     size: string,
     page: string
-) => {
-    const response = await fetch(
+): Promise<IAssignmentPage> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response;
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
-};
 
 export const createUserAssignment = async (
     token: string | null,
     resourceRef: number,
     userRef: number,
     organizationUnitId: string
-) => {
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
-    logger.info(
-        'POST user assignment to ',
-        url,
-        ' with body ',
-        JSON.stringify({
+) =>
+    sendRequest({
+        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`,
+        method: 'POST',
+        token: token,
+        body: {
             resourceRef: resourceRef,
             userRef: userRef,
             organizationUnitId: organizationUnitId,
-        })
-    );
-    const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? '',
-            'content-type': 'application/json',
         },
-        method: 'POST',
-        body: JSON.stringify({
-            resourceRef: resourceRef,
-            userRef: userRef,
-            organizationUnitId: organizationUnitId,
-        }),
     });
-    logger.debug('Response from CRETE USER Assignments????', url, response.status);
-    return response;
-};
-
-/* Dette er opprinnelig
-export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
-    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
-        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
-        method: 'POST',
-        body: JSON.stringify({
-            resourceRef: resourceRef,
-            roleRef: roleRef,
-            organizationUnitId: organizationUnitId,
-        })
-    });
-    return response;
-}*/
 
 export const createRoleAssignment = async (
     token: string | null,
     resourceRef: number,
     roleRef: number,
     organizationUnitId: string
-) => {
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
-
-    logger.info(
-        'POST Role assignment to url:',
-        url,
-        ' with body ',
-        JSON.stringify({
-            resourceRef: resourceRef,
-            roleRef: roleRef,
-            organizationUnitId: organizationUnitId,
-        })
-    );
-
-    const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? '',
-            'content-type': 'application/json',
-        },
+) =>
+    sendRequest({
+        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`,
         method: 'POST',
-        body: JSON.stringify({
+        token: token,
+        body: {
             resourceRef: resourceRef,
             roleRef: roleRef,
             organizationUnitId: organizationUnitId,
-        }),
-    });
-    return response;
-};
-
-export const deleteAssignment = async (
-    token: string | null,
-    request: Request,
-    assignmentRef: string
-) => {
-    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`;
-    logger.debug('Delete assignment ', url);
-    const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? '',
-            'content-type': 'application/json',
         },
-        method: 'DELETE',
     });
-    logger.debug('Response from deleteAssignments', url, response.status);
 
-    return response;
-};
+export const deleteAssignment = async (token: string | null, assignmentRef: string) =>
+    sendRequest({
+        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`,
+        method: 'DELETE',
+        token: token,
+    });

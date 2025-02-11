@@ -27,18 +27,15 @@ export default function Index() {
         <section className={'full-width'}>
             <Bleed marginInline="full" asChild>
                 <HStack
-                    paddingInline="12"
                     paddingBlock="4"
-                    align={'center'}
                     justify={'center'}
-                    gap={'8'}
                     style={{ backgroundColor: 'var(--beige-60)' }}>
                     <Heading level="1" size="medium" style={{ color: 'var(--red-primary)' }}>
                         Velkommen til FINT Kontroll!
                     </Heading>
                 </HStack>
             </Bleed>
-            <VStack gap="12">
+            <VStack gap="4">
                 <LinkCardGrid color={'var(--beige-60)'} title={'Hva vil du gjøre?'}>
                     <LinkCard
                         title={'Administrer brukertildelinger'}

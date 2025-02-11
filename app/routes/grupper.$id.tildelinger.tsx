@@ -1,6 +1,6 @@
 import React from 'react';
-import { Alert, Box, Heading, Tabs, VStack } from '@navikt/ds-react';
-import { Link, Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
+import { Heading, Tabs, VStack } from '@navikt/ds-react';
+import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { json } from '@remix-run/node';
 import styles from '../components/user/user.css?url';
@@ -10,6 +10,7 @@ import { BASE_PATH } from '../../environment';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { getRoleAssignmentsUrl } from '~/data/paths';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -19,9 +20,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
-    const response = await fetchAssignmentsForRole(request, params.id, size, page);
-
-    const assignments = await response.json();
+    const assignments = await fetchAssignmentsForRole(request, params.id, size, page);
 
     return json({
         assignments,
@@ -41,11 +40,7 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const loaderData = useLoaderData<typeof loader>();
-    const assignments = loaderData.assignments;
-    const size = loaderData.size;
-    const basePath = loaderData.basePath;
-    const responseCode: string | undefined = loaderData.responseCode;
+    const { assignments, size, basePath, responseCode } = useLoaderData<typeof loader>();
 
     return (
         <section>
@@ -75,23 +70,5 @@ export default function AssignmentsForRole() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }
