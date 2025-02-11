@@ -230,11 +230,12 @@ export const usersHandlers = [
                             resourceType: 'ApplicationResource',
                             resourceRef: 5,
                             assignmentRef: 354,
-                            directAssignment: true,
+                            directAssignment: false,
                             assignmentViaRoleRef: null,
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: false,
                         },
                         {
                             assigneeRef: 2,
@@ -242,11 +243,12 @@ export const usersHandlers = [
                             resourceName: 'Creative Cloud All Apps for K-12 - User License',
                             resourceType: 'ApplicationResource',
                             assignmentRef: 356,
-                            directAssignment: true,
+                            directAssignment: false,
                             assignmentViaRoleRef: null,
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 3,
@@ -259,6 +261,7 @@ export const usersHandlers = [
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: false,
                         },
                         {
                             assigneeRef: 4,
@@ -271,6 +274,7 @@ export const usersHandlers = [
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 5,
@@ -283,6 +287,7 @@ export const usersHandlers = [
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 6,
@@ -295,6 +300,7 @@ export const usersHandlers = [
                             assignmentViaRoleName: null,
                             assignerUsername: 'linda.loftsgarden@novari.no',
                             assignerDisplayname: null,
+                            deletableAssignment: false,
                         },
                     ],
                 });

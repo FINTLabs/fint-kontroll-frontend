@@ -267,6 +267,7 @@ export const resourceHandlers = [
                             assigneeassigneeOrganisationUnitId: '198',
                             assigneeassigneeOrganisationUnitName:
                                 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1308,
@@ -282,6 +283,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1286,
@@ -297,6 +299,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1284,
@@ -312,6 +315,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1248,
@@ -327,6 +331,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1232,
@@ -342,6 +347,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1258,
@@ -357,6 +363,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                     ],
                 });
@@ -385,6 +392,7 @@ export const resourceHandlers = [
                             assigneeassigneeOrganisationUnitId: '198',
                             assigneeassigneeOrganisationUnitName:
                                 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                     ],
                 });
@@ -411,6 +419,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '161',
                             assigneeOrganisationUnitName: 'KOMP Fag- og yrkesopplæring',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1266,
@@ -426,6 +435,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1308,
@@ -441,6 +451,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1286,
@@ -456,6 +467,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 884,
@@ -471,6 +483,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '204',
                             assigneeOrganisationUnitName: 'VGMIDT Realfag',
+                            deletableAssignment: true,
                         },
                     ],
                 });
@@ -497,6 +510,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1284,
@@ -512,6 +526,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1248,
@@ -527,6 +542,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1232,
@@ -542,6 +558,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                         {
                             assigneeRef: 1258,
@@ -557,6 +574,7 @@ export const resourceHandlers = [
                             assignerDisplayname: null,
                             assigneeOrganisationUnitId: '198',
                             assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                            deletableAssignment: true,
                         },
                     ],
                 });
@@ -582,6 +600,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '194',
                         assigneeOrganisationUnitName: 'VGMIDT Midtbyen videregående skole',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1266,
@@ -597,6 +616,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: false,
                     },
                     {
                         assigneeRef: 1308,
@@ -605,13 +625,14 @@ export const resourceHandlers = [
                         assigneeUsername: 'brit@testvigoiks.onmicrosoft.com',
                         assigneeUserType: 'STUDENT',
                         assignmentRef: 410,
-                        directAssignment: true,
+                        directAssignment: false,
                         assignmentViaRoleRef: null,
                         assignmentViaRoleName: null,
                         assignerUsername: 'linda.loftsgarden@novari.no',
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1147,
@@ -627,6 +648,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: false,
                     },
                     {
                         assigneeRef: 884,
@@ -642,6 +664,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '204',
                         assigneeOrganisationUnitName: 'VGMIDT Realfag',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1286,
@@ -657,6 +680,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1284,
@@ -672,6 +696,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: false,
                     },
                     {
                         assigneeRef: 1248,
@@ -687,6 +712,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1232,
@@ -702,6 +728,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: true,
                     },
                     {
                         assigneeRef: 1258,
@@ -717,6 +744,7 @@ export const resourceHandlers = [
                         assignerDisplayname: null,
                         assigneeOrganisationUnitId: '198',
                         assigneeOrganisationUnitName: 'VGSTOR Storskog videregående skole',
+                        deletableAssignment: false,
                     },
                 ],
             });

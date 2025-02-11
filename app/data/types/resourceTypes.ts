@@ -157,5 +157,6 @@ export interface IResourceAssignment {
     resourceRef: number;
     resourceName: string;
     resourceType: string;
+    deletableAssignment: boolean;
     assigned?: boolean;
 }
