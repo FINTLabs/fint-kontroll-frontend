@@ -1,0 +1,44 @@
+name: Build Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      org:
+        description: 'Select organisation'
+        required: true
+        default: 'fintlabs-no'
+        type: choice
+        options:
+          - fintlabs-no
+          - ofk-no
+          - bfk-no
+          - afk-no
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+          - beta
+          - api
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-publish:
+    name: Build and Publish
+    uses: ./.github/workflows/.build-publish.yaml
+    secrets: inherit
+
+  cluster-deploy:
+    name: Deploy to AKS
+    uses: ./.github/workflows/.cluster-deploy.yaml
+    needs: build-publish
+    secrets: inherit
+    with:
+      org: ${{ inputs.org }}
+      environment: ${{ inputs.environment }}
+      image-tags: ${{ needs.build-publish.outputs.image-tags }}
+    

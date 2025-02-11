@@ -1,0 +1,74 @@
+name: Cluster Deploy
+
+on:
+  workflow_call:
+    inputs:
+      org:
+        description: 'Organisation'
+        required: true
+        type: string
+      environment:
+        description: 'Environment'
+        required: true
+        type: string
+      image-tags:
+        description: 'Docker image with tag'
+        required: true
+        type: string
+
+jobs:
+  set-cluster:
+    name: Set Cluster
+    runs-on: ubuntu-latest
+    outputs:
+      cluster: ${{ steps.set-cluster.outputs.cluster }}
+    steps:
+      - name: Determine cluster based on environment
+        id: set-cluster
+        run: |
+          if [[ "${{ inputs.environment }}" == "beta" ]]; then
+            echo "::set-output name=cluster::aks-beta-fint-2021-11-23"
+          elif [[ "${{ inputs.environment }}" == "api" ]]; then
+            echo "::set-output name=cluster::aks-api-fint-2022-02-08"
+          else
+            echo "Unknown environment: ${{ inputs.environment }}"
+            exit 1
+          fi
+
+      - name: Log the determined cluster
+        run: echo "Cluster:${{ steps.set-cluster.outputs.cluster }}"
+
+  deploy-to-cluster:
+    name: Deploy to Cluster
+    runs-on: ubuntu-latest
+    needs: set-cluster
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Bake manifests with Kustomize
+        id: bake
+        uses: azure/k8s-bake@v3
+        with:
+          renderEngine: "kustomize"
+          kustomizationPath: "kustomize/overlays/${{ inputs.environment }}/${{ inputs.org }}"
+
+      - uses: azure/login@v2
+        with:
+          creds: "${{ secrets[format('AKS_{0}_FINT_GITHUB', inputs.environment)] }}"
+          
+      - name: Set the target cluster
+        uses: azure/aks-set-context@v4
+        with:
+          cluster-name: "${{ needs.set-cluster.outputs.cluster }}"
+          resource-group: "rg-aks-${{ inputs.environment }}"
+
+      - name: Deploy
+        uses: azure/k8s-deploy@v4.9
+        with:
+          action: deploy
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          images: ${{ inputs.image-tags }}
+          namespace: ${{ inputs.org }}
