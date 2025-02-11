@@ -4,20 +4,13 @@ import {
     fetchFeaturesInRole,
     putPermissionDataForRole,
 } from '~/data/kontrollAdmin/kontroll-admin-define-role';
-import { Alert, Box, Button, Heading, List, Table } from '@navikt/ds-react';
-import {
-    Form,
-    Links,
-    Meta,
-    Scripts,
-    useActionData,
-    useLoaderData,
-    useRouteError,
-} from '@remix-run/react';
+import { Box, Button, Heading, List, Table } from '@navikt/ds-react';
+import { Form, useActionData, useLoaderData, useRouteError } from '@remix-run/react';
 import React, { useEffect, useState } from 'react';
 import { ActionFunctionArgs } from '@remix-run/node';
 import { toast } from 'react-toastify';
 import { IFeature, IFeatureOperation, IPermissionData } from '~/data/types/userTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const [permissionData, allFeatures] = await Promise.all([
@@ -29,9 +22,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
-    const response = await putPermissionDataForRole(request, formData.get('permissionData'));
-
-    return { didUpdate: !!response.status };
+    const permissionData = formData.get('permissionData');
+    if (permissionData) {
+        const response = await putPermissionDataForRole(request, permissionData as string);
+        return { didUpdate: response.ok };
+    }
 }
 
 const KontrollAdminFeaturesToRoleId = () => {
@@ -151,23 +146,5 @@ export default KontrollAdminFeaturesToRoleId;
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

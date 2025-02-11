@@ -64,7 +64,7 @@ export interface IResourceModuleOrgUnitDetail {
 
 export interface IAssignmentPage {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number | any;
     currentPage: number;
     resources: IResourceAssignment[];
 }

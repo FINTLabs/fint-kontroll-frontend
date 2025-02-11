@@ -1,8 +1,7 @@
 import { UserTable } from '~/components/user/UserTable';
 import { UserSearch } from '~/components/user/UserSearch';
-import { Alert, Box } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
-import { Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
+import { useLoaderData, useRouteError } from '@remix-run/react';
 import { fetchUsers } from '~/data/fetch-users';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
@@ -10,6 +9,8 @@ import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
+import React from 'react';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -50,23 +51,5 @@ export default function UsersIndex() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }

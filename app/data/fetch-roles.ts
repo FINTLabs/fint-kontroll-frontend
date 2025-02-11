@@ -1,6 +1,7 @@
 import { ASSIGNMENT_API_URL, BASE_PATH, ROLE_API_URL } from '../../environment';
 import { IMemberPage, IRole, IRoleList } from '~/data/types/userTypes';
 import { IAssignedResourcesList } from '~/data/types/resourceTypes';
+import { fetchData } from '~/data/helpers';
 
 export const fetchRoles = async (
     request: Request,
@@ -17,43 +18,14 @@ export const fetchRoles = async (
     const userTypeFilter =
         userTypes && userTypes.length > 0 ? `&roletype=${userTypes.join(',')}` : '';
 
-    const response = await fetch(
+    return fetchData(
         `${ROLE_API_URL}${BASE_PATH}/api/roles?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${userTypeFilter}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response.json();
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
 };
 
-export const fetchRoleById = async (request: Request, id: string | undefined): Promise<IRole> => {
-    const response = await fetch(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, {
-        headers: request.headers,
-    });
-
-    if (response.ok) {
-        return response.json();
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
-};
+export const fetchRoleById = async (request: Request, id: string | undefined): Promise<IRole> =>
+    fetchData(`${ROLE_API_URL}${BASE_PATH}/api/roles/${id}`, request);
 
 export const fetchMembers = async (
     request: Request,
@@ -61,26 +33,11 @@ export const fetchMembers = async (
     size: string,
     page: string,
     name: string
-): Promise<IMemberPage> => {
-    const response = await fetch(
+): Promise<IMemberPage> =>
+    fetchData(
         `${ROLE_API_URL}${BASE_PATH}/api/roles/${id}/members?size=${size}&page=${page}&name=${name}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response.json();
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt');
-    }
-    throw new Error('Det virker ikke som om du er pålogget');
-};
 
 export const fetchAssignedResourcesRole = async (
     request: Request,
@@ -89,23 +46,8 @@ export const fetchAssignedResourcesRole = async (
     page: string,
     resourceType: string,
     resourceFilter: string
-): Promise<IAssignedResourcesList> => {
-    const response = await fetch(
+): Promise<IAssignedResourcesList> =>
+    fetchData(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/role/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
-        {
-            headers: request.headers,
-        }
+        request
     );
-
-    if (response.ok) {
-        return response.json();
-    }
-
-    if (response.status === 403) {
-        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
-    }
-    if (response.status === 401) {
-        throw new Error('Påloggingen din er utløpt!');
-    }
-    throw new Error('Det virker ikke som om du er pålogget?');
-};

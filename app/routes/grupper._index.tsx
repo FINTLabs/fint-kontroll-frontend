@@ -1,7 +1,6 @@
 import React from 'react';
-import { Alert, Box } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
-import { Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
+import { useLoaderData, useRouteError } from '@remix-run/react';
 import type { IRoleList } from '~/data/types/userTypes';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchRoles } from '~/data/fetch-roles';
@@ -12,6 +11,7 @@ import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFuncti
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<
     Omit<Response, 'json'> & {
@@ -58,23 +58,5 @@ export default function Grupper_index() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    // console.error(error);
-    return (
-        <html lang={'no'}>
-            <head>
-                <title>Feil oppstod</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Box paddingBlock="8">
-                    <Alert variant="error">
-                        Det oppsto en feil med følgende melding:
-                        <div>{error.message}</div>
-                    </Alert>
-                </Box>
-                <Scripts />
-            </body>
-        </html>
-    );
+    return <ErrorMessage error={error} />;
 }
