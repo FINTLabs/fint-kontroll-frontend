@@ -21,6 +21,7 @@ on:
           - ofk-no
           - bfk-no
           - afk-no
+          - fridiks-no
       path:
         description: 'Select path'
         required: true
@@ -31,6 +32,7 @@ on:
           - /ofk-no
           - /bfk-no
           - /afk-no
+          - /fridiks-no
       environment:
         description: 'Select environment'
         required: true
