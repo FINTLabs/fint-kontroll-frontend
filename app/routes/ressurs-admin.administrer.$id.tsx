@@ -49,7 +49,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     const page = Number(url.searchParams.get('page') ?? '0');
     const orgUnitName: string = url.searchParams.get('orgUnitName') ?? '';
     const objectType: string = url.searchParams.get('objectType') ?? '';
-    const role = url.searchParams.get('accessRoleId') ?? '';
+    const role = url.searchParams.get('accessroleid') ?? '';
 
     const [objectTypesForUser, userDetails, userAssignmentsPaginated, accessRoles] =
         await Promise.all([

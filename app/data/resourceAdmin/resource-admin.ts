@@ -98,9 +98,9 @@ export const fetchUserAssignments = async (
         size: size.toString(),
     });
 
-    accessRoleId ? queryParams.append('accessRoleId', accessRoleId) : null;
-    orgUnitName ? queryParams.append('orgUnitName', orgUnitName) : null;
-    objectType ? queryParams.append('objectType', objectType) : null;
+    if (accessRoleId) queryParams.append('accessRoleId', accessRoleId);
+    if (orgUnitName) queryParams.append('orgUnitName', orgUnitName);
+    if (objectType) queryParams.append('objectType', objectType);
 
     return fetchData(
         `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/user/${resourceId}/orgunits${queryParams ? '?' + queryParams : ''}`,
