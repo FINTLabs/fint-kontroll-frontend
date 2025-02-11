@@ -54,11 +54,11 @@ describe('See that assignment.resource.$id.user renders with users', () => {
         cy.goToSpecificResource();
         cy.wait(1000);
         cy.get('table tr').contains('Bente Nordli').should('exist');
-        cy.get('table tr td').contains('Kan ikke slettes').should('exist');
+        cy.get('table tr td').contains('Begrenset').should('exist');
     });
 
     it('In table, can see some "Kan ikke slettes", "Gruppetildeling" and "Slett"-buttons', () => {
-        cy.get('table tr td').contains('Kan ikke slettes').should('exist');
+        cy.get('table tr td').contains('Begrenset').should('exist');
         cy.get('table tr td').contains('Gruppetildeling').should('exist');
         cy.get('table tr').find('a').contains('Slett').should('exist');
     });

@@ -1,4 +1,4 @@
-import { Button, Link, Tag } from '@navikt/ds-react';
+import { Button, HelpText, HStack, Link, Tag } from '@navikt/ds-react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import React from 'react';
 
@@ -15,13 +15,15 @@ export function DeleteButtonOrTagComponent(
         );
     } else if (!deletableAssignment) {
         return (
-            <Tag
-                id={'tag'}
-                variant="neutral"
-                size="small"
-                className="navds-tag-in-table"
-                style={{ whiteSpace: 'nowrap' }}>
-                Kan ikke slettes
+            <Tag variant="neutral" size="small" className="navds-tag-in-table">
+                <HStack gap={'1'} align={'center'} wrap={false}>
+                    Begrenset
+                    <HelpText title="Hvor kommer dette fra?">
+                        Du mangler rettigheter til å slette denne tildelingen.
+                        <br />
+                        Tildelingen er gjort av noen med høyere autorisasjon.
+                    </HelpText>
+                </HStack>
             </Tag>
         );
     } else {
