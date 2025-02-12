@@ -81,5 +81,13 @@ module.exports = {
                 node: true,
             },
         },
+
+        // Jest
+        {
+            files: ['jest/**/*'],
+            env: {
+                jest: true,
+            },
+        },
     ],
 };
