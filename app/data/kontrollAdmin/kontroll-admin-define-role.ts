@@ -1,30 +1,88 @@
 import { ACCESS_MANAGEMENT_API_URL, BASE_PATH } from '../../../environment';
 import { IAccessRole, IFeature, IPermissionData } from '~/data/types/userTypes';
-import { fetchData, sendRequest } from '~/data/helpers';
 
-export const fetchAllFeatures = async (request: Request): Promise<IFeature[]> =>
-    fetchData(`${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/feature`, request);
-
-export const fetchAccessRoles = async (request: Request): Promise<IAccessRole[]> =>
-    fetchData(
-        `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessrole`,
-        request
+export const fetchAllFeatures = async (request: Request): Promise<IFeature[]> => {
+    const response = await fetch(
+        `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/feature`,
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    return generalErrorResponse(response);
+};
+
+export const fetchAccessRoles = async (request: Request): Promise<IAccessRole[]> => {
+    const response = await fetch(
+        `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accessrole`,
+        {
+            headers: request.headers,
+        }
+    );
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    return generalErrorResponse(response);
+};
 
 export const fetchFeaturesInRole = async (
     request: Request,
     roleId: string | undefined
-): Promise<IPermissionData> =>
-    fetchData(
+): Promise<IPermissionData> => {
+    const response = await fetch(
         `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission/accessrole/${roleId}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+    if (response.ok) {
+        return response.json();
+    }
 
-export const putPermissionDataForRole = async (request: Request, updatedPermissionRole: string) => {
-    return sendRequest({
-        url: `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission`,
-        method: 'PUT',
-        token: request.headers.get('Authorization'),
-        stringifiedBody: updatedPermissionRole,
-    });
+    if (response.status === 403) {
+        throw new Error('Du har ikke rettigheter til å hente ut CRUD-data');
+    }
+
+    return generalErrorResponse(response);
+};
+
+export const putPermissionDataForRole = async (request: Request, updatedPermissionRole: any) => {
+    const response = await fetch(
+        `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/accesspermission`,
+        {
+            headers: {
+                Authorization: request.headers.get('Authorization') ?? '',
+                'content-type': 'application/json',
+            },
+            method: 'PUT',
+            body: updatedPermissionRole,
+        }
+    );
+    if (response.ok) {
+        return response;
+    }
+    if (response.status === 500) {
+        return response;
+    }
+
+    return generalErrorResponse(response);
+};
+
+const generalErrorResponse = (response: Response) => {
+    if (response.status === 500) {
+        throw new Error('Noe gikk galt. Feilkode 500');
+    }
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
 };

@@ -1,6 +1,5 @@
 import { BASE_PATH, USER_API_URL } from '../../environment';
 import { IUserDetails, IUserPage } from '~/data/types/userTypes';
-import { fetchData } from '~/data/helpers';
 
 export const fetchUsers = async (
     request: Request,
@@ -16,13 +15,43 @@ export const fetchUsers = async (
     const userTypeFilter = userTypes.length > 0 ? `&userType=${userTypes.join(',')}` : '';
     const orgUnitsFilter = orgUnits.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
 
-    return fetchData(
+    const response = await fetch(
         `${USER_API_URL}${BASE_PATH}/api/users?${sizeFilter}${pageFilter}${searchFilter}${userTypeFilter}${orgUnitsFilter}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
 };
 
 export const fetchUserById = async (
     request: Request,
     id: string | undefined
-): Promise<IUserDetails> => fetchData(`${USER_API_URL}${BASE_PATH}/api/users/${id}`, request);
+): Promise<IUserDetails> => {
+    const response = await fetch(`${USER_API_URL}${BASE_PATH}/api/users/${id}`, {
+        headers: request.headers,
+    });
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};

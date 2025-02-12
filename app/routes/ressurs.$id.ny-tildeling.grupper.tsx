@@ -1,4 +1,4 @@
-import { Tabs } from '@navikt/ds-react';
+import { Alert, Box, Tabs } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { json, TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
@@ -14,8 +14,6 @@ import { fetchResourceById } from '~/data/fetch-resources';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
-import React from 'react';
 
 type LoaderData = {
     roleList: IRoleList;
@@ -49,10 +47,11 @@ export async function loader({
         filter += `&rolefilter=${value.id}`;
     });
 
-    const [assignedRolesList, userTypesKodeverk] = await Promise.all([
+    const [responseAssignments, userTypesKodeverk] = await Promise.all([
         fetchAssignedRoles(request, params.id, size, '0', '', orgUnits, filter),
         fetchUserTypes(request),
     ]);
+    const assignedRolesList: IAssignedRoles = await responseAssignments.json();
 
     const assignedRolesMap: Map<number, IRole> = new Map(
         assignedRolesList.roles.map((role) => [role.id, role])
@@ -101,5 +100,12 @@ export const handle = {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

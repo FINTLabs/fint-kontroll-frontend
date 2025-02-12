@@ -1,6 +1,15 @@
 import styles from '../components/user/user.css?url';
-import { Box, Heading, HStack, LinkPanel, VStack } from '@navikt/ds-react';
-import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
+import { Alert, Box, Heading, HStack, LinkPanel, VStack } from '@navikt/ds-react';
+import {
+    Link,
+    Links,
+    Meta,
+    Scripts,
+    useLoaderData,
+    useParams,
+    useRouteError,
+} from '@remix-run/react';
+import { IUserDetails } from '~/data/types/userTypes';
 import { fetchUserById } from '~/data/fetch-users';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -12,8 +21,7 @@ import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFuncti
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { getUserByIdUrl, getUserNewAssignmentUrl, USERS } from '~/data/paths';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
-import React from 'react';
+import { IAssignmentPage } from '~/data/types/resourceTypes';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -30,7 +38,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     ]);
     return json({
         user,
-        assignments,
+        assignments: await assignments.json(),
         size,
         page,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
@@ -56,14 +64,12 @@ export const handle = {
 };
 
 export default function Users() {
-    const {
-        user,
-        assignments: assignmentsForUser,
-        size,
-        basePath,
-        responseCode,
-    } = useLoaderData<typeof loader>();
-
+    const data = useLoaderData<typeof loader>();
+    const user: IUserDetails = data.user;
+    const assignmentsForUser: IAssignmentPage = data.assignments;
+    const size = data.size;
+    const basePath: string = data.basePath;
+    const responseCode: string | undefined = data.responseCode;
     const params = useParams();
 
     return (
@@ -103,5 +109,23 @@ export default function Users() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

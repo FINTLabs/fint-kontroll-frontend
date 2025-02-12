@@ -132,7 +132,7 @@ export const ServiceAdminTable = ({ resourcePage, size, basePath, source }: Reso
             <TablePagination
                 currentPage={resourcePage.currentPage}
                 totalPages={resourcePage.totalPages}
-                size={size}
+                size={size ?? 10}
             />
         </>
     );

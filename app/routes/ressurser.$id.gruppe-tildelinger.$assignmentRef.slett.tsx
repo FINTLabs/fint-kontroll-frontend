@@ -12,6 +12,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     const response = await deleteAssignment(
         request.headers.get('Authorization'),
+        request,
         data.get('assignmentRef') as string
     );
 

@@ -1,6 +1,14 @@
 import styles from '../components/resource/resource.css?url';
-import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
-import { Link as RemixLink, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
+import { Alert, Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import {
+    Link as RemixLink,
+    Links,
+    Meta,
+    Scripts,
+    useLoaderData,
+    useNavigate,
+    useRouteError,
+} from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -21,7 +29,6 @@ import {
     SERVICE_ADMIN,
 } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -127,5 +134,23 @@ export default function ResourceById() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

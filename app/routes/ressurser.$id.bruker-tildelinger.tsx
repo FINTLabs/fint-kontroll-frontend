@@ -1,11 +1,11 @@
 import styles from '../components/resource/resource.css?url';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { IAssignedUsers } from '~/data/types/userTypes';
-import { json, TypedResponse } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { AssignedUsersTable } from '~/components/assignment/AssignedUsersTable';
-import { Tabs, VStack } from '@navikt/ds-react';
+import { Alert, Box, Tabs, VStack } from '@navikt/ds-react';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -15,28 +15,12 @@ import { UserSearch } from '~/components/user/UserSearch';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
-import React from 'react';
-import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
 }
 
-type LoaderData = {
-    assignedUsers: IAssignedUsers;
-    resourceName: string;
-    size: string;
-    basePath: string;
-    responseCode?: string;
-    userTypesKodeverk: IKodeverkUserType[];
-};
-
-export async function loader({
-    params,
-    request,
-    context,
-}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ params, request, context }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -52,7 +36,7 @@ export async function loader({
 
     return json({
         context,
-        assignedUsers: assignedUsers,
+        assignedUsers: await assignedUsers.json(),
         resourceName: resource.resourceName,
         size,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
@@ -73,7 +57,7 @@ export const handle = {
 };
 
 export default function AssignedUsers() {
-    const loaderData = useLoaderData<LoaderData>();
+    const loaderData = useLoaderData<typeof loader>();
     const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers;
     const size = loaderData.size;
     const basePath: string = loaderData.basePath;
@@ -104,5 +88,13 @@ export default function AssignedUsers() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

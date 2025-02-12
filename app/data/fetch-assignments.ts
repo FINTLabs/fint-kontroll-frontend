@@ -1,7 +1,5 @@
 import { ASSIGNMENT_API_URL, BASE_PATH } from '../../environment';
-import { fetchData, sendRequest } from '~/data/helpers';
-import { IAssignedResourcesList, IAssignmentPage } from '~/data/types/resourceTypes';
-import { IAssignedRoles, IAssignedUsers } from '~/data/types/userTypes';
+import logger from '~/logging/logger';
 
 export const fetchAssignedUsers = async (
     request: Request,
@@ -12,11 +10,26 @@ export const fetchAssignedUsers = async (
     userType: string,
     orgUnits: string[],
     userFilter?: string
-): Promise<IAssignedUsers> =>
-    fetchData(
+) => {
+    const response = await fetch(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/resource/${id}/users?size=${size}&page=${page}&search=${search}&userType=${userType}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${userFilter}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt!');
+    }
+    throw new Error(`Det oppstod en uventet feil. Status kode: ${response.status}`);
+};
 
 export const fetchAssignedResourcesForUser = async (
     request: Request,
@@ -25,22 +38,52 @@ export const fetchAssignedResourcesForUser = async (
     page: string,
     resourceType: string,
     resourceFilter: string
-): Promise<IAssignedResourcesList> =>
-    fetchData(
+) => {
+    const response = await fetch(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen?');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt!');
+    }
+    throw new Error('Det virker ikke som om du er pålogget?');
+};
 
 export const fetchAssignmentsForUser = async (
     request: Request,
     id: string | undefined,
     size: string,
     page: string
-): Promise<IAssignmentPage> =>
-    fetchData(
+) => {
+    const response = await fetch(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/user/${id}/resources?size=${size}&page=${page}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const fetchAssignedRoles = async (
     request: Request,
@@ -50,60 +93,149 @@ export const fetchAssignedRoles = async (
     search: string,
     orgUnits: string[],
     roleFilter?: string
-): Promise<IAssignedRoles> =>
-    fetchData(
+) => {
+    const response = await fetch(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/roles?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${roleFilter}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const fetchAssignmentsForRole = async (
     request: Request,
     id: string | undefined,
     size: string,
     page: string
-): Promise<IAssignmentPage> =>
-    fetchData(
+) => {
+    const response = await fetch(
         `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const createUserAssignment = async (
     token: string | null,
     resourceRef: number,
     userRef: number,
     organizationUnitId: string
-) =>
-    sendRequest({
-        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`,
-        method: 'POST',
-        token: token,
-        body: {
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
+    logger.info(
+        'POST user assignment to ',
+        url,
+        ' with body ',
+        JSON.stringify({
             resourceRef: resourceRef,
             userRef: userRef,
             organizationUnitId: organizationUnitId,
+        })
+    );
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? '',
+            'content-type': 'application/json',
         },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            userRef: userRef,
+            organizationUnitId: organizationUnitId,
+        }),
     });
+    logger.debug('Response from CRETE USER Assignments????', url, response.status);
+    return response;
+};
+
+/* Dette er opprinnelig
+export const createRoleAssignment = async (request: Request, resourceRef: number, roleRef: number, organizationUnitId: string) => {
+    const response = await fetch(`${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`, {
+        headers: changeAppTypeInHeadersAndReturnHeaders(request.headers),
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        })
+    });
+    return response;
+}*/
 
 export const createRoleAssignment = async (
     token: string | null,
     resourceRef: number,
     roleRef: number,
     organizationUnitId: string
-) =>
-    sendRequest({
-        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`,
-        method: 'POST',
-        token: token,
-        body: {
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`;
+
+    logger.info(
+        'POST Role assignment to url:',
+        url,
+        ' with body ',
+        JSON.stringify({
             resourceRef: resourceRef,
             roleRef: roleRef,
             organizationUnitId: organizationUnitId,
-        },
-    });
+        })
+    );
 
-export const deleteAssignment = async (token: string | null, assignmentRef: string) =>
-    sendRequest({
-        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`,
-        method: 'DELETE',
-        token: token,
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? '',
+            'content-type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            resourceRef: resourceRef,
+            roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        }),
     });
+    return response;
+};
+
+export const deleteAssignment = async (
+    token: string | null,
+    request: Request,
+    assignmentRef: string
+) => {
+    const url = `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/${assignmentRef}`;
+    logger.debug('Delete assignment ', url);
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? '',
+            'content-type': 'application/json',
+        },
+        method: 'DELETE',
+    });
+    logger.debug('Response from deleteAssignments', url, response.status);
+
+    return response;
+};

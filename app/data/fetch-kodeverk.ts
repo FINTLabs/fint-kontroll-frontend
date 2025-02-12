@@ -37,15 +37,15 @@ export const createApplicationCategory = (
     name: string,
     description: string
 ) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`,
-        method: 'POST',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`,
+        'POST',
         token,
-        body: {
+        {
             name,
             description,
-        },
-    });
+        }
+    );
 
 export const editApplicationCategory = (
     token: string | null,
@@ -53,34 +53,35 @@ export const editApplicationCategory = (
     name: string,
     description: string
 ) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`,
-        method: 'PUT',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1`,
+        'PUT',
         token,
-        body: {
+        {
             id,
             name,
             description,
-        },
-    });
+        }
+    );
 
 export const deleteApplicationCategory = (token: string | null, id: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1/${id}`,
-        method: 'DELETE',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/applikasjonskategori/v1/${id}`,
+        'DELETE',
         token,
-    });
+        {}
+    );
 
 export const fetchUserTypes = (request: Request): Promise<IKodeverkUserType[]> =>
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1`, request);
 
 export const editUserType = (token: string | null, id: string, label: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1/${id}`,
-        method: 'PATCH',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1/${id}`,
+        'PATCH',
         token,
-        body: { fkLabel: label },
-    });
+        { fkLabel: label }
+    );
 
 export const fetchLicenseModels = (request: Request): Promise<IKodeverkLicenseModel[]> =>
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`, request);
@@ -97,34 +98,35 @@ export const editLicenseModel = (
     name: string,
     description: string
 ) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`,
-        method: 'PUT',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`,
+        'PUT',
         token,
-        body: {
+        {
             id,
             name,
             description,
-        },
-    });
+        }
+    );
 
 export const createLicenseModel = (token: string | null, name: string, description: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`,
-        method: 'POST',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`,
+        'POST',
         token,
-        body: {
+        {
             name,
             description,
-        },
-    });
+        }
+    );
 
 export const deleteLicenseModel = (token: string | null, id: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1/${id}`,
-        method: 'DELETE',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1/${id}`,
+        'DELETE',
         token,
-    });
+        {}
+    );
 
 export const fetchLicenseEnforcements = (
     request: Request
@@ -132,9 +134,9 @@ export const fetchLicenseEnforcements = (
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/handhevingstype/v1`, request);
 
 export const editLicenseEnforcement = (token: string | null, id: string, label: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/handhevingstype/v1/${id}`,
-        method: 'PATCH',
+    sendRequest(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/handhevingstype/v1/${id}`,
+        'PATCH',
         token,
-        body: { fkLabel: label },
-    });
+        { fkLabel: label }
+    );

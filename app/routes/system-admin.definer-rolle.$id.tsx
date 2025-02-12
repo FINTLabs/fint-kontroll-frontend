@@ -6,6 +6,9 @@ import {
 import { ActionFunctionArgs, json } from '@remix-run/node';
 import {
     Form,
+    Links,
+    Meta,
+    Scripts,
     useActionData,
     useLoaderData,
     useOutletContext,
@@ -13,24 +16,13 @@ import {
     useRouteError,
 } from '@remix-run/react';
 import React, { useEffect, useState } from 'react';
-import { Button, HStack, Table } from '@navikt/ds-react';
+import { Alert, Box, Button, HStack, Table } from '@navikt/ds-react';
 import PermissionsTableCheckbox from '../components/kontroll-admin/PermissionsTableCheckbox';
 import { toast } from 'react-toastify';
 import styles from '../components/kontroll-admin/kontroll-admin.css?url';
 import { ConfirmSafeRedirectModal } from '~/components/kontroll-admin/ConfirmSafeRedirectModal';
 import { getDefineRoleByIdUrl } from '~/data/paths';
 import { IPermissionData } from '~/data/types/userTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
-
-// TODO: Should this be moved into its own Context-file? Or should we refactor it differently?
-interface ExpectedSystemAdminContext {
-    isModalVisible: boolean;
-    setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    hasChanges: boolean;
-    setHasChanges: React.Dispatch<React.SetStateAction<boolean>>;
-    desiredTab: string;
-    handleNavigate: (value: string) => void;
-}
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const data = await fetchFeaturesInRole(request, params.id);
@@ -43,17 +35,16 @@ export function links() {
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
-    const dataForForm = formData.get('dataForForm');
-    if (dataForForm) {
-        const response = await putPermissionDataForRole(request, dataForForm as string);
-        return { didUpdate: response.ok };
-    }
+    const response = await putPermissionDataForRole(request, formData.get('dataForForm'));
+    return { didUpdate: !!response.status };
 }
 
 const DefineRoleTab = () => {
     const loaderData: IPermissionData = useLoaderData<typeof loader>();
-    let actionData = useActionData<typeof action>();
+    let didUpdate = useActionData<typeof action>();
     const params = useParams();
+    // @ts-ignore
+    // TODO: Should this be moved into its own Context-file? Or should we refactor it differently?
     const {
         isModalVisible,
         setIsModalVisible,
@@ -61,7 +52,7 @@ const DefineRoleTab = () => {
         setHasChanges,
         desiredTab,
         handleNavigate,
-    } = useOutletContext<ExpectedSystemAdminContext>(); // Context from system-admin.tsx
+    } = useOutletContext(); // Context from system-admin.tsx
 
     const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] =
         useState<IPermissionData>();
@@ -75,17 +66,17 @@ const DefineRoleTab = () => {
     }, [loaderData]);
 
     useEffect(() => {
-        if (actionData !== undefined) {
-            actionData.didUpdate
+        if (didUpdate !== undefined) {
+            didUpdate
                 ? toast.success('Oppdatering av rolle gjennomført')
                 : toast.error('Oppdatering av rolle feilet');
             !saving ? handleNavigate(desiredTab) : null;
             setHasChanges(false);
         } else {
-            actionData = undefined;
+            didUpdate = undefined;
         }
         setSaving(false);
-    }, [actionData]);
+    }, [didUpdate]);
 
     const discardChanges = () => {
         handleNavigate(desiredTab);
@@ -199,5 +190,23 @@ export default DefineRoleTab;
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

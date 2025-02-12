@@ -12,7 +12,7 @@ export const LinkCardGrid = ({ color, title, bleed = true, children }: CustomLin
     <Bleed marginInline={bleed ? 'full' : '12'} asChild>
         <Box paddingBlock="4" paddingInline="12" className="p" style={{ backgroundColor: color }}>
             <Page.Block width={'2xl'}>
-                <VStack gap="4" paddingBlock={'4 0'}>
+                <VStack gap="4" paddingBlock={'4'}>
                     {title && (
                         <Heading level="2" size="medium" style={{ color: 'var(--red-dark)' }}>
                             {title}

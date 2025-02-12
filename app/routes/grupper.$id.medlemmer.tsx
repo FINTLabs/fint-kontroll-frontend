@@ -1,6 +1,6 @@
 import React from 'react';
-import { Detail, Heading, HStack, Tabs, VStack } from '@navikt/ds-react';
-import { Link, useLoaderData, useRouteError } from '@remix-run/react';
+import { Alert, Box, Detail, Heading, HStack, Tabs, VStack } from '@navikt/ds-react';
+import { Link, Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchMembers } from '~/data/fetch-roles';
 import { json } from '@remix-run/node';
@@ -10,7 +10,6 @@ import { Search } from '~/components/common/Search';
 import ChipsFilters from '~/components/common/ChipsFilters';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { getRoleMembersUrl } from '~/data/paths';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -66,5 +65,23 @@ export default function Members() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

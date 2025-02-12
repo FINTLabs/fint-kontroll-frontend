@@ -8,7 +8,9 @@ import {
     useSearchParams,
 } from '@remix-run/react';
 import {
+    Alert,
     BodyShort,
+    Box,
     Button,
     ConfirmationPanel,
     Heading,
@@ -20,14 +22,13 @@ import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
 import { createUserAssignment } from '~/data/fetch-assignments';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     prepareQueryParams,
     prepareQueryParamsWithResponseCode,
 } from '~/components/common/CommonFunctions';
 import { getUserNewAssignmentUrl } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.resourceId);
@@ -142,5 +143,13 @@ export default function NewAssignment() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

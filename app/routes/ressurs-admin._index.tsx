@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, VStack } from '@navikt/ds-react';
-import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
+import { Alert, Box, Button, VStack } from '@navikt/ds-react';
+import { Links, Meta, Scripts, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import ResourceModuleAdminUsersTable from '../components/resource-module-admin/ResourceModuleAdminUsersTable';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { json, TypedResponse } from '@remix-run/node';
@@ -16,7 +16,6 @@ import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFuncti
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -38,11 +37,13 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResp
     const name = url.searchParams.get('search') ?? '';
     const role = url.searchParams.get('accessroleid') ?? '';
 
-    const [usersPage, roles, orgUnitPage] = await Promise.all([
+    const [responseUsersPage, roles, orgUnitPage] = await Promise.all([
         fetchUsersWithAssignment(auth, page, size, orgunits, name, role),
         fetchAccessRoles(auth),
         fetchAllOrgUnits(auth),
     ]);
+
+    const usersPage = await responseUsersPage.json();
 
     return json({
         usersPage,
@@ -89,5 +90,23 @@ export default function ResourceAdminIndex() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }
