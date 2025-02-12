@@ -1,7 +1,6 @@
+import React, { ReactElement } from 'react';
+import { ToastContainer } from 'react-toastify';
 import { json, LinksFunction, MetaFunction } from '@remix-run/node';
-import navStyles from '@navikt/ds-css/dist/index.css?url';
-import 'react-toastify/dist/ReactToastify.css';
-
 import {
     Links,
     Meta,
@@ -13,22 +12,27 @@ import {
     useMatches,
     useRouteError,
 } from '@remix-run/react';
-import styles from '~/styles/main.css?url';
-import { fetchMeInfo } from '~/data/fetch-me-info';
-import meStyles from '~/components/app-bar/appBar.css?url';
 import type { LoaderFunctionArgs } from '@remix-run/router';
-import { ToastContainer } from 'react-toastify';
-import { Box, HStack, Page } from '@navikt/ds-react';
-import { AppBar } from '~/components/app-bar/AppBar';
-import { BASE_PATH } from '../environment';
-import React, { ReactElement } from 'react';
-import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { RouteHandle } from '@remix-run/react/dist/routeModules';
-import './tailwind.css';
-import './novari-theme.css';
+import { Box, HStack, Page } from '@navikt/ds-react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
+
+import { BASE_PATH } from '../environment';
+import { fetchMeInfo } from '~/data/fetch-me-info';
+import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { AppBar } from '~/components/app-bar/AppBar';
+
+import navStyles from '@navikt/ds-css/dist/index.css?url';
+import styles from '~/styles/main.css?url';
+import appBar from '~/components/app-bar/appBar.css?url';
+import 'react-toastify/dist/ReactToastify.css';
+import './tailwind.css';
+import './novari-theme.css';
+import '@navikt/ds-css/dist/index.css';
+import '~/styles/main.css';
+import '~/components/app-bar/appBar.css';
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -58,7 +62,12 @@ export const meta: MetaFunction = () => {
 export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: navStyles },
     { rel: 'stylesheet', href: styles },
-    { rel: 'stylesheet', href: meStyles },
+    { rel: 'stylesheet', href: appBar },
+    {
+        rel: 'icon',
+        href: '/Novari_Favikon.svg',
+        type: 'image/svg+xml',
+    },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
