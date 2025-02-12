@@ -1,7 +1,7 @@
 import { BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL } from '../../environment';
 import logger from '~/logging/logger';
 import { IValidForOrgUnits } from '~/components/service-admin/types';
-import { fetchData, sendRequest } from '~/data/helpers';
+import { fetchData } from '~/data/helpers';
 import { IUnitTree } from '~/data/types/orgUnitTypes';
 import { IResource, IResourceAdminList, IResourceList } from '~/data/types/resourceTypes';
 
@@ -24,10 +24,24 @@ export const fetchResources = async (
     const accesstypeParameter = accessType.length > 0 ? `&accesstype=${accessType}` : '';
     const userTypeParameter = userType ? `&usertype=${userType}` : '';
 
-    return fetchData(
+    const response = await fetch(
         `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1?${applicationCategoryParameter}${sizeParameter}${pageParameter}${searchParameter}${orgUnitsParameter}${accesstypeParameter}${userTypeParameter}`,
-        request
+        {
+            headers: request.headers,
+        }
     );
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
 };
 
 export const fetchResourcesForAdmin = async (
@@ -44,19 +58,81 @@ export const fetchResourcesForAdmin = async (
         applicationCategory.length > 0 ? `applicationcategory=${applicationCategory}` : undefined;
     const accesstypeParameter = accessType.length > 0 ? `accesstype=${accessType}` : undefined;
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/v1?${applicationCategoryParameter}&size=${size}&page=${page}&search=${search}${status.length > 0 ? '&status=' + status : ''}${orgUnits.length > 0 ? '&orgunits=' + orgUnits : ''}&${accesstypeParameter}`;
-    return fetchData(url, request);
+    const response = await fetch(url, {
+        headers: request.headers,
+    });
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
 };
 
 export const fetchResourceById = async (
     request: Request,
     id: string | undefined
-): Promise<IResource> => fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, request);
+): Promise<IResource> => {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, {
+        headers: request.headers,
+    });
 
-export const fetchApplicationCategory = async (request: Request): Promise<string[]> =>
-    fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`, request);
+    if (response.ok) {
+        return response.json();
+    }
 
-export const fetchAccessType = async (request: Request) =>
-    fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/accesstypes`, request);
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
+
+export const fetchApplicationCategory = async (request: Request): Promise<string[]> => {
+    const response = await fetch(
+        `${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`,
+        {
+            headers: request.headers,
+        }
+    );
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
+
+export const fetchAccessType = async (request: Request) => {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/accesstypes`, {
+        headers: request.headers,
+    });
+
+    if (response.ok) {
+        return response;
+    }
+
+    if (response.status === 403) {
+        throw new Error('Det ser ut som om du mangler rettigheter i løsningen');
+    }
+    if (response.status === 401) {
+        throw new Error('Påloggingen din er utløpt');
+    }
+    throw new Error('Det virker ikke som om du er pålogget');
+};
 
 export const createResource = async (
     token: string | null,
@@ -203,11 +279,16 @@ export const updateResource = async (
 
 export const deleteResource = async (token: string | null, request: Request, id: string) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`;
-    return sendRequest({
-        url,
+    const response = await fetch(url, {
+        headers: {
+            Authorization: token ?? '',
+            'content-type': 'application/json',
+        },
         method: 'DELETE',
-        token: token,
     });
+    logger.debug('Response from deleteResource', url, response.status);
+
+    return response;
 };
 
 export const fetchAllOrgUnits = async (request: Request): Promise<IUnitTree> =>

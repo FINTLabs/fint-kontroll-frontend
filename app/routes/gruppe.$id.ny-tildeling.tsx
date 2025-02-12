@@ -1,10 +1,10 @@
-import { Link, useLoaderData, useRouteError } from '@remix-run/react';
+import { Link, Links, Meta, Scripts, useLoaderData, useRouteError } from '@remix-run/react';
 import { IRole } from '~/data/types/userTypes';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/data/fetch-resources';
 import { json, TypedResponse } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
-import { HStack, VStack } from '@navikt/ds-react';
+import { Alert, Box, HStack, VStack } from '@navikt/ds-react';
 import { fetchAssignedResourcesRole, fetchRoleById } from '~/data/fetch-roles';
 import React from 'react';
 import { AssignResourceToRoleTable } from '~/components/role/AssignResourceToRoleTable';
@@ -22,7 +22,6 @@ import {
     IResourceForList,
     IResourceList,
 } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ params, request }: LoaderFunctionArgs): Promise<
     TypedResponse<{
@@ -155,5 +154,22 @@ export default function NewAssignmentForRole() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

@@ -122,10 +122,9 @@ export interface IMemberItem {
     userName?: null;
 }
 
-// THIS
 export interface IAssignedUsers {
     totalItems: number;
-    totalPages?: number | any;
+    totalPages: number | any;
     currentPage: number;
     size: string;
     users: IUser[];

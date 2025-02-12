@@ -14,6 +14,7 @@ export async function action({ params, request }: ActionFunctionArgs) {
     const { searchParams } = new URL(request.url);
     const response = await deleteAssignment(
         request.headers.get('Authorization'),
+        request,
         params.assignmentRef as string
     );
     searchParams.set('responseCode', String(response.status));

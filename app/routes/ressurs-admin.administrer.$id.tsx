@@ -9,13 +9,16 @@ import {
 } from '~/data/resourceAdmin/resource-admin';
 import {
     Link,
+    Links,
+    Meta,
+    Scripts,
     useActionData,
     useLoaderData,
     useNavigate,
     useRouteError,
     useSearchParams,
 } from '@remix-run/react';
-import { Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Alert, Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { ArrowRightIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     IResourceModuleUser,
@@ -34,7 +37,6 @@ import ChipsFilters from '~/components/common/ChipsFilters';
 import UserAccessRoleFilter from '~/components/resource-module-admin/UsersAccessRolesFilter';
 import { getAdministerRoleByIdUrl, RESOURCE_ADMIN } from '~/data/paths';
 import { IAccessRole } from '~/data/types/userTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -49,15 +51,23 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     const page = Number(url.searchParams.get('page') ?? '0');
     const orgUnitName: string = url.searchParams.get('orgUnitName') ?? '';
     const objectType: string = url.searchParams.get('objectType') ?? '';
-    const role = url.searchParams.get('accessroleid') ?? '';
+    const role = url.searchParams.get('accessRoleId') ?? '';
 
-    const [objectTypesForUser, userDetails, userAssignmentsPaginated, accessRoles] =
-        await Promise.all([
-            fetchObjectTypesForUser(auth, resourceId),
-            fetchUserDetails(auth, resourceId),
-            fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size),
-            fetchAccessRoles(auth),
-        ]);
+    const [
+        objectTypesResponse,
+        userDetailsResponse,
+        userAssignmentsPaginatedResponse,
+        accessRoles,
+    ] = await Promise.all([
+        fetchObjectTypesForUser(auth, resourceId),
+        fetchUserDetails(auth, resourceId),
+        fetchUserAssignments(auth, resourceId, role, objectType, orgUnitName, page, size),
+        fetchAccessRoles(auth),
+    ]);
+
+    const objectTypesForUser = await objectTypesResponse.json();
+    const userDetails = await userDetailsResponse.json();
+    const userAssignmentsPaginated = await userAssignmentsPaginatedResponse.json();
 
     return json({
         objectTypesForUser,
@@ -80,7 +90,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
             ? {
                   reset: true,
                   status: true,
-                  redirect: RESOURCE_ADMIN,
+                  redirect: '/resource-module-admin',
                   message: 'Brukerobjekt ble nullstilt',
               }
             : { reset: false, status: false, redirect: null, message: null };
@@ -283,5 +293,23 @@ export const handle = {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

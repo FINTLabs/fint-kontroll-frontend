@@ -7,8 +7,17 @@ import {
     useRouteError,
     useSearchParams,
 } from '@remix-run/react';
-import React, { useState } from 'react';
-import { BodyShort, Button, ConfirmationPanel, Heading, Modal, VStack } from '@navikt/ds-react';
+import { useState } from 'react';
+import {
+    Alert,
+    BodyShort,
+    Box,
+    Button,
+    ConfirmationPanel,
+    Heading,
+    Modal,
+    VStack,
+} from '@navikt/ds-react';
 import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
 import { createUserAssignment } from '~/data/fetch-assignments';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -19,7 +28,6 @@ import {
 } from '~/components/common/CommonFunctions';
 import { getResourceNewUserAssignmentUrl } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.id);
@@ -126,5 +134,12 @@ export default function NewAssignment1() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

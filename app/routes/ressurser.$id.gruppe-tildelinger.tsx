@@ -6,7 +6,7 @@ import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedRoles } from '~/data/fetch-assignments';
 import { AssignedRolesTable } from '~/components/assignment/AssignedRolesTable';
-import { Tabs, VStack } from '@navikt/ds-react';
+import { Alert, Box, Tabs, VStack } from '@navikt/ds-react';
 import { BASE_PATH } from '../../environment';
 import React from 'react';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -15,7 +15,6 @@ import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { RoleSearch } from '~/components/role/RoleSearch';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -34,7 +33,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     ]);
 
     return json({
-        assignedRoles,
+        assignedRoles: await assignedRoles.json(),
         resourceName: resource.resourceName,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
@@ -81,5 +80,13 @@ export default function AssignedRoles() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    console.error(error, 'Her er error i grppe-tildelinger');
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

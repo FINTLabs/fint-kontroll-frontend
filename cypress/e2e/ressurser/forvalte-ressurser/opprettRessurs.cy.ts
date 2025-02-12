@@ -39,8 +39,8 @@ describe('Test creation of new resource', () => {
 
         cy.get('button[type=submit]').contains('Lagre ressurs').should('exist').click();
         cy.wait(1000);
-        cy.get('#alert-box').should('exist');
+        cy.get('.navds-box .navds-alert').should('exist');
         cy.wait(1000);
-        cy.get('#alert-box').contains('Ressursen ble opprettet!');
+        cy.get('.navds-box .navds-alert').contains('Ressursen ble opprettet!');
     });
 });

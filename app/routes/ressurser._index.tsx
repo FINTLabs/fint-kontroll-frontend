@@ -1,3 +1,4 @@
+import { Alert, Box } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
@@ -10,8 +11,6 @@ import { ResourceSelectApplicationCategory } from '~/components/service-admin/Re
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IResourceList } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
-import React from 'react';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -70,5 +69,12 @@ export default function Resource() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }

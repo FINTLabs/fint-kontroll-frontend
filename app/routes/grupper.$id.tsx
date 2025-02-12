@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Heading, HStack, LinkPanel, Tabs } from '@navikt/ds-react';
+import { Alert, Box, Heading, HStack, LinkPanel, Tabs } from '@navikt/ds-react';
 import {
     Link,
+    Links,
+    Meta,
     Outlet,
+    Scripts,
     useLoaderData,
     useLocation,
     useNavigate,
@@ -15,7 +18,6 @@ import { json } from '@remix-run/node';
 import styles from '../components/user/user.css?url';
 import { BASE_PATH } from '../../environment';
 import { getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -84,5 +86,23 @@ export default function RolesId() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <html lang={'no'}>
+            <head>
+                <title>Feil oppstod</title>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Box paddingBlock="8">
+                    <Alert variant="error">
+                        Det oppsto en feil med følgende melding:
+                        <div>{error.message}</div>
+                    </Alert>
+                </Box>
+                <Scripts />
+            </body>
+        </html>
+    );
 }

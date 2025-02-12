@@ -1,4 +1,4 @@
-import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
+import { Alert, Box, HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { json } from '@remix-run/node';
 import {
@@ -14,7 +14,7 @@ import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { ArrowRightIcon, PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLoadingState } from '~/components/common/customHooks';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import {
@@ -24,7 +24,6 @@ import {
 } from '~/data/paths';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IResource } from '~/data/types/resourceTypes';
-import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -128,5 +127,13 @@ export default function NewAssignment() {
 
 export function ErrorBoundary() {
     const error: any = useRouteError();
-    return <ErrorMessage error={error} />;
+    // console.error(error);
+    return (
+        <Box paddingBlock="8">
+            <Alert variant="error">
+                Det oppsto en feil med følgende melding:
+                <div>{error.message}</div>
+            </Alert>
+        </Box>
+    );
 }
