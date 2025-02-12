@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { json, LinksFunction, MetaFunction } from '@remix-run/node';
+import { HeadersFunction, json, LinksFunction, MetaFunction } from '@remix-run/node';
 import {
     Links,
     Meta,
@@ -24,9 +24,9 @@ import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { AppBar } from '~/components/app-bar/AppBar';
 
-import navStyles from '@navikt/ds-css/dist/index.css?url';
-import styles from '~/styles/main.css?url';
-import appBar from '~/components/app-bar/appBar.css?url';
+import navStyles from '@navikt/ds-css/dist/index.css';
+import styles from '~/styles/main.css';
+import appBar from '~/components/app-bar/appBar.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './tailwind.css';
 import './novari-theme.css';
@@ -65,8 +65,8 @@ export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: appBar },
     {
         rel: 'icon',
-        href: '/Novari_Favikon.svg',
-        type: 'image/svg+xml',
+        href: `${BASE_PATH}/Novari_Favikon.svg`,
+        type: 'image/x-icon',
     },
 ];
 
