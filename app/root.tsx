@@ -7,7 +7,6 @@ import {
     Meta,
     Outlet,
     Scripts,
-    ScrollRestoration,
     UIMatch,
     useLoaderData,
     useMatches,
@@ -117,7 +116,6 @@ export default function App() {
                     <Outlet />
                 </Layout>
 
-                <ScrollRestoration getKey={(location) => location.pathname} />
                 <Scripts />
             </body>
         </html>
