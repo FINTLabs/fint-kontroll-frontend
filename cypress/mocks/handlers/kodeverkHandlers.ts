@@ -28,7 +28,7 @@ export const applicationCategoriesHandlers = [
         }
     ),
     http.get(
-        'http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/applikasjonskategori/v1/1',
+        'http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/applikasjonskategori/v1/:id',
         () => {
             return HttpResponse.json({
                 id: 1,
@@ -36,6 +36,12 @@ export const applicationCategoriesHandlers = [
                 description: 'Kjempefin beskrivelse av pedagogisk programvare.',
                 category: null,
             });
+        }
+    ),
+    http.delete(
+        'http://localhost:8063/beta/fintlabs-no/api/resources/kodeverk/applikasjonskategori/v1/:id',
+        () => {
+            return HttpResponse.json({}, { status: 410 });
         }
     ),
     http.get(

@@ -2,12 +2,16 @@ import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { BASE_PATH } from './environment';
+import { installGlobals } from '@remix-run/node';
 declare module '@remix-run/node' {
     // or cloudflare, deno, etc.
     interface Future {
         v3_singleFetch: true;
     }
 }
+
+installGlobals({ nativeFetch: true });
+
 export default defineConfig({
     base: `${BASE_PATH === '/' ? '' : BASE_PATH}/`,
     plugins: [

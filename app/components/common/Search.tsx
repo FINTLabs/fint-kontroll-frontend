@@ -1,11 +1,7 @@
 import { Search as AkselSearch } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { Form, useSearchParams } from '@remix-run/react';
-import {
-    filterResetPageParam,
-    handleClearSearchFieldString,
-    handleSearchFieldString,
-} from '~/components/common/CommonFunctions';
+import { filterResetPageParam } from '~/components/common/CommonFunctions';
 import { useLoadingState } from '~/components/common/customHooks';
 
 type SearchInputProps = {
@@ -22,7 +18,14 @@ export const Search = ({ label, id }: SearchInputProps) => {
     return (
         <Form
             onSubmit={(event) => {
-                handleSearchFieldString(event, setSearchParams, searchString);
+                event.preventDefault();
+
+                setSearchParams((searchParams) => {
+                    searchString
+                        ? searchParams.set('search', searchString)
+                        : searchParams.delete('search');
+                    return searchParams;
+                });
                 setSearchString('');
                 filterResetPageParam(pageParam, setSearchParams);
             }}>
@@ -35,10 +38,13 @@ export const Search = ({ label, id }: SearchInputProps) => {
                 value={searchString}
                 onChange={(event) => setSearchString(event)}
                 onClear={() => {
-                    handleClearSearchFieldString(setSearchParams);
+                    setSearchParams((searchParameter) => {
+                        searchParameter.delete('search');
+                        return searchParameter;
+                    });
                 }}>
                 {' '}
-                <AkselSearch.Button loading={searching} />
+                <AkselSearch.Button id={'search-button'} loading={searching} />
             </AkselSearch>
         </Form>
     );

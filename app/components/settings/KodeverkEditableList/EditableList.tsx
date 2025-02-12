@@ -87,7 +87,7 @@ export const EditableList = ({
                                                 Rediger
                                             </Dropdown.Menu.GroupedList.Item>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(getDeleteUrl(id))}>
+                                                onClick={() => navigate(`..${getDeleteUrl(id)}`)}>
                                                 Slett
                                             </Dropdown.Menu.GroupedList.Item>
                                         </Dropdown.Menu.GroupedList>

@@ -40,11 +40,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Resource() {
-    const loaderData = useLoaderData<typeof loader>();
-    const resourceList: IResourceList = loaderData.resourceList;
-    const size: string = loaderData.size;
-    const orgUnitList: IUnitItem[] = loaderData.orgUnitList;
-    const applicationCategories: string[] = loaderData.applicationCategories;
+    const { resourceList, size, orgUnitList, applicationCategories } =
+        useLoaderData<typeof loader>();
 
     return (
         <div className={'content'}>

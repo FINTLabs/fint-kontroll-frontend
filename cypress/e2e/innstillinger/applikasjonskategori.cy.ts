@@ -120,6 +120,7 @@ describe('Applikasjonskategori i innstillinger', () => {
             .children()
             .contains('Slett')
             .click();
+        cy.wait(1000);
 
         cy.get('dialog').should('exist');
         cy.get('dialog h1').contains('Slett kategori: Pedagogisk programvare').should('exist');
