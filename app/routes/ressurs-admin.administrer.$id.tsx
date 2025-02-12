@@ -21,7 +21,7 @@ import {
     IResourceModuleUser,
     IResourceModuleUserAssignmentsPaginated,
 } from '~/data/types/resourceTypes';
-import { ActionFunctionArgs, json } from '@remix-run/node';
+import { ActionFunctionArgs } from '@remix-run/node';
 import React, { useEffect, useState } from 'react';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import DeleteAssignment from '../components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal';
@@ -59,12 +59,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
             fetchAccessRoles(auth),
         ]);
 
-    return json({
+    return {
         objectTypesForUser,
         userDetails,
         userAssignmentsPaginated,
         accessRoles,
-    });
+    };
 };
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {

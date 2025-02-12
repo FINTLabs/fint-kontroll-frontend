@@ -1,6 +1,5 @@
 import { UserTable } from '~/components/user/UserTable';
 import { UserSearch } from '~/components/user/UserSearch';
-import { json } from '@remix-run/node';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { fetchUsers } from '~/data/fetch-users';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -25,12 +24,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         userList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
-    });
+    };
 }
 
 export default function UsersIndex() {

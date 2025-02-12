@@ -9,7 +9,7 @@ import {
 } from '@remix-run/react';
 import React, { useState } from 'react';
 import { BodyShort, Button, ConfirmationPanel, Heading, Modal, VStack } from '@navikt/ds-react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import { createUserAssignment } from '~/data/fetch-assignments';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -24,9 +24,9 @@ import { ErrorMessage } from '~/components/common/ErrorMessage';
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.id);
 
-    return json({
+    return {
         resource,
-    });
+    };
 }
 
 export async function action({ request }: ActionFunctionArgs) {

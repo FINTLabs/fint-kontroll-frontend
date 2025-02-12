@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import { editUserType, fetchUserTypes } from '~/data/fetch-kodeverk';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { SETTINGS_USER_TYPES } from '~/data/paths';
@@ -20,7 +20,7 @@ export async function action({ params, request }: ActionFunctionArgs) {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const allUserTypes = await fetchUserTypes(request);
-    return json({ allUserTypes });
+    return { allUserTypes };
 }
 
 export default function EditUserType() {

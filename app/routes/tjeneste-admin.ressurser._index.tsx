@@ -1,5 +1,4 @@
 import { Button, VStack } from '@navikt/ds-react';
-import { json } from '@remix-run/node';
 import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import {
@@ -21,11 +20,7 @@ import { SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -51,14 +46,15 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         fetchResourceDataSource(request),
     ]);
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
         applicationCategories,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source,
-    });
+        size,
+    };
 }
 
 export default function ServiceAdminIndex() {

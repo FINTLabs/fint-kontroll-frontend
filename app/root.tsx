@@ -1,4 +1,4 @@
-import { json, LinksFunction, MetaFunction } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import navStyles from '@navikt/ds-css/dist/index.css?url';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -66,11 +66,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchResourceDataSource(request),
     ]);
 
-    return json({
+    return {
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source: source,
-    });
+    };
 }
 
 export default function App() {

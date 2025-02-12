@@ -11,7 +11,6 @@ import {
 import { IRole } from '~/data/types/userTypes';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchRoleById } from '~/data/fetch-roles';
-import { json } from '@remix-run/node';
 import styles from '../components/user/user.css?url';
 import { BASE_PATH } from '../../environment';
 import { getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
@@ -24,10 +23,10 @@ export function links() {
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const role = await fetchRoleById(request, params.id);
 
-    return json({
+    return {
         role,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export const handle = {

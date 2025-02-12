@@ -1,7 +1,6 @@
 import styles from '../components/resource/resource.css?url';
 import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { Link as RemixLink, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
-import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { ResourceDetailTable } from '~/components/service-admin/ResourceDetailTable';
@@ -36,13 +35,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchLicenseEnforcements(request),
     ]);
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resource,
         source,
         userTypesKodeverk,
         licenseEnforcementKodeverk,
-    });
+    };
 }
 
 export const handle = {

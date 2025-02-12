@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import {
     createLicenseModel,
     editLicenseModel,
@@ -49,11 +49,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         licenseModel = await fetchLicenseModel(request, id);
     }
 
-    return json({
+    return {
         licenseModel,
         licenseModels,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function EditLicenseModel() {

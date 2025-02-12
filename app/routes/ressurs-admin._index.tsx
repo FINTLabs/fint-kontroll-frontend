@@ -3,7 +3,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import ResourceModuleAdminUsersTable from '../components/resource-module-admin/ResourceModuleAdminUsersTable';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { json, TypedResponse } from '@remix-run/node';
+import { TypedResponse } from '@remix-run/node';
 import { fetchUsersWithAssignment } from '~/data/resourceAdmin/resource-admin';
 import styles from '../components/resource-module-admin/resourceModuleAdmin.css?url';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
@@ -29,7 +29,7 @@ type LoaderData = {
     size: number;
 };
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const auth = request;
     const size = Number(getSizeCookieFromRequestHeader(request)?.value) ?? 25;
@@ -44,12 +44,12 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResp
         fetchAllOrgUnits(auth),
     ]);
 
-    return json({
+    return {
         usersPage,
         roles,
         orgUnitPage,
         size,
-    });
+    };
 }
 
 export default function ResourceAdminIndex() {

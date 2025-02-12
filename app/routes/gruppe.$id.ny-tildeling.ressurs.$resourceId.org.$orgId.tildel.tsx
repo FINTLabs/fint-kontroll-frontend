@@ -16,7 +16,7 @@ import {
     Modal,
     VStack,
 } from '@navikt/ds-react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import { createRoleAssignment } from '~/data/fetch-assignments';
 import {
     prepareQueryParams,
@@ -32,9 +32,9 @@ import { ErrorMessage } from '~/components/common/ErrorMessage';
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.resourceId);
 
-    return json({
+    return {
         resource,
-    });
+    };
 }
 
 export async function action({ request }: ActionFunctionArgs) {

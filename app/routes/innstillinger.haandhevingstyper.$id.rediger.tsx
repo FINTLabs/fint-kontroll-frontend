@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import { editLicenseEnforcement, fetchLicenseEnforcements } from '~/data/fetch-kodeverk';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { SETTINGS_LICENSE_ENFORCEMENT } from '~/data/paths';
@@ -20,7 +20,7 @@ export async function action({ params, request }: ActionFunctionArgs) {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const allLicenceEnforcements = await fetchLicenseEnforcements(request);
-    return json({ allLicenceEnforcements });
+    return { allLicenceEnforcements };
 }
 
 export default function EditLicenseEnforcement() {

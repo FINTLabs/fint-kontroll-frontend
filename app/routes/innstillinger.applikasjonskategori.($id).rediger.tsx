@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import {
     createApplicationCategory,
     editApplicationCategory,
@@ -49,11 +49,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         category = await fetchApplicationCategory(request, categoryId);
     }
 
-    return json({
+    return {
         category,
         applicationCategories,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function EditApplicationCategory() {

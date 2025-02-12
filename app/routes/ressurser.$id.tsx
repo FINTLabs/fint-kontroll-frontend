@@ -10,7 +10,6 @@ import {
     useParams,
     useRouteError,
 } from '@remix-run/react';
-import { json } from '@remix-run/node';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
@@ -33,11 +32,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         resource,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypeKodeverk,
-    });
+    };
 }
 
 export const handle = {
