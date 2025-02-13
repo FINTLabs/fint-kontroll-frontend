@@ -1,7 +1,7 @@
 import { Box, Button, Dropdown, HStack, Link, SortState, Table, VStack } from '@navikt/ds-react';
 import { MenuElipsisHorizontalCircleIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import React, { useMemo, useState } from 'react';
-import { Outlet, useNavigate, useNavigation } from '@remix-run/react';
+import { Outlet, useNavigate } from '@remix-run/react';
 
 import { IKodeverkCustomListItem } from '~/data/types/kodeverkTypes';
 
@@ -83,7 +83,7 @@ export const EditableList = ({
                                     <Dropdown.Menu>
                                         <Dropdown.Menu.GroupedList>
                                             <Dropdown.Menu.GroupedList.Item
-                                                onClick={() => navigate(getEditUrl(id))}>
+                                                onClick={() => navigate(`..${getEditUrl(id)}`)}>
                                                 Rediger
                                             </Dropdown.Menu.GroupedList.Item>
                                             <Dropdown.Menu.GroupedList.Item
