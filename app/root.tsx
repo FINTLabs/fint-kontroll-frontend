@@ -1,4 +1,4 @@
-import { json, LinksFunction, MetaFunction } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import navStyles from '@navikt/ds-css/dist/index.css?url';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -7,7 +7,6 @@ import {
     Meta,
     Outlet,
     Scripts,
-    ScrollRestoration,
     UIMatch,
     useLoaderData,
     useMatches,
@@ -26,6 +25,10 @@ import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { RouteHandle } from '@remix-run/react/dist/routeModules';
 import './tailwind.css';
 import './novari-theme.css';
+import '@navikt/ds-css/dist/index.css';
+import '~/styles/main.css';
+import '~/components/app-bar/appBar.css';
+
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
@@ -67,11 +70,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchResourceDataSource(request),
     ]);
 
-    return json({
+    return {
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source: source,
-    });
+    };
 }
 
 export default function App() {
@@ -117,7 +120,6 @@ export default function App() {
                     <Outlet />
                 </Layout>
 
-                <ScrollRestoration getKey={(location) => location.pathname} />
                 <Scripts />
             </body>
         </html>

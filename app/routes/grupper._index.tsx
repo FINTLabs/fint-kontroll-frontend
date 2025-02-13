@@ -1,5 +1,4 @@
 import React from 'react';
-import { json } from '@remix-run/node';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import type { IRoleList } from '~/data/types/userTypes';
 import type { LoaderFunctionArgs } from '@remix-run/router';
@@ -13,11 +12,7 @@ import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -29,12 +24,12 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         roleList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
-    });
+    };
 }
 
 export default function Grupper_index() {

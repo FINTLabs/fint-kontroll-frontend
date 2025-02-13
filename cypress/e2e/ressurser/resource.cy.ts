@@ -2,12 +2,13 @@ describe('Check the resource details page', () => {
     const searchTextUser = 'Bente';
 
     it('Select resource and go to page for resource details, click "Brukere"', () => {
-        cy.goToRessurser();
-        cy.wait(1000);
-        cy.get('table tr').contains('User License').get('button').contains('Se info').click();
-        cy.wait(1000);
-        cy.get('Button').contains('Brukere').should('exist').click();
-        cy.wait(1000);
+        cy.goToRessurser().then(() => {
+            cy.wait(1000);
+            cy.get('table tr').contains('User License').get('button').contains('Se info').click();
+            cy.wait(1000);
+            cy.get('Button').contains('Brukere').should('exist').click();
+            cy.wait(1000);
+        });
     });
 
     it('Should display correct labels for user types', () => {

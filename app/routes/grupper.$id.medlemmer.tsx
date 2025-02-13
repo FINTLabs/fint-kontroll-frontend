@@ -3,7 +3,6 @@ import { Detail, Heading, HStack, Tabs, VStack } from '@navikt/ds-react';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchMembers } from '~/data/fetch-roles';
-import { json } from '@remix-run/node';
 import { MemberTable } from '~/components/role/MemberTable';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { Search } from '~/components/common/Search';
@@ -23,11 +22,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         members,
         size,
         userTypesKodeverk,
-    });
+    };
 }
 
 export const handle = {

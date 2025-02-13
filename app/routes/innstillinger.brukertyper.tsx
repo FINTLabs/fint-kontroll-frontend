@@ -2,7 +2,6 @@ import { Link, useLoaderData } from '@remix-run/react';
 import React from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { getEditUserTypeUrl, SETTINGS, SETTINGS_USER_TYPES } from '~/data/paths';
@@ -28,7 +27,7 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const userTypes = await fetchUserTypes(request);
-    return json({ userTypes });
+    return { userTypes };
 }
 
 export default function SettingsUserTypes() {

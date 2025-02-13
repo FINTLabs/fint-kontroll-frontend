@@ -5,7 +5,6 @@ import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUserById } from '~/data/fetch-users';
 import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
-import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { Alert, HStack, VStack } from '@navikt/ds-react';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
@@ -25,11 +24,7 @@ import {
 } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 
-export async function loader({ params, request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -68,7 +63,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         };
     });
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
@@ -78,7 +73,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         user,
         applicationCategories,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export const handle = {

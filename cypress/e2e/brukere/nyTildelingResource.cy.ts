@@ -14,7 +14,7 @@ describe('Check the user detail page', () => {
     it('Test search on resource name, then remove the chip filter,', () => {
         cy.get('#search-resource').should('exist');
         cy.get('#search-resource').type('solid');
-        cy.get('#search-resource').type('{enter}');
+        cy.get('#search-button').click();
         cy.wait(1000);
         cy.get('#resources-table').find('tbody tr').should('have.length', 1);
         cy.get('#search-chip').should('exist');

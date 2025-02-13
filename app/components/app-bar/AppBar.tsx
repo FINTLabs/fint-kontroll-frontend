@@ -14,7 +14,7 @@ export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string 
                 className={'h-full'}
                 paddingInline={{ xs: '12', sm: '12', md: '12', lg: '20', xl: '32' }}>
                 <HStack align="center">
-                    <Link to={'/'} className={'kontroll'}>
+                    <Link to={'../'} className={'kontroll'}>
                         <BodyShort weight="semibold" size={'large'}>
                             FINT Kontroll
                         </BodyShort>

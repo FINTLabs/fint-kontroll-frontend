@@ -2,7 +2,6 @@ import { Link, useLoaderData } from '@remix-run/react';
 import React from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { fetchLicenseModels } from '~/data/fetch-kodeverk';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
@@ -35,10 +34,10 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const licenseModels = await fetchLicenseModels(request);
-    return json({
+    return {
         licenseModels,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function SettingsApplicationCategory() {

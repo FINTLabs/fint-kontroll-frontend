@@ -1,6 +1,5 @@
 import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import {
     Link,
     Outlet,
@@ -30,11 +29,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const resource = await fetchResourceById(request, params.id);
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resource,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export const handle = {

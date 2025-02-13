@@ -2,7 +2,6 @@ import React from 'react';
 import { Heading, Tabs, VStack } from '@navikt/ds-react';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import styles from '../components/user/user.css?url';
 import { AssignmentsForRoleTable } from '~/components/role/AssignmentsForRoleTable';
 import { fetchAssignmentsForRole } from '~/data/fetch-assignments';
@@ -22,12 +21,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const page = url.searchParams.get('page') ?? '0';
     const assignments = await fetchAssignmentsForRole(request, params.id, size, page);
 
-    return json({
+    return {
         assignments,
         size,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
-    });
+    };
 }
 
 export const handle = {

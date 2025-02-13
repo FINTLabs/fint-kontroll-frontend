@@ -1,8 +1,7 @@
 import { Tabs } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
-import { json, TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
-import { IAssignedRoles, IRole, IRoleList } from '~/data/types/userTypes';
+import { IRole, IRoleList } from '~/data/types/userTypes';
 import { AssignRoleTable } from '~/components/assignment/NewAssignmentRoleTable';
 import { fetchRoles } from '~/data/fetch-roles';
 import { fetchAssignedRoles } from '~/data/fetch-assignments';
@@ -24,10 +23,7 @@ type LoaderData = {
     userTypesKodeverk: IKodeverkUserType[];
 };
 
-export async function loader({
-    params,
-    request,
-}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -64,12 +60,12 @@ export async function loader({
         };
     });
 
-    return json({
+    return {
         roleList,
         isAssignedRoles,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
-    });
+    };
 }
 
 export default function NewAssignmentForRole() {

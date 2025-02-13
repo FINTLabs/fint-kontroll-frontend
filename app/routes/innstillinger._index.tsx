@@ -1,6 +1,5 @@
 import { Heading, VStack } from '@navikt/ds-react';
 import { BASE_PATH } from '../../environment';
-import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import {
     SETTINGS_APPLICATION_CATEGORY,
@@ -10,9 +9,9 @@ import {
 import { LinkCard, LinkCardGrid } from '~/components/common/LinkCard';
 
 export async function loader() {
-    return json({
+    return {
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function ResourcesSettings() {

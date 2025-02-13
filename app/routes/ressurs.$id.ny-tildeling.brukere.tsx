@@ -2,7 +2,7 @@ import { Tabs } from '@navikt/ds-react';
 import { AssignUserTable } from '~/components/assignment/NewAssignmentUserTable';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUsers } from '~/data/fetch-users';
-import { json, TypedResponse } from '@remix-run/node';
+import { TypedResponse } from '@remix-run/node';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
 import { IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
@@ -27,10 +27,7 @@ type LoaderData = {
     validForRoles: string[];
 };
 
-export async function loader({
-    params,
-    request,
-}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -69,13 +66,13 @@ export async function loader({
             assigned: assignedUsersMap.has(user.id),
         };
     });
-    return json({
+    return {
         userList,
         isAssignedUsers,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
         validForRoles: resource.validForRoles,
-    });
+    };
 }
 
 export default function NewAssignment() {

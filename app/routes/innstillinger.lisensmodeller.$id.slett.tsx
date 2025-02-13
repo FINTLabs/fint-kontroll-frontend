@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
 import { deleteLicenseModel, fetchLicenseModel } from '~/data/fetch-kodeverk';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { BASE_PATH } from '../../environment';
@@ -23,10 +23,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const id = params.id;
     if (id === undefined) return null;
     const licenseModel: IKodeverkLicenseModel = await fetchLicenseModel(request, id);
-    return json({
+    return {
         licenseModel,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function DeleteLicenseModel() {

@@ -1,4 +1,3 @@
-import { json } from '@remix-run/node';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/data/fetch-resources';
@@ -17,11 +16,7 @@ export function links() {
     return [{ rel: 'stylesheet', href: styles }];
 }
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -36,20 +31,17 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         fetchApplicationCategory(request),
     ]);
 
-    return json({
+    return {
         resourceList,
         size,
         orgUnitList: orgUnitTree.orgUnits,
         applicationCategories,
-    });
+    };
 }
 
 export default function Resource() {
-    const loaderData = useLoaderData<typeof loader>();
-    const resourceList: IResourceList = loaderData.resourceList;
-    const size: string = loaderData.size;
-    const orgUnitList: IUnitItem[] = loaderData.orgUnitList;
-    const applicationCategories: string[] = loaderData.applicationCategories;
+    const { resourceList, size, orgUnitList, applicationCategories } =
+        useLoaderData<typeof loader>();
 
     return (
         <div className={'content'}>

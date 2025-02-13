@@ -10,13 +10,12 @@ import {
 } from '@navikt/aksel-icons';
 import { useLoaderData } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    return json({
+    return {
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function Index() {
