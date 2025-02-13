@@ -25,6 +25,10 @@ import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { RouteHandle } from '@remix-run/react/dist/routeModules';
 import './tailwind.css';
 import './novari-theme.css';
+import '@navikt/ds-css/dist/index.css';
+import '~/styles/main.css';
+import '~/components/app-bar/appBar.css';
+
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
