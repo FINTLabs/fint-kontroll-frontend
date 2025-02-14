@@ -7,5 +7,5 @@ commonLabels:
   app.kubernetes.io/version: "latest"
   app.kubernetes.io/managed-by: GA
   app.kubernetes.io/part-of: fint-kontroll
-  fintlabs.no/team: kontroll
+  fintlabs.no/team: bas
   fintlabs.no/org-id: fintlabs.no
