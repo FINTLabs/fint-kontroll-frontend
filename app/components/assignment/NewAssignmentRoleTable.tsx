@@ -35,8 +35,8 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -49,10 +49,10 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                         props.isAssignedRoles.map((role: IRole) => (
                             <Table.Row key={role.id}>
                                 <Table.HeaderCell scope="row">{role.roleName} </Table.HeaderCell>
+                                <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                 </Table.DataCell>
-                                <Table.DataCell>{role.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell align={'center'}>
                                     {role.assigned ? (
                                         <Tag

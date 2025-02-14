@@ -6,11 +6,24 @@ import { BASE_PATH } from './environment';
 
 installGlobals();
 
+declare module '@remix-run/node' {
+    interface Future {
+        v3_singleFetch: true;
+    }
+}
+
 export default defineConfig({
     base: `${BASE_PATH === '/' ? '' : BASE_PATH}/`,
     plugins: [
         remix({
             basename: `${BASE_PATH.replace(/\/$/, '')}`,
+            future: {
+                v3_fetcherPersist: true,
+                v3_relativeSplatPath: true,
+                v3_throwAbortReason: true,
+                v3_singleFetch: true,
+                v3_lazyRouteDiscovery: true,
+            },
         }),
         tsconfigPaths(),
     ],
