@@ -88,7 +88,7 @@ describe('Applikasjonskategori i innstillinger', () => {
             .should('have.attr', 'aria-expanded', 'true');
     });
 
-    /*it('should be able to edit usertype', () => {
+    it('should be able to edit usertype', () => {
         cy.get('table tbody tr')
             .first()
             .find('td')
@@ -129,5 +129,5 @@ describe('Applikasjonskategori i innstillinger', () => {
 
         cy.get('dialog').find('button').contains('Avbryt').should('exist');
         cy.get('dialog').find('button').contains('Slett').should('exist');
-    });*/
+    });
 });
