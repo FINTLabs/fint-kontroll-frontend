@@ -9,8 +9,15 @@ export function DeleteButtonOrTagComponent(
 ) {
     if (!directAssignment) {
         return (
-            <Tag variant="info" size="small" className="navds-tag-in-table">
-                Gruppetildeling
+            <Tag variant="neutral" size="small" className="navds-tag-in-table">
+                <HStack gap={'1'} align={'center'} wrap={false}>
+                    Begrenset
+                    <HelpText title="Hvorfor kan ikke tildelingen slettes?">
+                        Denne tildelingen er gjort til en gruppe.
+                        <br />
+                        Tildelingen kan derfor ikke slettes for en enkelt bruker.
+                    </HelpText>
+                </HStack>
             </Tag>
         );
     } else if (!deletableAssignment) {
@@ -18,7 +25,7 @@ export function DeleteButtonOrTagComponent(
             <Tag variant="neutral" size="small" className="navds-tag-in-table">
                 <HStack gap={'1'} align={'center'} wrap={false}>
                     Begrenset
-                    <HelpText title="Hvor kommer dette fra?">
+                    <HelpText title="Hvorfor kan ikke tildelingen slettes?">
                         Du mangler rettigheter til å slette denne tildelingen.
                         <br />
                         Tildelingen er gjort av noen med høyere autorisasjon.

@@ -57,9 +57,8 @@ describe('See that assignment.resource.$id.user renders with users', () => {
         cy.get('table tr td').contains('Begrenset').should('exist');
     });
 
-    it('In table, can see some "Kan ikke slettes", "Gruppetildeling" and "Slett"-buttons', () => {
+    it('In table, can see "Begrenset"-Tags and "Slett"-buttons', () => {
         cy.get('table tr td').contains('Begrenset').should('exist');
-        cy.get('table tr td').contains('Gruppetildeling').should('exist');
         cy.get('table tr').find('a').contains('Slett').should('exist');
     });
 });
