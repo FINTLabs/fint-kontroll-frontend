@@ -14,7 +14,7 @@ export const fetchRoles = async (
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
-    const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
+    const orgUnitsFilter = orgUnits?.length > 0 ? `&orgunits=${orgUnits.join(',')}` : '';
     const userTypeFilter =
         userTypes && userTypes.length > 0 ? `&roletype=${userTypes.join(',')}` : '';
 
