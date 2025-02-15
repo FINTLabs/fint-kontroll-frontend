@@ -42,8 +42,8 @@ export const AssignUserTable = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -56,10 +56,10 @@ export const AssignUserTable = ({
                         isAssignedUsers.map((user: IUserItem) => (
                             <Table.Row key={user.id}>
                                 <Table.DataCell>{user.fullName} </Table.DataCell>
+                                <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(user.userType, userTypesKodeverk)}
                                 </Table.DataCell>
-                                <Table.DataCell>{user.organisationUnitName}</Table.DataCell>
                                 <Table.DataCell align={'center'}>
                                     {user.assigned ? (
                                         <Tag
