@@ -1,5 +1,4 @@
 import { wait } from '@testing-library/user-event/dist/utils';
-import { goToBrukereNyTildeling } from '../../support/commands';
 
 describe('Check the user detail page', () => {
     it("Navigate to Joanna Kristoffersen's Ny Tildeling page", () => {

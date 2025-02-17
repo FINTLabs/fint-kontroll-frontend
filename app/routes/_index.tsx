@@ -30,7 +30,11 @@ export default function Index() {
                     paddingBlock="4"
                     justify={'center'}
                     style={{ backgroundColor: 'var(--beige-60)' }}>
-                    <Heading level="1" size="medium" style={{ color: 'var(--red-primary)' }}>
+                    <Heading
+                        id={'welcome-text'}
+                        level="1"
+                        size="medium"
+                        style={{ color: 'var(--red-primary)' }}>
                         Velkommen til FINT Kontroll!
                     </Heading>
                 </HStack>
