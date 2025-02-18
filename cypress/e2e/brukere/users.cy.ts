@@ -25,7 +25,7 @@ describe('Check the user page', () => {
         cy.get('#dropdown-button').should('be.visible');
 
         cy.get('#dropdown-button').click();
-        cy.get('#users').click();
+        cy.get('div[role="menuitem"]').contains('Brukere').click();
         wait(1000);
     });
 
