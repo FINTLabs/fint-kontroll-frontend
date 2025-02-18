@@ -29,6 +29,8 @@ import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { fetchAllMenuItems } from '~/data/fetch-menu-settings';
+import { IMenuItem } from '~/data/types/userTypes';
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -62,20 +64,22 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const [me, source] = await Promise.all([
+    const [me, source, menuItems] = await Promise.all([
         fetchMeInfo(request),
         fetchResourceDataSource(request),
+        fetchAllMenuItems(request),
     ]);
 
     return json({
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source: source,
+        menuItems,
     });
 }
 
 export default function App() {
-    const { me, basePath, source } = useLoaderData<typeof loader>();
+    const { me, basePath, source, menuItems } = useLoaderData<typeof loader>();
     const matches = useMatches();
     return (
         <html lang="no">
@@ -86,7 +90,7 @@ export default function App() {
             <body data-theme="novari">
                 <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
 
-                <Layout me={me} basePath={basePath} source={source}>
+                <Layout me={me} basePath={basePath} source={source} menuItems={menuItems}>
                     {matches.find((match) => {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
@@ -129,9 +133,10 @@ interface LayoutProps {
     me?: any;
     basePath?: string;
     source?: string;
+    menuItems?: IMenuItem[];
 }
 
-const Layout = ({ children, me, basePath, source }: LayoutProps) => {
+const Layout = ({ children, me, basePath, source, menuItems }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -139,7 +144,7 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} basePath={basePath} source={source} />
+            <AppBar me={me} basePath={basePath} source={source} menuItems={menuItems} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>
