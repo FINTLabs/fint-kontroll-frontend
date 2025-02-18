@@ -11,6 +11,7 @@ import { kontrollAdminHandlers } from './handlers/kontrollAdminHandlers';
 import { resourceModulAdminHandlers } from './handlers/resourceModulAdminHandlers';
 import { assignmentHandlers } from './handlers/assignmentHandler';
 import { applicationCategoriesHandlers } from './handlers/kodeverkHandlers';
+import { menuHandlers } from './handlers/menuHandlers';
 
 export const handlers = [
     // Common handlers
@@ -121,25 +122,15 @@ export const handlers = [
             ],
         });
     }),
-    // --------------------------------------------------------------------------------------------------------------------------------
-
     ...resourceModulAdminHandlers,
-
     ...kontrollAdminHandlers,
-
     ...usersHandlers,
-
     ...roleHandlers,
-
     ...resourceHandlers,
-
     ...assignmentHandlers,
-
     ...resourceAdminHandlers,
-
     ...createNewResourceHandlers,
-
     ...deleteResourceHandlers,
-
     ...applicationCategoriesHandlers,
+    ...menuHandlers,
 ];

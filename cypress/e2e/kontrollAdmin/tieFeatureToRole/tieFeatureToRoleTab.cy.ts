@@ -12,7 +12,8 @@ describe("Check 'Knytt features til roller'", () => {
 
     it("Click into a 'menu' and select 'Kontrolladministrasjon", () => {
         cy.get('#dropdown-button').click();
-        cy.get('#features-to-role').click();
+        cy.get('div[role="menuitem"]').contains('Knytt rettigheter til rolle').click();
+
         wait(1000);
     });
 
