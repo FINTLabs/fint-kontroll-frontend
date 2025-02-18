@@ -12,8 +12,8 @@ describe('Check resources-admin', () => {
 
     it("Click into a 'menu' and select 'Ressursmoduladministrator", () => {
         cy.get('#dropdown-button').click();
-        cy.get('#resource-module-admin').click();
-        wait(1000);
+        cy.get('div[role="menuitem"]').contains('Administrer brukere med rolle').click();
+        cy.wait(1000);
     });
 
     it('can see navigation-tab', () => {
