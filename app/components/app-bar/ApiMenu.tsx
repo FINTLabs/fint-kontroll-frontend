@@ -70,12 +70,12 @@ export const ApiMenu = ({
                                         label={item.text}
                                         style={{ fontSize: '100px' }}>
                                         {item.children.map((child) => (
-                                            <MenuItem key={child.text} item={child} />
+                                            <MenuItem key={child.id} item={child} />
                                         ))}
                                     </ActionMenu.Group>
                                 </HStack>
                             ) : (
-                                <MenuItem key={item.text} item={item} />
+                                <MenuItem key={item.id} item={item} />
                             )
                         )}
                 </HGrid>
