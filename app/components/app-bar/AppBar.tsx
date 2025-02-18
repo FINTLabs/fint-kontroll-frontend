@@ -1,10 +1,15 @@
 import MeInfo from '~/components/app-bar/MeInfo';
-import { IMeInfo } from '~/data/types/userTypes';
+import { IMeInfo, IMenuItem } from '~/data/types/userTypes';
 import { BodyShort, Hide, HStack, Page } from '@navikt/ds-react';
 import { Link } from '@remix-run/react';
-import { Menu } from '~/components/app-bar/Menu';
+import { ApiMenu } from '~/components/app-bar/ApiMenu';
 
-export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string }) {
+export function AppBar(props: {
+    me: IMeInfo;
+    basePath?: string;
+    source?: string;
+    menuItems?: IMenuItem[];
+}) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -22,7 +27,7 @@ export function AppBar(props: { me: IMeInfo; basePath?: string; source?: string 
                 </HStack>
 
                 <HStack align="center" gap={'8'}>
-                    {props.me ? <Menu me={props.me} source={props.source} /> : null}
+                    {props.me ? <ApiMenu me={props.me} menuItems={props.menuItems} /> : null}
                     <Hide below="lg" asChild>
                         <MeInfo me={props.me} />
                     </Hide>
