@@ -1,10 +1,9 @@
 import React from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
-import { Navigation } from '@remix-run/react';
 import { IResourceModuleUserRole } from '~/data/types/resourceTypes';
 import { ICookie } from '~/data/types/generalTypes';
 import { IKodeverkLicenseEnforcement, IKodeverkUserType } from '~/data/types/kodeverkTypes';
-import { IAccessRole } from '~/data/types/userTypes';
+import { IAccessRole, IMenuItem, IMeRole } from '~/data/types/userTypes';
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
