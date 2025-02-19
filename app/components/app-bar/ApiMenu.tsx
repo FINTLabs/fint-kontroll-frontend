@@ -58,7 +58,7 @@ export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
                     {me?.menuItems &&
                         groupMenuItems(me?.menuItems).map((item) =>
                             'children' in item ? (
-                                <HStack key={item.id} paddingBlock={'6 0'}>
+                                <HStack key={item.id || item.url} paddingBlock={'6 0'}>
                                     <ActionMenu.Group
                                         label={item.text}
                                         style={{ fontSize: '100px' }}>
