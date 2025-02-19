@@ -1,5 +1,5 @@
 import { Select } from '@navikt/ds-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from '@remix-run/react';
 import { sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
 import { IAccessRole } from '~/data/types/userTypes';
@@ -13,12 +13,14 @@ export default function KontrollAccessRolesSelect({ roles }: AccessRolesRadioGro
     const roleProp = params.id;
     const navigate = useNavigate();
 
+    const sortedRoles = useMemo(() => sortAndCapitalizeRoles(roles, true), [roles]);
+
     const handleChangeSelectedRole = (role: string) => {
         navigate(role);
     };
 
     useEffect(() => {
-        !roleProp ? navigate(roles[0].accessRoleId) : '';
+        !roleProp ? navigate(sortedRoles[0].accessRoleId) : '';
     }, []);
 
     return (
@@ -26,7 +28,7 @@ export default function KontrollAccessRolesSelect({ roles }: AccessRolesRadioGro
             label="Velg rolle"
             onChange={(e) => handleChangeSelectedRole(e.target.value)}
             value={roleProp ? roleProp : ''}>
-            {sortAndCapitalizeRoles(roles, true).map((role, index) => (
+            {sortedRoles.map((role, index) => (
                 <option key={role.accessRoleId + index} value={role.accessRoleId}>
                     {role.name}
                 </option>

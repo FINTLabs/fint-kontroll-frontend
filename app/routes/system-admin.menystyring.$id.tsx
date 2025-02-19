@@ -11,20 +11,16 @@ import {
     postMenuItemsForRole,
 } from '~/data/fetch-menu-settings';
 import { BodyShort, Heading, Switch, VStack } from '@navikt/ds-react';
-import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { groupMenuItems } from '~/components/common/CommonFunctions';
-import { IMenuItem } from '~/data/types/userTypes';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    const [menuItems, accessRoleMenu, source] = await Promise.all([
+    const [menuItems, accessRoleMenu] = await Promise.all([
         fetchAllMenuItems(request),
         fetchMenuItemsForRole(request, params.id),
-        fetchResourceDataSource(request),
     ]);
     return json({
         menuItems,
         accessRoleMenu,
-        source,
     });
 }
 
@@ -48,7 +44,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 const SystemAdminMenuSettingsForm = () => {
-    const { menuItems, accessRoleMenu, source } = useLoaderData<typeof loader>();
+    const { menuItems, accessRoleMenu } = useLoaderData<typeof loader>();
     const didUpdate = useActionData<typeof action>();
     const params = useParams();
     const roleId = params.id;
@@ -62,9 +58,6 @@ const SystemAdminMenuSettingsForm = () => {
             submit(formData, { method: checked ? 'post' : 'delete' });
         }
     };
-
-    console.log('menuItems', menuItems);
-    console.log('accessRoleMenu', accessRoleMenu);
 
     const isChecked = (currentId: number | undefined): boolean => {
         return !!accessRoleMenu.menuItems?.some((roleMenuItem) => roleMenuItem.id === currentId);
