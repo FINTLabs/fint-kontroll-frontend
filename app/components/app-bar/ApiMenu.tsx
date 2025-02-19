@@ -31,14 +31,7 @@ const groupMenuItems = (menuItems: IMenuItem[]): (IMenuItem | NestedMenuItem)[] 
     return groupedItems;
 };
 
-export const ApiMenu = ({
-    me,
-    menuItems,
-}: {
-    me: IMeInfo;
-    basePath?: string;
-    menuItems?: IMenuItem[];
-}) => {
+export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
 
     return (
@@ -62,8 +55,8 @@ export const ApiMenu = ({
                     <ActionMenu.Item onSelect={() => navigate(`/#`)} style={{ color: '#5149CA' }}>
                         Til forsiden
                     </ActionMenu.Item>
-                    {menuItems &&
-                        groupMenuItems(menuItems).map((item) =>
+                    {me?.menuItems &&
+                        groupMenuItems(me?.menuItems).map((item) =>
                             'children' in item ? (
                                 <HStack key={item.id} paddingBlock={'6 0'}>
                                     <ActionMenu.Group
@@ -75,7 +68,7 @@ export const ApiMenu = ({
                                     </ActionMenu.Group>
                                 </HStack>
                             ) : (
-                                <MenuItem key={item.id} item={item} />
+                                <MenuItem key={item.id || item.url} item={item} />
                             )
                         )}
                 </HGrid>
