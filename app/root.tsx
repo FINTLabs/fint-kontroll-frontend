@@ -29,8 +29,9 @@ import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
-import { fetchAllMenuItems } from '~/data/fetch-menu-settings';
+import { fetchAllMenuItems, fetchMenuItemsForRole } from '~/data/fetch-menu-settings';
 import { IMenuItem } from '~/data/types/userTypes';
+import { sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -64,22 +65,22 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const [me, source, menuItems] = await Promise.all([
-        fetchMeInfo(request),
-        fetchResourceDataSource(request),
-        fetchAllMenuItems(request),
-    ]);
+    const me = await fetchMeInfo(request);
+
+    const accessMenuItems = await fetchMenuItemsForRole(
+        request,
+        sortAndCapitalizeRoles(me.roles)[0].id
+    );
 
     return json({
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-        source: source,
-        menuItems,
+        menuItems: accessMenuItems.menuItems,
     });
 }
 
 export default function App() {
-    const { me, basePath, source, menuItems } = useLoaderData<typeof loader>();
+    const { me, menuItems } = useLoaderData<typeof loader>();
     const matches = useMatches();
     return (
         <html lang="no">
@@ -90,7 +91,7 @@ export default function App() {
             <body data-theme="novari">
                 <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
 
-                <Layout me={me} basePath={basePath} source={source} menuItems={menuItems}>
+                <Layout me={me} menuItems={menuItems}>
                     {matches.find((match) => {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
@@ -131,12 +132,10 @@ export default function App() {
 interface LayoutProps {
     children: any;
     me?: any;
-    basePath?: string;
-    source?: string;
     menuItems?: IMenuItem[];
 }
 
-const Layout = ({ children, me, basePath, source, menuItems }: LayoutProps) => {
+const Layout = ({ children, me, menuItems }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -144,7 +143,7 @@ const Layout = ({ children, me, basePath, source, menuItems }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} basePath={basePath} source={source} menuItems={menuItems} />
+            <AppBar me={me} menuItems={menuItems} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>
