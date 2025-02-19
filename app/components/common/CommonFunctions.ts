@@ -4,7 +4,7 @@ import { Navigation } from '@remix-run/react';
 import { IResourceModuleUserRole } from '~/data/types/resourceTypes';
 import { ICookie } from '~/data/types/generalTypes';
 import { IKodeverkLicenseEnforcement, IKodeverkUserType } from '~/data/types/kodeverkTypes';
-import { IAccessRole } from '~/data/types/userTypes';
+import { IAccessRole, IMeRole } from '~/data/types/userTypes';
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
@@ -133,7 +133,7 @@ export const translateLicenseEnforcementToLabel = (
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUserRole>(
+export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUserRole | IMeRole>(
     roles: T[],
     removeUnusedRoles?: boolean
 ): T[] => {
@@ -145,8 +145,9 @@ export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUs
         'leder',
         'godkjenner',
         'sluttbruker',
+        'portaladmin',
     ];
-    const unusedRoles = ['leder', 'godkjenner', 'sluttbruker'];
+    const unusedRoles = ['leder', 'godkjenner', 'sluttbruker', 'portaladmin'];
     let filteredRoles = roles;
 
     if (removeUnusedRoles) {
