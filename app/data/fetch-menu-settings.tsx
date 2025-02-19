@@ -12,7 +12,7 @@ export const fetchAllMenuItems = async (request: Request): Promise<IMenuItem[]> 
 export const fetchMenuItemsForRole = async (
     request: Request,
     roleId?: string
-): Promise<IMenuItem[]> => {
+): Promise<IAccessRole> => {
     return fetchData(
         `${ACCESS_MANAGEMENT_API_URL}${BASE_PATH}/api/accessmanagement/v1/menu/role/${roleId}`,
         request

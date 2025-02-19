@@ -4,12 +4,7 @@ import { BodyShort, Hide, HStack, Page } from '@navikt/ds-react';
 import { Link } from '@remix-run/react';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 
-export function AppBar(props: {
-    me: IMeInfo;
-    basePath?: string;
-    source?: string;
-    menuItems?: IMenuItem[];
-}) {
+export function AppBar({ me, menuItems }: { me: IMeInfo; menuItems?: IMenuItem[] }) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -27,9 +22,9 @@ export function AppBar(props: {
                 </HStack>
 
                 <HStack align="center" gap={'8'}>
-                    {props.me ? <ApiMenu me={props.me} menuItems={props.menuItems} /> : null}
+                    {me ? <ApiMenu me={me} menuItems={menuItems} /> : null}
                     <Hide below="lg" asChild>
-                        <MeInfo me={props.me} />
+                        <MeInfo me={me} />
                     </Hide>
                     {/*<Button variant="primary"
                                     as={Link}
