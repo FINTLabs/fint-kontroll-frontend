@@ -2,37 +2,12 @@ import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, Button, HGrid, HStack } from '@navikt/ds-react';
 import { useNavigate } from '@remix-run/react';
 import { IMeInfo, IMenuItem } from '~/data/types/userTypes';
-
-type NestedMenuItem = IMenuItem & { children: IMenuItem[] };
-
-const groupMenuItems = (menuItems: IMenuItem[]): (IMenuItem | NestedMenuItem)[] => {
-    const groupedItems: (IMenuItem | NestedMenuItem)[] = [];
-    let currentGroup: NestedMenuItem | null = null;
-
-    menuItems
-        .sort((a, b) => a.sortOrder - b.sortOrder)
-        .forEach((item) => {
-            if (!item.url) {
-                if (currentGroup) {
-                    groupedItems.push(currentGroup);
-                }
-                currentGroup = { ...item, children: [] };
-            } else if (currentGroup) {
-                currentGroup.children?.push(item);
-            } else {
-                groupedItems.push(item);
-            }
-        });
-
-    if (currentGroup) {
-        groupedItems.push(currentGroup);
-    }
-
-    return groupedItems;
-};
+import { groupMenuItems } from '~/components/common/CommonFunctions';
 
 export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
+
+    console.log('APIMenu menuItems', menuItems);
 
     return (
         <ActionMenu>

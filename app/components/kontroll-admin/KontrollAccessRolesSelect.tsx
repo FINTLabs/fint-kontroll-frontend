@@ -26,7 +26,7 @@ export default function KontrollAccessRolesSelect({ roles }: AccessRolesRadioGro
             label="Velg rolle"
             onChange={(e) => handleChangeSelectedRole(e.target.value)}
             value={roleProp ? roleProp : ''}>
-            {sortAndCapitalizeRoles(roles).map((role, index) => (
+            {sortAndCapitalizeRoles(roles, true).map((role, index) => (
                 <option key={role.accessRoleId + index} value={role.accessRoleId}>
                     {role.name}
                 </option>

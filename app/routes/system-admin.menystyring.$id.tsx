@@ -10,8 +10,10 @@ import {
     fetchMenuItemsForRole,
     postMenuItemsForRole,
 } from '~/data/fetch-menu-settings';
-import { Heading, Switch, VStack } from '@navikt/ds-react';
+import { BodyShort, Heading, Switch, VStack } from '@navikt/ds-react';
 import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
+import { groupMenuItems } from '~/components/common/CommonFunctions';
+import { IMenuItem } from '~/data/types/userTypes';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const [menuItems, accessRoleMenu, source] = await Promise.all([
@@ -61,33 +63,49 @@ const SystemAdminMenuSettingsForm = () => {
         }
     };
 
-    // TODO: hide stuff if source is not gui and sort by order.
-    // TODO: filtrer vekk sluttbruker ++
-    // Menystyring i menyen
-    // infoboks om dette er visuelt
+    console.log('menuItems', menuItems);
+    console.log('accessRoleMenu', accessRoleMenu);
+
+    const isChecked = (currentId: number | undefined): boolean => {
+        return !!accessRoleMenu.menuItems?.some((roleMenuItem) => roleMenuItem.id === currentId);
+    };
+
     return (
         <VStack className={'tab-content-container'} padding={'4'} marginBlock={'8'}>
             <Heading size={'medium'}>Menypunkter for {accessRoleMenu.name}</Heading>
 
-            {menuItems.map((menuItem, index) => {
-                return (
+            {groupMenuItems(menuItems).map((menuItem) => (
+                <div key={menuItem.id}>
                     <Switch
-                        key={index}
+                        key={menuItem.id}
                         value={menuItem.id}
-                        checked={accessRoleMenu.menuItems?.some(
-                            (roleMenuItem) => roleMenuItem.id === menuItem.id
-                        )}
+                        checked={isChecked(menuItem.id)}
                         onChange={(e) => setCheckedValue(e.target.value, e.target.checked)}
-                        disabled={
-                            roleId === 'sa' ||
-                            (source !== 'gui' &&
-                                (menuItem.text === 'Innstillinger' ||
-                                    menuItem.text === 'Opprett ny ressurs'))
-                        }>
-                        {menuItem.text}
+                        disabled={roleId === 'sa'}>
+                        <BodyShort size={'large'} weight={'semibold'}>
+                            {menuItem.text}
+                        </BodyShort>
                     </Switch>
-                );
-            })}
+                    {'children' in menuItem && (
+                        <VStack paddingInline={'8'}>
+                            {menuItem.children.map((menuItemChild) => {
+                                return (
+                                    <Switch
+                                        key={menuItemChild.id}
+                                        value={menuItemChild.id}
+                                        checked={isChecked(menuItemChild.id)}
+                                        onChange={(e) =>
+                                            setCheckedValue(e.target.value, e.target.checked)
+                                        }
+                                        disabled={roleId === 'sa'}>
+                                        {menuItemChild.text}
+                                    </Switch>
+                                );
+                            })}
+                        </VStack>
+                    )}
+                </div>
+            ))}
         </VStack>
     );
 };
