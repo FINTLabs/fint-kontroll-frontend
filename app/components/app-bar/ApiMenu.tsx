@@ -7,8 +7,6 @@ import { groupMenuItems } from '~/components/common/CommonFunctions';
 export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
 
-    console.log('APIMenu menuItems', menuItems);
-
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
