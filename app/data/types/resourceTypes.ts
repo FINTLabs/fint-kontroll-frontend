@@ -79,7 +79,7 @@ export interface IAssignedResourcesList {
 
 export interface IResourceList {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number | string;
     currentPage: number;
     resources: IResourceForList[];
 }
@@ -116,7 +116,7 @@ export interface IResourceAdminItem {
 
 export interface IResourceAdminList {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number | string;
     currentPage: number;
     resources: IResourceAdminItem[];
 }

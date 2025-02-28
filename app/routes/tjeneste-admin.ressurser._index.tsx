@@ -2,11 +2,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
 import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
-import {
-    fetchAllOrgUnits,
-    fetchApplicationCategory,
-    fetchResourcesForAdmin,
-} from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchResourcesForAdmin } from '~/data/fetch-resources';
 import { Search } from '~/components/common/Search';
 import { ServiceAdminTable } from '~/components/service-admin/ServiceAdminTable';
 import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
@@ -15,17 +11,12 @@ import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFuncti
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { BASE_PATH } from '../../environment';
 import React from 'react';
-import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
+import { fetchApplicationCategories, fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
-import { IResourceAdminList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -35,7 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
     const applicationcategory = url.searchParams.get('applicationcategory') ?? '';
     const accessType = url.searchParams.get('accesstype') ?? '';
 
-    const [resourceList, orgUnitTree, applicationCategories, source] = await Promise.all([
+    const [resourceList, orgUnitTree, applicationCategoriesKodeverk, source] = await Promise.all([
         fetchResourcesForAdmin(
             request,
             size,
@@ -47,7 +38,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
             accessType
         ),
         fetchAllOrgUnits(request),
-        fetchApplicationCategory(request),
+        fetchApplicationCategories(request),
         fetchResourceDataSource(request),
     ]);
 
@@ -55,20 +46,17 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
-        applicationCategories,
+        applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source,
+        size,
     });
 }
 
 export default function ServiceAdminIndex() {
-    const loaderData = useLoaderData<typeof loader>();
-    const resourceList: IResourceAdminList = loaderData.resourceList;
-    const size = loaderData.size;
-    const basePath: string = loaderData.basePath;
-    const responseCode: string | undefined = loaderData.responseCode;
-    const applicationCategories: string[] = loaderData.applicationCategories;
-    const source = loaderData.source;
+    const { resourceList, size, basePath, responseCode, applicationCategories, source } =
+        useLoaderData<typeof loader>();
+
     const navigate = useNavigate();
 
     return (

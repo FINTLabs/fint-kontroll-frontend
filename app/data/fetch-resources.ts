@@ -52,12 +52,6 @@ export const fetchResourceById = async (
     id: string | undefined
 ): Promise<IResource> => fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/${id}`, request);
 
-export const fetchApplicationCategory = async (request: Request): Promise<string[]> =>
-    fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/applicationcategories`, request);
-
-export const fetchAccessType = async (request: Request) =>
-    fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/accesstypes`, request);
-
 export const createResource = async (
     token: string | null,
     resourceId: string,

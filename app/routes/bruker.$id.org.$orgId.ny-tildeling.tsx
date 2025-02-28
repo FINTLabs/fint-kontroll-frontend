@@ -1,9 +1,8 @@
 import { AssignResourceToUserTable } from '~/components/user/AssignResourceToUserTable';
 import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
-import { IUserDetails } from '~/data/types/userTypes';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchUserById } from '~/data/fetch-users';
-import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
 import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
@@ -16,20 +15,11 @@ import { ArrowRightIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { getUserByIdUrl, getUserNewAssignmentUrl, USERS } from '~/data/paths';
-import { IUnitItem } from '~/data/types/orgUnitTypes';
-import {
-    IAssignedResourcesList,
-    IResourceAssignment,
-    IResourceForList,
-    IResourceList,
-} from '~/data/types/resourceTypes';
+import { IResourceAssignment, IResourceForList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 
-export async function loader({ params, request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -52,11 +42,12 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
-    const [orgUnitTree, assignedResourceListForUser, applicationCategories] = await Promise.all([
-        fetchAllOrgUnits(request),
-        fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
-        fetchApplicationCategory(request),
-    ]);
+    const [orgUnitTree, assignedResourceListForUser, applicationCategoriesKodeverk] =
+        await Promise.all([
+            fetchAllOrgUnits(request),
+            fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
+            fetchApplicationCategories(request),
+        ]);
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
         assignedResourceListForUser.resources.map((resource) => [resource.resourceRef, resource])
@@ -76,7 +67,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         isAssignedResources,
         size,
         user,
-        applicationCategories,
+        applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     });
 }
@@ -105,17 +96,7 @@ export const handle = {
 };
 
 export default function NewAssignmentForUser() {
-    const data = useLoaderData<{
-        resourceList: IResourceList;
-        orgUnitList: IUnitItem[];
-        assignedResourceList: IAssignedResourcesList;
-        isAssignedResources: IResourceForList[];
-        basePath: string;
-        responseCode: string | undefined;
-        size: string;
-        user: IUserDetails;
-        applicationCategories: string[];
-    }>();
+    const data = useLoaderData<typeof loader>();
     const { id, orgId } = useParams<string>();
 
     return (
