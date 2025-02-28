@@ -1,7 +1,7 @@
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { IRole } from '~/data/types/userTypes';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { fetchAllOrgUnits, fetchApplicationCategory, fetchResources } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { json, TypedResponse } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { HStack, VStack } from '@navikt/ds-react';
@@ -23,6 +23,7 @@ import {
     IResourceList,
 } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 
 export async function loader({ params, request }: LoaderFunctionArgs): Promise<
     TypedResponse<{
@@ -59,10 +60,10 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
-    const [orgUnitTree, assignedResourceList, applicationCategories] = await Promise.all([
+    const [orgUnitTree, assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
         fetchAllOrgUnits(request),
         fetchAssignedResourcesRole(request, params.id, size, '0', 'ALLTYPES', filter),
-        fetchApplicationCategory(request),
+        fetchApplicationCategories(request),
     ]);
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
@@ -83,7 +84,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         assignedResourceList,
         isAssignedResources,
         role,
-        applicationCategories,
+        applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     });
 }

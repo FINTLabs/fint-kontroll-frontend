@@ -8,7 +8,7 @@ import {
 } from '~/data/types/kodeverkTypes';
 
 export const fetchResourceDataSource = async (request: Request): Promise<string> => {
-    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/admin/source/v1`, {
+    const response = await fetch(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/source/v1`, {
         headers: request.headers,
     });
     if (response.ok) return response.text();
