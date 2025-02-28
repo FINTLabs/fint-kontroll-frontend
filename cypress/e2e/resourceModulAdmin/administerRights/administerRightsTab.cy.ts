@@ -12,7 +12,7 @@ describe("Test suite for 'Se brukere med roller'", () => {
 
     it("Click into a 'menu' and select 'Ressursmoduladministrator", () => {
         cy.get('#dropdown-button').click();
-        cy.get('#resource-module-admin').click();
+        cy.get('div[role="menuitem"]').contains('Administrer brukere med rolle').click();
         wait(1000);
     });
 
