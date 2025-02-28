@@ -1,10 +1,9 @@
 import React from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
-import { Navigation } from '@remix-run/react';
 import { IResourceModuleUserRole } from '~/data/types/resourceTypes';
 import { ICookie } from '~/data/types/generalTypes';
 import { IKodeverkLicenseEnforcement, IKodeverkUserType } from '~/data/types/kodeverkTypes';
-import { IAccessRole, IMeRole } from '~/data/types/userTypes';
+import { IAccessRole, IMenuItem, IMeRole } from '~/data/types/userTypes';
 
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {
@@ -172,4 +171,32 @@ export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUs
                 ? { name: capitalize(role.name) }
                 : { roleName: capitalize(role.roleName) }),
         }));
+};
+
+type NestedMenuItem = IMenuItem & { children: IMenuItem[] };
+
+export const groupMenuItems = (menuItems: IMenuItem[]): (IMenuItem | NestedMenuItem)[] => {
+    const groupedItems: (IMenuItem | NestedMenuItem)[] = [];
+    let currentGroup: NestedMenuItem | null = null;
+
+    menuItems
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .forEach((item) => {
+            if (!item.url) {
+                if (currentGroup) {
+                    groupedItems.push(currentGroup);
+                }
+                currentGroup = { ...item, children: [] };
+            } else if (currentGroup) {
+                currentGroup.children?.push(item);
+            } else {
+                groupedItems.push(item);
+            }
+        });
+
+    if (currentGroup) {
+        groupedItems.push(currentGroup);
+    }
+
+    return groupedItems;
 };
