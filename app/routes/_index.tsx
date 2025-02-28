@@ -12,16 +12,27 @@ import { useLoaderData } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
+import { fetchMeInfo } from '~/data/fetch-me-info';
+import { useCallback } from 'react';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
+    const me = await fetchMeInfo(request);
+
     return json({
+        me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     });
 }
 
 export default function Index() {
-    const data = useLoaderData<typeof loader>();
-    const basePath = data.basePath;
+    const { basePath, me } = useLoaderData<typeof loader>();
+
+    const hasUrl = useCallback(
+        (url: string) => {
+            return me?.menuItems.some((menuItem) => menuItem.url === url);
+        },
+        [me?.menuItems]
+    );
 
     return (
         <section className={'full-width'}>
