@@ -31,6 +31,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     });
 }
 
+// TODO: Change icons, colors and descriptions
 export default function Index() {
     const { basePath, menuItems } = useLoaderData<typeof loader>();
 
