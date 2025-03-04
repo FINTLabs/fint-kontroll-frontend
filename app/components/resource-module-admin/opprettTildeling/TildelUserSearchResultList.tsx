@@ -35,42 +35,61 @@ const TildelUserSearchResultList = ({
                     {usersPage.totalItems === 0 && (
                         <BodyShort>Ingen resultater i listen...</BodyShort>
                     )}
-                    {usersPage.users?.map((user) => (
-                        <Table.Row
-                            key={user.userName}
-                            selected={newAssignment.user?.resourceId === user.resourceId}>
-                            <Table.HeaderCell>
-                                {`${user.firstName} ${user.lastName}`}
-                            </Table.HeaderCell>
-                            <Table.DataCell>
-                                {user.roles?.map((role) => role.roleName).join(', ')}
-                            </Table.DataCell>
-                            <Table.DataCell align={'right'}>
-                                {newAssignment.user?.resourceId === user.resourceId ? (
-                                    <Button
-                                        className={'nowrap'}
-                                        icon={<CheckmarkCircleIcon />}
-                                        variant={'secondary'}
-                                        onClick={() => handleSelectUser(user)}>
-                                        Valgt
-                                    </Button>
-                                ) : (
+                    {!newAssignment.user?.resourceId &&
+                        usersPage.users?.map((user) => (
+                            <Table.Row
+                                key={user.userName}
+                                selected={newAssignment.user?.resourceId === user.resourceId}
+                                onClick={() => handleSelectUser(user)}>
+                                <Table.HeaderCell>
+                                    {`${user.firstName} ${user.lastName}`}
+                                </Table.HeaderCell>
+                                <Table.DataCell>
+                                    {user.roles?.map((role) => role.roleName).join(', ')}
+                                </Table.DataCell>
+                                <Table.DataCell align={'right'}>
                                     <Button
                                         className={'nowrap'}
                                         onClick={() => handleSelectUser(user)}>
                                         Velg bruker
                                     </Button>
-                                )}
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
+                    {!!newAssignment.user && (
+                        <Table.Row
+                            key={newAssignment.user.userName}
+                            onClick={() =>
+                                newAssignment.user && handleSelectUser(newAssignment.user)
+                            }>
+                            <Table.HeaderCell>
+                                {`${newAssignment.user.firstName} ${newAssignment.user.lastName}`}
+                            </Table.HeaderCell>
+                            <Table.DataCell>
+                                {newAssignment.user.roles?.map((role) => role.roleName).join(', ')}
+                            </Table.DataCell>
+                            <Table.DataCell align={'right'}>
+                                <Button
+                                    className={'nowrap'}
+                                    icon={<CheckmarkCircleIcon />}
+                                    variant={'secondary'}
+                                    onClick={() =>
+                                        newAssignment.user && handleSelectUser(newAssignment.user)
+                                    }>
+                                    Valgt
+                                </Button>
                             </Table.DataCell>
                         </Table.Row>
-                    ))}
+                    )}
                 </Table.Body>
             </Table>
-            <TablePagination
-                currentPage={usersPage.currentPage}
-                totalPages={usersPage.totalPages}
-                size={size}
-            />
+            {!newAssignment.user?.resourceId && (
+                <TablePagination
+                    currentPage={usersPage.currentPage}
+                    totalPages={usersPage.totalPages}
+                    size={size}
+                />
+            )}
         </VStack>
     );
 };
