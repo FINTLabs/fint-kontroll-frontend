@@ -1,4 +1,4 @@
-import { Button, ExpansionCard, Heading, Switch } from '@navikt/ds-react';
+import { Button, ExpansionCard, Heading, Switch, VStack } from '@navikt/ds-react';
 import {
     Form,
     useActionData,
@@ -34,6 +34,7 @@ import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { getErrorTextFromResponse } from '~/data/helpers';
+import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -212,104 +213,110 @@ export default function ResourceModuleAdminTabTildel() {
 
     return (
         <section className={'content tildeling-section-container'}>
-            <Heading className={'heading'} level={'2'} size={'large'}>
-                Tildel rettigheter
-            </Heading>
-            <ExpansionCard
-                size="small"
-                aria-label="Small-variant"
-                defaultOpen={true}
-                className={newAssignment.user ? 'expansion-green' : ''}>
-                <ExpansionCard.Header>
-                    {newAssignment.user ? (
-                        <ExpansionCard.Title>
-                            <CheckmarkCircleIcon /> Bruker valgt
-                        </ExpansionCard.Title>
-                    ) : (
-                        <ExpansionCard.Title>
-                            Finn brukeren å tildele rettigheter til
-                        </ExpansionCard.Title>
-                    )}
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <div className={'tildeling-section'}>
-                        <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
-                        <TildelUserSearchResultList
-                            newAssignment={newAssignment}
-                            usersPage={usersPage}
-                            handleSelectUser={handleSelectUser}
-                        />
-                    </div>
-                </ExpansionCard.Content>
-            </ExpansionCard>
+            <VStack gap={'8'}>
+                <TableHeader title="Tildel rettigheter" isSubHeader={true} />
+                <ExpansionCard
+                    size="small"
+                    aria-label="Small-variant"
+                    defaultOpen={true}
+                    className={newAssignment.user ? 'expansion-green' : ''}>
+                    <ExpansionCard.Header>
+                        {newAssignment.user ? (
+                            <ExpansionCard.Title>
+                                <CheckmarkCircleIcon /> Bruker valgt
+                            </ExpansionCard.Title>
+                        ) : (
+                            <ExpansionCard.Title>
+                                Finn brukeren å tildele rettigheter til
+                            </ExpansionCard.Title>
+                        )}
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content>
+                        <VStack>
+                            <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
+                            <TildelUserSearchResultList
+                                newAssignment={newAssignment}
+                                usersPage={usersPage}
+                                handleSelectUser={handleSelectUser}
+                            />
+                        </VStack>
+                    </ExpansionCard.Content>
+                </ExpansionCard>
 
-            <ExpansionCard
-                size="small"
-                aria-label="Small-variant"
-                className={newAssignment.accessRoleId ? 'expansion-green' : ''}>
-                <ExpansionCard.Header>
-                    {newAssignment.accessRoleId ? (
-                        <ExpansionCard.Title>
-                            <CheckmarkCircleIcon /> Rolle valgt
-                        </ExpansionCard.Title>
-                    ) : (
-                        <ExpansionCard.Title>Velg rolle</ExpansionCard.Title>
-                    )}
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <ChooseAccessRole
+                <ExpansionCard
+                    size="small"
+                    aria-label="Small-variant"
+                    className={newAssignment.accessRoleId ? 'expansion-green' : ''}>
+                    <ExpansionCard.Header>
+                        {newAssignment.accessRoleId ? (
+                            <ExpansionCard.Title>
+                                <CheckmarkCircleIcon /> Rolle valgt
+                            </ExpansionCard.Title>
+                        ) : (
+                            <ExpansionCard.Title>Velg rolle</ExpansionCard.Title>
+                        )}
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content>
+                        <ChooseAccessRole
+                            accessRoles={accessRoles}
+                            setNewAccessRole={setNewAccessRole}
+                        />
+                    </ExpansionCard.Content>
+                </ExpansionCard>
+
+                <ExpansionCard
+                    size="small"
+                    aria-label="Small-variant"
+                    className={newAssignment.orgUnits.length > 0 ? 'expansion-green' : ''}>
+                    <ExpansionCard.Header>
+                        {newAssignment.orgUnits.length > 0 ? (
+                            <ExpansionCard.Title>
+                                <CheckmarkCircleIcon /> Organisasjonsenheter valgt
+                            </ExpansionCard.Title>
+                        ) : (
+                            <ExpansionCard.Title>Legg til organisasjonsenheter</ExpansionCard.Title>
+                        )}
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content>
+                        <div className={'tildeling-section'}>
+                            <Switch
+                                onClick={() => handleChangeIncludeSubOrgUnits()}
+                                checked={includeSubOrgUnitsState}>
+                                Inkluder underliggende enheter
+                            </Switch>
+
+                            <OrgUnitTreeSelector
+                                orgUnitList={allOrgUnits}
+                                selectedOrgUnits={selectedOrgUnits}
+                                setSelectedOrgUnits={(newSelected) =>
+                                    setSelectedOrgUnits(newSelected)
+                                }
+                                includeSubOrgUnitsState={includeSubOrgUnitsState}
+                            />
+                        </div>
+                    </ExpansionCard.Content>
+                </ExpansionCard>
+
+                <div className={'tildeling-section'}>
+                    <SummaryOfTildeling
+                        assignment={newAssignment}
+                        missingFields={missingFields}
                         accessRoles={accessRoles}
-                        setNewAccessRole={setNewAccessRole}
                     />
-                </ExpansionCard.Content>
-            </ExpansionCard>
-
-            <ExpansionCard
-                size="small"
-                aria-label="Small-variant"
-                className={newAssignment.orgUnits.length > 0 ? 'expansion-green' : ''}>
-                <ExpansionCard.Header>
-                    {newAssignment.orgUnits.length > 0 ? (
-                        <ExpansionCard.Title>
-                            <CheckmarkCircleIcon /> Organisasjonsenheter valgt
-                        </ExpansionCard.Title>
-                    ) : (
-                        <ExpansionCard.Title>Legg til organisasjonsenheter</ExpansionCard.Title>
-                    )}
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <div className={'tildeling-section'}>
-                        <Switch
-                            onClick={() => handleChangeIncludeSubOrgUnits()}
-                            checked={includeSubOrgUnitsState}>
-                            Inkluder underliggende enheter
-                        </Switch>
-
-                        <OrgUnitTreeSelector
-                            orgUnitList={allOrgUnits}
-                            selectedOrgUnits={selectedOrgUnits}
-                            setSelectedOrgUnits={(newSelected) => setSelectedOrgUnits(newSelected)}
-                            includeSubOrgUnitsState={includeSubOrgUnitsState}
+                    <Form method={'post'} onSubmit={handleSubmit}>
+                        <input type={'hidden'} name={'resourceId'} id={'resourceId'} />
+                        <input type={'hidden'} name={'accessRoleId'} id={'accessRoleId'} />
+                        <input type={'hidden'} name={'scopeId'} id={'scopeId'} />
+                        <input type={'hidden'} name={'orgUnits'} id={'orgUnits'} />
+                        <input
+                            type={'hidden'}
+                            name={'includeSubOrgUnits'}
+                            id={'includeSubOrgUnits'}
                         />
-                    </div>
-                </ExpansionCard.Content>
-            </ExpansionCard>
-
-            <div className={'tildeling-section'}>
-                <SummaryOfTildeling
-                    assignment={newAssignment}
-                    missingFields={missingFields}
-                    accessRoles={accessRoles}
-                />
-                <Form method={'post'} onSubmit={handleSubmit}>
-                    <input type={'hidden'} name={'resourceId'} id={'resourceId'} />
-                    <input type={'hidden'} name={'accessRoleId'} id={'accessRoleId'} />
-                    <input type={'hidden'} name={'scopeId'} id={'scopeId'} />
-                    <input type={'hidden'} name={'orgUnits'} id={'orgUnits'} />
-                    <input type={'hidden'} name={'includeSubOrgUnits'} id={'includeSubOrgUnits'} />
-                    <Button disabled={missingFields}>Lagre tildeling</Button>
-                </Form>
-            </div>
+                        <Button disabled={missingFields}>Lagre tildeling</Button>
+                    </Form>
+                </div>
+            </VStack>
         </section>
     );
 }

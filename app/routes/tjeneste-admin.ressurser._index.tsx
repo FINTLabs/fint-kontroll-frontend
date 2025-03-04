@@ -15,6 +15,7 @@ import { fetchApplicationCategories, fetchResourceDataSource } from '~/data/fetc
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -71,15 +72,12 @@ export default function ServiceAdminIndex() {
                 }
                 CreateNewButton={
                     source === 'gui' ? (
-                        <Button
-                            role="link"
-                            className={'no-underline-button'}
-                            variant={'secondary'}
-                            iconPosition="right"
-                            icon={<PlusIcon aria-hidden />}
-                            onClick={() => navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)}>
-                            Opprett ny ressurs
-                        </Button>
+                        <SecondaryAddNewLinkButton
+                            label="Opprett ny ressurs"
+                            handleOnClick={() =>
+                                navigate(SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE)
+                            }
+                        />
                     ) : undefined
                 }
             />

@@ -14,14 +14,14 @@ interface TildelingToolbarProps {
 const TildelingToolbar = ({ allOrgUnits, accessRoles }: TildelingToolbarProps) => {
     return (
         <>
-            <HStack className={'toolbar'} align={'end'} justify={'space-between'}>
-                <div className={'org-unit-filter-with-help-text'}>
+            <HStack align={'end'} justify={'space-between'}>
+                <HStack align={'center'} gap={'2'}>
                     <OrgUnitFilterModal orgUnitList={allOrgUnits} />
                     <HelpText>
                         Dette er kun filter for brukerens tilhørighet. Må ikke forveksles med
                         org.enhetstildelingen.
                     </HelpText>
-                </div>
+                </HStack>
                 <AllAccessRolesFilter roles={accessRoles} />
                 <ResourceModuleSearch />
             </HStack>

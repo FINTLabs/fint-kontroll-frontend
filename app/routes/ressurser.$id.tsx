@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from '../components/resource/resource.css?url';
-import { Box, HStack, LinkPanel, Loader, Tabs, VStack } from '@navikt/ds-react';
+import { Box, Button, HStack, LinkPanel, Loader, Tabs, VStack } from '@navikt/ds-react';
 import {
     Link,
     Outlet,
@@ -17,11 +17,17 @@ import { BASE_PATH } from '../../environment';
 import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
+import { PersonGroupIcon, PersonIcon, PlusIcon } from '@navikt/aksel-icons';
 import { useLoadingState } from '~/components/common/customHooks';
-import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
+import {
+    getResourceNewAssignmentUrl,
+    RESOURCES,
+    SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE,
+} from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
+import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -83,18 +89,24 @@ export default function ResourceById() {
     return (
         <section className={'content'}>
             <VStack gap="4">
-                <VStack gap="4">
-                    <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
-                    <Box className={'filters'} paddingBlock={'8'}>
-                        <LinkPanel
-                            href={`${basePath}${getResourceNewAssignmentUrl(resource.id)}/${state === 'bruker-tildelinger' ? 'brukere' : 'grupper'}`}
-                            border>
-                            <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
-                        </LinkPanel>
-                    </Box>
-                </VStack>
+                <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
 
-                <TableHeader isSubHeader={true} title={'Tildelinger'} titleAlignment={'center'} />
+                <HStack paddingBlock={'8 0'}>
+                    <TableHeader
+                        isSubHeader={true}
+                        title={'Tildelinger'}
+                        HeaderButton={
+                            <SecondaryAddNewLinkButton
+                                label="Ny tildeling"
+                                handleOnClick={() =>
+                                    navigate(
+                                        `${getResourceNewAssignmentUrl(resource.id)}/${state === 'bruker-tildelinger' ? 'brukere' : 'grupper'}`
+                                    )
+                                }
+                            />
+                        }
+                    />
+                </HStack>
                 <Tabs value={state} onChange={handleChangeTab}>
                     <Tabs.List>
                         <Tabs.Tab

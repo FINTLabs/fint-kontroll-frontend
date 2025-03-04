@@ -33,7 +33,6 @@ const TildelUserSearchResultList = ({
                                 {user.roles?.length > 0
                                     ? user.roles.map((role, index) => (
                                           <span key={role.roleId + index}>
-                                              {/*@ts-ignore*/}
                                               {role.roleName}
                                               {user.roles.length - 1 > index && ', '}
                                           </span>

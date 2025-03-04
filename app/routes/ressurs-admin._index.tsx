@@ -17,6 +17,7 @@ import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRo
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -64,17 +65,11 @@ export default function ResourceAdminIndex() {
                 FilterComponents={<AllAccessRolesFilter roles={roles} />}
                 SearchComponent={<ResourceModuleSearch />}
                 CreateNewButton={
-                    <Button
-                        role="link"
-                        as="a"
+                    <SecondaryAddNewLinkButton
                         id="create-assignment"
-                        className={'no-underline-button'}
-                        variant={'secondary'}
-                        iconPosition="right"
-                        icon={<PlusIcon aria-hidden />}
-                        onClick={() => navigate('opprett-ny-tildeling')}>
-                        Opprett ny tildeling
-                    </Button>
+                        label="Opprett ny tildeling"
+                        handleOnClick={() => navigate('opprett-ny-tildeling')}
+                    />
                 }
             />
             <ResourceModuleAdminUsersTable

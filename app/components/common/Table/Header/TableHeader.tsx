@@ -1,4 +1,4 @@
-import { Heading, VStack } from '@navikt/ds-react';
+import { Heading, HStack, VStack } from '@navikt/ds-react';
 import React from 'react';
 
 interface TableHeaderProps {
@@ -6,6 +6,8 @@ interface TableHeaderProps {
     titleAlignment?: 'center' | 'end' | 'start' | undefined;
     subTitle?: string;
     isSubHeader?: boolean;
+    HeaderButton?: React.ReactElement;
+    spacing?: boolean;
 }
 
 export const TableHeader = ({
@@ -13,16 +15,21 @@ export const TableHeader = ({
     titleAlignment = 'start',
     subTitle,
     isSubHeader,
+    HeaderButton,
+    spacing,
 }: TableHeaderProps) => {
     return (
-        <VStack>
-            <Heading
-                level={isSubHeader ? '2' : '1'}
-                size="xlarge"
-                align={titleAlignment}
-                spacing={!subTitle}>
-                {title}
-            </Heading>
+        <VStack width={'100%'}>
+            <HStack justify={'space-between'} align={'center'}>
+                <Heading
+                    level={isSubHeader ? '2' : '1'}
+                    size={isSubHeader ? 'large' : 'xlarge'}
+                    align={titleAlignment}
+                    spacing={spacing}>
+                    {title}
+                </Heading>
+                {HeaderButton && HeaderButton}
+            </HStack>
             {subTitle && (
                 <Heading level={isSubHeader ? '3' : '2'} size="small">
                     {subTitle}
