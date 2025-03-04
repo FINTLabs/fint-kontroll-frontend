@@ -1,63 +1,77 @@
-import { BodyShort, Button, Heading, HStack, List, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, HStack, List, Table, VStack } from '@navikt/ds-react';
 import {
     IResourceModuleAssignment,
     IResourceModuleUser,
     IResourceModuleUsersPage,
 } from '~/data/types/resourceTypes';
 import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
+import React from 'react';
+import { TablePagination } from '~/components/common/Table/TablePagination';
 
 interface TildelUserSearchResultListProps {
     newAssignment: IResourceModuleAssignment;
     usersPage: IResourceModuleUsersPage;
     handleSelectUser: (newUser: IResourceModuleUser) => void;
+    size?: string;
 }
 
 const TildelUserSearchResultList = ({
     newAssignment,
     usersPage,
     handleSelectUser,
+    size,
 }: TildelUserSearchResultListProps) => {
     return (
-        <List id="user-search-list">
-            {usersPage.totalItems === 0 && (
-                <li className={'list-item__space-between'}>Ingen resultater i listen...</li>
-            )}
-            {usersPage.users.map((user) => (
-                <li key={user.resourceId} className={'list-item__space-between'}>
-                    <VStack marginBlock={'4'}>
-                        <Heading level={'2'} size={'small'}>
-                            {user.firstName + ' ' + user.lastName}
-                        </Heading>
-                        {user.roles && (
-                            <BodyShort>
-                                {user.roles?.length > 0
-                                    ? user.roles.map((role, index) => (
-                                          <span key={role.roleId + index}>
-                                              {role.roleName}
-                                              {user.roles.length - 1 > index && ', '}
-                                          </span>
-                                      ))
-                                    : 'Har ingen roller'}
-                            </BodyShort>
-                        )}
-                    </VStack>
-                    {newAssignment.user?.resourceId === user.resourceId ? (
-                        <span>
-                            <Button
-                                icon={<CheckmarkCircleIcon />}
-                                variant={'secondary'}
-                                onClick={() => handleSelectUser(user)}>
-                                Valgt
-                            </Button>
-                        </span>
-                    ) : (
-                        <span>
-                            <Button onClick={() => handleSelectUser(user)}>Velg bruker</Button>
-                        </span>
+        <VStack id="user-search-list">
+            <Table>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Roller</Table.HeaderCell>
+                        <Table.HeaderCell></Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {usersPage.totalItems === 0 && (
+                        <BodyShort>Ingen resultater i listen...</BodyShort>
                     )}
-                </li>
-            ))}
-        </List>
+                    {usersPage.users?.map((user) => (
+                        <Table.Row
+                            key={user.userName}
+                            selected={newAssignment.user?.resourceId === user.resourceId}>
+                            <Table.HeaderCell>
+                                {`${user.firstName} ${user.lastName}`}
+                            </Table.HeaderCell>
+                            <Table.DataCell>
+                                {user.roles?.map((role) => role.roleName).join(', ')}
+                            </Table.DataCell>
+                            <Table.DataCell align={'right'}>
+                                {newAssignment.user?.resourceId === user.resourceId ? (
+                                    <Button
+                                        className={'nowrap'}
+                                        icon={<CheckmarkCircleIcon />}
+                                        variant={'secondary'}
+                                        onClick={() => handleSelectUser(user)}>
+                                        Valgt
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className={'nowrap'}
+                                        onClick={() => handleSelectUser(user)}>
+                                        Velg bruker
+                                    </Button>
+                                )}
+                            </Table.DataCell>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table>
+            <TablePagination
+                currentPage={usersPage.currentPage}
+                totalPages={usersPage.totalPages}
+                size={size}
+            />
+        </VStack>
     );
 };
 
