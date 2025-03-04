@@ -4,7 +4,7 @@ describe('Check menu items for', () => {
     it('Systemadministrator', () => {
         cy.setCookie('cypresstestuser', 'sa');
         wait(1000);
-        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie.value).to.be.equal('sa'));
+        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie?.value).to.be.equal('sa'));
 
         cy.goToHome();
         cy.wait(1000);
@@ -18,7 +18,7 @@ describe('Check menu items for', () => {
     it('Ressursadministrator', () => {
         cy.setCookie('cypresstestuser', 'ra');
         wait(1000);
-        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie.value).to.be.equal('ra'));
+        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie?.value).to.be.equal('ra'));
 
         cy.goToHome();
         cy.wait(1000);
@@ -33,7 +33,7 @@ describe('Check menu items for', () => {
     it('Tjenesteadministrator', () => {
         cy.setCookie('cypresstestuser', 'ta');
         wait(1000);
-        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie.value).to.be.equal('ta'));
+        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie?.value).to.be.equal('ta'));
 
         cy.goToHome();
         cy.wait(1000);
@@ -49,7 +49,7 @@ describe('Check menu items for', () => {
     it('Tildeler', () => {
         cy.setCookie('cypresstestuser', 'td');
         wait(1000);
-        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie.value).to.be.equal('td'));
+        cy.getCookie('cypresstestuser').then((cookie) => expect(cookie?.value).to.be.equal('td'));
 
         cy.goToHome();
         cy.wait(1000);

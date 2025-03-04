@@ -14,7 +14,7 @@ interface AssignRoleTableProps {
     isAssignedRoles: IRole[];
     size: number;
     resourceId: string | undefined;
-    totalPages: number;
+    totalPages?: number;
     currentPage: number;
     basePath?: string;
 }

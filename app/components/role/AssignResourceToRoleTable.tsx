@@ -13,7 +13,7 @@ interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[];
     size: string;
     roleId: number;
-    totalPages: number;
+    totalPages?: number;
     currentPage: number;
     orgId: string;
     basePath?: string;

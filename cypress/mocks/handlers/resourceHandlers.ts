@@ -860,11 +860,11 @@ export const resourceHandlers = [
         'http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users',
         ({ request, cookies }) => {
             // These queryParams will be used for later testing
-            const size = cookies.size ?? null;
-            const page = new URL(request.url).searchParams.get('page') ?? '0';
-            const search = new URL(request.url).searchParams.get('search') ?? '0';
-            const userType = new URL(request.url).searchParams.get('userType') ?? '0';
-            const orgUnits = new URL(request.url).searchParams.get('orgUnits').split(',') ?? [];
+            // const size = cookies.size ?? null;
+            // const page = new URL(request.url).searchParams.get('page') ?? '0';
+            // const search = new URL(request.url).searchParams.get('search') ?? '0';
+            // const userType = new URL(request.url).searchParams.get('userType') ?? '0';
+            // const orgUnits = new URL(request.url).searchParams.get('orgUnits').split(',') ?? [];
 
             return HttpResponse.json({
                 userList: {
