@@ -1,10 +1,11 @@
 import OrgUnitFilterModal from '~/components/org-unit-filter/OrgUnitFilterModal';
-import ResourceModuleSearch from '~/components/resource-module-admin/ResourceModuleSearch';
 import { HStack, Label, VStack } from '@navikt/ds-react';
 import ChipsFilters from '~/components/common/ChipsFilters';
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
+import { Search } from '~/components/common/Search';
+import React from 'react';
 
 interface TildelingToolbarProps {
     allOrgUnits: IUnitItem[];
@@ -20,7 +21,7 @@ const TildelingToolbar = ({ allOrgUnits, accessRoles }: TildelingToolbarProps) =
                     <OrgUnitFilterModal orgUnitList={allOrgUnits} />
                 </VStack>
                 <AllAccessRolesFilter roles={accessRoles} />
-                <ResourceModuleSearch />
+                <Search label="Søk etter brukere" id={'search-user-role'} />
             </HStack>
             <ChipsFilters />
         </VStack>
