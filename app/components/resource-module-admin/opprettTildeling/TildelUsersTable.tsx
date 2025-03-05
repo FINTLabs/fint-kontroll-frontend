@@ -32,7 +32,7 @@ const TildelUsersTable = ({
         <VStack id="user-search-list">
             {!newAssignment.user && (
                 <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
-            )}{' '}
+            )}
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -48,7 +48,7 @@ const TildelUsersTable = ({
                     {!newAssignment.user?.resourceId &&
                         usersPage.users?.map((user) => (
                             <Table.Row
-                                key={user.userName}
+                                key={user.resourceId}
                                 selected={newAssignment.user?.resourceId === user.resourceId}
                                 onClick={() => handleSelectUser(user)}>
                                 <Table.HeaderCell>
