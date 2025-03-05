@@ -7,22 +7,32 @@ import {
 import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { TablePagination } from '~/components/common/Table/TablePagination';
+import TildelingToolbar from '~/components/resource-module-admin/opprettTildeling/TildelingToolbar';
+import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { IAccessRole } from '~/data/types/userTypes';
 
 interface TildelUserSearchResultListProps {
     newAssignment: IResourceModuleAssignment;
     usersPage: IResourceModuleUsersPage;
     handleSelectUser: (newUser: IResourceModuleUser) => void;
     size?: string;
+    allOrgUnits: IUnitItem[];
+    accessRoles: IAccessRole[];
 }
 
-const TildelUserSearchResultList = ({
+const TildelUsersTable = ({
     newAssignment,
     usersPage,
     handleSelectUser,
     size,
+    allOrgUnits,
+    accessRoles,
 }: TildelUserSearchResultListProps) => {
     return (
         <VStack id="user-search-list">
+            {!newAssignment.user && (
+                <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
+            )}{' '}
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -94,4 +104,4 @@ const TildelUserSearchResultList = ({
     );
 };
 
-export default TildelUserSearchResultList;
+export default TildelUsersTable;

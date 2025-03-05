@@ -1,4 +1,4 @@
-import { Button, ExpansionCard, Heading, HStack, Switch, VStack } from '@navikt/ds-react';
+import { Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
 import {
     Form,
     useActionData,
@@ -9,11 +9,10 @@ import {
 } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { useEffect, useState } from 'react';
-import TildelingToolbar from '../components/resource-module-admin/opprettTildeling/TildelingToolbar';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import { IResourceModuleAssignment, IResourceModuleUser } from '~/data/types/resourceTypes';
-import TildelUserSearchResultList from '../components/resource-module-admin/opprettTildeling/TildelUserSearchResultList';
+import TildelUsersTable from '../components/resource-module-admin/opprettTildeling/TildelUsersTable';
 import {
     fetchUsersWhoCanGetAssignments,
     postNewTildelingForUser,
@@ -237,12 +236,13 @@ export default function ResourceModuleAdminTabTildel() {
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
                         <VStack paddingBlock={'0 8'} paddingInline={'4'}>
-                            <TildelingToolbar allOrgUnits={allOrgUnits} accessRoles={accessRoles} />
-                            <TildelUserSearchResultList
+                            <TildelUsersTable
                                 newAssignment={newAssignment}
                                 usersPage={usersPage}
                                 handleSelectUser={handleSelectUser}
                                 size={size}
+                                allOrgUnits={allOrgUnits}
+                                accessRoles={accessRoles}
                             />
                         </VStack>
                     </ExpansionCard.Content>
