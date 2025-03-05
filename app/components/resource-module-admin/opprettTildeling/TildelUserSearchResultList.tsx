@@ -1,4 +1,4 @@
-import { BodyShort, Button, Heading, HStack, List, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, Table, VStack } from '@navikt/ds-react';
 import {
     IResourceModuleAssignment,
     IResourceModuleUser,
