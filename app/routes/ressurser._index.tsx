@@ -11,6 +11,7 @@ import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderL
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
+import { Alert, Box, Heading, VStack } from '@navikt/ds-react';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -54,6 +55,12 @@ export default function Resource() {
                         applicationCategories={applicationCategories}
                     />
                 }
+                alertMessage={{
+                    heading:
+                        'En midlertidig feil kan føre til at ikke alle ressurser dukker opp i tabellen.',
+                    text: ' Vi anbefaler å søke direkte etter ressursen i søkefeltet hvis du ikke finner den i tabellen. Vi jobber med å rette feilen.',
+                    variant: 'warning',
+                }}
             />
             <ResourceTable resourcePage={resourceList} size={size} />
         </div>
