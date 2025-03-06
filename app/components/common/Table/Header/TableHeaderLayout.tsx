@@ -1,4 +1,4 @@
-import { VStack } from '@navikt/ds-react';
+import { Alert, Box, Heading, VStack } from '@navikt/ds-react';
 import React, { ReactElement } from 'react';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
@@ -15,6 +15,7 @@ interface TableHeaderLayoutProps {
     orgUnitsForFilter?: IUnitItem[];
     CreateNewButton?: ReactElement;
     LeftAlignedFilters?: ReactElement;
+    alertMessage?: { heading?: string; text: string; variant: 'info' | 'warning' | 'error' };
 }
 
 export const TableHeaderLayout = ({
@@ -28,6 +29,7 @@ export const TableHeaderLayout = ({
     orgUnitsForFilter,
     CreateNewButton,
     LeftAlignedFilters,
+    alertMessage,
 }: TableHeaderLayoutProps) => {
     return (
         <VStack>
@@ -37,6 +39,16 @@ export const TableHeaderLayout = ({
                 subTitle={subTitle}
                 isSubHeader={isSubHeader}
             />
+            {alertMessage && (
+                <Box asChild>
+                    <Alert variant={alertMessage.variant} size={'small'} contentMaxWidth={false}>
+                        {alertMessage.heading && (
+                            <Heading size={'xsmall'}>{alertMessage.heading}</Heading>
+                        )}
+                        {alertMessage.text}
+                    </Alert>
+                </Box>
+            )}
             <TableToolbar
                 SearchComponent={SearchComponent}
                 FilterComponents={FilterComponents}

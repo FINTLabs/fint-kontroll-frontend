@@ -20,11 +20,12 @@ export const ResourceTable = ({ resourcePage, size }: ResourceTableProps) => {
             <Table id="resources-table">
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Applikasjonstype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align="right">
-                            Se mer informasjon
-                        </Table.HeaderCell>
+                        <Table.HeaderCell
+                            scope="col"
+                            align="right"
+                            aria-label={'Se mer informasjon'}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

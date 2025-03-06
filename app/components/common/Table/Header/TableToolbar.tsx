@@ -23,7 +23,7 @@ export const TableToolbar = ({
 }: TableToolbarProps) => {
     return (
         <VStack>
-            <HStack justify={'space-between'} paddingBlock={'4'}>
+            <HStack justify={'space-between'} paddingBlock={'4'} gap={'4'} align="end">
                 {CreateNewButton || LeftAlignedFilters ? (
                     <>
                         {CreateNewButton && (
