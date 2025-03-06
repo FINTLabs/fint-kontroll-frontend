@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from '../components/resource/resource.css?url';
-import { Box, Button, HStack, LinkPanel, Loader, Tabs, VStack } from '@navikt/ds-react';
+import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
 import {
     Link,
     Outlet,
@@ -17,17 +17,14 @@ import { BASE_PATH } from '../../environment';
 import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { PersonGroupIcon, PersonIcon, PlusIcon } from '@navikt/aksel-icons';
+import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
 import { useLoadingState } from '~/components/common/customHooks';
-import {
-    getResourceNewAssignmentUrl,
-    RESOURCES,
-    SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE,
-} from '~/data/paths';
+import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
-import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
+import { InfoBox } from '~/components/common/InfoBox';
+import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -57,7 +54,7 @@ export const handle = {
 export default function ResourceById() {
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource;
-    const { userTypeKodeverk, basePath } = loaderData;
+    const { userTypeKodeverk } = loaderData;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -89,7 +86,39 @@ export default function ResourceById() {
     return (
         <section className={'content'}>
             <VStack gap="4">
-                <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
+                {/*<ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />*/}
+
+                <InfoBox
+                    title={resource.resourceName}
+                    info={[
+                        {
+                            label: 'Applikasjonskategori',
+                            value: resource.applicationCategory.join(', '),
+                        },
+                        {
+                            label: 'Ressurstype',
+                            value: resource.resourceType,
+                        },
+                        {
+                            label: 'Ressurseier',
+                            value: resource.resourceOwnerOrgUnitName,
+                        },
+                        {
+                            label: 'Gyldig for',
+                            value: resource.validForRoles
+                                .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
+                                .join(', '),
+                        },
+                        {
+                            label: 'KildesystemID',
+                            value: resource.resourceId,
+                        },
+                        {
+                            label: 'Gruppenavn Entra ID',
+                            value: resource.identityProviderGroupName,
+                        },
+                    ]}
+                />
 
                 <HStack paddingBlock={'8 0'}>
                     <TableHeader
