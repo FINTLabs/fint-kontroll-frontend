@@ -1,4 +1,4 @@
-import { Button, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 import { json } from '@remix-run/node';
 import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import type { LoaderFunctionArgs } from '@remix-run/router';
@@ -6,7 +6,6 @@ import { fetchAllOrgUnits, fetchResourcesForAdmin } from '~/data/fetch-resources
 import { Search } from '~/components/common/Search';
 import { ServiceAdminTable } from '~/components/service-admin/ServiceAdminTable';
 import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
-import { PlusIcon } from '@navikt/aksel-icons';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { BASE_PATH } from '../../environment';
