@@ -157,7 +157,9 @@ const OrgUnitTreeSelector = ({
                 }
 
                 return (
-                    <Accordion key={node.organisationUnitId + index}>{renderTree(node)}</Accordion>
+                    <Accordion size={'small'} key={node.organisationUnitId + index}>
+                        {renderTree(node)}
+                    </Accordion>
                 );
             })}
         </>

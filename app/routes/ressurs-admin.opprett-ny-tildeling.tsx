@@ -251,6 +251,7 @@ export default function ResourceModuleAdminTabTildel() {
                 <ExpansionCard
                     size="small"
                     aria-label="Small-variant"
+                    defaultOpen={true}
                     className={newAssignment.accessRoleId ? 'expansion-green' : ''}>
                     <ExpansionCard.Header>
                         {newAssignment.accessRoleId ? (
@@ -276,6 +277,7 @@ export default function ResourceModuleAdminTabTildel() {
                 <ExpansionCard
                     size="small"
                     aria-label="Small-variant"
+                    defaultOpen={true}
                     className={newAssignment.orgUnits.length > 0 ? 'expansion-green' : ''}>
                     <ExpansionCard.Header>
                         {newAssignment.orgUnits.length > 0 ? (
