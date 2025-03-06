@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heading, HStack, LinkPanel, Tabs } from '@navikt/ds-react';
+import { Tabs } from '@navikt/ds-react';
 import {
     Link,
     Outlet,
@@ -16,6 +16,8 @@ import styles from '../components/user/user.css?url';
 import { BASE_PATH } from '../../environment';
 import { getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { TableHeader } from '~/components/common/Table/Header/TableHeader';
+import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -42,7 +44,6 @@ export const handle = {
 export default function RolesId() {
     const loaderData = useLoaderData<typeof loader>();
     const role: IRole = loaderData.role;
-    const basePath: string = loaderData.basePath;
 
     const pathname = useLocation();
 
@@ -56,17 +57,18 @@ export default function RolesId() {
         setSelectedTab(value);
         navigate(value);
     };
+
     return (
         <section className={'content'}>
-            <HStack justify="end">
-                <LinkPanel href={`${basePath}${getRoleNewAssignmentUrl(role.id)}`} border>
-                    <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
-                </LinkPanel>
-            </HStack>
-
-            <Heading level={'1'} size={'xlarge'}>
-                {role.roleName}
-            </Heading>
+            <TableHeader
+                title={role.roleName}
+                HeaderButton={
+                    <SecondaryAddNewLinkButton
+                        label="Ny tildeling"
+                        handleOnClick={() => navigate(`${getRoleNewAssignmentUrl(role.id)}`)}
+                    />
+                }
+            />
 
             <Tabs defaultValue={'members'} value={selectedTab} onChange={handleTabChange}>
                 <div style={{ marginTop: '2em', marginBottom: '2em' }}>

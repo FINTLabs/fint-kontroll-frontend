@@ -27,7 +27,7 @@ export const AssignmentsForRoleTable = ({
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
