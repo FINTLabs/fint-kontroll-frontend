@@ -10,10 +10,10 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
-                            Ressursgrense
+                            Maks lisenser
                         </Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
-                            Tildelinger
+                            Tildelte lisenser
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>

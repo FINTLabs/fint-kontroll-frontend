@@ -123,7 +123,7 @@ export default function ResourceById() {
                                     .join(', '),
                             },
                             {
-                                label: 'Totalt antall av ressursen',
+                                label: 'Antall lisenser',
                                 value: resource.resourceLimit?.toString(),
                             },
                             {
