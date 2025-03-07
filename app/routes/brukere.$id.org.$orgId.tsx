@@ -7,7 +7,6 @@ import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignmentsForUser } from '~/data/fetch-assignments';
 import { AssignmentsForUserTable } from '~/components/user/AssignmentsForUserTable';
 import { BASE_PATH } from '../../environment';
-import { UserInfo } from '~/components/user/UserInfo';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { ArrowRightIcon } from '@navikt/aksel-icons';

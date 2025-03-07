@@ -1,5 +1,5 @@
 import styles from '../components/resource/resource.css?url';
-import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 import { Link as RemixLink, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -12,7 +12,6 @@ import {
     fetchResourceDataSource,
     fetchUserTypes,
 } from '~/data/fetch-kodeverk';
-import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
 import React from 'react';
 import {
     getEditResourceUrl,
