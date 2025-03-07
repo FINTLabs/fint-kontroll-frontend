@@ -22,13 +22,13 @@ import { Box, HStack, Page } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
 import React, { ReactElement } from 'react';
-import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import { RouteHandle } from '@remix-run/react/dist/routeModules';
 import './tailwind.css';
 import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { IMeInfo } from '~/data/types/userTypes';
 
 interface CustomRouteHandle {
     breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -62,20 +62,16 @@ export const links: LinksFunction = () => [
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const [me, source] = await Promise.all([
-        fetchMeInfo(request),
-        fetchResourceDataSource(request),
-    ]);
+    const me = await fetchMeInfo(request);
 
     return json({
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-        source: source,
     });
 }
 
 export default function App() {
-    const { me, basePath, source } = useLoaderData<typeof loader>();
+    const { me } = useLoaderData<typeof loader>();
     const matches = useMatches();
     return (
         <html lang="no">
@@ -86,7 +82,7 @@ export default function App() {
             <body data-theme="novari">
                 <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
 
-                <Layout me={me} basePath={basePath} source={source}>
+                <Layout me={me}>
                     {matches.find((match) => {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
@@ -126,12 +122,10 @@ export default function App() {
 
 interface LayoutProps {
     children: any;
-    me?: any;
-    basePath?: string;
-    source?: string;
+    me?: IMeInfo;
 }
 
-const Layout = ({ children, me, basePath, source }: LayoutProps) => {
+const Layout = ({ children, me }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -139,7 +133,7 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} basePath={basePath} source={source} />
+            <AppBar me={me} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>
@@ -158,7 +152,7 @@ export function ErrorBoundary() {
                 <Links />
             </head>
             <body data-theme="novari">
-                <Layout me={null}>
+                <Layout>
                     <div className={'content'}>
                         <ErrorMessage error={error} />
                     </div>
