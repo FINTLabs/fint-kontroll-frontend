@@ -209,9 +209,6 @@ export default function ResourceModuleAdminTabTildel() {
             : '';
     };
 
-    const missingFields =
-        !newAssignment.user || newAssignment.orgUnits.length === 0 || !newAssignment.accessRoleId;
-
     return (
         <section className={'content tildeling-section-container'}>
             <VStack gap={'8'}>
@@ -251,6 +248,7 @@ export default function ResourceModuleAdminTabTildel() {
                 <ExpansionCard
                     size="small"
                     aria-label="Small-variant"
+                    defaultOpen={true}
                     className={newAssignment.accessRoleId ? 'expansion-green' : ''}>
                     <ExpansionCard.Header>
                         {newAssignment.accessRoleId ? (
@@ -276,6 +274,7 @@ export default function ResourceModuleAdminTabTildel() {
                 <ExpansionCard
                     size="small"
                     aria-label="Small-variant"
+                    defaultOpen={true}
                     className={newAssignment.orgUnits.length > 0 ? 'expansion-green' : ''}>
                     <ExpansionCard.Header>
                         {newAssignment.orgUnits.length > 0 ? (
@@ -309,11 +308,7 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard>
 
                 <div className={'tildeling-section'}>
-                    <SummaryOfTildeling
-                        assignment={newAssignment}
-                        missingFields={missingFields}
-                        accessRoles={accessRoles}
-                    />
+                    <SummaryOfTildeling assignment={newAssignment} accessRoles={accessRoles} />
                     <Form method={'post'} onSubmit={handleSubmit}>
                         <input type={'hidden'} name={'resourceId'} id={'resourceId'} />
                         <input type={'hidden'} name={'accessRoleId'} id={'accessRoleId'} />
@@ -324,7 +319,14 @@ export default function ResourceModuleAdminTabTildel() {
                             name={'includeSubOrgUnits'}
                             id={'includeSubOrgUnits'}
                         />
-                        <Button disabled={missingFields}>Lagre tildeling</Button>
+                        <Button
+                            disabled={
+                                !newAssignment.user ||
+                                newAssignment.orgUnits.length === 0 ||
+                                !newAssignment.accessRoleId
+                            }>
+                            Lagre tildeling
+                        </Button>
                     </Form>
                 </div>
             </VStack>

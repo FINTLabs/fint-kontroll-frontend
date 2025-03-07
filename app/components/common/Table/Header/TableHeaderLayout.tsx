@@ -40,7 +40,7 @@ export const TableHeaderLayout = ({
                 isSubHeader={isSubHeader}
             />
             {alertMessage && (
-                <Box asChild>
+                <Box asChild marginBlock={'4'}>
                     <Alert variant={alertMessage.variant} size={'small'} contentMaxWidth={false}>
                         {alertMessage.heading && (
                             <Heading size={'xsmall'}>{alertMessage.heading}</Heading>

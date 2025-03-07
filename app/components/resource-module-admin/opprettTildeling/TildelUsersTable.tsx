@@ -4,7 +4,7 @@ import {
     IResourceModuleUser,
     IResourceModuleUsersPage,
 } from '~/data/types/resourceTypes';
-import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import TildelingToolbar from '~/components/resource-module-admin/opprettTildeling/TildelingToolbar';
@@ -59,6 +59,7 @@ const TildelUsersTable = ({
                                 </Table.DataCell>
                                 <Table.DataCell align={'right'}>
                                     <Button
+                                        size={'small'}
                                         className={'nowrap'}
                                         onClick={() => handleSelectUser(user)}>
                                         Velg bruker
@@ -81,12 +82,13 @@ const TildelUsersTable = ({
                             <Table.DataCell align={'right'}>
                                 <Button
                                     className={'nowrap'}
-                                    icon={<CheckmarkCircleIcon />}
-                                    variant={'secondary'}
+                                    size={'small'}
+                                    icon={<XMarkIcon />}
+                                    variant={'tertiary-neutral'}
                                     onClick={() =>
                                         newAssignment.user && handleSelectUser(newAssignment.user)
                                     }>
-                                    Valgt
+                                    Angre
                                 </Button>
                             </Table.DataCell>
                         </Table.Row>

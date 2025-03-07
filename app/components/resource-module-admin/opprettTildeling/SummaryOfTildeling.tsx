@@ -1,18 +1,13 @@
 import { IResourceModuleAssignment } from '~/data/types/resourceTypes';
-import { Alert, FormSummary, List } from '@navikt/ds-react';
+import { ErrorMessage, FormSummary, List } from '@navikt/ds-react';
 import { IAccessRole } from '~/data/types/userTypes';
 
 interface SummaryOfTildelingProps {
     assignment: IResourceModuleAssignment;
-    missingFields: boolean;
     accessRoles: IAccessRole[];
 }
 
-const SummaryOfTildeling = ({
-    assignment,
-    missingFields,
-    accessRoles,
-}: SummaryOfTildelingProps) => {
+const SummaryOfTildeling = ({ assignment, accessRoles }: SummaryOfTildelingProps) => {
     const findAccessRoleById = (id: string): string => {
         const foundRole: string | undefined = accessRoles.find(
             (role) => role.accessRoleId === id
@@ -28,25 +23,30 @@ const SummaryOfTildeling = ({
                 </FormSummary.Header>
 
                 <FormSummary.Answers>
-                    {assignment.user?.firstName && (
-                        <FormSummary.Answer>
-                            <FormSummary.Label>Valgt bruker</FormSummary.Label>
-                            <FormSummary.Value>
-                                {assignment.user?.firstName + ' ' + assignment.user?.lastName}
-                            </FormSummary.Value>
-                        </FormSummary.Answer>
-                    )}
-                    {assignment.accessRoleId && (
-                        <FormSummary.Answer>
-                            <FormSummary.Label>Valgt aksessrolle</FormSummary.Label>
-                            <FormSummary.Value>
-                                {findAccessRoleById(assignment.accessRoleId)}
-                            </FormSummary.Value>
-                        </FormSummary.Answer>
-                    )}
+                    <FormSummary.Answer>
+                        <FormSummary.Label>Valgt bruker</FormSummary.Label>
+                        <FormSummary.Value>
+                            {!assignment.user ? (
+                                <ErrorMessage size="small">Ingen bruker valgt</ErrorMessage>
+                            ) : (
+                                assignment.user?.firstName + ' ' + assignment.user?.lastName
+                            )}
+                        </FormSummary.Value>
+                    </FormSummary.Answer>
 
-                    {assignment.orgUnits.length > 0 &&
-                        (assignment.includeSubOrgUnits ? (
+                    <FormSummary.Answer>
+                        <FormSummary.Label>Valgt aksessrolle</FormSummary.Label>
+                        <FormSummary.Value>
+                            {!assignment.accessRoleId ? (
+                                <ErrorMessage size="small">Ingen aksessrolle valgt</ErrorMessage>
+                            ) : (
+                                findAccessRoleById(assignment.accessRoleId)
+                            )}
+                        </FormSummary.Value>
+                    </FormSummary.Answer>
+
+                    {assignment.orgUnits.length > 0 ? (
+                        assignment.includeSubOrgUnits ? (
                             <FormSummary.Answer>
                                 <FormSummary.Label>
                                     Inkluderte org.enheter - da MED tilhørende underenheter
@@ -70,19 +70,17 @@ const SummaryOfTildeling = ({
                                     </List>
                                 </FormSummary.Value>
                             </FormSummary.Answer>
-                        ))}
+                        )
+                    ) : (
+                        <FormSummary.Answer>
+                            <FormSummary.Label>Valgte org.enheter</FormSummary.Label>
+                            <FormSummary.Value>
+                                <ErrorMessage size="small">Ingen org.enheter valgt</ErrorMessage>
+                            </FormSummary.Value>
+                        </FormSummary.Answer>
+                    )}
                 </FormSummary.Answers>
             </FormSummary>
-
-            {missingFields && (
-                <Alert variant={'error'}>
-                    <ul>
-                        {!assignment.user && <li>Må ha valgt en bruker</li>}
-                        {!assignment.accessRoleId && <li>Må ha valgt en aksessrolle</li>}
-                        {assignment.orgUnits.length === 0 && <li>Må ha valgt orgenheter</li>}
-                    </ul>
-                </Alert>
-            )}
         </div>
     );
 };
