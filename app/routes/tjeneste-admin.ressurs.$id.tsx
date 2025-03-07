@@ -23,6 +23,11 @@ import {
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
+import { InfoBox } from '~/components/common/InfoBox';
+import {
+    translateLicenseEnforcementToLabel,
+    translateUserTypeToLabel,
+} from '~/components/common/CommonFunctions';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -94,11 +99,54 @@ export default function ResourceById() {
                         deleteText={'Ressursen ble slettet!'}
                     />
 
-                    <ResourceInfoBox
-                        resource={resource}
-                        userTypeKodeverk={userTypesKodeverk}
-                        isAdmin={true}
-                        licenseEnforcementKodeverk={licenseEnforcementKodeverk}
+                    <InfoBox
+                        title={resource.resourceName}
+                        tagText={resource.status}
+                        info={[
+                            {
+                                label: 'Applikasjonskategori',
+                                value: resource.applicationCategory.join(', '),
+                            },
+                            {
+                                label: 'Ressurstype',
+                                value: resource.resourceType,
+                            },
+                            {
+                                label: 'Ressurseier',
+                                value: resource.resourceOwnerOrgUnitName,
+                            },
+                            {
+                                label: 'Gyldig for',
+                                value: resource.validForRoles
+                                    .map((role) =>
+                                        translateUserTypeToLabel(role, userTypesKodeverk)
+                                    )
+                                    .join(', '),
+                            },
+                            {
+                                label: 'Totalt antall av ressursen',
+                                value: resource.resourceLimit?.toString(),
+                            },
+                            {
+                                label: 'Kostnad pr. ressurs',
+                                value: resource.unitCost?.toString(),
+                            },
+                            {
+                                label: 'Håndhevingsregel',
+                                value: translateLicenseEnforcementToLabel(
+                                    resource.licenseEnforcement,
+                                    licenseEnforcementKodeverk
+                                ),
+                            },
+                            {
+                                label: 'KildesystemID',
+                                value: resource.resourceId,
+                            },
+                            {
+                                label: 'Gruppenavn Entra ID',
+                                value: resource.identityProviderGroupName,
+                            },
+                        ]}
                     />
                 </VStack>
 
