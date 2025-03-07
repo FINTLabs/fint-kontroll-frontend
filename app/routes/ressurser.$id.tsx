@@ -14,7 +14,6 @@ import { json } from '@remix-run/node';
 import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
-import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
@@ -86,10 +85,6 @@ export default function ResourceById() {
     return (
         <section className={'content'}>
             <VStack gap="4">
-                {/*
-                <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
-*/}
-
                 <InfoBox
                     title={resource.resourceName}
                     info={[
