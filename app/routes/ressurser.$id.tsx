@@ -86,7 +86,9 @@ export default function ResourceById() {
     return (
         <section className={'content'}>
             <VStack gap="4">
-                {/*<ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />*/}
+                {/*
+                <ResourceInfoBox resource={resource} userTypeKodeverk={userTypeKodeverk} />
+*/}
 
                 <InfoBox
                     title={resource.resourceName}
