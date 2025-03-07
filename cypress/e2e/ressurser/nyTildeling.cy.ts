@@ -2,7 +2,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
     it('Navigate to "Ny Tildeling"', () => {
         cy.goToSpecificResource();
         cy.wait(1000);
-        cy.get('a').contains('Ny tildeling').click();
+        cy.get('Button').contains('Ny tildeling').click();
         cy.wait(1000);
         cy.url().should('include', '/brukere');
     });

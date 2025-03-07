@@ -1,4 +1,4 @@
-import { Button, Heading, Link, Table, VStack } from '@navikt/ds-react';
+import { Button, Link, Table, VStack } from '@navikt/ds-react';
 import type { IAssignedRoles } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useParams, useSearchParams } from '@remix-run/react';

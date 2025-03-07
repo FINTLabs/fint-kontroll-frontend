@@ -64,14 +64,14 @@ export interface IResourceModuleOrgUnitDetail {
 
 export interface IAssignmentPage {
     totalItems: number;
-    totalPages?: number | any;
+    totalPages?: number;
     currentPage: number;
     resources: IResourceAssignment[];
 }
 
 export interface IAssignedResourcesList {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number;
     currentPage: number;
     size: string;
     resources: IResourceAssignment[];
@@ -79,7 +79,7 @@ export interface IAssignedResourcesList {
 
 export interface IResourceList {
     totalItems: number;
-    totalPages?: number | string;
+    totalPages?: number;
     currentPage: number;
     resources: IResourceForList[];
 }
@@ -101,6 +101,7 @@ export interface IResourceItem {
     orgUnitId: string;
     orgUnitName: string;
     resourceLimit: number;
+    assignedResources?: number; // NEW
 }
 
 export interface IResourceAdminItem {
@@ -116,7 +117,7 @@ export interface IResourceAdminItem {
 
 export interface IResourceAdminList {
     totalItems: number;
-    totalPages?: number | string;
+    totalPages?: number;
     currentPage: number;
     resources: IResourceAdminItem[];
 }
@@ -124,25 +125,27 @@ export interface IResourceAdminList {
 export interface IResource {
     id: number;
     resourceId: string;
-    resourceRef: number;
-    identityProviderGroupName: string;
     resourceName: string;
     resourceType: string;
-    resourceLimit: number;
+    identityProviderGroupName: string;
     applicationAccessType: string;
     applicationAccessRole: string;
-    accessType: string;
-    applicationCategory: string[];
     platform: [];
+    accessType: string;
+    resourceLimit: number;
+    assignedResources?: number; // NEW
     resourceOwnerOrgUnitId: string;
     resourceOwnerOrgUnitName: string;
     validForOrgUnits: IResourceItem[];
     validForRoles: string[];
-    assigned?: boolean;
+    applicationCategory: string[];
     licenseEnforcement: string;
     hasCost: boolean;
     unitCost: number;
     status: string;
+    statusChanged?: string;
+    createdBy?: string;
+    dateCreated?: string;
 }
 
 // ----

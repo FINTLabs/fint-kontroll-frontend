@@ -1,10 +1,11 @@
 import OrgUnitFilterModal from '~/components/org-unit-filter/OrgUnitFilterModal';
-import ResourceModuleSearch from '~/components/resource-module-admin/ResourceModuleSearch';
-import { HelpText, HStack } from '@navikt/ds-react';
+import { HStack, Label, VStack } from '@navikt/ds-react';
 import ChipsFilters from '~/components/common/ChipsFilters';
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
+import { Search } from '~/components/common/Search';
+import React from 'react';
 
 interface TildelingToolbarProps {
     allOrgUnits: IUnitItem[];
@@ -13,20 +14,17 @@ interface TildelingToolbarProps {
 
 const TildelingToolbar = ({ allOrgUnits, accessRoles }: TildelingToolbarProps) => {
     return (
-        <>
-            <HStack className={'toolbar'} align={'end'} justify={'space-between'}>
-                <div className={'org-unit-filter-with-help-text'}>
+        <VStack gap={'2'}>
+            <HStack className={'filters'} gap={'4'} justify="end" align="end">
+                <VStack gap={'2'}>
+                    <Label>Filter på tilhørighet</Label>
                     <OrgUnitFilterModal orgUnitList={allOrgUnits} />
-                    <HelpText>
-                        Dette er kun filter for brukerens tilhørighet. Må ikke forveksles med
-                        org.enhetstildelingen.
-                    </HelpText>
-                </div>
+                </VStack>
                 <AllAccessRolesFilter roles={accessRoles} />
-                <ResourceModuleSearch />
+                <Search label="Søk etter brukere" id={'search-user-role'} />
             </HStack>
             <ChipsFilters />
-        </>
+        </VStack>
     );
 };
 

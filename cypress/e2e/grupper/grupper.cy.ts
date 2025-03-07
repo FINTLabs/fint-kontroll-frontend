@@ -4,7 +4,7 @@ describe('Check roles page with mock data', () => {
     before('Set default size cookie', () => {
         cy.setCookie('size', '25');
         wait(1000);
-        cy.getCookie('size').then((cookie) => expect(cookie.value).to.be.equal('25'));
+        cy.getCookie('size').then((cookie) => expect(cookie?.value).to.be.equal('25'));
     });
 
     it('Navigate to Grupper', () => {
@@ -18,7 +18,7 @@ describe('Check roles page with mock data', () => {
 
     it('Check table exists, cookie "size" is 25, has 11 rows, then change to 5 rows and confirm length', () => {
         cy.getCookie('size').then((cookie) => {
-            expect(cookie.value).to.equal('25');
+            expect(cookie?.value).to.equal('25');
         });
         cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 11);
         cy.get('#select-number-of-rows').select('5');

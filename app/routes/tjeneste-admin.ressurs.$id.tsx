@@ -22,6 +22,7 @@ import {
 } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -102,9 +103,11 @@ export default function ResourceById() {
                 </VStack>
 
                 <VStack gap="4">
-                    <Heading level="2" size="large" align={'center'} spacing>
-                        Tilgjengelig for følgende organisasjonsenheter
-                    </Heading>
+                    <TableHeader
+                        isSubHeader={true}
+                        title={'Tilgjengelig for følgende organisasjonsenheter'}
+                        spacing={true}
+                    />
                     {source === 'gui' && (
                         <HStack justify={'end'} align={'end'}>
                             <Button

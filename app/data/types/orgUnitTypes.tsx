@@ -11,7 +11,7 @@ export interface IUnitItem {
 
 export interface IUnitTree {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number;
     currentPage: number;
     orgUnits: IUnitItem[];
 }

@@ -26,6 +26,8 @@
     --a-surface-alt-3-subtle: #e5e4fa;
     --a-surface-alt-3-moderate: #6b133d;
 
+    --ac-table-row-selected: var(--a-surface-alt-3-subtle);
+
     .novari-header {
         background: #fcf5ed;
     }

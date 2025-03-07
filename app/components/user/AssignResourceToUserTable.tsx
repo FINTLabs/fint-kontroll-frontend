@@ -14,7 +14,7 @@ interface AssignResourceToUserTableProps {
     size: string;
     userId: string;
     orgId: string;
-    totalPages: number;
+    totalPages?: number;
     currentPage: number;
     basePath?: string;
 }

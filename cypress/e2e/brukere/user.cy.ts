@@ -4,7 +4,7 @@ describe('Check the user detail page', () => {
     before('Set default size cookie', () => {
         cy.setCookie('size', '25');
         wait(1000);
-        cy.getCookie('size').then((cookie) => expect(cookie.value).to.be.equal('25'));
+        cy.getCookie('size').then((cookie) => expect(cookie?.value).to.be.equal('25'));
     });
 
     it("Navigate to Karen Berg's information page and click 'Se Info'", () => {

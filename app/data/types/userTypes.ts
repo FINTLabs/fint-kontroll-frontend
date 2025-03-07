@@ -60,7 +60,7 @@ export interface IOrgUnitForScope {
 // -----------------------
 export interface IUserPage {
     totalItems: number;
-    totalPages?: number | any;
+    totalPages?: number;
     currentPage: number;
     size: string;
     users: IUserItem[];
@@ -101,14 +101,14 @@ export interface IRole {
 
 export interface IRoleList {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number;
     currentPage: number;
     roles: IRole[];
 }
 
 export interface IMemberPage {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number;
     currentPage: number;
     size: number;
     members: IMemberItem[];
@@ -125,7 +125,7 @@ export interface IMemberItem {
 // THIS
 export interface IAssignedUsers {
     totalItems: number;
-    totalPages?: number | any;
+    totalPages?: number;
     currentPage: number;
     size: string;
     users: IUser[];
@@ -133,7 +133,7 @@ export interface IAssignedUsers {
 
 export interface IAssignedRoles {
     totalItems: number;
-    totalPages: number | any;
+    totalPages?: number;
     currentPage: number;
     roles: IRole[];
 }

@@ -13,7 +13,7 @@ interface AssignUserTableProps {
     isAssignedUsers: IUserItem[];
     size: string;
     resourceId: string | undefined;
-    totalPages: number;
+    totalPages?: number;
     currentPage: number;
     basePath?: string;
 }

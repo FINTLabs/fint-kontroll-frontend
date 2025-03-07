@@ -2,7 +2,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
     it('Navigate to "Ny Tildeling"', () => {
         cy.goToSpecificResource();
         cy.wait(1000);
-        cy.get('a').contains('Ny tildeling').click();
+        cy.get('Button').contains('Ny tildeling').click();
         cy.wait(1000);
     });
 
@@ -36,7 +36,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.wait(1000);
         cy.get('Button').contains('Grupper').should('exist').click();
         cy.wait(1000);
-        cy.get('a').contains('Ny tildeling').click();
+        cy.get('Button').contains('Ny tildeling').click();
         cy.wait(1000);
         cy.url().should('include', '/grupper');
         cy.get('Button')
