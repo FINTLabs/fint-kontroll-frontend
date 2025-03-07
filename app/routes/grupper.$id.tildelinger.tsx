@@ -46,9 +46,6 @@ export default function AssignmentsForRole() {
         <section>
             <Tabs value={'assignments'}>
                 <VStack gap="4">
-                    <Heading className={'heading'} level={'2'} size={'large'}>
-                        Tildelte ressurser
-                    </Heading>
                     <Tabs.Panel value="assignments">
                         <ResponseAlert
                             responseCode={responseCode}

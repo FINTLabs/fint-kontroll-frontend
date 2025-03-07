@@ -1,0 +1,78 @@
+import { BodyShort, Box, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
+import * as React from 'react';
+import { StatusTag } from '~/components/service-admin/StatusTag';
+
+export const InfoBox = ({
+    title,
+    tagText,
+    info,
+    maxColumns,
+}: {
+    title: string;
+    tagText?: string;
+    info: { label: string; value: string }[];
+    maxColumns?: 2 | 3;
+}) => {
+    return (
+        <VStack align="center" width={'100%'} marginBlock={'4 8'}>
+            <Box
+                paddingInline="8"
+                paddingBlock={'8 12'}
+                borderRadius="xlarge"
+                width={'100%'}
+                maxWidth={'1440px'}
+                style={{
+                    borderColor: 'var(--orange-primary)',
+                }}
+                borderWidth={'2'}
+                id="info-box">
+                <VStack gap={'4'}>
+                    <HStack align={'center'} justify={'center'} gap={'8'} paddingInline={'8'}>
+                        <Heading size="large" level="1">
+                            {title}
+                        </Heading>
+                        {tagText && <StatusTag status={tagText} />}
+                    </HStack>
+                    <Box
+                        borderWidth={'1 0 0 0'}
+                        style={{ borderColor: 'var(--orange-primary)' }}
+                        marginInline={'12'}
+                        marginBlock={'2 4'}
+                    />
+
+                    <Box
+                        paddingInline={{
+                            xs: '8',
+                            xl: maxColumns === 2 ? '32 12' : '8',
+                        }}>
+                        <HGrid
+                            as={'ul'}
+                            gap={'6 4'}
+                            align={'start'}
+                            columns={{
+                                sm: 1,
+                                md: 2,
+                                '2xl': `repeat(${maxColumns ?? 'auto-fit'}, minmax(20rem, 1fr))`,
+                            }}>
+                            {info.map(
+                                (item, index) =>
+                                    item.value && (
+                                        <VStack width={'fit-content'} as={'li'} key={index}>
+                                            <Heading size="small" level="3">
+                                                {item.label}
+                                            </Heading>
+                                            <BodyShort
+                                                textColor={'subtle'}
+                                                style={{ wordBreak: 'break-word' }}>
+                                                {item.value}
+                                            </BodyShort>
+                                        </VStack>
+                                    )
+                            )}
+                        </HGrid>
+                    </Box>
+                </VStack>
+            </Box>
+        </VStack>
+    );
+};
