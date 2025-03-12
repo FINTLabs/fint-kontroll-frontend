@@ -106,6 +106,8 @@ export default function ResourceById() {
                                 .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
                                 .join(', '),
                         },
+                    ]}
+                    moreInfo={[
                         {
                             label: 'KildesystemID',
                             value: resource.resourceId,

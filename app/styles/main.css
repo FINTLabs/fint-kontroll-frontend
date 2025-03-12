@@ -155,22 +155,16 @@ table {
 }
 
 .info-box-accordion {
-
-    /*justify-content: start;*/
-    /*width: 100%;*/
     border-radius: 50%;
-    color: var(--a-bg-default);
-    background-color: var(--orange-primary);
-    /*padding-top: 0;*/
-    /*padding-bottom: 0;*/
+    color: var(--red-primary);
 
     &:active {
-        background-color: var(--orange-primary);
+        background-color: var(--red-primary);
     }
 
     &:hover {
-        color:  var(--orange-primary);;
-        background-color: var(--orange-60);
+        color:  var(--red-primary);;
+        background-color: var(--red-20);
     }
 
     .chevron-icon {

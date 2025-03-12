@@ -23,6 +23,7 @@ export const InfoBox = ({
         <VStack
             align="center"
             width={'100%'}
+            id={'info-box'}
             marginBlock={'4 8'}
             className={`info-box ${isOpen ? 'open' : 'closed'}`}>
             <Box
@@ -82,6 +83,27 @@ export const InfoBox = ({
                                         </VStack>
                                     )
                             )}
+                            {moreInfo &&
+                                moreInfo.length > 0 &&
+                                isOpen &&
+                                moreInfo.map(
+                                    (item, index) =>
+                                        item.value && (
+                                            <VStack width={'fit-content'} as={'li'} key={index}>
+                                                <Heading
+                                                    size="small"
+                                                    level="3"
+                                                    style={{ color: 'var(--red-primary)' }}>
+                                                    {item.label}
+                                                </Heading>
+                                                <BodyShort
+                                                    textColor={'subtle'}
+                                                    style={{ wordBreak: 'break-word' }}>
+                                                    {item.value}
+                                                </BodyShort>
+                                            </VStack>
+                                        )
+                                )}
                         </HGrid>
                         {moreInfo && moreInfo.length > 0 && (
                             <VStack
@@ -89,49 +111,18 @@ export const InfoBox = ({
                                 aria-expanded={isOpen ? 'true' : 'false'}
                                 align={'center'}
                                 marginBlock={'4'}>
-                                <VStack
-                                    width={'100%'}
-                                    style={{ display: isOpen ? 'block' : 'none' }}>
-                                    <HGrid
-                                        as={'ul'}
-                                        gap={'6 4'}
-                                        align={'start'}
-                                        columns={{
-                                            sm: 1,
-                                            md: 2,
-                                            '2xl': `repeat(${maxColumns ?? 'auto-fit'}, minmax(20rem, 1fr))`,
-                                        }}>
-                                        {moreInfo.map(
-                                            (item, index) =>
-                                                item.value && (
-                                                    <VStack
-                                                        width={'fit-content'}
-                                                        as={'li'}
-                                                        key={index}>
-                                                        <Heading size="small" level="3">
-                                                            {item.label}
-                                                        </Heading>
-                                                        <BodyShort
-                                                            textColor={'subtle'}
-                                                            style={{ wordBreak: 'break-word' }}>
-                                                            {item.value}
-                                                        </BodyShort>
-                                                    </VStack>
-                                                )
-                                        )}
-                                    </HGrid>
-                                </VStack>
                                 <Button
                                     className={'info-box-accordion'}
-                                    size={'medium'}
-                                    variant={'primary'}
+                                    size={'small'}
+                                    variant={'tertiary'}
+                                    aria-label={isOpen ? 'Se mindre' : 'Se mer'}
                                     onClick={() => {
                                         setIsOpen(!isOpen);
                                     }}
                                     icon={
                                         <ChevronDownIcon
                                             className={`chevron-icon ${isOpen ? 'open' : 'closed'}`}
-                                            title={isOpen ? 'Se mindre' : 'Se mer'}
+                                            fontSize={'3rem'}
                                         />
                                     }
                                 />
