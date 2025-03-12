@@ -55,6 +55,8 @@ export default function ResourceById() {
     const resource: IResource = loaderData.resource;
     const { userTypeKodeverk } = loaderData;
 
+    console.log('resource', resource);
+
     const navigate = useNavigate();
     const location = useLocation();
     const params = useParams();
