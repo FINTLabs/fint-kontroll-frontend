@@ -158,20 +158,22 @@ table {
     border-radius: 50%;
     color: var(--red-primary);
 
-    &:active {
-        background-color: var(--red-primary);
+    &:hover:active, &:active {
+        background-color: var(--red-60);
     }
 
     &:hover {
-        color:  var(--red-primary);;
         background-color: var(--red-20);
+        color: var(--red-primary);
     }
 
     .chevron-icon {
         transition: transform 0.3s ease;
+
         &.open {
             transform: rotate(180deg);
         }
+
         &.closed {
             transform: rotate(0deg);
         }
