@@ -10,12 +10,14 @@ export const InfoBox = ({
     info,
     maxColumns,
     moreInfo,
+    moreInfoComponent,
 }: {
     title: string;
     tagText?: string;
     info: { label: string; value: string }[];
-    maxColumns?: 2 | 3;
     moreInfo?: { label: string; value: string }[];
+    moreInfoComponent?: React.ReactNode;
+    maxColumns?: 2 | 3;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -83,9 +85,9 @@ export const InfoBox = ({
                                         </VStack>
                                     )
                             )}
-                            {moreInfo &&
+                            {isOpen &&
+                                moreInfo &&
                                 moreInfo.length > 0 &&
-                                isOpen &&
                                 moreInfo.map(
                                     (item, index) =>
                                         item.value && (
@@ -104,6 +106,7 @@ export const InfoBox = ({
                                             </VStack>
                                         )
                                 )}
+                            {isOpen && moreInfoComponent && moreInfoComponent}
                         </HGrid>
                         {moreInfo && moreInfo.length > 0 && (
                             <VStack
