@@ -1,41 +1,51 @@
-import { BodyShort, Box, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import * as React from 'react';
 import { StatusTag } from '~/components/service-admin/StatusTag';
+import { useState } from 'react';
+import { ChevronDownIcon } from '@navikt/aksel-icons';
 
 export const InfoBox = ({
     title,
     tagText,
     info,
     maxColumns,
+    moreInfo,
 }: {
     title: string;
     tagText?: string;
     info: { label: string; value: string }[];
     maxColumns?: 2 | 3;
+    moreInfo?: { label: string; value: string }[];
 }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <VStack align="center" width={'100%'} marginBlock={'4 8'}>
+        <VStack
+            align="center"
+            width={'100%'}
+            marginBlock={'4 8'}
+            className={`info-box ${isOpen ? 'open' : 'closed'}`}>
             <Box
                 paddingInline="8"
-                paddingBlock={'8 12'}
+                paddingBlock={moreInfo ? '8 0' : '8 12'}
                 borderRadius="xlarge"
                 width={'100%'}
                 maxWidth={'1440px'}
                 style={{
-                    borderColor: 'var(--orange-primary)',
+                    borderColor: 'var(--red-primary)',
                 }}
                 borderWidth={'2'}
                 id="info-box">
                 <VStack gap={'4'}>
                     <HStack align={'center'} justify={'center'} gap={'8'} paddingInline={'8'}>
-                        <Heading size="large" level="1">
+                        <Heading size="large" level="1" style={{ color: 'var(--red-primary)' }}>
                             {title}
                         </Heading>
                         {tagText && <StatusTag status={tagText} />}
                     </HStack>
                     <Box
                         borderWidth={'1 0 0 0'}
-                        style={{ borderColor: 'var(--orange-primary)' }}
+                        style={{ borderColor: 'var(--red-primary)' }}
                         marginInline={'12'}
                         marginBlock={'2 4'}
                     />
@@ -58,7 +68,10 @@ export const InfoBox = ({
                                 (item, index) =>
                                     item.value && (
                                         <VStack width={'fit-content'} as={'li'} key={index}>
-                                            <Heading size="small" level="3">
+                                            <Heading
+                                                size="small"
+                                                level="3"
+                                                style={{ color: 'var(--red-primary)' }}>
                                                 {item.label}
                                             </Heading>
                                             <BodyShort
@@ -70,6 +83,60 @@ export const InfoBox = ({
                                     )
                             )}
                         </HGrid>
+                        {moreInfo && moreInfo.length > 0 && (
+                            <VStack
+                                width={'100%'}
+                                aria-expanded={isOpen ? 'true' : 'false'}
+                                align={'center'}
+                                marginBlock={'4'}>
+                                <VStack
+                                    width={'100%'}
+                                    style={{ display: isOpen ? 'block' : 'none' }}>
+                                    <HGrid
+                                        as={'ul'}
+                                        gap={'6 4'}
+                                        align={'start'}
+                                        columns={{
+                                            sm: 1,
+                                            md: 2,
+                                            '2xl': `repeat(${maxColumns ?? 'auto-fit'}, minmax(20rem, 1fr))`,
+                                        }}>
+                                        {moreInfo.map(
+                                            (item, index) =>
+                                                item.value && (
+                                                    <VStack
+                                                        width={'fit-content'}
+                                                        as={'li'}
+                                                        key={index}>
+                                                        <Heading size="small" level="3">
+                                                            {item.label}
+                                                        </Heading>
+                                                        <BodyShort
+                                                            textColor={'subtle'}
+                                                            style={{ wordBreak: 'break-word' }}>
+                                                            {item.value}
+                                                        </BodyShort>
+                                                    </VStack>
+                                                )
+                                        )}
+                                    </HGrid>
+                                </VStack>
+                                <Button
+                                    className={'info-box-accordion'}
+                                    size={'medium'}
+                                    variant={'primary'}
+                                    onClick={() => {
+                                        setIsOpen(!isOpen);
+                                    }}
+                                    icon={
+                                        <ChevronDownIcon
+                                            className={`chevron-icon ${isOpen ? 'open' : 'closed'}`}
+                                            title={isOpen ? 'Se mindre' : 'Se mer'}
+                                        />
+                                    }
+                                />
+                            </VStack>
+                        )}
                     </Box>
                 </VStack>
             </Box>

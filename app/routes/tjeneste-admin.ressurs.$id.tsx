@@ -137,6 +137,8 @@ export default function ResourceById() {
                                     licenseEnforcementKodeverk
                                 ),
                             },
+                        ]}
+                        moreInfo={[
                             {
                                 label: 'KildesystemID',
                                 value: resource.resourceId,
