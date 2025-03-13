@@ -106,8 +106,10 @@ export const InfoBox = ({
                                             </VStack>
                                         )
                                 )}
-                            {isOpen && moreInfoComponent && moreInfoComponent}
                         </HGrid>
+                        {isOpen && moreInfoComponent !== undefined && (
+                            <Box paddingBlock={'12 4'}>{moreInfoComponent}</Box>
+                        )}
                         {moreInfo && moreInfo.length > 0 && (
                             <VStack
                                 width={'100%'}
