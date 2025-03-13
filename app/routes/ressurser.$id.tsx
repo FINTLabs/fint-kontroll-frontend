@@ -24,6 +24,7 @@ import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 import { InfoBox } from '~/components/common/InfoBox';
 import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+import { ResourceLicenseTable } from '~/components/resource/ResourceLicenseTable';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -34,6 +35,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchResourceById(request, params.id),
         fetchUserTypes(request),
     ]);
+    resource.validForOrgUnits = resource.validForOrgUnits.map((orgUnit) => ({
+        ...orgUnit,
+        assignedResources: orgUnit.resourceLimit / 2,
+    }));
 
     return json({
         resource,
@@ -94,20 +99,25 @@ export default function ResourceById() {
                             label: 'Applikasjonskategori',
                             value: resource.applicationCategory.join(', '),
                         },
-                        {
-                            label: 'Ressurstype',
-                            value: resource.resourceType,
-                        },
-                        {
-                            label: 'Ressurseier',
-                            value: resource.resourceOwnerOrgUnitName,
-                        },
+                        { label: 'Ressurstype', value: resource.resourceType },
+                        { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },
                         {
                             label: 'Gyldig for',
-                            value: resource.validForRoles
-                                .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
-                                .join(', '),
+                            value:
+                                resource.validForRoles
+                                    .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
+                                    .join(', ') + '.',
                         },
+                        ...(resource.validForOrgUnits.length === 1
+                            ? [
+                                  {
+                                      label: `Lisenser for ${resource.validForOrgUnits[0].orgUnitName}`,
+                                      value: resource.validForOrgUnits[0].assignedResources
+                                          ? `${resource.validForOrgUnits[0].assignedResources} er tildelt av ${resource.validForOrgUnits[0].resourceLimit} tilgjengelige.`
+                                          : `${resource.validForOrgUnits[0].resourceLimit} lisenser`,
+                                  },
+                              ]
+                            : []),
                     ]}
                     moreInfo={[
                         {
@@ -119,6 +129,11 @@ export default function ResourceById() {
                             value: resource.identityProviderGroupName,
                         },
                     ]}
+                    moreInfoComponent={
+                        resource.validForOrgUnits.length > 1 ? (
+                            <ResourceLicenseTable resource={resource} />
+                        ) : undefined
+                    }
                 />
 
                 <HStack paddingBlock={'8 0'}>
