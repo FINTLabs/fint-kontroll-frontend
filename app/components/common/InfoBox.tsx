@@ -60,12 +60,13 @@ export const InfoBox = ({
                         }}>
                         <HGrid
                             as={'ul'}
-                            gap={'6 4'}
+                            gap={'6'}
                             align={'start'}
+                            className={'info-box-gridx'}
                             columns={{
                                 sm: 1,
                                 md: 2,
-                                '2xl': `repeat(${maxColumns ?? 'auto-fit'}, minmax(20rem, 1fr))`,
+                                '2xl': `repeat(${maxColumns ?? 3}, minmax(auto, 1fr))`,
                             }}>
                             {info.map(
                                 (item, index) =>
@@ -110,7 +111,7 @@ export const InfoBox = ({
                         {isOpen && moreInfoComponent !== undefined && (
                             <Box paddingBlock={'12 4'}>{moreInfoComponent}</Box>
                         )}
-                        {moreInfo && moreInfo.length > 0 && (
+                        {((moreInfo && moreInfo.length > 0) || moreInfoComponent) && (
                             <VStack
                                 width={'100%'}
                                 aria-expanded={isOpen ? 'true' : 'false'}

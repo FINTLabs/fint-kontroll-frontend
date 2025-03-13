@@ -35,10 +35,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchResourceById(request, params.id),
         fetchUserTypes(request),
     ]);
-    resource.validForOrgUnits = resource.validForOrgUnits.map((orgUnit) => ({
-        ...orgUnit,
-        assignedResources: orgUnit.resourceLimit / 2,
-    }));
 
     return json({
         resource,
@@ -55,12 +51,11 @@ export const handle = {
     ),
 };
 
+// TODO: remove commented code when licence is ready in backend
 export default function ResourceById() {
     const loaderData = useLoaderData<typeof loader>();
     const resource: IResource = loaderData.resource;
     const { userTypeKodeverk } = loaderData;
-
-    console.log('resource', resource);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -108,16 +103,18 @@ export default function ResourceById() {
                                     .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
                                     .join(', ') + '.',
                         },
-                        ...(resource.validForOrgUnits.length === 1
+                        /*                        ...(resource.validForOrgUnits.length === 1
                             ? [
                                   {
                                       label: `Lisenser for ${resource.validForOrgUnits[0].orgUnitName}`,
                                       value: resource.validForOrgUnits[0].assignedResources
                                           ? `${resource.validForOrgUnits[0].assignedResources} er tildelt av ${resource.validForOrgUnits[0].resourceLimit} tilgjengelige.`
-                                          : `${resource.validForOrgUnits[0].resourceLimit} lisenser`,
+                                          : resource.validForOrgUnits[0].resourceLimit
+                                            ? `${resource.validForOrgUnits[0].resourceLimit} lisenser`
+                                            : '',
                                   },
                               ]
-                            : []),
+                            : []),*/
                     ]}
                     moreInfo={[
                         {
@@ -129,11 +126,12 @@ export default function ResourceById() {
                             value: resource.identityProviderGroupName,
                         },
                     ]}
-                    moreInfoComponent={
-                        resource.validForOrgUnits.length > 1 ? (
+                    /*                    moreInfoComponent={
+                        resource.validForOrgUnits.length > 1 &&
+                        resource.validForOrgUnits.some((unit) => !!unit.resourceLimit) ? (
                             <ResourceLicenseTable resource={resource} />
                         ) : undefined
-                    }
+                    }*/
                 />
 
                 <HStack paddingBlock={'8 0'}>

@@ -1,4 +1,4 @@
-import { BodyShort, Heading, HStack, List, Table } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 import React from 'react';
 import { IResource } from '~/data/types/resourceTypes';
 
