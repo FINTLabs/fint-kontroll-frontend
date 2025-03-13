@@ -154,34 +154,36 @@ table {
     }
 }
 
-.info-box-accordion {
-    border-radius: 50%;
-    color: var(--red-primary);
-
-    &:hover:active, &:active {
-        background-color: var(--red-60);
-    }
-
-    &:hover {
-        background-color: var(--red-20);
-        color: var(--red-primary);
-    }
-
-    .chevron-icon {
-        transition: transform 0.3s ease;
-
-        &.open {
-            transform: rotate(180deg);
-        }
-
-        &.closed {
-            transform: rotate(0deg);
-        }
-    }
-}
-
 .info-box {
     transition: height 0.3s ease;
+
+    .info-box-accordion {
+        border-radius: 50%;
+        color: var(--red-primary);
+
+        &:hover:active, &:active {
+            background-color: var(--red-60);
+        }
+
+        &:hover {
+            background-color: var(--red-20);
+            color: var(--red-primary);
+        }
+
+        .chevron-icon {
+            transition: transform 0.3s ease;
+
+            &.open {
+                transform: rotate(180deg);
+            }
+
+            &.closed {
+                transform: rotate(0deg);
+            }
+        }
+    }
+
+
 }
 
 
