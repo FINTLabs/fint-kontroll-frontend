@@ -1,5 +1,5 @@
 import React from 'react';
-import { Detail, Heading, HStack, Tabs, VStack } from '@navikt/ds-react';
+import { Detail, Tabs, VStack } from '@navikt/ds-react';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchMembers } from '~/data/fetch-roles';
@@ -7,10 +7,10 @@ import { json } from '@remix-run/node';
 import { MemberTable } from '~/components/role/MemberTable';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { Search } from '~/components/common/Search';
-import ChipsFilters from '~/components/common/ChipsFilters';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { getRoleMembersUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -47,14 +47,18 @@ export default function Members() {
         <section>
             <Tabs value={'members'}>
                 <VStack gap="4">
-                    <Heading className={'heading'} level={'2'} size={'large'}>
-                        Medlemmer av gruppen
-                    </Heading>
-                    <HStack justify="space-between" gap="4">
-                        <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
-                        <Search label={'Søk etter medlemmer'} id={'search-member'} />
-                    </HStack>
-                    <ChipsFilters />
+                    <TableHeaderLayout
+                        title={'Medlemmer'}
+                        isSubHeader={true}
+                        SearchComponent={
+                            <Search label={'Søk etter medlemmer'} id={'search-member'} />
+                        }
+                        LeftAlignedFilters={
+                            <VStack align={'start'} justify={'start'} height={'100%'}>
+                                <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
+                            </VStack>
+                        }
+                    />
                     <Tabs.Panel value="members">
                         <MemberTable />
                     </Tabs.Panel>

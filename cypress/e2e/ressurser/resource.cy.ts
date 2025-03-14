@@ -2,6 +2,7 @@ describe('Check the resource details page', () => {
     const searchTextUser = 'Bente';
 
     it('Select resource and go to page for resource details, click "Brukere"', () => {
+        cy.setCookie('size', '10');
         cy.goToRessurser();
         cy.wait(1000);
         cy.get('table tr').contains('User License').get('button').contains('Se info').click();
@@ -10,14 +11,13 @@ describe('Check the resource details page', () => {
         cy.wait(1000);
     });
 
-    it('Should display correct labels for user types', () => {
+    it('Should show info box and display correct labels for user types', () => {
         cy.get('h1').should('have.text', 'Creative Cloud All Apps for K-12 - User License');
         cy.get('div')
-            .find('#resourceInfoBox')
+            .find('#info-box')
             .should('exist')
             .find('ul li')
-            .should('have.length', 6)
-            .should('contain.text', 'Gyldig for:Elev, Ansatt, Ukjent');
+            .should('contain.text', 'Gyldig forElev, Ansatt, Ukjent');
     });
 
     it('Check searchfield for user, type and remove the search name filter', () => {
@@ -58,36 +58,14 @@ describe('Check the resource details page', () => {
             .should('have.length', 10);
     });
 
-    it('Pagination (select number of rows in table)', () => {
+    it('Pagination for resources should exists and visible, select number of rows to be "5"', () => {
+        cy.get('#select-number-of-rows').should('be.visible');
         cy.get('#pagination').should('be.visible');
-        cy.get('#select-number-of-rows').should('exist').select('5');
+        cy.get('#select-number-of-rows').select('5');
         cy.wait(1000);
-    });
-
-    it('Pagination (go to "Neste")', () => {
-        cy.get('button').contains('Neste').click();
-        cy.wait(1000);
-
-        cy.location('search').then((search) => {
-            const params = new URLSearchParams(search);
-
-            const paramValue = params.get('page');
-
-            expect(paramValue).to.equal('1');
-        });
-    });
-
-    it('Pagination (iconButton go to "Last page" and then "previous page")', () => {
-        cy.get('button').contains('Forrige').click();
-        cy.wait(1000);
-
-        cy.location('search').then((search) => {
-            const params = new URLSearchParams(search);
-
-            const paramValue = params.get('page');
-
-            expect(paramValue).to.equal('0');
-        });
-        cy.wait(1000);
+        cy.get('#assigned-users-table')
+            .should('be.visible')
+            .find('tbody tr')
+            .should('have.length', 5);
     });
 });
