@@ -22,12 +22,11 @@ import {
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { InfoBox } from '~/components/common/InfoBox';
 import {
     translateLicenseEnforcementToLabel,
     translateUserTypeToLabel,
 } from '~/components/common/CommonFunctions';
-import { InfoBoxSmart } from '~/components/common/InfoBoxSmart';
+import { InfoBox } from '~/components/common/InfoBox';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -100,58 +99,6 @@ export default function ResourceById() {
                     />
 
                     <InfoBox
-                        title={resource.resourceName}
-                        tagText={resource.status}
-                        info={[
-                            {
-                                label: 'Applikasjonskategori',
-                                value: resource.applicationCategory.join(', '),
-                            },
-                            {
-                                label: 'Ressurstype',
-                                value: resource.resourceType,
-                            },
-                            {
-                                label: 'Ressurseier',
-                                value: resource.resourceOwnerOrgUnitName,
-                            },
-                            {
-                                label: 'Gyldig for',
-                                value: resource.validForRoles
-                                    .map((role) =>
-                                        translateUserTypeToLabel(role, userTypesKodeverk)
-                                    )
-                                    .join(', '),
-                            },
-                            {
-                                label: 'Totalt antall lisenser',
-                                value: resource.resourceLimit?.toLocaleString(),
-                            },
-                            {
-                                label: 'Kostnad pr. ressurs',
-                                value: resource.unitCost?.toString(),
-                            },
-                            {
-                                label: 'Håndhevingsregel',
-                                value: translateLicenseEnforcementToLabel(
-                                    resource.licenseEnforcement,
-                                    licenseEnforcementKodeverk
-                                ),
-                            },
-                        ]}
-                        moreInfo={[
-                            {
-                                label: 'KildesystemID',
-                                value: resource.resourceId,
-                            },
-                            {
-                                label: 'Gruppenavn Entra ID',
-                                value: resource.identityProviderGroupName,
-                            },
-                        ]}
-                    />
-
-                    <InfoBoxSmart
                         title={resource.resourceName}
                         tagText={resource.status}
                         info={[
