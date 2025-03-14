@@ -1,8 +1,13 @@
 import { BodyShort, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import * as React from 'react';
 import { StatusTag } from '~/components/service-admin/StatusTag';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
+
+type Info = {
+    label: string;
+    value?: string;
+};
 
 export const InfoBox = ({
     title,
@@ -14,13 +19,35 @@ export const InfoBox = ({
 }: {
     title: string;
     tagText?: string;
-    info: { label: string; value: string }[];
-    moreInfo?: { label: string; value: string }[];
+    info: Info[];
+    moreInfo?: Info[];
     moreInfoComponent?: React.ReactNode;
     maxColumns?: number;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const gridRef = useRef(null);
+    const [visibleInfo, setVisibleInfo] = useState<Info[]>(info);
+    const [remainingMoreInfo, setRemainingMoreInfo] = useState<Info[]>(moreInfo ?? []);
+    const hasCalculated = useRef(false);
 
+    useEffect(() => {
+        if (!gridRef.current || moreInfo?.length === 0 || hasCalculated.current) return;
+
+        const { gridTemplateRows, gridTemplateColumns } = window.getComputedStyle(gridRef.current);
+        const rows = gridTemplateRows.split(' ').length;
+        const columns = gridTemplateColumns.split(' ').length;
+
+        const totalItems = rows * columns;
+        const visibleItemsCount = info.filter((item) => item?.value?.trim()).length;
+        const remainingItems = totalItems - visibleItemsCount;
+
+        if (remainingItems > 0 && remainingMoreInfo) {
+            const additionalItems = remainingMoreInfo.slice(0, remainingItems);
+            setVisibleInfo([...info, ...additionalItems]);
+            setRemainingMoreInfo(remainingMoreInfo.slice(remainingItems));
+        }
+        hasCalculated.current = true;
+    }, [info]);
     return (
         <VStack
             align="center"
@@ -30,7 +57,7 @@ export const InfoBox = ({
             className={`info-box ${isOpen ? 'open' : 'closed'}`}>
             <Box
                 paddingInline="8"
-                paddingBlock={moreInfo ? '8 0' : '8 12'}
+                paddingBlock={remainingMoreInfo && remainingMoreInfo.length > 0 ? '8 0' : '8 12'}
                 borderRadius="xlarge"
                 width={'100%'}
                 maxWidth={'1440px'}
@@ -59,6 +86,7 @@ export const InfoBox = ({
                             xl: maxColumns === 2 ? '32 12' : '8',
                         }}>
                         <HGrid
+                            ref={gridRef}
                             as={'ul'}
                             gap={'6'}
                             align={'start'}
@@ -68,7 +96,7 @@ export const InfoBox = ({
                                 md: 2,
                                 '2xl': `repeat(${maxColumns}, minmax(auto, 1fr))`,
                             }}>
-                            {info.map(
+                            {visibleInfo.map(
                                 (item, index) =>
                                     item.value && (
                                         <VStack width={'fit-content'} as={'li'} key={index}>
@@ -87,9 +115,9 @@ export const InfoBox = ({
                                     )
                             )}
                             {isOpen &&
-                                moreInfo &&
-                                moreInfo.length > 0 &&
-                                moreInfo.map(
+                                remainingMoreInfo &&
+                                remainingMoreInfo.length > 0 &&
+                                remainingMoreInfo.map(
                                     (item, index) =>
                                         item.value && (
                                             <VStack width={'fit-content'} as={'li'} key={index}>
@@ -111,7 +139,8 @@ export const InfoBox = ({
                         {isOpen && moreInfoComponent !== undefined && (
                             <Box paddingBlock={'12 4'}>{moreInfoComponent}</Box>
                         )}
-                        {((moreInfo && moreInfo.length > 0) || moreInfoComponent) && (
+                        {((remainingMoreInfo && remainingMoreInfo.length > 0) ||
+                            moreInfoComponent) && (
                             <VStack
                                 width={'100%'}
                                 aria-expanded={isOpen ? 'true' : 'false'}
