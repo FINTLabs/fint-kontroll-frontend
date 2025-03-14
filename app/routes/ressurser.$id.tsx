@@ -25,6 +25,7 @@ import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/Secondary
 import { InfoBox } from '~/components/common/InfoBox';
 import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { ResourceLicenseTable } from '~/components/resource/ResourceLicenseTable';
+import { InfoBoxSmart } from '~/components/common/InfoBoxSmart';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -88,6 +89,53 @@ export default function ResourceById() {
         <section className={'content'}>
             <VStack gap="4">
                 <InfoBox
+                    title={resource.resourceName}
+                    info={[
+                        {
+                            label: 'Applikasjonskategori',
+                            value: resource.applicationCategory.join(', '),
+                        },
+                        { label: 'Ressurstype', value: resource.resourceType },
+                        { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },
+                        {
+                            label: 'Gyldig for',
+                            value:
+                                resource.validForRoles
+                                    .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
+                                    .join(', ') + '.',
+                        },
+                        /*                        ...(resource.validForOrgUnits.length === 1
+                            ? [
+                                  {
+                                      label: `Lisenser for ${resource.validForOrgUnits[0].orgUnitName}`,
+                                      value: resource.validForOrgUnits[0].assignedResources
+                                          ? `${resource.validForOrgUnits[0].assignedResources} er tildelt av ${resource.validForOrgUnits[0].resourceLimit} tilgjengelige.`
+                                          : resource.validForOrgUnits[0].resourceLimit
+                                            ? `${resource.validForOrgUnits[0].resourceLimit} lisenser`
+                                            : '',
+                                  },
+                              ]
+                            : []),*/
+                    ]}
+                    moreInfo={[
+                        {
+                            label: 'KildesystemID',
+                            value: resource.resourceId,
+                        },
+                        {
+                            label: 'Gruppenavn Entra ID',
+                            value: resource.identityProviderGroupName,
+                        },
+                    ]}
+                    /*                    moreInfoComponent={
+                        resource.validForOrgUnits.length > 1 &&
+                        resource.validForOrgUnits.some((unit) => !!unit.resourceLimit) ? (
+                            <ResourceLicenseTable resource={resource} />
+                        ) : undefined
+                    }*/
+                />
+
+                <InfoBoxSmart
                     title={resource.resourceName}
                     info={[
                         {

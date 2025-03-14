@@ -16,6 +16,7 @@ import React from 'react';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 import { InfoBox } from '~/components/common/InfoBox';
+import { InfoBoxSmart } from '~/components/common/InfoBoxSmart';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -71,8 +72,18 @@ export default function Users() {
     return (
         <section className={'content'}>
             <VStack gap="12">
-                {/*<UserInfo user={user} />*/}
                 <InfoBox
+                    title={'Brukerinformasjon'}
+                    info={[
+                        { label: 'Navn', value: user.fullName },
+                        { label: 'Brukernavn', value: user.userName },
+                        { label: 'Organisasjonsenhet', value: user.organisationUnitName },
+                        { label: 'E-post', value: user.email },
+                    ]}
+                    maxColumns={2}
+                />
+
+                <InfoBoxSmart
                     title={'Brukerinformasjon'}
                     info={[
                         { label: 'Navn', value: user.fullName },
