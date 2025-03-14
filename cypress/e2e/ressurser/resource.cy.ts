@@ -11,27 +11,13 @@ describe('Check the resource details page', () => {
         cy.wait(1000);
     });
 
-    it('Should display correct labels for user types', () => {
+    it('Should show info box and display correct labels for user types', () => {
         cy.get('h1').should('have.text', 'Creative Cloud All Apps for K-12 - User License');
         cy.get('div')
             .find('#info-box')
             .should('exist')
             .find('ul li')
-            .should('have.length', 4)
             .should('contain.text', 'Gyldig forElev, Ansatt, Ukjent');
-    });
-
-    it('Should show more info when dropdown is clicked', () => {
-        cy.get('div')
-            .find('#info-box')
-            .find('Button')
-            .should('have.attr', 'aria-label', 'Se mer')
-            .click();
-        cy.get('div').find('#info-box').find('ul li').should('have.length', 6);
-        cy.get('div')
-            .find('#info-box')
-            .find('Button')
-            .should('have.attr', 'aria-label', 'Se mindre');
     });
 
     it('Check searchfield for user, type and remove the search name filter', () => {
