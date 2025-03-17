@@ -5,6 +5,7 @@ import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage, IResourceAssignment } from '~/data/types/resourceTypes';
+import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
 
 interface AssignmentsForRoleTableProps {
     assignmentsForRole: IAssignmentPage;
@@ -46,15 +47,10 @@ export const AssignmentsForRoleTable = ({
                                     : resource.assignerUsername}
                             </Table.DataCell>
                             <Table.DataCell align={'center'}>
-                                <Button
-                                    as={Link}
-                                    className={'button-outlined'}
-                                    variant={'secondary'}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem" />}
-                                    iconPosition={'right'}
-                                    href={`${basePath}${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}>
-                                    Slett
-                                </Button>
+                                <TertiaryDeleteButton
+                                    id={`deleteAssignment-${resource.assignmentRef}`}
+                                    url={`${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     ))}

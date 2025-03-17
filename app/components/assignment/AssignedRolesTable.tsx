@@ -9,6 +9,7 @@ import { useLoadingState } from '~/components/common/customHooks';
 import { getResourceDeleteRoleAssignmentUrl } from '~/data/paths';
 import { loader } from '~/routes/ressurser.$id.gruppe-tildelinger';
 import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles;
@@ -54,19 +55,10 @@ export const AssignedRolesTable: any = (props: {
                                             : role.assignerUsername}
                                     </Table.DataCell>
                                     <Table.DataCell align={'center'}>
-                                        <Button
-                                            as={Link}
-                                            className={'button-outlined'}
-                                            variant={'secondary'}
-                                            icon={
-                                                <TrashIcon title="søppelbøtte" fontSize="1.5rem" />
-                                            }
-                                            iconPosition={'right'}
-                                            href={`${props.basePath}${getResourceDeleteRoleAssignmentUrl(Number(params.id), role.assignmentRef)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
-                                            // href={`${props.basePath}/resources/${params.id}/role-assignments/${role.assignmentRef}/delete?page=${searchParams.get("page") === null ? 0 : searchParams.get("page")}&search=${searchParams.get("search") === null ? "" : searchParams.get("search")}`}
-                                        >
-                                            Slett
-                                        </Button>
+                                        <TertiaryDeleteButton
+                                            id={`deleteAssignment-${role.assignmentRef}`}
+                                            url={`${props.basePath}${getResourceDeleteRoleAssignmentUrl(Number(params.id), role.assignmentRef)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                        />
                                     </Table.DataCell>
                                 </Table.Row>
                             ))

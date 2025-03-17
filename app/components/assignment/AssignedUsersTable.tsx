@@ -65,11 +65,11 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                             : user.assignmentViaRoleName}
                                     </Table.DataCell>
                                     <Table.DataCell align={'center'}>
-                                        {DeleteButtonOrTagComponent(
-                                            user.directAssignment,
-                                            user.deletableAssignment,
-                                            `${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`
-                                        )}
+                                        <DeleteButtonOrTagComponent
+                                            directAssignment={user.directAssignment}
+                                            deletableAssignment={user.deletableAssignment}
+                                            href={`${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                        />
                                     </Table.DataCell>
                                 </Table.Row>
                             ))
