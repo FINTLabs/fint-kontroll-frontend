@@ -7,9 +7,15 @@ type SeeInfoButtonProps = {
     id: string;
     url: string;
     title?: string;
+    size?: 'small' | 'medium' | 'xsmall';
 };
 
-export const TertiaryArrowButton = ({ id, url, title = 'Se info' }: SeeInfoButtonProps) => {
+export const TertiaryArrowButton = ({
+    id,
+    url,
+    title = 'Se info',
+    size = 'small',
+}: SeeInfoButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation();
     const isLoading = useMemo(
@@ -26,7 +32,8 @@ export const TertiaryArrowButton = ({ id, url, title = 'Se info' }: SeeInfoButto
             onClick={() => navigate(url)}
             variant={'tertiary'}
             role="link"
-            loading={isLoading}>
+            loading={isLoading}
+            size={size}>
             {title}
         </Button>
     );
