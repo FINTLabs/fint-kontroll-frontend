@@ -54,7 +54,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function ServiceAdminIndex() {
-    const { resourceList, size, basePath, responseCode, applicationCategories, source } =
+    const { resourceList, size, responseCode, applicationCategories, source } =
         useLoaderData<typeof loader>();
 
     const navigate = useNavigate();
@@ -85,12 +85,7 @@ export default function ServiceAdminIndex() {
                 successText={'Ressursen ble opprettet!'}
                 deleteText={'Ressursen ble slettet!'}
             />
-            <ServiceAdminTable
-                resourcePage={resourceList}
-                size={size}
-                basePath={basePath}
-                source={source}
-            />
+            <ServiceAdminTable resourcePage={resourceList} size={size} source={source} />
         </VStack>
     );
 }

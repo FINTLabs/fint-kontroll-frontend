@@ -1,5 +1,5 @@
-import { Button, Dropdown, HStack, Link, Table } from '@navikt/ds-react';
-import { FunnelIcon, MinusIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Box, Button, Dropdown, HStack, Link, Table } from '@navikt/ds-react';
+import { FunnelFillIcon, FunnelIcon, MinusIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Outlet, useSearchParams } from '@remix-run/react';
 import React from 'react';
 import { prepareQueryParams } from '~/components/common/CommonFunctions';
@@ -10,15 +10,15 @@ import { useLoadingState } from '~/components/common/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { getDeleteResourceUrl, getResourceByIdUrl } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';
+import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList;
     size: string;
-    basePath?: string;
     source?: string;
 }
 
-export const ServiceAdminTable = ({ resourcePage, size, basePath, source }: ResourceTableProps) => {
+export const ServiceAdminTable = ({ resourcePage, size, source }: ResourceTableProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { fetching } = useLoadingState();
 
@@ -41,37 +41,43 @@ export const ServiceAdminTable = ({ resourcePage, size, basePath, source }: Reso
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Applikasjonskategori</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align="left">
+                        <Table.HeaderCell scope="col" align="center">
                             <Dropdown>
-                                <HStack align={'center'}>
+                                <HStack justify={'center'} align={'center'}>
                                     Status
                                     <Button
                                         as={Dropdown.Toggle}
-                                        icon={<FunnelIcon title="Filter" fontSize="1.4rem" />}
-                                        size="small"
+                                        icon={
+                                            searchParams.get('status') === null ? (
+                                                <FunnelIcon title="Filter" fontSize="1.4rem" />
+                                            ) : (
+                                                <FunnelFillIcon title="Filter" fontSize="1.4rem" />
+                                            )
+                                        }
+                                        size="xsmall"
                                         variant="tertiary"
                                     />
                                 </HStack>
-                                <Dropdown.Menu>
-                                    <Dropdown.Menu.GroupedList>
-                                        <Dropdown.Menu.GroupedList.Item
+                                <Dropdown.Menu placement={'bottom'}>
+                                    <Dropdown.Menu.List>
+                                        <Dropdown.Menu.List.Item
                                             onClick={(e) => setStatusFilter('')}>
                                             Alle
-                                        </Dropdown.Menu.GroupedList.Item>
+                                        </Dropdown.Menu.List.Item>
 
-                                        <Dropdown.Menu.GroupedList.Item
+                                        <Dropdown.Menu.List.Item
                                             onClick={(e) => setStatusFilter('ACTIVE')}>
                                             Aktiv
-                                        </Dropdown.Menu.GroupedList.Item>
-                                        <Dropdown.Menu.GroupedList.Item
+                                        </Dropdown.Menu.List.Item>
+                                        <Dropdown.Menu.List.Item
                                             onClick={(e) => setStatusFilter('DISABLED')}>
                                             Deaktivert
-                                        </Dropdown.Menu.GroupedList.Item>
-                                        <Dropdown.Menu.GroupedList.Item
+                                        </Dropdown.Menu.List.Item>
+                                        <Dropdown.Menu.List.Item
                                             onClick={(e) => setStatusFilter('DELETED')}>
                                             Slettet
-                                        </Dropdown.Menu.GroupedList.Item>
-                                    </Dropdown.Menu.GroupedList>
+                                        </Dropdown.Menu.List.Item>
+                                    </Dropdown.Menu.List>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Table.HeaderCell>
@@ -95,25 +101,18 @@ export const ServiceAdminTable = ({ resourcePage, size, basePath, source }: Reso
                                 <Table.DataCell>
                                     {resource.applicationCategory?.filter(Boolean).join(', ')}
                                 </Table.DataCell>
-                                <Table.DataCell>
+                                <Table.DataCell align={'center'}>
                                     {<StatusTag status={resource.status} />}
                                 </Table.DataCell>
                                 {source === 'gui' && (
                                     <Table.DataCell align={'center'}>
                                         {resource.status === 'DELETED' ? (
-                                            <MinusIcon title="a11y-title" fontSize="1.5rem" />
+                                            <Box asChild width={'100%'}>
+                                                <MinusIcon title="a11y-title" fontSize="1.5rem" />
+                                            </Box>
                                         ) : (
-                                            <Button
-                                                as={Link}
-                                                className="delete-icon-button"
-                                                variant={'tertiary'}
-                                                icon={
-                                                    <TrashIcon
-                                                        title="søppelbøtte"
-                                                        fontSize="1.5rem"
-                                                    />
-                                                }
-                                                href={`${basePath}${getDeleteResourceUrl(resource.id)}${prepareQueryParams(searchParams)}`}
+                                            <TertiaryDeleteButton
+                                                url={`${getDeleteResourceUrl(resource.id)}${prepareQueryParams(searchParams)}`}
                                             />
                                         )}
                                     </Table.DataCell>
