@@ -10,16 +10,16 @@ export const TjenesteadminSection = ({
     menuItems: IMenuItem[];
     basePath: string;
 }) => {
-    if (
-        !menuItems.some((item) =>
-            [SERVICE_ADMIN, SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE].includes(item.url)
-        )
-    ) {
-        return null;
-    }
+    const hasServiceAdminAccess = menuItems.some((item) => item.url === SERVICE_ADMIN);
+    const hasCreateNewResourceAccess = menuItems.some(
+        (item) => item.url === SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE
+    );
+
+    if (!hasServiceAdminAccess && !hasCreateNewResourceAccess) return null;
+
     return (
         <LinkCardGrid color={'var(--beige-60)'} title={'Ressursadministrasjon'}>
-            {menuItems.some((item) => item.url === SERVICE_ADMIN) && (
+            {hasServiceAdminAccess && (
                 <LinkCard
                     title={'Ressursadministrasjon'}
                     description={'Se en oversikt over alle ressurser i systemet.'}
@@ -28,9 +28,7 @@ export const TjenesteadminSection = ({
                     colorProfile={'blue'}
                 />
             )}
-            {menuItems.some(
-                (item) => item.url === SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE
-            ) && (
+            {hasCreateNewResourceAccess && (
                 <LinkCard
                     title={'Ny ressurs'}
                     description={'Opprett en ny ressurs'}

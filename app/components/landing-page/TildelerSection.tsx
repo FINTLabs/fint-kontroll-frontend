@@ -10,12 +10,15 @@ export const TildelerSection = ({
     menuItems: IMenuItem[];
     basePath: string;
 }) => {
-    if (!menuItems.some((item) => [USERS, ROLES, RESOURCES].includes(item.url))) {
-        return null;
-    }
+    const hasUsersAccess = menuItems.some((item) => item.url === USERS);
+    const hasRolesAccess = menuItems.some((item) => item.url === ROLES);
+    const hasResourcesAccess = menuItems.some((item) => item.url === RESOURCES);
+
+    if (!hasUsersAccess && !hasRolesAccess && !hasResourcesAccess) return null;
+
     return (
         <LinkCardGrid color={'var(--beige-60)'} title={'Tilgansstyring'}>
-            {menuItems.some((item) => item.url === `${USERS}`) && (
+            {hasUsersAccess && (
                 <LinkCard
                     title={'Administrer brukertildelinger'}
                     description={
@@ -26,7 +29,7 @@ export const TildelerSection = ({
                     colorProfile={'blue'}
                 />
             )}
-            {menuItems.some((item) => item.url === `${ROLES}`) && (
+            {hasRolesAccess && (
                 <LinkCard
                     title={'Administrer gruppetildelinger'}
                     description={
@@ -37,7 +40,7 @@ export const TildelerSection = ({
                     colorProfile={'blue'}
                 />
             )}
-            {menuItems.some((item) => item.url === `${RESOURCES}`) && (
+            {hasResourcesAccess && (
                 <LinkCard
                     title={'Gi eller endre tilgang til en ressurs'}
                     description={

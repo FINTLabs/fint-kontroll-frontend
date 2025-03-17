@@ -37,8 +37,8 @@ export default function Index() {
                 </HStack>
             </Bleed>
             <VStack gap="4">
-                {/*<TildelerSection basePath={basePath} menuItems={menuItems} />*/}
-                {/*<RessursadminSection basePath={basePath} menuItems={menuItems} />*/}
+                <TildelerSection basePath={basePath} menuItems={menuItems} />
+                <RessursadminSection basePath={basePath} menuItems={menuItems} />
                 <TjenesteadminSection basePath={basePath} menuItems={menuItems} />
             </VStack>
         </section>

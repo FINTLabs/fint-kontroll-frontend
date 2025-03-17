@@ -10,16 +10,16 @@ export const RessursadminSection = ({
     menuItems: IMenuItem[];
     basePath: string;
 }) => {
-    if (
-        !menuItems.some((item) =>
-            [RESOURCE_ADMIN, RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT].includes(item.url)
-        )
-    ) {
-        return null;
-    }
+    const hasResourceAdminAccess = menuItems.some((item) => item.url === RESOURCE_ADMIN);
+    const hasRoleAssignmentAccess = menuItems.some(
+        (item) => item.url === RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT
+    );
+
+    if (!hasResourceAdminAccess && !hasRoleAssignmentAccess) return null;
+
     return (
         <LinkCardGrid color={'var(--beige-60)'} title={'Roller og rettigheter'}>
-            {menuItems.some((item) => item.url === `${RESOURCE_ADMIN}`) && (
+            {hasResourceAdminAccess && (
                 <LinkCard
                     title={'Administrer brukere med rolletilknytning'}
                     description={'Se en oversikt over alle brukere med rolletilknytning.'}
@@ -28,7 +28,7 @@ export const RessursadminSection = ({
                     colorProfile={'blue'}
                 />
             )}
-            {menuItems.some((item) => item.url === `${RESOURCE_ADMIN_CREATE_ROLE_ASSIGNMENT}`) && (
+            {hasRoleAssignmentAccess && (
                 <LinkCard
                     title={'Tildel rettigheter'}
                     description={'Tildel en rolle til en bruker.'}
