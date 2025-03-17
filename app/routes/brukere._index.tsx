@@ -24,7 +24,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchUsers(request, size, page, search, [userType], orgUnits),
         fetchAllOrgUnits(request),
         fetchUserTypes(request),
-        postMyAccessRequest(request, [{ url: '/api/users/123', method: 'GET' }]),
+        postMyAccessRequest(request, [
+            { url: '/api/users/123', method: 'GET' },
+            { url: '/api/assignments/v2/user/123/resources', method: 'GET' },
+        ]),
     ]);
 
     return json({
@@ -32,14 +35,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
-        hasAccesToUserDetails: access[0].access,
+        hasAccessToUserDetails: access.every((a) => a.access),
     });
 }
 
 export default function UsersIndex() {
-    const { orgUnitList, userTypesKodeverk, hasAccesToUserDetails } =
-        useLoaderData<typeof loader>();
-    console.log('access', hasAccesToUserDetails);
+    const { orgUnitList, userTypesKodeverk } = useLoaderData<typeof loader>();
     return (
         <div className={'content'}>
             <TableHeaderLayout

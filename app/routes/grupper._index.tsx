@@ -12,6 +12,7 @@ import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderL
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { postMyAccessRequest } from '~/data/fetch-me-info';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<
     Omit<Response, 'json'> & {
@@ -23,10 +24,15 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
     const page = url.searchParams.get('page') ?? '0';
     const search = url.searchParams.get('search') ?? '';
     const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
-    const [roleList, responseOrgUnits, userTypesKodeverk] = await Promise.all([
+    const [roleList, responseOrgUnits, userTypesKodeverk, access] = await Promise.all([
         fetchRoles(request, size, page, search, orgUnits),
         fetchAllOrgUnits(request),
         fetchUserTypes(request),
+        postMyAccessRequest(request, [
+            { url: '/api/roles/123', method: 'GET' },
+            { url: '/api/roles/123/members', method: 'GET' },
+            { url: '/api/assignments/role/123/resources', method: 'GET' },
+        ]),
     ]);
 
     return json({
@@ -34,6 +40,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
+        hasAccessToGroupDetails: access.every((a) => a.access),
     });
 }
 

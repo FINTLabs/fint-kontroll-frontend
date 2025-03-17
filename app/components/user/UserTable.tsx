@@ -15,7 +15,7 @@ export const UserTable = () => {
         userList: userPage,
         size,
         userTypesKodeverk,
-        hasAccesToUserDetails,
+        hasAccessToUserDetails,
     } = useLoaderData<typeof loader>();
     const { fetching } = useLoadingState();
 
@@ -27,7 +27,9 @@ export const UserTable = () => {
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
-                        {hasAccesToUserDetails && <Table.HeaderCell scope="col"></Table.HeaderCell>}
+                        {hasAccessToUserDetails && (
+                            <Table.HeaderCell scope="col"></Table.HeaderCell>
+                        )}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -43,7 +45,7 @@ export const UserTable = () => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(user.userType, userTypesKodeverk)}
                                 </Table.DataCell>
-                                {hasAccesToUserDetails && (
+                                {hasAccessToUserDetails && (
                                     <Table.DataCell align="right">
                                         <TertiaryArrowButton
                                             id={`userInfoButton-${user.id}`}
