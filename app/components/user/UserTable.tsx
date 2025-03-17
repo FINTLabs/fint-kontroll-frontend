@@ -11,7 +11,12 @@ import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { getUserByIdUrl } from '~/data/paths';
 
 export const UserTable = () => {
-    const { userList: userPage, size, userTypesKodeverk } = useLoaderData<typeof loader>();
+    const {
+        userList: userPage,
+        size,
+        userTypesKodeverk,
+        hasAccesToUserDetails,
+    } = useLoaderData<typeof loader>();
     const { fetching } = useLoadingState();
 
     return (
@@ -22,7 +27,7 @@ export const UserTable = () => {
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col"></Table.HeaderCell>
+                        {hasAccesToUserDetails && <Table.HeaderCell scope="col"></Table.HeaderCell>}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -38,12 +43,14 @@ export const UserTable = () => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(user.userType, userTypesKodeverk)}
                                 </Table.DataCell>
-                                <Table.DataCell align="right">
-                                    <TertiaryArrowButton
-                                        id={`userInfoButton-${user.id}`}
-                                        url={getUserByIdUrl(user.id, user.organisationUnitId)}
-                                    />
-                                </Table.DataCell>
+                                {hasAccesToUserDetails && (
+                                    <Table.DataCell align="right">
+                                        <TertiaryArrowButton
+                                            id={`userInfoButton-${user.id}`}
+                                            url={getUserByIdUrl(user.id, user.organisationUnitId)}
+                                        />
+                                    </Table.DataCell>
+                                )}
                             </Table.Row>
                         ))
                     )}
