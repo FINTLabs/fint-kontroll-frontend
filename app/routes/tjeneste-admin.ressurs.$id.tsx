@@ -1,5 +1,5 @@
 import styles from '../components/resource/resource.css?url';
-import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 import { Link as RemixLink, useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -12,7 +12,6 @@ import {
     fetchResourceDataSource,
     fetchUserTypes,
 } from '~/data/fetch-kodeverk';
-import { ResourceInfoBox } from '~/components/common/ResourceInfoBox';
 import React from 'react';
 import {
     getEditResourceUrl,
@@ -23,6 +22,11 @@ import {
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
+import {
+    translateLicenseEnforcementToLabel,
+    translateUserTypeToLabel,
+} from '~/components/common/CommonFunctions';
+import { InfoBox } from '~/components/common/InfoBox';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -94,11 +98,56 @@ export default function ResourceById() {
                         deleteText={'Ressursen ble slettet!'}
                     />
 
-                    <ResourceInfoBox
-                        resource={resource}
-                        userTypeKodeverk={userTypesKodeverk}
-                        isAdmin={true}
-                        licenseEnforcementKodeverk={licenseEnforcementKodeverk}
+                    <InfoBox
+                        title={resource.resourceName}
+                        tagText={resource.status}
+                        info={[
+                            {
+                                label: 'Applikasjonskategori',
+                                value: resource.applicationCategory.join(', '),
+                            },
+                            {
+                                label: 'Ressurstype',
+                                value: resource.resourceType,
+                            },
+                            {
+                                label: 'Ressurseier',
+                                value: resource.resourceOwnerOrgUnitName,
+                            },
+                            {
+                                label: 'Gyldig for',
+                                value: resource.validForRoles
+                                    .map((role) =>
+                                        translateUserTypeToLabel(role, userTypesKodeverk)
+                                    )
+                                    .join(', '),
+                            },
+                            {
+                                label: 'Totalt antall lisenser',
+                                value: resource.resourceLimit?.toLocaleString(),
+                            },
+                            {
+                                label: 'Kostnad pr. ressurs',
+                                value: resource.unitCost?.toString(),
+                            },
+                            {
+                                label: 'Håndhevingsregel',
+                                value: translateLicenseEnforcementToLabel(
+                                    resource.licenseEnforcement,
+                                    licenseEnforcementKodeverk
+                                ),
+                            },
+                        ]}
+                        moreInfo={[
+                            {
+                                label: 'KildesystemID',
+                                value: resource.resourceId,
+                            },
+                            {
+                                label: 'Gruppenavn Entra ID',
+                                value: resource.identityProviderGroupName,
+                            },
+                        ]}
                     />
                 </VStack>
 

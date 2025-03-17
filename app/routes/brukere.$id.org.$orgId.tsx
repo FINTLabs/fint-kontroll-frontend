@@ -1,19 +1,21 @@
 import styles from '../components/user/user.css?url';
-import { Box, Heading, HStack, LinkPanel, VStack } from '@navikt/ds-react';
-import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
+import { HStack, VStack } from '@navikt/ds-react';
+import { Link, useLoaderData, useNavigate, useParams, useRouteError } from '@remix-run/react';
 import { fetchUserById } from '~/data/fetch-users';
 import { json } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignmentsForUser } from '~/data/fetch-assignments';
 import { AssignmentsForUserTable } from '~/components/user/AssignmentsForUserTable';
 import { BASE_PATH } from '../../environment';
-import { UserInfo } from '~/components/user/UserInfo';
 import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { getUserByIdUrl, getUserNewAssignmentUrl, USERS } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
+import { TableHeader } from '~/components/common/Table/Header/TableHeader';
+import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
+import { InfoBox } from '~/components/common/InfoBox';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -63,27 +65,36 @@ export default function Users() {
         basePath,
         responseCode,
     } = useLoaderData<typeof loader>();
-
+    const navigate = useNavigate();
     const params = useParams();
 
     return (
         <section className={'content'}>
-            <VStack gap="8">
-                <VStack gap="4">
-                    <UserInfo user={user} />
-                    <Box className={'filters'} paddingBlock={'8'}>
-                        <LinkPanel
-                            href={`${basePath}${getUserNewAssignmentUrl(user.id, params.orgId)}`}
-                            border>
-                            <LinkPanel.Title>Ny tildeling</LinkPanel.Title>
-                        </LinkPanel>
-                    </Box>
-                </VStack>
+            <VStack gap="12">
+                <InfoBox
+                    title={'Brukerinformasjon'}
+                    info={[
+                        { label: 'Navn', value: user.fullName },
+                        { label: 'Brukernavn', value: user.userName },
+                        { label: 'Organisasjonsenhet', value: user.organisationUnitName },
+                        { label: 'E-post', value: user.email },
+                    ]}
+                    maxColumns={2}
+                />
 
                 <VStack gap="8">
-                    <Heading className={'heading'} level="2" size="large">
-                        Brukeren er tildelt følgende ressurser:
-                    </Heading>
+                    <TableHeader
+                        isSubHeader={true}
+                        title={'Brukeren er tildelt følgende ressurser'}
+                        HeaderButton={
+                            <SecondaryAddNewLinkButton
+                                label="Ny tildeling"
+                                handleOnClick={() =>
+                                    navigate(`${getUserNewAssignmentUrl(user.id, params.orgId)}`)
+                                }
+                            />
+                        }
+                    />
                     <ResponseAlert
                         responseCode={responseCode}
                         successText={'Tildelingen var vellykket!'}
