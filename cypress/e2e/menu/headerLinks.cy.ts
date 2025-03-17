@@ -1,4 +1,4 @@
-describe('Go from user table to main page from header', () => {
+describe('Check header links', () => {
     it('Go to home and navigate to Brukere and back again', () => {
         cy.goToHome();
         cy.wait(1000);
@@ -6,7 +6,7 @@ describe('Go from user table to main page from header', () => {
         cy.get('#dropdown-button').should('be.visible');
 
         cy.get('#dropdown-button').click();
-        cy.get('#users').click();
+        cy.get('div[role="menuitem"]').contains('Brukere').click();
         cy.wait(1000);
 
         cy.get('#header-logo').click();
