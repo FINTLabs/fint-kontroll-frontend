@@ -40,7 +40,7 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const { assignments, size, basePath, responseCode } = useLoaderData<typeof loader>();
+    const { assignments, size, responseCode } = useLoaderData<typeof loader>();
 
     return (
         <section>
@@ -53,11 +53,7 @@ export default function AssignmentsForRole() {
                             deleteText={'Tildelingen ble slettet!'}
                         />
 
-                        <AssignmentsForRoleTable
-                            assignmentsForRole={assignments}
-                            size={size}
-                            basePath={basePath}
-                        />
+                        <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} />
                     </Tabs.Panel>
                 </VStack>
             </Tabs>

@@ -1,6 +1,5 @@
-import { Button, Link, Table } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import { Outlet, useParams, useSearchParams } from '@remix-run/react';
-import { TrashIcon } from '@navikt/aksel-icons';
 import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
@@ -10,13 +9,11 @@ import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDelete
 interface AssignmentsForRoleTableProps {
     assignmentsForRole: IAssignmentPage;
     size: string;
-    basePath?: string;
 }
 
 export const AssignmentsForRoleTable = ({
     assignmentsForRole,
     size,
-    basePath,
 }: AssignmentsForRoleTableProps) => {
     const [searchParams] = useSearchParams();
     const params = useParams();
