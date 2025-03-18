@@ -2,13 +2,14 @@ import { Table, VStack } from '@navikt/ds-react';
 import type { IAssignedUsers } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useParams, useSearchParams } from '@remix-run/react';
-import { prepareQueryParams, translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { loader } from '~/routes/ressurser.$id.bruker-tildelinger';
 import { getResourceDeleteUserAssignmentUrl } from '~/data/paths';
 import { DeleteButtonOrTagComponent } from '~/components/common/DeleteButtonOrTagComponent';
+import { translateUserTypeToLabel } from '~/utils/translators';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers;

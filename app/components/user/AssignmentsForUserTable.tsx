@@ -1,13 +1,13 @@
 import { Table } from '@navikt/ds-react';
 import { Outlet, useParams, useSearchParams } from '@remix-run/react';
 import React from 'react';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { getDeleteUserAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage } from '~/data/types/resourceTypes';
 import { DeleteButtonOrTagComponent } from '~/components/common/DeleteButtonOrTagComponent';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage;

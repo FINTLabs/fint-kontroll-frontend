@@ -1,12 +1,12 @@
 import { Search as AkselSearch } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { Form, useSearchParams } from '@remix-run/react';
+import { useLoadingState } from '~/components/common/customHooks';
 import {
     filterResetPageParam,
     handleClearSearchFieldString,
     handleSearchFieldString,
-} from '~/components/common/CommonFunctions';
-import { useLoadingState } from '~/components/common/customHooks';
+} from '~/utils/searchParamsHelpers';
 
 type SearchInputProps = {
     label: string;

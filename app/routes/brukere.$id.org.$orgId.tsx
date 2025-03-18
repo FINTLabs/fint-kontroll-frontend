@@ -7,7 +7,6 @@ import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignmentsForUser } from '~/data/fetch-assignments';
 import { AssignmentsForUserTable } from '~/components/user/AssignmentsForUserTable';
 import { BASE_PATH } from '../../environment';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { getUserByIdUrl, getUserNewAssignmentUrl, USERS } from '~/data/paths';
@@ -16,6 +15,7 @@ import React from 'react';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 import { InfoBox } from '~/components/common/InfoBox';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];

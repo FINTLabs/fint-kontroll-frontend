@@ -7,7 +7,6 @@ import { AssignRoleTable } from '~/components/assignment/NewAssignmentRoleTable'
 import { fetchRoles } from '~/data/fetch-roles';
 import { fetchAssignedRoles } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { RoleSearch } from '~/components/role/RoleSearch';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { fetchResourceById } from '~/data/fetch-resources';
@@ -16,6 +15,7 @@ import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 type LoaderData = {
     roleList: IRoleList;

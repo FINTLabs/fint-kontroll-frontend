@@ -2,12 +2,12 @@ import { Button, Link, Table, Tag } from '@navikt/ds-react';
 import React from 'react';
 import { Outlet, useSearchParams } from '@remix-run/react';
 import { PlusIcon } from '@navikt/aksel-icons';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { getConfirmRoleAssignmentUrl } from '~/data/paths';
 import { IResourceForList } from '~/data/types/resourceTypes';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[];

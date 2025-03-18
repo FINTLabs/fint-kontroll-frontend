@@ -5,7 +5,8 @@ import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/grupper.$id.medlemmer';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const MemberTable = () => {
     const { members: memberPage, size, userTypesKodeverk } = useLoaderData<typeof loader>();

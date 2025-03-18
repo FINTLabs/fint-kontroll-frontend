@@ -8,7 +8,8 @@ import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowBu
 import { getRoleMembersUrl } from '~/data/paths';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/grupper._index';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 interface RoleTableProps {
     rolePage: IRoleList;

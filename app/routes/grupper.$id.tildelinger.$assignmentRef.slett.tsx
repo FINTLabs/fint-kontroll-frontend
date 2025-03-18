@@ -4,11 +4,11 @@ import { Form, useNavigate, useNavigation, useParams, useSearchParams } from '@r
 import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { deleteAssignment } from '~/data/fetch-assignments';
+import { getRoleAssignmentsUrl } from '~/data/paths';
 import {
     prepareQueryParams,
     prepareQueryParamsWithResponseCode,
-} from '~/components/common/CommonFunctions';
-import { getRoleAssignmentsUrl } from '~/data/paths';
+} from '~/utils/searchParamsHelpers';
 
 export async function action({ params, request }: ActionFunctionArgs) {
     const { searchParams } = new URL(request.url);

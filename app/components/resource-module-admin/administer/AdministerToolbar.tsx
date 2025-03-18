@@ -1,7 +1,8 @@
 import { HStack, Search, Select } from '@navikt/ds-react';
 import { useState } from 'react';
 import { useSearchParams } from '@remix-run/react';
-import { filterResetPageParam } from '~/components/common/CommonFunctions';
+
+import { filterResetPageParam } from '~/utils/searchParamsHelpers';
 
 interface ToolbarProps {
     objectTypesForUser: string[];

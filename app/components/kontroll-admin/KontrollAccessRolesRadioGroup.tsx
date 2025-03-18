@@ -1,8 +1,8 @@
 import { Radio, RadioGroup, VStack } from '@navikt/ds-react';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from '@remix-run/react';
-import { sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
 import { IAccessRole } from '~/data/types/userTypes';
+import { sortAndCapitalizeRoles } from '~/utils/translators';
 
 interface AccessRolesRadioGroupProps {
     roles: IAccessRole[];

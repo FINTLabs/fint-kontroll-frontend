@@ -7,8 +7,8 @@ import { useLoadingState } from '~/components/common/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/brukere._index';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { getUserByIdUrl } from '~/data/paths';
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const UserTable = () => {
     const {

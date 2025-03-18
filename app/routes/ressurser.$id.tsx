@@ -22,9 +22,9 @@ import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { ResourceLicenseTable } from '~/components/resource/ResourceLicenseTable';
 import { InfoBox } from '~/components/common/InfoBox';
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];

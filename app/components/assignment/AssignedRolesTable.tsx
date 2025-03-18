@@ -8,8 +8,8 @@ import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/components/common/customHooks';
 import { getResourceDeleteRoleAssignmentUrl } from '~/data/paths';
 import { loader } from '~/routes/ressurser.$id.gruppe-tildelinger';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const AssignedRolesTable: any = (props: {
     assignedRoles: IAssignedRoles;

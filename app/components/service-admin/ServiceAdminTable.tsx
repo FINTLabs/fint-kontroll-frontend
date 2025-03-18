@@ -2,7 +2,6 @@ import { Box, Button, Dropdown, HStack, Link, Table } from '@navikt/ds-react';
 import { FunnelFillIcon, FunnelIcon, MinusIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Outlet, useSearchParams } from '@remix-run/react';
 import React from 'react';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { StatusTag } from '~/components/service-admin/StatusTag';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
@@ -11,6 +10,7 @@ import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowBu
 import { getDeleteResourceUrl, getResourceByIdUrl } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';
 import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface ResourceTableProps {
     resourcePage: IResourceAdminList;
@@ -42,53 +42,12 @@ export const ServiceAdminTable = ({ resourcePage, size, source }: ResourceTableP
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Applikasjonskategori</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align="center">
-                            <Dropdown>
-                                <HStack justify={'center'} align={'center'}>
-                                    Status
-                                    <Button
-                                        as={Dropdown.Toggle}
-                                        icon={
-                                            searchParams.get('status') === null ? (
-                                                <FunnelIcon title="Filter" fontSize="1.4rem" />
-                                            ) : (
-                                                <FunnelFillIcon title="Filter" fontSize="1.4rem" />
-                                            )
-                                        }
-                                        size="xsmall"
-                                        variant="tertiary"
-                                    />
-                                </HStack>
-                                <Dropdown.Menu placement={'bottom'}>
-                                    <Dropdown.Menu.List>
-                                        <Dropdown.Menu.List.Item
-                                            onClick={(e) => setStatusFilter('')}>
-                                            Alle
-                                        </Dropdown.Menu.List.Item>
-
-                                        <Dropdown.Menu.List.Item
-                                            onClick={(e) => setStatusFilter('ACTIVE')}>
-                                            Aktiv
-                                        </Dropdown.Menu.List.Item>
-                                        <Dropdown.Menu.List.Item
-                                            onClick={(e) => setStatusFilter('DISABLED')}>
-                                            Deaktivert
-                                        </Dropdown.Menu.List.Item>
-                                        <Dropdown.Menu.List.Item
-                                            onClick={(e) => setStatusFilter('DELETED')}>
-                                            Slettet
-                                        </Dropdown.Menu.List.Item>
-                                    </Dropdown.Menu.List>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                            Status
                         </Table.HeaderCell>
                         {source === 'gui' && (
-                            <Table.HeaderCell align={'center'} scope="col">
-                                Slett
-                            </Table.HeaderCell>
+                            <Table.HeaderCell align={'right'} scope="col"></Table.HeaderCell>
                         )}
-                        <Table.HeaderCell scope="col" align="right">
-                            Se mer informasjon
-                        </Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align="right"></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -105,7 +64,7 @@ export const ServiceAdminTable = ({ resourcePage, size, source }: ResourceTableP
                                     {<StatusTag status={resource.status} />}
                                 </Table.DataCell>
                                 {source === 'gui' && (
-                                    <Table.DataCell align={'center'}>
+                                    <Table.DataCell align={'right'}>
                                         {resource.status === 'DELETED' ? (
                                             <Box asChild width={'100%'}>
                                                 <MinusIcon title="a11y-title" fontSize="1.5rem" />

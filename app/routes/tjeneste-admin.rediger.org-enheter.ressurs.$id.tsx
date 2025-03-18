@@ -15,11 +15,11 @@ import { IApplicationResource, IValidForOrgUnits } from '~/components/service-ad
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { fetchAllOrgUnits, fetchResourceById, updateResource } from '~/data/fetch-resources';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { prepareQueryParamsWithResponseCode } from '~/components/common/CommonFunctions';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
+import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
 
 export const handle = {
     // @ts-ignore

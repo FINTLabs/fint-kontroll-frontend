@@ -5,13 +5,13 @@ import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { ResourceTable } from '~/components/resource/ResourceTable';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
 import styles from '../components/org-unit-filter/orgUnitFilter.css?url';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
-import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
+import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 import { postMyAccessRequest } from '~/data/fetch-me-info';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -57,9 +57,7 @@ export default function Resource() {
                 orgUnitsForFilter={orgUnitList}
                 SearchComponent={<ResourceSearch />}
                 FilterComponents={
-                    <ResourceSelectApplicationCategory
-                        applicationCategories={applicationCategories}
-                    />
+                    <FilterByApplicationCategory applicationCategories={applicationCategories} />
                 }
             />
             <ResourceTable

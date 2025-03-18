@@ -6,12 +6,12 @@ import { fetchUsers } from '~/data/fetch-users';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { postMyAccessRequest } from '~/data/fetch-me-info';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);

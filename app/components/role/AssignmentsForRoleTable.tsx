@@ -1,10 +1,10 @@
 import { Table } from '@navikt/ds-react';
 import { Outlet, useParams, useSearchParams } from '@remix-run/react';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage, IResourceAssignment } from '~/data/types/resourceTypes';
 import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignmentsForRoleTableProps {
     assignmentsForRole: IAssignmentPage;

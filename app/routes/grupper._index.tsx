@@ -7,12 +7,12 @@ import { fetchRoles } from '~/data/fetch-roles';
 import { RoleTable } from '~/components/role/RoleTable';
 import { RoleSearch } from '~/components/role/RoleSearch';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { postMyAccessRequest } from '~/data/fetch-me-info';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<
     Omit<Response, 'json'> & {

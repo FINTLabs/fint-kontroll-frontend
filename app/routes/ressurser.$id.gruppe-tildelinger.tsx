@@ -10,12 +10,12 @@ import { Tabs, VStack } from '@navikt/ds-react';
 import { BASE_PATH } from '../../environment';
 import React from 'react';
 import { fetchResourceById } from '~/data/fetch-resources';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { RoleSearch } from '~/components/role/RoleSearch';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
