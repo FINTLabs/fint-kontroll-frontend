@@ -33,7 +33,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         postMyAccessRequest(request, [
             { url: '/api/resources/123', method: 'GET' },
             { url: '/api/assignments/v2/resource/123/users', method: 'GET' },
-            { url: '/api/assignments/resource/123/roles?', method: 'GET' },
+            { url: '/api/assignments/resource/123/roles', method: 'GET' },
         ]),
     ]);
 
