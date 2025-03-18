@@ -17,7 +17,7 @@ import { BASE_PATH } from '../../environment';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';

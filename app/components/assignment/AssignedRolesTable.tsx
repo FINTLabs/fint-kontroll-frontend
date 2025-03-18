@@ -5,7 +5,7 @@ import { Outlet, useLoaderData, useParams, useSearchParams } from '@remix-run/re
 import { TrashIcon } from '@navikt/aksel-icons';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getResourceDeleteRoleAssignmentUrl } from '~/data/paths';
 import { loader } from '~/routes/ressurser.$id.gruppe-tildelinger';
 import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';

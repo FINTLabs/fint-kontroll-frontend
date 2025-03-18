@@ -2,7 +2,7 @@ import { Table } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
 import { IResourceList } from '~/data/types/resourceTypes';

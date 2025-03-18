@@ -4,7 +4,7 @@ import { Outlet, useLoaderData, useSearchParams } from '@remix-run/react';
 import { PlusIcon } from '@navikt/aksel-icons';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { loader } from '~/routes/ressurs.$id.ny-tildeling.brukere';
 import { getResourceConfirmUserAssignmentUrl } from '~/data/paths';
 import { translateUserTypeToLabel } from '~/utils/translators';

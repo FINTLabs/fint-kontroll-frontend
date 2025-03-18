@@ -1,7 +1,7 @@
 import { Search as AkselSearch } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { Form, useSearchParams } from '@remix-run/react';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import {
     filterResetPageParam,
     handleClearSearchFieldString,

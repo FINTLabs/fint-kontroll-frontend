@@ -5,7 +5,7 @@ import React from 'react';
 import { StatusTag } from '~/components/service-admin/StatusTag';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { getDeleteResourceUrl, getResourceByIdUrl } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';

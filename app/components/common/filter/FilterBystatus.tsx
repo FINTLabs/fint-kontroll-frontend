@@ -1,5 +1,5 @@
 import { useSearchParams } from '@remix-run/react';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { Select } from '@navikt/ds-react';
 
 export const FilterByStatus = () => {
