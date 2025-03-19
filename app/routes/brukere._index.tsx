@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
-        hasAccessToUserDetails: access.every((a) => a.access),
+        hasAccessToUserDetails: access?.every((a) => a.access),
     });
 }
 
