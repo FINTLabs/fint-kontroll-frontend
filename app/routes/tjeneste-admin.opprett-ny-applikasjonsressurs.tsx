@@ -6,7 +6,6 @@ import { IValidForOrgUnits } from '~/components/service-admin/types';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { createResource, fetchAllOrgUnits } from '~/data/fetch-resources';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { prepareQueryParamsWithResponseCode } from '~/components/common/CommonFunctions';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     fetchApplicationCategories,
@@ -16,6 +15,7 @@ import {
 import { ResourceForm } from '~/components/service-admin/resourceForm/ResourceForm';
 import { SERVICE_ADMIN, SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
 import { IUnitTree } from '~/data/types/orgUnitTypes';
+import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
 
 export const handle = {
     // @ts-ignore

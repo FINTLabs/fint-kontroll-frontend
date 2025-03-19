@@ -3,7 +3,7 @@ import React from 'react';
 import { IResourceModuleUser, IResourceModuleUsersPage } from '~/data/types/resourceTypes';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';

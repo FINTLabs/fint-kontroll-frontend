@@ -8,7 +8,7 @@ import {
 import DeleteOrgUnitInAssignment from '~/components/resource-module-admin/administer/DeleteOrgUnitInAssignment';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { IAccessRole } from '~/data/types/userTypes';
 
 interface RoleAssignmentTableProps {

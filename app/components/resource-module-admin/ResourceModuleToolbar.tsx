@@ -2,7 +2,7 @@ import OrgUnitFilterModal from '~/components/org-unit-filter/OrgUnitFilterModal'
 import ResourceModuleSearch from '~/components/resource-module-admin/ResourceModuleSearch';
 import { HStack, VStack } from '@navikt/ds-react';
 import React from 'react';
-import ChipsFilters from '~/components/common/ChipsFilters';
+import ChipsFilters from '~/components/common/filter/ChipsFilters';
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';

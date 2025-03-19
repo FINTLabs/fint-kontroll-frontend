@@ -1,15 +1,19 @@
-import { Button, HelpText, HStack, Link, Tag } from '@navikt/ds-react';
-import { TrashIcon } from '@navikt/aksel-icons';
+import { HelpText, HStack, Tag } from '@navikt/ds-react';
 import React from 'react';
+import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
 
-export function DeleteButtonOrTagComponent(
-    directAssignment: boolean,
-    deletableAssignment: boolean,
-    href: string
-) {
+export const DeleteButtonOrTagComponent = ({
+    directAssignment,
+    deletableAssignment,
+    href,
+}: {
+    directAssignment: boolean;
+    deletableAssignment: boolean;
+    href: string;
+}) => {
     if (!directAssignment) {
         return (
-            <Tag variant="neutral" size="small" className="navds-tag-in-table">
+            <Tag variant="neutral-moderate" size="small" className="navds-tag-in-table">
                 <HStack gap={'1'} align={'center'} wrap={false}>
                     Begrenset
                     <HelpText title="Hvorfor kan ikke tildelingen slettes?">
@@ -34,16 +38,6 @@ export function DeleteButtonOrTagComponent(
             </Tag>
         );
     } else {
-        return (
-            <Button
-                as={Link}
-                className={'button-outlined'}
-                variant={'secondary'}
-                icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem" />}
-                iconPosition={'right'}
-                href={href}>
-                Slett
-            </Button>
-        );
+        return <TertiaryDeleteButton url={href} />;
     }
-}
+};

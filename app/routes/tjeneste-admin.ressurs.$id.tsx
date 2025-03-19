@@ -22,11 +22,8 @@ import {
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import {
-    translateLicenseEnforcementToLabel,
-    translateUserTypeToLabel,
-} from '~/components/common/CommonFunctions';
 import { InfoBox } from '~/components/common/InfoBox';
+import { translateLicenseEnforcementToLabel, translateUserTypeToLabel } from '~/utils/translators';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];

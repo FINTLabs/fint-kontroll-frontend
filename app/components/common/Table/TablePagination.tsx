@@ -1,7 +1,8 @@
 import { Form, useSearchParams } from '@remix-run/react';
 import { Select, Pagination as AkselPagination } from '@navikt/ds-react';
 import React from 'react';
-import { setSizeCookieClientSide } from '~/components/common/CommonFunctions';
+
+import { setSizeCookieClientSide } from '~/utils/cookieHelpers';
 
 type PaginationProps = {
     currentPage: number;

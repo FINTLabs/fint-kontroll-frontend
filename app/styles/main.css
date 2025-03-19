@@ -222,7 +222,7 @@ table {
 }
 
 .navds-tag-in-table {
-    margin: var(--a-spacing-3) var(--a-spacing-5);
+    margin: var(--a-spacing-1) var(--a-spacing-5);
 }
 
 .button {

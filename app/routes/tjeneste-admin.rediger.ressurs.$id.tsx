@@ -6,7 +6,6 @@ import { IValidForOrgUnits } from '~/components/service-admin/types';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { fetchResourceById, fetchAllOrgUnits, updateResource } from '~/data/fetch-resources';
 import { LoaderFunctionArgs } from '@remix-run/router';
-import { prepareQueryParamsWithResponseCode } from '~/components/common/CommonFunctions';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     fetchApplicationCategories,
@@ -15,6 +14,7 @@ import {
 } from '~/data/fetch-kodeverk';
 import { ResourceForm } from '~/components/service-admin/resourceForm/ResourceForm';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';
+import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
 
 export const handle = {
     breadcrumb: ({ params }: { params: any }) => (

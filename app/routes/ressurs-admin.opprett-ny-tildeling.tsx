@@ -29,7 +29,8 @@ import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { getErrorTextFromResponse } from '~/data/helpers';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
+
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
