@@ -1,15 +1,13 @@
-import { wait } from '@testing-library/user-event/dist/utils';
-
 describe('Check roles page with mock data', () => {
     before('Set default size cookie', () => {
         cy.setCookie('size', '25');
-        wait(1000);
+        cy.wait(1000);
         cy.getCookie('size').then((cookie) => expect(cookie?.value).to.be.equal('25'));
     });
 
     it('Navigate to Grupper', () => {
         cy.goToGrupper();
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('Pagination (select number of rows in table)', () => {
@@ -22,7 +20,7 @@ describe('Check roles page with mock data', () => {
         });
         cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 11);
         cy.get('#select-number-of-rows').select('5');
-        wait(1500);
+        cy.wait(1500);
         cy.get('#pagination').should('be.visible');
 
         cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 5);
@@ -53,7 +51,7 @@ describe('Check roles page with mock data', () => {
         cy.get('.org-unit-checkbox').first().click();
 
         cy.get('button').contains('Sett filter').click();
-        wait(1000);
+        cy.wait(1000);
 
         cy.get('#role-table').find('tr td').contains('DIGIT');
     });

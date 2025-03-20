@@ -1,5 +1,3 @@
-import { wait } from '@testing-library/user-event/dist/utils';
-
 describe('Check the user page', () => {
     const searchText = 'TEST';
     const userType = 'STUDENT';
@@ -26,7 +24,7 @@ describe('Check the user page', () => {
 
         cy.get('#dropdown-button').click();
         cy.get('div[role="menuitem"]').contains('Brukere').click();
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('Can see Karen Berg, and the Se Info button', () => {
@@ -49,7 +47,7 @@ describe('Check the user page', () => {
     it('Check table length = 10 first, change rows to 5, verify row length is 5', () => {
         cy.get('#user-table').should('be.visible').find('tbody tr').should('have.length', 10);
         cy.get('#select-number-of-rows').select('5');
-        wait(1000);
+        cy.wait(1000);
         cy.get('#pagination').should('be.visible');
         cy.get('#user-table').should('be.visible').find('tbody tr').should('have.length', 5);
     });
