@@ -25,9 +25,9 @@
     "dependencies": {
         "@navikt/ds-css": "^7.4.3",
         "@navikt/ds-react": "^7.4.3",
-        "@remix-run/express": "^2.15.3",
-        "@remix-run/node": "^2.15.3",
-        "@remix-run/react": "^2.15.3",
+        "@remix-run/express": "^2.16.2",
+        "@remix-run/node": "^2.16.2",
+        "@remix-run/react": "^2.16.2",
         "express": "^4.21.2",
         "express-prometheus-middleware": "^1.2.0",
         "isbot": "^5.1.17",
@@ -35,13 +35,12 @@
         "morgan": "^1.10.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-toastify": "^10.0.5",
-        "vite": "^5.4.11"
+        "react-toastify": "^10.0.5"
     },
     "devDependencies": {
         "@navikt/aksel-stylelint": "^7.4.3",
-        "@remix-run/dev": "^2.8.1",
-        "@remix-run/eslint-config": "^2.8.1",
+        "@remix-run/dev": "^2.16.2",
+        "@remix-run/eslint-config": "^2.16.2",
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
@@ -64,6 +63,7 @@
         "stylelint": "^16.3.1",
         "tailwindcss": "^3.4.14",
         "typescript": "^5.4.5",
+        "vite": "^6.2.2",
         "vite-tsconfig-paths": "^4.3.2"
     },
     "engines": {
