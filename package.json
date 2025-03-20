@@ -23,8 +23,8 @@
         "format:check": "prettier --check ."
     },
     "dependencies": {
-        "@navikt/ds-css": "^7.4.3",
-        "@navikt/ds-react": "^7.4.3",
+        "@navikt/ds-css": "^7.17.4",
+        "@navikt/ds-react": "^7.17.4",
         "@remix-run/express": "^2.16.2",
         "@remix-run/node": "^2.16.2",
         "@remix-run/react": "^2.16.2",
@@ -38,7 +38,7 @@
         "react-toastify": "^10.0.5"
     },
     "devDependencies": {
-        "@navikt/aksel-stylelint": "^7.4.3",
+        "@navikt/aksel-stylelint": "^7.17.4",
         "@remix-run/dev": "^2.16.2",
         "@remix-run/eslint-config": "^2.16.2",
         "@testing-library/jest-dom": "^5.17.0",
