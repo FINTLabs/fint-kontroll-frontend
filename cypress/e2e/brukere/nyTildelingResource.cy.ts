@@ -1,7 +1,6 @@
-import { wait } from '@testing-library/user-event/dist/utils';
-
 describe('Check the user detail page', () => {
     it("Navigate to Joanna Kristoffersen's Ny Tildeling page", () => {
+        cy.setCookie('size', '25');
         cy.goToBrukereNyTildeling();
         cy.wait(1000);
     });
@@ -25,7 +24,7 @@ describe('Check the user detail page', () => {
     it('Test filter for appliasjonskategori', () => {
         cy.get('#select-applicationcategory').should('exist');
         cy.get('#select-applicationcategory').select('Fagsystemer');
-        wait(1000);
+        cy.wait(1000);
 
         cy.location('search').should('include', 'applicationcategory');
 
@@ -38,7 +37,7 @@ describe('Check the user detail page', () => {
         });
 
         cy.get('#select-applicationcategory').select('');
-        wait(1000);
+        cy.wait(1000);
 
         cy.location('search').should('not.include', 'applicationcategory');
     });
