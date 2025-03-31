@@ -103,7 +103,7 @@ export default function ResourceById() {
                                     .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
                                     .join(', ') + '.',
                         },
-                        /*                        ...(resource.validForOrgUnits.length === 1
+                        ...(resource.validForOrgUnits.length === 1
                             ? [
                                   {
                                       label: `Lisenser for ${resource.validForOrgUnits[0].orgUnitName}`,
@@ -114,7 +114,7 @@ export default function ResourceById() {
                                             : '',
                                   },
                               ]
-                            : []),*/
+                            : []),
                     ]}
                     moreInfo={[
                         {
@@ -126,12 +126,12 @@ export default function ResourceById() {
                             value: resource.identityProviderGroupName,
                         },
                     ]}
-                    /*                    moreInfoComponent={
+                    moreInfoComponent={
                         resource.validForOrgUnits.length > 1 &&
                         resource.validForOrgUnits.some((unit) => !!unit.resourceLimit) ? (
                             <ResourceLicenseTable resource={resource} />
                         ) : undefined
-                    }*/
+                    }
                 />
 
                 <HStack paddingBlock={'8 0'}>
