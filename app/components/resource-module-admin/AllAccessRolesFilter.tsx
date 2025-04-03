@@ -1,7 +1,8 @@
 import { Select } from '@navikt/ds-react';
 import { useSearchParams } from '@remix-run/react';
-import { filterResetPageParam, sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
 import { IAccessRole } from '~/data/types/userTypes';
+import { sortAndCapitalizeRoles } from '~/utils/translators';
+import { filterResetPageParam } from '~/utils/searchParamsHelpers';
 
 interface ResourceModuleRoleFilterProps {
     roles: IAccessRole[];

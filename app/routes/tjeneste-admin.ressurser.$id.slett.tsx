@@ -3,12 +3,12 @@ import { BodyShort, Button, Loader, Modal } from '@navikt/ds-react';
 import { Form, useNavigate, useNavigation, useParams, useSearchParams } from '@remix-run/react';
 import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
+import { deleteResource } from '~/data/fetch-resources';
+import { SERVICE_ADMIN } from '~/data/paths';
 import {
     prepareQueryParams,
     prepareQueryParamsWithResponseCode,
-} from '~/components/common/CommonFunctions';
-import { deleteResource } from '~/data/fetch-resources';
-import { SERVICE_ADMIN } from '~/data/paths';
+} from '~/utils/searchParamsHelpers';
 
 export async function action({ request }: ActionFunctionArgs) {
     const data = await request.formData();

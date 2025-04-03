@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useNavigation } from '@remix-run/react';
 import { Button } from '@navikt/ds-react';
-import { ArrowRightIcon } from '@navikt/aksel-icons';
+import { TrashIcon } from '@navikt/aksel-icons';
 
-type SeeInfoButtonProps = {
-    id: string;
+type TertiaryDeleteButtonProps = {
+    id?: string;
     url: string;
     title?: string;
     size?: 'small' | 'medium' | 'xsmall';
 };
 
-export const TertiaryArrowButton = ({
+export const TertiaryDeleteButton = ({
     id,
     url,
-    title = 'Se info',
+    title = 'Slett',
     size = 'small',
-}: SeeInfoButtonProps) => {
+}: TertiaryDeleteButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation();
     const isLoading = useMemo(
@@ -25,10 +25,10 @@ export const TertiaryArrowButton = ({
 
     return (
         <Button
-            className={'nowrap'}
+            className={'nowrap delete-icon-button'}
             id={id}
-            icon={<ArrowRightIcon fontSize="1.5rem" />}
-            iconPosition={'right'}
+            icon={<TrashIcon title="søppelbøtte" />}
+            iconPosition={'left'}
             onClick={() => navigate(url)}
             variant={'tertiary'}
             role="link"

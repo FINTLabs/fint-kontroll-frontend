@@ -3,12 +3,13 @@ import type { IRoleList } from '~/data/types/userTypes';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
 import { getRoleMembersUrl } from '~/data/paths';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/grupper._index';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 interface RoleTableProps {
     rolePage: IRoleList;

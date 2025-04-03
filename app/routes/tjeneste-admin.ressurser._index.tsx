@@ -5,8 +5,7 @@ import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits, fetchResourcesForAdmin } from '~/data/fetch-resources';
 import { Search } from '~/components/common/Search';
 import { ServiceAdminTable } from '~/components/service-admin/ServiceAdminTable';
-import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
+import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { BASE_PATH } from '../../environment';
 import React from 'react';
@@ -15,6 +14,8 @@ import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderL
 import { SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
+import { FilterByStatus } from '~/components/common/filter/FilterBystatus';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -54,7 +55,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function ServiceAdminIndex() {
-    const { resourceList, size, basePath, responseCode, applicationCategories, source } =
+    const { resourceList, size, responseCode, applicationCategories, source } =
         useLoaderData<typeof loader>();
 
     const navigate = useNavigate();
@@ -64,11 +65,13 @@ export default function ServiceAdminIndex() {
             <TableHeaderLayout
                 title={'Ressursadministrasjon'}
                 SearchComponent={<Search label={'Søk etter ressurs'} id={'search-service-admin'} />}
-                FilterComponents={
-                    <ResourceSelectApplicationCategory
+                FilterComponents={[
+                    <FilterByStatus key={'filterstatus'} />,
+                    <FilterByApplicationCategory
+                        key={'filtercategory'}
                         applicationCategories={applicationCategories}
-                    />
-                }
+                    />,
+                ]}
                 CreateNewButton={
                     source === 'gui' ? (
                         <SecondaryAddNewLinkButton
@@ -85,12 +88,7 @@ export default function ServiceAdminIndex() {
                 successText={'Ressursen ble opprettet!'}
                 deleteText={'Ressursen ble slettet!'}
             />
-            <ServiceAdminTable
-                resourcePage={resourceList}
-                size={size}
-                basePath={basePath}
-                source={source}
-            />
+            <ServiceAdminTable resourcePage={resourceList} size={size} source={source} />
         </VStack>
     );
 }

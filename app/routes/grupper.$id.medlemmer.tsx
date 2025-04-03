@@ -5,12 +5,12 @@ import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchMembers } from '~/data/fetch-roles';
 import { json } from '@remix-run/node';
 import { MemberTable } from '~/components/role/MemberTable';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { Search } from '~/components/common/Search';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { getRoleMembersUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);

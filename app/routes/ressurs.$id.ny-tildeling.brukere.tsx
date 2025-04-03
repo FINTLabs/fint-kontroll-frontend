@@ -8,7 +8,6 @@ import { IUser, IUserItem, IUserPage } from '~/data/types/userTypes';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { UserSearch } from '~/components/user/UserSearch';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
@@ -18,6 +17,7 @@ import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 type LoaderData = {
     userList: IUserPage;

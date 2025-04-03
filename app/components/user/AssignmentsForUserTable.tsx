@@ -1,24 +1,22 @@
 import { Table } from '@navikt/ds-react';
 import { Outlet, useParams, useSearchParams } from '@remix-run/react';
 import React from 'react';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getDeleteUserAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage } from '~/data/types/resourceTypes';
 import { DeleteButtonOrTagComponent } from '~/components/common/DeleteButtonOrTagComponent';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage;
     size: string;
-    basePath?: string;
 }
 
 export const AssignmentsForUserTable = ({
     assignmentsForUser,
     size,
-    basePath,
 }: AssignmentsForUserTableProps) => {
     const [searchParams] = useSearchParams();
     const params = useParams();
@@ -58,11 +56,11 @@ export const AssignmentsForUserTable = ({
                                         : resource.assignmentViaRoleName}
                                 </Table.DataCell>
                                 <Table.DataCell align={'center'}>
-                                    {DeleteButtonOrTagComponent(
-                                        resource.directAssignment,
-                                        resource.deletableAssignment,
-                                        `${basePath}${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`
-                                    )}
+                                    <DeleteButtonOrTagComponent
+                                        directAssignment={resource.directAssignment}
+                                        deletableAssignment={resource.deletableAssignment}
+                                        href={`${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                    />
                                 </Table.DataCell>
                             </Table.Row>
                         ))

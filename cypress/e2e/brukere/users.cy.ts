@@ -16,18 +16,9 @@ describe('Check the user page', () => {
         cy.interceptAndReturnFile('GET', `${baseUrl}/brukere`, 'users.json');
     });
 
-    it('Go to home and navigate to Brukere', () => {
-        cy.goToHome();
+    it('Navigate to Brukere and see first row: Karen Berg', () => {
+        cy.goToBrukere();
         cy.wait(1000);
-
-        cy.get('#dropdown-button').should('be.visible');
-
-        cy.get('#dropdown-button').click();
-        cy.get('div[role="menuitem"]').contains('Brukere').click();
-        cy.wait(1000);
-    });
-
-    it('Can see Karen Berg, and the Se Info button', () => {
         cy.get('#row-Karen-Berg').contains('button', 'Se info').should('be.visible');
     });
 

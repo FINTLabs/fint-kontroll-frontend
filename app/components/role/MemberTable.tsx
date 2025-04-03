@@ -2,10 +2,11 @@ import { Table } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/grupper.$id.medlemmer';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const MemberTable = () => {
     const { members: memberPage, size, userTypesKodeverk } = useLoaderData<typeof loader>();
