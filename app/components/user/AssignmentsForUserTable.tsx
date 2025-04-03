@@ -12,13 +12,11 @@ import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 interface AssignmentsForUserTableProps {
     assignmentsForUser: IAssignmentPage;
     size: string;
-    basePath?: string;
 }
 
 export const AssignmentsForUserTable = ({
     assignmentsForUser,
     size,
-    basePath,
 }: AssignmentsForUserTableProps) => {
     const [searchParams] = useSearchParams();
     const params = useParams();
@@ -61,7 +59,7 @@ export const AssignmentsForUserTable = ({
                                     <DeleteButtonOrTagComponent
                                         directAssignment={resource.directAssignment}
                                         deletableAssignment={resource.deletableAssignment}
-                                        href={`${basePath}${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                        href={`${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
                                     />
                                 </Table.DataCell>
                             </Table.Row>

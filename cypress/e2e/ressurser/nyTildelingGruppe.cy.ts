@@ -24,7 +24,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.wait(1000);
         cy.get('Button').contains('Grupper').should('exist').click();
         cy.wait(1000);
-        cy.get('table tr').should('exist').find('a').contains('Slett').click();
+        cy.get('table tr').should('exist').find('Button').contains('Slett').click();
         cy.wait(1000);
         cy.get('button[type=submit]').contains('Slett').should('exist').click();
         cy.wait(1000);

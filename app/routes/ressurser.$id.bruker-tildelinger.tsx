@@ -76,7 +76,6 @@ export default function AssignedUsers() {
     const loaderData = useLoaderData<LoaderData>();
     const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers;
     const size = loaderData.size;
-    const basePath: string = loaderData.basePath;
     const responseCode: string | undefined = loaderData.responseCode;
 
     return (
@@ -92,11 +91,7 @@ export default function AssignedUsers() {
                     deleteText={'Tildelingen ble slettet!'}
                 />
 
-                <AssignedUsersTable
-                    assignedUsers={assignedUsersPage}
-                    size={size}
-                    basePath={basePath}
-                />
+                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} />
             </VStack>
         </Tabs.Panel>
     );

@@ -62,7 +62,6 @@ export default function Users() {
         user,
         assignments: assignmentsForUser,
         size,
-        basePath,
         responseCode,
     } = useLoaderData<typeof loader>();
     const navigate = useNavigate();
@@ -101,11 +100,7 @@ export default function Users() {
                         deleteText={'Tildelingen ble slettet!'}
                     />
 
-                    <AssignmentsForUserTable
-                        assignmentsForUser={assignmentsForUser}
-                        size={size}
-                        basePath={basePath}
-                    />
+                    <AssignmentsForUserTable assignmentsForUser={assignmentsForUser} size={size} />
                 </VStack>
             </VStack>
         </section>

@@ -14,10 +14,9 @@ import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 interface AssignedUsersTableProps {
     assignedUsers: IAssignedUsers;
     size: string;
-    basePath?: string;
 }
 
-export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUsersTableProps) => {
+export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTableProps) => {
     const { userTypesKodeverk } = useLoaderData<typeof loader>();
     const [searchParams] = useSearchParams();
     const params = useParams();
@@ -79,7 +78,7 @@ export const AssignedUsersTable = ({ assignedUsers, size, basePath }: AssignedUs
                                         <DeleteButtonOrTagComponent
                                             directAssignment={user.directAssignment}
                                             deletableAssignment={user.deletableAssignment}
-                                            href={`${basePath}${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                            href={`${getResourceDeleteUserAssignmentUrl(Number(params.id), user.assignmentRef)}${prepareQueryParams(searchParams)}`}
                                         />
                                     </Table.DataCell>
                                 </Table.ExpandableRow>

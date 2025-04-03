@@ -64,7 +64,7 @@ export const AssignedRolesTable: any = (props: {
                                     <Table.DataCell align={'center'}>
                                         <TertiaryDeleteButton
                                             id={`deleteAssignment-${role.assignmentRef}`}
-                                            url={`${props.basePath}${getResourceDeleteRoleAssignmentUrl(Number(params.id), role.assignmentRef)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                            url={`${getResourceDeleteRoleAssignmentUrl(Number(params.id), role.assignmentRef)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
                                         />
                                     </Table.DataCell>
                                 </Table.ExpandableRow>
