@@ -1,4 +1,3 @@
-import { wait } from '@testing-library/user-event/dist/utils';
 import { goToRessurser } from '../../support/commands';
 
 describe('Check resource home page', () => {
@@ -7,7 +6,7 @@ describe('Check resource home page', () => {
 
     it('Navigate to Ressurser', () => {
         goToRessurser();
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('Filter and search exists', () => {
@@ -20,7 +19,7 @@ describe('Check resource home page', () => {
     it('Test searchField, and clear input', () => {
         cy.get('#search-resource').should('have.value', '');
         cy.get('#search-resource').type(searchText);
-        wait(500);
+        cy.wait(500);
         cy.get('#search-resource').should('have.value', searchText);
     });
 

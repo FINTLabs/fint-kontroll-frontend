@@ -1,5 +1,3 @@
-import { wait } from '@testing-library/user-event/dist/utils';
-
 describe("Check 'Knytt features til roller'", () => {
     it('can render home page', () => {
         cy.goToHome();
@@ -14,12 +12,12 @@ describe("Check 'Knytt features til roller'", () => {
         cy.get('#dropdown-button').click();
         cy.get('div[role="menuitem"]').contains('Knytt rettigheter til rolle').click();
 
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('Navigate to features-to-role', () => {
         cy.visit('http://localhost:3000/beta/fintlabs-no/system-admin/knytt-rettigheter-til-rolle');
-        wait(1000);
+        cy.wait(1000);
         cy.location('pathname').then((pathname) => {
             expect(pathname).to.contain('knytt-rettigheter-til-rolle');
         });
@@ -30,11 +28,11 @@ describe("Check 'Knytt features til roller'", () => {
             cy.log(`Found ${radioButtons.length} radio buttons`);
         });
         cy.get('input[type="radio"]').first().click();
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('Can see contents in table', () => {
         cy.get('table tr td').contains('Alle brukere').should('exist');
-        wait(1000);
+        cy.wait(1000);
     });
 });

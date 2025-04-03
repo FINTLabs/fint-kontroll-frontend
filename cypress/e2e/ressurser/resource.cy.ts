@@ -29,7 +29,7 @@ describe('Check the resource details page', () => {
         cy.get('#assigned-users-table')
             .should('be.visible')
             .find('tbody tr')
-            .should('have.length', 1);
+            .should('have.length', 2); // 2 because it is expandable, but only 1 is visible
 
         cy.get('#user-search').clear();
         cy.get('#user-search').type('{enter}');
@@ -55,7 +55,7 @@ describe('Check the resource details page', () => {
         cy.get('#assigned-users-table')
             .should('be.visible')
             .find('tbody tr')
-            .should('have.length', 10);
+            .should('have.length', 20); // 20 because it is expandable, but only 10 is visible
     });
 
     it('Pagination for resources should exists and visible, select number of rows to be "5"', () => {
@@ -66,6 +66,6 @@ describe('Check the resource details page', () => {
         cy.get('#assigned-users-table')
             .should('be.visible')
             .find('tbody tr')
-            .should('have.length', 5);
+            .should('have.length', 10); // 10 because it is expandable, but only 5 is visible
     });
 });

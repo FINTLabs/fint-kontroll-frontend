@@ -30,9 +30,7 @@ export const DeleteButtonOrTagComponent = ({
                 <HStack gap={'1'} align={'center'} wrap={false}>
                     Begrenset
                     <HelpText title="Hvorfor kan ikke tildelingen slettes?">
-                        Du mangler rettigheter til å slette denne tildelingen.
-                        <br />
-                        Tildelingen er gjort av noen med høyere autorisasjon.
+                        Du mangler rettigheter til å slette tildelinger for denne ressursen
                     </HelpText>
                 </HStack>
             </Tag>
