@@ -11,7 +11,7 @@ import {
     postMenuItemsForRole,
 } from '~/data/fetch-menu-settings';
 import { BodyShort, Heading, Switch, VStack } from '@navikt/ds-react';
-import { groupMenuItems } from '~/components/common/CommonFunctions';
+import { groupMenuItems } from '~/utils/helperFunctions';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const [menuItems, accessRoleMenu] = await Promise.all([

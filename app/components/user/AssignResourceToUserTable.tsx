@@ -1,13 +1,13 @@
-import { Button, Link, Table, Tag } from '@navikt/ds-react';
+import { Table, Tag } from '@navikt/ds-react';
 import React from 'react';
 import { Outlet, useSearchParams } from '@remix-run/react';
-import { PlusIcon } from '@navikt/aksel-icons';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getConfirmUserAssignmentUrl } from '~/data/paths';
 import { IResourceForList } from '~/data/types/resourceTypes';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
+import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
 
 interface AssignResourceToUserTableProps {
     isAssignedResources: IResourceForList[];
@@ -16,7 +16,6 @@ interface AssignResourceToUserTableProps {
     orgId: string;
     totalPages?: number;
     currentPage: number;
-    basePath?: string;
 }
 export const AssignResourceToUserTable = ({
     isAssignedResources,
@@ -25,7 +24,6 @@ export const AssignResourceToUserTable = ({
     orgId,
     totalPages,
     currentPage,
-    basePath,
 }: AssignResourceToUserTableProps) => {
     const [searchParams] = useSearchParams();
     const { fetching } = useLoadingState();
@@ -60,15 +58,10 @@ export const AssignResourceToUserTable = ({
                                             Er tildelt
                                         </Tag>
                                     ) : (
-                                        <Button
-                                            as={Link}
-                                            variant={'secondary'}
-                                            icon={<PlusIcon />}
-                                            iconPosition="right"
-                                            href={`${basePath}${getConfirmUserAssignmentUrl(Number(userId), resource.id, orgId)}${prepareQueryParams(searchParams)}`}
-                                            underline={false}>
-                                            Tildel
-                                        </Button>
+                                        <AssignButton
+                                            id={`assignResource-${resource.id}`}
+                                            url={`${getConfirmUserAssignmentUrl(Number(userId), resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                        />
                                     )}
                                 </Table.DataCell>
                             </Table.Row>

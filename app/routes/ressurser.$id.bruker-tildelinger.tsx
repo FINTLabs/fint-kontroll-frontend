@@ -9,7 +9,6 @@ import { Tabs, VStack } from '@navikt/ds-react';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { BASE_PATH } from '../../environment';
 import { fetchResourceById } from '~/data/fetch-resources';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { UserSearch } from '~/components/user/UserSearch';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
@@ -18,6 +17,7 @@ import { getResourceUserAssignmentsUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -76,7 +76,6 @@ export default function AssignedUsers() {
     const loaderData = useLoaderData<LoaderData>();
     const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers;
     const size = loaderData.size;
-    const basePath: string = loaderData.basePath;
     const responseCode: string | undefined = loaderData.responseCode;
 
     return (
@@ -92,11 +91,7 @@ export default function AssignedUsers() {
                     deleteText={'Tildelingen ble slettet!'}
                 />
 
-                <AssignedUsersTable
-                    assignedUsers={assignedUsersPage}
-                    size={size}
-                    basePath={basePath}
-                />
+                <AssignedUsersTable assignedUsers={assignedUsersPage} size={size} />
             </VStack>
         </Tabs.Panel>
     );

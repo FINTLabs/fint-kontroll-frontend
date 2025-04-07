@@ -1,9 +1,9 @@
-import { Tag } from '@navikt/ds-react';
+import { Tag, TagProps } from '@navikt/ds-react';
 
 export const StatusTag = (prop: { status: string | undefined }) => {
     if (prop.status === undefined || prop.status == '') return null;
 
-    let variant: 'success' | 'info' | 'error' | 'neutral';
+    let variant: TagProps['variant'];
     let label: string;
 
     switch (prop.status) {

@@ -22,12 +22,17 @@ describe('See that assignment.resource.$id.user renders with users', () => {
 
     it('In table, can see some "er tildelt" and some "Tildel"-buttons', () => {
         cy.get('table tr td').contains('Er tildelt').should('exist');
-        cy.get('table tr').find('a').contains('Tildel').should('exist');
+        cy.get('table tr').find('Button').contains('Tildel').should('exist');
     });
 
     it('Assign resource to user', () => {
         cy.get('table tr td').contains('Er tildelt').should('exist');
-        cy.get('table tr').contains('Lasse Luft').parent('tr').find('a').contains('Tildel').click();
+        cy.get('table tr')
+            .contains('Lasse Luft')
+            .parent('tr')
+            .find('Button')
+            .contains('Tildel')
+            .click();
         cy.wait(1000);
         cy.get('h1').last().should('have.text', 'Fullfør tildelingen');
         cy.get('button[type=submit]').contains('Lagre').should('exist').click();
@@ -41,7 +46,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
             .contains('Karen Berg')
             .should('exist')
             .parent('tr')
-            .find('a')
+            .find('Button')
             .contains('Slett')
             .click();
         cy.wait(1000);
@@ -59,6 +64,6 @@ describe('See that assignment.resource.$id.user renders with users', () => {
 
     it('In table, can see "Begrenset"-Tags and "Slett"-buttons', () => {
         cy.get('table tr td').contains('Begrenset').should('exist');
-        cy.get('table tr').find('a').contains('Slett').should('exist');
+        cy.get('table tr').find('Button').contains('Slett').should('exist');
     });
 });

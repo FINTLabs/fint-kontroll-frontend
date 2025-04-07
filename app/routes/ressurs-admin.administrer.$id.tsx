@@ -30,7 +30,7 @@ import ResourceModuleResetModal from '../components/resource-module-admin/admini
 import RoleAssignmentTable from '../components/resource-module-admin/administer/RoleAssignmentTable';
 import styles from '../components/resource-module-admin/resourceModuleAdmin.css?url';
 import { toast } from 'react-toastify';
-import ChipsFilters from '~/components/common/ChipsFilters';
+import ChipsFilters from '~/components/common/filter/ChipsFilters';
 import UserAccessRoleFilter from '~/components/resource-module-admin/UsersAccessRolesFilter';
 import { getAdministerRoleByIdUrl, RESOURCE_ADMIN } from '~/data/paths';
 import { IAccessRole } from '~/data/types/userTypes';

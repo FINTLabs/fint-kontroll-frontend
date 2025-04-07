@@ -12,12 +12,12 @@ import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-rol
 import { PlusIcon } from '@navikt/aksel-icons';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import ResourceModuleSearch from '~/components/resource-module-admin/ResourceModuleSearch';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];

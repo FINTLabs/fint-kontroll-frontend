@@ -1,12 +1,16 @@
-import { Button, HelpText, HStack, Link, Tag } from '@navikt/ds-react';
-import { TrashIcon } from '@navikt/aksel-icons';
+import { HelpText, HStack, Tag } from '@navikt/ds-react';
 import React from 'react';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
 
-export function DeleteButtonOrTagComponent(
-    directAssignment: boolean,
-    deletableAssignment: boolean,
-    href: string
-) {
+export const DeleteButtonOrTagComponent = ({
+    directAssignment,
+    deletableAssignment,
+    href,
+}: {
+    directAssignment: boolean;
+    deletableAssignment: boolean;
+    href: string;
+}) => {
     if (!directAssignment) {
         return (
             <Tag variant="neutral" size="small" className="navds-tag-in-table">
@@ -32,16 +36,6 @@ export function DeleteButtonOrTagComponent(
             </Tag>
         );
     } else {
-        return (
-            <Button
-                as={Link}
-                className={'button-outlined'}
-                variant={'secondary'}
-                icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem" />}
-                iconPosition={'right'}
-                href={href}>
-                Slett
-            </Button>
-        );
+        return <DeleteButton url={href} />;
     }
-}
+};

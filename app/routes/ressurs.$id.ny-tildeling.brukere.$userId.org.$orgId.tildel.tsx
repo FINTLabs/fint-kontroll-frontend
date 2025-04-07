@@ -13,13 +13,13 @@ import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
 import { createUserAssignment } from '~/data/fetch-assignments';
 import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
-import {
-    prepareQueryParams,
-    prepareQueryParamsWithResponseCode,
-} from '~/components/common/CommonFunctions';
 import { getResourceNewUserAssignmentUrl } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import {
+    prepareQueryParams,
+    prepareQueryParamsWithResponseCode,
+} from '~/utils/searchParamsHelpers';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.id);

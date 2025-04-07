@@ -5,12 +5,13 @@ import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { ResourceTable } from '~/components/resource/ResourceTable';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
 import styles from '../components/org-unit-filter/orgUnitFilter.css?url';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
-import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
+import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
+import { postMyAccessRequest } from '~/data/fetch-me-info';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -25,10 +26,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const applicationCategory = url.searchParams.get('applicationcategory') ?? '';
     const accessType = url.searchParams.get('accesstype') ?? '';
 
-    const [resourceList, orgUnitTree, applicationCategoriesKodeverk] = await Promise.all([
+    const [resourceList, orgUnitTree, applicationCategoriesKodeverk, access] = await Promise.all([
         fetchResources(request, size, page, search, orgUnits, applicationCategory, accessType),
         fetchAllOrgUnits(request),
         fetchApplicationCategories(request),
+        postMyAccessRequest(request, [
+            { url: '/api/resources/123', method: 'GET' },
+            { url: '/api/assignments/v2/resource/123/users', method: 'GET' },
+            { url: '/api/assignments/resource/123/roles', method: 'GET' },
+        ]),
     ]);
 
     return json({
@@ -36,11 +42,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
         size,
         orgUnitList: orgUnitTree.orgUnits,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
+        hasAccessToResourceDetails: access.every((a) => a.access),
     });
 }
 
 export default function Resource() {
-    const { resourceList, size, orgUnitList, applicationCategories } =
+    const { resourceList, size, orgUnitList, applicationCategories, hasAccessToResourceDetails } =
         useLoaderData<typeof loader>();
 
     return (
@@ -50,12 +57,14 @@ export default function Resource() {
                 orgUnitsForFilter={orgUnitList}
                 SearchComponent={<ResourceSearch />}
                 FilterComponents={
-                    <ResourceSelectApplicationCategory
-                        applicationCategories={applicationCategories}
-                    />
+                    <FilterByApplicationCategory applicationCategories={applicationCategories} />
                 }
             />
-            <ResourceTable resourcePage={resourceList} size={size} />
+            <ResourceTable
+                resourcePage={resourceList}
+                size={size}
+                hasAccessToResourceDetails={hasAccessToResourceDetails}
+            />
         </div>
     );
 }

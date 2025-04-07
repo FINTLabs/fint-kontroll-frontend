@@ -1,14 +1,15 @@
-import { Button, Heading, Link, Table, Tag } from '@navikt/ds-react';
+import { Heading, Table, Tag } from '@navikt/ds-react';
 import type { IRole } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useSearchParams } from '@remix-run/react';
-import { PlusIcon } from '@navikt/aksel-icons';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getResourceConfirmRoleAssignmentUrl } from '~/data/paths';
 import { loader } from '~/routes/ressurs.$id.ny-tildeling.brukere';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
+
+import { translateUserTypeToLabel } from '~/utils/translators';
+import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
 
 interface AssignRoleTableProps {
     isAssignedRoles: IRole[];
@@ -16,7 +17,6 @@ interface AssignRoleTableProps {
     resourceId: string | undefined;
     totalPages?: number;
     currentPage: number;
-    basePath?: string;
 }
 
 export const AssignRoleTable = (props: AssignRoleTableProps) => {
@@ -62,15 +62,10 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                             Er tildelt
                                         </Tag>
                                     ) : (
-                                        <Button
-                                            as={Link}
-                                            variant={'secondary'}
-                                            icon={<PlusIcon title="a11y-title" fontSize="1.5rem" />}
-                                            iconPosition="right"
-                                            href={`${props.basePath}${getResourceConfirmRoleAssignmentUrl(Number(props.resourceId), role.id, role.organisationUnitId)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
-                                            underline={false}>
-                                            Tildel
-                                        </Button>
+                                        <AssignButton
+                                            id={`assignRole-${role.id}`}
+                                            url={`${getResourceConfirmRoleAssignmentUrl(Number(props.resourceId), role.id, role.organisationUnitId)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                        />
                                     )}
                                 </Table.DataCell>
                             </Table.Row>

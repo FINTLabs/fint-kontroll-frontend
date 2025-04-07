@@ -1,13 +1,13 @@
-import { Button, Link, Table, Tag } from '@navikt/ds-react';
+import { Table, Tag } from '@navikt/ds-react';
 import React from 'react';
 import { Outlet, useSearchParams } from '@remix-run/react';
-import { PlusIcon } from '@navikt/aksel-icons';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getConfirmRoleAssignmentUrl } from '~/data/paths';
 import { IResourceForList } from '~/data/types/resourceTypes';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
+import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
 
 interface AssignResourceToRoleTableProps {
     isAssignedResources: IResourceForList[];
@@ -16,7 +16,6 @@ interface AssignResourceToRoleTableProps {
     totalPages?: number;
     currentPage: number;
     orgId: string;
-    basePath?: string;
 }
 
 export const AssignResourceToRoleTable = ({
@@ -26,7 +25,6 @@ export const AssignResourceToRoleTable = ({
     totalPages,
     currentPage,
     orgId,
-    basePath,
 }: AssignResourceToRoleTableProps) => {
     const [searchParams] = useSearchParams();
     const { fetching } = useLoadingState();
@@ -63,15 +61,10 @@ export const AssignResourceToRoleTable = ({
                                             Er tildelt
                                         </Tag>
                                     ) : (
-                                        <Button
-                                            as={Link}
-                                            variant={'secondary'}
-                                            icon={<PlusIcon />}
-                                            iconPosition="right"
-                                            href={`${basePath}${getConfirmRoleAssignmentUrl(roleId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
-                                            underline={false}>
-                                            Tildel
-                                        </Button>
+                                        <AssignButton
+                                            id={`assignResource-${resource.id}`}
+                                            url={`${getConfirmRoleAssignmentUrl(roleId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                        />
                                     )}
                                 </Table.DataCell>
                             </Table.Row>
