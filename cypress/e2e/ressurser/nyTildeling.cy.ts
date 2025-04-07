@@ -22,12 +22,17 @@ describe('See that assignment.resource.$id.user renders with users', () => {
 
     it('In table, can see some "er tildelt" and some "Tildel"-buttons', () => {
         cy.get('table tr td').contains('Er tildelt').should('exist');
-        cy.get('table tr').find('a').contains('Tildel').should('exist');
+        cy.get('table tr').find('Button').contains('Tildel').should('exist');
     });
 
     it('Assign resource to user', () => {
         cy.get('table tr td').contains('Er tildelt').should('exist');
-        cy.get('table tr').contains('Lasse Luft').parent('tr').find('a').contains('Tildel').click();
+        cy.get('table tr')
+            .contains('Lasse Luft')
+            .parent('tr')
+            .find('Button')
+            .contains('Tildel')
+            .click();
         cy.wait(1000);
         cy.get('h1').last().should('have.text', 'Fullfør tildelingen');
         cy.get('button[type=submit]').contains('Lagre').should('exist').click();
