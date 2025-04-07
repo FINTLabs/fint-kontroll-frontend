@@ -28,9 +28,5 @@ export const postMyAccessRequest = async (
             })),
         },
     });
-
-    console.log('======= response =======');
-    console.log(response);
-
     return response.json();
 };
