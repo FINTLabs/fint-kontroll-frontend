@@ -111,15 +111,8 @@ export const handle = {
 };
 
 export default function NewAssignmentForRole() {
-    const {
-        resourceList,
-        isAssignedResources,
-        basePath,
-        responseCode,
-        role,
-        size,
-        applicationCategories,
-    } = useLoaderData<typeof loader>();
+    const { resourceList, isAssignedResources, responseCode, role, size, applicationCategories } =
+        useLoaderData<typeof loader>();
 
     return (
         <div className={'content'}>
@@ -145,7 +138,6 @@ export default function NewAssignmentForRole() {
                     currentPage={resourceList.currentPage}
                     totalPages={resourceList.totalPages}
                     orgId={role.organisationUnitId}
-                    basePath={basePath}
                 />
             </VStack>
         </div>

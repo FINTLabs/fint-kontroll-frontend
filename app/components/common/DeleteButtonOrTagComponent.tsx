@@ -1,6 +1,6 @@
 import { HelpText, HStack, Tag } from '@navikt/ds-react';
 import React from 'react';
-import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
 
 export const DeleteButtonOrTagComponent = ({
     directAssignment,
@@ -13,7 +13,7 @@ export const DeleteButtonOrTagComponent = ({
 }) => {
     if (!directAssignment) {
         return (
-            <Tag variant="neutral-moderate" size="small" className="navds-tag-in-table">
+            <Tag variant="neutral" size="small" className="navds-tag-in-table">
                 <HStack gap={'1'} align={'center'} wrap={false}>
                     Begrenset
                     <HelpText title="Hvorfor kan ikke tildelingen slettes?">
@@ -36,6 +36,6 @@ export const DeleteButtonOrTagComponent = ({
             </Tag>
         );
     } else {
-        return <TertiaryDeleteButton url={href} />;
+        return <DeleteButton url={href} />;
     }
 };

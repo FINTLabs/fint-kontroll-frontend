@@ -6,10 +6,10 @@ import { StatusTag } from '~/components/service-admin/StatusTag';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
-import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
+import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { getDeleteResourceUrl, getResourceByIdUrl } from '~/data/paths';
 import { IResourceAdminList } from '~/data/types/resourceTypes';
-import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
 import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface ResourceTableProps {
@@ -70,14 +70,14 @@ export const ServiceAdminTable = ({ resourcePage, size, source }: ResourceTableP
                                                 <MinusIcon title="a11y-title" fontSize="1.5rem" />
                                             </Box>
                                         ) : (
-                                            <TertiaryDeleteButton
+                                            <DeleteButton
                                                 url={`${getDeleteResourceUrl(resource.id)}${prepareQueryParams(searchParams)}`}
                                             />
                                         )}
                                     </Table.DataCell>
                                 )}
                                 <Table.DataCell align="right">
-                                    <TertiaryArrowButton
+                                    <GoToButton
                                         id={`resourceAdminInfoButton-${resource.id}`}
                                         url={getResourceByIdUrl(resource.id)}
                                     />

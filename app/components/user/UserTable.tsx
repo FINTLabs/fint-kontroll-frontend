@@ -4,7 +4,7 @@ import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
-import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
+import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/brukere._index';
 import { getUserByIdUrl } from '~/data/paths';
@@ -47,7 +47,7 @@ export const UserTable = () => {
                                 </Table.DataCell>
                                 {hasAccessToUserDetails && (
                                     <Table.DataCell align="right">
-                                        <TertiaryArrowButton
+                                        <GoToButton
                                             id={`userInfoButton-${user.id}`}
                                             url={getUserByIdUrl(user.id, user.organisationUnitId)}
                                         />

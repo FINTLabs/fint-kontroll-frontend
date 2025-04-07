@@ -3,7 +3,7 @@ import { Outlet, useParams, useSearchParams } from '@remix-run/react';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage, IResourceAssignment } from '~/data/types/resourceTypes';
-import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
 import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignmentsForRoleTableProps {
@@ -44,7 +44,7 @@ export const AssignmentsForRoleTable = ({
                                     : resource.assignerUsername}
                             </Table.DataCell>
                             <Table.DataCell align={'center'}>
-                                <TertiaryDeleteButton
+                                <DeleteButton
                                     id={`deleteAssignment-${resource.assignmentRef}`}
                                     url={`${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
                                 />

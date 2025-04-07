@@ -10,12 +10,7 @@ type SeeInfoButtonProps = {
     size?: 'small' | 'medium' | 'xsmall';
 };
 
-export const TertiaryArrowButton = ({
-    id,
-    url,
-    title = 'Se info',
-    size = 'small',
-}: SeeInfoButtonProps) => {
+export const GoToButton = ({ id, url, title = 'Se info', size = 'small' }: SeeInfoButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation();
     const isLoading = useMemo(

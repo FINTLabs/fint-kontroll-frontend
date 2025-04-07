@@ -4,7 +4,7 @@ import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
-import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
+import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { getRoleMembersUrl } from '~/data/paths';
 import { useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/grupper._index';
@@ -43,7 +43,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                     {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                 </Table.DataCell>
                                 <Table.DataCell align="right">
-                                    <TertiaryArrowButton
+                                    <GoToButton
                                         id={`roleInfoButton-${role.id}`}
                                         url={getRoleMembersUrl(role.id)}
                                     />

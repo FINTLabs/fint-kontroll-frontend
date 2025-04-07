@@ -7,7 +7,7 @@ import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
 import { getResourceDeleteRoleAssignmentUrl } from '~/data/paths';
 import { loader } from '~/routes/ressurser.$id.gruppe-tildelinger';
-import { TertiaryDeleteButton } from '~/components/common/Buttons/TertiaryDeleteButton';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
 import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const AssignedRolesTable: any = (props: {
@@ -62,7 +62,7 @@ export const AssignedRolesTable: any = (props: {
                                         {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                     </Table.DataCell>
                                     <Table.DataCell align={'center'}>
-                                        <TertiaryDeleteButton
+                                        <DeleteButton
                                             id={`deleteAssignment-${role.assignmentRef}`}
                                             url={`${getResourceDeleteRoleAssignmentUrl(Number(params.id), role.assignmentRef)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
                                         />

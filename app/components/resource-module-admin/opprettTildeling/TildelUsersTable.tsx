@@ -61,6 +61,7 @@ const TildelUsersTable = ({
                                     <Button
                                         size={'small'}
                                         className={'nowrap'}
+                                        variant={'secondary'}
                                         onClick={() => handleSelectUser(user)}>
                                         Velg bruker
                                     </Button>

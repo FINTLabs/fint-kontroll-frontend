@@ -73,7 +73,7 @@ export async function loader({
 }
 
 export default function NewAssignmentForRole() {
-    const { isAssignedRoles, roleList, basePath } = useLoaderData<LoaderData>();
+    const { isAssignedRoles, roleList } = useLoaderData<LoaderData>();
     const params = useParams<string>();
 
     return (
@@ -84,7 +84,6 @@ export default function NewAssignmentForRole() {
                 resourceId={params.id}
                 currentPage={roleList.currentPage}
                 totalPages={roleList.totalPages}
-                basePath={basePath}
                 size={roleList.totalItems}
             />
         </Tabs.Panel>
