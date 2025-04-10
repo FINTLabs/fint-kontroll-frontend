@@ -8,9 +8,8 @@ import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { Alert, HStack, VStack } from '@navikt/ds-react';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
-import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
+import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import React from 'react';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
@@ -18,6 +17,7 @@ import { getUserByIdUrl, getUserNewAssignmentUrl, USERS } from '~/data/paths';
 import { IResourceAssignment, IResourceForList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -105,7 +105,7 @@ export default function NewAssignmentForUser() {
                 title={'Ny tildeling'}
                 subTitle={data.user.fullName}
                 FilterComponents={
-                    <ResourceSelectApplicationCategory
+                    <FilterByApplicationCategory
                         applicationCategories={data.applicationCategories}
                     />
                 }
@@ -126,7 +126,6 @@ export default function NewAssignmentForUser() {
                         size={data.size}
                         currentPage={data.resourceList.currentPage}
                         totalPages={data.resourceList.totalPages}
-                        basePath={data.basePath}
                     />
                 ) : (
                     <>

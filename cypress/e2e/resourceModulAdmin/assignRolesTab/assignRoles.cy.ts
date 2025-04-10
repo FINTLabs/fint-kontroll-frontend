@@ -1,5 +1,3 @@
-import { wait } from '@testing-library/user-event/dist/utils';
-
 describe('Check resources-admin', () => {
     it('can render home page', () => {
         cy.goToHome();
@@ -22,7 +20,7 @@ describe('Check resources-admin', () => {
 
     it("can navigate to 'Opprett tildeling'", () => {
         cy.contains('Opprett ny tildeling').click();
-        wait(1000);
+        cy.wait(1000);
     });
 
     it('List of users should be visible', () => {

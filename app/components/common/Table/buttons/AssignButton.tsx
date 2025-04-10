@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useNavigation } from '@remix-run/react';
 import { Button } from '@navikt/ds-react';
-import { ArrowRightIcon } from '@navikt/aksel-icons';
+import { PlusIcon } from '@navikt/aksel-icons';
 
 type SeeInfoButtonProps = {
     id: string;
     url: string;
     title?: string;
+    size?: 'small' | 'medium' | 'xsmall';
 };
 
-export const TertiaryArrowButton = ({ id, url, title = 'Se info' }: SeeInfoButtonProps) => {
+export const AssignButton = ({ id, url, title = 'Tildel', size = 'small' }: SeeInfoButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation();
     const isLoading = useMemo(
@@ -21,12 +22,13 @@ export const TertiaryArrowButton = ({ id, url, title = 'Se info' }: SeeInfoButto
         <Button
             className={'nowrap'}
             id={id}
-            icon={<ArrowRightIcon fontSize="1.5rem" />}
+            icon={<PlusIcon aria-hidden />}
             iconPosition={'right'}
             onClick={() => navigate(url)}
-            variant={'tertiary'}
+            variant={'secondary'}
             role="link"
-            loading={isLoading}>
+            loading={isLoading}
+            size={size}>
             {title}
         </Button>
     );

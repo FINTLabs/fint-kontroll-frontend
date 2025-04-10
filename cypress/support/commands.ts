@@ -53,6 +53,7 @@ declare global {
             goToDeleteResource: typeof goToDeleteResource;
             goToResourceAdminWithResponse: typeof goToResourceAdminWithResponse;
             goToSettings: typeof goToSettings;
+            goToBrukere: typeof goToBrukere;
         }
     }
 }
@@ -70,6 +71,12 @@ export function goToHome() {
 }
 
 Cypress.Commands.add('goToHome', goToHome);
+
+export function goToBrukere() {
+    return cy.visit('http://localhost:3000/beta/fintlabs-no/brukere');
+}
+
+Cypress.Commands.add('goToBrukere', goToBrukere);
 
 export function goToUser() {
     return cy.visit('http://localhost:3000/beta/fintlabs-no/brukere/442/org/194');

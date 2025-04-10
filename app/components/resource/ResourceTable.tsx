@@ -2,17 +2,22 @@ import { Table } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
-import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
+import { useLoadingState } from '~/utils/customHooks';
+import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
 import { IResourceList } from '~/data/types/resourceTypes';
 
 interface ResourceTableProps {
     resourcePage: IResourceList;
     size: string;
+    hasAccessToResourceDetails?: boolean;
 }
 
-export const ResourceTable = ({ resourcePage, size }: ResourceTableProps) => {
+export const ResourceTable = ({
+    resourcePage,
+    size,
+    hasAccessToResourceDetails,
+}: ResourceTableProps) => {
     const { fetching } = useLoadingState();
 
     return (
@@ -22,10 +27,12 @@ export const ResourceTable = ({ resourcePage, size }: ResourceTableProps) => {
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Applikasjonstype</Table.HeaderCell>
-                        <Table.HeaderCell
-                            scope="col"
-                            align="right"
-                            aria-label={'Se mer informasjon'}></Table.HeaderCell>
+                        {hasAccessToResourceDetails && (
+                            <Table.HeaderCell
+                                scope="col"
+                                align="right"
+                                aria-label={'Se mer informasjon'}></Table.HeaderCell>
+                        )}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -38,13 +45,14 @@ export const ResourceTable = ({ resourcePage, size }: ResourceTableProps) => {
                                 <Table.DataCell>
                                     {resource.applicationCategory?.filter(Boolean).join(', ')}
                                 </Table.DataCell>
-                                <Table.DataCell align="right">
-                                    <TertiaryArrowButton
-                                        id={`resourceInfoButton-${resource.id}`}
-                                        url={getResourceUserAssignmentsUrl(resource.id)}
-                                        // url={`/resources/${resource.id}/user-assignments`}
-                                    />
-                                </Table.DataCell>
+                                {hasAccessToResourceDetails && (
+                                    <Table.DataCell align="right">
+                                        <GoToButton
+                                            id={`resourceInfoButton-${resource.id}`}
+                                            url={getResourceUserAssignmentsUrl(resource.id)}
+                                        />
+                                    </Table.DataCell>
+                                )}
                             </Table.Row>
                         ))
                     )}

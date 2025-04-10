@@ -1,12 +1,10 @@
 import { Box, Chips } from '@navikt/ds-react';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useCallback, useEffect, useState } from 'react';
-import {
-    filterResetPageParam,
-    translateUserTypeToLabel,
-} from '~/components/common/CommonFunctions';
 
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
+import { translateStatusToLabel, translateUserTypeToLabel } from '~/utils/translators';
+import { filterResetPageParam } from '~/utils/searchParamsHelpers';
 
 type Filters = {
     orgUnits: string | null;
@@ -77,6 +75,8 @@ const ChipsFilters = () => {
                     return `Applikasjonskategori: ${value}`;
                 case 'orgUnitName':
                     return `Søkenavn: ${value}`;
+                case 'status':
+                    return `Status: ${translateStatusToLabel(value)}`;
                 default:
                     return value;
             }

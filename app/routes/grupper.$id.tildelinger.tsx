@@ -7,10 +7,10 @@ import styles from '../components/user/user.css?url';
 import { AssignmentsForRoleTable } from '~/components/role/AssignmentsForRoleTable';
 import { fetchAssignmentsForRole } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { getRoleAssignmentsUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -40,7 +40,7 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const { assignments, size, basePath, responseCode } = useLoaderData<typeof loader>();
+    const { assignments, size, responseCode } = useLoaderData<typeof loader>();
 
     return (
         <section>
@@ -53,11 +53,7 @@ export default function AssignmentsForRole() {
                             deleteText={'Tildelingen ble slettet!'}
                         />
 
-                        <AssignmentsForRoleTable
-                            assignmentsForRole={assignments}
-                            size={size}
-                            basePath={basePath}
-                        />
+                        <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} />
                     </Tabs.Panel>
                 </VStack>
             </Tabs>

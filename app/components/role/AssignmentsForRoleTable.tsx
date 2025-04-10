@@ -1,21 +1,19 @@
-import { Button, Link, Table } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import { Outlet, useParams, useSearchParams } from '@remix-run/react';
-import { TrashIcon } from '@navikt/aksel-icons';
-import { prepareQueryParams } from '~/components/common/CommonFunctions';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage, IResourceAssignment } from '~/data/types/resourceTypes';
+import { DeleteButton } from '~/components/common/Table/buttons/DeleteButton';
+import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 
 interface AssignmentsForRoleTableProps {
     assignmentsForRole: IAssignmentPage;
     size: string;
-    basePath?: string;
 }
 
 export const AssignmentsForRoleTable = ({
     assignmentsForRole,
     size,
-    basePath,
 }: AssignmentsForRoleTableProps) => {
     const [searchParams] = useSearchParams();
     const params = useParams();
@@ -46,15 +44,10 @@ export const AssignmentsForRoleTable = ({
                                     : resource.assignerUsername}
                             </Table.DataCell>
                             <Table.DataCell align={'center'}>
-                                <Button
-                                    as={Link}
-                                    className={'button-outlined'}
-                                    variant={'secondary'}
-                                    icon={<TrashIcon title="søppelbøtte" fontSize="1.5rem" />}
-                                    iconPosition={'right'}
-                                    href={`${basePath}${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}>
-                                    Slett
-                                </Button>
+                                <DeleteButton
+                                    id={`deleteAssignment-${resource.assignmentRef}`}
+                                    url={`${getDeleteRoleAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     ))}

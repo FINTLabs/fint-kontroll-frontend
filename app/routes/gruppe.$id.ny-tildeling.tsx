@@ -9,9 +9,8 @@ import { fetchAssignedResourcesRole, fetchRoleById } from '~/data/fetch-roles';
 import React from 'react';
 import { AssignResourceToRoleTable } from '~/components/role/AssignResourceToRoleTable';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
-import { getSizeCookieFromRequestHeader } from '~/components/common/CommonFunctions';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
-import { ResourceSelectApplicationCategory } from '~/components/service-admin/ResourceSelectApplicationCategory';
+import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
@@ -24,6 +23,7 @@ import {
 } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export async function loader({ params, request }: LoaderFunctionArgs): Promise<
     TypedResponse<{
@@ -111,15 +111,8 @@ export const handle = {
 };
 
 export default function NewAssignmentForRole() {
-    const {
-        resourceList,
-        isAssignedResources,
-        basePath,
-        responseCode,
-        role,
-        size,
-        applicationCategories,
-    } = useLoaderData<typeof loader>();
+    const { resourceList, isAssignedResources, responseCode, role, size, applicationCategories } =
+        useLoaderData<typeof loader>();
 
     return (
         <div className={'content'}>
@@ -127,9 +120,7 @@ export default function NewAssignmentForRole() {
                 title={'Ny tildeling'}
                 subTitle={role.roleName}
                 FilterComponents={
-                    <ResourceSelectApplicationCategory
-                        applicationCategories={applicationCategories}
-                    />
+                    <FilterByApplicationCategory applicationCategories={applicationCategories} />
                 }
                 SearchComponent={<ResourceSearch />}
             />
@@ -147,7 +138,6 @@ export default function NewAssignmentForRole() {
                     currentPage={resourceList.currentPage}
                     totalPages={resourceList.totalPages}
                     orgId={role.organisationUnitId}
-                    basePath={basePath}
                 />
             </VStack>
         </div>

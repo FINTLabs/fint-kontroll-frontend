@@ -28,6 +28,5 @@ export const postMyAccessRequest = async (
             })),
         },
     });
-
     return response.json();
 };

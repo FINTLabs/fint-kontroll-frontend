@@ -17,14 +17,14 @@ import { BASE_PATH } from '../../environment';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
-import { useLoadingState } from '~/components/common/customHooks';
+import { useLoadingState } from '~/utils/customHooks';
 import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
-import { translateUserTypeToLabel } from '~/components/common/CommonFunctions';
 import { ResourceLicenseTable } from '~/components/resource/ResourceLicenseTable';
 import { InfoBox } from '~/components/common/InfoBox';
+import { translateUserTypeToLabel } from '~/utils/translators';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -103,7 +103,7 @@ export default function ResourceById() {
                                     .map((role) => translateUserTypeToLabel(role, userTypeKodeverk))
                                     .join(', ') + '.',
                         },
-                        /*                        ...(resource.validForOrgUnits.length === 1
+                        ...(resource.validForOrgUnits.length === 1
                             ? [
                                   {
                                       label: `Lisenser for ${resource.validForOrgUnits[0].orgUnitName}`,
@@ -114,7 +114,7 @@ export default function ResourceById() {
                                             : '',
                                   },
                               ]
-                            : []),*/
+                            : []),
                     ]}
                     moreInfo={[
                         {
@@ -126,12 +126,12 @@ export default function ResourceById() {
                             value: resource.identityProviderGroupName,
                         },
                     ]}
-                    /*                    moreInfoComponent={
+                    moreInfoComponent={
                         resource.validForOrgUnits.length > 1 &&
                         resource.validForOrgUnits.some((unit) => !!unit.resourceLimit) ? (
                             <ResourceLicenseTable resource={resource} />
                         ) : undefined
-                    }*/
+                    }
                 />
 
                 <HStack paddingBlock={'8 0'}>

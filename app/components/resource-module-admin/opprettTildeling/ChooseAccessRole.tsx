@@ -1,6 +1,7 @@
 import { Radio, RadioGroup, VStack } from '@navikt/ds-react';
 import { IAccessRole } from '~/data/types/userTypes';
-import { sortAndCapitalizeRoles } from '~/components/common/CommonFunctions';
+
+import { sortAndCapitalizeRoles } from '~/utils/translators';
 
 interface ChooseAccessRoleProps {
     accessRoles: IAccessRole[];

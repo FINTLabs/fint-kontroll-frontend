@@ -2,7 +2,7 @@ import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
 import { useNavigate } from '@remix-run/react';
 import { IMeInfo } from '~/data/types/userTypes';
-import { groupMenuItems } from '~/components/common/CommonFunctions';
+import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
 
 export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {

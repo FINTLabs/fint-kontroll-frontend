@@ -3,8 +3,8 @@ import React from 'react';
 import { IResourceModuleUser, IResourceModuleUsersPage } from '~/data/types/resourceTypes';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
-import { useLoadingState } from '~/components/common/customHooks';
-import { TertiaryArrowButton } from '~/components/common/Buttons/TertiaryArrowButton';
+import { useLoadingState } from '~/utils/customHooks';
+import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { IAccessRole } from '~/data/types/userTypes';
 
@@ -40,7 +40,7 @@ const ResourceModuleAdminUsersTable = ({ usersPage, size }: ResourceModuleAdminU
                                     </Table.DataCell>
                                     <Table.DataCell>{user.userName}</Table.DataCell>
                                     <Table.DataCell align={'center'}>
-                                        <TertiaryArrowButton
+                                        <GoToButton
                                             id={`userInfoButton-${index + user.userName}`}
                                             url={`administrer/${user.resourceId}`}
                                             title={'Administrer'}
