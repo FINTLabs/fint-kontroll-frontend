@@ -1,4 +1,4 @@
-import { Alert, Table } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { useSearchParams } from '@remix-run/react';
 import {
@@ -44,22 +44,12 @@ const RoleAssignmentTable = ({
                 />
             )}
 
-            {/* REMOVE WHEN SLETT IN TABLE IS REINTRODUCED */}
-            <div>
-                <Alert variant="info" className="temp-alert">
-                    Sletteknappen i tabellradene er fjernet inntil videre. Vi holder på med en
-                    ryddejobb til forberedelse for oppdatering av dette grensesnittet.
-                </Alert>
-            </div>
-
             <Table>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Objekttype</Table.HeaderCell>
                         <Table.HeaderCell>Org.enhet</Table.HeaderCell>
-                        {selectedRole.accessRoleId === '' && (
-                            <Table.HeaderCell>Rolle</Table.HeaderCell>
-                        )}
+                        <Table.HeaderCell>Rolle</Table.HeaderCell>
                         {/* REMOVED UNTIL NEW TABLE ROWS ARE IMPLEMENTED CORRECTLY */}
                         {/*<Table.HeaderCell align={"center"}>Slett</Table.HeaderCell>*/}
                     </Table.Row>
@@ -84,9 +74,7 @@ const RoleAssignmentTable = ({
                                     }>
                                     <Table.DataCell>{orgUnit.objectType}</Table.DataCell>
                                     <Table.DataCell>{orgUnit.name}</Table.DataCell>
-                                    {selectedRole.accessRoleId === '' && (
-                                        <Table.DataCell>{scope.accessRoleName}</Table.DataCell>
-                                    )}
+                                    <Table.DataCell>{scope.accessRoleName}</Table.DataCell>
                                     {/* REMOVED UNTIL NEW TABLE ROWS ARE IMPLEMENTED CORRECTLY */}
                                     {/*<Table.DataCell align={"center"}>*/}
                                     {/*<Button*/}
@@ -105,7 +93,7 @@ const RoleAssignmentTable = ({
                     ) : (
                         <Table.Row>
                             <Table.DataCell align={'center'} colSpan={4}>
-                                Det fins ingen objekter knyttet til denne rollen.
+                                Det finnes ingen objekter knyttet til denne rollen.
                             </Table.DataCell>
                         </Table.Row>
                     )}

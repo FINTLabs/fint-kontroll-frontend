@@ -33,7 +33,6 @@ describe('Check roles page with mock data', () => {
         cy.wait(1000);
 
         cy.get('#role-table').find('tr td').should('contain', 'OKO');
-        cy.get('#search-chip').should('be.visible');
     });
 
     it('Remove filter and verify chips is gone', () => {

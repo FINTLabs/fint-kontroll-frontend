@@ -23,7 +23,7 @@ export const Search = ({ label, id }: SearchInputProps) => {
         <Form
             onSubmit={(event) => {
                 handleSearchFieldString(event, setSearchParams, searchString);
-                setSearchString('');
+                setSearchString(searchString);
                 filterResetPageParam(pageParam, setSearchParams);
             }}>
             <AkselSearch

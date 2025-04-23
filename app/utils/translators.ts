@@ -71,3 +71,16 @@ export const sortAndCapitalizeRoles = <T extends IAccessRole | IResourceModuleUs
                 : { roleName: capitalize(role.roleName) }),
         }));
 };
+
+export const translateaccessroleToLabel = (accessrole: string) => {
+    const labels: { [key: string]: string } = {
+        sa: 'Systemadministrator',
+        ra: 'Ressursadministrator',
+        ta: 'Tjenesteadministrator',
+        td: 'Tildeler',
+        l: 'Leder',
+        g: 'Godkjenner',
+        sb: 'Sluttbruker',
+    };
+    return labels[accessrole] ?? 'Alle';
+};

@@ -1,20 +1,22 @@
 import { Box, Chips } from '@navikt/ds-react';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useCallback, useEffect, useState } from 'react';
-
-import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
-import { translateStatusToLabel, translateUserTypeToLabel } from '~/utils/translators';
+import {
+    translateaccessroleToLabel,
+    translateStatusToLabel,
+    translateUserTypeToLabel,
+} from '~/utils/translators';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';
+import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 
 type Filters = {
     orgUnits: string | null;
     accessroleid: string | null;
     name: string | null;
     userType: string | null;
-    search: string | null;
     status: string | null;
     applicationcategory: string | null;
-    orgUnitName: string | null;
+    objectType: string | null;
 };
 
 const ChipsFilters = () => {
@@ -30,10 +32,9 @@ const ChipsFilters = () => {
         accessroleid: null,
         name: null,
         userType: null,
-        search: null,
         status: null,
         applicationcategory: null,
-        orgUnitName: null,
+        objectType: null,
     });
 
     const pageParam = searchParams.get('page');
@@ -44,10 +45,9 @@ const ChipsFilters = () => {
             accessroleid: searchParams.get('accessroleid'),
             name: searchParams.get('name'),
             userType: searchParams.get('userType'),
-            search: searchParams.get('search'),
             status: searchParams.get('status'),
             applicationcategory: searchParams.get('applicationcategory'),
-            orgUnitName: searchParams.get('orgUnitName'),
+            objectType: searchParams.get('objectType'),
         };
         setFilters(newFilters);
     }, [searchParams]);
@@ -71,12 +71,10 @@ const ChipsFilters = () => {
                     return translateUserTypeToLabel(value, userTypes);
                 case 'orgUnits':
                     return 'Fjern org.enhetsfiltre';
-                case 'applicationcategory':
-                    return `Applikasjonskategori: ${value}`;
-                case 'orgUnitName':
-                    return `Søkenavn: ${value}`;
+                case 'accessroleid':
+                    return `${translateaccessroleToLabel(value) || value}`;
                 case 'status':
-                    return `Status: ${translateStatusToLabel(value)}`;
+                    return `${translateStatusToLabel(value)}`;
                 default:
                     return value;
             }
@@ -93,6 +91,7 @@ const ChipsFilters = () => {
                         value ? (
                             <Chips.Removable
                                 key={key}
+                                variant={'neutral'}
                                 onClick={() => removeFilter(key)}
                                 id={`${key}-chip`}>
                                 {filterToLabel(key, value)}

@@ -15,10 +15,6 @@ describe('Check the user detail page', () => {
         cy.get('#search-resource').type('{enter}');
         cy.wait(1000);
         cy.get('#resources-table').find('tbody tr').should('have.length', 1);
-        cy.get('#search-chip').should('exist');
-        cy.get('#search-chip').click();
-        cy.wait(1000);
-        cy.get('#search-chip').should('not.exist');
     });
 
     it('Test filter for appliasjonskategori', () => {
