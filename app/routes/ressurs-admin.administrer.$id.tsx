@@ -4,8 +4,8 @@ import {
     deleteOrgUnitFromAssignment,
     deleteUserAssignmentByAccessRoleId,
     fetchObjectTypesForUser,
-    fetchUserDetails,
     fetchUserAssignments,
+    fetchUserDetails,
 } from '~/data/resourceAdmin/resource-admin';
 import {
     Link,
@@ -15,7 +15,7 @@ import {
     useRouteError,
     useSearchParams,
 } from '@remix-run/react';
-import { Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, HStack, VStack } from '@navikt/ds-react';
 import { ArrowRightIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     IResourceModuleUser,
@@ -25,16 +25,17 @@ import { ActionFunctionArgs, json } from '@remix-run/node';
 import React, { useEffect, useState } from 'react';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import DeleteAssignment from '../components/resource-module-admin/administer/ResourceModuleDeleteAssignmentModal';
-import AdministerToolbar from '../components/resource-module-admin/administer/AdministerToolbar';
+import SelectObjectType from '../components/resource-module-admin/administer/SelectObjectType';
 import ResourceModuleResetModal from '../components/resource-module-admin/administer/ResourceModuleResetModal';
 import RoleAssignmentTable from '../components/resource-module-admin/administer/RoleAssignmentTable';
 import styles from '../components/resource-module-admin/resourceModuleAdmin.css?url';
 import { toast } from 'react-toastify';
-import ChipsFilters from '~/components/common/filter/ChipsFilters';
 import UserAccessRoleFilter from '~/components/resource-module-admin/UsersAccessRolesFilter';
 import { getAdministerRoleByIdUrl, RESOURCE_ADMIN } from '~/data/paths';
 import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
+import OrgUnitSearch from '~/components/resource-module-admin/OrgUnitSearch';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -130,8 +131,8 @@ const ResourceModuleAdminAdministerId = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const roleProp = searchParams.get('accessroleid');
-    const objectTypeParam = searchParams.get('objectType');
-    const orgUnitNameParam = searchParams.get('orgUnitName');
+    // const objectTypeParam = searchParams.get('objectType');
+    // const orgUnitNameParam = searchParams.get('orgUnitName');
 
     const navigate = useNavigate();
 
@@ -190,58 +191,55 @@ const ResourceModuleAdminAdministerId = () => {
 
     return (
         <section className={'content'}>
-            <VStack gap={'4'}>
-                <HStack justify={'space-between'}>
+            <Box paddingBlock={'4'}>
+                {userDetails.roles.length === 0 ? (
+                    <BodyShort>Brukeren har ingen roller</BodyShort>
+                ) : (
                     <div>
-                        <Heading level={'2'} size={'small'}>
-                            Brukerinfo
-                        </Heading>
-                        Navn: {userDetails?.firstName} {userDetails?.lastName}
+                        <TableHeaderLayout
+                            title={'Rolletilknytninger'}
+                            subTitle={userDetails.firstName + ' ' + userDetails.lastName}
+                            alertMessage={{
+                                variant: 'info',
+                                text:
+                                    'Slett-knappen i tabellradene er fjernet inntil videre. Vi holder på med en\n' +
+                                    '                ryddejobb.',
+                            }}
+                            SearchComponent={<OrgUnitSearch />}
+                            FilterComponents={
+                                <>
+                                    <UserAccessRoleFilter roles={userDetails.roles} />
+                                    <SelectObjectType objectTypesForUser={objectTypesForUser} />
+                                </>
+                            }
+                        />
+                        <HStack justify={'end'} gap={'4'}>
+                            {selectedRole.accessRoleId !== '' && (
+                                <Button
+                                    variant={'danger'}
+                                    onClick={toggleDeleteModal}
+                                    icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                                    iconPosition={'right'}>
+                                    Slett valgt rolle
+                                </Button>
+                            )}
+
+                            <Button
+                                variant={'danger'}
+                                onClick={() => toggleRolesResetModal(true)}
+                                icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
+                                iconPosition={'right'}>
+                                Slett alle roller
+                            </Button>
+                        </HStack>
+
+                        <RoleAssignmentTable
+                            selectedRole={selectedRole}
+                            userAssignmentsPaginated={userAssignmentsPaginated}
+                        />
                     </div>
-                    <Button
-                        variant={'danger'}
-                        onClick={() => toggleRolesResetModal(true)}
-                        icon={<TrashIcon title="a11y-title" fontSize="1.5rem" />}
-                        iconPosition={'right'}>
-                        Nullstill brukerroller
-                    </Button>
-                </HStack>
-
-                <Box>
-                    {userDetails.roles.length === 0 ? (
-                        <>Brukeren har ingen roller</>
-                    ) : (
-                        <div className={'table-toolbar-pagination-container'}>
-                            <HStack justify={'space-between'} align={'end'}>
-                                <UserAccessRoleFilter roles={userDetails.roles} />
-
-                                <div>
-                                    {selectedRole.accessRoleId !== '' && (
-                                        <Button
-                                            variant={'danger'}
-                                            onClick={toggleDeleteModal}
-                                            icon={
-                                                <TrashIcon title="a11y-title" fontSize="1.5rem" />
-                                            }
-                                            iconPosition={'right'}>
-                                            Slett rolleobjekt
-                                        </Button>
-                                    )}
-                                </div>
-                            </HStack>
-
-                            <AdministerToolbar objectTypesForUser={objectTypesForUser} />
-
-                            <ChipsFilters />
-
-                            <RoleAssignmentTable
-                                selectedRole={selectedRole}
-                                userAssignmentsPaginated={userAssignmentsPaginated}
-                            />
-                        </div>
-                    )}
-                </Box>
-            </VStack>
+                )}
+            </Box>
 
             {isResetRolesModalOpen && (
                 <ResourceModuleResetModal
