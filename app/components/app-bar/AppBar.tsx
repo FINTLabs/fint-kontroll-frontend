@@ -4,6 +4,7 @@ import { BodyShort, Button, Hide, HStack, Page } from '@navikt/ds-react';
 import { Link } from '@remix-run/react';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 import { LeaveIcon } from '@navikt/aksel-icons';
+import { BASE_PATH } from '../../../environment';
 
 export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
     return (
@@ -35,8 +36,9 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                                 size={'small'}
                                 variant="tertiary"
                                 icon={<LeaveIcon aria-hidden />}
-                                as={Link}
-                                to="/_oauth/logout">
+                                rel="external"
+                                as="a"
+                                href={`${BASE_PATH}/_oauth/logout`}>
                                 Logg ut
                             </Button>
                         ) : null}
