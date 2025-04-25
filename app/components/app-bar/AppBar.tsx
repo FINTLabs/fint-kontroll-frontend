@@ -1,10 +1,11 @@
 import MeInfo from '~/components/app-bar/MeInfo';
 import { IMeInfo } from '~/data/types/userTypes';
-import { BodyShort, Hide, HStack, Page } from '@navikt/ds-react';
+import { BodyShort, Button, Hide, HStack, Page } from '@navikt/ds-react';
 import { Link } from '@remix-run/react';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
+import { LeaveIcon } from '@navikt/aksel-icons';
 
-export function AppBar({ me }: { me?: IMeInfo }) {
+export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -21,12 +22,26 @@ export function AppBar({ me }: { me?: IMeInfo }) {
                     </Link>
                 </HStack>
 
-                <HStack align="center" gap={'8'}>
+                <HStack align="center" gap={'12'}>
                     {me ? <ApiMenu me={me} /> : null}
-                    <Hide below="lg" asChild>
-                        <MeInfo me={me} />
-                    </Hide>
-                    {/*<Button variant="primary"
+                    <HStack align="center" gap={'2'}>
+                        {me ? (
+                            <Hide below="lg" asChild>
+                                <MeInfo me={me} />
+                            </Hide>
+                        ) : null}
+                        {me ? (
+                            <Button
+                                size={'small'}
+                                variant="tertiary"
+                                icon={<LeaveIcon aria-hidden />}
+                                as={Link}
+                                to={`${basePath}/_oauth/logout`}>
+                                Logg ut
+                            </Button>
+                        ) : null}
+
+                        {/*<Button variant="primary"
                                     as={Link}
                                     to="/_oauth/logout">
                                 Logg ut
@@ -39,6 +54,7 @@ export function AppBar({ me }: { me?: IMeInfo }) {
                                 Logg ut
                             </Button>
 */}
+                    </HStack>
                 </HStack>
             </HStack>
         </Page.Block>
