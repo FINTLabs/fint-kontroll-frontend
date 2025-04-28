@@ -39,7 +39,7 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                                 rel="external"
                                 target="_blank"
                                 as="a"
-                                href={`${basePath}/_oauth/logout`}>
+                                href={`_oauth/logout`}>
                                 Logg ut
                             </Button>
                         ) : null}
