@@ -37,8 +37,9 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                                 variant="tertiary"
                                 icon={<LeaveIcon aria-hidden />}
                                 rel="external"
+                                target="_blank"
                                 as="a"
-                                href={`${BASE_PATH}/_oauth/logout`}>
+                                href={`${basePath}/_oauth/logout`}>
                                 Logg ut
                             </Button>
                         ) : null}

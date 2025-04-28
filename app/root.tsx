@@ -123,9 +123,10 @@ export default function App() {
 interface LayoutProps {
     children: any;
     me?: IMeInfo;
+    basePath?: string;
 }
 
-const Layout = ({ children, me }: LayoutProps) => {
+const Layout = ({ children, me, basePath }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -133,7 +134,7 @@ const Layout = ({ children, me }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} />
+            <AppBar me={me} basePath={basePath} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>
