@@ -126,7 +126,7 @@ interface LayoutProps {
     basePath?: string;
 }
 
-const Layout = ({ children, me, basePath }: LayoutProps) => {
+const Layout = ({ children, me }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -134,7 +134,7 @@ const Layout = ({ children, me, basePath }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} basePath={basePath} />
+            <AppBar me={me} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>

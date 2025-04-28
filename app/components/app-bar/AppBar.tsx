@@ -4,9 +4,8 @@ import { BodyShort, Button, Hide, HStack, Page } from '@navikt/ds-react';
 import { Link } from '@remix-run/react';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 import { LeaveIcon } from '@navikt/aksel-icons';
-import { BASE_PATH } from '../../../environment';
 
-export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
+export function AppBar({ me }: { me?: IMeInfo }) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -43,20 +42,6 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                                 Logg ut
                             </Button>
                         ) : null}
-
-                        {/*<Button variant="primary"
-                                    as={Link}
-                                    to="/_oauth/logout">
-                                Logg ut
-                            </Button>
-
-
-                            <Button variant="primary"
-                                    as="a"
-                                    href={`${props.basePath}/_oauth/logout`}>
-                                Logg ut
-                            </Button>
-*/}
                     </HStack>
                 </HStack>
             </HStack>
