@@ -35,7 +35,7 @@ export function AppBar({ me }: { me?: IMeInfo }) {
                                 size={'small'}
                                 variant="tertiary"
                                 icon={<LeaveIcon aria-hidden />}
-                                rel="external"
+                                rel="external noopener noreferrer"
                                 target="_blank"
                                 as="a"
                                 href={`_oauth/logout`}>
