@@ -5,7 +5,7 @@ import { Link } from '@remix-run/react';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 import { LeaveIcon } from '@navikt/aksel-icons';
 
-export function AppBar({ me }: { me?: IMeInfo }) {
+export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -38,7 +38,7 @@ export function AppBar({ me }: { me?: IMeInfo }) {
                                 rel="external noopener noreferrer"
                                 target="_blank"
                                 as="a"
-                                href={`_oauth/logout`}>
+                                href={`${basePath}/_oauth/logout`}>
                                 Logg ut
                             </Button>
                         ) : null}

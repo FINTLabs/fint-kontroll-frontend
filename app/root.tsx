@@ -71,7 +71,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function App() {
-    const { me } = useLoaderData<typeof loader>();
+    const { me, basePath } = useLoaderData<typeof loader>();
     const matches = useMatches();
     return (
         <html lang="no">
@@ -82,7 +82,7 @@ export default function App() {
             <body data-theme="novari">
                 <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
 
-                <Layout me={me}>
+                <Layout me={me} basePath={basePath}>
                     {matches.find((match) => {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
@@ -126,7 +126,7 @@ interface LayoutProps {
     basePath?: string;
 }
 
-const Layout = ({ children, me }: LayoutProps) => {
+const Layout = ({ children, me, basePath }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -134,7 +134,7 @@ const Layout = ({ children, me }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} />
+            <AppBar me={me} basePath={basePath} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>
