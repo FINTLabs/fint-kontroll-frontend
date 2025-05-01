@@ -17,7 +17,7 @@ const TildelingToolbar = ({ allOrgUnits, accessRoles }: TildelingToolbarProps) =
         <VStack gap={'2'}>
             <HStack className={'filters'} gap={'4'} justify="end" align="end">
                 <VStack gap={'2'}>
-                    <Label>Filter på tilhørighet</Label>
+                    <Label>Filtrer på tilhørighet</Label>
                     <OrgUnitFilterModal orgUnitList={allOrgUnits} />
                 </VStack>
                 <AllAccessRolesFilter roles={accessRoles} />
