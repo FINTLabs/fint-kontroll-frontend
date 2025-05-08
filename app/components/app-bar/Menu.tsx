@@ -22,8 +22,7 @@ export const Menu = ({ me, source }: { me: IMeInfo; basePath?: string; source?: 
             <ActionMenu.Trigger>
                 {me ? (
                     <Button
-                        className={'menu-button'}
-                        variant="tertiary-neutral"
+                        variant="tertiary"
                         icon={<MenuHamburgerIcon aria-hidden />}
                         iconPosition="left"
                         id="dropdown-button">
