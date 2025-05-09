@@ -97,6 +97,7 @@ export interface IResourceForList {
 
 export interface IResourceItem {
     id: number;
+    resourceRef: number;
     resourceId: string;
     orgUnitId: string;
     orgUnitName: string;
