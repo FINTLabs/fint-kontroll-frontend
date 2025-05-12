@@ -99,6 +99,7 @@ export interface IResourceItem {
     id: number;
     resourceRef: number;
     resourceId: string;
+    resourceName: string;
     orgUnitId: string;
     orgUnitName: string;
     resourceLimit: number;
