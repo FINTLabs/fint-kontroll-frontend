@@ -184,7 +184,7 @@ export default function EditOrgUnitsForResource() {
 
     const mapOrgUnitListToValidForOrgUnits = (orgUnit: IUnitItem): IValidForOrgUnits => {
         return {
-            resourceRef: resource.id,
+            resourceRef: newResource.id,
             resourceId: newResource.resourceId,
             resourceName: resource.resourceName,
             orgUnitName: orgUnit.name,

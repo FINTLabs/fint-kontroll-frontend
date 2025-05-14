@@ -9,9 +9,9 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={'center'}>
+                        {/*<Table.HeaderCell scope="col" align={'center'}>
                             Maks lisenser
-                        </Table.HeaderCell>
+                        </Table.HeaderCell>*/}
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelte lisenser
                         </Table.HeaderCell>
@@ -22,18 +22,24 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                         .sort((a, b) => {
                             if (a.orgUnitName === resource.resourceOwnerOrgUnitName) return -1;
                             if (b.orgUnitName === resource.resourceOwnerOrgUnitName) return 1;
-                            return b.resourceLimit - a.resourceLimit;
+                            const limitA = a.resourceLimit ?? 0;
+                            const limitB = b.resourceLimit ?? 0;
+                            return limitB - limitA;
                         })
                         .map((resourceItem, i) => (
                             <Table.Row key={i}>
                                 <Table.HeaderCell scope="row">
                                     {resourceItem.orgUnitName}
                                 </Table.HeaderCell>
+                                {/*<Table.DataCell align={'center'}>
+                                    {resource.resourceLimit != null
+                                        ? resource.resourceLimit.toLocaleString()
+                                        : ''}
+                                </Table.DataCell>*/}
                                 <Table.DataCell align={'center'}>
-                                    {resourceItem.resourceLimit.toLocaleString()}
-                                </Table.DataCell>
-                                <Table.DataCell align={'center'}>
-                                    {resourceItem.assignedResources?.toLocaleString()}
+                                    {resourceItem.resourceLimit != null
+                                        ? resourceItem.resourceLimit.toLocaleString()
+                                        : 0}
                                 </Table.DataCell>
                             </Table.Row>
                         ))}

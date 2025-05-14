@@ -1,12 +1,4 @@
-import {
-    BodyShort,
-    Button,
-    ErrorMessage,
-    ExpansionCard,
-    Heading,
-    HStack,
-    VStack,
-} from '@navikt/ds-react';
+import { Button, ErrorMessage, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
@@ -240,7 +232,9 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                             selectedValidForOrgUnits.map(
                                 (orgUnit: IUnitItem): IValidForOrgUnits => {
                                     return {
+                                        resourceRef: newResource.id,
                                         resourceId: newResource.resourceId,
+                                        resourceName: newResource.resourceName,
                                         orgUnitName: orgUnit.name,
                                         orgUnitId: orgUnit.organisationUnitId,
                                         resourceLimit: orgUnit.limit,

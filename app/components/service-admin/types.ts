@@ -24,6 +24,6 @@ export interface IValidForOrgUnits {
     resourceName: string;
     orgUnitId: string;
     orgUnitName: string;
-    resourceLimit?: number;
+    resourceLimit?: number | null;
     isChecked?: boolean;
 }

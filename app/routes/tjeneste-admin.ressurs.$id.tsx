@@ -121,7 +121,10 @@ export default function ResourceById() {
                             },
                             {
                                 label: 'Totalt antall lisenser',
-                                value: resource.resourceLimit?.toLocaleString(),
+                                value:
+                                    resource.resourceLimit != null
+                                        ? resource.resourceLimit.toLocaleString()
+                                        : '',
                             },
                             {
                                 label: 'Kostnad pr. ressurs',
