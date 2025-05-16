@@ -64,6 +64,23 @@ const ChipsFilters = () => {
         [pageParam, setSearchParams]
     );
 
+    const removeAllFilters = useCallback(() => {
+        setSearchParams((params) => {
+            Object.keys(filters).forEach((key) => params.delete(key));
+            return params;
+        });
+        setFilters({
+            orgUnits: null,
+            accessroleid: null,
+            name: null,
+            userType: null,
+            status: null,
+            applicationcategory: null,
+            objectType: null,
+        });
+        filterResetPageParam(pageParam, setSearchParams);
+    }, [filters, pageParam, setSearchParams]);
+
     const filterToLabel = useCallback(
         (filter: string, value: string) => {
             switch (filter) {
@@ -82,6 +99,8 @@ const ChipsFilters = () => {
         [userTypes]
     );
 
+    const activeFilters = Object.values(filters).filter((value) => value !== null).length;
+
     return (
         <Box className={'filters'} paddingBlock={'0 4'}>
             <Chips>
@@ -98,6 +117,12 @@ const ChipsFilters = () => {
                             </Chips.Removable>
                         ) : null
                     )}
+
+                {activeFilters > 1 && (
+                    <Chips.Removable key="clear-all" onClick={removeAllFilters} id="clear-all-chip">
+                        Tøm alle filter
+                    </Chips.Removable>
+                )}
             </Chips>
         </Box>
     );

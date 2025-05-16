@@ -18,9 +18,12 @@ export interface IApplicationResource {
 }
 
 export interface IValidForOrgUnits {
+    id?: number;
+    resourceRef?: number;
     resourceId: string;
+    resourceName: string;
     orgUnitId: string;
     orgUnitName: string;
-    resourceLimit?: number;
+    resourceLimit?: number | null;
     isChecked?: boolean;
 }
