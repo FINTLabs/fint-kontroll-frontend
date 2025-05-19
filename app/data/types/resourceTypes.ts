@@ -98,9 +98,10 @@ export interface IResourceForList {
 export interface IResourceItem {
     id: number;
     resourceId: string;
+    resourceName: string;
     orgUnitId: string;
     orgUnitName: string;
-    resourceLimit: number;
+    resourceLimit: number | null;
     assignedResources?: number; // NEW
 }
 
