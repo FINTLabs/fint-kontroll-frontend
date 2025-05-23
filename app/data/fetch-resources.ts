@@ -62,7 +62,6 @@ export const createResource = async (
     resourceLimit: number,
     resourceOwnerOrgUnitId: string,
     resourceOwnerOrgUnitName: string,
-    validForOrgUnits: IValidForOrgUnits[],
     validForRoles: string[],
     applicationCategory: string[],
     hasCost: boolean,
@@ -84,7 +83,6 @@ export const createResource = async (
             resourceLimit: resourceLimit,
             resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
             resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForOrgUnits: validForOrgUnits,
             validForRoles: validForRoles,
             applicationCategory: applicationCategory,
             hasCost: hasCost,
@@ -93,7 +91,6 @@ export const createResource = async (
             status: status,
         })
     );
-    const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
     const response = await fetch(url, {
         headers: {
             Authorization: token ?? '',
@@ -109,7 +106,6 @@ export const createResource = async (
             resourceLimit: resourceLimit,
             resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
             resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForOrgUnits: validForOrg,
             validForRoles: validForRoles,
             applicationCategory: applicationCategory,
             hasCost: hasCost,

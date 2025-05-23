@@ -1,5 +1,5 @@
 import { Form, useSearchParams } from '@remix-run/react';
-import { Select, Pagination as AkselPagination } from '@navikt/ds-react';
+import { Select, Pagination as AkselPagination, BodyShort } from '@navikt/ds-react';
 import React from 'react';
 
 import { setSizeCookieClientSide } from '~/utils/cookieHelpers';
@@ -8,9 +8,15 @@ type PaginationProps = {
     currentPage: number;
     totalPages?: number;
     size?: string | number | readonly string[] | undefined;
+    totalItems: number;
 };
 
-export const TablePagination = ({ totalPages = 1, size = 25, currentPage }: PaginationProps) => {
+export const TablePagination = ({
+    totalPages = 1,
+    size = 25,
+    currentPage,
+    totalItems,
+}: PaginationProps) => {
     const [, setSearchParams] = useSearchParams();
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLSelectElement | HTMLOptionElement>

@@ -25,12 +25,12 @@ export const DeleteButton = ({
 
     return (
         <Button
-            className={'nowrap delete-icon-button'}
+            className={'nowrap'}
             id={id}
             icon={<TrashIcon title="søppelbøtte" />}
-            iconPosition={'left'}
+            iconPosition={'right'}
             onClick={() => navigate(url)}
-            variant={'tertiary'}
+            variant={'secondary-neutral'}
             role="link"
             loading={isLoading}
             size={size}>

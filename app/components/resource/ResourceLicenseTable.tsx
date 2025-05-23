@@ -8,7 +8,7 @@ export const ResourceLicenseTable = ({ resource }: { resource: IResource }) => {
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col" style={{ color: 'var(--red-primary)' }}>
-                        Lisenser tilgjengelig
+                        Tilgjengelig for org.enhet
                     </Table.HeaderCell>
                     <Table.HeaderCell
                         scope="col"
@@ -20,7 +20,7 @@ export const ResourceLicenseTable = ({ resource }: { resource: IResource }) => {
                         scope="col"
                         align={'center'}
                         style={{ color: 'var(--red-primary)' }}>
-                        Tildelte lisenser
+                        Antall brukte lisenser
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -29,11 +29,13 @@ export const ResourceLicenseTable = ({ resource }: { resource: IResource }) => {
                     .sort((a, b) => {
                         if (a.orgUnitName === resource.resourceOwnerOrgUnitName) return -1;
                         if (b.orgUnitName === resource.resourceOwnerOrgUnitName) return 1;
-                        return b.resourceLimit - a.resourceLimit;
+                        const limitA = a.resourceLimit ?? 0;
+                        const limitB = b.resourceLimit ?? 0;
+                        return limitB - limitA;
                     })
                     .map((resourceItem, i) => (
                         <Table.Row key={i} shadeOnHover={false}>
-                            <Table.HeaderCell scope="row" style={{ color: 'var(--red-primary)' }}>
+                            <Table.HeaderCell scope="row">
                                 {resourceItem.orgUnitName}
                             </Table.HeaderCell>
                             <Table.DataCell align={'center'}>
