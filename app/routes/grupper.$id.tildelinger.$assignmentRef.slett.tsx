@@ -9,6 +9,7 @@ import {
     prepareQueryParams,
     prepareQueryParamsWithResponseCode,
 } from '~/utils/searchParamsHelpers';
+import { TrashIcon } from '@navikt/aksel-icons';
 
 export async function action({ params, request }: ActionFunctionArgs) {
     const { searchParams } = new URL(request.url);
@@ -61,7 +62,11 @@ export default function DeleteRoleAssignment() {
                     {response.state === 'submitting' ? (
                         <Button loading>Slett</Button>
                     ) : (
-                        <Button type="submit" variant="primary">
+                        <Button
+                            type="submit"
+                            variant="danger"
+                            icon={<TrashIcon title="søppelbøtte" />}
+                            iconPosition={'right'}>
                             Slett
                         </Button>
                     )}

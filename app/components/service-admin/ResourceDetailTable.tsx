@@ -8,12 +8,12 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-                        {/*<Table.HeaderCell scope="col" align={'center'}>
-                            Maks lisenser
-                        </Table.HeaderCell>*/}
+                        <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
-                            Tildelte lisenser
+                            Maks antall lisenser
+                        </Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'center'}>
+                            Antall brukte lisenser
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -31,15 +31,15 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                                 <Table.HeaderCell scope="row">
                                     {resourceItem.orgUnitName}
                                 </Table.HeaderCell>
-                                {/*<Table.DataCell align={'center'}>
-                                    {resource.resourceLimit != null
-                                        ? resource.resourceLimit.toLocaleString()
-                                        : ''}
-                                </Table.DataCell>*/}
                                 <Table.DataCell align={'center'}>
                                     {resourceItem.resourceLimit != null
                                         ? resourceItem.resourceLimit.toLocaleString()
                                         : 0}
+                                </Table.DataCell>
+                                <Table.DataCell align={'center'}>
+                                    {resourceItem.assignedResources != null
+                                        ? resourceItem.assignedResources.toLocaleString()
+                                        : ''}
                                 </Table.DataCell>
                             </Table.Row>
                         ))}

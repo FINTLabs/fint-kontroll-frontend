@@ -9,6 +9,7 @@ import {
     prepareQueryParams,
     prepareQueryParamsWithResponseCode,
 } from '~/utils/searchParamsHelpers';
+import { TrashIcon } from '@navikt/aksel-icons';
 
 export async function action({ request }: ActionFunctionArgs) {
     const data = await request.formData();
@@ -58,7 +59,11 @@ export default function DeleteResource() {
                         {response.state === 'submitting' ? (
                             <Button loading>Slett</Button>
                         ) : (
-                            <Button type="submit" variant="primary">
+                            <Button
+                                type="submit"
+                                variant="danger"
+                                icon={<TrashIcon title="søppelbøtte" />}
+                                iconPosition={'right'}>
                                 Slett
                             </Button>
                         )}

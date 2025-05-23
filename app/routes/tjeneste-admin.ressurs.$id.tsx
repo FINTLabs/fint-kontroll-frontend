@@ -166,7 +166,7 @@ export default function ResourceById() {
                                 iconPosition="right"
                                 icon={<PencilIcon aria-hidden />}
                                 onClick={() => navigate(getEditValidForOrgUnitsUrl(resource.id))}>
-                                Rediger organisasjonsenheter
+                                Endre eller legg til org.enheter
                             </Button>
                         </HStack>
                     )}

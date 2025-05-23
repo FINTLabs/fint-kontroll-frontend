@@ -134,39 +134,41 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            <ExpansionCard
-                aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
-                defaultOpen={!selectedValidForOrgUnits.length}>
-                <ExpansionCard.Header>
-                    <ExpansionCard.Title>
-                        Legg til organisasjonsenheter som skal ha tilgang til ressursen
-                    </ExpansionCard.Title>
-                    <ExpansionCard.Description>
-                        {selectedValidForOrgUnits.length > 0 && (
-                            <>
-                                {`${selectedValidForOrgUnits.length} enheter valgt.`}
-                                <br />
-                                {newResource.resourceLimit &&
-                                totalAssignedResources > newResource.resourceLimit ? (
-                                    <ErrorMessage>
-                                        {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`}
-                                    </ErrorMessage>
-                                ) : (
-                                    `${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`
-                                )}
-                            </>
-                        )}
-                    </ExpansionCard.Description>
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <OrgUnitSelect
-                        allOrgUnits={allOrgUnits}
-                        selectedOrgUnits={selectedValidForOrgUnits}
-                        setSelectedOrgUnits={setSelectedValidForOrgUnits}
-                        selectType="allocation"
-                    />
-                </ExpansionCard.Content>
-            </ExpansionCard>
+            {newResource.resourceId ? (
+                <ExpansionCard
+                    aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
+                    defaultOpen={!selectedValidForOrgUnits.length}>
+                    <ExpansionCard.Header>
+                        <ExpansionCard.Title>
+                            Legg til organisasjonsenheter som skal ha tilgang til ressursen
+                        </ExpansionCard.Title>
+                        <ExpansionCard.Description>
+                            {selectedValidForOrgUnits.length > 0 && (
+                                <>
+                                    {`${selectedValidForOrgUnits.length} enheter valgt.`}
+                                    <br />
+                                    {newResource.resourceLimit &&
+                                    totalAssignedResources > newResource.resourceLimit ? (
+                                        <ErrorMessage>
+                                            {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`}
+                                        </ErrorMessage>
+                                    ) : (
+                                        `${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`
+                                    )}
+                                </>
+                            )}
+                        </ExpansionCard.Description>
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content>
+                        <OrgUnitSelect
+                            allOrgUnits={allOrgUnits}
+                            selectedOrgUnits={selectedValidForOrgUnits}
+                            setSelectedOrgUnits={setSelectedValidForOrgUnits}
+                            selectType="allocation"
+                        />
+                    </ExpansionCard.Content>
+                </ExpansionCard>
+            ) : null}
 
             <HStack gap="4" justify={'end'}>
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>

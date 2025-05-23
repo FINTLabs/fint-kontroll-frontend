@@ -87,11 +87,11 @@ export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTablePr
                     </Table.Body>
                 </Table>
             </VStack>
-
             <TablePagination
                 currentPage={assignedUsers.currentPage}
                 totalPages={assignedUsers.totalPages}
                 size={size}
+                totalItems={assignedUsers.totalItems}
             />
         </div>
     );

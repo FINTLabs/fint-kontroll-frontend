@@ -2,7 +2,6 @@ import { Link, useLoaderData, useNavigation } from '@remix-run/react';
 import { ActionFunctionArgs, LinksFunction, redirect } from '@remix-run/node';
 import React from 'react';
 import { HStack, Loader } from '@navikt/ds-react';
-import { IValidForOrgUnits } from '~/components/service-admin/types';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { createResource, fetchAllOrgUnits } from '~/data/fetch-resources';
 import { LoaderFunctionArgs } from '@remix-run/router';
@@ -103,13 +102,6 @@ export async function action({ request }: ActionFunctionArgs) {
     const resourceLimit = parseInt(data.get('resourceLimit') as string);
     const resourceOwnerOrgUnitId = data.get('resourceOwnerOrgUnitId') as string;
     const resourceOwnerOrgUnitName = data.get('resourceOwnerOrgUnitName') as string;
-    let validForOrgUnits: IValidForOrgUnits[] = [];
-    const validForOrgUnitsString = data.get('validForOrgUnits') as string | null;
-
-    if (validForOrgUnitsString) {
-        validForOrgUnits = JSON.parse(validForOrgUnitsString);
-    }
-
     const validForRoles = String(data.get('validForRoles')).split(',') ?? [];
     const applicationCategory = String(data.get('applicationCategory')).split(',') ?? [];
     const hasCost = data.get('hasCost') === 'true';
@@ -126,7 +118,6 @@ export async function action({ request }: ActionFunctionArgs) {
         resourceLimit,
         resourceOwnerOrgUnitId,
         resourceOwnerOrgUnitName,
-        validForOrgUnits,
         validForRoles,
         applicationCategory,
         hasCost,

@@ -96,6 +96,7 @@ export default function ResourceById() {
                         },
                         { label: 'Ressurstype', value: resource.resourceType },
                         { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },
+                        { label: 'Antall lisenser', value: resource.resourceLimit.toString() },
                         {
                             label: 'Gyldig for',
                             value:
