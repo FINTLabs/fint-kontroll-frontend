@@ -58,6 +58,7 @@ export const AssignmentsForRoleTable = ({
                 currentPage={assignmentsForRole.currentPage}
                 totalPages={assignmentsForRole.totalPages}
                 size={size}
+                totalItems={assignmentsForRole.totalItems}
             />
         </>
     );

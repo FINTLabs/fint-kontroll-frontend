@@ -63,6 +63,7 @@ export const MemberTable = () => {
                 currentPage={memberPage.currentPage}
                 totalPages={memberPage.totalPages}
                 size={size}
+                totalItems={memberPage.totalItems}
             />
         </>
     );

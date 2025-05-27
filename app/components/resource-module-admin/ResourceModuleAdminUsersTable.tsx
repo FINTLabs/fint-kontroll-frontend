@@ -57,6 +57,7 @@ const ResourceModuleAdminUsersTable = ({ usersPage, size }: ResourceModuleAdminU
                     currentPage={usersPage.currentPage}
                     totalPages={usersPage.totalPages}
                     size={size}
+                    totalItems={usersPage.totalItems}
                 />
             )}
         </div>

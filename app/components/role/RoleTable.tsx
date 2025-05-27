@@ -58,6 +58,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                 currentPage={rolePage.currentPage}
                 totalPages={rolePage.totalPages}
                 size={size}
+                totalItems={rolePage.totalItems}
             />
         </>
     );

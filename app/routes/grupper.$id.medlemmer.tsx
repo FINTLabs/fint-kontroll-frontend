@@ -41,7 +41,7 @@ export const handle = {
 
 export default function Members() {
     const loaderData = useLoaderData<typeof loader>();
-    const members = loaderData.members;
+    // const members = loaderData.members;
 
     return (
         <section>
@@ -53,11 +53,11 @@ export default function Members() {
                         SearchComponent={
                             <Search label={'Søk etter medlemmer'} id={'search-member'} />
                         }
-                        LeftAlignedFilters={
+                        /*LeftAlignedFilters={
                             <VStack align={'start'} justify={'start'} height={'100%'}>
-                                <Detail>Antall medlemmer i gruppen: {members.totalItems}</Detail>
+                                <Detail>Antall medlemmer i gruppen : {members.totalItems}</Detail>
                             </VStack>
-                        }
+                        }*/
                     />
                     <Tabs.Panel value="members">
                         <MemberTable />

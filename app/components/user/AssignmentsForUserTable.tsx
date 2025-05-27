@@ -72,6 +72,7 @@ export const AssignmentsForUserTable = ({
                 currentPage={assignmentsForUser.currentPage}
                 totalPages={assignmentsForUser.totalPages}
                 size={size}
+                totalItems={assignmentsForUser.totalItems}
             />
         </>
     );

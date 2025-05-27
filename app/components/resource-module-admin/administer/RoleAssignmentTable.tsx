@@ -105,6 +105,7 @@ const RoleAssignmentTable = ({
                     currentPage={userAssignmentsPaginated.currentPage}
                     totalPages={userAssignmentsPaginated.totalPages}
                     size={Number(params.get('size')) ?? 10}
+                    totalItems={userAssignmentsPaginated.totalItems}
                 />
             )}
         </div>

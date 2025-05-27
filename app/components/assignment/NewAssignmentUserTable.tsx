@@ -16,6 +16,7 @@ interface AssignUserTableProps {
     resourceId: string | undefined;
     totalPages?: number;
     currentPage: number;
+    totalItems: number;
     basePath?: string;
 }
 
@@ -26,6 +27,7 @@ export const AssignUserTable = ({
     totalPages,
     currentPage,
     basePath,
+    totalItems,
 }: AssignUserTableProps) => {
     const { userTypesKodeverk } = useLoaderData<typeof loader>();
     const [searchParams] = useSearchParams();
@@ -81,7 +83,12 @@ export const AssignUserTable = ({
                     )}
                 </Table.Body>
             </Table>
-            <TablePagination currentPage={currentPage} totalPages={totalPages} size={size} />
+            <TablePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                size={size}
+                totalItems={totalItems}
+            />
         </div>
     );
 };

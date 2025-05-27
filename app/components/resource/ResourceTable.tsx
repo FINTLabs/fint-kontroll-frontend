@@ -62,6 +62,7 @@ export const ResourceTable = ({
                 currentPage={resourcePage.currentPage}
                 totalPages={resourcePage.totalPages}
                 size={size}
+                totalItems={resourcePage.totalItems}
             />
         </>
     );

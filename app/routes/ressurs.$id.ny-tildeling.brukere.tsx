@@ -97,6 +97,7 @@ export default function NewAssignment() {
                 size={userList.size}
                 currentPage={userList.currentPage}
                 totalPages={userList.totalPages}
+                totalItems={userList.totalItems}
                 basePath={basePath}
             />
         </Tabs.Panel>

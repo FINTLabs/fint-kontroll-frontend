@@ -16,6 +16,7 @@ interface AssignResourceToRoleTableProps {
     totalPages?: number;
     currentPage: number;
     orgId: string;
+    totalItems: number;
 }
 
 export const AssignResourceToRoleTable = ({
@@ -25,6 +26,7 @@ export const AssignResourceToRoleTable = ({
     totalPages,
     currentPage,
     orgId,
+    totalItems,
 }: AssignResourceToRoleTableProps) => {
     const [searchParams] = useSearchParams();
     const { fetching } = useLoadingState();
@@ -73,7 +75,12 @@ export const AssignResourceToRoleTable = ({
                 </Table.Body>
             </Table>
 
-            <TablePagination currentPage={currentPage} totalPages={totalPages} size={size} />
+            <TablePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                size={size}
+                totalItems={totalItems}
+            />
         </div>
     );
 };
