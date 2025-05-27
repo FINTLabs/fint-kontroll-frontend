@@ -17,6 +17,7 @@ interface AssignRoleTableProps {
     resourceId: string | undefined;
     totalPages?: number;
     currentPage: number;
+    totalItems: number;
 }
 
 export const AssignRoleTable = (props: AssignRoleTableProps) => {
@@ -77,6 +78,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                 currentPage={props.currentPage}
                 totalPages={props.totalPages}
                 size={props.size}
+                totalItems={props.totalItems}
             />
         </div>
     );

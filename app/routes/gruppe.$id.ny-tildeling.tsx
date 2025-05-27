@@ -138,6 +138,7 @@ export default function NewAssignmentForRole() {
                     currentPage={resourceList.currentPage}
                     totalPages={resourceList.totalPages}
                     orgId={role.organisationUnitId}
+                    totalItems={resourceList.totalItems}
                 />
             </VStack>
         </div>

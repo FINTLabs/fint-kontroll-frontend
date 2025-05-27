@@ -78,6 +78,7 @@ export const AssignedRolesTable: any = (props: {
                 currentPage={props.assignedRoles.currentPage}
                 totalPages={props.assignedRoles.totalPages}
                 size={props.size}
+                totalItems={props.assignedRoles.totalItems}
             />
         </div>
     );

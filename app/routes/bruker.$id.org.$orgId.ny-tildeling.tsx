@@ -126,6 +126,7 @@ export default function NewAssignmentForUser() {
                         size={data.size}
                         currentPage={data.resourceList.currentPage}
                         totalPages={data.resourceList.totalPages}
+                        totalItems={data.resourceList.totalItems}
                     />
                 ) : (
                     <>

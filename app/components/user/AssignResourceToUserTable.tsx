@@ -16,6 +16,7 @@ interface AssignResourceToUserTableProps {
     orgId: string;
     totalPages?: number;
     currentPage: number;
+    totalItems: number;
 }
 export const AssignResourceToUserTable = ({
     isAssignedResources,
@@ -24,6 +25,7 @@ export const AssignResourceToUserTable = ({
     orgId,
     totalPages,
     currentPage,
+    totalItems,
 }: AssignResourceToUserTableProps) => {
     const [searchParams] = useSearchParams();
     const { fetching } = useLoadingState();
@@ -69,7 +71,12 @@ export const AssignResourceToUserTable = ({
                     )}
                 </Table.Body>
             </Table>
-            <TablePagination currentPage={currentPage} totalPages={totalPages} size={size} />
+            <TablePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                size={size}
+                totalItems={totalItems}
+            />
         </div>
     );
 };

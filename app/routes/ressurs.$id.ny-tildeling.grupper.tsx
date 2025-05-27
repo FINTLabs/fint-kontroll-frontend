@@ -85,6 +85,7 @@ export default function NewAssignmentForRole() {
                 currentPage={roleList.currentPage}
                 totalPages={roleList.totalPages}
                 size={roleList.totalItems}
+                totalItems={roleList.totalItems}
             />
         </Tabs.Panel>
     );

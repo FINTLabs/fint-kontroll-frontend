@@ -101,6 +101,7 @@ const TildelUsersTable = ({
                     currentPage={usersPage.currentPage}
                     totalPages={usersPage.totalPages}
                     size={size}
+                    totalItems={usersPage.totalItems}
                 />
             )}
         </VStack>

@@ -91,6 +91,7 @@ export const ServiceAdminTable = ({ resourcePage, size, source }: ResourceTableP
                 currentPage={resourcePage.currentPage}
                 totalPages={resourcePage.totalPages}
                 size={size}
+                totalItems={resourcePage.totalItems}
             />
         </>
     );

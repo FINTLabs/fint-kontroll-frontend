@@ -63,6 +63,7 @@ export const UserTable = () => {
                 currentPage={userPage.currentPage}
                 totalPages={userPage.totalPages}
                 size={size}
+                totalItems={userPage.totalItems}
             />
         </>
     );
