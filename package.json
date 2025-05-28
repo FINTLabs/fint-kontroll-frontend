@@ -35,7 +35,7 @@
         "morgan": "^1.10.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-toastify": "^10.0.5"
+        "react-toastify": "^11.0.5"
     },
     "devDependencies": {
         "@navikt/aksel-stylelint": "^7.17.4",
