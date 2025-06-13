@@ -2,6 +2,7 @@ import { Form, Link, useLoaderData, useNavigate, useNavigation } from '@remix-ru
 import { ActionFunctionArgs, LinksFunction, redirect } from '@remix-run/node';
 import React, { useMemo, useState } from 'react';
 import {
+    Alert,
     BodyShort,
     Box,
     Button,
@@ -20,6 +21,8 @@ import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
+import { AlertWithCloseButton } from '~/components/assignment/AlertWithCloseButton';
+import { ResponseAlert } from '~/components/common/ResponseAlert';
 
 export const handle = {
     // @ts-ignore
@@ -162,6 +165,7 @@ export default function EditOrgUnitsForResource() {
     );
 
     const response = useNavigation();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const [newResource] = useState<IApplicationResource>({
         id: resource.id,
@@ -258,6 +262,11 @@ export default function EditOrgUnitsForResource() {
                         selectType="allocation"
                     />
                 </Box>
+
+                {errorMessage && (
+                    <AlertWithCloseButton variant="error">{errorMessage}</AlertWithCloseButton>
+                )}
+
                 <HStack gap="4" justify={'end'}>
                     <Button
                         type="button"
@@ -265,7 +274,24 @@ export default function EditOrgUnitsForResource() {
                         onClick={() => navigate(SERVICE_ADMIN)}>
                         Avbryt
                     </Button>
-                    <Form method="PUT">
+                    <Form
+                        method="PUT"
+                        onSubmit={(e) => {
+                            const hasErrors = selectedValidForOrgUnits.some(
+                                (unit) =>
+                                    unit.isChecked &&
+                                    (unit.limit === undefined ||
+                                        unit.limit === null ||
+                                        unit.limit === 0)
+                            );
+
+                            if (hasErrors) {
+                                e.preventDefault();
+                                setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
+                            } else {
+                                setErrorMessage(null);
+                            }
+                        }}>
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                         <input
                             type="hidden"
