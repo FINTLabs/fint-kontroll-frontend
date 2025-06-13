@@ -1,8 +1,8 @@
 import {
-    getOrgUnitAndAllNestedChildren,
-    getAllTopLevelUnits,
-    getOrgUnitByChildrenRef,
     getAllParents,
+    getAllTopLevelUnits,
+    getOrgUnitAndAllNestedChildren,
+    getOrgUnitByChildrenRef,
 } from '~/components/common/orgUnits/utils';
 import { Accordion, AccordionItem } from '~/components/common/orgUnits/CustomAccordion';
 import {
@@ -133,9 +133,9 @@ const OrgUnitSelect = ({
 
     const handleChange = useCallback(
         (ids: string[]): void => {
-            updateSelectedOrgUnits(ids, aggregated || selectType === 'allocation');
+            updateSelectedOrgUnits(ids, aggregated);
         },
-        [aggregated, selectType, updateSelectedOrgUnits]
+        [aggregated, updateSelectedOrgUnits]
     );
 
     return (
@@ -167,7 +167,7 @@ const OrgUnitSelect = ({
                         <CheckboxTreeNode
                             key={unit.id}
                             unit={unit}
-                            isAggregated={aggregated || selectType === 'allocation'}
+                            isAggregated={aggregated}
                             orgUnitList={allOrgUnits}
                             selectedIds={selectedIds}
                             selectedOrgUnits={selectedOrgUnits}
@@ -224,13 +224,26 @@ const CheckboxTreeNode = ({
     const handleTextFieldChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            const limit = value ? Number(value) : 0;
+
+            if (!value.trim() || value === '') {
+                setErrorMessage('Feltet er påkrevd');
+                handleLimitChange(unit.organisationUnitId, undefined);
+                return;
+            }
+
+            const limit = Number(value);
             if (!isNaN(limit) && limit >= 0) {
+                setErrorMessage(undefined);
                 handleLimitChange(unit.organisationUnitId, limit === 0 ? undefined : limit);
+            } else {
+                setErrorMessage('Ugyldig verdi');
             }
         },
         [handleLimitChange, unit.organisationUnitId]
     );
+
+    const isEnabled = selectedIds.includes(unit.organisationUnitId);
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
     return (
         <AccordionItem
@@ -270,24 +283,32 @@ const CheckboxTreeNode = ({
                         </Label>
                     </HStack>
                     {selectType === 'allocation' && (
-                        <TextField
-                            className={'org-unit-amount'}
-                            inputMode={'numeric'}
-                            size="small"
-                            label="Antall"
-                            hideLabel
-                            disabled={!selectedIds.includes(unit.organisationUnitId)}
-                            min={1}
-                            value={
-                                selectedIds.includes(unit.organisationUnitId)
-                                    ? (currentUnit?.limit ?? '')
-                                    : ''
-                            }
-                            onChange={handleTextFieldChange}
-                            onError={(e) => {
-                                return 'Ugyldig antall';
-                            }}
-                        />
+                        <HStack gap="2" align="center">
+                            {isEnabled && (
+                                <Label
+                                    htmlFor={`antall-${unit.organisationUnitId}`}
+                                    style={{ margin: 0, display: 'flex', alignItems: 'center' }}>
+                                    <span style={{ color: 'var(--a-text-danger)', marginLeft: 2 }}>
+                                        *
+                                    </span>
+                                </Label>
+                            )}
+                            <TextField
+                                id={`antall-${unit.organisationUnitId}`}
+                                error={errorMessage}
+                                label={'Antall'}
+                                required={isEnabled}
+                                hideLabel
+                                inputMode="numeric"
+                                size="small"
+                                type="number"
+                                min={1}
+                                className="org-unit-amount"
+                                disabled={!isEnabled}
+                                value={isEnabled ? (currentUnit?.limit?.toString() ?? '') : ''}
+                                onChange={handleTextFieldChange}
+                            />
+                        </HStack>
                     )}
                 </HStack>
             }>

@@ -12,6 +12,7 @@ import {
     IKodeverkUserType,
 } from '~/data/types/kodeverkTypes';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { AlertWithCloseButton } from '~/components/assignment/AlertWithCloseButton';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -30,6 +31,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
 }) => {
     const navigate = useNavigate();
     const response = useNavigation();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const initialResourceState = resource?.id
         ? { ...resource }
@@ -174,7 +176,24 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>
                     Avbryt
                 </Button>
-                <Form method={newResource.id ? 'PUT' : 'POST'}>
+                <Form
+                    method={newResource.id ? 'PUT' : 'POST'}
+                    onSubmit={(e) => {
+                        const hasErrors = selectedValidForOrgUnits.some(
+                            (unit) =>
+                                unit.isChecked &&
+                                (unit.limit === undefined ||
+                                    unit.limit === null ||
+                                    unit.limit === 0)
+                        );
+
+                        if (hasErrors) {
+                            e.preventDefault();
+                            setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
+                        } else {
+                            setErrorMessage(null);
+                        }
+                    }}>
                     {newResource.id && (
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                     )}
@@ -283,6 +302,9 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
                     </Button>
                 </Form>
+                {errorMessage && (
+                    <AlertWithCloseButton variant="error">{errorMessage}</AlertWithCloseButton>
+                )}
             </HStack>
         </VStack>
     );
