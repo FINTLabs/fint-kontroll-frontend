@@ -15,6 +15,9 @@ patches:
       name: fint-kontroll-sso
   - patch: |-
       - op: replace
+        path: "/spec/url/hostname"
+        value: kontroll.novari.no
+      - op: replace
         path: "/spec/url/basePath"
         value: /nfk-no
     target:
