@@ -10,6 +10,9 @@ patches:
       - op: replace
         path: "/spec/basePath"
         value: /nfk-no
+      - op: replace
+        path: "metadata/labels/app.kubernetes.io/instance"
+        value: fint-kontroll-sso_nfk-no
     target:
       kind: FLAISSso
       name: fint-kontroll-sso
