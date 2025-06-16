@@ -2,6 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../base
+commonLabels:
+  app.kubernetes.io/version: "latest"
+  app.kubernetes.io/managed-by: GA
+  app.kubernetes.io/part-of: fint-kontroll
+  app.kubernetes.io/instance: fint-kontroll-frontend_nfk-no
+  fintlabs.no/team: bas
+  fintlabs.no/org-id: nfk.no
+
 patches:
   - patch: |-
       - op: replace
@@ -10,23 +18,19 @@ patches:
       - op: replace
         path: "/spec/basePath"
         value: /nfk-no
-      - op: replace
-        path: "metadata/labels/app.kubernetes.io/instance"
-        value: fint-kontroll-sso_nfk-no
     target:
       kind: FLAISSso
       name: fint-kontroll-sso
   - patch: |-
+      - op: replace
+        path: "/spec/orgId"
+        value: nfk.no
       - op: replace
         path: "/spec/url/hostname"
         value: kontroll.novari.no
       - op: replace
         path: "/spec/url/basePath"
         value: /nfk-no
-    target:
-      kind: Application
-      name: fint-kontroll-frontend
-  - patch: |-
       - op: replace
         path: "/spec/prometheus/path"
         value: /nfk-no/metrics

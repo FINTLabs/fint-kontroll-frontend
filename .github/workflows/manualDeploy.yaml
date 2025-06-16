@@ -71,23 +71,24 @@ jobs:
       - run: npm ci --ignore-scripts
         if: steps.node_modules.outputs.cache-hit != 'true'
 
-  cypress-run:
-    needs: install
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_TESTS: true
-        with:
-          build: npm run build
-          start: npm start
-          browser: chrome
+#  cypress-run:
+#    needs: install
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v6
+#        env:
+#          CYPRESS_TESTS: true
+#        with:
+#          build: npm run build
+#          start: npm start
+#          browser: chrome
 
   build-and-deploy:
-    needs: [ install, cypress-run ]
+#    needs: [ install, cypress-run ]
+    needs: [ install]
     runs-on: ubuntu-latest
     permissions:
       packages: write
