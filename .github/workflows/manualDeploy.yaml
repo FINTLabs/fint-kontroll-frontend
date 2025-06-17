@@ -35,6 +35,7 @@ on:
           - /afk-no
           - /fridiks-no
           - /nfk-no
+          - /fintlabs-no
       environment:
         description: 'Select environment'
         required: true

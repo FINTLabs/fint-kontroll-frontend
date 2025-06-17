@@ -1,0 +1,90 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../base
+commonLabels:
+  app.kubernetes.io/version: "latest"
+  app.kubernetes.io/managed-by: GA
+  app.kubernetes.io/part-of: fint-kontroll
+  app.kubernetes.io/instance: fint-kontroll-frontend_fintlabs-no
+  fintlabs.no/team: bas
+  fintlabs.no/org-id: fintlabs.no
+
+patches:
+  - patch: |-
+      - op: replace
+        path: "/spec/hostname"
+        value: kontroll.novari.no
+      - op: replace
+        path: "/spec/basePath"
+        value: /fintlabs-no
+    target:
+      kind: FLAISSso
+      name: fint-kontroll-sso
+  - patch: |-
+      - op: replace
+        path: "/spec/orgId"
+        value: fintlabs.no
+      - op: replace
+        path: "/spec/url/hostname"
+        value: kontroll.novari.no
+      - op: replace
+        path: "/spec/url/basePath"
+        value: /fintlabs-no
+      - op: replace
+        path: "/spec/prometheus/path"
+        value: /fintlabs-no/metrics
+    target:
+      kind: Application
+      name: fint-kontroll-frontend
+  - patch: |-
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: BASE_PATH
+          value: /fintlabs-no
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: USER_API_URL
+          value: http://fint-kontroll-user-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ROLE_API_URL
+          value: http://fint-kontroll-role-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: RESOURCE_API_URL
+          value: http://fint-kontroll-resource-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ORG_UNIT_API_URL
+          value: http://fint-kontroll-orgunit-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ASSIGNMENT_API_URL
+          value: http://fint-kontroll-assignment-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: ACCESS_MANAGEMENT_API_URL
+          value: http://fint-kontroll-access-mngmnt-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: LOG_LEVEL
+          value: info
+    target:
+      kind: Application
+      name: fint-kontroll-frontend
+  - patch: |-
+      - op: replace
+        path: "/spec/image"
+        value: ghcr.io/fintlabs/fint-kontroll-frontend-fintlabs-no-api
+    target:
+      kind: Application
+      name: fint-kontroll-frontend
