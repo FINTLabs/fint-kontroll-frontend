@@ -21,8 +21,6 @@ import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
-import { AlertWithCloseButton } from '~/components/assignment/AlertWithCloseButton';
-import { ResponseAlert } from '~/components/common/ResponseAlert';
 
 export const handle = {
     // @ts-ignore
@@ -164,6 +162,16 @@ export default function EditOrgUnitsForResource() {
         [selectedValidForOrgUnits]
     );
 
+    const hasInvalidLimits = useMemo(() => {
+        return selectedValidForOrgUnits.some(
+            (unit) =>
+                unit.limit === undefined ||
+                unit.limit === null ||
+                unit.limit < 1 ||
+                unit.limit.toString() === ''
+        );
+    }, [selectedValidForOrgUnits]);
+
     const response = useNavigation();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -263,9 +271,7 @@ export default function EditOrgUnitsForResource() {
                     />
                 </Box>
 
-                {errorMessage && (
-                    <AlertWithCloseButton variant="error">{errorMessage}</AlertWithCloseButton>
-                )}
+                {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
 
                 <HStack gap="4" justify={'end'}>
                     <Button
@@ -277,15 +283,7 @@ export default function EditOrgUnitsForResource() {
                     <Form
                         method="PUT"
                         onSubmit={(e) => {
-                            const hasErrors = selectedValidForOrgUnits.some(
-                                (unit) =>
-                                    unit.isChecked &&
-                                    (unit.limit === undefined ||
-                                        unit.limit === null ||
-                                        unit.limit === 0)
-                            );
-
-                            if (hasErrors) {
+                            if (hasInvalidLimits) {
                                 e.preventDefault();
                                 setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
                             } else {
