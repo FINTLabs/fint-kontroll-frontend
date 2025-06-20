@@ -8,7 +8,7 @@ commonLabels:
   app.kubernetes.io/part-of: fint-kontroll
   app.kubernetes.io/instance: fint-kontroll-frontend_fintlabs-no
   fintlabs.no/team: bas
-  fintlabs.no/org-id: fintlabs.no
+  fintlabs.no/org-id: vigo.no
 
 patches:
   - patch: |-
@@ -24,13 +24,13 @@ patches:
   - patch: |-
       - op: replace
         path: "/spec/orgId"
-        value: fintlabs.no
+        value: vigo.no
       - op: replace
         path: "/spec/url/hostname"
         value: kontroll.novari.no
       - op: replace
         path: "/spec/url/basePath"
-        value: /fintlabs-no
+        value: /vigo-no
       - op: replace
         path: "/spec/prometheus/path"
         value: /fintlabs-no/metrics
