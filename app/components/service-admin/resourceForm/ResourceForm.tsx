@@ -1,4 +1,12 @@
-import { Button, ErrorMessage, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    Button,
+    ErrorMessage,
+    ExpansionCard,
+    Heading,
+    HStack,
+    VStack,
+} from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
@@ -12,7 +20,6 @@ import {
     IKodeverkUserType,
 } from '~/data/types/kodeverkTypes';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
-import { AlertWithCloseButton } from '~/components/assignment/AlertWithCloseButton';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -85,6 +92,16 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
         () => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0),
         [selectedValidForOrgUnits]
     );
+
+    const hasInvalidLimits = useMemo(() => {
+        return selectedValidForOrgUnits.some(
+            (unit) =>
+                unit.limit === undefined ||
+                unit.limit === null ||
+                unit.limit < 1 ||
+                unit.limit.toString() === ''
+        );
+    }, [selectedValidForOrgUnits]);
 
     return (
         <VStack className={'schema content'} gap="8">
@@ -171,7 +188,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                     </ExpansionCard.Content>
                 </ExpansionCard>
             ) : null}
-
+            {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
             <HStack gap="4" justify={'end'}>
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>
                     Avbryt
@@ -179,15 +196,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 <Form
                     method={newResource.id ? 'PUT' : 'POST'}
                     onSubmit={(e) => {
-                        const hasErrors = selectedValidForOrgUnits.some(
-                            (unit) =>
-                                unit.isChecked &&
-                                (unit.limit === undefined ||
-                                    unit.limit === null ||
-                                    unit.limit === 0)
-                        );
-
-                        if (hasErrors) {
+                        if (hasInvalidLimits) {
                             e.preventDefault();
                             setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
                         } else {
@@ -302,9 +311,6 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
                     </Button>
                 </Form>
-                {errorMessage && (
-                    <AlertWithCloseButton variant="error">{errorMessage}</AlertWithCloseButton>
-                )}
             </HStack>
         </VStack>
     );

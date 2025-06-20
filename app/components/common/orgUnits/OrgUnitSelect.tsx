@@ -219,31 +219,40 @@ const CheckboxTreeNode = ({
             ),
         [isAggregated, selectedOrgUnits, unit.parentRef]
     );
-    const isTopLevel = useMemo(() => unit.parentRef === unit.organisationUnitId, [unit]);
+
+    const isTopLevel = unit.parentRef === unit.organisationUnitId;
+    const isEnabled = selectedIds.includes(unit.organisationUnitId);
+
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
     const handleTextFieldChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const value = e.target.value.trim();
 
-            if (!value.trim() || value === '') {
-                setErrorMessage('Feltet er påkrevd');
+            if (!value) {
+                setErrorMessage('Du må oppgi antall');
                 handleLimitChange(unit.organisationUnitId, undefined);
                 return;
             }
 
             const limit = Number(value);
-            if (!isNaN(limit) && limit >= 0) {
-                setErrorMessage(undefined);
-                handleLimitChange(unit.organisationUnitId, limit === 0 ? undefined : limit);
-            } else {
-                setErrorMessage('Ugyldig verdi');
+            if (Number.isNaN(limit) || limit < 1) {
+                setErrorMessage('Verdien må være et heltall større enn 0');
+                handleLimitChange(unit.organisationUnitId, undefined);
+                return;
             }
+
+            setErrorMessage(undefined);
+            handleLimitChange(unit.organisationUnitId, limit);
         },
         [handleLimitChange, unit.organisationUnitId]
     );
 
-    const isEnabled = selectedIds.includes(unit.organisationUnitId);
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    useEffect(() => {
+        if (!isEnabled) {
+            setErrorMessage(undefined);
+        }
+    }, [isEnabled]);
 
     return (
         <AccordionItem
@@ -268,7 +277,7 @@ const CheckboxTreeNode = ({
                             id={unit.organisationUnitId}
                             value={unit.organisationUnitId}
                             disabled={!isTopLevel && disabled}
-                            hideLabel={true}>
+                            hideLabel>
                             {unit.name}
                         </Checkbox>
                         <Label htmlFor={unit.organisationUnitId}>
@@ -287,25 +296,27 @@ const CheckboxTreeNode = ({
                             {isEnabled && (
                                 <Label
                                     htmlFor={`antall-${unit.organisationUnitId}`}
-                                    style={{ margin: 0, display: 'flex', alignItems: 'center' }}>
-                                    <span style={{ color: 'var(--a-text-danger)', marginLeft: 2 }}>
-                                        *
-                                    </span>
+                                    style={{
+                                        margin: 0,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        color: 'var(--a-text-danger)',
+                                    }}>
+                                    *
                                 </Label>
                             )}
                             <TextField
                                 id={`antall-${unit.organisationUnitId}`}
-                                error={errorMessage}
-                                label={'Antall'}
-                                required={isEnabled}
+                                label="Antall"
                                 hideLabel
                                 inputMode="numeric"
                                 size="small"
                                 type="number"
                                 min={1}
-                                className="org-unit-amount"
                                 disabled={!isEnabled}
+                                className="org-unit-amount"
                                 value={isEnabled ? (currentUnit?.limit?.toString() ?? '') : ''}
+                                error={isEnabled && errorMessage}
                                 onChange={handleTextFieldChange}
                             />
                         </HStack>
