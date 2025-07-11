@@ -25,6 +25,8 @@ interface OrgUnitAllocationProps {
     selectType?: 'filter' | 'allocation';
     aggregated?: boolean;
     setAggregated?: Dispatch<SetStateAction<boolean>>;
+    showLimitTextField?: boolean;
+    resourceEnforcement?: 'HARDSTOP';
 }
 
 const OrgUnitSelect = ({
@@ -34,6 +36,7 @@ const OrgUnitSelect = ({
     selectType = 'filter',
     aggregated,
     setAggregated,
+    showLimitTextField,
 }: OrgUnitAllocationProps) => {
     const topLevelUnits = useMemo(() => getAllTopLevelUnits(allOrgUnits), [allOrgUnits]);
     const [selectedIds, setSelectedIds] = useState<string[]>(
@@ -150,7 +153,7 @@ const OrgUnitSelect = ({
                     </Switch>
                 </Box>
             )}
-            {selectType === 'allocation' && (
+            {selectType === 'allocation' && showLimitTextField && (
                 <HStack width={'100%'} justify={'end'} paddingInline={'4'}>
                     <Label size="small" htmlFor="org-unit-amount">
                         Max antall tilganger per enhet
@@ -174,6 +177,7 @@ const OrgUnitSelect = ({
                             handleLimitChange={handleLimitChange}
                             selectType={selectType}
                             openOnRender={accordionItemsToOpenOnRender}
+                            showLimitTextField={showLimitTextField}
                         />
                     ))}
                 </CheckboxGroup>
@@ -191,6 +195,8 @@ interface CheckboxTreeNodeProps {
     handleLimitChange: (orgUnitId: string, limit: number | undefined) => void;
     selectType?: 'filter' | 'allocation';
     openOnRender: IUnitItem[];
+    showLimitTextField?: boolean;
+    licenseEnforcement?: 'HARDSTOP';
 }
 
 const CheckboxTreeNode = ({
@@ -202,6 +208,8 @@ const CheckboxTreeNode = ({
     handleLimitChange,
     selectType = 'filter',
     openOnRender = [],
+    showLimitTextField,
+    licenseEnforcement,
 }: CheckboxTreeNodeProps) => {
     const children = useMemo(
         () => getOrgUnitByChildrenRef(orgUnitList, unit.childrenRef),
@@ -229,7 +237,7 @@ const CheckboxTreeNode = ({
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.trim();
 
-            if (!value) {
+            if (!value && licenseEnforcement) {
                 setErrorMessage('Du må oppgi antall');
                 handleLimitChange(unit.organisationUnitId, undefined);
                 return;
@@ -291,7 +299,7 @@ const CheckboxTreeNode = ({
                             </BodyShort>
                         </Label>
                     </HStack>
-                    {selectType === 'allocation' && (
+                    {selectType === 'allocation' && showLimitTextField && (
                         <HStack gap="2" align="center">
                             {isEnabled && (
                                 <Label
@@ -336,6 +344,7 @@ const CheckboxTreeNode = ({
                         handleLimitChange={handleLimitChange}
                         selectType={selectType}
                         openOnRender={openOnRender}
+                        showLimitTextField={showLimitTextField}
                     />
                 ))}
         </AccordionItem>

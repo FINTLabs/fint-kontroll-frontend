@@ -163,13 +163,14 @@ export default function EditOrgUnitsForResource() {
     );
 
     const hasInvalidLimits = useMemo(() => {
-        return selectedValidForOrgUnits.some(
-            (unit) =>
-                unit.limit === undefined ||
-                unit.limit === null ||
-                unit.limit < 1 ||
-                unit.limit.toString() === ''
-        );
+        if (resource.licenseEnforcement === 'HARDSTOP')
+            return selectedValidForOrgUnits.some(
+                (unit) =>
+                    unit.limit === undefined ||
+                    unit.limit === null ||
+                    unit.limit < 1 ||
+                    unit.limit.toString() === ''
+            );
     }, [selectedValidForOrgUnits]);
 
     const response = useNavigation();
@@ -268,6 +269,7 @@ export default function EditOrgUnitsForResource() {
                         selectedOrgUnits={selectedValidForOrgUnits}
                         setSelectedOrgUnits={setSelectedValidForOrgUnits}
                         selectType="allocation"
+                        showLimitTextField={newResource.licenseEnforcement === 'HARDSTOP'}
                     />
                 </Box>
 

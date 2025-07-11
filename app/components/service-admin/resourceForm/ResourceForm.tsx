@@ -1,17 +1,8 @@
-import {
-    Alert,
-    Button,
-    ErrorMessage,
-    ExpansionCard,
-    Heading,
-    HStack,
-    VStack,
-} from '@navikt/ds-react';
+import { Alert, Button, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
 import ApplicationResourceData from '~/components/service-admin/opprett-ny-ressurs/ApplicationResourceData';
-import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { Form, useNavigate, useNavigation } from '@remix-run/react';
 import { SERVICE_ADMIN } from '~/data/paths';
 import {
@@ -92,16 +83,17 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
         () => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0),
         [selectedValidForOrgUnits]
     );
-
-    const hasInvalidLimits = useMemo(() => {
-        return selectedValidForOrgUnits.some(
-            (unit) =>
-                unit.limit === undefined ||
-                unit.limit === null ||
-                unit.limit < 1 ||
-                unit.limit.toString() === ''
-        );
-    }, [selectedValidForOrgUnits]);
+    /*
+        const hasInvalidLimits = useMemo(() => {
+            if (resource?.licenseEnforcement === 'HARDSTOP')
+                return selectedValidForOrgUnits.some(
+                    (unit) =>
+                        unit.limit === undefined ||
+                        unit.limit === null ||
+                        unit.limit < 1 ||
+                        unit.limit.toString() === ''
+                );
+        }, [selectedValidForOrgUnits]);*/
 
     return (
         <VStack className={'schema content'} gap="8">
@@ -153,7 +145,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            {newResource.resourceId ? (
+            {/*{newResource.resourceId ? (
                 <ExpansionCard
                     aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
                     defaultOpen={!selectedValidForOrgUnits.length}>
@@ -184,10 +176,12 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                             selectedOrgUnits={selectedValidForOrgUnits}
                             setSelectedOrgUnits={setSelectedValidForOrgUnits}
                             selectType="allocation"
+                            showLimitTextField={newResource.licenseEnforcement === 'HARDSTOP'}
                         />
+                        <Heading size={'large'}>hello {newResource.licenseEnforcement}</Heading>
                     </ExpansionCard.Content>
                 </ExpansionCard>
-            ) : null}
+            ) : null}*/}
             {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
             <HStack gap="4" justify={'end'}>
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>
@@ -195,14 +189,15 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 </Button>
                 <Form
                     method={newResource.id ? 'PUT' : 'POST'}
-                    onSubmit={(e) => {
+                    /*onSubmit={(e) => {
                         if (hasInvalidLimits) {
                             e.preventDefault();
                             setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
                         } else {
                             setErrorMessage(null);
                         }
-                    }}>
+                    }}*/
+                >
                     {newResource.id && (
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                     )}

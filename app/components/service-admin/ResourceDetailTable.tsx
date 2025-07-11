@@ -9,9 +9,11 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Org.enhet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={'center'}>
-                            Maks antall lisenser
-                        </Table.HeaderCell>
+                        {resource.licenseEnforcement === 'HARDSTOP' && (
+                            <Table.HeaderCell scope="col" align={'center'}>
+                                Maks antall lisenser
+                            </Table.HeaderCell>
+                        )}
                         <Table.HeaderCell scope="col" align={'center'}>
                             Antall brukte lisenser
                         </Table.HeaderCell>
@@ -31,11 +33,13 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                                 <Table.HeaderCell scope="row">
                                     {resourceItem.orgUnitName}
                                 </Table.HeaderCell>
-                                <Table.DataCell align={'center'}>
-                                    {resourceItem.resourceLimit != null
-                                        ? resourceItem.resourceLimit.toLocaleString()
-                                        : 0}
-                                </Table.DataCell>
+                                {resource.licenseEnforcement === 'HARDSTOP' && (
+                                    <Table.DataCell align={'center'}>
+                                        {resourceItem.resourceLimit != null
+                                            ? resourceItem.resourceLimit.toLocaleString()
+                                            : 0}
+                                    </Table.DataCell>
+                                )}
                                 <Table.DataCell align={'center'}>
                                     {resourceItem.assignedResources != null
                                         ? resourceItem.assignedResources.toLocaleString()
