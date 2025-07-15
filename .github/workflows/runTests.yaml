@@ -44,7 +44,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
 
       - name: Install if no cache
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Build
         run: npm run build
