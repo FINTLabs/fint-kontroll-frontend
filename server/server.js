@@ -41,12 +41,7 @@ if (viteDevServer) {
     app.use(viteDevServer.middlewares);
 } else {
     const STATIC_PATH = BASE_PATH === '/' ? '' : BASE_PATH.replace(/\/$/, '');
-    app.use(
-        STATIC_PATH,
-        express.static('build/client', {
-            index: false,
-        })
-    );
+    app.use(`${STATIC_PATH}/assets`, express.static('build/client/assets', { index: false }));
 }
 
 if (viteDevServer) {
