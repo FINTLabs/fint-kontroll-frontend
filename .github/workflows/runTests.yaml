@@ -30,15 +30,34 @@ jobs:
   cypress-run:
     needs: install
     runs-on: ubuntu-22.04
+    env:
+      CYPRESS_TESTS: true
+      BASE_PATH: /beta/fintlabs-no
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install if no cache
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+      - name: Start server
+        run: npm start &
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3000/beta/fintlabs-no
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_TESTS: true
         with:
-          build: npm run build
-          start: npm start
+          start: false   # du starter server selv
           browser: chrome
 
