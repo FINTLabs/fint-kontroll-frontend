@@ -35,12 +35,16 @@
         "morgan": "^1.10.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-toastify": "^10.0.5"
+        "react-toastify": "^10.0.5",
+        "remix-flat-routes": "^0.8.5"
     },
     "devDependencies": {
         "@navikt/aksel-stylelint": "^7.17.4",
         "@remix-run/dev": "^2.16.2",
         "@remix-run/eslint-config": "^2.16.2",
+        "@remix-run/fs-routes": "^2.16.8",
+        "@remix-run/route-config": "^2.16.8",
+        "@remix-run/routes-option-adapter": "^2.16.8",
         "@types/react": "^18.2.78",
         "@types/react-dom": "^18.2.25",
         "autoprefixer": "^10.4.20",
