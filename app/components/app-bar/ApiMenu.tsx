@@ -1,9 +1,9 @@
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
-import { useNavigate } from '@remix-run/react';
 import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
+import { useNavigate } from '@remix-run/react';
 
 export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                 <HGrid columns={1} padding={'6'}>
                     <Box paddingBlock={'0 4'}>
                         <ActionMenu.Item
-                            onSelect={() => navigate(`${basePath || '/'}`)}
+                            onSelect={() => navigate(`${basePath || '/'}/`)}
                             style={{ color: '#5149CA' }}>
                             Til forsiden
                         </ActionMenu.Item>
