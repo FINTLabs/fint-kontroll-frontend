@@ -5,7 +5,7 @@ import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
 
-export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
+export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
     const menuItems = useMemo(() => (me?.menuItems ? groupMenuItems(me.menuItems) : []), [me]);
 
@@ -28,10 +28,15 @@ export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
                 <HGrid columns={1} padding={'6'}>
                     <Box paddingBlock={'0 4'}>
                         <ActionMenu.Item
-                            onSelect={() => navigate(`/#`)}
+                            onSelect={() => navigate(`${basePath || '/'}`)}
                             style={{ color: '#5149CA' }}>
                             Til forsiden
                         </ActionMenu.Item>
+                        {/*<ActionMenu.Item
+                            onSelect={() => navigate(`/#`)}
+                            style={{ color: '#5149CA' }}>
+                            Til forsiden
+                        </ActionMenu.Item>*/}
                     </Box>
                     {menuItems.length &&
                         menuItems.map((item, index) => (

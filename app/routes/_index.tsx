@@ -62,7 +62,7 @@ export default function Index() {
                     <LinkCard
                         title={'Gi eller endre tilgang til en ressurs'}
                         description={
-                            'Se en oversikt over alle ressurser i systemet og redigere hvilkne brukere og grupper som har tilgang til dem.'
+                            'Se en oversikt over alle ressurser i systemet og redigere hvilke brukere og grupper som har tilgang til dem.'
                         }
                         Icon={<TableIcon />}
                         link={`${basePath}${RESOURCES}`}
