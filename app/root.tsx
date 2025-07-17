@@ -64,10 +64,10 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
 
-    return json({
+    return {
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function App() {

@@ -3,7 +3,7 @@ import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
 import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
-import { useNavigate } from '@remix-run/react';
+import { Link, useNavigate } from '@remix-run/react';
 
 export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
@@ -28,10 +28,17 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                 <HGrid columns={1} padding={'6'}>
                     <Box paddingBlock={'0 4'}>
                         <ActionMenu.Item
-                            onSelect={() => navigate(`${basePath || '/'}/`)}
-                            style={{ color: '#5149CA' }}>
+                            onSelect={() => {
+                                setTimeout(() => {
+                                    navigate(`${basePath || '/'}/`);
+                                }, 1); // minimal delay
+                            }}
+                            style={{ color: 'olivedrab' }}>
                             Til forsiden
                         </ActionMenu.Item>
+
+                        <Link to={`${basePath || '/'}/`}>Til forsiden</Link>
+
                         {/*<ActionMenu.Item
                             onSelect={() => navigate(`/#`)}
                             style={{ color: '#5149CA' }}>
