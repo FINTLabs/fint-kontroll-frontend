@@ -1,6 +1,6 @@
 import { BodyShort, Button, Loader, Modal } from '@navikt/ds-react';
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Form, useNavigate, useNavigation } from '@remix-run/react';
+import { Form, useNavigate, useNavigation } from 'react-router';
 import React from 'react';
 
 interface EditableListDeleteModalProps {

@@ -1,6 +1,6 @@
 import { Box, Button, Dropdown, HStack, Link, Table } from '@navikt/ds-react';
 import { FunnelFillIcon, FunnelIcon, MinusIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Outlet, useSearchParams } from '@remix-run/react';
+import { Outlet, useSearchParams } from 'react-router';
 import React from 'react';
 import { StatusTag } from '~/components/service-admin/StatusTag';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';

@@ -1,9 +1,7 @@
 import { UserTable } from '~/components/user/UserTable';
 import { UserSearch } from '~/components/user/UserSearch';
-import { json } from '@remix-run/node';
-import { useLoaderData, useRouteError } from '@remix-run/react';
+import { LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-router';
 import { fetchUsers } from '~/data/fetch-users';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { UserTypeFilter } from '~/components/user/UserTypeFilter';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
@@ -30,13 +28,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
         ]),
     ]);
 
-    return json({
+    return {
         userList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
         hasAccessToUserDetails: access?.every((a) => a.access),
-    });
+    };
 }
 
 export default function UsersIndex() {

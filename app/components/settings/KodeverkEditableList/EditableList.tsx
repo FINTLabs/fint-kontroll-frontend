@@ -1,7 +1,7 @@
 import { Box, Button, Dropdown, HStack, Link, SortState, Table, VStack } from '@navikt/ds-react';
 import { MenuElipsisHorizontalCircleIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import React, { useMemo, useState } from 'react';
-import { Outlet, useNavigate, useNavigation } from '@remix-run/react';
+import { Outlet, useNavigate, useNavigation } from 'react-router';
 
 import { IKodeverkCustomListItem } from '~/data/types/kodeverkTypes';
 

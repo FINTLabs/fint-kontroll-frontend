@@ -1,6 +1,6 @@
 import { Select } from '@navikt/ds-react';
 import { IResourceModuleUserRole } from '~/data/types/resourceTypes';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { sortAndCapitalizeRoles } from '~/utils/translators';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';
 

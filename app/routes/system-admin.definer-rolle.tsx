@@ -1,26 +1,24 @@
 import { Tabs } from '@navikt/ds-react';
-import { Outlet, useLoaderData, useOutletContext, useRouteError } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
+import { Outlet, useLoaderData, useOutletContext, useRouteError } from 'react-router';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import KontrollAccessRolesRadioGroup from '~/components/kontroll-admin/KontrollAccessRolesRadioGroup';
-import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const response = await fetchAccessRoles(request);
-    return json(response);
+    return { response };
 }
 
 export default function SystemAdminDefinerRolle() {
-    const roles: IAccessRole[] = useLoaderData<typeof loader>();
+    const { response } = useLoaderData();
     const context = useOutletContext();
 
     return (
         <Tabs value={'definer-rolle'}>
             <Tabs.Panel value="definer-rolle">
-                <KontrollAccessRolesRadioGroup roles={roles} />
+                <KontrollAccessRolesRadioGroup roles={response} />
                 <Outlet context={context} />
             </Tabs.Panel>
         </Tabs>

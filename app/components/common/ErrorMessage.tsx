@@ -1,6 +1,6 @@
 import { Alert, BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 import React from 'react';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 
 export const ErrorMessage = ({ error }: { error: any }) => {
     console.error(error);

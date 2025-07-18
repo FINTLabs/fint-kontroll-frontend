@@ -1,13 +1,18 @@
-import { LoaderFunctionArgs } from '@remix-run/router';
+import {
+    ActionFunctionArgs,
+    Form,
+    LoaderFunctionArgs,
+    useActionData,
+    useLoaderData,
+    useRouteError,
+} from 'react-router';
 import {
     fetchAllFeatures,
     fetchFeaturesInRole,
     putPermissionDataForRole,
 } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import { Box, Button, Heading, List, Table } from '@navikt/ds-react';
-import { Form, useActionData, useLoaderData, useRouteError } from '@remix-run/react';
 import React, { useEffect, useState } from 'react';
-import { ActionFunctionArgs } from '@remix-run/node';
 import { toast } from 'react-toastify';
 import { IFeature, IFeatureOperation, IPermissionData } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';

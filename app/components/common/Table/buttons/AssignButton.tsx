@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useNavigate, useNavigation } from '@remix-run/react';
+import { useNavigate, useNavigation } from 'react-router';
 import { Button } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/aksel-icons';
 

@@ -1,7 +1,6 @@
 import { Alert, Heading, Tabs, VStack } from '@navikt/ds-react';
-import { Outlet, useLoaderData } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
+import { Outlet, useLoaderData } from 'react-router';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import React from 'react';
 import KontrollAccessRolesSelect from '~/components/kontroll-admin/KontrollAccessRolesSelect';
@@ -9,9 +8,9 @@ import KontrollAccessRolesSelect from '~/components/kontroll-admin/KontrollAcces
 export async function loader({ request }: LoaderFunctionArgs) {
     const [roles] = await Promise.all([fetchAccessRoles(request)]);
 
-    return json({
+    return {
         roles,
-    });
+    };
 }
 
 export default function SystemAdminMenuSettings() {

@@ -1,9 +1,13 @@
 //import React from 'react';
 import styles from '../components/resource/resource.css?url';
-import { Link, useLoaderData, useRouteError, useRouteLoaderData } from '@remix-run/react';
+import {
+    Link,
+    LoaderFunctionArgs,
+    useLoaderData,
+    useRouteError,
+    useRouteLoaderData,
+} from 'react-router';
 import { IAssignedRoles } from '~/data/types/userTypes';
-import { json } from '@remix-run/node';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedRoles } from '~/data/fetch-assignments';
 import { AssignedRolesTable } from '~/components/assignment/AssignedRolesTable';
 import { Tabs, VStack } from '@navikt/ds-react';
@@ -33,13 +37,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         assignedRoles,
         resourceName: resource.resourceName,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         userTypesKodeverk,
-    });
+    };
 }
 
 export function useResourceByIdLoaderData() {

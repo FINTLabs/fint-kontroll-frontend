@@ -1,6 +1,6 @@
 import { Button, Modal, Select, Switch } from '@navikt/ds-react';
 import { useEffect, useRef, useState } from 'react';
-import { Form } from '@remix-run/react';
+import { Form } from 'react-router';
 import { IAccessRole } from '~/data/types/userTypes';
 
 interface DeleteAssignmentsModalProps {

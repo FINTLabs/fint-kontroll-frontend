@@ -1,9 +1,14 @@
 import styles from '../components/user/user.css?url';
 import { HStack, VStack } from '@navikt/ds-react';
-import { Link, useLoaderData, useNavigate, useParams, useRouteError } from '@remix-run/react';
+import {
+    Link,
+    LoaderFunctionArgs,
+    useLoaderData,
+    useNavigate,
+    useParams,
+    useRouteError,
+} from 'react-router';
 import { fetchUserById } from '~/data/fetch-users';
-import { json } from '@remix-run/node';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignmentsForUser } from '~/data/fetch-assignments';
 import { AssignmentsForUserTable } from '~/components/user/AssignmentsForUserTable';
 import { BASE_PATH } from '../../environment';
@@ -30,14 +35,14 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserById(request, params.id),
         fetchAssignmentsForUser(request, params.id, size, page),
     ]);
-    return json({
+    return {
         user,
         assignments,
         size,
         page,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
-    });
+    };
 }
 
 export const handle = {

@@ -1,6 +1,6 @@
 import { Select } from '@navikt/ds-react';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from '@remix-run/react';
+import { useNavigate, useParams } from 'react-router';
 import { IAccessRole } from '~/data/types/userTypes';
 import { sortAndCapitalizeRoles } from '~/utils/translators';
 

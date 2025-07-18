@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
 import ApplicationResourceData from '~/components/service-admin/opprett-ny-ressurs/ApplicationResourceData';
-import { Form, useNavigate, useNavigation } from '@remix-run/react';
+import { Form, useNavigate, useNavigation } from 'react-router';
 import { SERVICE_ADMIN } from '~/data/paths';
 import {
     IKodeverkApplicationCategory,

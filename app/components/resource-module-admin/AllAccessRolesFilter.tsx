@@ -1,5 +1,5 @@
 import { Select } from '@navikt/ds-react';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { IAccessRole } from '~/data/types/userTypes';
 import { sortAndCapitalizeRoles } from '~/utils/translators';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';

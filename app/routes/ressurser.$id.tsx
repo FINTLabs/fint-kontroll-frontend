@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from '../components/resource/resource.css?url';
 import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
+import type { LoaderFunctionArgs } from 'react-router';
 import {
     Link,
     Outlet,
@@ -9,9 +10,7 @@ import {
     useNavigate,
     useParams,
     useRouteError,
-} from '@remix-run/react';
-import { json } from '@remix-run/node';
-import type { LoaderFunctionArgs } from '@remix-run/router';
+} from 'react-router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
@@ -36,11 +35,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         resource,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypeKodeverk,
-    });
+    };
 }
 
 export const handle = {

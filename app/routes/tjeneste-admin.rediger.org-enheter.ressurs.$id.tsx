@@ -1,5 +1,14 @@
-import { Form, Link, useLoaderData, useNavigate, useNavigation } from '@remix-run/react';
-import { ActionFunctionArgs, LinksFunction, redirect } from '@remix-run/node';
+import {
+    ActionFunctionArgs,
+    Form,
+    Link,
+    LinksFunction,
+    LoaderFunctionArgs,
+    redirect,
+    useLoaderData,
+    useNavigate,
+    useNavigation,
+} from 'react-router';
 import React, { useMemo, useState } from 'react';
 import {
     Alert,
@@ -15,7 +24,6 @@ import {
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { fetchAllOrgUnits, fetchResourceById, updateResource } from '~/data/fetch-resources';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';

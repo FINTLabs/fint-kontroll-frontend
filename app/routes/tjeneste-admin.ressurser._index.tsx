@@ -1,7 +1,6 @@
 import { VStack } from '@navikt/ds-react';
-import { json } from '@remix-run/node';
-import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/router';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate, useRouteError } from 'react-router';
 import { fetchAllOrgUnits, fetchResourcesForAdmin } from '~/data/fetch-resources';
 import { Search } from '~/components/common/Search';
 import { ServiceAdminTable } from '~/components/service-admin/ServiceAdminTable';
@@ -43,7 +42,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchResourceDataSource(request),
     ]);
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
@@ -51,7 +50,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         source,
         size,
-    });
+    };
 }
 
 export default function ServiceAdminIndex() {

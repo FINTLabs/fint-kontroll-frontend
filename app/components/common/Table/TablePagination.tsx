@@ -1,4 +1,4 @@
-import { Form, useSearchParams } from '@remix-run/react';
+import { Form, useSearchParams } from 'react-router';
 import { Select, Pagination as AkselPagination, BodyShort, HStack } from '@navikt/ds-react';
 import React from 'react';
 

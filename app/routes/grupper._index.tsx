@@ -1,8 +1,7 @@
 import React from 'react';
-import { json } from '@remix-run/node';
-import { useLoaderData, useRouteError } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useRouteError } from 'react-router';
 import type { IRoleList } from '~/data/types/userTypes';
-import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchRoles } from '~/data/fetch-roles';
 import { RoleTable } from '~/components/role/RoleTable';
 import { RoleSearch } from '~/components/role/RoleSearch';
@@ -14,11 +13,7 @@ import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { postMyAccessRequest } from '~/data/fetch-me-info';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<
-    Omit<Response, 'json'> & {
-        json(): Promise<any>;
-    }
-> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -35,13 +30,13 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<
         ]),
     ]);
 
-    return json({
+    return {
         roleList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         userTypesKodeverk,
         hasAccessToGroupDetails: access.every((a) => a.access),
-    });
+    };
 }
 
 export default function Grupper_index() {

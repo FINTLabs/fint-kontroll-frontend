@@ -1,11 +1,17 @@
-import { Link, useLoaderData, useNavigation } from '@remix-run/react';
-import { ActionFunctionArgs, LinksFunction, redirect } from '@remix-run/node';
+import {
+    ActionFunctionArgs,
+    Link,
+    LinksFunction,
+    LoaderFunctionArgs,
+    redirect,
+    useLoaderData,
+    useNavigation,
+} from 'react-router';
 import React from 'react';
 import { HStack, Loader } from '@navikt/ds-react';
 import { IValidForOrgUnits } from '~/components/service-admin/types';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
-import { fetchResourceById, fetchAllOrgUnits, updateResource } from '~/data/fetch-resources';
-import { LoaderFunctionArgs } from '@remix-run/router';
+import { fetchAllOrgUnits, fetchResourceById, updateResource } from '~/data/fetch-resources';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     fetchApplicationCategories,
