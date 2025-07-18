@@ -1,6 +1,10 @@
-import { LoaderFunctionArgs } from '@remix-run/router';
-import { ActionFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData, useParams, useSubmit } from '@remix-run/react';
+import {
+    ActionFunctionArgs,
+    LoaderFunctionArgs,
+    useLoaderData,
+    useParams,
+    useSubmit,
+} from 'react-router';
 import React from 'react';
 
 import styles from '../components/kontroll-admin/kontroll-admin.css?url';
@@ -18,10 +22,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchAllMenuItems(request),
         fetchMenuItemsForRole(request, params.id),
     ]);
-    return json({
+    return {
         menuItems,
         accessRoleMenu,
-    });
+    };
 }
 
 export function links() {

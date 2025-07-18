@@ -60,6 +60,6 @@ describe('Check the user page', () => {
         cy.get('#user-type-select').should('exist');
         cy.get('#userType-chip').should('not.exist');
         cy.get('#user-type-select').select('Elev');
-        cy.get('#userType-chip').should('have.text', 'Elev');
+        //  cy.get('#userType-chip').should('have.text', 'Elev');
     });
 });

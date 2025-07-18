@@ -1,28 +1,26 @@
-import { json, LinksFunction, MetaFunction } from '@remix-run/node';
-import navStyles from '@navikt/ds-css/dist/index.css?url';
-import 'react-toastify/dist/ReactToastify.css';
-
+import type { LoaderFunctionArgs } from 'react-router';
 import {
     Links,
+    LinksFunction,
     Meta,
+    MetaFunction,
     Outlet,
     Scripts,
     ScrollRestoration,
-    UIMatch,
     useLoaderData,
     useMatches,
     useRouteError,
-} from '@remix-run/react';
+} from 'react-router';
+import navStyles from '@navikt/ds-css/dist/index.css?url';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '~/styles/main.css?url';
 import { fetchMeInfo } from '~/data/fetch-me-info';
 import meStyles from '~/components/app-bar/appBar.css?url';
-import type { LoaderFunctionArgs } from '@remix-run/router';
 import { ToastContainer } from 'react-toastify';
 import { Box, HStack, Page } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
 import React, { ReactElement } from 'react';
-import { RouteHandle } from '@remix-run/react/dist/routeModules';
 import './tailwind.css';
 import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
@@ -30,9 +28,9 @@ import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { IMeInfo } from '~/data/types/userTypes';
 
-interface CustomRouteHandle {
-    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
-}
+//interface CustomRouteHandle {
+//    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
+//}
 
 export const meta: MetaFunction = () => {
     return [
@@ -64,10 +62,10 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
 
-    return json({
+    return {
         me,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function App() {

@@ -1,6 +1,6 @@
 import { Select } from '@navikt/ds-react';
 import React from 'react';
-import { Form, useSearchParams } from '@remix-run/react';
+import { Form, useSearchParams } from 'react-router';
 
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 import { translateUserTypeToLabel } from '~/utils/translators';

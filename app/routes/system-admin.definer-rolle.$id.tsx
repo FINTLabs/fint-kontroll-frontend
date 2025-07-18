@@ -1,17 +1,17 @@
-import { LoaderFunctionArgs } from '@remix-run/router';
 import {
-    fetchFeaturesInRole,
-    putPermissionDataForRole,
-} from '~/data/kontrollAdmin/kontroll-admin-define-role';
-import { ActionFunctionArgs, json } from '@remix-run/node';
-import {
+    ActionFunctionArgs,
     Form,
+    LoaderFunctionArgs,
     useActionData,
     useLoaderData,
     useOutletContext,
     useParams,
     useRouteError,
-} from '@remix-run/react';
+} from 'react-router';
+import {
+    fetchFeaturesInRole,
+    putPermissionDataForRole,
+} from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import React, { useEffect, useState } from 'react';
 import { Button, HStack, Table } from '@navikt/ds-react';
 import PermissionsTableCheckbox from '../components/kontroll-admin/PermissionsTableCheckbox';
@@ -34,7 +34,7 @@ interface ExpectedSystemAdminContext {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const data = await fetchFeaturesInRole(request, params.id);
-    return json(data);
+    return { data };
 }
 
 export function links() {
@@ -51,7 +51,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 const DefineRoleTab = () => {
-    const loaderData: IPermissionData = useLoaderData<typeof loader>();
+    const { data } = useLoaderData();
     let actionData = useActionData<typeof action>();
     const params = useParams();
     const {
@@ -70,9 +70,9 @@ const DefineRoleTab = () => {
     const [currentOperations, setCurrentOperations] = useState<string[][]>([]);
 
     useEffect(() => {
-        setModifiedPermissionDataForRole(loaderData);
-        setCurrentOperations(loaderData.features.map((feature) => feature.operations));
-    }, [loaderData]);
+        setModifiedPermissionDataForRole(data);
+        setCurrentOperations(data.features.map((feature: any) => feature.operations));
+    }, [data]);
 
     useEffect(() => {
         if (actionData !== undefined) {
@@ -115,7 +115,7 @@ const DefineRoleTab = () => {
 
     const handleSubmit = () => {
         setSaving(true);
-        const newFeatureOperations: IPermissionData = loaderData;
+        const newFeatureOperations: IPermissionData = data;
         currentOperations.forEach((featureOperation, index) => {
             newFeatureOperations.features[index].operations = featureOperation;
         });

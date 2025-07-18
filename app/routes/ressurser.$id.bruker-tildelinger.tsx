@@ -1,8 +1,7 @@
 import styles from '../components/resource/resource.css?url';
-import { Link, useLoaderData, useRouteError } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { Link, useLoaderData, useRouteError } from 'react-router';
 import { IAssignedUsers } from '~/data/types/userTypes';
-import { json, TypedResponse } from '@remix-run/node';
-import type { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAssignedUsers } from '~/data/fetch-assignments';
 import { AssignedUsersTable } from '~/components/assignment/AssignedUsersTable';
 import { Tabs, VStack } from '@navikt/ds-react';
@@ -32,11 +31,7 @@ type LoaderData = {
     userTypesKodeverk: IKodeverkUserType[];
 };
 
-export async function loader({
-    params,
-    request,
-    context,
-}: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ params, request, context }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -50,7 +45,7 @@ export async function loader({
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         context,
         assignedUsers: assignedUsers,
         resourceName: resource.resourceName,
@@ -58,7 +53,7 @@ export async function loader({
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         userTypesKodeverk,
-    });
+    };
 }
 
 export const handle = {

@@ -1,7 +1,7 @@
 import { IResourceModuleUser } from '~/data/types/resourceTypes';
 import { useEffect, useRef } from 'react';
 import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
-import { Form } from '@remix-run/react';
+import { Form } from 'react-router';
 
 interface ResetUserModalProps {
     isResetRolesModalOpen: boolean;

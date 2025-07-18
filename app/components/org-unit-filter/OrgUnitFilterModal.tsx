@@ -1,7 +1,7 @@
 import { Button, Modal } from '@navikt/ds-react';
 import React, { useRef, useState } from 'react';
 import { Buildings3Icon } from '@navikt/aksel-icons';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';

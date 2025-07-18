@@ -1,7 +1,6 @@
 import { Tabs } from '@navikt/ds-react';
-import { Outlet, useLoaderData, useRouteError } from '@remix-run/react';
+import { LoaderFunctionArgs, Outlet, useLoaderData, useRouteError } from 'react-router';
 import React from 'react';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import styles from '../components/kontroll-admin/kontroll-admin.css?url';
 import KontrollAccessRolesRadioGroup from '~/components/kontroll-admin/KontrollAccessRolesRadioGroup';

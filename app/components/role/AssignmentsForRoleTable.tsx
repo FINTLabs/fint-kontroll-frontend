@@ -1,5 +1,5 @@
 import { Table } from '@navikt/ds-react';
-import { Outlet, useParams, useSearchParams } from '@remix-run/react';
+import { Outlet, useParams, useSearchParams } from 'react-router';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { getDeleteRoleAssignmentUrl } from '~/data/paths';
 import { IAssignmentPage, IResourceAssignment } from '~/data/types/resourceTypes';

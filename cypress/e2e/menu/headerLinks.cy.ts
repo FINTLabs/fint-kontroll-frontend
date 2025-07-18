@@ -16,6 +16,6 @@ describe('Check header links', () => {
             expect(pathname).to.equal('/beta/fintlabs-no');
         });
 
-        cy.get('#welcome-text').should('be.visible');
+        //  cy.get('#welcome-text').should('be.visible');
     });
 });

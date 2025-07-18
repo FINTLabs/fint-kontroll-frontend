@@ -1,5 +1,5 @@
 // Discovers all query params and formats them. Returns a string prepared for insertion in an url.
-import { SetURLSearchParams } from 'react-router-dom';
+import { SetURLSearchParams } from 'react-router';
 import React from 'react';
 
 export const prepareQueryParams = (searchParams: URLSearchParams): string => {

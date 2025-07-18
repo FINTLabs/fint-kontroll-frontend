@@ -1,6 +1,6 @@
 import { Button, Table } from '@navikt/ds-react';
 import React from 'react';
-import { Outlet, useNavigate } from '@remix-run/react';
+import { Outlet, useNavigate } from 'react-router';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { getEditUserTypeUrl } from '~/data/paths';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';

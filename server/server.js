@@ -2,8 +2,8 @@ import express from 'express';
 import { BASE_PATH, LOG_LEVEL, PORT } from '../environment.js';
 import morgan from 'morgan';
 import log4js from 'log4js';
-import { createRequestHandler } from '@remix-run/express';
 import prometheusMiddleware from 'express-prometheus-middleware';
+import { createRequestHandler } from '@react-router/express';
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
@@ -40,7 +40,7 @@ app.use(
 );
 
 const build = viteDevServer
-    ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+    ? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')
     : await import('../build/server/index.js');
 
 app.all(`${BASE_PATH.replace(/\/$/, '')}(/*)?`, createRequestHandler({ build }));

@@ -1,8 +1,6 @@
 import React from 'react';
-import { useLoaderData } from '@remix-run/react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, LoaderFunctionArgs, redirect, useLoaderData } from 'react-router';
 import { deleteApplicationCategory, fetchApplicationCategory } from '~/data/fetch-kodeverk';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { BASE_PATH } from '../../environment';
 import { SETTINGS_APPLICATION_CATEGORY } from '~/data/paths';
 import { EditableListDeleteModal } from '~/components/settings/KodeverkEditableList/EditableListDeleteModal';
@@ -22,10 +20,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const categoryId = params.id;
     if (categoryId === undefined) return null;
     const applicationCategory = await fetchApplicationCategory(request, categoryId);
-    return json({
+    return {
         applicationCategory,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function DeleteApplicationCategory() {

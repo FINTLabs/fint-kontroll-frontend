@@ -1,10 +1,8 @@
 import { AssignResourceToUserTable } from '~/components/user/AssignResourceToUserTable';
-import { Link, useLoaderData, useParams, useRouteError } from '@remix-run/react';
-import { LoaderFunctionArgs } from '@remix-run/router';
+import { Link, LoaderFunctionArgs, useLoaderData, useParams, useRouteError } from 'react-router';
 import { fetchUserById } from '~/data/fetch-users';
 import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
-import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { Alert, HStack, VStack } from '@navikt/ds-react';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
@@ -59,7 +57,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         };
     });
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
@@ -69,7 +67,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         user,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export const handle = {

@@ -1,7 +1,13 @@
 import { BodyShort, Button, Modal } from '@navikt/ds-react';
-import { Form, useNavigate, useNavigation, useParams, useSearchParams } from '@remix-run/react';
-import type { ActionFunctionArgs } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import type { ActionFunctionArgs } from 'react-router';
+import {
+    Form,
+    redirect,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useSearchParams,
+} from 'react-router';
 import { deleteAssignment } from '~/data/fetch-assignments';
 import { getResourceUserAssignmentsUrl } from '~/data/paths';
 import {

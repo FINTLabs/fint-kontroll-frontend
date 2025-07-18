@@ -1,10 +1,16 @@
-import { Link, useLoaderData, useNavigation } from '@remix-run/react';
-import { ActionFunctionArgs, LinksFunction, redirect } from '@remix-run/node';
+import {
+    ActionFunctionArgs,
+    Link,
+    LinksFunction,
+    LoaderFunctionArgs,
+    redirect,
+    useLoaderData,
+    useNavigation,
+} from 'react-router';
 import React from 'react';
 import { HStack, Loader } from '@navikt/ds-react';
 import resourceAdmin from '~/components/service-admin/serviceAdmin.css?url';
 import { createResource, fetchAllOrgUnits } from '~/data/fetch-resources';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     fetchApplicationCategories,
@@ -18,7 +24,7 @@ import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers'
 
 export const handle = {
     // @ts-ignore
-    breadcrumb: ({ params }) => (
+    breadcrumb: () => (
         <HStack align={'start'}>
             <HStack justify={'center'} align={'center'}>
                 <Link to={SERVICE_ADMIN} className={'breadcrumb-link'}>

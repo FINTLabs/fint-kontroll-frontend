@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useLocation, useNavigation } from '@remix-run/react';
+import { useLocation, useNavigation } from 'react-router';
 
 export const useLoadingState = () => {
     const navigation = useNavigation();

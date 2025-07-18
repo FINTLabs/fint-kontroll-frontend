@@ -1,7 +1,7 @@
 import MeInfo from '~/components/app-bar/MeInfo';
 import { IMeInfo } from '~/data/types/userTypes';
 import { BodyShort, Button, Hide, HStack, Page } from '@navikt/ds-react';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 import { LeaveIcon } from '@navikt/aksel-icons';
 

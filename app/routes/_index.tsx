@@ -2,21 +2,19 @@ import { Bleed, Heading, HStack, VStack } from '@navikt/ds-react';
 import { LinkCard, LinkCardGrid } from '~/components/common/LinkCard';
 import { RESOURCES, ROLES, USERS } from '~/data/paths';
 import {
+    PersonGroupFillIcon,
     PersonGroupIcon,
     PersonIcon,
-    TableIcon,
-    PersonGroupFillIcon,
     PersonSuitFillIcon,
+    TableIcon,
 } from '@navikt/aksel-icons';
-import { useLoaderData } from '@remix-run/react';
-import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
+import { LoaderFunctionArgs, useLoaderData } from 'react-router';
 import { BASE_PATH } from '../../environment';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    return json({
+    return {
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function Index() {
@@ -62,7 +60,7 @@ export default function Index() {
                     <LinkCard
                         title={'Gi eller endre tilgang til en ressurs'}
                         description={
-                            'Se en oversikt over alle ressurser i systemet og redigere hvilkne brukere og grupper som har tilgang til dem.'
+                            'Se en oversikt over alle ressurser i systemet og redigere hvilke brukere og grupper som har tilgang til dem.'
                         }
                         Icon={<TableIcon />}
                         link={`${basePath}${RESOURCES}`}

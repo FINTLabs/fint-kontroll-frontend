@@ -1,17 +1,18 @@
 import {
+    ActionFunctionArgs,
     Form,
+    LoaderFunctionArgs,
+    redirect,
     useLoaderData,
     useNavigate,
     useNavigation,
     useParams,
     useRouteError,
     useSearchParams,
-} from '@remix-run/react';
+} from 'react-router';
 import React, { useState } from 'react';
 import { BodyShort, Button, ConfirmationPanel, Heading, Modal, VStack } from '@navikt/ds-react';
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
 import { createUserAssignment } from '~/data/fetch-assignments';
-import { LoaderFunctionArgs } from '@remix-run/router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { getResourceNewUserAssignmentUrl } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
@@ -24,9 +25,9 @@ import {
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const resource = await fetchResourceById(request, params.id);
 
-    return json({
+    return {
         resource,
-    });
+    };
 }
 
 export async function action({ request }: ActionFunctionArgs) {

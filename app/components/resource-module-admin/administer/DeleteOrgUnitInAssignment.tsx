@@ -1,7 +1,7 @@
 import { Button, Modal } from '@navikt/ds-react';
 import React, { useEffect, useRef } from 'react';
 import { IResourceModuleOrgUnitDetail } from '~/data/types/resourceTypes';
-import { Form } from '@remix-run/react';
+import { Form } from 'react-router';
 
 interface DeleteOrgUnitsInAssignmentProps {
     modalOpenProp: boolean;

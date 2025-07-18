@@ -75,17 +75,47 @@ jobs:
   cypress-run:
     needs: install
     runs-on: ubuntu-22.04
+    env:
+      CYPRESS_TESTS: true
+      BASE_PATH: /beta/fintlabs-no
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_TESTS: true
+      - uses: actions/checkout@v4
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v4
         with:
-          build: npm run build
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json', 'package.json') }}
+
+      - name: Install dependencies if cache missed
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
           start: npm start
+          wait-on: 'http://localhost:3000/beta/fintlabs-no'
+          wait-on-timeout: 120
           browser: chrome
+
+#  cypress-run:
+#    needs: install
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v6
+#        env:
+#          CYPRESS_TESTS: true
+#        with:
+#          build: npm run build
+#          start: npm start
+#          browser: chrome
 
   build-and-deploy:
     needs: [ install, cypress-run ]
@@ -100,12 +130,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
+          cache: "npm"
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+#      - name: Cache node_modules
+#        uses: actions/cache@v4
+#        with:
+#          path: ./node_modules
+#          key: modules-${{ hashFiles('package-lock.json') }}
+      - run: npm ci
 
       - run: BASE_PATH=${{ inputs.path }} npm run build
 

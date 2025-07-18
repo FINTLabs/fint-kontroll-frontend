@@ -1,11 +1,11 @@
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
-import { useNavigate } from '@remix-run/react';
 import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router';
 
-export const ApiMenu = ({ me }: { me?: IMeInfo; basePath?: string }) => {
+export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
     const navigate = useNavigate();
     const menuItems = useMemo(() => (me?.menuItems ? groupMenuItems(me.menuItems) : []), [me]);
 

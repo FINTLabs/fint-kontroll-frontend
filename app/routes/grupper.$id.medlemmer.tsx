@@ -1,9 +1,7 @@
 import React from 'react';
-import { Detail, Tabs, VStack } from '@navikt/ds-react';
-import { Link, useLoaderData, useRouteError } from '@remix-run/react';
-import { LoaderFunctionArgs } from '@remix-run/router';
+import { Tabs, VStack } from '@navikt/ds-react';
+import { Link, LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-router';
 import { fetchMembers } from '~/data/fetch-roles';
-import { json } from '@remix-run/node';
 import { MemberTable } from '~/components/role/MemberTable';
 import { Search } from '~/components/common/Search';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
@@ -23,11 +21,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         fetchUserTypes(request),
     ]);
 
-    return json({
+    return {
         members,
         size,
         userTypesKodeverk,
-    });
+    };
 }
 
 export const handle = {

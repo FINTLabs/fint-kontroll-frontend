@@ -1,6 +1,5 @@
-import { json } from '@remix-run/node';
-import { useLoaderData, useRouteError } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/router';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useRouteError } from 'react-router';
 import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { ResourceTable } from '~/components/resource/ResourceTable';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
@@ -37,13 +36,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
         ]),
     ]);
 
-    return json({
+    return {
         resourceList,
         size,
         orgUnitList: orgUnitTree.orgUnits,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         hasAccessToResourceDetails: access.every((a) => a.access),
-    });
+    };
 }
 
 export default function Resource() {

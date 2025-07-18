@@ -1,5 +1,5 @@
 import { Select } from '@navikt/ds-react';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';
 
 interface ToolbarProps {
