@@ -1,6 +1,6 @@
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, Button, HGrid } from '@navikt/ds-react';
-import { useNavigate } from '@remix-run/react';
+import { useNavigate } from 'react-router';
 import { IMeInfo } from '~/data/types/userTypes';
 import {
     RESOURCE_ADMIN,

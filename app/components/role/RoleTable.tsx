@@ -6,7 +6,7 @@ import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
 import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
 import { getRoleMembersUrl } from '~/data/paths';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData } from 'react-router';
 import { loader } from '~/routes/grupper._index';
 
 import { translateUserTypeToLabel } from '~/utils/translators';

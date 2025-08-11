@@ -1,13 +1,14 @@
 import { Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
 import {
+    ActionFunctionArgs,
     Form,
+    LoaderFunctionArgs,
     useActionData,
     useLoaderData,
     useNavigate,
     useRouteError,
     useSearchParams,
-} from '@remix-run/react';
-import { LoaderFunctionArgs } from '@remix-run/router';
+} from 'react-router';
 import { useEffect, useState } from 'react';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
@@ -22,7 +23,6 @@ import OrgUnitTreeSelector from '../components/org-unit-selector/OrgUnitTreeSele
 import SummaryOfTildeling from '../components/resource-module-admin/opprettTildeling/SummaryOfTildeling';
 import ChooseAccessRole from '../components/resource-module-admin/opprettTildeling/ChooseAccessRole';
 import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
-import { ActionFunctionArgs } from '@remix-run/node';
 import { toast } from 'react-toastify';
 import { RESOURCE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';

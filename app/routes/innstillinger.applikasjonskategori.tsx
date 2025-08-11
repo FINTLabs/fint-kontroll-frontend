@@ -1,16 +1,14 @@
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router';
 import React from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
-import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
-    SETTINGS_APPLICATION_CATEGORY,
-    SETTINGS,
-    getApplicationCategoryEditUrl,
     getApplicationCategoryDeleteUrl,
+    getApplicationCategoryEditUrl,
+    SETTINGS,
+    SETTINGS_APPLICATION_CATEGORY,
     SETTINGS_APPLICATION_CATEGORY_CREATE,
 } from '~/data/paths';
 import { EditableList } from '~/components/settings/KodeverkEditableList/EditableList';
@@ -35,10 +33,10 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const applicationCategories = await fetchApplicationCategories(request);
-    return json({
+    return {
         applicationCategories,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export default function SettingsApplicationCategory() {

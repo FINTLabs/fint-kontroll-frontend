@@ -1,8 +1,6 @@
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link, LoaderFunctionArgs, useLoaderData } from 'react-router';
 import React from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
-import { LoaderFunctionArgs } from '@remix-run/router';
-import { json } from '@remix-run/node';
 import { fetchLicenseEnforcements } from '~/data/fetch-kodeverk';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { getEditLicenceEnforcement, SETTINGS, SETTINGS_LICENSE_ENFORCEMENT } from '~/data/paths';
@@ -28,7 +26,7 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const licenseEnforcements = await fetchLicenseEnforcements(request);
-    return json({ licenseEnforcements });
+    return { licenseEnforcements };
 }
 
 export default function SettingsLicenceEnforcement() {

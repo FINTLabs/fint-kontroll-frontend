@@ -1,8 +1,5 @@
-import { Link, useLoaderData, useRouteError } from '@remix-run/react';
-import { IRole } from '~/data/types/userTypes';
-import { LoaderFunctionArgs } from '@remix-run/router';
+import { Link, LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-router';
 import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
-import { json, TypedResponse } from '@remix-run/node';
 import { BASE_PATH } from '../../environment';
 import { HStack, VStack } from '@navikt/ds-react';
 import { fetchAssignedResourcesRole, fetchRoleById } from '~/data/fetch-roles';
@@ -14,30 +11,12 @@ import { FilterByApplicationCategory } from '~/components/common/filter/FilterBy
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
-import { IUnitItem } from '~/data/types/orgUnitTypes';
-import {
-    IAssignedResourcesList,
-    IResourceAssignment,
-    IResourceForList,
-    IResourceList,
-} from '~/data/types/resourceTypes';
+import { IResourceAssignment, IResourceForList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
-export async function loader({ params, request }: LoaderFunctionArgs): Promise<
-    TypedResponse<{
-        responseCode: string | undefined;
-        size: string;
-        resourceList: IResourceList;
-        orgUnitList: IUnitItem[];
-        assignedResourceList: IAssignedResourcesList;
-        isAssignedResources: any;
-        role: IRole;
-        applicationCategories: string[];
-        basePath: string;
-    }>
-> {
+export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
@@ -76,7 +55,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         };
     });
 
-    return json({
+    return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
         size,
         resourceList,
@@ -86,7 +65,7 @@ export async function loader({ params, request }: LoaderFunctionArgs): Promise<
         role,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-    });
+    };
 }
 
 export const handle = {

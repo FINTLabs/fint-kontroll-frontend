@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Heading, Tabs } from '@navikt/ds-react';
-import { Outlet, useLocation, useNavigate, useRouteError } from '@remix-run/react';
-import { PersonCheckmarkIcon, CogIcon } from '@navikt/aksel-icons';
+import { Outlet, useLocation, useNavigate, useRouteError } from 'react-router';
+import { CogIcon, PersonCheckmarkIcon } from '@navikt/aksel-icons';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 
 export default function SystemAdmin() {

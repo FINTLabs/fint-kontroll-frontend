@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { useLoadingState } from '~/utils/customHooks';
 import { Select } from '@navikt/ds-react';
 

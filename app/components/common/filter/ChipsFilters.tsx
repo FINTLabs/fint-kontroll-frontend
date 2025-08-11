@@ -1,5 +1,5 @@
 import { Box, Chips } from '@navikt/ds-react';
-import { useLoaderData, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useSearchParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 import {
     translateaccessroleToLabel,

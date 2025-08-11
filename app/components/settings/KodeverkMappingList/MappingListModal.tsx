@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Loader, Modal, TextField, VStack } from '@navikt/ds-react';
-import { Form, useNavigate, useNavigation, useParams } from '@remix-run/react';
+import { Form, useNavigate, useNavigation, useParams } from 'react-router';
 import { NotePencilIcon } from '@navikt/aksel-icons';
 
 import { IKodeverkMappingList } from '~/data/types/kodeverkTypes';

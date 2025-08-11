@@ -1,15 +1,12 @@
 import React from 'react';
-import { Button, VStack } from '@navikt/ds-react';
-import { useLoaderData, useNavigate, useRouteError } from '@remix-run/react';
+import { VStack } from '@navikt/ds-react';
+import { LoaderFunctionArgs, useLoaderData, useNavigate, useRouteError } from 'react-router';
 import ResourceModuleAdminUsersTable from '../components/resource-module-admin/ResourceModuleAdminUsersTable';
-import { LoaderFunctionArgs } from '@remix-run/router';
-import { json, TypedResponse } from '@remix-run/node';
 import { fetchUsersWithAssignment } from '~/data/resourceAdmin/resource-admin';
 import styles from '../components/resource-module-admin/resourceModuleAdmin.css?url';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { IResourceModuleUsersPage } from '~/data/types/resourceTypes';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
-import { PlusIcon } from '@navikt/aksel-icons';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import ResourceModuleSearch from '~/components/resource-module-admin/ResourceModuleSearch';
 import AllAccessRolesFilter from '~/components/resource-module-admin/AllAccessRolesFilter';
@@ -30,7 +27,7 @@ type LoaderData = {
     size: number;
 };
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const auth = request;
     const size = Number(getSizeCookieFromRequestHeader(request)?.value) ?? 25;
@@ -45,12 +42,12 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<TypedResp
         fetchAllOrgUnits(auth),
     ]);
 
-    return json({
+    return {
         usersPage,
         roles,
         orgUnitPage,
         size,
-    });
+    };
 }
 
 export default function ResourceAdminIndex() {

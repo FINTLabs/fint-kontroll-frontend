@@ -1,6 +1,6 @@
 import { Table } from '@navikt/ds-react';
 import React, { useState } from 'react';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import {
     IResourceModuleOrgUnitDetail,
     IResourceModuleUserAssignmentsPaginated,

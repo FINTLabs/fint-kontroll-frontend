@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { filterResetPageParam } from '~/utils/searchParamsHelpers';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { Search } from '@navikt/ds-react';
 
 const OrgUnitSearch = () => {
