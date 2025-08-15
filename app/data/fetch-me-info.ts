@@ -10,6 +10,35 @@ export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
     );
 };
 
+/*export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
+    const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
+
+    const res = await fetch(url, {
+        credentials: 'include',
+        method: request.method,
+        headers: request.headers,
+        body: request.body,
+        signal: request.signal,
+    });
+
+    // Logg status
+    console.log(`Response fra url fra test på Me ${url}`);
+    console.log('Status fra test på Me:', res.status);
+
+    // Logg headers
+    for (const [key, value] of res.headers.entries()) {
+        console.log(`Header fra test på Me: ${key} = ${value}`);
+    }
+
+    // Les body som tekst og logg
+    const resClone = res.clone();
+    const textBody = await resClone.text();
+    console.log('Body fra test på Me:', textBody || '(tom)');
+
+    // Returner som JSON (som før)
+    return res.json();
+};*/
+
 export const postMyAccessRequest = async (
     request: Request,
     requestUrls: {

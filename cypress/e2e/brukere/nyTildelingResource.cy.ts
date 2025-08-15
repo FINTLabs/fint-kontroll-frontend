@@ -1,5 +1,5 @@
 describe('Check the user detail page', () => {
-    it("Navigate to Joanna Kristoffersen's Ny Tildeling page", () => {
+    it("Navigate to Karen Berg's Ny Tildeling page", () => {
         cy.setCookie('size', '25');
         cy.goToBrukereNyTildeling();
         cy.wait(1000);
