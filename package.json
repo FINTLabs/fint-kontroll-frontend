@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@navikt/ds-css": "^7.27.1",
-    "@navikt/ds-react": "^7.27.1",
+    "@navikt/ds-react": "^7.28.0",
     "@react-router/express": "^7.8.0",
     "@react-router/node": "^7.8.0",
     "express": "^4.21.2",
