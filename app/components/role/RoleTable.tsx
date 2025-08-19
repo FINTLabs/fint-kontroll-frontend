@@ -1,4 +1,4 @@
-import { Table } from '@navikt/ds-react';
+import { HelpText, HStack, Table, Tag } from '@navikt/ds-react';
 import type { IRoleList } from '~/data/types/userTypes';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
@@ -28,6 +28,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Til test</Table.HeaderCell>
                         <Table.HeaderCell scope="col"></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -42,6 +43,25 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                 </Table.DataCell>
+                                {role.aggregatedRole ? (
+                                    <Table.DataCell>
+                                        <Tag
+                                            id="aggregated-tag"
+                                            variant="neutral"
+                                            size="small"
+                                            className="navds-tag-in-table">
+                                            <HStack gap={'1'} align={'center'} wrap={false}>
+                                                Aggregert
+                                                <HelpText title="Hvorfor kan ikke tildelingen slettes?">
+                                                    Denne gruppen inneholder alle ansatte i denne
+                                                    enheten og alle underliggende enheter.
+                                                </HelpText>
+                                            </HStack>
+                                        </Tag>
+                                    </Table.DataCell>
+                                ) : (
+                                    <Table.DataCell>{null}</Table.DataCell>
+                                )}
                                 <Table.DataCell align="right">
                                     <GoToButton
                                         id={`roleInfoButton-${role.id}`}

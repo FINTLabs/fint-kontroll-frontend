@@ -25,8 +25,8 @@
   "dependencies": {
     "@navikt/ds-css": "^7.27.1",
     "@navikt/ds-react": "^7.27.1",
-    "@react-router/express": "^7.8.0",
-    "@react-router/node": "^7.8.0",
+    "@react-router/express": "^7.8.1",
+    "@react-router/node": "^7.8.1",
     "express": "^4.21.2",
     "express-prometheus-middleware": "^1.2.0",
     "isbot": "^5.1.17",
@@ -34,15 +34,15 @@
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router": "^7.8.0",
+    "react-router": "^7.8.1",
     "react-toastify": "^10.0.5",
     "remix-flat-routes": "^0.8.5"
   },
   "devDependencies": {
     "@navikt/aksel-stylelint": "^7.17.4",
-    "@react-router/dev": "^7.8.0",
-    "@react-router/fs-routes": "^7.8.0",
-    "@react-router/remix-routes-option-adapter": "^7.8.0",
+    "@react-router/dev": "^7.8.1",
+    "@react-router/fs-routes": "^7.8.1",
+    "@react-router/remix-routes-option-adapter": "^7.8.1",
     "@remix-run/eslint-config": "^2.16.2",
     "@types/react": "^18.2.78",
     "@types/react-dom": "^18.2.25",
@@ -64,8 +64,7 @@
     "tailwindcss": "^3.4.14",
     "typescript": "^5.4.5",
     "vite": "^7.1.2",
-    "vite-tsconfig-paths": "^4.3.2",
-    "wait-on": "^8.0.3"
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "engines": {
     "node": ">=20.0.0"

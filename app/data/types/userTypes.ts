@@ -96,6 +96,7 @@ export interface IRole {
     assignerDisplayname?: string;
     organisationUnitId: string;
     organisationUnitName: string;
+    aggregatedRole: boolean;
     assigned?: boolean;
 }
 
