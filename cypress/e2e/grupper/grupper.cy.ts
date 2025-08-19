@@ -26,6 +26,20 @@ describe('Check roles page with mock data', () => {
         cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 5);
     });
 
+    it('Viser Tag kun for aggregerte grupper', () => {
+        cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 5);
+        cy.get('.navds-tag').contains('Aggregert').should('exist');
+    });
+
+    it('skal vise Tag i første rad, men ikke i andre', () => {
+        cy.get('#role-table tbody tr')
+            .eq(0)
+            .find('#aggregated-tag')
+            .should('exist')
+            .and('contain.text', 'Aggregert');
+        cy.get('#role-table tbody tr').eq(1).find('#aggregated-tag').should('not.exist');
+    });
+
     it('Searching creates a filter, which can be removed.', () => {
         const searchText = 'oko';
         cy.get('#search-role').type(searchText).should('have.value', searchText);

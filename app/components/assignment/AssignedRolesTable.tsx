@@ -1,4 +1,4 @@
-import { BodyShort, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, HelpText, HStack, Table, Tag, VStack } from '@navikt/ds-react';
 import type { IAssignedRoles } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useParams, useSearchParams } from 'react-router';
@@ -34,6 +34,7 @@ export const AssignedRolesTable: any = (props: {
                             <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                             <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                             <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
+                            <Table.HeaderCell scope="col"></Table.HeaderCell>
                             <Table.HeaderCell scope="col" align={'center'}>
                                 Fjern tildeling
                             </Table.HeaderCell>
@@ -61,6 +62,25 @@ export const AssignedRolesTable: any = (props: {
                                     <Table.DataCell>
                                         {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                     </Table.DataCell>
+                                    {role.aggregatedRole ? (
+                                        <Table.DataCell>
+                                            <Tag
+                                                id="aggregated-tag"
+                                                variant="neutral"
+                                                size="small"
+                                                className="navds-tag-in-table">
+                                                <HStack gap={'1'} align={'center'} wrap={false}>
+                                                    Aggregert
+                                                    <HelpText title="Hva menes med aggregert?">
+                                                        Denne gruppen inneholder alle ansatte i
+                                                        denne enheten og alle underliggende enheter.
+                                                    </HelpText>
+                                                </HStack>
+                                            </Tag>
+                                        </Table.DataCell>
+                                    ) : (
+                                        <Table.DataCell>{null}</Table.DataCell>
+                                    )}
                                     <Table.DataCell align={'center'}>
                                         <DeleteButton
                                             id={`deleteAssignment-${role.assignmentRef}`}

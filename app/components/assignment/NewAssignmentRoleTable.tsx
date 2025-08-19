@@ -1,4 +1,4 @@
-import { Heading, Table, Tag } from '@navikt/ds-react';
+import { Heading, HelpText, HStack, Table, Tag } from '@navikt/ds-react';
 import type { IRole } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useSearchParams } from 'react-router';
@@ -38,6 +38,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col"></Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -54,6 +55,25 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                 </Table.DataCell>
+                                {role.aggregatedRole ? (
+                                    <Table.DataCell>
+                                        <Tag
+                                            id="aggregated-tag"
+                                            variant="neutral"
+                                            size="small"
+                                            className="navds-tag-in-table">
+                                            <HStack gap={'1'} align={'center'} wrap={false}>
+                                                Aggregert
+                                                <HelpText title="Hva menes med aggregert?">
+                                                    Denne gruppen inneholder alle ansatte i denne
+                                                    enheten og alle underliggende enheter.
+                                                </HelpText>
+                                            </HStack>
+                                        </Tag>
+                                    </Table.DataCell>
+                                ) : (
+                                    <Table.DataCell>{null}</Table.DataCell>
+                                )}
                                 <Table.DataCell align={'center'}>
                                     {role.assigned ? (
                                         <Tag

@@ -157,6 +157,11 @@ export const setupFetchMocks = () => {
         );
         cy.interceptAndReturnFile(
             'GET',
+            `http://localhost:53989/beta/fintlabs-no/api/roles*`,
+            'roles.json'
+        );
+        cy.interceptAndReturnFile(
+            'GET',
             `http://localhost:53989/beta/fintlabs-no/api/orgunits`,
             'orgunits.json'
         );
