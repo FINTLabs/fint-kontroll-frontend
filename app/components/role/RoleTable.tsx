@@ -52,7 +52,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                             className="navds-tag-in-table">
                                             <HStack gap={'1'} align={'center'} wrap={false}>
                                                 Aggregert
-                                                <HelpText title="Hvorfor kan ikke tildelingen slettes?">
+                                                <HelpText title="Hva menes med aggregert?">
                                                     Denne gruppen inneholder alle ansatte i denne
                                                     enheten og alle underliggende enheter.
                                                 </HelpText>
