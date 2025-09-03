@@ -1,4 +1,4 @@
-import { Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
+import { Alert, Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
 import {
     ActionFunctionArgs,
     Form,
@@ -9,7 +9,7 @@ import {
     useRouteError,
     useSearchParams,
 } from 'react-router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchAllOrgUnits } from '~/data/fetch-resources';
 import { fetchAccessRoles } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import { IResourceModuleAssignment, IResourceModuleUser } from '~/data/types/resourceTypes';
@@ -23,7 +23,6 @@ import OrgUnitTreeSelector from '../components/org-unit-selector/OrgUnitTreeSele
 import SummaryOfTildeling from '../components/resource-module-admin/opprettTildeling/SummaryOfTildeling';
 import ChooseAccessRole from '../components/resource-module-admin/opprettTildeling/ChooseAccessRole';
 import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
-import { toast } from 'react-toastify';
 import { RESOURCE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
@@ -123,7 +122,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function ResourceModuleAdminTabTildel() {
     const { usersPage, accessRoles, allOrgUnits, size } = useLoaderData<typeof loader>();
-
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
     const actionData = useActionData<typeof action>();
     const navigate = useNavigate();
 
@@ -154,16 +154,29 @@ export default function ResourceModuleAdminTabTildel() {
             return;
         }
         if (!actionData?.status) {
-            toast.error(actionData.message);
+            setAlertMessage(actionData.message);
+            setAlertVariant('error');
             return;
         }
 
         if (actionData?.status) {
-            toast.success(actionData.message);
+            setAlertMessage(actionData.message);
+            setAlertVariant('success');
             actionData.redirect ? navigate(actionData.redirect) : null;
             return;
         }
     }, [actionData]);
+
+    useEffect(() => {
+        if (alertMessage) {
+            const timer = setTimeout(() => {
+                setAlertMessage(null);
+                setAlertVariant(null);
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [alertMessage]);
 
     useEffect(() => {
         setNewAssignment({
@@ -309,6 +322,11 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard>
 
                 <div className={'tildeling-section'}>
+                    {alertMessage && alertVariant && (
+                        <Alert variant={alertVariant} className="mb-4" closeButton={true}>
+                            {alertMessage}
+                        </Alert>
+                    )}
                     <SummaryOfTildeling assignment={newAssignment} accessRoles={accessRoles} />
                     <Form method={'post'} onSubmit={handleSubmit}>
                         <input type={'hidden'} name={'resourceId'} id={'resourceId'} />

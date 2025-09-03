@@ -13,9 +13,8 @@ import {
     putPermissionDataForRole,
 } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import React, { useEffect, useState } from 'react';
-import { Button, HStack, Table } from '@navikt/ds-react';
+import { Alert, Button, HStack, Table } from '@navikt/ds-react';
 import PermissionsTableCheckbox from '../components/kontroll-admin/PermissionsTableCheckbox';
-import { toast } from 'react-toastify';
 import styles from '../components/kontroll-admin/kontroll-admin.css?url';
 import { ConfirmSafeRedirectModal } from '~/components/kontroll-admin/ConfirmSafeRedirectModal';
 import { getDefineRoleByIdUrl } from '~/data/paths';
@@ -63,6 +62,9 @@ const DefineRoleTab = () => {
         handleNavigate,
     } = useOutletContext<ExpectedSystemAdminContext>(); // Context from system-admin.tsx
 
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+
     const [modifiedPermissionDataForRole, setModifiedPermissionDataForRole] =
         useState<IPermissionData>();
     const [saving, setSaving] = useState(false);
@@ -76,16 +78,33 @@ const DefineRoleTab = () => {
 
     useEffect(() => {
         if (actionData !== undefined) {
-            actionData.didUpdate
-                ? toast.success('Oppdatering av rolle gjennomført')
-                : toast.error('Oppdatering av rolle feilet');
+            if (actionData.didUpdate) {
+                setAlertMessage('Oppdatering av rolle gjennomført');
+                setAlertVariant('success');
+            } else {
+                setAlertMessage('Oppdatering av rolle feilet');
+                setAlertVariant('error');
+            }
+
             !saving ? handleNavigate(desiredTab) : null;
             setHasChanges(false);
         } else {
             actionData = undefined;
+            setAlertMessage(null);
+            setAlertVariant(null);
         }
-        setSaving(false);
     }, [actionData]);
+
+    useEffect(() => {
+        if (alertMessage) {
+            const timer = setTimeout(() => {
+                setAlertMessage(null);
+                setAlertVariant(null);
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [alertMessage]);
 
     const discardChanges = () => {
         handleNavigate(desiredTab);
@@ -179,7 +198,11 @@ const DefineRoleTab = () => {
                     ))}
                 </Table.Body>
             </Table>
-
+            {alertMessage && alertVariant && (
+                <Alert variant={alertVariant} className="mb-4" closeButton={true}>
+                    {alertMessage}
+                </Alert>
+            )}
             <Form
                 method={'put'}
                 name={'putForm'}
