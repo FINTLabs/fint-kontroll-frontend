@@ -12,11 +12,9 @@ import {
     useRouteError,
 } from 'react-router';
 import navStyles from '@navikt/ds-css/dist/index.css?url';
-import 'react-toastify/dist/ReactToastify.css';
 import styles from '~/styles/main.css?url';
 import { fetchMeInfo } from '~/data/fetch-me-info';
 import meStyles from '~/components/app-bar/appBar.css?url';
-import { ToastContainer } from 'react-toastify';
 import { Box, HStack, Page } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
@@ -78,8 +76,6 @@ export default function App() {
                 <Links />
             </head>
             <body data-theme="novari">
-                <ToastContainer autoClose={5000} newestOnTop={true} role="alert" />
-
                 <Layout me={me} basePath={basePath}>
                     {matches.find((match) => {
                         // @ts-ignore

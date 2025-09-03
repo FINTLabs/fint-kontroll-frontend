@@ -16,7 +16,7 @@ import {
     fetchUserAssignments,
     fetchUserDetails,
 } from '~/data/resourceAdmin/resource-admin';
-import { BodyShort, Box, Button, HStack, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Button, HStack, VStack } from '@navikt/ds-react';
 import { ArrowRightIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     IResourceModuleUser,
@@ -29,7 +29,6 @@ import SelectObjectType from '../components/resource-module-admin/administer/Sel
 import ResourceModuleResetModal from '../components/resource-module-admin/administer/ResourceModuleResetModal';
 import RoleAssignmentTable from '../components/resource-module-admin/administer/RoleAssignmentTable';
 import styles from '../components/resource-module-admin/resourceModuleAdmin.css?url';
-import { toast } from 'react-toastify';
 import UserAccessRoleFilter from '~/components/resource-module-admin/UsersAccessRolesFilter';
 import { getAdministerRoleByIdUrl, RESOURCE_ADMIN } from '~/data/paths';
 import { IAccessRole } from '~/data/types/userTypes';
@@ -140,23 +139,69 @@ const ResourceModuleAdminAdministerId = () => {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+    const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
 
     useEffect(() => {
         if (!actionData) {
             return;
         }
         if (!actionData?.status) {
-            toast.error('En feil oppstod');
+            setAlertMessage('En feil oppstod');
+            setAlertVariant('error');
             return;
         }
-
         if (actionData?.reset) {
             actionData.redirect ? navigate(actionData.redirect) : null;
-            toast.success('Brukerobjektet ble nullstilt');
+            setAlertMessage('Rolletilknytningen ble fjernet');
+            setAlertVariant('success');
             return;
         }
-        actionData?.message ? toast.success(actionData.message) : null;
+        if (actionData?.message) {
+            setAlertMessage(actionData.message);
+            setAlertVariant('success');
+        }
     }, [actionData]);
+
+    /* useEffect(() => {
+        if (!actionData) return;
+
+        if (!actionData.status) {
+            setAlertMessage('En feil oppstod');
+            setAlertVariant('error');
+        } else if (actionData.reset) {
+            setAlertMessage('Brukerobjektet ble nullstilt');
+            setAlertVariant('success');
+            if (actionData.redirect) {
+                setPendingRedirect(actionData.redirect);
+            }
+        } else if (actionData.message) {
+            setAlertMessage(actionData.message);
+            setAlertVariant('success');
+        }
+    }, [actionData]);*/
+
+    useEffect(() => {
+        if (alertMessage) {
+            const timer = setTimeout(() => {
+                setAlertMessage(null);
+                setAlertVariant(null);
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [alertMessage]);
+
+    /* useEffect(() => {
+        if (pendingRedirect) {
+            const timer = setTimeout(() => {
+                navigate(pendingRedirect);
+                setPendingRedirect(null); // reset etter navigering
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [pendingRedirect, navigate]);*/
 
     useEffect(() => {
         const paramMappedToAccessRoleType: IAccessRole | undefined = accessRoles.find(
@@ -232,7 +277,11 @@ const ResourceModuleAdminAdministerId = () => {
                                 Slett alle roller
                             </Button>
                         </HStack>
-
+                        {alertMessage && alertVariant && (
+                            <Alert variant={alertVariant} className="mb-4" closeButton={true}>
+                                {alertMessage}
+                            </Alert>
+                        )}
                         <RoleAssignmentTable
                             selectedRole={selectedRole}
                             userAssignmentsPaginated={userAssignmentsPaginated}
