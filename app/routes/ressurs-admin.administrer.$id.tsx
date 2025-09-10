@@ -141,7 +141,6 @@ const ResourceModuleAdminAdministerId = () => {
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
     const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
-    const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
 
     useEffect(() => {
         if (!actionData) {
@@ -164,24 +163,6 @@ const ResourceModuleAdminAdministerId = () => {
         }
     }, [actionData]);
 
-    /* useEffect(() => {
-        if (!actionData) return;
-
-        if (!actionData.status) {
-            setAlertMessage('En feil oppstod');
-            setAlertVariant('error');
-        } else if (actionData.reset) {
-            setAlertMessage('Brukerobjektet ble nullstilt');
-            setAlertVariant('success');
-            if (actionData.redirect) {
-                setPendingRedirect(actionData.redirect);
-            }
-        } else if (actionData.message) {
-            setAlertMessage(actionData.message);
-            setAlertVariant('success');
-        }
-    }, [actionData]);*/
-
     useEffect(() => {
         if (alertMessage) {
             const timer = setTimeout(() => {
@@ -192,16 +173,6 @@ const ResourceModuleAdminAdministerId = () => {
             return () => clearTimeout(timer);
         }
     }, [alertMessage]);
-
-    /* useEffect(() => {
-        if (pendingRedirect) {
-            const timer = setTimeout(() => {
-                navigate(pendingRedirect);
-                setPendingRedirect(null); // reset etter navigering
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [pendingRedirect, navigate]);*/
 
     useEffect(() => {
         const paramMappedToAccessRoleType: IAccessRole | undefined = accessRoles.find(
@@ -278,7 +249,7 @@ const ResourceModuleAdminAdministerId = () => {
                             </Button>
                         </HStack>
                         {alertMessage && alertVariant && (
-                            <Alert variant={alertVariant} className="mb-4" closeButton={true}>
+                            <Alert variant={alertVariant} className="mb-4 mt-4" closeButton={true}>
                                 {alertMessage}
                             </Alert>
                         )}

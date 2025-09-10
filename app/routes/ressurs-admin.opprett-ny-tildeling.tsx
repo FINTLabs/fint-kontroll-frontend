@@ -124,6 +124,7 @@ export default function ResourceModuleAdminTabTildel() {
     const { usersPage, accessRoles, allOrgUnits, size } = useLoaderData<typeof loader>();
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
     const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+    const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
     const actionData = useActionData<typeof action>();
     const navigate = useNavigate();
 
@@ -150,20 +151,19 @@ export default function ResourceModuleAdminTabTildel() {
     }, [searchParams]);
 
     useEffect(() => {
-        if (!actionData) {
-            return;
-        }
-        if (!actionData?.status) {
-            setAlertMessage(actionData.message);
-            setAlertVariant('error');
-            return;
-        }
+        if (!actionData) return;
 
-        if (actionData?.status) {
-            setAlertMessage(actionData.message);
+        const { status, message, redirect } = actionData;
+
+        if (status) {
+            setAlertMessage(message);
             setAlertVariant('success');
-            actionData.redirect ? navigate(actionData.redirect) : null;
-            return;
+            if (redirect) {
+                setPendingRedirect(redirect);
+            }
+        } else {
+            setAlertMessage(message);
+            setAlertVariant('error');
         }
     }, [actionData]);
 
@@ -177,6 +177,16 @@ export default function ResourceModuleAdminTabTildel() {
             return () => clearTimeout(timer);
         }
     }, [alertMessage]);
+
+    useEffect(() => {
+        if (pendingRedirect) {
+            const timer = setTimeout(() => {
+                navigate(pendingRedirect);
+                setPendingRedirect(null);
+            }, 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [pendingRedirect, navigate]);
 
     useEffect(() => {
         setNewAssignment({
@@ -323,7 +333,18 @@ export default function ResourceModuleAdminTabTildel() {
 
                 <div className={'tildeling-section'}>
                     {alertMessage && alertVariant && (
-                        <Alert variant={alertVariant} className="mb-4" closeButton={true}>
+                        <Alert
+                            variant={alertVariant}
+                            className="mb-4"
+                            closeButton={true}
+                            onClose={() => {
+                                setAlertMessage(null);
+                                setAlertVariant(null);
+                                if (pendingRedirect) {
+                                    navigate(pendingRedirect);
+                                    setPendingRedirect(null);
+                                }
+                            }}>
                             {alertMessage}
                         </Alert>
                     )}

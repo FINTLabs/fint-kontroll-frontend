@@ -1,7 +1,7 @@
 import logger from '~/logging/logger';
 
 export const handleResponse = async (response: Response, errorMessage: string) => {
-    logger.info('Request to url: ', response.url, 'returned status: ', response.status);
+    /*logger.info('Request to url: ', response.url, 'returned status: ', response.status);*/
     if (response.ok) return response.json();
     if (response.status === 403)
         throw new Error(
