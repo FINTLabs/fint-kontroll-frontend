@@ -12,7 +12,7 @@ const ChooseAccessRole = ({ accessRoles, setNewAccessRole }: ChooseAccessRolePro
     return (
         <RadioGroup legend={'Velg aksessrolle'} onChange={setNewAccessRole} size={'small'}>
             <VStack>
-                {sortAndCapitalizeRoles(accessRoles).map((accessRole, index) => (
+                {sortAndCapitalizeRoles(accessRoles, true).map((accessRole, index) => (
                     <Radio key={accessRole.accessRoleId} value={accessRole.accessRoleId}>
                         {accessRole.name}
                     </Radio>
