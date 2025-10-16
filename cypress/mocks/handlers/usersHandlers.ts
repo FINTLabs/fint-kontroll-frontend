@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 export const usersHandlers = [
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users/:id', () => {
+    http.get('http://localhost:8062/fintlabs-no/api/users/:id', () => {
         return HttpResponse.json({
             id: 442,
             fullName: 'Karen Berg',
@@ -12,7 +12,7 @@ export const usersHandlers = [
         });
     }),
 
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users', ({ request, cookies }) => {
+    http.get('http://localhost:8062/fintlabs-no/api/users', ({ request, cookies }) => {
         const size = cookies.size ?? null;
         const page = new URL(request.url).searchParams.get('page') ?? '0';
         const userType = new URL(request.url).searchParams.get('userType') ?? '';
@@ -211,7 +211,7 @@ export const usersHandlers = [
     }),
 
     http.get(
-        `http://localhost:8061/beta/fintlabs-no/api/assignments/v2/user/:id/resources*`,
+        `http://localhost:8061/fintlabs-no/api/assignments/v2/user/:id/resources*`,
         ({ request, cookies }) => {
             const size = cookies.size ?? null;
 

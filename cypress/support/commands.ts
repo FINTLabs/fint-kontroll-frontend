@@ -67,56 +67,56 @@ export function interceptAndReturnFile(method: Method, url: string, fixturePath:
 Cypress.Commands.add('interceptAndReturnFile', interceptAndReturnFile);
 
 export function goToHome() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no');
+    return cy.visit('http://localhost:3000/fintlabs-no');
 }
 
 Cypress.Commands.add('goToHome', goToHome);
 
 export function goToBrukere() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/brukere');
+    return cy.visit('http://localhost:3000/fintlabs-no/brukere');
 }
 
 Cypress.Commands.add('goToBrukere', goToBrukere);
 
 export function goToUser() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/brukere/442/org/194');
+    return cy.visit('http://localhost:3000/fintlabs-no/brukere/442/org/194');
 }
 
 Cypress.Commands.add('goToInfo', goToUser);
 
 export function goToGrupper() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/grupper');
+    return cy.visit('http://localhost:3000/fintlabs-no/grupper');
 }
 
 Cypress.Commands.add('goToGrupper', goToGrupper);
 
 export function goToRessurser() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/ressurser');
+    return cy.visit('http://localhost:3000/fintlabs-no/ressurser');
 }
 
 Cypress.Commands.add('goToRessurser', goToRessurser);
 
 export function goToSpecificResource() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/ressurser/5/bruker-tildelinger');
+    return cy.visit('http://localhost:3000/fintlabs-no/ressurser/5/bruker-tildelinger');
 }
 
 Cypress.Commands.add('goToSpecificResource', goToSpecificResource);
 
 export function goToBrukereNyTildeling() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/bruker/1232/org/198/ny-tildeling');
+    return cy.visit('http://localhost:3000/fintlabs-no/bruker/1232/org/198/ny-tildeling');
 }
 
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling);
 
 export function goToResourceAdmin() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/tjeneste-admin?status=ACTIVE');
+    return cy.visit('http://localhost:3000/fintlabs-no/tjeneste-admin?status=ACTIVE');
 }
 
 Cypress.Commands.add('goToResourceAdmin', goToResourceAdmin);
 
 export function goToResourceAdminWithResponse() {
     return cy.visit(
-        'http://localhost:3000/beta/fintlabs-no/tjeneste-admin??status=ACTIVE&responseCode=204'
+        'http://localhost:3000/fintlabs-no/tjeneste-admin??status=ACTIVE&responseCode=204'
     );
 }
 
@@ -124,50 +124,50 @@ Cypress.Commands.add('goToResourceAdminWithResponse', goToResourceAdminWithRespo
 
 export function goToCreateResource() {
     return cy.visit(
-        'http://localhost:3000/beta/fintlabs-no/tjeneste-admin/opprett-ny-applikasjonsressurs?responseCode=201'
+        'http://localhost:3000/fintlabs-no/tjeneste-admin/opprett-ny-applikasjonsressurs?responseCode=201'
     );
 }
 
 Cypress.Commands.add('goToCreateResource', goToCreateResource);
 
 export function goToDeleteResource() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/resource-admin/resource/:id/delete');
+    return cy.visit('http://localhost:3000/fintlabs-no/resource-admin/resource/:id/delete');
 }
 
 Cypress.Commands.add('goToDeleteResource', goToDeleteResource);
 
 export function goToSettings() {
-    return cy.visit('http://localhost:3000/beta/fintlabs-no/innstillinger');
+    return cy.visit('http://localhost:3000/fintlabs-no/innstillinger');
 }
 Cypress.Commands.add('goToSettings', goToSettings);
 
 export const setupFetchMocks = () => {
     beforeEach(() => {
-        const baseUrl = 'http://localhost:3000/beta/fintlabs-no/api';
+        const baseUrl = 'http://localhost:3000/fintlabs-no/api';
 
         cy.interceptAndReturnFile(
             'GET',
-            `http://localhost:8062/beta/fintlabs-no/api/users/me`,
+            `http://localhost:8062/fintlabs-no/api/users/me`,
             'authenticatedUser.json'
         );
         cy.interceptAndReturnFile(
             'GET',
-            `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user*`,
+            `http://localhost:53989/fintlabs-no/api/accessmanagement/v1/user*`,
             'users.json'
         );
         cy.interceptAndReturnFile(
             'GET',
-            `http://localhost:53989/beta/fintlabs-no/api/roles*`,
+            `http://localhost:53989/fintlabs-no/api/roles*`,
             'roles.json'
         );
         cy.interceptAndReturnFile(
             'GET',
-            `http://localhost:53989/beta/fintlabs-no/api/orgunits`,
+            `http://localhost:53989/fintlabs-no/api/orgunits`,
             'orgunits.json'
         );
         cy.interceptAndReturnFile(
             'GET',
-            `http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole`,
+            `http://localhost:53989/fintlabs-no/api/accessmanagement/v1/accessrole`,
             'allAccessRoles.json'
         );
         cy.interceptAndReturnFile(
@@ -178,7 +178,7 @@ export const setupFetchMocks = () => {
         cy.interceptAndReturnFile('GET', `${baseUrl}/accessmanagement/v1/feature`, 'features.json');
         cy.interceptAndReturnFile(
             'POST',
-            `http://localhost:8063/beta/fintlabs-no/api/resources/v1`,
+            `http://localhost:8063/fintlabs-no/api/resources/v1`,
             'createResource.json'
         );
 

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 export const resourceModulAdminHandlers = [
-    http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/user*', () => {
+    http.get('http://localhost:53989/fintlabs-no/api/accessmanagement/v1/user*', () => {
         return HttpResponse.json({
             totalItems: 3,
             currentPage: 0,

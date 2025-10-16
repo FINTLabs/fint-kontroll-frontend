@@ -28,7 +28,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Til test</Table.HeaderCell>
+                        <Table.HeaderCell scope="col"></Table.HeaderCell>
                         <Table.HeaderCell scope="col"></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>

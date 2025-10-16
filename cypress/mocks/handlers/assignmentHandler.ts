@@ -1,15 +1,15 @@
 import { http, HttpResponse } from 'msw';
 
 export const assignmentHandlers = [
-    http.post('http://localhost:8061/beta/fintlabs-no/api/assignments', () => {
+    http.post('http://localhost:8061/fintlabs-no/api/assignments', () => {
         return HttpResponse.json({}, { status: 201 });
     }),
 
-    http.delete('http://localhost:8061/beta/fintlabs-no/api/assignments/:id', () => {
+    http.delete('http://localhost:8061/fintlabs-no/api/assignments/:id', () => {
         return HttpResponse.json({}, { status: 410 });
     }),
 
-    http.get('http://localhost:8061/beta/fintlabs-no/api/assignments/resource/:id/roles', () => {
+    http.get('http://localhost:8061/fintlabs-no/api/assignments/resource/:id/roles', () => {
         return HttpResponse.json({
             currentPage: 0,
             totalPages: 3,
