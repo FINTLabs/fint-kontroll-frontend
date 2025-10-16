@@ -16,7 +16,7 @@ import { accessHandlers } from './handlers/accessHandlers';
 
 export const handlers = [
     // Common handlers
-    http.get('http://localhost:8062/beta/fintlabs-no/api/users/me', ({ cookies }) => {
+    http.get('http://localhost:8062/fintlabs-no/api/users/me', ({ cookies }) => {
         if (cookies.cypresstestuser === 'ra') {
             return HttpResponse.json({
                 firstName: 'Mock',
@@ -179,7 +179,7 @@ export const handlers = [
         }
     }),
 
-    http.get('http://localhost:8060/beta/fintlabs-no/api/orgunits', () => {
+    http.get('http://localhost:8060/fintlabs-no/api/orgunits', () => {
         return HttpResponse.json({
             totalItems: 3,
             orgUnits: [

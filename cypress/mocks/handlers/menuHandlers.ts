@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 export const menuHandlers = [
-    http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/menu', () => {
+    http.get('http://localhost:53989/fintlabs-no/api/accessmanagement/v1/menu', () => {
         return HttpResponse.json([
             {
                 id: 1234,

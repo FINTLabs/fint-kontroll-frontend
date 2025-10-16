@@ -11,7 +11,8 @@ import { IUnitItem } from '~/data/types/orgUnitTypes';
 interface ValidForOrgUnitSelectorProps {
     orgUnitList: IUnitItem[];
     selectedOrgUnit: IUnitItem | null;
-    setSelectedOrgUnit: Dispatch<SetStateAction<IUnitItem | null>>;
+    setSelectedOrgUnit: (selected: IUnitItem | null) => void;
+    //setSelectedOrgUnit: Dispatch<SetStateAction<IUnitItem | null>>;
 }
 
 const OrgUnitRadioSelection = ({

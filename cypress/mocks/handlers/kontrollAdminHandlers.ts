@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 export const kontrollAdminHandlers = [
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({ request, cookies }) => {
+    http.get('http://localhost:8064/fintlabs-no/api/roles', ({ request, cookies }) => {
         const size = cookies.size ?? null;
 
         const page = new URL(request.url).searchParams.get('page') ?? '0';
@@ -9,7 +9,7 @@ export const kontrollAdminHandlers = [
         const orgUnits = new URL(request.url).searchParams.get('orgUnits') ?? [];
     }),
 
-    http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/feature', () => {
+    http.get('http://localhost:53989/fintlabs-no/api/accessmanagement/v1/feature', () => {
         return HttpResponse.json([
             {
                 id: '1',
@@ -34,7 +34,7 @@ export const kontrollAdminHandlers = [
         ]);
     }),
 
-    http.get('http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accessrole', () => {
+    http.get('http://localhost:53989/fintlabs-no/api/accessmanagement/v1/accessrole', () => {
         return HttpResponse.json([
             {
                 accessRoleId: 'a1',
@@ -48,7 +48,7 @@ export const kontrollAdminHandlers = [
     }),
 
     http.get(
-        'http://localhost:53989/beta/fintlabs-no/api/accessmanagement/v1/accesspermission/accessrole/*',
+        'http://localhost:53989/fintlabs-no/api/accessmanagement/v1/accesspermission/accessrole/*',
         () => {
             return HttpResponse.json({
                 accessRoleId: 'sb',

@@ -1,19 +1,19 @@
 import { http, HttpResponse } from 'msw';
 
 export const createNewResourceHandlers = [
-    http.post('http://localhost:8063/beta/fintlabs-no/api/resources/v1', () => {
+    http.post('http://localhost:8063/fintlabs-no/api/resources/v1', () => {
         return HttpResponse.json({}, { status: 201 });
     }),
 ];
 
 export const deleteResourceHandlers = [
-    http.delete('http://localhost:8063/beta/fintlabs-no/api/resources/v1/:id', () => {
+    http.delete('http://localhost:8063/fintlabs-no/api/resources/v1/:id', () => {
         return HttpResponse.json({}, { status: 204 });
     }),
 ];
 
 export const resourceAdminHandlers = [
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/admin/v1', () => {
+    http.get('http://localhost:8063/fintlabs-no/api/resources/admin/v1', () => {
         return HttpResponse.json({
             totalPages: 1,
             currentPage: 0,
@@ -96,7 +96,7 @@ export const resourceAdminHandlers = [
 ];
 
 export const resourceHandlers = [
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/v1', ({ request }) => {
+    http.get('http://localhost:8063/fintlabs-no/api/resources/v1', ({ request }) => {
         const search = new URL(request.url).searchParams.get('search') ?? '';
 
         if (search === 'solid') {
@@ -183,15 +183,15 @@ export const resourceHandlers = [
         });
     }),
 
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/applicationcategories', () => {
+    http.get('http://localhost:8063/fintlabs-no/api/resources/applicationcategories', () => {
         return HttpResponse.json(['Fagsystemer', 'Pedagogisk programvare']);
     }),
 
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/accesstypes', () => {
+    http.get('http://localhost:8063/fintlabs-no/api/resources/accesstypes', () => {
         return HttpResponse.json(['device', 'Device based license']);
     }),
 
-    http.get('http://localhost:8063/beta/fintlabs-no/api/resources/:id', () => {
+    http.get('http://localhost:8063/fintlabs-no/api/resources/:id', () => {
         return HttpResponse.json({
             id: 5,
             resourceId: 'ff75076c4ce53f5ca51b1cbb',
@@ -231,13 +231,13 @@ export const resourceHandlers = [
             ],
             validForRoles: ['STUDENT', 'EMPLOYEESTAFF', 'Ukjent'],
             applicationCategory: ['Pedagogisk programvare'],
-            basePath: '/beta/fintlabs-no',
+            basePath: '/fintlabs-no',
         });
     }),
 
     // For fetching Brukere
     http.get(
-        'http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users',
+        'http://localhost:8061/fintlabs-no/api/assignments/v2/resource/:id/users',
         ({ request, cookies }) => {
             const size = cookies.size ?? null;
             const page = new URL(request.url).searchParams.get('page') ?? '0';
@@ -857,7 +857,7 @@ export const resourceHandlers = [
 
     // Fetching assigned users to a resource
     http.get(
-        'http://localhost:8061/beta/fintlabs-no/api/assignments/v2/resource/:id/users',
+        'http://localhost:8061/fintlabs-no/api/assignments/v2/resource/:id/users',
         ({ request, cookies }) => {
             // These queryParams will be used for later testing
             // const size = cookies.size ?? null;

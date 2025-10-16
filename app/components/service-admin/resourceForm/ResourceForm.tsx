@@ -1,4 +1,4 @@
-import { Alert, Button, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
@@ -11,6 +11,7 @@ import {
     IKodeverkUserType,
 } from '~/data/types/kodeverkTypes';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import SummaryCreateResource2 from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource2';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -83,52 +84,24 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
         () => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0),
         [selectedValidForOrgUnits]
     );
-    /*
-        const hasInvalidLimits = useMemo(() => {
-            if (resource?.licenseEnforcement === 'HARDSTOP')
-                return selectedValidForOrgUnits.some(
-                    (unit) =>
-                        unit.limit === undefined ||
-                        unit.limit === null ||
-                        unit.limit < 1 ||
-                        unit.limit.toString() === ''
-                );
-        }, [selectedValidForOrgUnits]);*/
 
     return (
         <VStack className={'schema content'} gap="8">
-            <VStack>
+            <VStack gap="3">
                 <Heading size="large" level="1">
-                    {newResource.resourceName
+                    {newResource.resourceId
                         ? 'Endre eller legg til ressursinformasjon'
-                        : 'Fyll ut ressursinformasjon'}
+                        : 'Opprett ny ressurs'}
                 </Heading>
-                {newResource.resourceName && (
+                {newResource.resourceId && (
                     <Heading size="small" level="2">
                         {newResource.resourceName}
                     </Heading>
                 )}
+                <BodyShort>
+                    Alle felter må fylles ut, med unntak av felter merket med "(Valgfritt)".
+                </BodyShort>
             </VStack>
-
-            <ExpansionCard
-                aria-label="Velg organisasjonsenhet som er eier av ressursen"
-                defaultOpen={!selectedOwnerOrgUnit?.name}>
-                <ExpansionCard.Header>
-                    <ExpansionCard.Title>
-                        Velg organisasjonsenhet som er eier av ressursen
-                    </ExpansionCard.Title>
-                    <ExpansionCard.Description>
-                        {selectedOwnerOrgUnit ? `Valgt enhet: ${selectedOwnerOrgUnit.name}` : ''}
-                    </ExpansionCard.Description>
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <OrgUnitRadioSelection
-                        orgUnitList={allOrgUnits}
-                        selectedOrgUnit={selectedOwnerOrgUnit}
-                        setSelectedOrgUnit={(selected) => setSelectedOwnerOrgUnit(selected)}
-                    />
-                </ExpansionCard.Content>
-            </ExpansionCard>
 
             <ExpansionCard aria-label="Fyll ut informasjon om ressursen" defaultOpen>
                 <ExpansionCard.Header>
@@ -145,59 +118,41 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                 </ExpansionCard.Content>
             </ExpansionCard>
 
-            {/*{newResource.resourceId ? (
-                <ExpansionCard
-                    aria-label="Legg til organisasjonsenheter som skal ha tilgang til ressursen"
-                    defaultOpen={!selectedValidForOrgUnits.length}>
-                    <ExpansionCard.Header>
-                        <ExpansionCard.Title>
-                            Legg til organisasjonsenheter som skal ha tilgang til ressursen
-                        </ExpansionCard.Title>
-                        <ExpansionCard.Description>
-                            {selectedValidForOrgUnits.length > 0 && (
-                                <>
-                                    {`${selectedValidForOrgUnits.length} enheter valgt.`}
-                                    <br />
-                                    {newResource.resourceLimit &&
-                                    totalAssignedResources > newResource.resourceLimit ? (
-                                        <ErrorMessage>
-                                            {`${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`}
-                                        </ErrorMessage>
-                                    ) : (
-                                        `${totalAssignedResources} ${newResource.resourceLimit > 0 ? `av ${newResource.resourceLimit}` : ''} tilganger er fordelt.`
-                                    )}
-                                </>
-                            )}
-                        </ExpansionCard.Description>
-                    </ExpansionCard.Header>
-                    <ExpansionCard.Content>
-                        <OrgUnitSelect
-                            allOrgUnits={allOrgUnits}
-                            selectedOrgUnits={selectedValidForOrgUnits}
-                            setSelectedOrgUnits={setSelectedValidForOrgUnits}
-                            selectType="allocation"
-                            showLimitTextField={newResource.licenseEnforcement === 'HARDSTOP'}
-                        />
-                        <Heading size={'large'}>hello {newResource.licenseEnforcement}</Heading>
-                    </ExpansionCard.Content>
-                </ExpansionCard>
-            ) : null}*/}
+            <ExpansionCard
+                aria-label="Velg organisasjonsenhet som er eier av ressursen"
+                defaultOpen={!selectedOwnerOrgUnit?.name}>
+                <ExpansionCard.Header>
+                    <ExpansionCard.Title>
+                        Velg organisasjonsenhet som er eier av ressursen
+                    </ExpansionCard.Title>
+                    <ExpansionCard.Description>
+                        {selectedOwnerOrgUnit ? `Valgt enhet: ${selectedOwnerOrgUnit.name}` : ''}
+                    </ExpansionCard.Description>
+                </ExpansionCard.Header>
+                <ExpansionCard.Content>
+                    <OrgUnitRadioSelection
+                        orgUnitList={allOrgUnits}
+                        selectedOrgUnit={selectedOwnerOrgUnit}
+                        setSelectedOrgUnit={(selected) => {
+                            setSelectedOwnerOrgUnit(selected);
+                            setNewResource({
+                                ...newResource,
+                                resourceOwnerOrgUnitId: selected?.id.toString() || '',
+                                resourceOwnerOrgUnitName: selected?.name || '', // 👈 lagre navn direkte
+                            });
+                        }}
+                    />
+                </ExpansionCard.Content>
+            </ExpansionCard>
+            <SummaryCreateResource2 resource={newResource} resourceOwner={selectedOwnerOrgUnit} />
+            {/* <SummaryCreateResource resource={newResource} resourceOwner={selectedOwnerOrgUnit} />*/}
             {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
             <HStack gap="4" justify={'end'}>
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>
                     Avbryt
                 </Button>
-                <Form
-                    method={newResource.id ? 'PUT' : 'POST'}
-                    /*onSubmit={(e) => {
-                        if (hasInvalidLimits) {
-                            e.preventDefault();
-                            setErrorMessage('Du må fylle inn antall for alle valgte enheter.');
-                        } else {
-                            setErrorMessage(null);
-                        }
-                    }}*/
-                >
+
+                <Form method={newResource.id ? 'PUT' : 'POST'}>
                     {newResource.id && (
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                     )}
@@ -299,12 +254,23 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         value={newResource.unitCost}
                     />
                     <input type="hidden" name="status" id="status" value={newResource.status} />
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        loading={response.state === 'submitting'}>
-                        {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
-                    </Button>
+                    {newResource.resourceName &&
+                    newResource.validForRoles &&
+                    newResource.licenseEnforcement &&
+                    newResource.status &&
+                    newResource.resourceOwnerOrgUnitId &&
+                    newResource.applicationCategory ? (
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            loading={response.state === 'submitting'}>
+                            {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
+                        </Button>
+                    ) : (
+                        <Button disabled variant="primary">
+                            {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
+                        </Button>
+                    )}
                 </Form>
             </HStack>
         </VStack>

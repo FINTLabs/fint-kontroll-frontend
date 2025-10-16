@@ -1,6 +1,15 @@
 import React, { SetStateAction } from 'react';
 import { IApplicationResource } from '~/components/service-admin/types';
-import { Checkbox, CheckboxGroup, Radio, RadioGroup, TextField, VStack } from '@navikt/ds-react';
+import {
+    Checkbox,
+    CheckboxGroup,
+    HelpText,
+    HStack,
+    Radio,
+    RadioGroup,
+    TextField,
+    VStack,
+} from '@navikt/ds-react';
 
 import {
     IKodeverkApplicationCategory,
@@ -33,7 +42,19 @@ export default function ApplicationResourceData({
                 <li>
                     <TextField
                         className={'input-large'}
-                        label="Navn på ressurs"
+                        label={
+                            <HStack gap={'2'}>
+                                Navn på ressurs
+                                <HelpText title="Hva er navn på ressurs?" placement="right">
+                                    Navnet vil vises i FINT Kontroll og kan brukes i søkefelt for å
+                                    finne ressursen. <br />
+                                    Navnet blir brukt for å opprette gruppenavn i EntraID, der blir
+                                    mellomrom erstattet med punktum. <br />
+                                    Gruppenavnet vil vises under 'Se info' for ressursen i FINT
+                                    Kontroll.
+                                </HelpText>
+                            </HStack>
+                        }
                         description={'Fullt navn på ressursen'}
                         value={newApplicationResource.resourceName || ''}
                         onChange={(event) =>
@@ -44,23 +65,20 @@ export default function ApplicationResourceData({
                         }
                     />
                 </li>
-                <li>
-                    <TextField
-                        className={'input-small'}
-                        label="Ressursgrense"
-                        description={'Totalt antall av ressursen'}
-                        value={newApplicationResource.resourceLimit || 0}
-                        onChange={(event) =>
-                            setNewApplicationResource({
-                                ...newApplicationResource,
-                                resourceLimit: Number(event.target.value),
-                            })
-                        }
-                    />
-                </li>
+
                 <li>
                     <CheckboxGroup
-                        legend="Velg roller ressursen skal være gyldig for"
+                        legend={
+                            <HStack gap={'2'}>
+                                Velg brukertype ressursen skal være gyldig for
+                                <HelpText title="Hva er navn på ressurs?" placement="right">
+                                    Noen applikasjoner har ulike priser/vilkår for elever og
+                                    ansatte. Brukertype kan brukes som filter for å sikre at det
+                                    ikke skal være mulig å gi tilganger til feil brukertype, og
+                                    hjelper til å følge avtalevilkår.
+                                </HelpText>
+                            </HStack>
+                        }
                         value={newApplicationResource.validForRoles || []}
                         onChange={(value: string[]) => {
                             setNewApplicationResource((prevState) => {
@@ -81,7 +99,15 @@ export default function ApplicationResourceData({
                 </li>
                 <li>
                     <CheckboxGroup
-                        legend="Velg applikasjonskategori"
+                        legend={
+                            <HStack gap={'2'}>
+                                Velg applikasjonskategori
+                                <HelpText title="Hva er applikasjonskategori?" placement="right">
+                                    Brukes for å kategorisere applikasjoner.
+                                </HelpText>
+                            </HStack>
+                        }
+                        description={'(Valgfritt)'}
                         value={newApplicationResource.applicationCategory || []}
                         onChange={(value: string[]) => {
                             setNewApplicationResource((prevState) => {
@@ -102,21 +128,16 @@ export default function ApplicationResourceData({
                 </li>
                 <li>
                     <RadioGroup
-                        legend="Har ressursen en kostnad?"
-                        value={newApplicationResource.hasCost || false}
-                        onChange={(value: boolean) =>
-                            setNewApplicationResource({
-                                ...newApplicationResource,
-                                hasCost: value,
-                            })
-                        }>
-                        <Radio value={true}>Ja</Radio>
-                        <Radio value={false}>Nei</Radio>
-                    </RadioGroup>
-                </li>
-                <li>
-                    <RadioGroup
-                        legend="Håndhevingsregel"
+                        legend={
+                            <HStack gap={'2'}>
+                                Håndhevingsregel
+                                <HelpText title="Hva er håndhevingsregel?" placement="right">
+                                    Håndhevingsregel settes for å kontrollere om det kreves
+                                    godkjenning ved tildeling av ressursen, og hvordan det skal
+                                    håndheves dersom lisensantall blir overskredet.
+                                </HelpText>
+                            </HStack>
+                        }
                         value={newApplicationResource.licenseEnforcement || false}
                         onChange={(value: string) =>
                             setNewApplicationResource({
@@ -135,24 +156,91 @@ export default function ApplicationResourceData({
                         </VStack>
                     </RadioGroup>
                 </li>
-                <li>
-                    <TextField
-                        className={'input-small'}
-                        label="Kostnad ressurs (pr. stk.)"
-                        value={Number(newApplicationResource.unitCost) || 0}
-                        inputMode="numeric"
-                        onChange={(event) => {
-                            Number(event.target.value) &&
+                {newApplicationResource.licenseEnforcement === 'HARDSTOP' ||
+                newApplicationResource.licenseEnforcement === 'FLOATING' ? (
+                    <li>
+                        <TextField
+                            className={'input-small'}
+                            label={
+                                <HStack gap={'2'}>
+                                    Ressursgrense
+                                    <HelpText title="Hva er ressursgrense?" placement="right">
+                                        Ressursgrense er antallet som kan tildeles av ressursen.
+                                    </HelpText>
+                                </HStack>
+                            }
+                            description={'Totalt antall av ressursen (Valgfritt)'}
+                            value={newApplicationResource.resourceLimit || 0}
+                            onChange={(event) =>
                                 setNewApplicationResource({
                                     ...newApplicationResource,
-                                    unitCost: Number(event.target.value),
-                                });
-                        }}
-                    />
-                </li>
+                                    resourceLimit: Number(event.target.value),
+                                })
+                            }
+                        />
+                    </li>
+                ) : null}
+
                 <li>
                     <RadioGroup
-                        legend="Status"
+                        legend={
+                            <HStack gap={'2'}>
+                                Har ressursen en kostnad?
+                                <HelpText title="Hva er kostnad?" placement="right">
+                                    Følger det en økonomisk kostnad med ressursen? <br />
+                                    Dette feltet står default til 'Nei'.
+                                </HelpText>
+                            </HStack>
+                        }
+                        value={newApplicationResource.hasCost || false}
+                        onChange={(value: boolean) =>
+                            setNewApplicationResource({
+                                ...newApplicationResource,
+                                hasCost: value,
+                            })
+                        }>
+                        <Radio value={true}>Ja</Radio>
+                        <Radio value={false}>Nei</Radio>
+                    </RadioGroup>
+                </li>
+                {newApplicationResource.hasCost ? (
+                    <li>
+                        <TextField
+                            className={'input-small'}
+                            label={
+                                <HStack gap={'2'}>
+                                    Enhetskostnad
+                                    <HelpText title="Hva er kostnad på ressurs?" placement="right">
+                                        Kostnad per ressurs.
+                                    </HelpText>
+                                </HStack>
+                            }
+                            description={'Kostnad oppgis i øre'}
+                            value={Number(newApplicationResource.unitCost) || 0}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                Number(event.target.value) &&
+                                    setNewApplicationResource({
+                                        ...newApplicationResource,
+                                        unitCost: Number(event.target.value),
+                                    });
+                            }}
+                        />
+                    </li>
+                ) : null}
+
+                <li>
+                    <RadioGroup
+                        legend={
+                            <HStack gap={'2'}>
+                                Status
+                                <HelpText title="Hva er status?" placement="right">
+                                    Status må settes til 'Aktiv' for at en ressurs skal være
+                                    tilgjengelig for bruk. Ressursen vil da være tilgjengelig frem
+                                    til status endres.
+                                </HelpText>
+                            </HStack>
+                        }
                         value={newApplicationResource.status || false}
                         onChange={(value: string) =>
                             setNewApplicationResource({

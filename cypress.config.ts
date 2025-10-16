@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
     e2e: {
-        baseUrl: 'http://localhost:3000/beta/fintlabs-no',
+        baseUrl: 'http://localhost:3000/fintlabs-no',
         testIsolation: false,
         viewportHeight: 2000,
         viewportWidth: 1536,

@@ -13,7 +13,7 @@ describe('Check header links', () => {
         cy.wait(1000);
 
         cy.location('pathname').then((pathname) => {
-            expect(pathname).to.equal('/beta/fintlabs-no');
+            expect(pathname).to.equal('/fintlabs-no');
         });
 
         //  cy.get('#welcome-text').should('be.visible');

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 export const roleHandlers = [
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles', ({ request, cookies }) => {
+    http.get('http://localhost:8064/fintlabs-no/api/roles', ({ request, cookies }) => {
         const size = cookies.size ?? null;
         const page = new URL(request.url).searchParams.get('page') ?? '0';
         const search = new URL(request.url).searchParams.get('search') ?? '';
@@ -280,7 +280,7 @@ export const roleHandlers = [
         }
     }),
 
-    http.get('http://localhost:8064/beta/fintlabs-no/api/roles/:id', () => {
+    http.get('http://localhost:8064/fintlabs-no/api/roles/:id', () => {
         return HttpResponse.json({
             id: 3,
             roleName: 'Ansatt - OKO System- og fellestjenester',
@@ -293,144 +293,141 @@ export const roleHandlers = [
         });
     }),
 
-    http.get(
-        'http://localhost:8064/beta/fintlabs-no/api/roles/:id/members',
-        ({ request, cookies }) => {
-            const size = cookies.size ?? null;
+    http.get('http://localhost:8064/fintlabs-no/api/roles/:id/members', ({ request, cookies }) => {
+        const size = cookies.size ?? null;
 
-            const page = new URL(request.url).searchParams.get('page') ?? '0';
+        const page = new URL(request.url).searchParams.get('page') ?? '0';
 
-            if (size === '5' && page === '0') {
-                return HttpResponse.json({
-                    totalItems: 7,
-                    currentPage: 0,
-                    totalPages: 2,
-                    size: 5,
-                    members: [
-                        {
-                            id: 100,
-                            firstName: 'MemberA',
-                            lastName: 'Brustad',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 104,
-                            firstName: 'MemberB',
-                            lastName: 'Pettersen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 92,
-                            firstName: 'MemberC',
-                            lastName: 'Hansen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 97,
-                            firstName: 'MemberD',
-                            lastName: 'Nordby',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 86,
-                            firstName: 'MemberE',
-                            lastName: 'Lund',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                    ],
-                });
-            } else if (size === '5' && page === '1') {
-                return HttpResponse.json({
-                    totalItems: 7,
-                    currentPage: 1,
-                    totalPages: 2,
-                    size: 2,
-                    members: [
-                        {
-                            id: 1111,
-                            firstName: 'MemberF',
-                            lastName: 'Lauritsen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 8222,
-                            firstName: 'MemberG',
-                            lastName: 'Velmo',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                    ],
-                });
-            } else {
-                return HttpResponse.json({
-                    totalItems: 7,
-                    currentPage: 0,
-                    totalPages: 1,
-                    size: 25,
-                    members: [
-                        {
-                            id: 100,
-                            firstName: 'MemberA',
-                            lastName: 'Brustad',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 104,
-                            firstName: 'MemberB',
-                            lastName: 'Pettersen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 92,
-                            firstName: 'MemberC',
-                            lastName: 'Hansen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 97,
-                            firstName: 'MemberD',
-                            lastName: 'Nordby',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 86,
-                            firstName: 'MemberE',
-                            lastName: 'Lund',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 1111,
-                            firstName: 'MemberF',
-                            lastName: 'Lauritsen',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                        {
-                            id: 8222,
-                            firstName: 'MemberG',
-                            lastName: 'Velmo',
-                            userType: 'EMPLOYEE',
-                            userName: null,
-                        },
-                    ],
-                });
-            }
+        if (size === '5' && page === '0') {
+            return HttpResponse.json({
+                totalItems: 7,
+                currentPage: 0,
+                totalPages: 2,
+                size: 5,
+                members: [
+                    {
+                        id: 100,
+                        firstName: 'MemberA',
+                        lastName: 'Brustad',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 104,
+                        firstName: 'MemberB',
+                        lastName: 'Pettersen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 92,
+                        firstName: 'MemberC',
+                        lastName: 'Hansen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 97,
+                        firstName: 'MemberD',
+                        lastName: 'Nordby',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 86,
+                        firstName: 'MemberE',
+                        lastName: 'Lund',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                ],
+            });
+        } else if (size === '5' && page === '1') {
+            return HttpResponse.json({
+                totalItems: 7,
+                currentPage: 1,
+                totalPages: 2,
+                size: 2,
+                members: [
+                    {
+                        id: 1111,
+                        firstName: 'MemberF',
+                        lastName: 'Lauritsen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 8222,
+                        firstName: 'MemberG',
+                        lastName: 'Velmo',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                ],
+            });
+        } else {
+            return HttpResponse.json({
+                totalItems: 7,
+                currentPage: 0,
+                totalPages: 1,
+                size: 25,
+                members: [
+                    {
+                        id: 100,
+                        firstName: 'MemberA',
+                        lastName: 'Brustad',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 104,
+                        firstName: 'MemberB',
+                        lastName: 'Pettersen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 92,
+                        firstName: 'MemberC',
+                        lastName: 'Hansen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 97,
+                        firstName: 'MemberD',
+                        lastName: 'Nordby',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 86,
+                        firstName: 'MemberE',
+                        lastName: 'Lund',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 1111,
+                        firstName: 'MemberF',
+                        lastName: 'Lauritsen',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                    {
+                        id: 8222,
+                        firstName: 'MemberG',
+                        lastName: 'Velmo',
+                        userType: 'EMPLOYEE',
+                        userName: null,
+                    },
+                ],
+            });
         }
-    ),
+    }),
 
     http.get(
-        'http://localhost:8061/beta/fintlabs-no/api/assignments/role/:id/resources',
+        'http://localhost:8061/fintlabs-no/api/assignments/role/:id/resources',
         ({ request, cookies }) => {
             const size = cookies.size ?? null;
 

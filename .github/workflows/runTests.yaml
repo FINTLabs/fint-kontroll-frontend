@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       CYPRESS_TESTS: true
-      BASE_PATH: /beta/fintlabs-no
+      BASE_PATH: /fintlabs-no
 
     steps:
       - uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          wait-on: 'http://localhost:3000/beta/fintlabs-no'
+          wait-on: 'http://localhost:3000/fintlabs-no'
           wait-on-timeout: 120
           browser: chrome
 
