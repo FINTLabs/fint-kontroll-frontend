@@ -107,10 +107,10 @@ export default function ResourceById() {
                                 label: 'Applikasjonskategori',
                                 value: resource.applicationCategory.join(', '),
                             },
-                            {
+                            /*{
                                 label: 'Ressurstype',
                                 value: resource.resourceType,
-                            },
+                            },*/
                             {
                                 label: 'Ressurseier',
                                 value: resource.resourceOwnerOrgUnitName,

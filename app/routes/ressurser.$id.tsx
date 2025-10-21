@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from '../components/resource/resource.css?url';
-import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
+import { HelpText, HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from 'react-router';
 import {
     Link,
@@ -93,9 +93,20 @@ export default function ResourceById() {
                             label: 'Applikasjonskategori',
                             value: resource.applicationCategory.join(', '),
                         },
-                        { label: 'Ressurstype', value: resource.resourceType },
+                        /* { label: 'Ressurstype', value: resource.resourceType },*/
                         { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },
-                        { label: 'Antall lisenser', value: resource.resourceLimit.toString() },
+                        {
+                            label: (
+                                <HStack gap="2">
+                                    Antall lisenser
+                                    <HelpText title="Antall lisenser" placement="top">
+                                        Dette viser hvor mange lisenser som er anskaffet i avtalen
+                                        totalt.
+                                    </HelpText>
+                                </HStack>
+                            ),
+                            value: resource.resourceLimit.toString(),
+                        },
                         {
                             label: 'Gyldig for',
                             value:

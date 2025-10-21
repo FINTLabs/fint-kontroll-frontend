@@ -52,10 +52,17 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                             className="navds-tag-in-table">
                                             <HStack gap={'1'} align={'center'} wrap={false}>
                                                 Aggregert
-                                                <HelpText title="Hva menes med aggregert?">
-                                                    Denne gruppen inneholder alle ansatte i denne
-                                                    enheten og alle underliggende enheter.
-                                                </HelpText>
+                                                {role.roleType === 'STUDENT' ? (
+                                                    <HelpText title="Hva menes med aggregert?">
+                                                        Denne gruppen inneholder alle elever i denne
+                                                        enheten og alle underliggende enheter.
+                                                    </HelpText>
+                                                ) : (
+                                                    <HelpText title="Hva menes med aggregert?">
+                                                        Denne gruppen inneholder alle ansatte i
+                                                        denne enheten og alle underliggende enheter.
+                                                    </HelpText>
+                                                )}
                                             </HStack>
                                         </Tag>
                                     </Table.DataCell>

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 
 type Info = {
-    label: string;
+    label: string | React.ReactNode;
     value?: string;
 };
 

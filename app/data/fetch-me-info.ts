@@ -1,6 +1,7 @@
 import { BASE_PATH, USER_API_URL } from '../../environment';
 import { IMeInfo } from '~/data/types/userTypes';
 import { fetchData, sendRequest } from '~/data/helpers';
+//import logger from '~/logging/logger';
 
 export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
     return fetchData(
@@ -9,35 +10,24 @@ export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
         'En feil oppstod når vi hentet informasjon om deg, vennligst sjekk at du er logget inn.'
     );
 };
+/*
+export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
+    try {
+        const result = await fetchData(
+            `${USER_API_URL}${BASE_PATH}/api/users/me`,
+            request,
+            'En feil oppstod når vi hentet informasjon om deg, vennligst sjekk at du er logget inn.'
+        );
 
-/*export const fetchMeInfo = async (request: Request): Promise<IMeInfo> => {
-    const url = `${USER_API_URL}${BASE_PATH}/api/users/me`;
+        logger.debug('fetchMeInfo', 'Hentet informasjon om innlogget bruker', result);
 
-    const res = await fetch(url, {
-        credentials: 'include',
-        method: request.method,
-        headers: request.headers,
-        body: request.body,
-        signal: request.signal,
-    });
-
-    // Logg status
-    console.log(`Response fra url fra test på Me ${url}`);
-    console.log('Status fra test på Me:', res.status);
-
-    // Logg headers
-    for (const [key, value] of res.headers.entries()) {
-        console.log(`Header fra test på Me: ${key} = ${value}`);
+        return result;
+    } catch (error) {
+        logger.error('fetchMeInfo', 'Feil ved henting av brukerinfo', error);
+        throw error;
     }
-
-    // Les body som tekst og logg
-    const resClone = res.clone();
-    const textBody = await resClone.text();
-    console.log('Body fra test på Me:', textBody || '(tom)');
-
-    // Returner som JSON (som før)
-    return res.json();
-};*/
+};
+*/
 
 export const postMyAccessRequest = async (
     request: Request,

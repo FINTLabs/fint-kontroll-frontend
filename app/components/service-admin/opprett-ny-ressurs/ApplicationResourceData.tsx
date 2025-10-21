@@ -103,7 +103,7 @@ export default function ApplicationResourceData({
                             <HStack gap={'2'}>
                                 Velg applikasjonskategori
                                 <HelpText title="Hva er applikasjonskategori?" placement="right">
-                                    Brukes for å kategorisere applikasjoner.
+                                    Brukes for å gruppere applikasjoner.
                                 </HelpText>
                             </HStack>
                         }
@@ -138,6 +138,7 @@ export default function ApplicationResourceData({
                                 </HelpText>
                             </HStack>
                         }
+                        description={'(Valgfritt)'}
                         value={newApplicationResource.licenseEnforcement || false}
                         onChange={(value: string) =>
                             setNewApplicationResource({
@@ -163,9 +164,10 @@ export default function ApplicationResourceData({
                             className={'input-small'}
                             label={
                                 <HStack gap={'2'}>
-                                    Ressursgrense
-                                    <HelpText title="Hva er ressursgrense?" placement="right">
-                                        Ressursgrense er antallet som kan tildeles av ressursen.
+                                    Antall lisenser
+                                    <HelpText title="Hva er antall lisenser?" placement="right">
+                                        Her angis det totalt hvor mange lisenser som er anskaffet i
+                                        avtalen.
                                     </HelpText>
                                 </HStack>
                             }
