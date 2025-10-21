@@ -12,6 +12,7 @@ import {
 } from '~/data/types/kodeverkTypes';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import SummaryCreateResource2 from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource2';
+import SummaryCreateResource from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -245,7 +246,11 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         type="hidden"
                         name="licenseEnforcement"
                         id="licenseEnforcement"
-                        value={newResource.licenseEnforcement}
+                        value={
+                            newResource.licenseEnforcement
+                                ? newResource.licenseEnforcement
+                                : 'NOTSET'
+                        }
                     />
                     <input
                         type="hidden"
@@ -256,7 +261,6 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                     <input type="hidden" name="status" id="status" value={newResource.status} />
                     {newResource.resourceName &&
                     newResource.validForRoles &&
-                    newResource.licenseEnforcement &&
                     newResource.status &&
                     newResource.resourceOwnerOrgUnitId &&
                     newResource.applicationCategory ? (

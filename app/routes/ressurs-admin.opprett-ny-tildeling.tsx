@@ -236,7 +236,7 @@ export default function ResourceModuleAdminTabTildel() {
     return (
         <section className={'content tildeling-section-container'}>
             <VStack gap={'8'}>
-                <TableHeader title="Tildel rettigheter" isSubHeader={true} />
+                <TableHeader title="Tildel rolle til bruker" isSubHeader={true} />
                 <ExpansionCard
                     size="small"
                     aria-label="Small-variant"
