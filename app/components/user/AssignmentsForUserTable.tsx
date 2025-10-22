@@ -29,7 +29,7 @@ export const AssignmentsForUserTable = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
+                        {/*<Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>*/}
                         <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Tildelingskobling</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
@@ -44,7 +44,7 @@ export const AssignmentsForUserTable = ({
                         assignmentsForUser.resources.map((resource) => (
                             <Table.Row key={resource.resourceRef}>
                                 <Table.HeaderCell>{resource.resourceName}</Table.HeaderCell>
-                                <Table.DataCell>{resource.resourceType}</Table.DataCell>
+                                {/*<Table.DataCell>{resource.resourceType}</Table.DataCell>*/}
                                 <Table.DataCell>
                                     {resource.assignerDisplayname
                                         ? resource.assignerDisplayname
