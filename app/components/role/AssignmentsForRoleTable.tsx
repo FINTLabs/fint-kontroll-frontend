@@ -26,7 +26,7 @@ export const AssignmentsForRoleTable = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>
+                        {/* <Table.HeaderCell scope="col">Ressurstype</Table.HeaderCell>*/}
                         <Table.HeaderCell scope="col">Tildelt av</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Fjern tildeling
@@ -37,7 +37,7 @@ export const AssignmentsForRoleTable = ({
                     {assignmentsForRole.resources.map((resource: IResourceAssignment) => (
                         <Table.Row key={resource.assignmentRef}>
                             <Table.DataCell>{resource.resourceName}</Table.DataCell>
-                            <Table.DataCell>{resource.resourceType}</Table.DataCell>
+                            {/*<Table.DataCell>{resource.resourceType}</Table.DataCell>*/}
                             <Table.DataCell>
                                 {resource.assignerDisplayname
                                     ? resource.assignerDisplayname
