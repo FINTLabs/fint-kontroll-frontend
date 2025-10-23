@@ -1,11 +1,10 @@
-import { Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
 import { useLoaderData } from 'react-router';
 import { loader } from '~/routes/grupper.$id.medlemmer';
-
 import { translateUserTypeToLabel } from '~/utils/translators';
 
 export const MemberTable = () => {
@@ -19,6 +18,7 @@ export const MemberTable = () => {
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Brukernavn</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -33,26 +33,7 @@ export const MemberTable = () => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(member.userType, userTypesKodeverk)}
                                 </Table.DataCell>
-                                {/*<Table.DataCell align="right">
-                                <Button
-                                    id={`memberInfoButton-${member.id}`}
-                                    icon={
-                                        <InformationSquareIcon
-                                            title="Informasjonsikon"
-                                            fontSize="1.5rem"
-                                        />
-                                    }
-                                    iconPosition={"right"}
-                                    onClick={() =>
-                                        navigate(`/users/${member.id}`)
-                                    }
-                                    // id={`resource-${i}`}
-                                    variant={"secondary"}
-                                    role="link"
-                                >
-                                    Se info
-                                </Button>
-                            </Table.DataCell>*/}
+                                <Table.DataCell>{member.userName}</Table.DataCell>
                             </Table.Row>
                         ))
                     )}

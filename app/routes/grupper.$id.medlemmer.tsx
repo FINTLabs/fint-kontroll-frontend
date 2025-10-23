@@ -51,11 +51,6 @@ export default function Members() {
                         SearchComponent={
                             <Search label={'Søk etter medlemmer'} id={'search-member'} />
                         }
-                        /*LeftAlignedFilters={
-                            <VStack align={'start'} justify={'start'} height={'100%'}>
-                                <Detail>Antall medlemmer i gruppen : {members.totalItems}</Detail>
-                            </VStack>
-                        }*/
                     />
                     <Tabs.Panel value="members">
                         <MemberTable />
