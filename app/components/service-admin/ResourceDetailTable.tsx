@@ -14,9 +14,11 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                                 Maks antall lisenser
                             </Table.HeaderCell>
                         )}
-                        <Table.HeaderCell scope="col" align={'center'}>
-                            Antall brukte lisenser
-                        </Table.HeaderCell>
+                        {resource.assignedResources != null && (
+                            <Table.HeaderCell scope="col" align={'center'}>
+                                Antall brukte lisenser
+                            </Table.HeaderCell>
+                        )}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -40,11 +42,13 @@ export const ResourceDetailTable = ({ resource }: { resource: IResource }) => {
                                             : 0}
                                     </Table.DataCell>
                                 )}
-                                <Table.DataCell align={'center'}>
-                                    {resourceItem.assignedResources != null
-                                        ? resourceItem.assignedResources.toLocaleString()
-                                        : ''}
-                                </Table.DataCell>
+                                {resource.assignedResources != null && (
+                                    <Table.DataCell align={'center'}>
+                                        {resourceItem.assignedResources != null
+                                            ? resourceItem.assignedResources.toLocaleString()
+                                            : ''}
+                                    </Table.DataCell>
+                                )}
                             </Table.Row>
                         ))}
                 </Table.Body>
