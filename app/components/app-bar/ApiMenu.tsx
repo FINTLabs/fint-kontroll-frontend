@@ -37,7 +37,7 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                             rel="external noopener noreferrer"
                             target="_blank"
                             as="a"
-                            href={`${basePath}/swagger-ui/index.html`}>
+                            href={`api${basePath}/swagger-ui/index.html`}>
                             Swagger statistikk (åpnes i ny fane)
                         </ActionMenu.Item>
                     </Box>
