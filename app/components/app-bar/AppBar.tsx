@@ -23,7 +23,7 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                 </HStack>
 
                 <HStack align="center" gap={'12'}>
-                    {me ? <ApiMenu me={me} /> : null}
+                    {me ? <ApiMenu me={me} basePath={basePath} /> : null}
                     <HStack align="center" gap={'2'}>
                         {me ? (
                             <Hide below="lg" asChild>
