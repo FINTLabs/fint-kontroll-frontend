@@ -74,6 +74,7 @@ export default function App() {
             <head>
                 <Meta />
                 <Links />
+                <link rel="icon" type="image/svg+xml" href={`${basePath}/Novari_Favikon.svg`} />
             </head>
             <body data-theme="novari">
                 <Layout me={me} basePath={basePath}>
