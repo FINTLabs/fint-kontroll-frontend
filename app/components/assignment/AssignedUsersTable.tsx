@@ -1,5 +1,5 @@
-import { BodyShort, Table, VStack } from '@navikt/ds-react';
-import type { IAssignedUsers } from '~/data/types/userTypes';
+import { BodyShort, HStack, Table, VStack } from '@navikt/ds-react';
+import type { IAssignedUsers, IUser } from '~/data/types/userTypes';
 import React from 'react';
 import { Outlet, useLoaderData, useParams, useSearchParams } from 'react-router';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
@@ -44,18 +44,24 @@ export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTablePr
                         {fetching ? (
                             <TableSkeleton columns={5} />
                         ) : (
-                            assignedUsers.users.map((user) => (
+                            assignedUsers.users.map((user: IUser) => (
                                 <Table.ExpandableRow
                                     key={user.assigneeRef}
                                     content={
-                                        <div>
-                                            <BodyShort weight="semibold">Tildelt av:</BodyShort>
-                                            <BodyShort>
-                                                {user.assignerDisplayname
-                                                    ? user.assignerDisplayname
-                                                    : user.assignerUsername}
-                                            </BodyShort>
-                                        </div>
+                                        <HStack gap="16">
+                                            <div>
+                                                <BodyShort weight="semibold">Brukernavn:</BodyShort>
+                                                <BodyShort>{user.assigneeUsername}</BodyShort>
+                                            </div>
+                                            <div>
+                                                <BodyShort weight="semibold">Tildelt av:</BodyShort>
+                                                <BodyShort>
+                                                    {user.assignerDisplayname
+                                                        ? user.assignerDisplayname
+                                                        : user.assignerUsername}
+                                                </BodyShort>
+                                            </div>
+                                        </HStack>
                                     }>
                                     <Table.HeaderCell scope={'row'}>
                                         {user.assigneeFirstName} {user.assigneeLastName}

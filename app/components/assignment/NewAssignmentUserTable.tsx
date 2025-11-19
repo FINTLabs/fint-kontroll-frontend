@@ -47,6 +47,7 @@ export const AssignUserTable = ({
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Brukertype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Brukernavn</Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -63,6 +64,7 @@ export const AssignUserTable = ({
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(user.userType, userTypesKodeverk)}
                                 </Table.DataCell>
+                                <Table.DataCell>{user.userName}</Table.DataCell>
                                 <Table.DataCell align={'center'}>
                                     {user.assigned ? (
                                         <Tag

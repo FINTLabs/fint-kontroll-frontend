@@ -8,6 +8,7 @@ interface TableHeaderProps {
     isSubHeader?: boolean;
     HeaderButton?: React.ReactElement;
     spacing?: boolean;
+    HelpText?: React.ReactElement;
 }
 
 export const TableHeader = ({
@@ -17,17 +18,21 @@ export const TableHeader = ({
     isSubHeader,
     HeaderButton,
     spacing,
+    HelpText,
 }: TableHeaderProps) => {
     return (
         <VStack width={'100%'}>
             <HStack justify={'space-between'} align={'center'}>
-                <Heading
-                    level={isSubHeader ? '2' : '1'}
-                    size={isSubHeader ? 'large' : 'xlarge'}
-                    align={titleAlignment}
-                    spacing={spacing}>
-                    {title}
-                </Heading>
+                <HStack gap={'2'} align={'baseline'}>
+                    <Heading
+                        level={isSubHeader ? '2' : '1'}
+                        size={isSubHeader ? 'large' : 'xlarge'}
+                        align={titleAlignment}
+                        spacing={spacing}>
+                        {title}
+                    </Heading>
+                    {HelpText}
+                </HStack>
                 {HeaderButton && HeaderButton}
             </HStack>
             {subTitle && (

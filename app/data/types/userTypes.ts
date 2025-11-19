@@ -23,7 +23,7 @@ export interface IUser {
     assigneeRef: number;
     assigneeFirstName: string;
     assigneeLastName: string;
-    assigneeUserName: string;
+    assigneeUsername: string;
     assigneeUserType: string;
     assigneeOrganisationUnitId: string;
     assigneeOrganisationUnitName: string;
@@ -72,6 +72,7 @@ export interface IUserItem {
     organisationUnitName: string;
     organisationUnitId: string;
     userType: string;
+    userName: string;
     assigned?: boolean;
 }
 

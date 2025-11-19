@@ -1,5 +1,5 @@
 import styles from '../components/resource/resource.css?url';
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { Alert, Button, HelpText, HStack, VStack } from '@navikt/ds-react';
 import {
     Link as RemixLink,
     LoaderFunctionArgs,
@@ -156,12 +156,40 @@ export default function ResourceById() {
                 </VStack>
 
                 <VStack gap="4">
-                    <TableHeader
-                        isSubHeader={true}
-                        title={'Tilgjengelig for følgende organisasjonsenheter'}
-                        spacing={true}
-                    />
-                    {source === 'gui' && (
+                    {resource.validForOrgUnits.length === 0 && source === 'gui' && (
+                        <VStack gap="4">
+                            <Alert variant={'info'} fullWidth>
+                                For at ressursen skal bli tilgjengelig for tildeling må det legges
+                                til organisasjonsenheter som skal ha tilgang til ressursen. <br />
+                                Klikk på knappen under for å legge til organisasjonsenheter.
+                            </Alert>
+                            <HStack justify={'end'} align={'end'}>
+                                <Button
+                                    role="link"
+                                    className={'no-underline-button'}
+                                    variant={'secondary'}
+                                    iconPosition="right"
+                                    icon={<PencilIcon aria-hidden />}
+                                    onClick={() =>
+                                        navigate(getEditValidForOrgUnitsUrl(resource.id))
+                                    }>
+                                    Legg til org.enheter
+                                </Button>
+                            </HStack>
+                        </VStack>
+                    )}
+
+                    {resource.validForOrgUnits.length === 0 && source !== 'gui' && (
+                        <VStack gap="4">
+                            <Alert variant={'info'} fullWidth>
+                                For at ressursen skal bli tilgjengelig for tildeling må det legges
+                                til organisasjonsenheter som skal ha tilgang til ressursen. <br />
+                                Organisasjonsenheter må legges til i kildesystemet. (Ardoq)
+                            </Alert>
+                        </VStack>
+                    )}
+
+                    {resource.validForOrgUnits.length > 0 && source === 'gui' && (
                         <HStack justify={'end'} align={'end'}>
                             <Button
                                 role="link"
@@ -174,7 +202,25 @@ export default function ResourceById() {
                             </Button>
                         </HStack>
                     )}
-                    <ResourceDetailTable resource={resource} />
+                    {resource.validForOrgUnits.length > 0 && (
+                        <VStack>
+                            <TableHeader
+                                isSubHeader={true}
+                                title={'Tilgjengelig for følgende organisasjonsenheter'}
+                                spacing={true}
+                                HelpText={
+                                    <HelpText>
+                                        Tabellen viser hvilke organisasjonsenheter som kan benytte
+                                        ressursen. <br />
+                                        "Maks antall lisenser" er det totale antallet lisenser
+                                        organisasjonsenheten har fått til disposisjon.
+                                    </HelpText>
+                                }
+                            />
+
+                            <ResourceDetailTable resource={resource} />
+                        </VStack>
+                    )}
                 </VStack>
             </VStack>
         </section>

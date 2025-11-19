@@ -32,6 +32,14 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                             style={{ color: '#5149CA' }}>
                             Til forsiden
                         </ActionMenu.Item>
+                        <ActionMenu.Item
+                            style={{ color: '#5149CA' }}
+                            rel="external noopener noreferrer"
+                            target="_blank"
+                            as="a"
+                            href={`https://kontroll.novari.no/api${basePath}/swagger-ui/index.html`}>
+                            Swagger statistikk (åpnes i ny fane)
+                        </ActionMenu.Item>
                     </Box>
                     {menuItems.length &&
                         menuItems.map((item, index) => (
