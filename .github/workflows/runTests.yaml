@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: steps.node_modules.outputs.cache-hit != 'true'
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
 #      - uses: actions/setup-node@v4
 #        if: steps.node_modules.outputs.cache-hit != 'true'
 #        with:
-#          node-version: "20.x"
+#          node-version: "22.x"
 #          cache: "npm"
 #
 #
