@@ -66,7 +66,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: steps.node_modules.outputs.cache-hit != 'true'
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
       - run: npm ci --ignore-scripts
@@ -129,7 +129,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
 #      - name: Cache node_modules
