@@ -23,6 +23,7 @@ on:
           - afk-no
           - fridiks-no
           - nfk-no
+          - vlfk-no
       path:
         description: 'Select path'
         required: true
@@ -36,6 +37,7 @@ on:
           - /fridiks-no
           - /nfk-no
           - /fintlabs-no
+          - /vlfk-no
       environment:
         description: 'Select environment'
         required: true
