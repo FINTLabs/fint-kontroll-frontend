@@ -17,8 +17,9 @@
     "port-forward-assignments": "kubectl -n fintlabs-no port-forward services/fint-kontroll-assignment-catalog 8061:8080",
     "port-forward-resources": "kubectl -n fintlabs-no port-forward services/fint-kontroll-resource-catalog 8063:8080",
     "port-forward-roles": "kubectl -n fintlabs-no port-forward services/fint-kontroll-role-catalog 8064:8080",
+    "port-forward-device": "kubectl -n fintlabs-no port-forward services/fint-kontroll-device-catalog 8065:8080",
     "port-forward-access-mngnt": "kubectl -n fintlabs-no port-forward services/fint-kontroll-access-mngmnt-catalog 53989:8080",
-    "portall": "npm run port-forward-user & npm run port-forward-org & npm run port-forward-assignments & npm run port-forward-resources & npm run port-forward-roles & npm run port-forward-access-mngnt",
+    "portall": "npm run port-forward-user & npm run port-forward-org & npm run port-forward-assignments & npm run port-forward-resources & npm run port-forward-roles & npm run port-forward-access-mngnt & npm run port-forward-device",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

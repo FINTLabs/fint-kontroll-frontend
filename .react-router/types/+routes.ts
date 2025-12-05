@@ -6,6 +6,7 @@ declare module "react-router" {
   interface Register {
     pages: Pages
     routeFiles: RouteFiles
+    routeModules: RouteModules
   }
 }
 
@@ -137,6 +138,9 @@ type Pages = {
       "orgId": string;
     };
   };
+  "/digitale-enheter": {
+    params: {};
+  };
   "/gruppe/:id/ny-tildeling": {
     params: {
       "id": string;
@@ -153,6 +157,26 @@ type Pages = {
     params: {
       "id": string;
       "orgId": string;
+    };
+  };
+  "/digitale-enheter/:id": {
+    params: {
+      "id": string;
+    };
+  };
+  "/digitale-enheter/:id/ny-tildeling": {
+    params: {
+      "id": string;
+    };
+  };
+  "/digitale-enheter/:id/tildelinger": {
+    params: {
+      "id": string;
+    };
+  };
+  "/digitale-enheter/:id/info": {
+    params: {
+      "id": string;
     };
   };
   "/innstillinger": {
@@ -250,7 +274,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/bruker/:id/ressurs/:resourceId/org/:orgId/tildel" | "/tjeneste-admin/rediger/org-enheter/ressurs/:id" | "/tjeneste-admin/opprett-ny-applikasjonsressurs" | "/brukere/:id/tildelinger/:assignmentRef/slett" | "/bruker/:id/org/:orgId/ny-tildeling" | "/innstillinger/applikasjonskategori" | "/innstillinger/applikasjonskategori/:id?/rediger" | "/innstillinger/applikasjonskategori/:id/slett" | "/ressurs-admin/opprett-ny-tildeling" | "/tjeneste-admin/rediger/ressurs/:id" | "/tjeneste-admin/ressurser/:id/slett" | "/innstillinger/haandhevingstyper" | "/innstillinger/haandhevingstyper/:id/rediger" | "/tjeneste-admin/ressurser" | "/ressurs-admin/administrer/:id" | "/innstillinger/lisensmodeller" | "/innstillinger/lisensmodeller/:id?/rediger" | "/innstillinger/lisensmodeller/:id/slett" | "/tjeneste-admin/ressurs/:id" | "/innstillinger/brukertyper" | "/innstillinger/brukertyper/:id/rediger" | "/ressurs/:id/ny-tildeling" | "/ressurs/:id/ny-tildeling/brukere" | "/ressurs/:id/ny-tildeling/brukere/:userId/org/:orgId/tildel" | "/ressurs/:id/ny-tildeling/grupper" | "/ressurs/:id/ny-tildeling/grupper/:roleId/org/:orgId/tildel" | "/gruppe/:id/ny-tildeling" | "/gruppe/:id/ny-tildeling/ressurs/:resourceId/org/:orgId/tildel" | "/brukere/:id/org/:orgId" | "/innstillinger" | "/ressurs-admin" | "/ressurser" | "/brukere" | "/grupper" | "/ressurser/:id" | "/ressurser/:id/bruker-tildelinger" | "/ressurser/:id/bruker-tildelinger/:assignmentRef/slett" | "/ressurser/:id/gruppe-tildelinger" | "/ressurser/:id/gruppe-tildelinger/:assignmentRef/slett" | "/system-admin" | "/system-admin/knytt-rettigheter-til-rolle" | "/system-admin/knytt-rettigheter-til-rolle/:id" | "/system-admin/definer-rolle" | "/system-admin/definer-rolle/:id" | "/system-admin/menystyring" | "/system-admin/menystyring/:id" | "/grupper/:id" | "/grupper/:id/tildelinger" | "/grupper/:id/tildelinger/:assignmentRef/slett" | "/grupper/:id/medlemmer";
+    page: "/" | "/bruker/:id/ressurs/:resourceId/org/:orgId/tildel" | "/tjeneste-admin/rediger/org-enheter/ressurs/:id" | "/tjeneste-admin/opprett-ny-applikasjonsressurs" | "/brukere/:id/tildelinger/:assignmentRef/slett" | "/bruker/:id/org/:orgId/ny-tildeling" | "/innstillinger/applikasjonskategori" | "/innstillinger/applikasjonskategori/:id?/rediger" | "/innstillinger/applikasjonskategori/:id/slett" | "/ressurs-admin/opprett-ny-tildeling" | "/tjeneste-admin/rediger/ressurs/:id" | "/tjeneste-admin/ressurser/:id/slett" | "/innstillinger/haandhevingstyper" | "/innstillinger/haandhevingstyper/:id/rediger" | "/tjeneste-admin/ressurser" | "/ressurs-admin/administrer/:id" | "/innstillinger/lisensmodeller" | "/innstillinger/lisensmodeller/:id?/rediger" | "/innstillinger/lisensmodeller/:id/slett" | "/tjeneste-admin/ressurs/:id" | "/innstillinger/brukertyper" | "/innstillinger/brukertyper/:id/rediger" | "/ressurs/:id/ny-tildeling" | "/ressurs/:id/ny-tildeling/brukere" | "/ressurs/:id/ny-tildeling/brukere/:userId/org/:orgId/tildel" | "/ressurs/:id/ny-tildeling/grupper" | "/ressurs/:id/ny-tildeling/grupper/:roleId/org/:orgId/tildel" | "/digitale-enheter" | "/gruppe/:id/ny-tildeling" | "/gruppe/:id/ny-tildeling/ressurs/:resourceId/org/:orgId/tildel" | "/brukere/:id/org/:orgId" | "/digitale-enheter/:id" | "/digitale-enheter/:id/ny-tildeling" | "/digitale-enheter/:id/tildelinger" | "/digitale-enheter/:id/info" | "/innstillinger" | "/ressurs-admin" | "/ressurser" | "/brukere" | "/grupper" | "/ressurser/:id" | "/ressurser/:id/bruker-tildelinger" | "/ressurser/:id/bruker-tildelinger/:assignmentRef/slett" | "/ressurser/:id/gruppe-tildelinger" | "/ressurser/:id/gruppe-tildelinger/:assignmentRef/slett" | "/system-admin" | "/system-admin/knytt-rettigheter-til-rolle" | "/system-admin/knytt-rettigheter-til-rolle/:id" | "/system-admin/definer-rolle" | "/system-admin/definer-rolle/:id" | "/system-admin/menystyring" | "/system-admin/menystyring/:id" | "/grupper/:id" | "/grupper/:id/tildelinger" | "/grupper/:id/tildelinger/:assignmentRef/slett" | "/grupper/:id/medlemmer";
   };
   "routes/bruker.$id.ressurs.$resourceId.org.$orgId.tildel.tsx": {
     id: "routes/bruker.$id.ressurs.$resourceId.org.$orgId.tildel";
@@ -356,6 +380,10 @@ type RouteFiles = {
     id: "routes/ressurs.$id.ny-tildeling.grupper.$roleId.org.$orgId.tildel";
     page: "/ressurs/:id/ny-tildeling/grupper/:roleId/org/:orgId/tildel";
   };
+  "routes/digitale-enheter._index.tsx": {
+    id: "routes/digitale-enheter._index";
+    page: "/digitale-enheter";
+  };
   "routes/gruppe.$id.ny-tildeling.tsx": {
     id: "routes/gruppe.$id.ny-tildeling";
     page: "/gruppe/:id/ny-tildeling" | "/gruppe/:id/ny-tildeling/ressurs/:resourceId/org/:orgId/tildel";
@@ -367,6 +395,22 @@ type RouteFiles = {
   "routes/brukere.$id.org.$orgId.tsx": {
     id: "routes/brukere.$id.org.$orgId";
     page: "/brukere/:id/org/:orgId";
+  };
+  "routes/digitale-enheter.$id.tsx": {
+    id: "routes/digitale-enheter.$id";
+    page: "/digitale-enheter/:id" | "/digitale-enheter/:id/ny-tildeling" | "/digitale-enheter/:id/tildelinger" | "/digitale-enheter/:id/info";
+  };
+  "routes/digitale-enheter.$id.ny-tildeling.tsx": {
+    id: "routes/digitale-enheter.$id.ny-tildeling";
+    page: "/digitale-enheter/:id/ny-tildeling";
+  };
+  "routes/digitale-enheter.$id.tildelinger.tsx": {
+    id: "routes/digitale-enheter.$id.tildelinger";
+    page: "/digitale-enheter/:id/tildelinger";
+  };
+  "routes/digitale-enheter.$id.info.tsx": {
+    id: "routes/digitale-enheter.$id.info";
+    page: "/digitale-enheter/:id/info";
   };
   "routes/innstillinger._index.tsx": {
     id: "routes/innstillinger._index";
@@ -456,4 +500,64 @@ type RouteFiles = {
     id: "routes/_index";
     page: "/";
   };
+};
+
+type RouteModules = {
+  "root": typeof import("./app/root.tsx");
+  "routes/bruker.$id.ressurs.$resourceId.org.$orgId.tildel": typeof import("./app/routes/bruker.$id.ressurs.$resourceId.org.$orgId.tildel.tsx");
+  "routes/tjeneste-admin.rediger.org-enheter.ressurs.$id": typeof import("./app/routes/tjeneste-admin.rediger.org-enheter.ressurs.$id.tsx");
+  "routes/tjeneste-admin.opprett-ny-applikasjonsressurs": typeof import("./app/routes/tjeneste-admin.opprett-ny-applikasjonsressurs.tsx");
+  "routes/brukere.$id.tildelinger.$assignmentRef.slett": typeof import("./app/routes/brukere.$id.tildelinger.$assignmentRef.slett.tsx");
+  "routes/bruker.$id.org.$orgId.ny-tildeling": typeof import("./app/routes/bruker.$id.org.$orgId.ny-tildeling.tsx");
+  "routes/innstillinger.applikasjonskategori": typeof import("./app/routes/innstillinger.applikasjonskategori.tsx");
+  "routes/innstillinger.applikasjonskategori.($id).rediger": typeof import("./app/routes/innstillinger.applikasjonskategori.($id).rediger.tsx");
+  "routes/innstillinger.applikasjonskategori.$id.slett": typeof import("./app/routes/innstillinger.applikasjonskategori.$id.slett.tsx");
+  "routes/ressurs-admin.opprett-ny-tildeling": typeof import("./app/routes/ressurs-admin.opprett-ny-tildeling.tsx");
+  "routes/tjeneste-admin.rediger.ressurs.$id": typeof import("./app/routes/tjeneste-admin.rediger.ressurs.$id.tsx");
+  "routes/tjeneste-admin.ressurser.$id.slett": typeof import("./app/routes/tjeneste-admin.ressurser.$id.slett.tsx");
+  "routes/innstillinger.haandhevingstyper": typeof import("./app/routes/innstillinger.haandhevingstyper.tsx");
+  "routes/innstillinger.haandhevingstyper.$id.rediger": typeof import("./app/routes/innstillinger.haandhevingstyper.$id.rediger.tsx");
+  "routes/tjeneste-admin.ressurser._index": typeof import("./app/routes/tjeneste-admin.ressurser._index.tsx");
+  "routes/ressurs-admin.administrer.$id": typeof import("./app/routes/ressurs-admin.administrer.$id.tsx");
+  "routes/innstillinger.lisensmodeller": typeof import("./app/routes/innstillinger.lisensmodeller.tsx");
+  "routes/innstillinger.lisensmodeller.($id).rediger": typeof import("./app/routes/innstillinger.lisensmodeller.($id).rediger.tsx");
+  "routes/innstillinger.lisensmodeller.$id.slett": typeof import("./app/routes/innstillinger.lisensmodeller.$id.slett.tsx");
+  "routes/tjeneste-admin.ressurs.$id": typeof import("./app/routes/tjeneste-admin.ressurs.$id.tsx");
+  "routes/innstillinger.brukertyper": typeof import("./app/routes/innstillinger.brukertyper.tsx");
+  "routes/innstillinger.brukertyper.$id.rediger": typeof import("./app/routes/innstillinger.brukertyper.$id.rediger.tsx");
+  "routes/ressurs.$id.ny-tildeling": typeof import("./app/routes/ressurs.$id.ny-tildeling.tsx");
+  "routes/ressurs.$id.ny-tildeling.brukere": typeof import("./app/routes/ressurs.$id.ny-tildeling.brukere.tsx");
+  "routes/ressurs.$id.ny-tildeling.brukere.$userId.org.$orgId.tildel": typeof import("./app/routes/ressurs.$id.ny-tildeling.brukere.$userId.org.$orgId.tildel.tsx");
+  "routes/ressurs.$id.ny-tildeling.grupper": typeof import("./app/routes/ressurs.$id.ny-tildeling.grupper.tsx");
+  "routes/ressurs.$id.ny-tildeling.grupper.$roleId.org.$orgId.tildel": typeof import("./app/routes/ressurs.$id.ny-tildeling.grupper.$roleId.org.$orgId.tildel.tsx");
+  "routes/digitale-enheter._index": typeof import("./app/routes/digitale-enheter._index.tsx");
+  "routes/gruppe.$id.ny-tildeling": typeof import("./app/routes/gruppe.$id.ny-tildeling.tsx");
+  "routes/gruppe.$id.ny-tildeling.ressurs.$resourceId.org.$orgId.tildel": typeof import("./app/routes/gruppe.$id.ny-tildeling.ressurs.$resourceId.org.$orgId.tildel.tsx");
+  "routes/brukere.$id.org.$orgId": typeof import("./app/routes/brukere.$id.org.$orgId.tsx");
+  "routes/digitale-enheter.$id": typeof import("./app/routes/digitale-enheter.$id.tsx");
+  "routes/digitale-enheter.$id.ny-tildeling": typeof import("./app/routes/digitale-enheter.$id.ny-tildeling.tsx");
+  "routes/digitale-enheter.$id.tildelinger": typeof import("./app/routes/digitale-enheter.$id.tildelinger.tsx");
+  "routes/digitale-enheter.$id.info": typeof import("./app/routes/digitale-enheter.$id.info.tsx");
+  "routes/innstillinger._index": typeof import("./app/routes/innstillinger._index.tsx");
+  "routes/ressurs-admin._index": typeof import("./app/routes/ressurs-admin._index.tsx");
+  "routes/ressurser._index": typeof import("./app/routes/ressurser._index.tsx");
+  "routes/brukere._index": typeof import("./app/routes/brukere._index.tsx");
+  "routes/grupper._index": typeof import("./app/routes/grupper._index.tsx");
+  "routes/ressurser.$id": typeof import("./app/routes/ressurser.$id.tsx");
+  "routes/ressurser.$id.bruker-tildelinger": typeof import("./app/routes/ressurser.$id.bruker-tildelinger.tsx");
+  "routes/ressurser.$id.bruker-tildelinger.$assignmentRef.slett": typeof import("./app/routes/ressurser.$id.bruker-tildelinger.$assignmentRef.slett.tsx");
+  "routes/ressurser.$id.gruppe-tildelinger": typeof import("./app/routes/ressurser.$id.gruppe-tildelinger.tsx");
+  "routes/ressurser.$id.gruppe-tildelinger.$assignmentRef.slett": typeof import("./app/routes/ressurser.$id.gruppe-tildelinger.$assignmentRef.slett.tsx");
+  "routes/system-admin": typeof import("./app/routes/system-admin.tsx");
+  "routes/system-admin.knytt-rettigheter-til-rolle": typeof import("./app/routes/system-admin.knytt-rettigheter-til-rolle.tsx");
+  "routes/system-admin.knytt-rettigheter-til-rolle.$id": typeof import("./app/routes/system-admin.knytt-rettigheter-til-rolle.$id.tsx");
+  "routes/system-admin.definer-rolle": typeof import("./app/routes/system-admin.definer-rolle.tsx");
+  "routes/system-admin.definer-rolle.$id": typeof import("./app/routes/system-admin.definer-rolle.$id.tsx");
+  "routes/system-admin.menystyring": typeof import("./app/routes/system-admin.menystyring.tsx");
+  "routes/system-admin.menystyring.$id": typeof import("./app/routes/system-admin.menystyring.$id.tsx");
+  "routes/grupper.$id": typeof import("./app/routes/grupper.$id.tsx");
+  "routes/grupper.$id.tildelinger": typeof import("./app/routes/grupper.$id.tildelinger.tsx");
+  "routes/grupper.$id.tildelinger.$assignmentRef.slett": typeof import("./app/routes/grupper.$id.tildelinger.$assignmentRef.slett.tsx");
+  "routes/grupper.$id.medlemmer": typeof import("./app/routes/grupper.$id.medlemmer.tsx");
+  "routes/_index": typeof import("./app/routes/_index.tsx");
 };

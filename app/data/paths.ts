@@ -23,6 +23,11 @@ export const getConfirmRoleAssignmentUrl = (
 ): string => `/gruppe/${id}/ny-tildeling/ressurs/${resourceId}/org/${orgId}/tildel`;
 export const getRoleNewAssignmentUrl = (id: number): string => `/gruppe/${id}/ny-tildeling`;
 
+export const DEVICES = '/digitale-enheter';
+export const getDeviceGroupByIdUrl = (id: number): string => `/digitale-enheter/${id}/info`;
+export const getDeviceGroupNewAssignmentUrl = (id: number): string =>
+    `/digitale-enheter/${id}/ny-tildeling`;
+
 export const RESOURCES = '/ressurser';
 export const getResourceUserAssignmentsUrl = (id: number): string =>
     `/ressurser/${id}/bruker-tildelinger`;
