@@ -1,7 +1,7 @@
 export interface IDeviceGroup {
-    id?: number;
+    id: number;
     name: string;
-    systemId: string;
+    sourceId: string;
     organisationUnitName: string;
     orgUnitId: string;
     deviceType: string;
@@ -26,6 +26,7 @@ export interface IDeviceItem {
     deviceType: string;
     platform: string;
     status: string;
+    isShared: boolean;
 }
 
 export interface IDeviceItemList {

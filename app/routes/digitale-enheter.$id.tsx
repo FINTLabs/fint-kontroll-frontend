@@ -22,16 +22,18 @@ import {
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
+import { fetchDeviceGroupById } from '~/data/fetch-devices';
+import { IDeviceGroup } from '~/data/types/deviceTypes';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
 }
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    const role = await fetchRoleById(request, params.id);
+    const deviceGroup = await fetchDeviceGroupById(request, params.id);
 
     return {
-        role,
+        deviceGroup,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
 }
@@ -46,8 +48,8 @@ export const handle = {
 };
 
 export default function DevicesId() {
-    // const loaderData = useLoaderData<typeof loader>();
-    // const role: IRole = loaderData.role;
+    const loaderData = useLoaderData<typeof loader>();
+    const deviceGroup: IDeviceGroup = loaderData.deviceGroup;
 
     const pathname = useLocation();
 
@@ -65,11 +67,13 @@ export default function DevicesId() {
     return (
         <section className={'content'}>
             <TableHeader
-                title={'VGMIDT Utlånspc-er'}
+                title={deviceGroup.name}
                 HeaderButton={
                     <SecondaryAddNewLinkButton
                         label="Ny tildeling"
-                        handleOnClick={() => navigate(`${getDeviceGroupNewAssignmentUrl(1)}`)}
+                        handleOnClick={() =>
+                            navigate(`${getDeviceGroupNewAssignmentUrl(deviceGroup.id)}`)
+                        }
                     />
                 }
             />

@@ -8,33 +8,31 @@ import {
     useParams,
     useRouteError,
 } from 'react-router';
-import { fetchUserById } from '~/data/fetch-users';
-import { fetchAssignmentsForUser } from '~/data/fetch-assignments';
-import { AssignmentsForUserTable } from '~/components/user/AssignmentsForUserTable';
-import { BASE_PATH } from '../../environment';
-import { ResponseAlert } from '~/components/common/ResponseAlert';
-import { ArrowRightIcon } from '@navikt/aksel-icons';
-import {
-    DEVICES,
-    getDeviceGroupByIdUrl,
-    getUserByIdUrl,
-    getUserNewAssignmentUrl,
-    USERS,
-} from '~/data/paths';
+import { getDeviceGroupByIdUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
-import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 import { InfoBox } from '~/components/common/InfoBox';
-import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import { Search } from '~/components/common/Search';
-import { MemberTable } from '~/components/role/MemberTable';
-import { DeviceTable } from '~/components/device/DeviceTable';
 import { DeviceUnitTable } from '~/components/device/DeviceUnitTable';
+import { fetchDeviceGroupById, fetchDeviceMembersById } from '~/data/fetch-devices';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
+}
+
+export async function loader({ params, request }: LoaderFunctionArgs) {
+    const url = new URL(request.url);
+
+    const [deviceInfo, deviceItems] = await Promise.all([
+        fetchDeviceGroupById(request, params.id),
+        fetchDeviceMembersById(request, params.id),
+    ]);
+
+    return {
+        deviceInfo,
+        deviceItems,
+    };
 }
 
 export const handle = {
@@ -53,6 +51,8 @@ export const handle = {
 export default function DeviceGroupInfo() {
     const navigate = useNavigate();
     const params = useParams();
+    const loaderData = useLoaderData<typeof loader>();
+    const deviceInfo = loaderData.deviceInfo;
 
     return (
         <section>
@@ -62,13 +62,14 @@ export default function DeviceGroupInfo() {
                         <InfoBox
                             title={'Informasjon om maskingruppen'}
                             info={[
-                                { label: 'Navn', value: 'VGMIDT Utlånspc-er' },
-                                { label: 'SystemId', value: '12_103' },
+                                { label: 'Navn', value: deviceInfo.name },
+                                { label: 'KildesystemID', value: deviceInfo.sourceId },
                                 {
                                     label: 'Organisasjonsenhet',
-                                    value: 'VGMIDT Midtbyen videregående skole',
+                                    value: deviceInfo.organisationUnitName,
                                 },
-                                { label: 'Plattform', value: 'MAC OS' },
+                                { label: 'Plattform', value: deviceInfo.platform },
+                                { label: 'Enhetstype', value: deviceInfo.deviceType },
                             ]}
                             maxColumns={2}
                         />
@@ -82,43 +83,6 @@ export default function DeviceGroupInfo() {
                 </VStack>
             </Tabs>
         </section>
-        /*<section className={'content'}>
-            <VStack gap="12">
-                <InfoBox
-                    title={'Maskingruppeinformasjon'}
-                    info={[
-                        { label: 'Navn', value: 'VGMIDT Utlånspc-er' },
-                        { label: 'SystemId', value: '12_103' },
-                        {
-                            label: 'Organisasjonsenhet',
-                            value: 'VGMIDT Midtbyen videregående skole',
-                        },
-                        { label: 'Plattform', value: 'MAC OS' },
-                    ]}
-                    maxColumns={2}
-                />
-
-                <VStack gap="8">
-                    <TableHeader
-                        isSubHeader={true}
-                        title={'Brukeren er tildelt følgende ressurser'}
-                        HeaderButton={
-                            <SecondaryAddNewLinkButton
-                                label="Ny tildeling"
-                                handleOnClick={() =>
-                                    navigate(`${getUserNewAssignmentUrl(3, params.orgId)}`)
-                                }
-                            />
-                        }
-                    />
-                    {/!*<ResponseAlert
-                        responseCode={responseCode}
-                        successText={'Tildelingen var vellykket!'}
-                        deleteText={'Tildelingen ble slettet!'}
-                    />*!/}
-                </VStack>
-            </VStack>
-        </section>*/
     );
 }
 

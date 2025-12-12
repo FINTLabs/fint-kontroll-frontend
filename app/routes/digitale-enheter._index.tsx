@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const [deviceGroup, responseOrgUnits, access] = await Promise.all([
         fetchDeviceGroups(request),
         fetchAllOrgUnits(request),
-        postMyAccessRequest(request, [{ url: '/api/devicegroups', method: 'GET' }]),
+        postMyAccessRequest(request, [{ url: '/api/devicegroups/123', method: 'GET' }]),
     ]);
 
     return {
@@ -36,9 +36,9 @@ export default function DeviceIndex() {
     return (
         <div className={'content'}>
             <TableHeaderLayout
-                title={'Digitale enheter'}
-                orgUnitsForFilter={orgUnitList}
-                SearchComponent={<Search label={'Søk etter maskingruppe'} id={''} />}
+                title={'Maskingrupper'}
+                /*orgUnitsForFilter={orgUnitList}
+                SearchComponent={<Search label={'Søk etter maskingruppe'} id={''} />}*/
             />
             <DeviceTable />
         </div>

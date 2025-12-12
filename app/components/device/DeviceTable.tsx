@@ -36,7 +36,7 @@ export const DeviceTable = () => {
                                 <Table.DataCell align="right">
                                     <GoToButton
                                         id={`userInfoButton-${1}`}
-                                        url={getDeviceGroupByIdUrl(1)}
+                                        url={getDeviceGroupByIdUrl(device.id)}
                                     />
                                 </Table.DataCell>
                             </Table.Row>
