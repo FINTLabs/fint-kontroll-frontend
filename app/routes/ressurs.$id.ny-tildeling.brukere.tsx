@@ -11,12 +11,14 @@ import { UserSearch } from '~/components/user/UserSearch';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { getResourceNewUserAssignmentUrl } from '~/data/paths';
-import { fetchResourceById } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchResourceById } from '~/data/fetch-resources';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
 
 type LoaderData = {
     userList: IUserPage;
@@ -44,55 +46,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         selectedUserTypes = resource.validForRoles;
     }
 
-    const userList = await fetchUsers(request, size, page, search, selectedUserTypes, orgUnits);
-
-    let filter = '';
-    userList.users.forEach((value) => {
-        filter += `&userfilter=${value.id}`;
-    });
-
-    const [assignedUsersList, userTypesKodeverk] = await Promise.all([
-        fetchAssignedUsers(request, params.id, '1000', '0', '', '', orgUnits, filter),
-        fetchUserTypes(request),
-    ]);
-
-    const assignedUsersMap: Map<number, IUser> = new Map(
-        assignedUsersList.users.map((user) => [user.assigneeRef, user])
-    );
-    const isAssignedUsers: IUserItem[] = userList.users.map((user) => {
-        return {
-            ...user,
-            assigned: assignedUsersMap.has(user.id),
-        };
-    });
-    return {
-        userList,
-        isAssignedUsers,
-        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
-        userTypesKodeverk,
-        validForRoles: resource.validForRoles,
-    };
-}
-
-/*
-export async function loader({ params, request }: LoaderFunctionArgs) {
-    const url = new URL(request.url);
-    const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
-    const page = url.searchParams.get('page') ?? '0';
-    const search = url.searchParams.get('search') ?? '';
-    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
-    let selectedUserTypes =
-        url.searchParams
-            .get('userType')
-            ?.split(',')
-            .filter((type) => type) ?? [];
-
-    const resource = await fetchResourceById(request, params.id);
-
-    if (selectedUserTypes.length === 0) {
-        selectedUserTypes = resource.validForRoles;
-    }
-
     const allOrgUnitsTree = await fetchAllOrgUnits(request);
     const allOrgUnits = allOrgUnitsTree.orgUnits; // IUnitItem[]
 
@@ -100,31 +53,36 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         .map((val) => allOrgUnits.find((unit) => unit.organisationUnitId === val.orgUnitId))
         .filter((unit): unit is IUnitItem => !!unit);
 
-    console.log(resourceOrgUnitsAsIUnitItems, 'Ressurs Ors');
-
     const validOrgUnitsExpanded = getOrgUnitAndAllNestedChildren(
         resourceOrgUnitsAsIUnitItems,
         allOrgUnits
     );
-    console.log('Alle Underenheter', validOrgUnitsExpanded);
 
-    const validOrgUnitIds = new Set(validOrgUnitsExpanded.map((ou) => ou.organisationUnitId));
+    const validOrgUnitIds = validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);
 
-    const userList = await fetchUsers(request, size, page, search, selectedUserTypes, orgUnits);
-    console.log('Liste med brukere', userList);
+    /*const isTopUnit: boolean = resource.validForOrgUnits?.some((ou) => ou.isTopOrgunit) ?? false;
 
-    const filteredUsers = (userList.users = userList.users.filter(
-        (user) => user.organisationUnitId && validOrgUnitIds.has(user.organisationUnitId)
-    ));
 
-    console.log('Liste med brukere', filteredUsers);
+    const validOrgUnitIds = isTopUnit
+        ? []
+        : validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);*/
+
+    console.log('validOrgUnitIds sendt til API:', validOrgUnitIds);
+
+    const userList = await fetchUsers(
+        request,
+        size,
+        page,
+        search,
+        selectedUserTypes,
+        orgUnits,
+        validOrgUnitIds
+    );
 
     let filter = '';
     userList.users.forEach((value) => {
         filter += `&userfilter=${value.id}`;
     });
-
-    console.log(filter);
 
     const [assignedUsersList, userTypesKodeverk] = await Promise.all([
         fetchAssignedUsers(request, params.id, '1000', '0', '', '', orgUnits, filter),
@@ -148,7 +106,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         validForRoles: resource.validForRoles,
     };
 }
-*/
 
 export default function NewAssignment() {
     const { userList, isAssignedUsers, basePath, userTypesKodeverk, validForRoles } =
