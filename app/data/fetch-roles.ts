@@ -9,17 +9,20 @@ export const fetchRoles = async (
     page: string,
     search: string,
     orgUnits: string[],
+    validOrgUnitIds: string[] = [],
     userTypes?: string[]
 ): Promise<IRoleList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
     const orgUnitsFilter = orgUnits?.length > 0 ? `&orgunits=${orgUnits.join(',')}` : '';
+    const validOrgUnitsFilter =
+        validOrgUnitIds.length > 0 ? `&validorgunits=${validOrgUnitIds.join(',')}` : '';
     const userTypeFilter =
         userTypes && userTypes.length > 0 ? `&roletype=${userTypes.join(',')}` : '';
 
     return fetchData(
-        `${ROLE_API_URL}${BASE_PATH}/api/roles?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${userTypeFilter}`,
+        `${ROLE_API_URL}${BASE_PATH}/api/roles?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${validOrgUnitsFilter}${userTypeFilter}`,
         request
     );
 };

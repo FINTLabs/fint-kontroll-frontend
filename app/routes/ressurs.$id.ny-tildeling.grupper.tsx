@@ -8,13 +8,15 @@ import { fetchAssignedRoles } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
 import { RoleSearch } from '~/components/role/RoleSearch';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
-import { fetchResourceById } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchResourceById } from '~/data/fetch-resources';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { BreadcrumbParams } from '~/data/types/generalTypes';
 import { IKodeverkUserType } from '~/data/types/kodeverkTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
+import { IUnitItem } from '~/data/types/orgUnitTypes';
 
 type LoaderData = {
     roleList: IRoleList;
@@ -31,12 +33,27 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
     const resource = await fetchResourceById(request, params.id);
 
+    const allOrgUnitsTree = await fetchAllOrgUnits(request);
+    const allOrgUnits = allOrgUnitsTree.orgUnits;
+
+    const resourceOrgUnitsAsIUnitItems = resource.validForOrgUnits
+        .map((val) => allOrgUnits.find((unit) => unit.organisationUnitId === val.orgUnitId))
+        .filter((unit): unit is IUnitItem => !!unit);
+
+    const validOrgUnitsExpanded = getOrgUnitAndAllNestedChildren(
+        resourceOrgUnitsAsIUnitItems,
+        allOrgUnits
+    );
+
+    const validOrgUnitIds = validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);
+
     const roleList = await fetchRoles(
         request,
         size,
         page,
         search,
         orgUnits,
+        validOrgUnitIds,
         resource.validForRoles
     );
 

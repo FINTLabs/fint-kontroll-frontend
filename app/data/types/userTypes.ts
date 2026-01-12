@@ -74,6 +74,7 @@ export interface IUserItem {
     userType: string;
     userName: string;
     assigned?: boolean;
+    validOrgUnits?: string[];
 }
 
 export interface IUserDetails {
@@ -99,6 +100,7 @@ export interface IRole {
     organisationUnitName: string;
     aggregatedRole: boolean;
     assigned?: boolean;
+    validOrgUnits?: string[];
 }
 
 export interface IRoleList {
