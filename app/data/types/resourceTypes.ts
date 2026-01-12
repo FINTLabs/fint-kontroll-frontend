@@ -102,6 +102,7 @@ export interface IResourceItem {
     orgUnitId: string;
     orgUnitName: string;
     resourceLimit: number | null;
+    topOrgunit: boolean;
     assignedResources?: number; // NEW
 }
 

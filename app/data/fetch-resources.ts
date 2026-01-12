@@ -2,7 +2,7 @@ import { BASE_PATH, ORG_UNIT_API_URL, RESOURCE_API_URL } from '../../environment
 import logger from '~/logging/logger';
 import { IValidForOrgUnits } from '~/components/service-admin/types';
 import { fetchData, sendRequest } from '~/data/helpers';
-import { IUnitTree } from '~/data/types/orgUnitTypes';
+import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { IResource, IResourceAdminList, IResourceList } from '~/data/types/resourceTypes';
 
 export const fetchResources = async (
@@ -202,3 +202,9 @@ export const deleteResource = async (token: string | null, request: Request, id:
 
 export const fetchAllOrgUnits = async (request: Request): Promise<IUnitTree> =>
     fetchData(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits`, request);
+
+export const fetchOrgUnitsWithParents = async (
+    request: Request,
+    id: number | undefined
+): Promise<IUnitItem> =>
+    fetchData(`${ORG_UNIT_API_URL}${BASE_PATH}/api/orgunits/${id}/parents`, request);

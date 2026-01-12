@@ -1,7 +1,7 @@
 import { AssignResourceToUserTable } from '~/components/user/AssignResourceToUserTable';
 import { Link, LoaderFunctionArgs, useLoaderData, useParams, useRouteError } from 'react-router';
 import { fetchUserById } from '~/data/fetch-users';
-import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchOrgUnitsWithParents, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
 import { Alert, HStack, VStack } from '@navikt/ds-react';
@@ -16,6 +16,8 @@ import { IResourceAssignment, IResourceForList } from '~/data/types/resourceType
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -46,6 +48,15 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
             fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
             fetchApplicationCategories(request),
         ]);
+
+    /* console.log('Dete er org parents params id', params.orgId);*/
+
+    const orgData = orgUnitTree.orgUnits.find((o) => o.organisationUnitId === params.orgId);
+    const orgId = orgData?.id;
+    /* console.log('Dette skal være org med id fra orgtree', orgData, 'Og databaseId', orgId);*/
+
+    const orgUnitParents = await fetchOrgUnitsWithParents(request, orgId);
+    /* console.log('Dete er org parents', orgUnitParents);*/
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
         assignedResourceListForUser.resources.map((resource) => [resource.resourceRef, resource])

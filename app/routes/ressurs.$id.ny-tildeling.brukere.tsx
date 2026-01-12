@@ -67,7 +67,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         ? []
         : validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);*/
 
-    console.log('validOrgUnitIds sendt til API:', validOrgUnitIds);
+    /* console.log('validOrgUnitIds sendt til API:', validOrgUnitIds);*/
 
     const userList = await fetchUsers(
         request,

@@ -9,7 +9,7 @@ import { loader } from '~/routes/digitale-enheter._index';
 
 export const DeviceTable = () => {
     const { deviceGroup: deviceGroup, size } = useLoaderData<typeof loader>();
-    console.log('Her er fra device tabellen', deviceGroup);
+    /*console.log('Her er fra device tabellen', deviceGroup);*/
     const { fetching } = useLoadingState();
     return (
         <>
