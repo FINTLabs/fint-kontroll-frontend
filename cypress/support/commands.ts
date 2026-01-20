@@ -79,7 +79,7 @@ export function goToBrukere() {
 Cypress.Commands.add('goToBrukere', goToBrukere);
 
 export function goToUser() {
-    return cy.visit('http://localhost:3000/fintlabs-no/brukere/442/org/194');
+    return cy.visit('http://localhost:3000/fintlabs-no/brukere/455/org/194');
 }
 
 Cypress.Commands.add('goToInfo', goToUser);
@@ -103,7 +103,7 @@ export function goToSpecificResource() {
 Cypress.Commands.add('goToSpecificResource', goToSpecificResource);
 
 export function goToBrukereNyTildeling() {
-    return cy.visit('http://localhost:3000/fintlabs-no/bruker/1232/org/198/ny-tildeling');
+    return cy.visit('http://localhost:3000/fintlabs-no/bruker/455/org/194/ny-tildeling');
 }
 
 Cypress.Commands.add('goToBrukereNyTildeling', goToBrukereNyTildeling);
@@ -181,8 +181,6 @@ export const setupFetchMocks = () => {
             `http://localhost:8063/fintlabs-no/api/resources/v1`,
             'createResource.json'
         );
-
-        console.log(baseUrl);
     });
 };
 Cypress.Commands.add('setupFetchMocks', setupFetchMocks);

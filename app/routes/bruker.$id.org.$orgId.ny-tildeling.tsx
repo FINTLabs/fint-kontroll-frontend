@@ -1,7 +1,7 @@
 import { AssignResourceToUserTable } from '~/components/user/AssignResourceToUserTable';
 import { Link, LoaderFunctionArgs, useLoaderData, useParams, useRouteError } from 'react-router';
 import { fetchUserById } from '~/data/fetch-users';
-import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchOrgUnitsWithParents, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
 import { Alert, HStack, VStack } from '@navikt/ds-react';
@@ -22,17 +22,35 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
     const search = url.searchParams.get('search') ?? '';
-    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
     const applicationcategory = url.searchParams.get('applicationcategory') ?? '';
     const accessType = url.searchParams.get('accesstype') ?? '';
 
     const user = await fetchUserById(request, params.id);
+
+    const orgUnitTree = await fetchAllOrgUnits(request);
+
+    const orgData = orgUnitTree.orgUnits.find((o) => o.organisationUnitId === params.orgId);
+
+    if (!orgData) {
+        throw new Response('Org unit not found', { status: 404 });
+    }
+
+    const orgId = orgData.id;
+
+    const orgUnitParentsResponse = await fetchOrgUnitsWithParents(request, orgId);
+    const parents = orgUnitParentsResponse.orgUnits ?? [];
+
+    const allowedOrgUnitIds: string[] = [
+        orgData.organisationUnitId,
+        ...parents.map((o) => o.organisationUnitId),
+    ];
+
     const resourceList = await fetchResources(
         request,
         size,
         page,
         search,
-        orgUnits,
+        allowedOrgUnitIds,
         applicationcategory,
         accessType,
         user.userType
@@ -40,22 +58,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
-    const [orgUnitTree, assignedResourceListForUser, applicationCategoriesKodeverk] =
-        await Promise.all([
-            fetchAllOrgUnits(request),
-            fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
-            fetchApplicationCategories(request),
-        ]);
+    const [assignedResourceListForUser, applicationCategoriesKodeverk] = await Promise.all([
+        fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
+        fetchApplicationCategories(request),
+    ]);
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
         assignedResourceListForUser.resources.map((resource) => [resource.resourceRef, resource])
     );
-    const isAssignedResources: IResourceForList[] = resourceList.resources.map((resource) => {
-        return {
-            ...resource,
-            assigned: assignedResourcesMap.has(resource.id),
-        };
-    });
+
+    const isAssignedResources: IResourceForList[] = resourceList.resources.map((resource) => ({
+        ...resource,
+        assigned: assignedResourcesMap.has(resource.id),
+    }));
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,

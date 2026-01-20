@@ -1,5 +1,5 @@
 import { Link, LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-router';
-import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
+import { fetchAllOrgUnits, fetchOrgUnitsWithParents, fetchResources } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { HStack, VStack } from '@navikt/ds-react';
 import { fetchAssignedResourcesRole, fetchRoleById } from '~/data/fetch-roles';
@@ -21,17 +21,37 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
     const search = url.searchParams.get('search') ?? '';
-    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
     const applicationcategory = url.searchParams.get('applicationcategory') ?? '';
     const accessType = url.searchParams.get('accesstype') ?? '';
 
     const role = await fetchRoleById(request, params.id);
+
+    const orgUnitTree = await fetchAllOrgUnits(request);
+
+    const orgData = orgUnitTree.orgUnits.find(
+        (o) => o.organisationUnitId === role.organisationUnitId
+    );
+
+    if (!orgData) {
+        throw new Response('Org unit not found', { status: 404 });
+    }
+
+    const orgId = orgData.id;
+
+    const orgUnitParentsResponse = await fetchOrgUnitsWithParents(request, orgId);
+    const parents = orgUnitParentsResponse.orgUnits ?? [];
+
+    const allowedOrgUnitIds: string[] = [
+        orgData.organisationUnitId,
+        ...parents.map((o) => o.organisationUnitId),
+    ];
+
     const resourceList = await fetchResources(
         request,
         size,
         page,
         search,
-        orgUnits,
+        allowedOrgUnitIds,
         applicationcategory,
         accessType,
         role.roleType
@@ -39,8 +59,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
-    const [orgUnitTree, assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
-        fetchAllOrgUnits(request),
+    const [assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
         fetchAssignedResourcesRole(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategories(request),
     ]);

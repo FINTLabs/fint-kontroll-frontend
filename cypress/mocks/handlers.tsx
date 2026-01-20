@@ -207,6 +207,38 @@ export const handlers = [
                     parentName: null,
                     childrenRef: [''],
                 },
+                {
+                    id: 31,
+                    name: 'VGMIDT Midtbyen videregående skole',
+                    organisationUnitId: '194',
+                    parentRef: '1',
+                    parentName: null,
+                    childrenRef: ['195', '204', '207'],
+                },
+            ],
+        });
+    }),
+
+    http.get('http://localhost:8060/fintlabs-no/api/orgunits/31/parents', () => {
+        return HttpResponse.json({
+            totalItems: 2,
+            orgUnits: [
+                {
+                    id: 1,
+                    name: 'org1',
+                    organisationUnitId: '1',
+                    parentRef: '1',
+                    parentName: null,
+                    childrenRef: ['194'],
+                },
+                {
+                    id: 31,
+                    name: 'VGMIDT Midtbyen videregående skole',
+                    organisationUnitId: '194',
+                    parentRef: '1',
+                    parentName: null,
+                    childrenRef: ['195', '204', '207'],
+                },
             ],
         });
     }),

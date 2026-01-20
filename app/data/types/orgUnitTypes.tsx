@@ -15,3 +15,10 @@ export interface IUnitTree {
     currentPage: number;
     orgUnits: IUnitItem[];
 }
+
+export interface IOrgUnitsWithParentsResponse {
+    orgUnits: IUnitItem[];
+    totalItems: number;
+    currentPage: number;
+    totalPages: number;
+}

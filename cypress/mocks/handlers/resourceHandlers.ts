@@ -587,7 +587,7 @@ export const resourceHandlers = [
                 currentPage: 0,
                 users: [
                     {
-                        assigneeRef: 442,
+                        assigneeRef: 455,
                         assigneeFirstName: 'Karen',
                         assigneeLastName: 'Berg',
                         assigneeUsername: 'karbe@testvigoiks.onmicrosoft.com',
