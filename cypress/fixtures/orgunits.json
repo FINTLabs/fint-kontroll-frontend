@@ -1,33 +1,368 @@
-[
-    {
-        "currentPage": 0,
-        "totalItems": 2,
-        "totalPages": 1,
-        "orgUnits": [
-            {
-                "id": "1",
-                "name": "org1",
-                "organisationUnitId": "1",
-                "parentRef": "0",
-                "parentName": null,
-                "childrenRef": ["2"]
-            },
-            {
-                "id": "2",
-                "name": "org2",
-                "organisationUnitId": "2",
-                "parentRef": "1",
-                "parentName": "org1",
-                "childrenRef": [""]
-            },
-            {
-                "id": "3",
-                "name": "org3",
-                "organisationUnitId": "3",
-                "parentRef": "",
-                "parentName": null,
-                "childrenRef": [""]
-            }
-        ]
-    }
-]
+{
+    "orgUnits": [
+        {
+            "id": 1,
+            "name": "OKO System- og fellestjenester",
+            "organisationUnitId": "35",
+            "parentRef": "30",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 2,
+            "name": "DIGIT Lokasjonssupport sone Fylkeshus",
+            "organisationUnitId": "1178",
+            "parentRef": "50",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 3,
+            "name": "INFRA Avdeling for mobilitet og samfunn",
+            "organisationUnitId": "85",
+            "parentRef": "8",
+            "parentName": null,
+            "childrenRef": [
+                "92",
+                "93"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "DIGIT Lokasjonssupport",
+            "organisationUnitId": "50",
+            "parentRef": "37",
+            "parentName": null,
+            "childrenRef": [
+                "1178",
+                "1119",
+                "1120"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "VGMIDT Administrasjon",
+            "organisationUnitId": "195",
+            "parentRef": "194",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 6,
+            "name": "DIGIT Fagtjenester",
+            "organisationUnitId": "47",
+            "parentRef": "38",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 7,
+            "name": "VGMIDT Realfag",
+            "organisationUnitId": "204",
+            "parentRef": "194",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 8,
+            "name": "VGSTOR Administrasjon",
+            "organisationUnitId": "205",
+            "parentRef": "198",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 9,
+            "name": "DIGIT Arbeidsflate",
+            "organisationUnitId": "1163",
+            "parentRef": "38",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 10,
+            "name": "Vår fylkeskommune",
+            "organisationUnitId": "1",
+            "parentRef": "1",
+            "parentName": null,
+            "childrenRef": [
+                "5",
+                "6",
+                "8"
+            ]
+        },
+        {
+            "id": 11,
+            "name": "VGSTOR Tekno",
+            "organisationUnitId": "218",
+            "parentRef": "198",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 12,
+            "name": "DIGIT Digitaliseringsavdeling",
+            "organisationUnitId": "36",
+            "parentRef": "5",
+            "parentName": null,
+            "childrenRef": [
+                "37",
+                "38",
+                "40"
+            ]
+        },
+        {
+            "id": 13,
+            "name": "INFRA Samferdsel",
+            "organisationUnitId": "8",
+            "parentRef": "1",
+            "parentName": null,
+            "childrenRef": [
+                "84",
+                "85"
+            ]
+        },
+        {
+            "id": 14,
+            "name": "KOMP Fag- og yrkesopplæring",
+            "organisationUnitId": "161",
+            "parentRef": "151",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 15,
+            "name": "KOMP Utdanning og kompetanse",
+            "organisationUnitId": "6",
+            "parentRef": "1",
+            "parentName": null,
+            "childrenRef": [
+                "150",
+                "151",
+                "153"
+            ]
+        },
+        {
+            "id": 16,
+            "name": "OKO Regnskapsseksjon",
+            "organisationUnitId": "30",
+            "parentRef": "26",
+            "parentName": null,
+            "childrenRef": [
+                "35"
+            ]
+        },
+        {
+            "id": 17,
+            "name": "INFRA Mobilitetsseksjon",
+            "organisationUnitId": "93",
+            "parentRef": "85",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 18,
+            "name": "DIGIT Tjenesteforvaltning",
+            "organisationUnitId": "40",
+            "parentRef": "36",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 19,
+            "name": "INFRA Fagavdeling",
+            "organisationUnitId": "84",
+            "parentRef": "8",
+            "parentName": null,
+            "childrenRef": [
+                "89"
+            ]
+        },
+        {
+            "id": 20,
+            "name": "FAK Finans og administrasjon",
+            "organisationUnitId": "5",
+            "parentRef": "1",
+            "parentName": null,
+            "childrenRef": [
+                "26",
+                "36"
+            ]
+        },
+        {
+            "id": 21,
+            "name": "VGMIDT Språk/Økonomi",
+            "organisationUnitId": "207",
+            "parentRef": "194",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 22,
+            "name": "DIGIT Basistjenester",
+            "organisationUnitId": "46",
+            "parentRef": "38",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 23,
+            "name": "DIGIT Teknologiseksjon",
+            "organisationUnitId": "38",
+            "parentRef": "36",
+            "parentName": null,
+            "childrenRef": [
+                "46",
+                "47",
+                "48",
+                "1163"
+            ]
+        },
+        {
+            "id": 24,
+            "name": "KOMP Forvaltningsutvikling",
+            "organisationUnitId": "150",
+            "parentRef": "6",
+            "parentName": null,
+            "childrenRef": [
+                "157"
+            ]
+        },
+        {
+            "id": 25,
+            "name": "OKO Økonomiavdeling",
+            "organisationUnitId": "26",
+            "parentRef": "5",
+            "parentName": null,
+            "childrenRef": [
+                "27",
+                "30"
+            ]
+        },
+        {
+            "id": 26,
+            "name": "DIGIT Plattform og Kommunikasjon",
+            "organisationUnitId": "48",
+            "parentRef": "38",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 27,
+            "name": "OKO Budsjett- og finansseksjon",
+            "organisationUnitId": "27",
+            "parentRef": "26",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 28,
+            "name": "INFRA Vei- og geofag",
+            "organisationUnitId": "89",
+            "parentRef": "84",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 29,
+            "name": "KOMP Statistikk, analyse, system og administrativ støtte",
+            "organisationUnitId": "157",
+            "parentRef": "150",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 30,
+            "name": "DIGIT Lokasjonssupport sone 2",
+            "organisationUnitId": "1120",
+            "parentRef": "50",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 31,
+            "name": "VGMIDT Midtbyen videregående skole",
+            "organisationUnitId": "194",
+            "parentRef": "153",
+            "parentName": null,
+            "childrenRef": [
+                "195",
+                "204",
+                "207"
+            ]
+        },
+        {
+            "id": 32,
+            "name": "VGSTOR Storskog videregående skole",
+            "organisationUnitId": "198",
+            "parentRef": "153",
+            "parentName": null,
+            "childrenRef": [
+                "205",
+                "211",
+                "218"
+            ]
+        },
+        {
+            "id": 33,
+            "name": "DIGIT Lokasjonssupport sone 1",
+            "organisationUnitId": "1119",
+            "parentRef": "50",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 40,
+            "name": "VGSTOR Entreprenørskap",
+            "organisationUnitId": "211",
+            "parentRef": "198",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 41,
+            "name": "INFRA Fremtidens transporter",
+            "organisationUnitId": "92",
+            "parentRef": "85",
+            "parentName": null,
+            "childrenRef": []
+        },
+        {
+            "id": 42,
+            "name": "KOMP Kompetanseutvikling",
+            "organisationUnitId": "151",
+            "parentRef": "6",
+            "parentName": null,
+            "childrenRef": [
+                "161"
+            ]
+        },
+        {
+            "id": 43,
+            "name": "DIGIT Serviceseksjon",
+            "organisationUnitId": "37",
+            "parentRef": "36",
+            "parentName": null,
+            "childrenRef": [
+                "50"
+            ]
+        },
+        {
+            "id": 44,
+            "name": "KOMP Område sørvest",
+            "organisationUnitId": "153",
+            "parentRef": "6",
+            "parentName": null,
+            "childrenRef": [
+                "194",
+                "198"
+            ]
+        }
+    ],
+    "totalItems": 38,
+    "currentPage": 0,
+    "totalPages": 1
+}
+
+
+

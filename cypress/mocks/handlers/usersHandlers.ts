@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 export const usersHandlers = [
     http.get('http://localhost:8062/fintlabs-no/api/users/:id', () => {
         return HttpResponse.json({
-            id: 442,
+            id: 455,
             fullName: 'Karen Berg',
             userName: 'Karberb',
             organisationUnitName: 'VGMIDT Midtbyen videregående skole',
@@ -25,7 +25,7 @@ export const usersHandlers = [
                 currentPage: 0,
                 users: [
                     {
-                        id: 442,
+                        id: 455,
                         fullName: 'Karen Berg',
                         organisationUnitName: 'VGMIDT Midtbyen videregående skole',
                         organisationUnitId: '194',
@@ -113,7 +113,7 @@ export const usersHandlers = [
                 currentPage: 0,
                 users: [
                     {
-                        id: 442,
+                        id: 455,
                         fullName: 'Karen Berg',
                         organisationUnitName: 'VGMIDT Midtbyen videregående skole',
                         organisationUnitId: '194',
@@ -136,7 +136,7 @@ export const usersHandlers = [
                 currentPage: 0,
                 users: [
                     {
-                        id: 442,
+                        id: 455,
                         fullName: 'Karen Berg',
                         organisationUnitName: 'VGMIDT Midtbyen videregående skole',
                         organisationUnitId: '194',

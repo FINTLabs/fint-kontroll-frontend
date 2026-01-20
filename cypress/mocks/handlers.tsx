@@ -207,6 +207,14 @@ export const handlers = [
                     parentName: null,
                     childrenRef: [''],
                 },
+                {
+                    id: 31,
+                    name: 'VGMIDT Midtbyen videregående skole',
+                    organisationUnitId: '194',
+                    parentRef: '1',
+                    parentName: null,
+                    childrenRef: ['195', '204', '207'],
+                },
             ],
         });
     }),
