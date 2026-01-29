@@ -1,9 +1,18 @@
 import { fetchData } from '~/data/helpers';
 import { BASE_PATH, DEVICE_API_URL } from '../../environment';
-import { IDeviceGroup, IDeviceItem } from '~/data/types/deviceTypes';
+import { IDeviceGroup, IDeviceGroupList, IDeviceItem } from '~/data/types/deviceTypes';
 
-export const fetchDeviceGroups = async (request: Request): Promise<IDeviceGroup> => {
-    return fetchData(`${DEVICE_API_URL}${BASE_PATH}/api/devicegroups`, request);
+export const fetchDeviceGroups = async (
+    request: Request,
+    size: string,
+    page: string
+): Promise<IDeviceGroupList> => {
+    const sizeFilter = size ? `&size=${size}` : '';
+    const pageFilter = page ? `&page=${page}` : '';
+    return fetchData(
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}`,
+        request
+    );
 };
 
 export const fetchDeviceGroupById = async (

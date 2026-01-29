@@ -58,16 +58,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         allOrgUnits
     );
 
-    const validOrgUnitIds = validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);
-
-    /*const isTopUnit: boolean = resource.validForOrgUnits?.some((ou) => ou.isTopOrgunit) ?? false;
-
+    const isTopUnit: boolean = resource.validForOrgUnits?.some((ou) => ou.topOrgunit) ?? false;
 
     const validOrgUnitIds = isTopUnit
         ? []
-        : validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);*/
-
-    /* console.log('validOrgUnitIds sendt til API:', validOrgUnitIds);*/
+        : validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);
 
     const userList = await fetchUsers(
         request,

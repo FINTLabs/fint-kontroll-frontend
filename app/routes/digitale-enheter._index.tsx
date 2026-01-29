@@ -17,14 +17,15 @@ import { fetchDeviceGroups } from '~/data/fetch-devices';
 export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
-    const [deviceGroup, responseOrgUnits, access] = await Promise.all([
-        fetchDeviceGroups(request),
+    const page = url.searchParams.get('page') ?? '0';
+    const [deviceGroupList, responseOrgUnits, access] = await Promise.all([
+        fetchDeviceGroups(request, size, page),
         fetchAllOrgUnits(request),
         postMyAccessRequest(request, [{ url: '/api/devicegroups/123', method: 'GET' }]),
     ]);
-
+    console.log('DeviceGrup liste', deviceGroupList);
     return {
-        deviceGroup,
+        deviceGroupList,
         orgUnitList: responseOrgUnits.orgUnits,
         size,
         hasAccessToDeviceGroups: access?.every((a) => a.access),
@@ -32,15 +33,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function DeviceIndex() {
-    const { orgUnitList } = useLoaderData<typeof loader>();
+    const { orgUnitList, deviceGroupList, size } = useLoaderData<typeof loader>();
+
     return (
         <div className={'content'}>
-            <TableHeaderLayout
-                title={'Maskingrupper'}
-                /*orgUnitsForFilter={orgUnitList}
-                SearchComponent={<Search label={'Søk etter maskingruppe'} id={''} />}*/
-            />
-            <DeviceTable />
+            <TableHeaderLayout title={'Maskingrupper'} />
+            <DeviceTable deviceGroupList={deviceGroupList} size={size} />
         </div>
     );
 }
