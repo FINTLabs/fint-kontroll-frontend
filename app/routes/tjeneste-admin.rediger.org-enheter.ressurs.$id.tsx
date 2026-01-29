@@ -211,6 +211,7 @@ export default function EditOrgUnitsForResource() {
             orgUnitName: orgUnit.name,
             orgUnitId: orgUnit.organisationUnitId,
             resourceLimit: orgUnit.limit,
+            topOrgunit: orgUnit.organisationUnitId === orgUnit.parentRef,
         };
     };
 

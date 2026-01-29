@@ -13,7 +13,7 @@ export interface IDeviceGroupList {
     totalPages?: number;
     currentPage: number;
     size: string;
-    devices: IDeviceGroup[];
+    deviceGroups: IDeviceGroup[];
 }
 
 export interface IDeviceItem {

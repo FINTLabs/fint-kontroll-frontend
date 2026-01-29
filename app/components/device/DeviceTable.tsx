@@ -2,14 +2,17 @@ import { Table } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { useLoadingState } from '~/utils/customHooks';
-import { useLoaderData } from 'react-router';
 import { getDeviceGroupByIdUrl } from '~/data/paths';
 import { GoToButton } from '~/components/common/Table/buttons/GoToButton';
-import { loader } from '~/routes/digitale-enheter._index';
+import { IDeviceGroupList } from '~/data/types/deviceTypes';
+import { TablePagination } from '~/components/common/Table/TablePagination';
 
-export const DeviceTable = () => {
-    const { deviceGroup: deviceGroup, size } = useLoaderData<typeof loader>();
-    /*console.log('Her er fra device tabellen', deviceGroup);*/
+interface DeviceGroupTableProps {
+    deviceGroupList: IDeviceGroupList;
+    size: string;
+}
+
+export const DeviceTable = ({ deviceGroupList, size }: DeviceGroupTableProps) => {
     const { fetching } = useLoadingState();
     return (
         <>
@@ -27,8 +30,8 @@ export const DeviceTable = () => {
                     {fetching ? (
                         <TableSkeleton />
                     ) : (
-                        Object.values(deviceGroup).map((device, index) => (
-                            <Table.Row key={index}>
+                        deviceGroupList.deviceGroups?.map((device) => (
+                            <Table.Row key={device.id}>
                                 <Table.DataCell> {device.name}</Table.DataCell>
                                 <Table.DataCell>{device.orgUnitId}</Table.DataCell>
                                 <Table.DataCell>{device.deviceType}</Table.DataCell>
@@ -44,6 +47,12 @@ export const DeviceTable = () => {
                     )}
                 </Table.Body>
             </Table>
+            <TablePagination
+                currentPage={deviceGroupList.currentPage}
+                totalPages={deviceGroupList.totalPages}
+                size={size}
+                totalItems={deviceGroupList.totalItems}
+            />
         </>
     );
 };

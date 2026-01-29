@@ -219,6 +219,8 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                                         orgUnitName: orgUnit.name,
                                         orgUnitId: orgUnit.organisationUnitId,
                                         resourceLimit: orgUnit.limit,
+                                        topOrgunit:
+                                            orgUnit.organisationUnitId === orgUnit.parentRef,
                                     };
                                 }
                             )
