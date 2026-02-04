@@ -3,11 +3,21 @@ import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
 import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
-export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
+export const ApiMenu = ({
+    me,
+    basePath,
+    source,
+}: {
+    me?: IMeInfo;
+    basePath?: string;
+    source?: string;
+}) => {
     const navigate = useNavigate();
     const menuItems = useMemo(() => (me?.menuItems ? groupMenuItems(me.menuItems) : []), [me]);
+
+    const guiOnlyUrls = ['/innstillinger', '/tjeneste-admin/opprett-ny-applikasjonsressurs'];
 
     return (
         <ActionMenu>
@@ -41,8 +51,12 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                             Swagger statistikk (åpnes i ny fane)
                         </ActionMenu.Item>
                     </Box>
-                    {menuItems.length &&
-                        menuItems.map((item, index) => (
+                    {menuItems
+                        .filter((item) => {
+                            if (source === 'gui') return true;
+                            return !guiOnlyUrls.includes(item.url ?? '');
+                        })
+                        .map((item, index) => (
                             <Box key={`${item.sortOrder}-${item.url || item.text}`}>
                                 {'children' in item ? (
                                     <ActionMenu.Group
