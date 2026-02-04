@@ -52,23 +52,28 @@ export const ApiMenu = ({
                         </ActionMenu.Item>
                     </Box>
                     {menuItems
-                        .filter((item) => {
+                        /*.filter((item) => {
                             if (source === 'gui') return true;
                             return !guiOnlyUrls.includes(item.url ?? '');
-                        })
+                        })*/
                         .map((item, index) => (
                             <Box key={`${item.sortOrder}-${item.url || item.text}`}>
                                 {'children' in item ? (
                                     <ActionMenu.Group
                                         label={item.text}
                                         style={{ fontSize: '100px' }}>
-                                        {item.children.map((child) => (
-                                            <ActionMenu.Item
-                                                key={`${child.sortOrder}-${child.url || child.text}`}
-                                                onSelect={() => navigate(child.url)}>
-                                                {child.text}
-                                            </ActionMenu.Item>
-                                        ))}
+                                        {item.children
+                                            .filter((item) => {
+                                                if (source === 'gui') return true;
+                                                return !guiOnlyUrls.includes(item.url ?? '');
+                                            })
+                                            .map((child) => (
+                                                <ActionMenu.Item
+                                                    key={`${child.sortOrder}-${child.url || child.text}`}
+                                                    onSelect={() => navigate(child.url)}>
+                                                    {child.text}
+                                                </ActionMenu.Item>
+                                            ))}
                                     </ActionMenu.Group>
                                 ) : (
                                     <ActionMenu.Item onSelect={() => navigate(item.url)}>
