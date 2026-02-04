@@ -34,5 +34,5 @@ export interface IDeviceItemList {
     totalPages?: number;
     currentPage: number;
     size: string;
-    deviceItems: IDeviceItem[];
+    members: IDeviceItem[];
 }

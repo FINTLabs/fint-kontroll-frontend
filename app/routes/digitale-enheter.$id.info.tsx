@@ -16,6 +16,7 @@ import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderL
 import { Search } from '~/components/common/Search';
 import { DeviceUnitTable } from '~/components/device/DeviceUnitTable';
 import { fetchDeviceGroupById, fetchDeviceMembersById } from '~/data/fetch-devices';
+import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -23,15 +24,18 @@ export function links() {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
+    const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
+    const page = url.searchParams.get('page') ?? '0';
 
     const [deviceInfo, deviceItems] = await Promise.all([
         fetchDeviceGroupById(request, params.id),
-        fetchDeviceMembersById(request, params.id),
+        fetchDeviceMembersById(request, params.id, size, page),
     ]);
 
     return {
         deviceInfo,
         deviceItems,
+        size,
     };
 }
 
@@ -49,10 +53,10 @@ export const handle = {
 };
 
 export default function DeviceGroupInfo() {
-    const navigate = useNavigate();
-    const params = useParams();
     const loaderData = useLoaderData<typeof loader>();
     const deviceInfo = loaderData.deviceInfo;
+    const deviceItems = loaderData.deviceItems;
+    const size = loaderData.size;
 
     return (
         <section>
@@ -79,7 +83,7 @@ export default function DeviceGroupInfo() {
                         isSubHeader={true}
                         SearchComponent={<Search label={'Søk etter maskin'} id={'search-device'} />}
                     />
-                    <DeviceUnitTable />
+                    <DeviceUnitTable deviceItemList={deviceItems} size={size} />
                 </VStack>
             </Tabs>
         </section>
