@@ -3,11 +3,21 @@ import { ActionMenu, BodyShort, Box, Button, HGrid } from '@navikt/ds-react';
 import { IMeInfo } from '~/data/types/userTypes';
 import { groupMenuItems } from '~/utils/helperFunctions';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
-export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) => {
+export const ApiMenu = ({
+    me,
+    basePath,
+    source,
+}: {
+    me?: IMeInfo;
+    basePath?: string;
+    source?: string;
+}) => {
     const navigate = useNavigate();
     const menuItems = useMemo(() => (me?.menuItems ? groupMenuItems(me.menuItems) : []), [me]);
+
+    const guiOnlyUrls = ['/innstillinger', '/tjeneste-admin/opprett-ny-applikasjonsressurs'];
 
     return (
         <ActionMenu>
@@ -41,33 +51,35 @@ export const ApiMenu = ({ me, basePath }: { me?: IMeInfo; basePath?: string }) =
                             Swagger statistikk (åpnes i ny fane)
                         </ActionMenu.Item>
                     </Box>
-                    {menuItems.length &&
-                        menuItems.map((item, index) => (
-                            <Box key={`${item.sortOrder}-${item.url || item.text}`}>
-                                {'children' in item ? (
-                                    <ActionMenu.Group
-                                        label={item.text}
-                                        style={{ fontSize: '100px' }}>
-                                        {item.children.map((child) => (
+                    {menuItems.map((item, index) => (
+                        <Box key={`${item.sortOrder}-${item.url || item.text}`}>
+                            {'children' in item ? (
+                                <ActionMenu.Group label={item.text} style={{ fontSize: '100px' }}>
+                                    {item.children
+                                        .filter((item) => {
+                                            if (source === 'gui') return true;
+                                            return !guiOnlyUrls.includes(item.url ?? '');
+                                        })
+                                        .map((child) => (
                                             <ActionMenu.Item
                                                 key={`${child.sortOrder}-${child.url || child.text}`}
                                                 onSelect={() => navigate(child.url)}>
                                                 {child.text}
                                             </ActionMenu.Item>
                                         ))}
-                                    </ActionMenu.Group>
-                                ) : (
-                                    <ActionMenu.Item onSelect={() => navigate(item.url)}>
-                                        {item.text}
-                                    </ActionMenu.Item>
-                                )}
-                                {index < menuItems.length - 1 && (
-                                    <Box paddingBlock={'4'}>
-                                        <ActionMenu.Divider />
-                                    </Box>
-                                )}
-                            </Box>
-                        ))}
+                                </ActionMenu.Group>
+                            ) : (
+                                <ActionMenu.Item onSelect={() => navigate(item.url)}>
+                                    {item.text}
+                                </ActionMenu.Item>
+                            )}
+                            {index < menuItems.length - 1 && (
+                                <Box paddingBlock={'4'}>
+                                    <ActionMenu.Divider />
+                                </Box>
+                            )}
+                        </Box>
+                    ))}
                 </HGrid>
             </ActionMenu.Content>
         </ActionMenu>

@@ -23,7 +23,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fetchAllOrgUnits(request),
         postMyAccessRequest(request, [{ url: '/api/devicegroups/123', method: 'GET' }]),
     ]);
-    console.log('DeviceGrup liste', deviceGroupList);
     return {
         deviceGroupList,
         orgUnitList: responseOrgUnits.orgUnits,
