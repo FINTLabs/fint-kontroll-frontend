@@ -25,6 +25,7 @@ import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { IMeInfo } from '~/data/types/userTypes';
+import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 
 //interface CustomRouteHandle {
 //    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -59,15 +60,17 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
+    const source = await fetchResourceDataSource(request);
 
     return {
         me,
+        source,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
 }
 
 export default function App() {
-    const { me, basePath } = useLoaderData<typeof loader>();
+    const { me, source, basePath } = useLoaderData<typeof loader>();
     const matches = useMatches();
     return (
         <html lang="no">
@@ -77,7 +80,7 @@ export default function App() {
                 <link rel="icon" type="image/svg+xml" href={`${basePath}/Novari_Favikon.svg`} />
             </head>
             <body data-theme="novari">
-                <Layout me={me} basePath={basePath}>
+                <Layout me={me} basePath={basePath} source={source}>
                     {matches.find((match) => {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
@@ -116,12 +119,13 @@ export default function App() {
 }
 
 interface LayoutProps {
-    children: any;
+    children: React.ReactNode;
     me?: IMeInfo;
     basePath?: string;
+    source?: string;
 }
 
-const Layout = ({ children, me, basePath }: LayoutProps) => {
+const Layout = ({ children, me, basePath, source }: LayoutProps) => {
     return (
         <Page
             footer={
@@ -129,7 +133,7 @@ const Layout = ({ children, me, basePath }: LayoutProps) => {
                     <NovariIKS width={'9em'} />
                 </Box>
             }>
-            <AppBar me={me} basePath={basePath} />
+            <AppBar me={me} basePath={basePath} source={source} />
             <Page.Block as={'main'} gutters>
                 {children}
             </Page.Block>

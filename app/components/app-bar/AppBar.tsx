@@ -5,7 +5,15 @@ import { Link } from 'react-router';
 import { ApiMenu } from '~/components/app-bar/ApiMenu';
 import { LeaveIcon } from '@navikt/aksel-icons';
 
-export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
+export function AppBar({
+    me,
+    basePath,
+    source,
+}: {
+    me?: IMeInfo;
+    basePath?: string;
+    source?: string;
+}) {
     return (
         <Page.Block as={'header'} className={'novari-header h-20'}>
             <HStack
@@ -23,7 +31,7 @@ export function AppBar({ me, basePath }: { me?: IMeInfo; basePath?: string }) {
                 </HStack>
 
                 <HStack align="center" gap={'12'}>
-                    {me ? <ApiMenu me={me} basePath={basePath} /> : null}
+                    {me ? <ApiMenu me={me} basePath={basePath} source={source} /> : null}
                     <HStack align="center" gap={'2'}>
                         {me ? (
                             <Hide below="lg" asChild>
