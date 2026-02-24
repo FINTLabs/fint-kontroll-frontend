@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router';
 import { ErrorCopyButton } from '~/components/common/ErrorCopyButton';
 
 export const ErrorMessage = ({ error }: { error: any }) => {
-    console.error(error);
     if (!error?.message) {
         return (
             <VStack gap="4" align="start" marginBlock={'12 0'}>
@@ -21,7 +20,7 @@ export const ErrorMessage = ({ error }: { error: any }) => {
     const isConnectionRefused = error?.message?.includes('ECONNREFUSED');
     const correlationId = error?.correlationId;
     const location = useLocation();
-    const basePath = window.location.pathname.split('/').filter(Boolean)[0] ?? '';
+    const basePath = error.url.split('/').filter(Boolean)[2] ?? '';
     const errorUrl = location.pathname + location.search;
     const errorCode = error?.errorCode;
     const errorTime = error?.timestamp;

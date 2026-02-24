@@ -4,7 +4,7 @@ import { fetchUserById } from '~/data/fetch-users';
 import { fetchAllOrgUnits, fetchOrgUnitsWithParents, fetchResources } from '~/data/fetch-resources';
 import { fetchAssignedResourcesForUser } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
-import { Alert, HStack, VStack } from '@navikt/ds-react';
+import { HStack, LocalAlert, VStack } from '@navikt/ds-react';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
@@ -143,7 +143,8 @@ export default function NewAssignmentForUser() {
                     />
                 ) : (
                     <>
-                        <Alert variant="error">Data mangler for å hente ressurser.</Alert>
+                        <LocalAlert status="error">Data mangler for å hente ressurser.</LocalAlert>
+                        {/*<Alert variant="error">Data mangler for å hente ressurser.</Alert>*/}
                     </>
                 )}
             </VStack>

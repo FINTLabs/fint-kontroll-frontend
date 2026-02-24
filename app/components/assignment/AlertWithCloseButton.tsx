@@ -1,12 +1,12 @@
 import React from 'react';
-import { Alert, AlertProps } from '@navikt/ds-react';
+import { LocalAlert, LocalAlertProps } from '@navikt/ds-react';
 
 export const AlertWithCloseButton = ({
     children,
     variant,
 }: {
     children?: React.ReactNode;
-    variant: AlertProps['variant'];
+    variant: LocalAlertProps['status'];
 }) => {
     const [show, setShow] = React.useState(true);
 
@@ -15,8 +15,12 @@ export const AlertWithCloseButton = ({
     }, 5000);
 
     return show ? (
-        <Alert variant={variant} closeButton onClose={() => setShow(false)}>
-            {children || 'Content'}
-        </Alert>
+        <LocalAlert status={variant}>
+            <LocalAlert.Header>
+                <LocalAlert.Title>Status</LocalAlert.Title>
+                <LocalAlert.CloseButton onClick={() => setShow(false)} />
+            </LocalAlert.Header>
+            <LocalAlert.Content>{children || 'Content'}</LocalAlert.Content>
+        </LocalAlert>
     ) : null;
 };

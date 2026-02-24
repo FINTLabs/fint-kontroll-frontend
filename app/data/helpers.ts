@@ -1,5 +1,4 @@
 import logger from '~/logging/logger';
-import { BASE_PATH } from '../../environment';
 
 const statusMessages: Record<number, string> = {
     400: 'Ugyldig forespørsel. Kontroller input.',
@@ -48,7 +47,7 @@ export const fetchData = async (
             logger.debug('Correlation ID:', correlationId);
         }
 
-        return handleResponse(response, defaultErrorMessage, correlationId); // Legg 'url' her for å se hvilket api som krasjer.
+        return handleResponse(response, defaultErrorMessage, correlationId, url);
     } catch (error: any) {
         throw {
             message: 'Kunne ikke kontakte tjenesten. Vennligst vent litt og prøv igjen.',
