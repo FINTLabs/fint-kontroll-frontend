@@ -36,7 +36,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
         cy.wait(1000);
         cy.get('h1').last().should('have.text', 'Fullfør tildelingen');
         cy.get('button[type=submit]').contains('Lagre').should('exist').click();
-        cy.get('.navds-alert--success').should('exist');
+        cy.contains('[role="alert"]', 'Tildelingen var vellykket!').should('exist');
     });
 
     it('Remove resource from user', () => {
@@ -52,7 +52,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
         cy.wait(1000);
         cy.get('button[type=submit]').contains('Slett').should('exist').click();
         cy.wait(1000);
-        cy.get('.navds-alert--success').should('exist');
+        cy.contains('[role="alert"]', 'Tildelingen ble slettet!').should('exist');
     });
 
     it('Can not remove resource from user', () => {

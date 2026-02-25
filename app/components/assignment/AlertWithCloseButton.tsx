@@ -17,10 +17,9 @@ export const AlertWithCloseButton = ({
     return show ? (
         <LocalAlert status={variant}>
             <LocalAlert.Header>
-                <LocalAlert.Title>Status</LocalAlert.Title>
+                <LocalAlert.Title>{children || 'Content'}</LocalAlert.Title>
                 <LocalAlert.CloseButton onClick={() => setShow(false)} />
             </LocalAlert.Header>
-            <LocalAlert.Content>{children || 'Content'}</LocalAlert.Content>
         </LocalAlert>
     ) : null;
 };
