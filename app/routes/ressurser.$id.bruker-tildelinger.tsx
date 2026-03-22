@@ -28,6 +28,7 @@ type LoaderData = {
     size: string;
     basePath: string;
     responseCode?: string;
+    correlationId?: string;
     userTypesKodeverk: IKodeverkUserType[];
 };
 
@@ -52,6 +53,7 @@ export async function loader({ params, request, context }: LoaderFunctionArgs) {
         size,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
         userTypesKodeverk,
     };
 }
@@ -72,6 +74,8 @@ export default function AssignedUsers() {
     const assignedUsersPage: IAssignedUsers = loaderData.assignedUsers;
     const size = loaderData.size;
     const responseCode: string | undefined = loaderData.responseCode;
+    const correlationId: string | undefined = loaderData.correlationId;
+    const basePath = loaderData.basePath;
 
     return (
         <Tabs.Panel value="bruker-tildelinger">
@@ -82,6 +86,8 @@ export default function AssignedUsers() {
                 />
                 <ResponseAlert
                     responseCode={responseCode}
+                    correlationId={correlationId}
+                    basepath={basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                 />

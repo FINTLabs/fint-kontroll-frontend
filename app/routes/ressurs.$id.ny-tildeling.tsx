@@ -31,6 +31,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? undefined,
         resource,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
@@ -62,6 +63,8 @@ export default function NewAssignment() {
     const { loading, fetching } = useLoadingState();
     const resource: IResource = loaderData.resource;
     const responseCode: string | undefined = loaderData.responseCode;
+    const correlationId: string | undefined = loaderData.correlationId;
+    const basePath: string | undefined = loaderData.basePath;
 
     const [state, setState] = useState(
         location.pathname.includes('/brukere') ? 'brukere' : 'grupper'
@@ -91,6 +94,8 @@ export default function NewAssignment() {
             <VStack gap="4" marginBlock={'8 0'}>
                 <ResponseAlert
                     responseCode={responseCode}
+                    correlationId={correlationId}
+                    basepath={basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                     conflictText={

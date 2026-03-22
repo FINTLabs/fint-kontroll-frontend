@@ -134,6 +134,6 @@ export async function action({ request }: ActionFunctionArgs) {
     );
 
     return redirect(
-        `${getResourceByIdUrl(Number(data.get('id')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${getResourceByIdUrl(Number(data.get('id')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}`
     );
 }

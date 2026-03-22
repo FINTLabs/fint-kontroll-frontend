@@ -44,6 +44,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? undefined,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
@@ -54,8 +55,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function ServiceAdminIndex() {
-    const { resourceList, size, responseCode, applicationCategories, source } =
-        useLoaderData<typeof loader>();
+    const {
+        resourceList,
+        size,
+        responseCode,
+        applicationCategories,
+        source,
+        correlationId,
+        basePath,
+    } = useLoaderData<typeof loader>();
 
     const navigate = useNavigate();
 
@@ -84,6 +92,8 @@ export default function ServiceAdminIndex() {
             />
             <ResponseAlert
                 responseCode={responseCode}
+                correlationId={correlationId}
+                basepath={basePath}
                 successText={'Ressursen ble opprettet!'}
                 deleteText={'Ressursen ble slettet!'}
             />

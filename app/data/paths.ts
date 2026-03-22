@@ -3,8 +3,11 @@ export const getUserByIdUrl = (id: number, orgId: string | undefined): string =>
     `/brukere/${id}/org/${orgId}`;
 export const getUserNewAssignmentUrl = (id: number, orgId: string | undefined): string =>
     `/bruker/${id}/org/${orgId}/ny-tildeling`;
-export const getDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string =>
-    `/brukere/${id}/tildelinger/${assignmentRef}/slett`;
+export const getDeleteUserAssignmentUrl = (
+    id: number,
+    orgId: string | undefined,
+    assignmentRef: number
+): string => `/brukere/${id}/org/${orgId}/tildelinger/${assignmentRef}/slett`;
 export const getConfirmUserAssignmentUrl = (
     id: number,
     resourceId: number,

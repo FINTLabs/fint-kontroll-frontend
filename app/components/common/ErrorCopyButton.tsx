@@ -8,11 +8,11 @@ export const ErrorCopyButton = ({
     timestamp,
     basePath,
 }: {
-    correlationId: string;
-    errorUrl: string;
+    correlationId?: string | undefined;
+    errorUrl?: string;
     errorCode: string;
-    timestamp: number;
-    basePath: string;
+    timestamp: string;
+    basePath?: string;
 }) => {
     return (
         <CopyButton

@@ -45,7 +45,7 @@ export const ErrorMessage = ({ error }: { error: any }) => {
                             padding="space-12"
                             borderWidth="1"
                             borderRadius={{ md: '8' }}>
-                            <BodyShort>Status: {errorCode}</BodyShort>
+                            <BodyShort>Feilkode: {errorCode}</BodyShort>
                             <BodyShort>Organisasjon: {basePath}</BodyShort>
                             <BodyShort>URL: {errorUrl}</BodyShort>
                             {/* <BodyShort>API: {errorApiUrl}</BodyShort>*/}

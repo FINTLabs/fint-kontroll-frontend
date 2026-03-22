@@ -32,6 +32,7 @@ export const prepareQueryParamsWithResponseCode = (searchParams: URLSearchParams
     const orgUnit = searchParams.get('orgUnit'); // These are used in tandem since some apis don't use capitalization the same way
     const name = searchParams.get('name');
     const responseCode = searchParams.get('responseCode');
+    const correlationId = searchParams.get('correlationId');
 
     const queryParams = [
         search && `search=${encodeURIComponent(search)}`,
@@ -40,6 +41,7 @@ export const prepareQueryParamsWithResponseCode = (searchParams: URLSearchParams
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
         name && `name=${encodeURIComponent(name)}`,
         responseCode && `responseCode=${encodeURIComponent(responseCode)}`,
+        correlationId && `correlation=${encodeURIComponent(correlationId)}`,
     ]
         .filter(Boolean)
         .join('&');

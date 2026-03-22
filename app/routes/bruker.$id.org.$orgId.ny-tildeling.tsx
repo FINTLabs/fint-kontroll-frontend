@@ -57,7 +57,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     );
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
-
     const [assignedResourceListForUser, applicationCategoriesKodeverk] = await Promise.all([
         fetchAssignedResourcesForUser(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategories(request),
@@ -74,6 +73,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
         assignedResourceList: assignedResourceListForUser,
@@ -127,6 +127,8 @@ export default function NewAssignmentForUser() {
             <VStack gap="4">
                 <ResponseAlert
                     responseCode={data.responseCode}
+                    correlationId={data.correlationId}
+                    basepath={data.basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                 />
@@ -143,8 +145,13 @@ export default function NewAssignmentForUser() {
                     />
                 ) : (
                     <>
-                        <LocalAlert status="error">Data mangler for å hente ressurser.</LocalAlert>
-                        {/*<Alert variant="error">Data mangler for å hente ressurser.</Alert>*/}
+                        <LocalAlert status="error">
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Data mangler for å hente ressurser.
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                        </LocalAlert>
                     </>
                 )}
             </VStack>

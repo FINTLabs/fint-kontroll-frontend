@@ -49,7 +49,7 @@ export async function action({ request }: ActionFunctionArgs) {
         data.get('organizationUnitId') as string
     );
     return redirect(
-        `${getUserNewAssignmentUrl(parseInt(data.get('userRef') as string), (data.get('organizationUnitId') as string | null) || undefined)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${getUserNewAssignmentUrl(parseInt(data.get('userRef') as string), (data.get('organizationUnitId') as string | null) || undefined)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}`
     );
 }
 

@@ -8,6 +8,7 @@ const statusMessages: Record<number, string> = {
         'eller en feil i FINT Kontroll.',
     404: 'Beklager, kan ikke finne det du ønsker å se.',
     409: 'Det oppstod en konflikt med eksisterende data.',
+    422: 'Handlingen kunne ikke gjennomføres. Kan skyldes feil i data.',
 };
 
 export const handleResponse = async (
@@ -44,7 +45,7 @@ export const fetchData = async (
         const correlationId = response.headers.get('x-correlation-id');
         if (correlationId) {
             logger.info('Correlation ID:', correlationId);
-            logger.debug('Correlation ID:', correlationId);
+            // logger.debug('Correlation ID:', correlationId);
         }
 
         return handleResponse(response, defaultErrorMessage, correlationId, url);

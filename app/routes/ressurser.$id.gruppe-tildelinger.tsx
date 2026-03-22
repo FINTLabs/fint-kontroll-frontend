@@ -42,6 +42,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         resourceName: resource.resourceName,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? undefined,
         userTypesKodeverk,
     };
 }
@@ -66,6 +67,7 @@ export default function AssignedRoles() {
         assignedRoles: IAssignedRoles;
         basePath: string;
         responseCode: string | undefined;
+        correlationId: string | undefined;
     }>();
 
     return (
@@ -74,6 +76,8 @@ export default function AssignedRoles() {
                 <TableToolbar SearchComponent={<RoleSearch />} />
                 <ResponseAlert
                     responseCode={data.responseCode}
+                    correlationId={data.correlationId}
+                    basepath={data.basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                 />

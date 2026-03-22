@@ -59,7 +59,7 @@ export const AssignmentsForUserTable = ({
                                     <DeleteButtonOrTagComponent
                                         directAssignment={resource.directAssignment}
                                         deletableAssignment={resource.deletableAssignment}
-                                        href={`${getDeleteUserAssignmentUrl(Number(params.id), resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
+                                        href={`${getDeleteUserAssignmentUrl(Number(params.id), params.orgId, resource.assignmentRef)}${prepareQueryParams(searchParams)}`}
                                     />
                                 </Table.DataCell>
                             </Table.Row>

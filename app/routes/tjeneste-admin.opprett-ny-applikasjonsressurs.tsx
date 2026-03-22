@@ -133,6 +133,6 @@ export async function action({ request }: ActionFunctionArgs) {
     );
 
     return redirect(
-        `${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}`
     );
 }

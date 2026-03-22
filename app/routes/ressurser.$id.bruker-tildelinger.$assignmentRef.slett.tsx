@@ -25,6 +25,7 @@ export async function action({ request }: ActionFunctionArgs) {
         data.get('assignmentRef') as string
     );
     searchParams.set('responseCode', String(response.status));
+    searchParams.set('correlationId', String(response.headers.get('x-correlation-id')));
     return redirect(
         `${getResourceUserAssignmentsUrl(Number(data.get('resourceRef')))}${prepareQueryParamsWithResponseCode(searchParams)}`
     );

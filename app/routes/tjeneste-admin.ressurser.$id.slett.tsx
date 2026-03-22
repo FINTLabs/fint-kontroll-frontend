@@ -26,6 +26,7 @@ export async function action({ request }: ActionFunctionArgs) {
         data.get('id') as string
     );
     searchParams.set('responseCode', String(response.status));
+    searchParams.set('correlationId', String(response.headers.get('x-correlation-id')));
     return redirect(`${SERVICE_ADMIN}${prepareQueryParamsWithResponseCode(searchParams)}`);
 }
 

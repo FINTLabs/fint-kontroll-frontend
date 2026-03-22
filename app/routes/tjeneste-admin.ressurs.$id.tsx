@@ -1,5 +1,5 @@
 import styles from '../components/resource/resource.css?url';
-import { Alert, Button, HelpText, HStack, VStack } from '@navikt/ds-react';
+import { Alert, Button, HelpText, HStack, InfoCard, VStack } from '@navikt/ds-react';
 import {
     Link as RemixLink,
     LoaderFunctionArgs,
@@ -9,7 +9,7 @@ import {
 } from 'react-router';
 import { fetchResourceById } from '~/data/fetch-resources';
 import { ResourceDetailTable } from '~/components/service-admin/ResourceDetailTable';
-import { ArrowRightIcon, PencilIcon } from '@navikt/aksel-icons';
+import { ArrowRightIcon, InformationSquareIcon, PencilIcon } from '@navikt/aksel-icons';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import {
     fetchLicenseEnforcements,
@@ -28,6 +28,7 @@ import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { InfoBox } from '~/components/common/InfoBox';
 import { translateLicenseEnforcementToLabel, translateUserTypeToLabel } from '~/utils/translators';
+import { BASE_PATH } from '../../environment';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -44,10 +45,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? undefined,
         resource,
         source,
         userTypesKodeverk,
         licenseEnforcementKodeverk,
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
 }
 
@@ -73,6 +76,8 @@ export default function ResourceById() {
     const { userTypesKodeverk, source, licenseEnforcementKodeverk } = loaderData;
     const resource: IResource = loaderData.resource;
     const responseCode: string | undefined = loaderData.responseCode;
+    const correlationId: string | undefined = loaderData.correlationId;
+    const basePath: string = loaderData.basePath;
     const navigate = useNavigate();
 
     return (
@@ -95,6 +100,8 @@ export default function ResourceById() {
 
                     <ResponseAlert
                         responseCode={responseCode}
+                        correlationId={correlationId}
+                        basepath={basePath}
                         successText={'Ressursen ble oppdatert!'}
                         deleteText={'Ressursen ble slettet!'}
                     />
@@ -158,11 +165,17 @@ export default function ResourceById() {
                 <VStack gap="4">
                     {resource.validForOrgUnits.length === 0 && source === 'gui' && (
                         <VStack gap="4">
-                            <Alert variant={'info'} fullWidth>
-                                For at ressursen skal bli tilgjengelig for tildeling må det legges
-                                til organisasjonsenheter som skal ha tilgang til ressursen. <br />
-                                Klikk på knappen under for å legge til organisasjonsenheter.
-                            </Alert>
+                            <InfoCard data-color="info">
+                                <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
+                                    <InfoCard.Title>Informasjon</InfoCard.Title>
+                                </InfoCard.Header>
+                                <InfoCard.Content>
+                                    For at ressursen skal bli tilgjengelig for tildeling må det
+                                    legges til organisasjonsenheter som skal ha tilgang til
+                                    ressursen. <br />
+                                    Klikk på knappen under for å legge til organisasjonsenheter.
+                                </InfoCard.Content>
+                            </InfoCard>
                             <HStack justify={'end'} align={'end'}>
                                 <Button
                                     role="link"
@@ -181,11 +194,17 @@ export default function ResourceById() {
 
                     {resource.validForOrgUnits.length === 0 && source !== 'gui' && (
                         <VStack gap="4">
-                            <Alert variant={'info'} fullWidth>
-                                For at ressursen skal bli tilgjengelig for tildeling må det legges
-                                til organisasjonsenheter som skal ha tilgang til ressursen. <br />
-                                Organisasjonsenheter må legges til i kildesystemet. (Ardoq)
-                            </Alert>
+                            <InfoCard data-color="info">
+                                <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
+                                    <InfoCard.Title>Informasjon</InfoCard.Title>
+                                </InfoCard.Header>
+                                <InfoCard.Content>
+                                    For at ressursen skal bli tilgjengelig for tildeling må det
+                                    legges til organisasjonsenheter som skal ha tilgang til
+                                    ressursen. <br />
+                                    Organisasjonsenheter må legges til i kildesystemet. (Ardoq)
+                                </InfoCard.Content>
+                            </InfoCard>
                         </VStack>
                     )}
 
