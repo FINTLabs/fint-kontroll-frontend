@@ -24,7 +24,7 @@ export async function action({ request }: ActionFunctionArgs) {
     );
 
     return redirect(
-        `${getResourceRoleAssignmentsUrl(Number(data.get('resourceRef')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${getResourceRoleAssignmentsUrl(Number(data.get('resourceRef')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}`
     );
 }
 

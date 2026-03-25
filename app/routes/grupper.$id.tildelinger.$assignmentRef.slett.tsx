@@ -24,9 +24,10 @@ export async function action({ params, request }: ActionFunctionArgs) {
         params.assignmentRef as string
     );
     searchParams.set('responseCode', String(response.status));
+    searchParams.set('correlationId', String(response.headers.get('x-correlation-id')));
 
     return redirect(
-        `${getRoleAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`
+        `${getRoleAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&correlationId=' + response.headers.get('x-correlation-id') : '&correlationId=' + response.headers.get('x-correlation-id')}}`
     );
 }
 

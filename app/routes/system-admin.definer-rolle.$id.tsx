@@ -13,13 +13,14 @@ import {
     putPermissionDataForRole,
 } from '~/data/kontrollAdmin/kontroll-admin-define-role';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, HStack, Table } from '@navikt/ds-react';
+import { Button, HStack, LocalAlert, Table } from '@navikt/ds-react';
 import PermissionsTableCheckbox from '../components/kontroll-admin/PermissionsTableCheckbox';
 import styles from '../components/kontroll-admin/kontroll-admin.css?url';
 import { ConfirmSafeRedirectModal } from '~/components/kontroll-admin/ConfirmSafeRedirectModal';
 import { getDefineRoleByIdUrl } from '~/data/paths';
 import { IPermissionData } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { LocalAlertHeader, LocalAlertTitle } from '@navikt/ds-react/LocalAlert';
 
 // TODO: Should this be moved into its own Context-file? Or should we refactor it differently?
 interface ExpectedSystemAdminContext {
@@ -145,6 +146,11 @@ const DefineRoleTab = () => {
     const availableOperations = ['GET', 'POST', 'PUT', 'DELETE'];
     const readableOperations = ['Kan se', 'Kan lage ny', 'Kan oppdatere', 'Kan slette'];
 
+    const handleClose = () => {
+        setAlertMessage(null);
+        setAlertVariant(null);
+    };
+
     return (
         <div className={'tab-content-container'}>
             <ConfirmSafeRedirectModal
@@ -199,9 +205,12 @@ const DefineRoleTab = () => {
                 </Table.Body>
             </Table>
             {alertMessage && alertVariant && (
-                <Alert variant={alertVariant} className="mb-4" closeButton={true}>
-                    {alertMessage}
-                </Alert>
+                <LocalAlert status={alertVariant} className="mb-4">
+                    <LocalAlertHeader>
+                        <LocalAlertTitle>{alertMessage}</LocalAlertTitle>
+                        <LocalAlert.CloseButton onClick={() => handleClose()} />
+                    </LocalAlertHeader>
+                </LocalAlert>
             )}
             <Form
                 method={'put'}

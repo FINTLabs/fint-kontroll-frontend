@@ -58,7 +58,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     );
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
-
     const [assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
         fetchAssignedResourcesRole(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategories(request),
@@ -76,6 +75,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
         size,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
@@ -109,9 +109,16 @@ export const handle = {
 };
 
 export default function NewAssignmentForRole() {
-    const { resourceList, isAssignedResources, responseCode, role, size, applicationCategories } =
-        useLoaderData<typeof loader>();
-
+    const {
+        resourceList,
+        isAssignedResources,
+        responseCode,
+        correlationId,
+        role,
+        size,
+        applicationCategories,
+        basePath,
+    } = useLoaderData<typeof loader>();
     return (
         <div className={'content'}>
             <TableHeaderLayout
@@ -125,6 +132,8 @@ export default function NewAssignmentForRole() {
             <VStack gap="4">
                 <ResponseAlert
                     responseCode={responseCode}
+                    correlationId={correlationId}
+                    basepath={basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                 />

@@ -27,9 +27,8 @@ export async function action({ params, request }: ActionFunctionArgs) {
     );
 
     return redirect(
-        `${getUserByIdUrl(Number(params.id), params.orgId)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${getUserByIdUrl(Number(params.id), params.orgId)}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}}`
     );
-    // return redirect(`/users/${data.get("userRef")}/orgunit/${params.orgId}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + "&responseCode=" + response.status : "?responseCode=" + response.status}`)
 }
 
 export default function DeleteUserAssignment() {

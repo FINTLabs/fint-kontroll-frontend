@@ -1,15 +1,37 @@
 import logger from '~/logging/logger';
 
-export const handleResponse = async (response: Response, errorMessage: string) => {
-    /*logger.info('Request to url: ', response.url, 'returned status: ', response.status);*/
-    if (response.ok) return response.json();
-    if (response.status === 403)
-        throw new Error(
-            'Det ser ut som om du mangler rettigheter til den dataen du prøver å hente.'
-        );
-    if (response.status === 401)
-        throw new Error('Påloggingen din er utløpt, vennligst logg inn på nytt.');
-    throw new Error(errorMessage);
+const statusMessages: Record<number, string> = {
+    400: 'Ugyldig forespørsel. Kontroller input.',
+    401: 'Påloggingen din er utløpt, vennligst logg inn på nytt.',
+    403:
+        'Noe gikk galt under henting av data. Det kan skyldes manglende rettigheter i løsningen, ' +
+        'eller en feil i FINT Kontroll.',
+    404: 'Beklager, kan ikke finne det du ønsker å se.',
+    409: 'Det oppstod en konflikt med eksisterende data.',
+    422: 'Handlingen kunne ikke gjennomføres. Kan skyldes feil i data.',
+};
+
+export const handleResponse = async (
+    response: Response,
+    defaultErrorMessage: string,
+    correlationId?: string | null,
+    requestUrl?: string
+) => {
+    if (response.ok) {
+        return response.json();
+    }
+
+    const message = statusMessages[response.status] ?? defaultErrorMessage;
+    const errorCode = response.status >= 400 ? response.status : response.statusText;
+
+    throw {
+        message,
+        status: response.status,
+        correlationId: correlationId ?? null,
+        url: requestUrl,
+        errorCode,
+        timestamp: new Date().toISOString(),
+    };
 };
 
 export const fetchData = async (
@@ -19,9 +41,22 @@ export const fetchData = async (
 ) => {
     try {
         const response = await fetch(url, { headers: request.headers });
-        return handleResponse(response, defaultErrorMessage);
-    } catch (error) {
-        throw new Error('Kunne ikke kontakte serveren. Vennligst vent litt og prøv igjen.');
+
+        const correlationId = response.headers.get('x-correlation-id');
+        if (correlationId) {
+            logger.info('Correlation ID:', correlationId);
+            // logger.debug('Correlation ID:', correlationId);
+        }
+
+        return handleResponse(response, defaultErrorMessage, correlationId, url);
+    } catch (error: any) {
+        throw {
+            message: 'Kunne ikke kontakte tjenesten. Vennligst vent litt og prøv igjen.',
+            correlationId: null,
+            status: 0,
+            url,
+            timestamp: new Date().toISOString(),
+        };
     }
 };
 
@@ -50,7 +85,7 @@ export const sendRequest = async ({
                 'content-type': 'application/json',
             },
             method,
-            body: stringifiedBody ?? JSON.stringify(body ?? {}),
+            body: stringifiedBody ?? (body ? JSON.stringify(body) : undefined),
         });
     } catch (error) {
         logger.error('Error sending request:', error);

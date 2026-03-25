@@ -11,25 +11,48 @@ import {
     fetchFeaturesInRole,
     putPermissionDataForRole,
 } from '~/data/kontrollAdmin/kontroll-admin-define-role';
-import { Alert, Box, Button, Heading, List, Table } from '@navikt/ds-react';
+import { Box, Button, Heading, List, Table } from '@navikt/ds-react';
 import React, { useEffect, useState } from 'react';
 import { IFeature, IFeatureOperation, IPermissionData } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
+import { BASE_PATH } from '../../environment';
+import { ResponseAlert } from '~/components/common/ResponseAlert';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const [permissionData, allFeatures] = await Promise.all([
         fetchFeaturesInRole(request, params.id),
         fetchAllFeatures(request),
     ]);
-    return { permissionData: permissionData, allFeatures: allFeatures };
+    return {
+        permissionData: permissionData,
+        allFeatures: allFeatures,
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
+    };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
     const permissionData = formData.get('permissionData');
-    if (permissionData) {
+
+    if (!permissionData) {
+        return {
+            responseCode: '400',
+            correlationId: 'Ukjent',
+        };
+    }
+
+    try {
         const response = await putPermissionDataForRole(request, permissionData as string);
-        return { didUpdate: response.ok };
+
+        const responseCode = String(response.status);
+        const correlationId = response.headers.get('x-correlation-id') ?? 'Ukjent';
+
+        return {
+            responseCode,
+            correlationId,
+        };
+    } catch (e) {
+        throw e;
     }
 }
 
@@ -38,9 +61,10 @@ const KontrollAdminFeaturesToRoleId = () => {
     const permissionData = loaderData.permissionData as IPermissionData;
     const allFeatures = loaderData.allFeatures as IFeature[];
 
-    let didUpdate = useActionData<typeof action>();
-    const [alertMessage, setAlertMessage] = useState<string | null>(null);
-    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+    const actionData = useActionData<typeof action>();
+
+    const [responseCode, setResponseCode] = useState<string | null>(null);
+    const [correlationId, setCorrelationId] = useState<string | null>(null);
 
     const [updatedPermissionData, setUpdatedPermissionData] =
         useState<IPermissionData>(permissionData);
@@ -50,31 +74,11 @@ const KontrollAdminFeaturesToRoleId = () => {
     }, [loaderData]);
 
     useEffect(() => {
-        if (didUpdate !== undefined) {
-            if (didUpdate.didUpdate) {
-                setAlertMessage('Oppdatering av rolle gjennomført');
-                setAlertVariant('success');
-            } else {
-                setAlertMessage('Oppdatering av rolle feilet');
-                setAlertVariant('error');
-            }
-        } else {
-            didUpdate = undefined;
-            setAlertMessage(null);
-            setAlertVariant(null);
-        }
-    }, [didUpdate]);
+        if (!actionData) return;
 
-    useEffect(() => {
-        if (alertMessage) {
-            const timer = setTimeout(() => {
-                setAlertMessage(null);
-                setAlertVariant(null);
-            }, 5000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [alertMessage]);
+        setResponseCode(actionData.responseCode);
+        setCorrelationId(actionData.correlationId);
+    }, [actionData]);
 
     const flatListOfIds = updatedPermissionData.features.flatMap((feature) =>
         String(feature.featureId)
@@ -116,10 +120,14 @@ const KontrollAdminFeaturesToRoleId = () => {
 
     return (
         <div>
-            {alertMessage && alertVariant && (
-                <Alert variant={alertVariant} className="mb-4" closeButton={true}>
-                    {alertMessage}
-                </Alert>
+            {responseCode && correlationId && (
+                <ResponseAlert
+                    responseCode={responseCode}
+                    correlationId={correlationId}
+                    basepath={loaderData.basePath}
+                    successText={'Oppdatering av rolle gjennomført.'}
+                    deleteText={'Oppdatering av rolle gjennomført.'}
+                />
             )}
 
             <Box className={'features-to-roles-container'} paddingBlock="4 0">

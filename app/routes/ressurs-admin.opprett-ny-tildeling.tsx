@@ -1,4 +1,4 @@
-import { Alert, Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
+import { Button, ExpansionCard, HStack, Switch, VStack } from '@navikt/ds-react';
 import {
     ActionFunctionArgs,
     Form,
@@ -26,10 +26,12 @@ import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
 import { RESOURCE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
-import { getErrorTextFromResponse } from '~/data/helpers';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { ResponseAlert } from '~/components/common/ResponseAlert';
+import { BASE_PATH } from '../../environment';
+import { getErrorTextFromResponse } from '~/data/helpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -75,6 +77,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         accessRoles: accessRoles,
         allOrgUnits: orgUnitsWithIsChecked.orgUnits,
         size: size,
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
 }
 
@@ -96,36 +99,43 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         includeSubOrgUnits
     );
 
-    if (res?.ok) {
+    const responseCode = String(res.status);
+    const correlationId = res.headers.get('x-correlation-id') ?? 'Ukjent';
+
+    if (res.ok) {
         return {
-            status: true,
-            redirect: RESOURCE_ADMIN,
+            responseCode,
+            correlationId,
             message: 'Tildeling gjennomført!',
+            redirect: RESOURCE_ADMIN,
         };
     } else {
         const errorMessage = await getErrorTextFromResponse(res);
         if (errorMessage.includes('User already has assignments for this role')) {
             return {
                 status: false,
+                responseCode,
+                correlationId,
                 redirect: null,
                 message: 'Brukeren har allerede tildelinger for denne rollen.',
             };
         }
 
         return {
-            status: false,
+            responseCode,
+            correlationId,
             redirect: null,
-            message: 'En feil oppstod ved forsøkt lagring. Prøv igjen.',
         };
     }
 };
 
 export default function ResourceModuleAdminTabTildel() {
-    const { usersPage, accessRoles, allOrgUnits, size } = useLoaderData<typeof loader>();
-    const [alertMessage, setAlertMessage] = useState<string | null>(null);
-    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+    const { usersPage, accessRoles, allOrgUnits, size, basePath } = useLoaderData<typeof loader>();
+    const [responseCode, setResponseCode] = useState<string | undefined>('');
+    const [correlationId, setCorrelationId] = useState<string | undefined>('');
     const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
     const actionData = useActionData<typeof action>();
+    // const errorMessage = actionData?.message;
     const navigate = useNavigate();
 
     const [newAssignment, setNewAssignment] = useState<IResourceModuleAssignment>({
@@ -153,30 +163,15 @@ export default function ResourceModuleAdminTabTildel() {
     useEffect(() => {
         if (!actionData) return;
 
-        const { status, message, redirect } = actionData;
+        const { responseCode, correlationId, redirect } = actionData;
 
-        if (status) {
-            setAlertMessage(message);
-            setAlertVariant('success');
-            if (redirect) {
-                setPendingRedirect(redirect);
-            }
-        } else {
-            setAlertMessage(message);
-            setAlertVariant('error');
+        setResponseCode(responseCode);
+        setCorrelationId(correlationId);
+
+        if (redirect) {
+            setPendingRedirect(redirect);
         }
     }, [actionData]);
-
-    useEffect(() => {
-        if (alertMessage) {
-            const timer = setTimeout(() => {
-                setAlertMessage(null);
-                setAlertVariant(null);
-            }, 5000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [alertMessage]);
 
     useEffect(() => {
         if (pendingRedirect) {
@@ -332,21 +327,15 @@ export default function ResourceModuleAdminTabTildel() {
                 </ExpansionCard>
 
                 <div className={'tildeling-section'}>
-                    {alertMessage && alertVariant && (
-                        <Alert
-                            variant={alertVariant}
-                            className="mb-4"
-                            closeButton={true}
-                            onClose={() => {
-                                setAlertMessage(null);
-                                setAlertVariant(null);
-                                if (pendingRedirect) {
-                                    navigate(pendingRedirect);
-                                    setPendingRedirect(null);
-                                }
-                            }}>
-                            {alertMessage}
-                        </Alert>
+                    {responseCode && correlationId && (
+                        <ResponseAlert
+                            responseCode={responseCode}
+                            correlationId={correlationId}
+                            basepath={basePath}
+                            successText={'Tildeling av rolle gjennomført!'}
+                            // conflictText={errorMessage}
+                            conflictText={'Personen har allerede fått tildelt denne rollen'}
+                        />
                     )}
                     <SummaryOfTildeling assignment={newAssignment} accessRoles={accessRoles} />
                     <Form method={'post'} onSubmit={handleSubmit}>

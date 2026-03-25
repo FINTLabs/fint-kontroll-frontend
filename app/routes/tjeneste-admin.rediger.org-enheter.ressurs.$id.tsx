@@ -11,7 +11,6 @@ import {
 } from 'react-router';
 import React, { useMemo, useState } from 'react';
 import {
-    Alert,
     BodyShort,
     Box,
     Button,
@@ -19,6 +18,7 @@ import {
     Heading,
     HStack,
     Loader,
+    LocalAlert,
     VStack,
 } from '@navikt/ds-react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
@@ -29,6 +29,7 @@ import OrgUnitSelect from '~/components/common/orgUnits/OrgUnitSelect';
 import { getEditResourceUrl, getResourceByIdUrl, SERVICE_ADMIN } from '~/data/paths';
 import { IUnitItem, IUnitTree } from '~/data/types/orgUnitTypes';
 import { prepareQueryParamsWithResponseCode } from '~/utils/searchParamsHelpers';
+import { LocalAlertTitle } from '@navikt/ds-react/LocalAlert';
 
 export const handle = {
     // @ts-ignore
@@ -152,7 +153,7 @@ export async function action({ request }: ActionFunctionArgs) {
     );
 
     return redirect(
-        `${getResourceByIdUrl(Number(data.get('id')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status : '?responseCode=' + response.status}`
+        `${getResourceByIdUrl(Number(data.get('id')))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id') : '?responseCode=' + response.status + '&correlationId=' + response.headers.get('x-correlation-id')}`
     );
 }
 
@@ -282,7 +283,13 @@ export default function EditOrgUnitsForResource() {
                     />
                 </Box>
 
-                {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
+                {errorMessage && (
+                    <LocalAlert status="error">
+                        <LocalAlert.Header>
+                            <LocalAlertTitle>{errorMessage}</LocalAlertTitle>
+                        </LocalAlert.Header>
+                    </LocalAlert>
+                )}
 
                 <HStack gap="4" justify={'end'}>
                     <Button

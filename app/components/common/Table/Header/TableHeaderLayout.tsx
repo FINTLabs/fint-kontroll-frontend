@@ -1,8 +1,9 @@
-import { Alert, Box, Heading, VStack } from '@navikt/ds-react';
+import { Alert, Box, Heading, InfoCard, LocalAlert, VStack } from '@navikt/ds-react';
 import React, { ReactElement } from 'react';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { InformationSquareIcon } from '@navikt/aksel-icons';
 
 interface TableHeaderLayoutProps {
     title: string;
@@ -15,7 +16,7 @@ interface TableHeaderLayoutProps {
     orgUnitsForFilter?: IUnitItem[];
     CreateNewButton?: ReactElement;
     LeftAlignedFilters?: ReactElement;
-    alertMessage?: { heading?: string; text: string; variant: 'info' | 'warning' | 'error' };
+    alertMessage?: { heading?: string; text: string; status: 'announcement' | 'warning' | 'error' };
 }
 
 export const TableHeaderLayout = ({
@@ -41,12 +42,14 @@ export const TableHeaderLayout = ({
             />
             {alertMessage && (
                 <Box asChild marginBlock={'4'}>
-                    <Alert variant={alertMessage.variant} size={'small'} contentMaxWidth={false}>
-                        {alertMessage.heading && (
-                            <Heading size={'xsmall'}>{alertMessage.heading}</Heading>
-                        )}
-                        {alertMessage.text}
-                    </Alert>
+                    <InfoCard data-color="info">
+                        <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
+                            <InfoCard.Title>
+                                {alertMessage.heading ? alertMessage.heading : 'Informasjon'}
+                            </InfoCard.Title>
+                        </InfoCard.Header>
+                        <InfoCard.Content>{alertMessage.text}</InfoCard.Content>
+                    </InfoCard>
                 </Box>
             )}
             <TableToolbar

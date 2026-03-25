@@ -16,7 +16,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.get('dialog h1').should('have.text', 'Fullfør tildelingen');
         cy.get('dialog').find('button[type=submit]').contains('Lagre').should('exist').click();
         cy.wait(1000);
-        cy.get('.navds-alert--success').should('exist');
+        cy.contains('[role="alert"]', 'Tildelingen var vellykket!').should('exist');
     });
 
     it('Remove resource from group', () => {
@@ -28,7 +28,7 @@ describe('See that assignment.resource.$id.group renders with groups', () => {
         cy.wait(1000);
         cy.get('button[type=submit]').contains('Slett').should('exist').click();
         cy.wait(1000);
-        cy.get('.navds-alert--success').should('exist');
+        cy.contains('[role="alert"]', 'Tildelingen ble slettet!').should('exist');
     });
 
     it('Navigate to "Ny Tildeling" when "Roller"-tabs is selected', () => {

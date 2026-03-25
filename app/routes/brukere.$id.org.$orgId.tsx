@@ -42,6 +42,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         page,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
     };
 }
 
@@ -68,6 +69,7 @@ export default function Users() {
         assignments: assignmentsForUser,
         size,
         responseCode,
+        correlationId,
     } = useLoaderData<typeof loader>();
     const navigate = useNavigate();
     const params = useParams();
@@ -101,6 +103,8 @@ export default function Users() {
                     />
                     <ResponseAlert
                         responseCode={responseCode}
+                        correlationId={correlationId}
+                        //  basepath={BASE_PATH}
                         successText={'Tildelingen var vellykket!'}
                         deleteText={'Tildelingen ble slettet!'}
                     />

@@ -25,6 +25,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         size,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
     };
 }
 
@@ -38,7 +39,7 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const { assignments, size, responseCode } = useLoaderData<typeof loader>();
+    const { assignments, size, responseCode, correlationId } = useLoaderData<typeof loader>();
 
     return (
         <section>
@@ -47,6 +48,8 @@ export default function AssignmentsForRole() {
                     <Tabs.Panel value="assignments">
                         <ResponseAlert
                             responseCode={responseCode}
+                            correlationId={correlationId}
+                            //  basepath={BASE_PATH}
                             successText={'Tildelingen var vellykket!'}
                             deleteText={'Tildelingen ble slettet!'}
                         />

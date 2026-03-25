@@ -35,6 +35,8 @@ import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
 import OrgUnitSearch from '~/components/resource-module-admin/OrgUnitSearch';
+import { BASE_PATH } from '../../environment';
+import { ResponseAlert } from '~/components/common/ResponseAlert';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -64,9 +66,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
         userDetails,
         userAssignmentsPaginated,
         accessRoles,
+        basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
 };
 
+/*
 export const action = async ({ params, request }: ActionFunctionArgs) => {
     const queryParams = new URLSearchParams(request.url.split('?')[1]);
 
@@ -117,6 +121,54 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
     return { reset: false, status: true, redirect: null, message: null };
 };
+*/
+
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+    const auth = request;
+    const formData = await request.formData();
+
+    try {
+        let res: Response | null = null;
+
+        if (formData.get('resetAllUserAssignments')) {
+            res = await deleteAllAssignmentsOnUser(auth, params.id ?? '');
+        } else if (formData.get('deleteOneAssignmentByRole')) {
+            const accessRoleId = formData.get('accessRoleId') as string;
+            const objectTypeToDelete = formData.get('objectTypeToDelete') as string;
+
+            res = await deleteUserAssignmentByAccessRoleId(
+                auth,
+                params.id ?? '',
+                accessRoleId,
+                objectTypeToDelete
+            );
+        } else if (formData.get('deleteOrgUnitFromAssignment')) {
+            const scopeId = formData.get('scopeId') as string;
+            const orgUnitId = formData.get('orgUnitId') as string;
+
+            res = await deleteOrgUnitFromAssignment(auth, scopeId, orgUnitId);
+        }
+
+        if (!res) {
+            return {
+                responseCode: '400',
+                correlationId: 'Ukjent',
+                redirect: null,
+            };
+        }
+
+        const responseCode = String(res.status);
+        const correlationId = res.headers.get('x-correlation-id') ?? 'Ukjent';
+
+        return {
+            responseCode,
+            correlationId,
+            redirect: res.ok ? RESOURCE_ADMIN : null,
+        };
+    } catch (e) {
+        throw e; // 👉 la ErrorBoundary håndtere ekte krasj
+    }
+};
 
 const ResourceModuleAdminAdministerId = () => {
     const loaderData = useLoaderData<typeof loader>();
@@ -139,10 +191,21 @@ const ResourceModuleAdminAdministerId = () => {
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isResetRolesModalOpen, setIsResetRolesModalOpen] = useState(false);
-    const [alertMessage, setAlertMessage] = useState<string | null>(null);
-    const [alertVariant, setAlertVariant] = useState<'success' | 'error' | null>(null);
+    const [responseCode, setResponseCode] = useState<string | null>(null);
+    const [correlationId, setCorrelationId] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!actionData) return;
+
+        setResponseCode(actionData.responseCode);
+        setCorrelationId(actionData.correlationId);
+
+        if (actionData.redirect) {
+            navigate(actionData.redirect);
+        }
+    }, [actionData]);
+
+    /*useEffect(() => {
         if (!actionData) {
             return;
         }
@@ -161,9 +224,9 @@ const ResourceModuleAdminAdministerId = () => {
             setAlertMessage(actionData.message);
             setAlertVariant('success');
         }
-    }, [actionData]);
+    }, [actionData]);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (alertMessage) {
             const timer = setTimeout(() => {
                 setAlertMessage(null);
@@ -172,7 +235,7 @@ const ResourceModuleAdminAdministerId = () => {
 
             return () => clearTimeout(timer);
         }
-    }, [alertMessage]);
+    }, [alertMessage]);*/
 
     useEffect(() => {
         const paramMappedToAccessRoleType: IAccessRole | undefined = accessRoles.find(
@@ -204,7 +267,6 @@ const ResourceModuleAdminAdministerId = () => {
             </VStack>
         );
     }
-
     return (
         <section className={'content'}>
             <Box paddingBlock={'4'}>
@@ -216,7 +278,7 @@ const ResourceModuleAdminAdministerId = () => {
                             title={'Rolletilknytninger'}
                             subTitle={userDetails.firstName + ' ' + userDetails.lastName}
                             alertMessage={{
-                                variant: 'info',
+                                status: 'announcement',
                                 text:
                                     'Slett-knappen i tabellradene er fjernet inntil videre. Vi holder på med en\n' +
                                     '                ryddejobb.',
@@ -248,10 +310,12 @@ const ResourceModuleAdminAdministerId = () => {
                                 Slett alle roller
                             </Button>
                         </HStack>
-                        {alertMessage && alertVariant && (
-                            <Alert variant={alertVariant} className="mb-4 mt-4" closeButton={true}>
-                                {alertMessage}
-                            </Alert>
+                        {responseCode && correlationId && (
+                            <ResponseAlert
+                                responseCode={responseCode}
+                                correlationId={correlationId}
+                                basepath={loaderData.basePath}
+                            />
                         )}
                         <RoleAssignmentTable
                             selectedRole={selectedRole}
