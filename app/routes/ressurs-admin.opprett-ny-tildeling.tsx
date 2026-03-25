@@ -31,6 +31,7 @@ import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { BASE_PATH } from '../../environment';
+import { getErrorTextFromResponse } from '~/data/helpers';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -82,7 +83,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
-    const resourceId = formData.get('resourceId') as string;
+    const resourceId = formData.get('resourceId') as string; // resourceId is the unique ID of a user
     const accessRoleId = formData.get('accessRoleId') as string;
     const scopeId = formData.get('scopeId') as string;
     const orgUnits = String(formData.get('orgUnits')).split(',') ?? [];
@@ -105,15 +106,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return {
             responseCode,
             correlationId,
+            message: 'Tildeling gjennomført!',
             redirect: RESOURCE_ADMIN,
         };
-    }
+    } else {
+        const errorMessage = await getErrorTextFromResponse(res);
+        if (errorMessage.includes('User already has assignments for this role')) {
+            return {
+                status: false,
+                responseCode,
+                correlationId,
+                redirect: null,
+                message: 'Brukeren har allerede tildelinger for denne rollen.',
+            };
+        }
 
-    return {
-        responseCode,
-        correlationId,
-        redirect: null,
-    };
+        return {
+            responseCode,
+            correlationId,
+            redirect: null,
+        };
+    }
 };
 
 export default function ResourceModuleAdminTabTildel() {
@@ -122,6 +135,7 @@ export default function ResourceModuleAdminTabTildel() {
     const [correlationId, setCorrelationId] = useState<string | undefined>('');
     const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
     const actionData = useActionData<typeof action>();
+    // const errorMessage = actionData?.message;
     const navigate = useNavigate();
 
     const [newAssignment, setNewAssignment] = useState<IResourceModuleAssignment>({
@@ -319,6 +333,8 @@ export default function ResourceModuleAdminTabTildel() {
                             correlationId={correlationId}
                             basepath={basePath}
                             successText={'Tildeling av rolle gjennomført!'}
+                            // conflictText={errorMessage}
+                            conflictText={'Personen har allerede fått tildelt denne rollen'}
                         />
                     )}
                     <SummaryOfTildeling assignment={newAssignment} accessRoles={accessRoles} />

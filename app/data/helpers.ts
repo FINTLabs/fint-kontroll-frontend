@@ -85,7 +85,7 @@ export const sendRequest = async ({
                 'content-type': 'application/json',
             },
             method,
-            body: stringifiedBody ?? JSON.stringify(body ?? {}),
+            body: stringifiedBody ?? (body ? JSON.stringify(body) : undefined),
         });
     } catch (error) {
         logger.error('Error sending request:', error);
