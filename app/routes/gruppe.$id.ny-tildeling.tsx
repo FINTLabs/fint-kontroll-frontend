@@ -57,14 +57,15 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         role.roleType
     );
 
-    const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
+    /*const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');*/
+    const filter = `&resourcefilter=${resourceList.resources.map((value) => value.id).join(',')}`;
     const [assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
         fetchAssignedResourcesRole(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategories(request),
     ]);
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
-        assignedResourceList.resources.map((resource) => [resource.resourceRef, resource])
+        assignedResourceList.resources.map((resource) => [resource.id, resource])
     );
     const isAssignedResources: IResourceForList[] = resourceList.resources.map((resource) => {
         return {

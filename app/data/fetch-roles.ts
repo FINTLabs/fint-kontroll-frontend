@@ -51,6 +51,6 @@ export const fetchAssignedResourcesRole = async (
     resourceFilter: string
 ): Promise<IAssignedResourcesList> =>
     fetchData(
-        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/v2/role/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/role/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
         request
     );
