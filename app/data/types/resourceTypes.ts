@@ -152,6 +152,7 @@ export interface IResource {
 
 // ----
 export interface IResourceAssignment {
+    id: number;
     assigneeRef: number;
     assignmentRef: number;
     directAssignment: boolean;
