@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@navikt/aksel-stylelint": "^7.40.0",
-    "@react-router/dev": "7.13.0",
+    "@react-router/dev": "7.13.2",
     "@react-router/fs-routes": "7.13.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
