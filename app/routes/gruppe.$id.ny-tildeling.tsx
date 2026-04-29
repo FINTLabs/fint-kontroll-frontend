@@ -130,7 +130,7 @@ export default function NewAssignmentForRole() {
                 }
                 SearchComponent={<ResourceSearch />}
             />
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <ResponseAlert
                     responseCode={responseCode}
                     correlationId={correlationId}

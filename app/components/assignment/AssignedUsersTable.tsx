@@ -24,7 +24,7 @@ export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTablePr
 
     return (
         <div>
-            <VStack gap="8">
+            <VStack gap="space-8">
                 <Outlet />
 
                 <Table id="assigned-users-table">
@@ -48,7 +48,7 @@ export const AssignedUsersTable = ({ assignedUsers, size }: AssignedUsersTablePr
                                 <Table.ExpandableRow
                                     key={user.assigneeRef}
                                     content={
-                                        <HStack gap="16">
+                                        <HStack gap="space-16">
                                             <div>
                                                 <BodyShort weight="semibold">Brukernavn:</BodyShort>
                                                 <BodyShort>{user.assigneeUsername}</BodyShort>

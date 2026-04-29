@@ -12,14 +12,14 @@ function MeInfo({ me }: { me?: IMeInfo }) {
     return (
         <>
             {me && (
-                <HStack gap={'4'} justify={'center'}>
-                    <HStack gap={'1'} align={'center'}>
+                <HStack gap={'space-12'} justify={'center'}>
+                    <HStack gap={'space-1'} align={'center'}>
                         <Buildings3Icon fontSize="1.5rem" />
                         <BodyShort size="small" truncate className="max-w-[10vw]">
                             {me?.organisationId}
                         </BodyShort>
                     </HStack>
-                    <HStack gap={'1'} align={'center'}>
+                    <HStack gap={'space-1'} align={'center'}>
                         <PersonCircleIcon fontSize="1.5rem" />
                         <BodyShort size="small" truncate className="max-w-[10vw]">
                             {me?.firstName} {me?.lastName}

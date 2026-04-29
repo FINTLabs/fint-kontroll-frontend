@@ -70,13 +70,14 @@ export default function Users() {
         size,
         responseCode,
         correlationId,
+        basePath,
     } = useLoaderData<typeof loader>();
     const navigate = useNavigate();
     const params = useParams();
 
     return (
         <section className={'content'}>
-            <VStack gap="12">
+            <VStack gap="space-36">
                 <InfoBox
                     title={'Brukerinformasjon'}
                     info={[
@@ -88,7 +89,7 @@ export default function Users() {
                     maxColumns={2}
                 />
 
-                <VStack gap="8">
+                <VStack gap="space-24">
                     <TableHeader
                         isSubHeader={true}
                         title={'Brukeren er tildelt følgende ressurser'}
@@ -104,7 +105,7 @@ export default function Users() {
                     <ResponseAlert
                         responseCode={responseCode}
                         correlationId={correlationId}
-                        //  basepath={BASE_PATH}
+                        basepath={basePath}
                         successText={'Tildelingen var vellykket!'}
                         deleteText={'Tildelingen ble slettet!'}
                     />

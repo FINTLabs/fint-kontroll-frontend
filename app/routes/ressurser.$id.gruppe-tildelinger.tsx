@@ -72,7 +72,7 @@ export default function AssignedRoles() {
 
     return (
         <Tabs.Panel value="gruppe-tildelinger">
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <TableToolbar SearchComponent={<RoleSearch />} />
                 <ResponseAlert
                     responseCode={data.responseCode}

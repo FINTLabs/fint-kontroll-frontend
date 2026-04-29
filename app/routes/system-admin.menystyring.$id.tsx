@@ -67,7 +67,7 @@ const SystemAdminMenuSettingsForm = () => {
     };
 
     return (
-        <VStack className={'tab-content-container'} padding={'4'} marginBlock={'8'}>
+        <VStack className={'tab-content-container'} padding={'space-12'} marginBlock={'space-24'}>
             <Heading size={'medium'}>Menypunkter for {accessRoleMenu.name}</Heading>
 
             {groupMenuItems(menuItems).map((menuItem) => (
@@ -83,7 +83,7 @@ const SystemAdminMenuSettingsForm = () => {
                         </BodyShort>
                     </Switch>
                     {'children' in menuItem && (
-                        <VStack paddingInline={'8'}>
+                        <VStack paddingInline={'space-32'}>
                             {menuItem.children.map((menuItemChild) => {
                                 return (
                                     <Switch

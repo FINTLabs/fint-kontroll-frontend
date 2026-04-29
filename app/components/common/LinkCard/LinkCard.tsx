@@ -37,7 +37,7 @@ type CustomLinkPanelProps = {
     title: string;
     description?: string;
     link: string;
-    Icon?: ReactElement;
+    Icon?: ReactElement<any>;
     colorProfile?: Color;
     hover?: boolean;
     border?: boolean;
@@ -55,19 +55,18 @@ export const LinkCard = ({
     return (
         <Box
             as="a"
-            padding="8"
-            borderRadius="large"
+            padding="space-28"
+            borderRadius="8"
             href={link}
             className={`link-card ${colorProfile} ${hover ? 'hoverColor' : ''}`}
-            borderColor={border ? 'border-subtle' : undefined}
             borderWidth={border ? '1' : undefined}>
-            <VStack gap="4" height="100%">
-                <HStack wrap={false} gap="4" width="100%" align="center">
+            <VStack gap="space-12" height="100%">
+                <HStack wrap={false} gap="space-12" width="100%" align="center">
                     {Icon && (
                         <Box
                             className="circle"
                             borderRadius="full"
-                            padding="2"
+                            padding="space-8"
                             style={{ backgroundColor: colorProfiles[colorProfile].iconColor }}
                             width="3.5rem"
                             height="3.5rem">
@@ -82,7 +81,7 @@ export const LinkCard = ({
                         {title}
                     </Heading>
                     {!description && (
-                        <VStack marginInline={'auto 0'} align={'center'}>
+                        <VStack marginInline={'auto space-0'} align={'center'}>
                             <ArrowRightIcon
                                 color={colorProfiles[colorProfile].arrowColor}
                                 className="arrow-icon"
@@ -92,9 +91,9 @@ export const LinkCard = ({
                     )}
                 </HStack>
                 {description && (
-                    <VStack gap="2" height="100%">
+                    <VStack gap="space-4" height="100%">
                         <hr style={{ backgroundColor: colorProfiles[colorProfile].arrowColor }} />
-                        <HStack wrap={false} gap="4" height="100%" justify={'space-between'}>
+                        <HStack wrap={false} gap="space-8" height="100%" justify={'space-between'}>
                             <BodyShort size="small">{description}</BodyShort>
                             <HStack height="100%" align="center">
                                 <ArrowRightIcon

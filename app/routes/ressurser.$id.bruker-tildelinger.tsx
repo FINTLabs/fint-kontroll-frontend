@@ -79,7 +79,7 @@ export default function AssignedUsers() {
 
     return (
         <Tabs.Panel value="bruker-tildelinger">
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <TableToolbar
                     SearchComponent={<UserSearch />}
                     FilterComponents={<UserTypeFilter kodeverk={loaderData.userTypesKodeverk} />}

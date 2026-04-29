@@ -166,7 +166,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
             redirect: res.ok ? RESOURCE_ADMIN : null,
         };
     } catch (e) {
-        throw e; // 👉 la ErrorBoundary håndtere ekte krasj
+        throw e;
     }
 };
 
@@ -260,7 +260,7 @@ const ResourceModuleAdminAdministerId = () => {
 
     if (userDetails.roles.length === 0) {
         return (
-            <VStack gap={'4'}>
+            <VStack gap={'space-12'}>
                 <section>
                     {`${userDetails.firstName} ${userDetails.lastName}`} har ingen roller
                 </section>
@@ -269,7 +269,7 @@ const ResourceModuleAdminAdministerId = () => {
     }
     return (
         <section className={'content'}>
-            <Box paddingBlock={'4'}>
+            <Box paddingBlock={'space-12'}>
                 {userDetails.roles.length === 0 ? (
                     <BodyShort>Brukeren har ingen roller</BodyShort>
                 ) : (
@@ -291,7 +291,7 @@ const ResourceModuleAdminAdministerId = () => {
                                 </>
                             }
                         />
-                        <HStack justify={'end'} gap={'4'}>
+                        <HStack justify={'end'} gap={'space-12'}>
                             {selectedRole.accessRoleId !== '' && (
                                 <Button
                                     variant={'danger'}

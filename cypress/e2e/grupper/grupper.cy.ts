@@ -28,7 +28,7 @@ describe('Check roles page with mock data', () => {
 
     it('Viser Tag kun for aggregerte grupper', () => {
         cy.get('#role-table').should('be.visible').find('tbody tr').should('have.length', 5);
-        cy.get('.navds-tag').contains('Aggregert').should('exist');
+        cy.get('.aksel-tag').contains('Aggregert').should('exist');
     });
 
     it('skal vise Tag i første rad, men ikke i andre', () => {

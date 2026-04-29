@@ -54,7 +54,7 @@ describe('Applikasjonskategori i innstillinger', () => {
             .find('button')
             .should('have.length', 3)
             .first()
-            .should('have.class', 'navds-dropdown__toggle')
+            .should('have.class', 'aksel-dropdown__toggle')
             .should('have.attr', 'aria-expanded', 'false');
 
         cy.get('table tbody tr')

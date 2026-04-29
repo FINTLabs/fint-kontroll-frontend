@@ -13,9 +13,11 @@ import {
 import {
     BodyShort,
     Button,
-    ConfirmationPanel,
-    Heading,
+    Checkbox,
+    CheckboxGroup,
+    HStack,
     Loader,
+    LocalAlert,
     Modal,
     VStack,
 } from '@navikt/ds-react';
@@ -104,19 +106,29 @@ export default function AssignResourceToRole() {
             }}
             width="medium">
             <Modal.Body>
-                <VStack gap="4">
+                <VStack gap="space-12">
                     <BodyShort>{resource.resourceName}</BodyShort>
 
                     {resource.hasCost ? (
-                        <ConfirmationPanel
-                            checked={checked}
-                            label="Jeg bekrefter at jeg har fått nødvendig godkjenning."
-                            onChange={() => setChecked((x) => !x)}
-                            size="small">
-                            <Heading level="2" size="xsmall">
-                                Denne tildelingen krever godkjenning fra leder!
-                            </Heading>
-                        </ConfirmationPanel>
+                        <LocalAlert status="announcement">
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Denne tildelingen krever godkjenning fra leder!
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                            <LocalAlert.Content>
+                                <HStack gap="space-12">
+                                    <CheckboxGroup
+                                        legend="Transportmiddel"
+                                        hideLegend
+                                        onChange={() => setChecked((x) => !x)}>
+                                        <Checkbox value="public">
+                                            Jeg bekrefter at jeg har fått nødvendig godkjenning.
+                                        </Checkbox>
+                                    </CheckboxGroup>
+                                </HStack>
+                            </LocalAlert.Content>
+                        </LocalAlert>
                     ) : null}
                     <BodyShort>Trykk lagre for å bekrefte tildeling av ressursen</BodyShort>
                 </VStack>

@@ -15,27 +15,27 @@ describe('Test creation of new resource', () => {
             .type('Cypress Test Ressurs');
 
         cy.contains('label', 'Ansatt', { timeout: 10000 })
-            .parents('.navds-checkbox')
+            .parents('.aksel-checkbox')
             .find('input[type="checkbox"]')
             .check({ force: true });
 
         cy.contains('label', 'Kontorstøtte', { timeout: 10000 })
-            .parents('.navds-checkbox')
+            .parents('.aksel-checkbox')
             .find('input[type="checkbox"]')
             .check({ force: true });
 
         cy.contains('label', 'Maks antall', { timeout: 10000 })
-            .parents('.navds-radio')
+            .parents('.aksel-radio')
             .find('input[type="radio"]')
             .check({ force: true });
 
         cy.contains('label', 'org1', { timeout: 10000 })
-            .parents('.navds-radio')
+            .parents('.aksel-radio')
             .find('input[type="radio"]')
             .check({ force: true });
 
         cy.contains('label', 'Aktiv', { timeout: 10000 })
-            .parents('.navds-radio')
+            .parents('.aksel-radio')
             .find('input[type="radio"]')
             .check({ force: true });
 

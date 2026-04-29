@@ -14,8 +14,8 @@ interface ToolbarProps {
 
 const ResourceModuleToolbar = ({ orgUnitList, roles }: ToolbarProps) => {
     return (
-        <VStack gap="4">
-            <HStack justify={'end'} align="end" gap={'4'}>
+        <VStack gap="space-12">
+            <HStack justify={'end'} align="end" gap={'space-12'}>
                 <OrgUnitFilterModal orgUnitList={orgUnitList} />
                 <AllAccessRolesFilter roles={roles} />
                 <ResourceModuleSearch />

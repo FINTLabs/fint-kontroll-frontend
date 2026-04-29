@@ -68,7 +68,7 @@ export default function ServiceAdminIndex() {
     const navigate = useNavigate();
 
     return (
-        <VStack className={'content'} gap="4">
+        <VStack className={'content'} gap="space-12">
             <TableHeaderLayout
                 title={'Ressursadministrasjon'}
                 SearchComponent={<Search label={'Søk etter ressurs'} id={'search-service-admin'} />}

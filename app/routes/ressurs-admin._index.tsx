@@ -1,5 +1,4 @@
 import React from 'react';
-import { VStack } from '@navikt/ds-react';
 import { LoaderFunctionArgs, useLoaderData, useNavigate, useRouteError } from 'react-router';
 import ResourceModuleAdminUsersTable from '../components/resource-module-admin/ResourceModuleAdminUsersTable';
 import { fetchUsersWithAssignment } from '~/data/resourceAdmin/resource-admin';
@@ -15,6 +14,7 @@ import { IAccessRole } from '~/data/types/userTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { VStack } from '@navikt/ds-react';
 
 export function links() {
     return [{ rel: 'stylesheet', href: styles }];
@@ -55,7 +55,7 @@ export default function ResourceAdminIndex() {
     const navigate = useNavigate();
 
     return (
-        <VStack className={'content'} gap="4">
+        <VStack className={'content'}>
             <TableHeaderLayout
                 title={'Administrer brukere med rolletilknytning'}
                 orgUnitsForFilter={orgUnitPage.orgUnits}

@@ -144,7 +144,7 @@ const OrgUnitSelect = ({
     return (
         <HStack>
             {selectType === 'filter' && (
-                <Box paddingInline={'4'} paddingBlock={'0 4'}>
+                <Box paddingInline={'space-4'} paddingBlock={'space-0 space-4'}>
                     <Switch
                         id="sub-org-unit-switch"
                         checked={aggregated}
@@ -154,7 +154,7 @@ const OrgUnitSelect = ({
                 </Box>
             )}
             {selectType === 'allocation' && showLimitTextField && (
-                <HStack width={'100%'} justify={'end'} paddingInline={'4'}>
+                <HStack width={'100%'} justify={'end'} paddingInline={'space-4'}>
                     <Label size="small" htmlFor="org-unit-amount">
                         Max antall tilganger per enhet
                     </Label>
@@ -264,7 +264,7 @@ const CheckboxTreeNode = ({
 
     return (
         <AccordionItem
-            paddingInline={isTopLevel ? '0' : '8 0'}
+            paddingInline={isTopLevel ? 'space-0' : 'space-32 space-0'}
             initialState={
                 isTopLevel ||
                 openOnRender.some(
@@ -278,7 +278,7 @@ const CheckboxTreeNode = ({
                     justify="space-between"
                     style={{ textAlign: 'start' }}
                     wrap={false}>
-                    <HStack align={'center'} gap={'2'}>
+                    <HStack align={'center'} gap={'space-8'}>
                         <Checkbox
                             name="orgUnit"
                             className="org-unit-checkbox"
@@ -300,7 +300,7 @@ const CheckboxTreeNode = ({
                         </Label>
                     </HStack>
                     {selectType === 'allocation' && showLimitTextField && (
-                        <HStack gap="2" align="center">
+                        <HStack gap="space-8" align="center">
                             {isEnabled && (
                                 <Label
                                     htmlFor={`antall-${unit.organisationUnitId}`}

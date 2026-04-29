@@ -19,7 +19,7 @@ export default function ResourcesSettings() {
     const basePath = loaderData.basePath;
 
     return (
-        <VStack className={'content'} gap="4">
+        <VStack className={'content'} gap="space-12">
             <Heading className={'heading'} level="1" size="xlarge">
                 Innstillinger for kodeverk
             </Heading>

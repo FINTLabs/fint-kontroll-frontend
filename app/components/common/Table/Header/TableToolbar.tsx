@@ -22,8 +22,8 @@ export const TableToolbar = ({
     LeftAlignedFilters,
 }: TableToolbarProps) => {
     return (
-        <VStack>
-            <HStack justify={'space-between'} paddingBlock={'4'} gap={'4'} align="end">
+        <VStack gap={'space-12'}>
+            <HStack justify={'space-between'} paddingBlock={'space-4'} gap={'space-4'} align="end">
                 {CreateNewButton || LeftAlignedFilters ? (
                     <>
                         {CreateNewButton && (
@@ -40,7 +40,7 @@ export const TableToolbar = ({
                 ) : (
                     <Spacer />
                 )}
-                <HStack className={'filters'} gap={'4'} justify="end" align="end">
+                <HStack className={'filters'} gap={'space-16'} justify="end" align="end">
                     {orgUnitsForFilter && <OrgUnitFilterModal orgUnitList={orgUnitsForFilter} />}
                     {Array.isArray(FilterComponents)
                         ? FilterComponents.map((FilterComponent: ReactElement, index: number) => (

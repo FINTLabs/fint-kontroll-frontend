@@ -130,7 +130,7 @@ const KontrollAdminFeaturesToRoleId = () => {
                 />
             )}
 
-            <Box className={'features-to-roles-container'} paddingBlock="4 0">
+            <Box className={'features-to-roles-container'} paddingBlock="space-12 space-0">
                 <div>
                     <Table>
                         <Table.Header>

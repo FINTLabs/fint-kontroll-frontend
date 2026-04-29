@@ -33,7 +33,7 @@ export const Menu = ({ me, source }: { me: IMeInfo; basePath?: string; source?: 
                 )}
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <HGrid gap="6" columns={1} padding={'6'}>
+                <HGrid gap="space-6" columns={1} padding={'space-6'}>
                     <ActionMenu.Item onSelect={() => navigate(`/#`)} style={{ color: '#5149CA' }}>
                         Til forsiden
                     </ActionMenu.Item>

@@ -37,7 +37,7 @@ export default function SystemAdmin() {
             </Heading>
 
             <Tabs defaultValue={selectedTab} value={selectedTab} onChange={handleTabChange}>
-                <Box paddingBlock="8">
+                <Box paddingBlock="space-32">
                     <Tabs.List>
                         <Tabs.Tab
                             value="definer-rolle"

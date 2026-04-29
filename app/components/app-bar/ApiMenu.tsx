@@ -35,8 +35,8 @@ export const ApiMenu = ({
                 )}
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <HGrid columns={1} padding={'6'}>
-                    <Box paddingBlock={'0 4'}>
+                <HGrid columns={1} padding={'space-16'}>
+                    <Box paddingBlock={'space-4 space-16'}>
                         <ActionMenu.Item
                             onSelect={() => navigate(`/#`)}
                             style={{ color: '#5149CA' }}>
@@ -74,7 +74,7 @@ export const ApiMenu = ({
                                 </ActionMenu.Item>
                             )}
                             {index < menuItems.length - 1 && (
-                                <Box paddingBlock={'4'}>
+                                <Box paddingBlock={'space-12'}>
                                     <ActionMenu.Divider />
                                 </Box>
                             )}

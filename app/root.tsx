@@ -11,21 +11,24 @@ import {
     useMatches,
     useRouteError,
 } from 'react-router';
-import navStyles from '@navikt/ds-css/dist/index.css?url';
-import styles from '~/styles/main.css?url';
+import '@navikt/ds-css';
 import { fetchMeInfo } from '~/data/fetch-me-info';
-import meStyles from '~/components/app-bar/appBar.css?url';
 import { Box, HStack, Page } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
 import React, { ReactElement } from 'react';
-import './tailwind.css';
-import './novari-theme.css';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { IMeInfo } from '~/data/types/userTypes';
 import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
+import '@navikt/ds-css';
+import '~/tailwind.css';
+//import '~/styles/main.css';
+//import '~/novari-theme.css';
+import themeUrl from '~/novari-theme.css?url';
+import styles from '~/styles/main.css?url';
+import meStyles from '~/components/app-bar/appBar.css?url';
 
 //interface CustomRouteHandle {
 //    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
@@ -53,11 +56,10 @@ export const meta: MetaFunction = () => {
 };
 
 export const links: LinksFunction = () => [
-    { rel: 'stylesheet', href: navStyles },
-    { rel: 'stylesheet', href: styles },
+    { rel: 'stylesheet', href: themeUrl },
     { rel: 'stylesheet', href: meStyles },
+    { rel: 'stylesheet', href: styles },
 ];
-
 export async function loader({ request }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
     const source = await fetchResourceDataSource(request);
@@ -85,7 +87,7 @@ export default function App() {
                         // @ts-ignore
                         return match.handle?.breadcrumb;
                     }) && (
-                        <HStack paddingBlock={'4'}>
+                        <HStack paddingBlock={'space-4'}>
                             {matches
                                 .filter((match: any) => match.handle && match.handle.breadcrumb)
                                 .map((match: any, index) => (
@@ -129,7 +131,7 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
     return (
         <Page
             footer={
-                <Box className={'novari-footer'} padding="8" as="footer">
+                <Box className={'novari-footer'} padding="space-4" as="footer">
                     <NovariIKS width={'9em'} />
                 </Box>
             }>

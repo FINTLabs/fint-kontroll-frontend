@@ -230,7 +230,7 @@ export default function ResourceModuleAdminTabTildel() {
 
     return (
         <section className={'content tildeling-section-container'}>
-            <VStack gap={'8'}>
+            <VStack gap={'space-24'}>
                 <TableHeader title="Tildel rolle til bruker" isSubHeader={true} />
                 <ExpansionCard
                     size="small"
@@ -240,7 +240,7 @@ export default function ResourceModuleAdminTabTildel() {
                     <ExpansionCard.Header>
                         {newAssignment.user ? (
                             <ExpansionCard.Title>
-                                <HStack align={'center'} gap={'2'}>
+                                <HStack align={'center'} gap={'space-6'}>
                                     <CheckmarkCircleIcon /> Bruker valgt
                                 </HStack>
                             </ExpansionCard.Title>
@@ -251,7 +251,7 @@ export default function ResourceModuleAdminTabTildel() {
                         )}
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack paddingBlock={'0 8'} paddingInline={'4'}>
+                        <VStack paddingBlock={'space-0 space-24'} paddingInline={'space-12'}>
                             <TildelUsersTable
                                 newAssignment={newAssignment}
                                 usersPage={usersPage}
@@ -272,7 +272,7 @@ export default function ResourceModuleAdminTabTildel() {
                     <ExpansionCard.Header>
                         {newAssignment.accessRoleId ? (
                             <ExpansionCard.Title>
-                                <HStack align={'center'} gap={'2'}>
+                                <HStack align={'center'} gap={'space-6'}>
                                     <CheckmarkCircleIcon /> Rolle valgt
                                 </HStack>
                             </ExpansionCard.Title>
@@ -281,7 +281,7 @@ export default function ResourceModuleAdminTabTildel() {
                         )}
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack padding={'4'}>
+                        <VStack padding={'space-12'}>
                             <ChooseAccessRole
                                 accessRoles={accessRoles}
                                 setNewAccessRole={setNewAccessRole}
@@ -298,7 +298,7 @@ export default function ResourceModuleAdminTabTildel() {
                     <ExpansionCard.Header>
                         {newAssignment.orgUnits.length > 0 ? (
                             <ExpansionCard.Title>
-                                <HStack align={'center'} gap={'2'}>
+                                <HStack align={'center'} gap={'space-6'}>
                                     <CheckmarkCircleIcon /> Organisasjonsenheter valgt
                                 </HStack>
                             </ExpansionCard.Title>
@@ -307,7 +307,7 @@ export default function ResourceModuleAdminTabTildel() {
                         )}
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack padding={'4'}>
+                        <VStack padding={'space-12'}>
                             <Switch
                                 onClick={() => handleChangeIncludeSubOrgUnits()}
                                 checked={includeSubOrgUnitsState}>

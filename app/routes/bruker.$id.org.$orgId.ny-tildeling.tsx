@@ -124,7 +124,7 @@ export default function NewAssignmentForUser() {
                 }
                 SearchComponent={<ResourceSearch />}
             />
-            <VStack gap="4">
+            <VStack gap="space-4">
                 <ResponseAlert
                     responseCode={data.responseCode}
                     correlationId={data.correlationId}

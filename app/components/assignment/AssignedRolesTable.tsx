@@ -24,7 +24,7 @@ export const AssignedRolesTable: any = (props: {
 
     return (
         <div>
-            <VStack gap="8">
+            <VStack gap="space-8">
                 <Outlet />
 
                 <Table>
@@ -69,7 +69,10 @@ export const AssignedRolesTable: any = (props: {
                                                 variant="neutral"
                                                 size="small"
                                                 className="navds-tag-in-table">
-                                                <HStack gap={'1'} align={'center'} wrap={false}>
+                                                <HStack
+                                                    gap={'space-4'}
+                                                    align={'center'}
+                                                    wrap={false}>
                                                     Aggregert
                                                     <HelpText title="Hva menes med aggregert?">
                                                         Denne gruppen inneholder alle ansatte i

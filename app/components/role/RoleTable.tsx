@@ -28,8 +28,11 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                         <Table.HeaderCell scope="col">Gruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Gruppetype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'center'}>
+                            Antall medlemmer
+                        </Table.HeaderCell>
                         <Table.HeaderCell scope="col"></Table.HeaderCell>
-                        <Table.HeaderCell scope="col"></Table.HeaderCell>
+                        <Table.HeaderCell scope="col">Se info</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -43,6 +46,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                 <Table.DataCell>
                                     {translateUserTypeToLabel(role.roleType, userTypesKodeverk)}
                                 </Table.DataCell>
+                                <Table.DataCell align={'center'}>{role.noOfMembers}</Table.DataCell>
                                 {role.aggregatedRole ? (
                                     <Table.DataCell>
                                         <Tag
@@ -50,7 +54,7 @@ export const RoleTable = ({ rolePage, size }: RoleTableProps) => {
                                             variant="neutral"
                                             size="small"
                                             className="navds-tag-in-table">
-                                            <HStack gap={'1'} align={'center'} wrap={false}>
+                                            <HStack gap={'space-4'} align={'center'} wrap={false}>
                                                 Aggregert
                                                 {role.roleType === 'STUDENT' ? (
                                                     <HelpText title="Hva menes med aggregert?">

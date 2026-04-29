@@ -44,7 +44,7 @@ export default function Members() {
     return (
         <section>
             <Tabs value={'members'}>
-                <VStack gap="4">
+                <VStack gap="space-12">
                     <TableHeaderLayout
                         title={'Medlemmer'}
                         isSubHeader={true}
