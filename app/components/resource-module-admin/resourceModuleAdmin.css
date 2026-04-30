@@ -4,7 +4,6 @@
     gap: 1rem;
 }
 
-/*---*/
 .resource-module-toolbar {
     display: flex;
     flex-direction: column;
@@ -39,13 +38,12 @@ hr {
     width: 100%;
 }
 
-.navds-checkboxes {
+.aksel-checkboxes {
     display: flex;
     flex-direction: row;
     gap: 1rem;
 }
 
-/*---*/
 th:nth-child(-n + 2) {
     width: 400px;
 }
@@ -58,11 +56,6 @@ th:last-child {
     width: 125px;
 }
 
-td {
-    border-bottom: none;
-}
-/*---*/
-
 .pagination-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -70,11 +63,86 @@ td {
     gap: 1rem;
 }
 
-.expansion-green {
-    --ac-expansioncard-header-bg: var(--a-surface-success-moderate);
-    --ac-expansioncard-header-open-bg: var(--a-surface-success-moderate);
-    --ac-expansioncard-border-open-color: var(--a-surface-success-subtle);
-    --ac-expansioncard-border-hover-color: var(--a-surface-success-subtle);
+.aksel-expansioncard.expansion-green .aksel-expansioncard__header-button {
+    background-color: #dff5e6 !important;
+    color: #1f5e3c !important;
+}
+
+.aksel-expansioncard.expansion-green .aksel-expansioncard__header {
+    background-color: #dff5e6 !important;
+    color: #1f5e3c !important;
+}
+
+.aksel-button[data-variant="secondary"] {
+    /* base-tilstand */
+    box-shadow: 0 0 0 var(--__axc-button-border-width) #5a51e1;
+    border-color: transparent; /* kan være hva som helst nå */
+    color: #5a51e1;
+    background-color: transparent;
+}
+
+.aksel-button[data-variant="secondary"]:hover {
+    /* hover-tilstand – behold samme “border” */
+    box-shadow: 0 0 0 var(--__axc-button-border-width) #5a51e1 !important;
+    color: #5a51e1 !important;
+    background-color: #e5e4fa !important; /* eller transparent hvis du vil */
+}
+
+.aksel-checkbox__input:checked + .aksel-checkbox__box {
+    box-shadow: 0 0 0 1px #5a51e1 !important;
+    border-color: #5a51e1 !important;
+    background-color: #e5e4fa !important;
+}
+
+.aksel-checkbox__input :hover {
+    box-shadow: 0 0 0 1px #5a51e1 !important;
+    border-color: #5a51e1 !important;
+    background-color: #e5e4fa !important;
+}
+
+.aksel-switch__input:checked + .aksel-switch__track {
+    box-shadow: 0 0 0 1px #5a51e1 !important;
+    border-color: #5a51e1 !important;
+    background-color: #e5e4fa !important;
+}
+
+.aksel-accordion__header {
+    border-color: #5a51e1 !important;
+    color: #202733 !important;
+}
+
+/* Accordion header – hover state */
+.aksel-accordion__header:hover {
+    background-color: #e5e4fa !important;
+    border-color: #5a51e1 !important;
+    color: #5a51e1 !important;
+}
+
+
+/* Pil-ikonet på hover */
+.aksel-accordion__header-button:hover svg {
+    color: #5a51e1 !important;
+}
+
+/* Hover på raden */
+.aksel-accordion__header:hover .aksel-stack {
+    background-color: #e5e4fa !important;
+    color: #5a51e1 !important;
+}
+
+/* Chevron-ikonet */
+.aksel-accordion__header-button svg {
+    color: #5a51e1 !important;
+}
+
+/* Chevron på hover */
+.aksel-accordion__header:hover .aksel-accordion__header-button svg {
+    color: #5a51e1 !important;
+}
+
+/* Fokus-ring */
+.aksel-accordion__header:focus-visible {
+    outline-color: #5a51e1 !important;
 }
 
 .tildeling-summary > p {

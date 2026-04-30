@@ -189,8 +189,7 @@ table {
 
 }
 
-
-.navds-radio-buttons {
+.aksel-radio-buttons {
     display: flex;
     flex-direction: row;
     gap: 1rem;
