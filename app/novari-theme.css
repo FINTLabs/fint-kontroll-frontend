@@ -10,7 +10,6 @@
     --ax-surface-action-active: #5a51e1;
     --ax-surface-action-selected: #5a51e1;
     --ax-bg-strong-pressed: #5149ca;
-    --ax-bg-accent-strong-pressed: #5149ca;
 
     --ax-surface-action-subtle-hover: #fcf5ed;
     --ax-surface-action-selected-hover: #5149ca;
@@ -24,6 +23,7 @@
 
     --ax-surface-selected: #e5e4fa;
     --ax-text-on-selected: #5a51e1;
+    --ax-text-default: #202733;
 
     --ax-text-action: #5a51e1;
     --ax-text-action-hover: #5a51e1;
@@ -43,6 +43,28 @@
     --ax-surface-alt-strong: #5a51e1;
     --ax-surface-alt-subtle: #e5e4fa;
     --ax-surface-alt-moderate: #6b133d;
+
+    --ax-bg-accent-soft: #fcf5ed;
+    --ax-bg-accent-softA: #fcf5ed;
+    --ax-bg-accent-moderate: #e5e4fa;
+    --ax-bg-accent-moderateA: #e5e4fa;
+    --ax-bg-accent-moderate-hover: #e5e4fa;
+    --ax-bg-accent-moderate-hoverA: #e5e4fa;
+    --ax-bg-accent-moderate-pressed: #d4d2f5;
+    --ax-bg-accent-moderate-pressedA: #d4d2f5;
+    --ax-bg-accent-strong: #5a51e1;
+    --ax-bg-accent-strong-hover: #5149ca;
+    --ax-bg-accent-strong-pressed: #4c46c7;
+
+    --ax-text-accent: #5a51e1;
+    --ax-text-accent-subtle: #202733;
+    --ax-text-accent-contrast: #ffffff;
+    --ax-text-accent-decoration: #5a51e1;
+
+    --ax-border-accent: #5a51e1;
+    --ax-border-accent-strong: #5a51e1;
+    --ax-border-accent-subtle: #e5e4fa;
+    --ax-border-accent-subtleA: #e5e4fa;
 }
 
 [data-theme='novari'] .novari-header {

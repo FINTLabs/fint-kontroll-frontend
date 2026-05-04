@@ -20,7 +20,6 @@
     align-items: center;
     gap: 1rem;
 }
-/*---*/
 
 .tildeling-section-container {
     display: flex;
@@ -73,78 +72,6 @@ th:last-child {
     color: #1f5e3c !important;
 }
 
-.aksel-button[data-variant="secondary"] {
-    /* base-tilstand */
-    box-shadow: 0 0 0 var(--__axc-button-border-width) #5a51e1;
-    border-color: transparent; /* kan være hva som helst nå */
-    color: #5a51e1;
-    background-color: transparent;
-}
-
-.aksel-button[data-variant="secondary"]:hover {
-    /* hover-tilstand – behold samme “border” */
-    box-shadow: 0 0 0 var(--__axc-button-border-width) #5a51e1 !important;
-    color: #5a51e1 !important;
-    background-color: #e5e4fa !important; /* eller transparent hvis du vil */
-}
-
-.aksel-checkbox__input:checked + .aksel-checkbox__box {
-    box-shadow: 0 0 0 1px #5a51e1 !important;
-    border-color: #5a51e1 !important;
-    background-color: #e5e4fa !important;
-}
-
-.aksel-checkbox__input :hover {
-    box-shadow: 0 0 0 1px #5a51e1 !important;
-    border-color: #5a51e1 !important;
-    background-color: #e5e4fa !important;
-}
-
-.aksel-switch__input:checked + .aksel-switch__track {
-    box-shadow: 0 0 0 1px #5a51e1 !important;
-    border-color: #5a51e1 !important;
-    background-color: #e5e4fa !important;
-}
-
-.aksel-accordion__header {
-    border-color: #5a51e1 !important;
-    color: #202733 !important;
-}
-
-/* Accordion header – hover state */
-.aksel-accordion__header:hover {
-    background-color: #e5e4fa !important;
-    border-color: #5a51e1 !important;
-    color: #5a51e1 !important;
-}
-
-
-/* Pil-ikonet på hover */
-.aksel-accordion__header-button:hover svg {
-    color: #5a51e1 !important;
-}
-
-/* Hover på raden */
-.aksel-accordion__header:hover .aksel-stack {
-    background-color: #e5e4fa !important;
-    color: #5a51e1 !important;
-}
-
-/* Chevron-ikonet */
-.aksel-accordion__header-button svg {
-    color: #5a51e1 !important;
-}
-
-/* Chevron på hover */
-.aksel-accordion__header:hover .aksel-accordion__header-button svg {
-    color: #5a51e1 !important;
-}
-
-/* Fokus-ring */
-.aksel-accordion__header:focus-visible {
-    outline-color: #5a51e1 !important;
-}
-
 .tildeling-summary > p {
     text-decoration: underline;
 }
@@ -162,4 +89,8 @@ th:last-child {
 /* REMOVE THIS WHEN SLETT BUTTON IS REINTRODUCED */
 .temp-alert {
     max-width: 43.5rem;
+}
+
+.aksel-accordion__item[data-expanded="true"] > .aksel-accordion__content .aksel-accordion__content-inner {
+    min-height: 0;
 }

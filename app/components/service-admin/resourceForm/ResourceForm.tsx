@@ -109,7 +109,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         {newResource.resourceName}
                     </Heading>
                 )}
-                <InfoCard data-color="accent">
+                <InfoCard data-color="info">
                     <InfoCard.Message icon={<InformationSquareIcon aria-hidden />}>
                         Alle felter må fylles ut, med unntak av felter merket med "(Valgfritt)".
                     </InfoCard.Message>
