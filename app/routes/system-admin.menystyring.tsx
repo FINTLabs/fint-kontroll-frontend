@@ -20,7 +20,7 @@ export default function SystemAdminMenuSettings() {
     return (
         <Tabs value={'menystyring'}>
             <Tabs.Panel value="menystyring">
-                <VStack gap={'8'}>
+                <VStack gap={'space-24'}>
                     <InfoCard data-color="info">
                         <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
                             <InfoCard.Title>

@@ -6,7 +6,7 @@ import { ErrorCopyButton } from '~/components/common/ErrorCopyButton';
 export const ErrorMessage = ({ error }: { error: any }) => {
     if (!error?.message) {
         return (
-            <VStack gap="4" align="start" marginBlock={'12 0'}>
+            <VStack gap="space-4" align="start" marginBlock={'space-12 space-0'}>
                 <Heading level="1" size="large" spacing>
                     Beklager, vi fant ikke det du ser etter.
                 </Heading>
@@ -27,7 +27,7 @@ export const ErrorMessage = ({ error }: { error: any }) => {
     /* const errorApiUrl = error.url;*/
 
     return (
-        <Box paddingBlock="8">
+        <Box paddingBlock="space-8">
             <LocalAlert status="error">
                 <LocalAlert.Header>
                     <LocalAlert.Title>Det oppsto en feil {errorCode ?? errorCode}</LocalAlert.Title>
@@ -41,7 +41,7 @@ export const ErrorMessage = ({ error }: { error: any }) => {
 
                     {correlationId && (
                         <Box
-                            marginBlock="4"
+                            marginBlock="space-4"
                             padding="space-12"
                             borderWidth="1"
                             borderRadius={{ md: '8' }}>

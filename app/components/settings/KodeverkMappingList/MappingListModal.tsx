@@ -63,7 +63,7 @@ export const MappingListModal = ({
             width="small">
             <Form method={'PATCH'}>
                 <Modal.Body>
-                    <VStack gap={'4'}>
+                    <VStack gap={'space-12'}>
                         <TextField
                             label="Egendefinert navn"
                             name="fkLabel"

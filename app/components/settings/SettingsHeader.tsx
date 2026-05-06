@@ -8,7 +8,7 @@ interface SettingsHeaderProps {
 
 export const SettingsHeader = ({ title, text }: SettingsHeaderProps) => {
     return (
-        <VStack gap="4">
+        <VStack gap="space-12">
             <Heading level="1" size="large">
                 {title}
             </Heading>

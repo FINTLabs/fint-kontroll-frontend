@@ -33,7 +33,7 @@ export const DeviceUnitTable = ({ deviceItemList, size }: DeviceItemsTableProps)
                             <Table.ExpandableRow
                                 key={device.id}
                                 content={
-                                    <HStack gap="16">
+                                    <HStack gap="space-16">
                                         <div>
                                             <BodyShort weight="semibold">
                                                 Flerbrukerenhet:

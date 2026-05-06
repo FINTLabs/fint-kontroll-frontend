@@ -62,7 +62,7 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                             variant="neutral"
                                             size="small"
                                             className="navds-tag-in-table">
-                                            <HStack gap={'1'} align={'center'} wrap={false}>
+                                            <HStack gap={'space-1'} align={'center'} wrap={false}>
                                                 Aggregert
                                                 <HelpText title="Hva menes med aggregert?">
                                                     Denne gruppen inneholder alle ansatte i denne

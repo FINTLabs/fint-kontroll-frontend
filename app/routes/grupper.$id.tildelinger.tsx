@@ -39,17 +39,18 @@ export const handle = {
 };
 
 export default function AssignmentsForRole() {
-    const { assignments, size, responseCode, correlationId } = useLoaderData<typeof loader>();
+    const { assignments, size, responseCode, correlationId, basePath } =
+        useLoaderData<typeof loader>();
 
     return (
         <section>
             <Tabs value={'assignments'}>
-                <VStack gap="4">
+                <VStack gap="space-12">
                     <Tabs.Panel value="assignments">
                         <ResponseAlert
                             responseCode={responseCode}
                             correlationId={correlationId}
-                            //  basepath={BASE_PATH}
+                            basepath={basePath}
                             successText={'Tildelingen var vellykket!'}
                             deleteText={'Tildelingen ble slettet!'}
                         />

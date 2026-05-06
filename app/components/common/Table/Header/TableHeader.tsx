@@ -23,7 +23,7 @@ export const TableHeader = ({
     return (
         <VStack width={'100%'}>
             <HStack justify={'space-between'} align={'center'}>
-                <HStack gap={'2'} align={'baseline'}>
+                <HStack gap={'space-8'} align={'baseline'}>
                     <Heading
                         level={isSubHeader ? '2' : '1'}
                         size={isSubHeader ? 'large' : 'xlarge'}

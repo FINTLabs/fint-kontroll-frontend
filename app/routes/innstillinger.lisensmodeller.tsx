@@ -46,7 +46,7 @@ export default function SettingsApplicationCategory() {
 
     return (
         <div className={'content'}>
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <SettingsHeader
                     title={'Lisensmodeller'}
                     text={

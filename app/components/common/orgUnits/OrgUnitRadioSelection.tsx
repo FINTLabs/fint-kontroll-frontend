@@ -73,7 +73,7 @@ const RadioTreeNode = ({
 
     return (
         <AccordionItem
-            paddingInline={isTopLevel ? '0' : '8 0'}
+            paddingInline={isTopLevel ? 'space-0' : 'space-8 space-0'}
             initialState={
                 isTopLevel ||
                 openOnRender.some(

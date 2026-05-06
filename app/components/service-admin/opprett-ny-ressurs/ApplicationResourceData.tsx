@@ -38,12 +38,12 @@ export default function ApplicationResourceData({
 
     return (
         <ul>
-            <VStack gap={'8'} marginInline={'4'}>
+            <VStack gap={'space-24'}>
                 <li>
                     <TextField
                         className={'input-large'}
                         label={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Navn på ressurs
                                 <HelpText title="Hva er navn på ressurs?" placement="right">
                                     Navnet vil vises i FINT Kontroll og kan brukes i søkefelt for å
@@ -69,7 +69,7 @@ export default function ApplicationResourceData({
                 <li>
                     <CheckboxGroup
                         legend={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Velg brukertype ressursen skal være gyldig for
                                 <HelpText title="Hva er navn på ressurs?" placement="right">
                                     Noen applikasjoner har ulike priser/vilkår for elever og
@@ -100,7 +100,7 @@ export default function ApplicationResourceData({
                 <li>
                     <CheckboxGroup
                         legend={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Velg applikasjonskategori
                                 <HelpText title="Hva er applikasjonskategori?" placement="right">
                                     Brukes for å gruppere applikasjoner.
@@ -129,7 +129,7 @@ export default function ApplicationResourceData({
                 <li>
                     <RadioGroup
                         legend={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Håndhevingsregel
                                 <HelpText title="Hva er håndhevingsregel?" placement="right">
                                     Håndhevingsregel settes for å kontrollere om det kreves
@@ -163,7 +163,7 @@ export default function ApplicationResourceData({
                         <TextField
                             className={'input-small'}
                             label={
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-6'}>
                                     Antall lisenser
                                     <HelpText title="Hva er antall lisenser?" placement="right">
                                         Her angis det totalt hvor mange lisenser som er anskaffet i
@@ -186,7 +186,7 @@ export default function ApplicationResourceData({
                 <li>
                     <RadioGroup
                         legend={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Har ressursen en kostnad?
                                 <HelpText title="Hva er kostnad?" placement="right">
                                     Følger det en økonomisk kostnad med ressursen? <br />
@@ -210,7 +210,7 @@ export default function ApplicationResourceData({
                         <TextField
                             className={'input-small'}
                             label={
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-6'}>
                                     Enhetskostnad
                                     <HelpText title="Hva er kostnad på ressurs?" placement="right">
                                         Kostnad per ressurs.
@@ -234,7 +234,7 @@ export default function ApplicationResourceData({
                 <li>
                     <RadioGroup
                         legend={
-                            <HStack gap={'2'}>
+                            <HStack gap={'space-6'}>
                                 Status
                                 <HelpText title="Hva er status?" placement="right">
                                     Status må settes til 'Aktiv' for at en ressurs skal være

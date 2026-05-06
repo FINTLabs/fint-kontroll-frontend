@@ -4,7 +4,6 @@
     gap: 1rem;
 }
 
-/*---*/
 .resource-module-toolbar {
     display: flex;
     flex-direction: column;
@@ -21,7 +20,6 @@
     align-items: center;
     gap: 1rem;
 }
-/*---*/
 
 .tildeling-section-container {
     display: flex;
@@ -39,13 +37,12 @@ hr {
     width: 100%;
 }
 
-.navds-checkboxes {
+.aksel-checkboxes {
     display: flex;
     flex-direction: row;
     gap: 1rem;
 }
 
-/*---*/
 th:nth-child(-n + 2) {
     width: 400px;
 }
@@ -58,11 +55,6 @@ th:last-child {
     width: 125px;
 }
 
-td {
-    border-bottom: none;
-}
-/*---*/
-
 .pagination-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -70,11 +62,14 @@ td {
     gap: 1rem;
 }
 
-.expansion-green {
-    --ac-expansioncard-header-bg: var(--a-surface-success-moderate);
-    --ac-expansioncard-header-open-bg: var(--a-surface-success-moderate);
-    --ac-expansioncard-border-open-color: var(--a-surface-success-subtle);
-    --ac-expansioncard-border-hover-color: var(--a-surface-success-subtle);
+.aksel-expansioncard.expansion-green .aksel-expansioncard__header-button {
+    background-color: #dff5e6 !important;
+    color: #1f5e3c !important;
+}
+
+.aksel-expansioncard.expansion-green .aksel-expansioncard__header {
+    background-color: #dff5e6 !important;
+    color: #1f5e3c !important;
 }
 
 .tildeling-summary > p {
@@ -94,4 +89,8 @@ td {
 /* REMOVE THIS WHEN SLETT BUTTON IS REINTRODUCED */
 .temp-alert {
     max-width: 43.5rem;
+}
+
+.aksel-accordion__item[data-expanded="true"] > .aksel-accordion__content .aksel-accordion__content-inner {
+    min-height: 0;
 }

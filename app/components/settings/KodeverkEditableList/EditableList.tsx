@@ -98,7 +98,7 @@ export const EditableList = ({
                     ))}
                 </Table.Body>
             </Table>
-            <Box paddingBlock={'4'}>
+            <Box paddingBlock={'space-8'}>
                 <Button
                     as={Link}
                     underline={false}

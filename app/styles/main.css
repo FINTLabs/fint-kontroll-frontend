@@ -1,3 +1,7 @@
+:root {
+    background-color: var(--beige-20);
+}
+
 body {
     margin: 0;
 }
@@ -68,6 +72,7 @@ table {
     margin-top: 5rem;
     background-color: #f2f3f5;
 }
+/*
 
 .delete-icon-button {
     color: var(--a-nav-red);
@@ -87,6 +92,7 @@ table {
     color: var(--ac-button-danger-text, var(--a-text-on-danger));
     background-color: var(--ac-button-danger-hover-bg, var(--a-surface-danger-hover));
 }
+*/
 
 .SelectObjectType {
     display: flex;
@@ -103,8 +109,6 @@ table {
     align-items: center;
     gap: 0.4rem;
     padding: 0.3em;
-    /* padding-top: 0.3em;
-     padding-bottom: 0.3em;*/
 }
 
 .objectTypeLink:hover {
@@ -119,12 +123,12 @@ table {
     .org-unit-accordion__button {
         justify-content: start;
         width: 100%;
-        color: var(--a-text-default);
+        color: var(--ax-text-default);
         padding-top: 0;
         padding-bottom: 0;
 
         &:active {
-            background-color: var(--a-surface-action-subtle-hover);
+            background-color: #fcf5ed;
         }
 
         .chevron-icon {
@@ -185,8 +189,7 @@ table {
 
 }
 
-
-.navds-radio-buttons {
+.aksel-radio-buttons {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -209,19 +212,8 @@ table {
     width: max-content;
 }
 
-/* Nav AKSEL customized styling */
-.button-secondary-danger {
-    color: var(--a-nav-red);
-    box-shadow: inset 0 0 0 2px var(--ac-button-secondary-border, var(--ac-button-danger-bg, var(--a-surface-danger)));
-}
-
-.button-secondary-danger:hover {
-    color: var(--ac-button-danger-text, var(--a-text-on-danger));
-    background-color: var(--ac-button-danger-hover-bg, var(--a-surface-danger-hover));
-}
-
 .navds-tag-in-table {
-    margin: var(--a-spacing-1) var(--a-spacing-5);
+    margin: var(--ax-spacing-1) var(--ax-spacing-5);
 }
 
 .button {
@@ -247,7 +239,7 @@ table {
 
 .link-card {
     text-decoration: none;
-    color: var(--a-text-default);
+    color: var(--ax-text-default);
     transition: background 0.2s ease-in;
     background-color: white;
 
@@ -312,16 +304,6 @@ table {
 .breadcrumb-link {
     @apply text-indigo-600 underline hover:text-indigo-800;
 }
-
-.menu-button:hover {
-    background-color: var(--orange-80);
-}
-
-/*.info-box {
-    background-color: #feeae7;
-    color: #570F31;
-}*/
-
 
 :root {
     --orange-dark: #a61d08;

@@ -101,6 +101,7 @@ export interface IRole {
     aggregatedRole: boolean;
     assigned?: boolean;
     validOrgUnits?: string[];
+    noOfMembers: number;
 }
 
 export interface IRoleList {

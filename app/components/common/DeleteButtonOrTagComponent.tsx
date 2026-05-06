@@ -14,7 +14,7 @@ export const DeleteButtonOrTagComponent = ({
     if (!directAssignment) {
         return (
             <Tag variant="neutral" size="small" className="navds-tag-in-table">
-                <HStack gap={'1'} align={'center'} wrap={false}>
+                <HStack gap={'space-6'} align={'center'} wrap={false}>
                     Begrenset
                     <HelpText title="Hvorfor kan ikke tildelingen slettes?">
                         Denne tildelingen er gjort til en gruppe.
@@ -27,7 +27,7 @@ export const DeleteButtonOrTagComponent = ({
     } else if (!deletableAssignment) {
         return (
             <Tag variant="neutral" size="small" className="navds-tag-in-table">
-                <HStack gap={'1'} align={'center'} wrap={false}>
+                <HStack gap={'space-6'} align={'center'} wrap={false}>
                     Begrenset
                     <HelpText title="Hvorfor kan ikke tildelingen slettes?">
                         Du mangler rettigheter til å slette tildelinger for denne ressursen.

@@ -25,7 +25,7 @@ export default function Index() {
         <section className={'full-width'}>
             <Bleed marginInline="full" asChild>
                 <HStack
-                    paddingBlock="4"
+                    paddingBlock={'space-20'}
                     justify={'center'}
                     style={{ backgroundColor: 'var(--beige-60)' }}>
                     <Heading
@@ -37,7 +37,7 @@ export default function Index() {
                     </Heading>
                 </HStack>
             </Bleed>
-            <VStack gap="4">
+            <VStack gap={'space-16'}>
                 <LinkCardGrid color={'var(--beige-60)'} title={'Hva vil du gjøre?'}>
                     <LinkCard
                         title={'Administrer brukertildelinger'}

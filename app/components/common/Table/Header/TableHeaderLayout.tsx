@@ -41,7 +41,7 @@ export const TableHeaderLayout = ({
                 isSubHeader={isSubHeader}
             />
             {alertMessage && (
-                <Box asChild marginBlock={'4'}>
+                <Box asChild marginBlock={'space-8'}>
                     <InfoCard data-color="info">
                         <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
                             <InfoCard.Title>

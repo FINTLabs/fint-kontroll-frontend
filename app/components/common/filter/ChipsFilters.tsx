@@ -102,7 +102,7 @@ const ChipsFilters = () => {
     const activeFilters = Object.values(filters).filter((value) => value !== null).length;
 
     return (
-        <Box className={'filters'} paddingBlock={'0 4'}>
+        <Box className={'filters'} paddingBlock={'space-0 space-8'}>
             <Chips>
                 {Object.entries(filters)
                     .filter(([, value]) => value !== null)
@@ -110,7 +110,11 @@ const ChipsFilters = () => {
                         value ? (
                             <Chips.Removable
                                 key={key}
-                                variant={'neutral'}
+                                style={{
+                                    background: 'var(--ax-neutral-400A)',
+                                    color: 'var(--ax-neutral)',
+                                    border: 'var(--ax-neutral)',
+                                }}
                                 onClick={() => removeFilter(key)}
                                 id={`${key}-chip`}>
                                 {filterToLabel(key, value)}

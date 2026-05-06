@@ -53,12 +53,16 @@ export const InfoBox = ({
             align="center"
             width={'100%'}
             id={'info-box'}
-            marginBlock={'4 8'}
+            marginBlock={'space-28 space-28'}
             className={`info-box ${isOpen ? 'open' : 'closed'}`}>
             <Box
-                paddingInline="8"
-                paddingBlock={remainingMoreInfo && remainingMoreInfo.length > 0 ? '8 0' : '8 12'}
-                borderRadius="xlarge"
+                paddingInline="space-32"
+                paddingBlock={
+                    remainingMoreInfo && remainingMoreInfo.length > 0
+                        ? 'space-32 space-0'
+                        : 'space-32 space-12'
+                }
+                borderRadius="12"
                 width={'100%'}
                 maxWidth={'1440px'}
                 style={{
@@ -66,8 +70,12 @@ export const InfoBox = ({
                 }}
                 borderWidth={'2'}
                 id="info-box">
-                <VStack gap={'4'}>
-                    <HStack align={'center'} justify={'center'} gap={'8'} paddingInline={'8'}>
+                <VStack gap={'space-24'}>
+                    <HStack
+                        align={'center'}
+                        justify={'center'}
+                        gap={'space-32'}
+                        paddingInline={'space-32'}>
                         <Heading size="large" level="1" style={{ color: 'var(--red-primary)' }}>
                             {title}
                         </Heading>
@@ -76,19 +84,19 @@ export const InfoBox = ({
                     <Box
                         borderWidth={'1 0 0 0'}
                         style={{ borderColor: 'var(--red-primary)' }}
-                        marginInline={'12'}
-                        marginBlock={'2 4'}
+                        marginInline={'space-12'}
+                        marginBlock={'space-4 space-8'}
                     />
 
                     <Box
                         paddingInline={{
-                            xs: '8',
-                            xl: maxColumns === 2 ? '32 12' : '8',
+                            xs: 'space-8',
+                            xl: maxColumns === 2 ? 'space-32 space-12' : 'space-14',
                         }}>
                         <HGrid
                             ref={gridRef}
                             as={'ul'}
-                            gap={'6'}
+                            gap={'space-20'}
                             align={'start'}
                             className={'info-box-gridx'}
                             columns={{
@@ -137,7 +145,7 @@ export const InfoBox = ({
                                 )}
                         </HGrid>
                         {isOpen && moreInfoComponent !== undefined && (
-                            <Box paddingBlock={'12 4'}>{moreInfoComponent}</Box>
+                            <Box paddingBlock={'space-12 space-4'}>{moreInfoComponent}</Box>
                         )}
                         {((remainingMoreInfo && remainingMoreInfo.length > 0) ||
                             moreInfoComponent) && (
@@ -145,7 +153,7 @@ export const InfoBox = ({
                                 width={'100%'}
                                 aria-expanded={isOpen ? 'true' : 'false'}
                                 align={'center'}
-                                marginBlock={'4'}>
+                                marginBlock={'space-4'}>
                                 <Button
                                     className={'info-box-accordion'}
                                     size={'small'}

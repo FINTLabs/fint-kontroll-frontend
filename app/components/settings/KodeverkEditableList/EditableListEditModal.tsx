@@ -63,7 +63,7 @@ export const EditableListEditModal = ({
             width="small">
             <Form method={isEdit ? 'PUT' : 'POST'}>
                 <Modal.Body>
-                    <VStack gap={'4'}>
+                    <VStack gap={'space-12'}>
                         <TextField
                             label="Navn"
                             name="categoryname"

@@ -91,7 +91,7 @@ export default function NewAssignment() {
     return (
         <div className={'content'}>
             <TableHeader title={'Ny tildeling'} subTitle={resource.resourceName} />
-            <VStack gap="4" marginBlock={'8 0'}>
+            <VStack gap="space-12" marginBlock={'space-24 space-0'}>
                 <ResponseAlert
                     responseCode={responseCode}
                     correlationId={correlationId}
@@ -119,7 +119,7 @@ export default function NewAssignment() {
                     </Tabs.List>
 
                     {loading && !fetching && (
-                        <HStack margin={'4'} width="100%" justify="center">
+                        <HStack margin={'space-12'} width="100%" justify="center">
                             <Loader size="2xlarge" title="Venter..." />
                         </HStack>
                     )}

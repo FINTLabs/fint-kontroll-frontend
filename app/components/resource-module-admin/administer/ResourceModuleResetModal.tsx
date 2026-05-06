@@ -39,7 +39,7 @@ const ResourceModuleResetUserModal = ({
             header={{ heading: `Nullstill knytninger til ${user.firstName} ${user.lastName}?` }}
             onClose={closeModal}>
             <Modal.Body>
-                <VStack gap={'3'}>
+                <VStack gap={'space-12'}>
                     <span>Ønsker du å slette alle roller knyttet til denne brukeren?</span>
                     <Alert variant={'warning'}>
                         Dette fjerner alle eksisterende rolleknytninger brukeren har!

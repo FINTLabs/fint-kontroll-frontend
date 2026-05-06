@@ -35,7 +35,7 @@ export default function SettingsLicenceEnforcement() {
 
     return (
         <div className={'content'}>
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <SettingsHeader
                     title={'Håndhevingstyper'}
                     text={

@@ -237,7 +237,7 @@ export default function EditOrgUnitsForResource() {
 
     return (
         <div className={'content'}>
-            <VStack className={'schema'} gap="8">
+            <VStack className={'schema'} gap="space-20">
                 <VStack>
                     <Heading level={'1'} size={'large'}>
                         Endre eller legg organisasjonsenheter{' '}
@@ -246,17 +246,13 @@ export default function EditOrgUnitsForResource() {
                         {resource.resourceName}
                     </Heading>
                 </VStack>
-                <Box
-                    padding={'8'}
-                    borderWidth="1"
-                    borderColor="border-default"
-                    borderRadius={'large'}>
+                <Box padding={'space-24'} borderWidth="1" borderColor="neutral" borderRadius={'8'}>
                     {selectedValidForOrgUnits.length > 0 && (
                         <Box
-                            paddingBlock={'0 4'}
+                            paddingBlock={'space-0 space-12'}
                             borderWidth={'0 0 1 0'}
-                            borderColor={'border-divider'}
-                            marginBlock={'0 4'}>
+                            borderColor={'neutral-subtle'}
+                            marginBlock={'space-0 space-12'}>
                             <VStack>
                                 <BodyShort>
                                     {selectedValidForOrgUnits.length} enheter valgt.
@@ -291,7 +287,7 @@ export default function EditOrgUnitsForResource() {
                     </LocalAlert>
                 )}
 
-                <HStack gap="4" justify={'end'}>
+                <HStack gap="space-12" justify={'end'}>
                     <Button
                         type="button"
                         variant="secondary"

@@ -82,8 +82,8 @@ export default function ResourceById() {
 
     return (
         <section className={'content'}>
-            <VStack gap="12">
-                <VStack gap="4">
+            <VStack gap="space-36">
+                <VStack gap="space-12">
                     {source === 'gui' && (
                         <HStack justify={'end'} align={'end'}>
                             <Button
@@ -162,9 +162,9 @@ export default function ResourceById() {
                     />
                 </VStack>
 
-                <VStack gap="4">
+                <VStack gap="space-12">
                     {resource.validForOrgUnits.length === 0 && source === 'gui' && (
-                        <VStack gap="4">
+                        <VStack gap="space-16">
                             <InfoCard data-color="info">
                                 <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
                                     <InfoCard.Title>Informasjon</InfoCard.Title>
@@ -193,7 +193,7 @@ export default function ResourceById() {
                     )}
 
                     {resource.validForOrgUnits.length === 0 && source !== 'gui' && (
-                        <VStack gap="4">
+                        <VStack gap="space-16">
                             <InfoCard data-color="info">
                                 <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
                                     <InfoCard.Title>Informasjon</InfoCard.Title>

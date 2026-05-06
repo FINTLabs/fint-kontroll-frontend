@@ -1,4 +1,13 @@
-import { Alert, BodyShort, Button, ExpansionCard, Heading, HStack, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyShort,
+    Button,
+    ExpansionCard,
+    Heading,
+    HStack,
+    InfoCard,
+    VStack,
+} from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
@@ -13,6 +22,7 @@ import {
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import SummaryCreateResource2 from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource2';
 import SummaryCreateResource from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource';
+import { InformationSquareIcon } from '@navikt/aksel-icons';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -87,8 +97,8 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
     );
 
     return (
-        <VStack className={'schema content'} gap="8">
-            <VStack gap="3">
+        <VStack className={'schema content'} gap="space-24">
+            <VStack gap="space-16">
                 <Heading size="large" level="1">
                     {newResource.resourceId
                         ? 'Endre eller legg til ressursinformasjon'
@@ -99,9 +109,11 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         {newResource.resourceName}
                     </Heading>
                 )}
-                <BodyShort>
-                    Alle felter må fylles ut, med unntak av felter merket med "(Valgfritt)".
-                </BodyShort>
+                <InfoCard data-color="info">
+                    <InfoCard.Message icon={<InformationSquareIcon aria-hidden />}>
+                        Alle felter må fylles ut, med unntak av felter merket med "(Valgfritt)".
+                    </InfoCard.Message>
+                </InfoCard>
             </VStack>
 
             <ExpansionCard aria-label="Fyll ut informasjon om ressursen" defaultOpen>
@@ -148,7 +160,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
             <SummaryCreateResource2 resource={newResource} resourceOwner={selectedOwnerOrgUnit} />
             {/* <SummaryCreateResource resource={newResource} resourceOwner={selectedOwnerOrgUnit} />*/}
             {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
-            <HStack gap="4" justify={'end'}>
+            <HStack gap="space-12" justify={'end'}>
                 <Button type="button" variant="secondary" onClick={() => navigate(SERVICE_ADMIN)}>
                     Avbryt
                 </Button>

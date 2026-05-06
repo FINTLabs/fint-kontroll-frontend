@@ -85,7 +85,7 @@ export default function ResourceById() {
 
     return (
         <section className={'content'}>
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <InfoBox
                     title={resource.resourceName}
                     info={[
@@ -97,7 +97,7 @@ export default function ResourceById() {
                         { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },
                         {
                             label: (
-                                <HStack gap="2">
+                                <HStack gap="space-12">
                                     Antall lisenser
                                     <HelpText title="Antall lisenser" placement="top">
                                         Dette viser hvor mange lisenser som er anskaffet i avtalen
@@ -145,7 +145,7 @@ export default function ResourceById() {
                     }
                 />
 
-                <HStack paddingBlock={'8 0'}>
+                <HStack paddingBlock={'space-8 space-0'}>
                     <TableHeader
                         isSubHeader={true}
                         title={'Tildelinger'}
@@ -176,7 +176,7 @@ export default function ResourceById() {
                     </Tabs.List>
 
                     {loading && !fetching && (
-                        <HStack margin={'4'} width="100%" justify="center">
+                        <HStack margin={'space-12'} width="100%" justify="center">
                             <Loader size="2xlarge" title="Venter..." />
                         </HStack>
                     )}

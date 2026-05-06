@@ -21,7 +21,13 @@ export function AppBar({
                 justify="space-between"
                 align="center"
                 className={'h-full'}
-                paddingInline={{ xs: '12', sm: '12', md: '12', lg: '20', xl: '32' }}>
+                paddingInline={{
+                    xs: 'space-32',
+                    sm: 'space-32',
+                    md: 'space-32',
+                    lg: 'space-64',
+                    xl: 'space-72',
+                }}>
                 <HStack align="center">
                     <Link to={'/'} className={'kontroll'} id={'header-logo'}>
                         <BodyShort weight="semibold" size={'large'}>
@@ -30,9 +36,9 @@ export function AppBar({
                     </Link>
                 </HStack>
 
-                <HStack align="center" gap={'12'}>
+                <HStack align="center" gap={'space-20'}>
                     {me ? <ApiMenu me={me} basePath={basePath} source={source} /> : null}
-                    <HStack align="center" gap={'2'}>
+                    <HStack align="center" gap={'space-8'}>
                         {me ? (
                             <Hide below="lg" asChild>
                                 <MeInfo me={me} />

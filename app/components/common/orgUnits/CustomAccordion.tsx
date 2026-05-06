@@ -21,7 +21,7 @@ const AccordionItem = ({
     title,
     children,
     initialState,
-    paddingInline = '8 0',
+    paddingInline = 'space-8 space-0',
 }: AccordionItemProps) => {
     const [isOpen, setIsOpen] = useState(initialState);
 
