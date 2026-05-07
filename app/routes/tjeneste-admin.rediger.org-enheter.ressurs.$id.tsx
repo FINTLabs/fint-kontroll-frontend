@@ -162,7 +162,8 @@ export default function EditOrgUnitsForResource() {
     const orgUnitsWithIsChecked = loaderData.orgUnitsWithIsChecked.orgUnits as IUnitItem[];
     const resource: IApplicationResource = loaderData.resource;
     const navigate = useNavigate();
-    const [selectedOwnerOrgUnit] = useState<IUnitItem | null>(null);
+    const orgUnitOwner = loaderData.orgUnitOwner.orgUnits.find((unit) => unit.isChecked) ?? null;
+    const [selectedOwnerOrgUnit] = useState<IUnitItem | null>(orgUnitOwner);
     const [selectedValidForOrgUnits, setSelectedValidForOrgUnits] = useState<IUnitItem[]>(
         orgUnitsWithIsChecked.filter((orgUnit) => orgUnit.isChecked)
     );
