@@ -16,7 +16,7 @@ import {
     IKodeverkLicenseEnforcement,
     IKodeverkUserType,
 } from '~/data/types/kodeverkTypes';
-import { numberRegex, validateNumber } from '~/utils/validators';
+import { nameRegex, numberRegex, validateName, validateNumber } from '~/utils/validators';
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource;
@@ -36,8 +36,11 @@ export default function ApplicationResourceData({
     const doesValueContainNumbersOnly = (value: string) => {
         return /^\d*$/.test(value);
     };
+
+    const [nameError, setNameError] = useState<string | undefined>(undefined);
     const [resourceLimitError, setResourceLimitError] = useState<string | undefined>(undefined);
     const [unitCostError, setUnitCostError] = useState<string | undefined>(undefined);
+
     return (
         <ul>
             <VStack gap={'space-24'}>
@@ -59,6 +62,18 @@ export default function ApplicationResourceData({
                         }
                         description={'Fullt navn på ressursen'}
                         value={newApplicationResource.resourceName || ''}
+                        onChange={(event) => {
+                            const value = event.target.value;
+
+                            if (value === '' || nameRegex.test(value)) {
+                                setNewApplicationResource({
+                                    ...newApplicationResource,
+                                    resourceName: event.target.value,
+                                });
+                            }
+                            setNameError(validateName(event.target.value, false));
+                        }}
+                        error={nameError}
                     />
                 </li>
 
