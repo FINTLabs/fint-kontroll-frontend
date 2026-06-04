@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { IApplicationResource } from '~/components/service-admin/types';
 import {
     Checkbox,
@@ -16,6 +16,7 @@ import {
     IKodeverkLicenseEnforcement,
     IKodeverkUserType,
 } from '~/data/types/kodeverkTypes';
+import { numberRegex, validateNumber } from '~/utils/validators';
 
 interface ResourceDataProps {
     newApplicationResource: IApplicationResource;
@@ -35,7 +36,8 @@ export default function ApplicationResourceData({
     const doesValueContainNumbersOnly = (value: string) => {
         return /^\d*$/.test(value);
     };
-
+    const [resourceLimitError, setResourceLimitError] = useState<string | undefined>(undefined);
+    const [unitCostError, setUnitCostError] = useState<string | undefined>(undefined);
     return (
         <ul>
             <VStack gap={'space-24'}>
@@ -57,12 +59,6 @@ export default function ApplicationResourceData({
                         }
                         description={'Fullt navn på ressursen'}
                         value={newApplicationResource.resourceName || ''}
-                        onChange={(event) =>
-                            setNewApplicationResource({
-                                ...newApplicationResource,
-                                resourceName: event.target.value,
-                            })
-                        }
                     />
                 </li>
 
@@ -173,12 +169,18 @@ export default function ApplicationResourceData({
                             }
                             description={'Totalt antall av ressursen (Valgfritt)'}
                             value={newApplicationResource.resourceLimit || 0}
-                            onChange={(event) =>
-                                setNewApplicationResource({
-                                    ...newApplicationResource,
-                                    resourceLimit: Number(event.target.value),
-                                })
-                            }
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value === '' || numberRegex.test(value)) {
+                                    setNewApplicationResource({
+                                        ...newApplicationResource,
+                                        resourceLimit: Number(value),
+                                    });
+                                }
+                                setResourceLimitError(validateNumber(event.target.value, false));
+                            }}
+                            error={resourceLimitError}
                         />
                     </li>
                 ) : null}
@@ -217,16 +219,21 @@ export default function ApplicationResourceData({
                                     </HelpText>
                                 </HStack>
                             }
-                            description={'Kostnad oppgis i øre'}
-                            value={Number(newApplicationResource.unitCost) || 0}
+                            description={'Kostnad oppgis i øre (Valgfritt)'}
+                            value={newApplicationResource.unitCost?.toString() ?? ''}
                             inputMode="numeric"
                             onChange={(event) => {
-                                Number(event.target.value) &&
+                                const value = event.target.value;
+
+                                if (value === '' || numberRegex.test(value)) {
                                     setNewApplicationResource({
                                         ...newApplicationResource,
-                                        unitCost: Number(event.target.value),
+                                        unitCost: Number(value),
                                     });
+                                }
+                                setUnitCostError(validateNumber(event.target.value, false));
                             }}
+                            error={unitCostError}
                         />
                     </li>
                 ) : null}
