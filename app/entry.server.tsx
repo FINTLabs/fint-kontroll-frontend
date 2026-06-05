@@ -6,10 +6,9 @@
 
 import { PassThrough } from 'node:stream';
 
-import type { AppLoadContext, EntryContext } from 'react-router';
-import { createCookie } from 'react-router';
-import { createReadableStreamFromReadable } from '@react-router/node';
+import type { EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
+import { createReadableStreamFromReadable } from '@react-router/node';
 import { renderToPipeableStream } from 'react-dom/server';
 import { server } from '../cypress/mocks/node';
 import { isbot } from 'isbot';
@@ -20,29 +19,51 @@ if (process.env.CYPRESS_TESTS === 'true') {
     server.listen();
 }
 
+type MyLoadContext = {
+    cspNonce: string;
+};
+
 export default function handleRequest(
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
     reactRouterContext: EntryContext,
-    loadContext: AppLoadContext
+    loadContext: MyLoadContext
 ) {
     return isbot(request.headers.get('user-agent'))
-        ? handleBotRequest(request, responseStatusCode, responseHeaders, reactRouterContext)
-        : handleBrowserRequest(request, responseStatusCode, responseHeaders, reactRouterContext);
+        ? handleBotRequest(
+              request,
+              responseStatusCode,
+              responseHeaders,
+              reactRouterContext,
+              loadContext
+          )
+        : handleBrowserRequest(
+              request,
+              responseStatusCode,
+              responseHeaders,
+              reactRouterContext,
+              loadContext
+          );
 }
 
 function handleBotRequest(
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
-    reactRouterContext: EntryContext
+    reactRouterContext: EntryContext,
+    loadContext: MyLoadContext
 ) {
     return new Promise((resolve, reject) => {
         let shellRendered = false;
         const { pipe, abort } = renderToPipeableStream(
-            <ServerRouter context={reactRouterContext} url={request.url} />,
+            <ServerRouter
+                context={reactRouterContext}
+                url={request.url}
+                nonce={loadContext.cspNonce}
+            />,
             {
+                nonce: loadContext.cspNonce,
                 onAllReady() {
                     shellRendered = true;
                     const body = new PassThrough();
@@ -82,13 +103,19 @@ function handleBrowserRequest(
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
-    reactRouterContext: EntryContext
+    reactRouterContext: EntryContext,
+    loadContext: MyLoadContext
 ) {
     return new Promise((resolve, reject) => {
         let shellRendered = false;
         const { pipe, abort } = renderToPipeableStream(
-            <ServerRouter context={reactRouterContext} url={request.url} />,
+            <ServerRouter
+                context={reactRouterContext}
+                url={request.url}
+                nonce={loadContext.cspNonce}
+            />,
             {
+                nonce: loadContext.cspNonce,
                 onShellReady() {
                     shellRendered = true;
                     const body = new PassThrough();
