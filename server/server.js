@@ -36,7 +36,12 @@ app.use((req, res, next) => {
             directives: {
                 defaultSrc: ["'self'"],
                 scriptSrc: ["'self'", "'strict-dynamic'", `'nonce-${nonce}'`],
-                styleSrc: ["'self'", 'https://fonts.googleapis.com', 'https://cdn.nav.no'],
+                styleSrc: [
+                    "'self'",
+                    'https://fonts.googleapis.com',
+                    'https://cdn.nav.no',
+                    "'unsafe-inline'",
+                ],
                 imgSrc: ["'self'", 'data:'],
                 fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdn.nav.no'],
                 connectSrc: ["'self'", 'ws:', 'wss:'],
