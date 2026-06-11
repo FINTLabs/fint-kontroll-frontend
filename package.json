@@ -1,75 +1,75 @@
 {
-  "name": "remix",
-  "private": true,
-  "sideEffects": false,
-  "type": "module",
-  "scripts": {
-    "build": "react-router build",
-    "dev": "cross-env NODE_ENV=development node server/server.js",
-    "dev:test": "cross-env CYPRESS_TESTS=true node server/server.js",
-    "start": "cross-env NODE_ENV=production node server/server.js",
-    "typecheck": "react-router typegen && tsc",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "port-forward-user": "kubectl -n fintlabs-no port-forward services/fint-kontroll-user-catalog 8062:8080",
-    "port-forward-org": "kubectl -n fintlabs-no port-forward services/fint-kontroll-orgunit-catalog 8060:8080",
-    "port-forward-assignments": "kubectl -n fintlabs-no port-forward services/fint-kontroll-assignment-catalog 8061:8080",
-    "port-forward-resources": "kubectl -n fintlabs-no port-forward services/fint-kontroll-resource-catalog 8063:8080",
-    "port-forward-roles": "kubectl -n fintlabs-no port-forward services/fint-kontroll-role-catalog 8064:8080",
-    "port-forward-device": "kubectl -n fintlabs-no port-forward services/fint-kontroll-device-catalog 8065:8080",
-    "port-forward-access-mngnt": "kubectl -n fintlabs-no port-forward services/fint-kontroll-access-mngmnt-catalog 53989:8080",
-    "portall": "npm run port-forward-user & npm run port-forward-org & npm run port-forward-assignments & npm run port-forward-resources & npm run port-forward-roles & npm run port-forward-access-mngnt & npm run port-forward-device",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
-  },
-  "dependencies": {
-    "@navikt/ds-css": "^8.9.0",
-    "@navikt/ds-react": "^8.9.0",
-    "@react-router/express": "7.13.0",
-    "@react-router/node": "7.13.0",
-    "express": "^4.21.2",
-    "express-prometheus-middleware": "^1.2.0",
-    "helmet": "^8.2.0",
-    "isbot": "^5.1.17",
-    "log4js": "^6.9.1",
-    "morgan": "^1.10.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-router": "7.13.0"
-  },
-  "devDependencies": {
-    "@navikt/aksel": "^8.9.0",
-    "@navikt/aksel-stylelint": "^8.9.0",
-    "@react-router/dev": "7.13.0",
-    "@react-router/fs-routes": "7.13.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.4.20",
-    "cross-env": "^7.0.3",
-    "cypress": "^14.5.4",
-    "cypress-axe": "^1.5.0",
-    "dotenv": "^17.2.0",
-    "eslint": "^8.57.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.3",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "msw": "^2.2.13",
-    "postcss": "^8.4.47",
-    "prettier": "^3.6.2",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.4.5",
-    "vite": "7.3.2",
-    "vite-tsconfig-paths": "^4.3.2"
-  },
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "stylelint": {
-    "extends": [
-      "@navikt/aksel-stylelint/recommended"
-    ]
-  }
+    "name": "remix",
+    "private": true,
+    "sideEffects": false,
+    "type": "module",
+    "scripts": {
+        "build": "react-router build",
+        "dev": "cross-env NODE_ENV=development node server/server.js",
+        "dev:test": "cross-env CYPRESS_TESTS=true node server/server.js",
+        "start": "cross-env NODE_ENV=production node server/server.js",
+        "typecheck": "react-router typegen && tsc",
+        "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run",
+        "port-forward-user": "kubectl -n fintlabs-no port-forward services/fint-kontroll-user-catalog 8062:8080",
+        "port-forward-org": "kubectl -n fintlabs-no port-forward services/fint-kontroll-orgunit-catalog 8060:8080",
+        "port-forward-assignments": "kubectl -n fintlabs-no port-forward services/fint-kontroll-assignment-catalog 8061:8080",
+        "port-forward-resources": "kubectl -n fintlabs-no port-forward services/fint-kontroll-resource-catalog 8063:8080",
+        "port-forward-roles": "kubectl -n fintlabs-no port-forward services/fint-kontroll-role-catalog 8064:8080",
+        "port-forward-device": "kubectl -n fintlabs-no port-forward services/fint-kontroll-device-catalog 8065:8080",
+        "port-forward-access-mngnt": "kubectl -n fintlabs-no port-forward services/fint-kontroll-access-mngmnt-catalog 53989:8080",
+        "portall": "npm run port-forward-user & npm run port-forward-org & npm run port-forward-assignments & npm run port-forward-resources & npm run port-forward-roles & npm run port-forward-access-mngnt & npm run port-forward-device",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "dependencies": {
+        "@navikt/ds-css": "^8.9.0",
+        "@navikt/ds-react": "^8.9.0",
+        "@react-router/express": "7.15.1",
+        "@react-router/node": "7.15.1",
+        "express": "^4.21.2",
+        "express-prometheus-middleware": "^1.2.0",
+        "helmet": "^8.2.0",
+        "isbot": "^5.1.17",
+        "log4js": "^6.9.1",
+        "morgan": "^1.10.0",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
+        "react-router": "7.15.1"
+    },
+    "devDependencies": {
+        "@navikt/aksel": "^8.9.0",
+        "@navikt/aksel-stylelint": "^8.9.0",
+        "@react-router/dev": "7.15.1",
+        "@react-router/fs-routes": "7.15.1",
+        "@types/react": "^19.2.14",
+        "@types/react-dom": "^19.2.3",
+        "autoprefixer": "^10.4.20",
+        "cross-env": "^7.0.3",
+        "cypress": "^14.5.4",
+        "cypress-axe": "^1.5.0",
+        "dotenv": "^17.2.0",
+        "eslint": "^8.57.0",
+        "eslint-import-resolver-typescript": "^3.6.1",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-jsx-a11y": "^6.8.0",
+        "eslint-plugin-react": "^7.34.3",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "msw": "^2.2.13",
+        "postcss": "^8.4.47",
+        "prettier": "^3.6.2",
+        "tailwindcss": "^3.4.14",
+        "typescript": "^5.4.5",
+        "vite": "7.3.2",
+        "vite-tsconfig-paths": "^4.3.2"
+    },
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "stylelint": {
+        "extends": [
+            "@navikt/aksel-stylelint/recommended"
+        ]
+    }
 }
