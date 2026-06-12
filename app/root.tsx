@@ -24,15 +24,10 @@ import { IMeInfo } from '~/data/types/userTypes';
 import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
 import '@navikt/ds-css';
 import '~/tailwind.css';
-//import '~/styles/main.css';
-//import '~/novari-theme.css';
 import themeUrl from '~/novari-theme.css?url';
 import styles from '~/styles/main.css?url';
 import meStyles from '~/components/app-bar/appBar.css?url';
-
-//interface CustomRouteHandle {
-//    breadcrumb?: (match: UIMatch<unknown, RouteHandle>) => ReactElement;
-//}
+import { useRouteLoaderData } from 'react-router';
 
 export const meta: MetaFunction = () => {
     return [
@@ -60,7 +55,13 @@ export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: meStyles },
     { rel: 'stylesheet', href: styles },
 ];
-export async function loader({ request }: LoaderFunctionArgs) {
+
+export function useNonce() {
+    const rootData = useRouteLoaderData('root') as { cspNonce: string };
+    return rootData.cspNonce;
+}
+
+export async function loader({ request, context }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
     const source = await fetchResourceDataSource(request);
 
@@ -68,12 +69,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
         me,
         source,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
+        cspNonce: context.cspNonce,
     };
 }
 
 export default function App() {
     const { me, source, basePath } = useLoaderData<typeof loader>();
     const matches = useMatches();
+    const nonce = useNonce();
     return (
         <html lang="no">
             <head>
@@ -113,8 +116,8 @@ export default function App() {
                     <Outlet />
                 </Layout>
 
-                <ScrollRestoration getKey={(location) => location.pathname} />
-                <Scripts />
+                <ScrollRestoration getKey={(location) => location.pathname} nonce={nonce} />
+                <Scripts nonce={nonce} />
             </body>
         </html>
     );

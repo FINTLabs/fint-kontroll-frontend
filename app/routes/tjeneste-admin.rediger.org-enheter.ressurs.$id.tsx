@@ -230,7 +230,7 @@ export default function EditOrgUnitsForResource() {
             return <Button loading>Lagre endringer</Button>;
         }
         return (
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={hasInvalidLimits}>
                 Lagre endringer
             </Button>
         );
