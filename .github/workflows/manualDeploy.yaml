@@ -175,27 +175,27 @@ jobs:
           key: ${{ github.sha }}
 
       - name: Get environment
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         id: environment
         with:
           script: return '${{ inputs.cluster }}'.split('-')[1]
           result-encoding: string
 
       - name: Get resource group name
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         id: resource-group
         with:
           script: return 'rg-aks-${{ steps.environment.outputs.result }}'
           result-encoding: string
 
       - name: Bake manifests with Kustomize
-        uses: azure/k8s-bake@v2
+        uses: azure/k8s-bake@v4
         with:
           renderEngine: 'kustomize'
           kustomizationPath: 'kustomize/overlays/${{ inputs.environment }}/${{ inputs.org}}'
         id: bake
 
-      - uses: azure/login@v2
+      - uses: azure/login@v3
         with:
           creds: "${{ secrets[format('AKS_{0}_FINT_GITHUB', steps.environment.outputs.result)] }}"
 
@@ -212,7 +212,7 @@ jobs:
           use-kubelogin: 'true'
 
       - name: Deploy
-        uses: azure/k8s-deploy@v5
+        uses: azure/k8s-deploy@v5.0.4
         with:
           action: deploy
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
