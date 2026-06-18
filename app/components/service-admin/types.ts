@@ -13,7 +13,7 @@ export interface IApplicationResource {
     applicationCategory: string[];
     hasCost: boolean;
     licenseEnforcement: string;
-    unitCost: number;
+    unitCost: number | '';
     status: string;
 }
 

@@ -56,16 +56,16 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: node_modules
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         if: steps.node_modules.outputs.cache-hit != 'true'
         with:
           node-version: "22.x"
@@ -82,10 +82,10 @@ jobs:
       BASE_PATH: /fintlabs-no
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Restore node_modules from cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json', 'package.json') }}
@@ -97,7 +97,7 @@ jobs:
         run: npm run build
 
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           start: npm start
           wait-on: 'http://localhost:3000/fintlabs-no'
@@ -111,7 +111,7 @@ jobs:
 #      - name: Checkout
 #        uses: actions/checkout@v4
 #      - name: Cypress run
-#        uses: cypress-io/github-action@v6
+#        uses: cypress-io/github-action@v7
 #        env:
 #          CYPRESS_TESTS: true
 #        with:
@@ -128,8 +128,8 @@ jobs:
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: "22.x"
           cache: "npm"
@@ -144,7 +144,7 @@ jobs:
       - run: BASE_PATH=${{ inputs.path }} npm run build
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -152,7 +152,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ inputs.org }}-${{ inputs.environment }}
           tags: |
@@ -160,7 +160,7 @@ jobs:
             type=raw,value=latest,enable=true
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5.0.0
+        uses: docker/build-push-action@v7.1.0
         with:
           context: .
           push: true
@@ -168,43 +168,43 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Cache static files
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./build
           key: ${{ github.sha }}
 
       - name: Get environment
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         id: environment
         with:
           script: return '${{ inputs.cluster }}'.split('-')[1]
           result-encoding: string
 
       - name: Get resource group name
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         id: resource-group
         with:
           script: return 'rg-aks-${{ steps.environment.outputs.result }}'
           result-encoding: string
 
       - name: Bake manifests with Kustomize
-        uses: azure/k8s-bake@v2
+        uses: azure/k8s-bake@v4
         with:
           renderEngine: 'kustomize'
           kustomizationPath: 'kustomize/overlays/${{ inputs.environment }}/${{ inputs.org}}'
         id: bake
 
-      - uses: azure/login@v2
+      - uses: azure/login@v3
         with:
           creds: "${{ secrets[format('AKS_{0}_FINT_GITHUB', steps.environment.outputs.result)] }}"
 
-      - uses: azure/use-kubelogin@v1.1
+      - uses: azure/use-kubelogin@v1.3
         with:
-          kubelogin-version: 'v0.0.26'
+          kubelogin-version: 'v0.2.12'
 
       - name: Set the target cluster
-        uses: azure/aks-set-context@v3
+        uses: azure/aks-set-context@v5
         with:
           cluster-name: '${{ inputs.cluster }}'
           resource-group: '${{ steps.resource-group.outputs.result }}'
@@ -212,7 +212,7 @@ jobs:
           use-kubelogin: 'true'
 
       - name: Deploy
-        uses: azure/k8s-deploy@v5
+        uses: azure/k8s-deploy@v6
         with:
           action: deploy
           manifests: ${{ steps.bake.outputs.manifestsBundle }}

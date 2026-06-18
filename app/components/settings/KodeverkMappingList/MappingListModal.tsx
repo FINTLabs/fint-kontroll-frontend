@@ -4,6 +4,7 @@ import { Form, useNavigate, useNavigation, useParams } from 'react-router';
 import { NotePencilIcon } from '@navikt/aksel-icons';
 
 import { IKodeverkMappingList } from '~/data/types/kodeverkTypes';
+import { validateName } from '~/utils/validators';
 
 interface MappingListModalProps {
     allItems: IKodeverkMappingList[];
@@ -26,7 +27,9 @@ export const MappingListModal = ({
         () => allItems.find(({ id }) => id === Number(params.id)),
         [allItems, params.id]
     );
-    const [label, setLabel] = useState(currentItem?.fkLabel);
+    const [label, setLabel] = useState(currentItem?.fkLabel || '');
+    const [labelError, setLabelError] = useState<string | undefined>(undefined);
+    const [error, setError] = useState<string | undefined>(undefined);
 
     const labelAlreadyExist = useCallback(
         (label: string) =>
@@ -42,6 +45,17 @@ export const MappingListModal = ({
         () => label?.trim() === currentItem?.fkLabel,
         [currentItem?.fkLabel, label]
     );
+
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+        const validationError = validateName(label);
+
+        if (validationError) {
+            e.preventDefault();
+            setError(validationError);
+        }
+    };
+
+    const hasError = !!labelError || duplicateLabel || unchangedLabel;
 
     if (response.state === 'loading') {
         return (
@@ -61,7 +75,7 @@ export const MappingListModal = ({
                 icon: <NotePencilIcon aria-hidden />,
             }}
             width="small">
-            <Form method={'PATCH'}>
+            <Form method={'PATCH'} onSubmit={handleSubmit}>
                 <Modal.Body>
                     <VStack gap={'space-12'}>
                         <TextField
@@ -70,8 +84,11 @@ export const MappingListModal = ({
                             type="text"
                             autoComplete="off"
                             value={label}
-                            onChange={(e) => setLabel(e.target.value)}
-                            error={duplicateLabel ? duplicateErrorText : undefined}
+                            onChange={(event) => {
+                                setLabel(event.target.value);
+                                setLabelError(validateName(event.target.value, true));
+                            }}
+                            error={labelError ?? (duplicateLabel ? duplicateErrorText : undefined)}
                         />
                     </VStack>
                 </Modal.Body>
@@ -80,7 +97,7 @@ export const MappingListModal = ({
                         type="submit"
                         variant="primary"
                         loading={response.state === 'submitting'}
-                        disabled={!label || duplicateLabel || unchangedLabel}>
+                        disabled={hasError || !label}>
                         Lagre endringer
                     </Button>
                     <Button type="button" variant="secondary" onClick={() => navigate(onCloseUrl)}>

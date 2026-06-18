@@ -319,7 +319,7 @@ const CheckboxTreeNode = ({
                                 hideLabel
                                 inputMode="numeric"
                                 size="small"
-                                type="number"
+                                type="text"
                                 min={1}
                                 disabled={!isEnabled}
                                 className="org-unit-amount"

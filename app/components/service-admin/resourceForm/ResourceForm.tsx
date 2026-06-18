@@ -1,13 +1,4 @@
-import {
-    Alert,
-    BodyShort,
-    Button,
-    ExpansionCard,
-    Heading,
-    HStack,
-    InfoCard,
-    VStack,
-} from '@navikt/ds-react';
+import { Alert, Button, ExpansionCard, Heading, HStack, InfoCard, VStack } from '@navikt/ds-react';
 import React, { useMemo, useState } from 'react';
 import { IApplicationResource, IValidForOrgUnits } from '~/components/service-admin/types';
 import OrgUnitRadioSelection from '~/components/common/orgUnits/OrgUnitRadioSelection';
@@ -21,8 +12,8 @@ import {
 } from '~/data/types/kodeverkTypes';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import SummaryCreateResource2 from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource2';
-import SummaryCreateResource from '~/components/service-admin/opprett-ny-ressurs/SummaryCreateResource';
 import { InformationSquareIcon } from '@navikt/aksel-icons';
+import { validateName } from '~/utils/validators';
 
 interface ResourseFormProps {
     resource?: IApplicationResource;
@@ -95,6 +86,16 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
         () => selectedValidForOrgUnits.reduce((acc, unit) => acc + (unit.limit || 0), 0),
         [selectedValidForOrgUnits]
     );
+    const [error, setError] = useState<string | undefined>(undefined);
+
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+        const validationError = validateName(newResource.resourceName);
+
+        if (validationError) {
+            e.preventDefault();
+            setError(validationError);
+        }
+    };
 
     return (
         <VStack className={'schema content'} gap="space-24">
@@ -151,7 +152,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                             setNewResource({
                                 ...newResource,
                                 resourceOwnerOrgUnitId: selected?.id.toString() || '',
-                                resourceOwnerOrgUnitName: selected?.name || '', // 👈 lagre navn direkte
+                                resourceOwnerOrgUnitName: selected?.name || '',
                             });
                         }}
                     />
@@ -165,7 +166,7 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                     Avbryt
                 </Button>
 
-                <Form method={newResource.id ? 'PUT' : 'POST'}>
+                <Form method={newResource.id ? 'PUT' : 'POST'} onSubmit={handleSubmit}>
                     {newResource.id && (
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                     )}
