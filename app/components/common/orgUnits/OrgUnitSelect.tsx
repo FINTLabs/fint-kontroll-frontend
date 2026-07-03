@@ -148,7 +148,8 @@ const OrgUnitSelect = ({
                     <Switch
                         id="sub-org-unit-switch"
                         checked={aggregated}
-                        onChange={(event) => handleSwitchAggregated(event.target.checked)}>
+                        onChange={(event) => handleSwitchAggregated(event.target.checked)}
+                    >
                         Inkluder underliggende enheter
                     </Switch>
                 </Box>
@@ -165,7 +166,8 @@ const OrgUnitSelect = ({
                     legend="Velg organisasjonsenhet"
                     hideLegend
                     value={selectedIds}
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                >
                     {topLevelUnits.map((unit) => (
                         <CheckboxTreeNode
                             key={unit.id}
@@ -277,7 +279,8 @@ const CheckboxTreeNode = ({
                     align="center"
                     justify="space-between"
                     style={{ textAlign: 'start' }}
-                    wrap={false}>
+                    wrap={false}
+                >
                     <HStack align={'center'} gap={'space-8'}>
                         <Checkbox
                             name="orgUnit"
@@ -285,7 +288,8 @@ const CheckboxTreeNode = ({
                             id={unit.organisationUnitId}
                             value={unit.organisationUnitId}
                             disabled={!isTopLevel && disabled}
-                            hideLabel>
+                            hideLabel
+                        >
                             {unit.name}
                         </Checkbox>
                         <Label htmlFor={unit.organisationUnitId}>
@@ -294,7 +298,8 @@ const CheckboxTreeNode = ({
                                     !isTopLevel && disabled && selectType === 'filter'
                                         ? 'subtle'
                                         : 'default'
-                                }>
+                                }
+                            >
                                 {unit.name}
                             </BodyShort>
                         </Label>
@@ -309,7 +314,8 @@ const CheckboxTreeNode = ({
                                         display: 'flex',
                                         alignItems: 'center',
                                         color: 'var(--a-text-danger)',
-                                    }}>
+                                    }}
+                                >
                                     *
                                 </Label>
                             )}
@@ -330,7 +336,8 @@ const CheckboxTreeNode = ({
                         </HStack>
                     )}
                 </HStack>
-            }>
+            }
+        >
             {children &&
                 children.length > 0 &&
                 children.map((child) => (

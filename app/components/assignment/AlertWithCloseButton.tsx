@@ -14,36 +14,44 @@ export const AlertWithCloseButton = ({
     const [show, setShow] = React.useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
 
+    React.useEffect(() => {
+        setShow(true);
+    }, [title, errorMessage]);
+
     const handleClose = () => {
         setShow(false);
 
-        searchParams.delete('responseCode');
-        searchParams.delete('correlationId');
-        setSearchParams(searchParams);
+        const params = new URLSearchParams(searchParams);
+        params.delete('responseCode');
+        params.delete('correlationId');
+        setSearchParams(params);
     };
 
     React.useEffect(() => {
-        if (errorMessage) return;
+        if (errorMessage || !show) return;
+
         const timer = setTimeout(() => {
             setShow(false);
-            searchParams.delete('responseCode');
-            searchParams.delete('correlationId');
+
+            const params = new URLSearchParams(searchParams);
+            params.delete('responseCode');
+            params.delete('correlationId');
+            setSearchParams(params);
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, [errorMessage]);
+    }, [errorMessage, show, searchParams, setSearchParams]);
 
     if (!show) return null;
 
     return (
-        <>
-            <LocalAlert status={variant}>
-                <LocalAlert.Header>
-                    <LocalAlert.Title>{title}</LocalAlert.Title>
-                    <LocalAlert.CloseButton onClick={() => handleClose()} />
-                </LocalAlert.Header>
-                {errorMessage && <LocalAlert.Content>{errorMessage}</LocalAlert.Content>}
-            </LocalAlert>
-        </>
+        <LocalAlert status={variant}>
+            <LocalAlert.Header>
+                <LocalAlert.Title>{title}</LocalAlert.Title>
+                <LocalAlert.CloseButton onClick={handleClose} />
+            </LocalAlert.Header>
+
+            {errorMessage && <LocalAlert.Content>{errorMessage}</LocalAlert.Content>}
+        </LocalAlert>
     );
 };

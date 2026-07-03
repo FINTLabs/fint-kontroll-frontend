@@ -35,6 +35,7 @@ export const ResponseAlert = ({
     const errorUrl = location.pathname;
 
     const alertMessages: ResponseCodeAlerts = {
+        '200': { variant: 'success', title: successText },
         '201': { variant: 'success', title: successText },
         '202': { variant: 'success', title: successText },
         '410': { variant: 'success', title: deleteText },

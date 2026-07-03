@@ -1,3 +1,4 @@
+.novari,
 [data-theme='novari'] {
     --ax-surface-default: #fefcfa;
     --ax-surface-subtle: #fcf5ed;
@@ -66,12 +67,10 @@
     --ax-border-accent-subtle: #e5e4fa;
     --ax-border-accent-subtleA: #e5e4fa;
 }
-
-[data-theme='novari'] .novari-header {
+.novari-header {
     background: #fcf5ed;
     margin-bottom: 1rem;
 }
-
-[data-theme='novari'] .novari-footer {
+.novari-footer {
     background: #6b133d;
 }

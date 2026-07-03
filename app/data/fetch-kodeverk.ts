@@ -74,13 +74,22 @@ export const deleteApplicationCategory = (token: string | null, id: string) =>
 export const fetchUserTypes = (request: Request): Promise<IKodeverkUserType[]> =>
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1`, request);
 
-export const editUserType = (token: string | null, id: string, label: string) =>
-    sendRequest({
-        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1/${id}`,
+export const editUserTypes = (token: string | null, updates: { id: number; fkLabel: string }[]) => {
+    const payload = updates.reduce(
+        (acc, item) => {
+            acc[item.id] = { fkLabel: item.fkLabel };
+            return acc;
+        },
+        {} as Record<number, { fkLabel: string }>
+    );
+
+    return sendRequest({
+        url: `${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/brukertype/v1`,
         method: 'PATCH',
         token,
-        body: { fkLabel: label },
+        body: payload,
     });
+};
 
 export const fetchLicenseModels = (request: Request): Promise<IKodeverkLicenseModel[]> =>
     fetchData(`${RESOURCE_API_URL}${BASE_PATH}/api/resources/kodeverk/lisensmodell/v1`, request);
