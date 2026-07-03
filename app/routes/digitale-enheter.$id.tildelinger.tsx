@@ -43,13 +43,13 @@ export default function AssignmentsForDeviceGroup() {
     return (
         <section>
             <Tabs value={'assignments'}>
-                <VStack gap="4">
+                <VStack gap="space-12">
                     <Tabs.Panel value="assignments">
-                        <ResponseAlert
+                        {/*<ResponseAlert
                             responseCode={responseCode}
                             successText={'Tildelingen var vellykket!'}
                             deleteText={'Tildelingen ble slettet!'}
-                        />
+                        />*/}
 
                         <AssignmentsForRoleTable assignmentsForRole={assignments} size={size} />
                     </Tabs.Panel>

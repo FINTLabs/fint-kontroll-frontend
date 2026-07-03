@@ -247,7 +247,11 @@ export default function EditOrgUnitsForResource() {
                         {resource.resourceName}
                     </Heading>
                 </VStack>
-                <Box padding={'space-24'} borderWidth="1" borderColor="neutral" borderRadius={'8'}>
+                <Box
+                    padding={'space-24'}
+                    borderWidth="1"
+                    borderColor="neutral-subtle"
+                    borderRadius={'8'}>
                     {selectedValidForOrgUnits.length > 0 && (
                         <Box
                             paddingBlock={'space-0 space-12'}

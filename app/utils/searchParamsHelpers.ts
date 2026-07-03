@@ -41,7 +41,7 @@ export const prepareQueryParamsWithResponseCode = (searchParams: URLSearchParams
         orgUnit && `orgUnit=${encodeURIComponent(orgUnit)}`,
         name && `name=${encodeURIComponent(name)}`,
         responseCode && `responseCode=${encodeURIComponent(responseCode)}`,
-        correlationId && `correlation=${encodeURIComponent(correlationId)}`,
+        correlationId && `correlationId=${encodeURIComponent(correlationId)}`,
     ]
         .filter(Boolean)
         .join('&');

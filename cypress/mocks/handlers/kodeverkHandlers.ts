@@ -96,6 +96,11 @@ export const applicationCategoriesHandlers = [
             },
         ]);
     }),
+
+    http.patch('http://localhost:8063/fintlabs-no/api/resources/kodeverk/brukertype/v1', () => {
+        return HttpResponse.json({}, { status: 200 });
+    }),
+
     http.get('http://localhost:8063/fintlabs-no/api/resources/source/v1', () => {
         return HttpResponse.text('gui');
     }),

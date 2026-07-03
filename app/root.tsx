@@ -13,7 +13,7 @@ import {
 } from 'react-router';
 import '@navikt/ds-css';
 import { fetchMeInfo } from '~/data/fetch-me-info';
-import { Box, HStack, Page } from '@navikt/ds-react';
+import { Box, HStack, Page, Theme } from '@navikt/ds-react';
 import { AppBar } from '~/components/app-bar/AppBar';
 import { BASE_PATH } from '../environment';
 import React, { ReactElement } from 'react';
@@ -28,6 +28,7 @@ import themeUrl from '~/novari-theme.css?url';
 import styles from '~/styles/main.css?url';
 import meStyles from '~/components/app-bar/appBar.css?url';
 import { useRouteLoaderData } from 'react-router';
+import theme from 'tailwindcss/defaultTheme';
 
 export const meta: MetaFunction = () => {
     return [
@@ -84,38 +85,42 @@ export default function App() {
                 <Links />
                 <link rel="icon" type="image/svg+xml" href={`${basePath}/Novari_Favikon.svg`} />
             </head>
-            <body data-theme="novari">
-                <Layout me={me} basePath={basePath} source={source}>
-                    {matches.find((match) => {
-                        // @ts-ignore
-                        return match.handle?.breadcrumb;
-                    }) && (
-                        <HStack paddingBlock={'space-4'}>
-                            {matches
-                                .filter((match: any) => match.handle && match.handle.breadcrumb)
-                                .map((match: any, index) => (
-                                    <span key={index}>{match.handle.breadcrumb(match)}</span>
-                                ))
-                                // Use reducer to add separator between each breadcrumb element
-                                .reduce((acc: ReactElement[], curr: ReactElement, index, array) => {
-                                    if (index < array.length - 1) {
-                                        return acc.concat(
-                                            curr,
-                                            <ArrowRightIcon
-                                                key={`sep-${index}`}
-                                                title="a11y-title"
-                                                fontSize="1.5rem"
-                                            />
-                                        );
-                                    } else {
-                                        return acc.concat(curr);
-                                    }
-                                }, [])}
-                        </HStack>
-                    )}
-                    <Outlet />
-                </Layout>
-
+            <body>
+                <Theme className={'novari'}>
+                    <Layout me={me} basePath={basePath} source={source}>
+                        {matches.find((match) => {
+                            // @ts-ignore
+                            return match.handle?.breadcrumb;
+                        }) && (
+                            <HStack paddingBlock={'space-4'}>
+                                {matches
+                                    .filter((match: any) => match.handle && match.handle.breadcrumb)
+                                    .map((match: any, index) => (
+                                        <span key={index}>{match.handle.breadcrumb(match)}</span>
+                                    ))
+                                    // Use reducer to add separator between each breadcrumb element
+                                    .reduce(
+                                        (acc: ReactElement[], curr: ReactElement, index, array) => {
+                                            if (index < array.length - 1) {
+                                                return acc.concat(
+                                                    curr,
+                                                    <ArrowRightIcon
+                                                        key={`sep-${index}`}
+                                                        title="a11y-title"
+                                                        fontSize="1.5rem"
+                                                    />
+                                                );
+                                            } else {
+                                                return acc.concat(curr);
+                                            }
+                                        },
+                                        []
+                                    )}
+                            </HStack>
+                        )}
+                        <Outlet />
+                    </Layout>
+                </Theme>
                 <ScrollRestoration getKey={(location) => location.pathname} nonce={nonce} />
                 <Scripts nonce={nonce} />
             </body>
@@ -137,7 +142,8 @@ const Layout = ({ children, me, basePath, source }: LayoutProps) => {
                 <Box className={'novari-footer'} padding="space-4" as="footer">
                     <NovariIKS width={'9em'} />
                 </Box>
-            }>
+            }
+        >
             <AppBar me={me} basePath={basePath} source={source} />
             <Page.Block as={'main'} gutters>
                 {children}

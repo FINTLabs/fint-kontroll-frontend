@@ -23,47 +23,47 @@ describe('User Types i innstillinger', () => {
         });
     });
 
-    it('should hbe able to edit usertype in dialog', () => {
-        cy.get('table tbody tr')
-            .first()
-            .find('td')
-            .last()
-            .find('button')
-            .should('have.text', 'Rediger')
-            .click();
-        cy.wait(1000);
+    it('should enable inline editing for user types', () => {
+        cy.get('table tbody tr').first().find('td').first().should('exist');
 
-        cy.get('dialog').should('exist');
-        cy.get('dialog').contains('Rediger navn på brukertype: EMPLOYEESTAFF').should('exist');
-        cy.get('dialog').find('input').should('have.value', 'Ansatt');
+        cy.contains('button', 'Rediger').should('be.visible').click();
 
-        cy.get('dialog').find('button').should('have.length', 2);
-        cy.get('dialog').find('button').contains('Lagre endringer').should('exist');
+        // Etter click skal inputs vises i tabellen
+        cy.get('table tbody input[type="text"]').should('exist');
+
+        // Sjekk at minst én rad er i edit mode
+        cy.get('table tbody tr').first().find('input[type="text"]').should('be.visible');
     });
 
     it('should give user feedback when input is unchanged or invalid', () => {
         const errorMessage = 'En brukertype med samme navn eksisterer allerede.';
-        const saveButtonText = 'Lagre endringer';
-        cy.get('dialog')
-            .find('button')
-            .contains(saveButtonText)
-            .parent()
-            .should('have.attr', 'disabled');
-        cy.get('dialog').find('input').type(' i utdanning');
-        cy.get('dialog').find('input').should('have.attr', 'aria-invalid', 'true');
-        cy.get('dialog').contains(errorMessage).should('exist');
-        cy.get('dialog')
-            .find('button')
-            .contains(saveButtonText)
-            .parent()
-            .should('have.attr', 'disabled');
 
-        cy.get('dialog').find('input').clear().type('Ansatt i skole');
-        cy.get('dialog').contains(errorMessage).should('not.exist');
-        cy.get('dialog')
-            .find('button')
-            .contains(saveButtonText)
-            .parent()
-            .should('not.have.attr', 'disabled');
+        cy.contains('button', 'Rediger').click();
+
+        const input = cy.get('[data-testid="mapping-input-1"]');
+
+        input.clear().type('Elev');
+
+        input.should('have.attr', 'aria-invalid', 'true');
+        cy.contains(errorMessage).should('exist');
+
+        cy.contains('button', 'Lagre alle endringer').should('be.disabled');
+
+        input.clear().type('Ansatt i skole');
+
+        input.should('not.have.attr', 'aria-invalid');
+
+        cy.contains(errorMessage).should('not.exist');
+        cy.contains('button', 'Lagre alle endringer').should('not.be.disabled');
+    });
+
+    it('should save all edited user types', () => {
+        cy.contains('button', 'Rediger').click();
+
+        cy.get('table tbody input[type="text"]').first().clear().type('Ansatt test');
+
+        cy.contains('button', 'Lagre alle endringer').click();
+
+        cy.contains('Brukertyper').should('exist');
     });
 });
