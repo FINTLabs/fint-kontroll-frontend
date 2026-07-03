@@ -64,6 +64,6 @@ describe('User Types i innstillinger', () => {
 
         cy.contains('button', 'Lagre alle endringer').click();
 
-        //  cy.contains('Brukertyper').should('exist');
+        cy.contains('Brukertyper').should('exist');
     });
 });
