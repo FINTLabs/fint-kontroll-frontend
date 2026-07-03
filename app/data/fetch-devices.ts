@@ -10,12 +10,14 @@ import {
 export const fetchDeviceGroups = async (
     request: Request,
     size: string,
-    page: string
+    page: string,
+    search: string
 ): Promise<IDeviceGroupList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}`,
         request
     );
 };
