@@ -33,7 +33,7 @@ export const DeviceTable = ({ deviceGroupList, size }: DeviceGroupTableProps) =>
                         deviceGroupList.deviceGroups?.map((device) => (
                             <Table.Row key={device.id}>
                                 <Table.DataCell> {device.name}</Table.DataCell>
-                                <Table.DataCell>{device.orgUnitId}</Table.DataCell>
+                                <Table.DataCell>{device.orgUnitName}</Table.DataCell>
                                 <Table.DataCell>{device.deviceType}</Table.DataCell>
                                 <Table.DataCell>{device.platform}</Table.DataCell>
                                 <Table.DataCell align="right">
