@@ -2,7 +2,7 @@ export interface IDeviceGroup {
     id: number;
     name: string;
     sourceId: string;
-    organisationUnitName: string;
+    orgUnitName: string;
     orgUnitId: string;
     deviceType: string;
     platform: string;

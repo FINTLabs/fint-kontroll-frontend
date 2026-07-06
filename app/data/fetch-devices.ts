@@ -11,13 +11,15 @@ export const fetchDeviceGroups = async (
     request: Request,
     size: string,
     page: string,
-    search: string
+    search: string,
+    orgUnits: string[]
 ): Promise<IDeviceGroupList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
+    const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}`,
         request
     );
 };

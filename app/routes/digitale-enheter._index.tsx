@@ -14,8 +14,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
     const search = url.searchParams.get('search') ?? '';
+    const orgUnits = url.searchParams.get('orgUnits')?.split(',') ?? [];
     const [deviceGroupList, responseOrgUnits, access] = await Promise.all([
-        fetchDeviceGroups(request, size, page, search),
+        fetchDeviceGroups(request, size, page, search, orgUnits),
         fetchAllOrgUnits(request),
         postMyAccessRequest(request, [{ url: '/api/devicegroups/123', method: 'GET' }]),
     ]);
@@ -32,7 +33,11 @@ export default function DeviceIndex() {
 
     return (
         <div className={'content'}>
-            <TableHeaderLayout title={'Maskingrupper'} SearchComponent={<DeviceSearch />} />
+            <TableHeaderLayout
+                title={'Maskingrupper'}
+                SearchComponent={<DeviceSearch />}
+                orgUnitsForFilter={orgUnitList}
+            />
             <DeviceTable deviceGroupList={deviceGroupList} size={size} />
         </div>
     );
