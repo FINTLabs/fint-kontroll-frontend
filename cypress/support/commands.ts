@@ -54,6 +54,7 @@ declare global {
             goToResourceAdminWithResponse: typeof goToResourceAdminWithResponse;
             goToSettings: typeof goToSettings;
             goToBrukere: typeof goToBrukere;
+            goToMaskinGrupper: typeof goToMaskinGrupper;
         }
     }
 }
@@ -89,6 +90,12 @@ export function goToGrupper() {
 }
 
 Cypress.Commands.add('goToGrupper', goToGrupper);
+
+export function goToMaskinGrupper() {
+    return cy.visit('http://localhost:3000/fintlabs-no/digitale-enheter');
+}
+
+Cypress.Commands.add('goToMaskinGrupper', goToMaskinGrupper);
 
 export function goToRessurser() {
     return cy.visit('http://localhost:3000/fintlabs-no/ressurser');
