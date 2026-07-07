@@ -15,7 +15,7 @@ import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
-import { PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
+import { MonitorIcon, PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
 import { useLoadingState } from '~/utils/customHooks';
 import { getResourceNewAssignmentUrl, RESOURCES } from '~/data/paths';
 import { IResource } from '~/data/types/resourceTypes';
@@ -61,11 +61,19 @@ export default function ResourceById() {
     const params = useParams();
     const { loading, fetching } = useLoadingState();
 
-    const [state, setState] = useState(
-        location.pathname.includes('/bruker-tildelinger')
-            ? 'bruker-tildelinger'
-            : 'gruppe-tildelinger'
-    );
+    const getInitialState = () => {
+        if (location.pathname.includes('/bruker-tildelinger')) {
+            return 'bruker-tildelinger';
+        }
+
+        if (location.pathname.includes('/maskin-gruppe-tildelinger')) {
+            return 'maskin-gruppe-tildelinger';
+        }
+
+        return 'gruppe-tildelinger';
+    };
+
+    const [state, setState] = useState(getInitialState);
 
     const handleChangeTab = useCallback(
         (value: string) => {
@@ -78,8 +86,10 @@ export default function ResourceById() {
     useEffect(() => {
         if (location.pathname.includes('/bruker-tildelinger')) {
             setState('bruker-tildelinger');
-        } else {
+        } else if (location.pathname.includes('/gruppe-tildelinger')) {
             setState('gruppe-tildelinger');
+        } else {
+            setState('maskingruppe-tildelinger');
         }
     }, [location.pathname]);
 
@@ -172,6 +182,11 @@ export default function ResourceById() {
                             value="gruppe-tildelinger"
                             label="Grupper"
                             icon={<PersonGroupIcon fontSize="1.2rem" />}
+                        />
+                        <Tabs.Tab
+                            value="maskingruppe-tildelinger"
+                            label="Maskingrupper"
+                            icon={<MonitorIcon fontSize="1.2rem" />}
                         />
                     </Tabs.List>
 
