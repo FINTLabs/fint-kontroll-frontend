@@ -40,11 +40,15 @@ export const fetchData = async (
     defaultErrorMessage = 'En feil oppstod under henting av data'
 ) => {
     try {
-        const response = await fetch(url, { headers: request.headers });
+        const headers = request.headers;
+        if (process.env.IS_LOCAL === 'true') {
+            headers.set('Authorization', 'Bearer ' + process.env.ACCESS_TOKEN);
+        }
+        const response = await fetch(url, { headers: headers });
 
         const correlationId = response.headers.get('x-correlation-id');
         if (correlationId) {
-            logger.info('Correlation ID:', correlationId);
+            // logger.info('Correlation ID:', correlationId);
             // logger.debug('Correlation ID:', correlationId);
         }
 
@@ -81,7 +85,7 @@ export const sendRequest = async ({
         );
         return await fetch(url, {
             headers: {
-                Authorization: token ?? '',
+                Authorization: token ?? `Bearer ${process.env.ACCESS_TOKEN}`,
                 'content-type': 'application/json',
             },
             method,

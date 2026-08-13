@@ -9,16 +9,9 @@ import {
     useNavigate,
     useRouteError,
 } from 'react-router';
-import { IRole } from '~/data/types/userTypes';
-import { fetchRoleById } from '~/data/fetch-roles';
 import styles from '../components/user/user.css?url';
 import { BASE_PATH } from '../../environment';
-import {
-    DEVICES,
-    getDeviceGroupNewAssignmentUrl,
-    getRoleNewAssignmentUrl,
-    ROLES,
-} from '~/data/paths';
+import { DEVICES, getDeviceGroupNewAssignmentUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
 import { SecondaryAddNewLinkButton } from '~/components/common/Buttons/SecondaryAddNewLinkButton';

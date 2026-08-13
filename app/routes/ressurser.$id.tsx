@@ -61,24 +61,24 @@ export default function ResourceById() {
     const params = useParams();
     const { loading, fetching } = useLoadingState();
 
-    const getInitialState = () => {
+    const getInitialState = (): AssignmentState => {
         if (location.pathname.includes('/bruker-tildelinger')) {
             return 'bruker-tildelinger';
         }
 
-        if (location.pathname.includes('/maskin-gruppe-tildelinger')) {
-            return 'maskin-gruppe-tildelinger';
+        if (location.pathname.includes('/gruppe-tildelinger')) {
+            return 'gruppe-tildelinger';
         }
 
-        return 'gruppe-tildelinger';
+        return 'maskingruppe-tildelinger';
     };
 
-    const [state, setState] = useState(getInitialState);
+    const [state, setState] = useState<AssignmentState>(getInitialState);
 
     const handleChangeTab = useCallback(
         (value: string) => {
+            setState(value as AssignmentState);
             navigate(`/ressurser/${params.id}/${value}`);
-            setState(value);
         },
         [navigate, params.id]
     );
@@ -92,6 +92,14 @@ export default function ResourceById() {
             setState('maskingruppe-tildelinger');
         }
     }, [location.pathname]);
+
+    type AssignmentState = 'bruker-tildelinger' | 'gruppe-tildelinger' | 'maskingruppe-tildelinger';
+
+    const assignmentRouteMap: Record<AssignmentState, string> = {
+        'bruker-tildelinger': 'brukere',
+        'gruppe-tildelinger': 'grupper',
+        'maskingruppe-tildelinger': 'maskingrupper',
+    };
 
     return (
         <section className={'content'}>
@@ -164,7 +172,7 @@ export default function ResourceById() {
                                 label="Ny tildeling"
                                 handleOnClick={() =>
                                     navigate(
-                                        `${getResourceNewAssignmentUrl(resource.id)}/${state === 'bruker-tildelinger' ? 'brukere' : 'grupper'}`
+                                        `${getResourceNewAssignmentUrl(resource.id)}/${assignmentRouteMap[state]}`
                                     )
                                 }
                             />
