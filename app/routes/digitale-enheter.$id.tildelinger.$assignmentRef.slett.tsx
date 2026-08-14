@@ -1,0 +1,97 @@
+import React from 'react';
+import { BodyShort, Button, Loader, Modal } from '@navikt/ds-react';
+import type { ActionFunctionArgs } from 'react-router';
+import {
+    Form,
+    redirect,
+    useNavigate,
+    useNavigation,
+    useParams,
+    useSearchParams,
+} from 'react-router';
+import { deleteAssignment } from '~/data/fetch-assignments';
+import { getDeviceGroupAssignmentsUrl } from '~/data/paths';
+import {
+    prepareQueryParams,
+    prepareQueryParamsWithResponseCode,
+} from '~/utils/searchParamsHelpers';
+import { TrashIcon } from '@navikt/aksel-icons';
+
+export async function action({ params, request }: ActionFunctionArgs) {
+    const { searchParams } = new URL(request.url);
+    const response = await deleteAssignment(
+        request.headers.get('Authorization'),
+        params.assignmentRef as string
+    );
+    searchParams.set('responseCode', String(response.status));
+    searchParams.set('correlationId', String(response.headers.get('x-correlation-id')));
+
+    return redirect(
+        `${getDeviceGroupAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams).length > 0 ? prepareQueryParamsWithResponseCode(searchParams) + '&correlationId=' + response.headers.get('x-correlation-id') : '&correlationId=' + response.headers.get('x-correlation-id')}}`
+    );
+}
+
+export default function DeleteDeviceGroupAssignment() {
+    const params = useParams<string>();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const response = useNavigation();
+
+    if (response.state === 'loading') {
+        return (
+            <div className={'spinner'}>
+                <Loader size="3xlarge" title="Venter..." />
+            </div>
+        );
+    }
+
+    return (
+        <Modal
+            open={true}
+            onClose={() =>
+                navigate(
+                    `${getDeviceGroupAssignmentsUrl(Number(params.id))}${prepareQueryParamsWithResponseCode(searchParams)}`
+                )
+            }
+            header={{
+                heading: 'Ønsker du å trekke tilgangen?',
+                size: 'small',
+                closeButton: false,
+            }}
+            width="small"
+        >
+            <Modal.Body>
+                <BodyShort>
+                    Er du sikker på at du ønsker å trekke tilgangen til denne ressursen?
+                </BodyShort>
+            </Modal.Body>
+            <Modal.Footer>
+                <Form method={'POST'}>
+                    {response.state === 'submitting' ? (
+                        <Button loading>Slett</Button>
+                    ) : (
+                        <Button
+                            type="submit"
+                            variant="danger"
+                            icon={<TrashIcon title="søppelbøtte" />}
+                            iconPosition={'right'}
+                        >
+                            Slett
+                        </Button>
+                    )}
+                </Form>
+                <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() =>
+                        navigate(
+                            `${getDeviceGroupAssignmentsUrl(Number(params.id))}${prepareQueryParams(searchParams)}`
+                        )
+                    }
+                >
+                    Avbryt
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}

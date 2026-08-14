@@ -1,11 +1,7 @@
 import { fetchData } from '~/data/helpers';
-import { BASE_PATH, DEVICE_API_URL } from '../../environment';
-import {
-    IDeviceGroup,
-    IDeviceGroupList,
-    IDeviceItem,
-    IDeviceItemList,
-} from '~/data/types/deviceTypes';
+import { ASSIGNMENT_API_URL, BASE_PATH, DEVICE_API_URL } from '../../environment';
+import { IDeviceGroup, IDeviceGroupList, IDeviceItemList } from '~/data/types/deviceTypes';
+import { IAssignedResourcesList } from '~/data/types/resourceTypes';
 
 export const fetchDeviceGroups = async (
     request: Request,
@@ -43,3 +39,16 @@ export const fetchDeviceMembersById = async (
         request
     );
 };
+
+export const fetchAssignedResourcesDeviceGroups = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    resourceType: string,
+    resourceFilter: string
+): Promise<IAssignedResourcesList> =>
+    fetchData(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/devicegroup/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
+        request
+    );

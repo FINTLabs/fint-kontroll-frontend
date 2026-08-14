@@ -61,7 +61,7 @@ export default function DeviceGroupInfo() {
     return (
         <section>
             <Tabs value={'info'}>
-                <VStack gap="4">
+                <VStack gap="space-12">
                     <Tabs.Panel value="info">
                         <InfoBox
                             title={'Informasjon om maskingruppen'}

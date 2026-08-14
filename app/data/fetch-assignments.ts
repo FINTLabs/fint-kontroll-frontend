@@ -2,6 +2,7 @@ import { ASSIGNMENT_API_URL, BASE_PATH } from '../../environment';
 import { fetchData, sendRequest } from '~/data/helpers';
 import { IAssignedResourcesList, IAssignmentPage } from '~/data/types/resourceTypes';
 import { IAssignedRoles, IAssignedUsers } from '~/data/types/userTypes';
+import { IAssignedDevices } from '~/data/types/deviceTypes';
 
 export const fetchAssignedUsers = async (
     request: Request,
@@ -67,6 +68,30 @@ export const fetchAssignmentsForRole = async (
         request
     );
 
+export const fetchAssignmentsForDeviceGroup = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string
+): Promise<IAssignmentPage> =>
+    fetchData(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/devicegroup/${id}/resources?size=${size}&page=${page}`,
+        request
+    );
+
+export const fetchAssignedDevices = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    search: string,
+    orgUnits: string[]
+): Promise<IAssignedDevices> =>
+    fetchData(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/devicegroups?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}`,
+        request
+    );
+
 export const createUserAssignment = async (
     token: string | null,
     resourceRef: number,
@@ -97,6 +122,23 @@ export const createRoleAssignment = async (
         body: {
             resourceRef: resourceRef,
             roleRef: roleRef,
+            organizationUnitId: organizationUnitId,
+        },
+    });
+
+export const createDeviceAssignment = async (
+    token: string | null,
+    resourceRef: number,
+    deviceGroupRef: number,
+    organizationUnitId: string
+) =>
+    sendRequest({
+        url: `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments`,
+        method: 'POST',
+        token: token,
+        body: {
+            resourceRef: resourceRef,
+            deviceGroupRef: deviceGroupRef,
             organizationUnitId: organizationUnitId,
         },
     });
