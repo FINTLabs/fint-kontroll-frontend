@@ -8,14 +8,17 @@ export const fetchDeviceGroups = async (
     size: string,
     page: string,
     search: string,
-    orgUnits: string[]
+    orgUnits: string[],
+    validOrgUnitIds: string[] = []
 ): Promise<IDeviceGroupList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
     const searchFilter = search ? `&search=${search}` : '';
     const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
+    const validOrgUnitsFilter =
+        validOrgUnitIds.length > 0 ? `&validorgunits=${validOrgUnitIds.join(',')}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${validOrgUnitsFilter}`,
         request
     );
 };
@@ -30,12 +33,14 @@ export const fetchDeviceMembersById = async (
     request: Request,
     id: string | undefined,
     size: string,
-    page: string
+    page: string,
+    search: string
 ): Promise<IDeviceItemList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups/${id}/members?${sizeFilter}${pageFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups/${id}/members?${sizeFilter}${pageFilter}${searchFilter}`,
         request
     );
 };

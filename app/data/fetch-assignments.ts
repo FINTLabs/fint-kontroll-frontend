@@ -85,10 +85,11 @@ export const fetchAssignedDevices = async (
     size: string,
     page: string,
     search: string,
-    orgUnits: string[]
+    orgUnits: string[],
+    deviceGroupFilter?: string
 ): Promise<IAssignedDevices> =>
     fetchData(
-        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/devicegroups?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}`,
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/resource/${id}/devicegroups?size=${size}&page=${page}&search=${search}&${orgUnits.length > 0 ? 'orgUnits=' + orgUnits : ''}${deviceGroupFilter}`,
         request
     );
 
