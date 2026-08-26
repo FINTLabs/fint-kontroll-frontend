@@ -77,7 +77,7 @@ export const getResourceConfirmDeviceGroupAssignmentUrl = (
     id: number,
     deviceGroupId: number,
     orgId: string
-): string => `/ressurs/${id}/ny-tildeling/grupper/${deviceGroupId}/org/${orgId}/tildel`;
+): string => `/ressurs/${id}/ny-tildeling/maskingrupper/${deviceGroupId}/org/${orgId}/tildel`;
 
 export const SYSTEM_ADMIN_DEFINE_ROLE = '/system-admin/definer-rolle/sa';
 export const SYSTEM_ADMIN_FEATURE_TO_ROLE = '/system-admin/knytt-rettigheter-til-rolle/sa';

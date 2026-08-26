@@ -1,13 +1,6 @@
 import styles from '../components/user/user.css?url';
 import { HStack, Tabs, VStack } from '@navikt/ds-react';
-import {
-    Link,
-    LoaderFunctionArgs,
-    useLoaderData,
-    useNavigate,
-    useParams,
-    useRouteError,
-} from 'react-router';
+import { Link, LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-router';
 import { getDeviceGroupByIdUrl } from '~/data/paths';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import React from 'react';
@@ -26,10 +19,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
     const size = getSizeCookieFromRequestHeader(request)?.value ?? '25';
     const page = url.searchParams.get('page') ?? '0';
+    const search = url.searchParams.get('search') ?? '';
 
     const [deviceInfo, deviceItems] = await Promise.all([
         fetchDeviceGroupById(request, params.id),
-        fetchDeviceMembersById(request, params.id, size, page),
+        fetchDeviceMembersById(request, params.id, size, page, search),
     ]);
 
     return {

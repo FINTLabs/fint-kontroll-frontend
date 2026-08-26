@@ -10,6 +10,7 @@ export interface IDeviceGroup {
     modifiedDate: Date;
     noOfMembers: number;
     assignmentRef: number;
+    assigned?: boolean;
 }
 
 export interface IDeviceGroupList {

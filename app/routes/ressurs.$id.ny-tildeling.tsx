@@ -12,7 +12,7 @@ import {
 import { fetchResourceById } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { ResponseAlert } from '~/components/common/ResponseAlert';
-import { ArrowRightIcon, PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
+import { ArrowRightIcon, MonitorIcon, PersonGroupIcon, PersonIcon } from '@navikt/aksel-icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLoadingState } from '~/utils/customHooks';
 import { TableHeader } from '~/components/common/Table/Header/TableHeader';
@@ -47,7 +47,8 @@ export const handle = {
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem" />
                 <Link
                     to={getResourceUserAssignmentsUrl(Number(params.id))}
-                    className={'breadcrumb-link'}>
+                    className={'breadcrumb-link'}
+                >
                     Ressursinfo
                 </Link>
             </HStack>
@@ -66,16 +67,26 @@ export default function NewAssignment() {
     const correlationId: string | undefined = loaderData.correlationId;
     const basePath: string | undefined = loaderData.basePath;
 
-    const [state, setState] = useState(
-        location.pathname.includes('/brukere') ? 'brukere' : 'grupper'
-    );
+    const getInitialState = (): NewAssignmentState => {
+        if (location.pathname.includes('/brukere')) {
+            return 'brukere';
+        }
+
+        if (location.pathname.includes('/grupper')) {
+            return 'grupper';
+        }
+
+        return 'maskingrupper';
+    };
+
+    const [state, setState] = useState<NewAssignmentState>(getInitialState);
 
     const handleChangeTab = useCallback(
         (value: string) => {
+            setState(value as NewAssignmentState);
             navigate(
                 `${getResourceNewAssignmentUrl(Number(params.id))}/${value}${location.search}`
             );
-            setState(value);
         },
         [location.search, navigate, params.id]
     );
@@ -83,10 +94,20 @@ export default function NewAssignment() {
     useEffect(() => {
         if (location.pathname.includes('/brukere')) {
             setState('brukere');
-        } else {
+        } else if (location.pathname.includes('/grupper')) {
             setState('grupper');
+        } else {
+            setState('maskingrupper');
         }
     }, [location.pathname]);
+
+    type NewAssignmentState = 'brukere' | 'grupper' | 'maskingrupper';
+
+    const newAssignmentRouteMap: Record<NewAssignmentState, string> = {
+        brukere: 'brukere',
+        grupper: 'grupper',
+        maskingrupper: 'maskingrupper',
+    };
 
     return (
         <div className={'content'}>
@@ -116,8 +137,13 @@ export default function NewAssignment() {
                             icon={<PersonGroupIcon fontSize="1.2rem" />}
                             id="role-tab"
                         />
+                        <Tabs.Tab
+                            value="maskingrupper"
+                            label="Maskingrupper"
+                            icon={<MonitorIcon fontSize="1.2rem" />}
+                            id="device-tab"
+                        />
                     </Tabs.List>
-
                     {loading && !fetching && (
                         <HStack margin={'space-12'} width="100%" justify="center">
                             <Loader size="2xlarge" title="Venter..." />

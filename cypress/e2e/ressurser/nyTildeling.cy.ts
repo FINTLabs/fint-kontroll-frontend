@@ -12,6 +12,7 @@ describe('See that assignment.resource.$id.user renders with users', () => {
 
         cy.get('#user-tab').contains('Brukere').should('exist');
         cy.get('#role-tab').contains('Grupper').should('exist');
+        cy.get('#device-tab').contains('Maskingrupper').should('exist');
 
         cy.get('#user-type-select').should('be.visible');
 
