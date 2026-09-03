@@ -37,6 +37,7 @@ export const AssignResourceToUserTable = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'right'}></Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -51,18 +52,31 @@ export const AssignResourceToUserTable = ({
                                 <Table.DataCell scope="row">
                                     {resource.resourceName}{' '}
                                 </Table.DataCell>
+                                <Table.DataCell align={'right'}>
+                                    {resource.status === 'PENDING_ACTIVE' && (
+                                        <Tag
+                                            variant="warning"
+                                            size="small"
+                                            className="navds-tag-in-table ml-4"
+                                        >
+                                            Behandles
+                                        </Tag>
+                                    )}
+                                </Table.DataCell>
                                 <Table.DataCell align={'center'}>
                                     {resource.assigned ? (
                                         <Tag
                                             variant="success"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             Er tildelt
                                         </Tag>
                                     ) : (
                                         <AssignButton
                                             id={`assignResource-${resource.id}`}
                                             url={`${getConfirmUserAssignmentUrl(Number(userId), resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                            resourceStatus={resource.status}
                                         />
                                     )}
                                 </Table.DataCell>

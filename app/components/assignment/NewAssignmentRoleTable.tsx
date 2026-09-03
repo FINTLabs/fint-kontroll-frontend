@@ -18,6 +18,7 @@ interface AssignRoleTableProps {
     totalPages?: number;
     currentPage: number;
     totalItems: number;
+    resourceStatus: string;
 }
 
 export const AssignRoleTable = (props: AssignRoleTableProps) => {
@@ -61,7 +62,8 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                             id="aggregated-tag"
                                             variant="neutral"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             <HStack gap={'space-1'} align={'center'} wrap={false}>
                                                 Aggregert
                                                 <HelpText title="Hva menes med aggregert?">
@@ -79,13 +81,15 @@ export const AssignRoleTable = (props: AssignRoleTableProps) => {
                                         <Tag
                                             variant="success"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             Er tildelt
                                         </Tag>
                                     ) : (
                                         <AssignButton
                                             id={`assignRole-${role.id}`}
                                             url={`${getResourceConfirmRoleAssignmentUrl(Number(props.resourceId), role.id, role.organisationUnitId)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                            resourceStatus={props.resourceStatus}
                                         />
                                     )}
                                 </Table.DataCell>

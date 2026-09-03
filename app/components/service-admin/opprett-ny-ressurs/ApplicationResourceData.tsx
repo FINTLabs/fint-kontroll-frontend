@@ -98,7 +98,8 @@ export default function ApplicationResourceData({
                                     validForRoles: value,
                                 };
                             });
-                        }}>
+                        }}
+                    >
                         {userTypes?.map((userType) => {
                             return (
                                 <Checkbox key={userType.id} value={userType.label}>
@@ -127,12 +128,20 @@ export default function ApplicationResourceData({
                                     applicationCategory: value,
                                 };
                             });
-                        }}>
+                        }}
+                    >
                         {applicationCategories?.map((category) => {
                             return (
                                 <Checkbox key={category.id} value={category.name}>
                                     {category.name}
                                 </Checkbox>
+                                /*<Checkbox
+                                    key={category.id}
+                                    value={category.id}
+                                    name="applicationCategory"
+                                >
+                                    {category.name}
+                                </Checkbox>*/
                             );
                         })}
                     </CheckboxGroup>
@@ -156,7 +165,8 @@ export default function ApplicationResourceData({
                                 ...newApplicationResource,
                                 licenseEnforcement: value,
                             })
-                        }>
+                        }
+                    >
                         <VStack>
                             {licenseEnforcements?.map((enforcement) => {
                                 return (
@@ -217,7 +227,8 @@ export default function ApplicationResourceData({
                                 ...newApplicationResource,
                                 hasCost: value,
                             })
-                        }>
+                        }
+                    >
                         <Radio value={true}>Ja</Radio>
                         <Radio value={false}>Nei</Radio>
                     </RadioGroup>
@@ -271,11 +282,11 @@ export default function ApplicationResourceData({
                                 ...newApplicationResource,
                                 status: value,
                             })
-                        }>
+                        }
+                    >
                         <VStack>
                             <Radio value={'ACTIVE'}>Aktiv</Radio>
                             <Radio value={'DISABLED'}>Deaktivert</Radio>
-                            <Radio value={'DELETED'}>Slettet</Radio>
                         </VStack>
                     </RadioGroup>
                 </li>

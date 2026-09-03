@@ -1,17 +1,10 @@
-import { Heading, HelpText, HStack, Table, Tag } from '@navikt/ds-react';
-import type { IRole } from '~/data/types/userTypes';
+import { Heading, Table, Tag } from '@navikt/ds-react';
 import React from 'react';
-import { Outlet, useLoaderData, useSearchParams } from 'react-router';
+import { Outlet, useSearchParams } from 'react-router';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
-import {
-    getResourceConfirmDeviceGroupAssignmentUrl,
-    getResourceConfirmRoleAssignmentUrl,
-} from '~/data/paths';
-import { loader } from '~/routes/ressurs.$id.ny-tildeling.brukere';
-
-import { translateUserTypeToLabel } from '~/utils/translators';
+import { getResourceConfirmDeviceGroupAssignmentUrl } from '~/data/paths';
 import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
 import { IDeviceGroup } from '~/data/types/deviceTypes';
 
@@ -22,6 +15,7 @@ interface AssignDeviceGroupTableProps {
     totalPages?: number;
     currentPage: number;
     totalItems: number;
+    resourceStatus: string;
 }
 
 export const AssignDeviceGroupTable = (props: AssignDeviceGroupTableProps) => {
@@ -68,6 +62,7 @@ export const AssignDeviceGroupTable = (props: AssignDeviceGroupTableProps) => {
                                         <AssignButton
                                             id={`assignRole-${deviceGroup.id}`}
                                             url={`${getResourceConfirmDeviceGroupAssignmentUrl(Number(props.resourceId), deviceGroup.id, deviceGroup.orgUnitId)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                            resourceStatus={props.resourceStatus}
                                         />
                                     )}
                                 </Table.DataCell>

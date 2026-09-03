@@ -134,7 +134,8 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
 
             <ExpansionCard
                 aria-label="Velg organisasjonsenhet som er eier av ressursen"
-                defaultOpen={!selectedOwnerOrgUnit?.name}>
+                defaultOpen={!selectedOwnerOrgUnit?.name}
+            >
                 <ExpansionCard.Header>
                     <ExpansionCard.Title>
                         Velg organisasjonsenhet som er eier av ressursen
@@ -245,6 +246,9 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         id="validForRoles"
                         value={newResource.validForRoles.join(',')}
                     />
+                    {/*{newResource.applicationCategory.map((id) => (
+                        <input key={id} type="hidden" name="applicationCategory" value={id} />
+                    ))}*/}
                     <input
                         type="hidden"
                         name="applicationCategory"
@@ -282,7 +286,8 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         <Button
                             type="submit"
                             variant="primary"
-                            loading={response.state === 'submitting'}>
+                            loading={response.state === 'submitting'}
+                        >
                             {newResource.id ? 'Lagre endringer' : 'Lagre ressurs'}
                         </Button>
                     ) : (

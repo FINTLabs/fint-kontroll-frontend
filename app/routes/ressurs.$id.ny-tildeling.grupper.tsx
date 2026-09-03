@@ -17,12 +17,14 @@ import React from 'react';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { IResource } from '~/data/types/resourceTypes';
 
 type LoaderData = {
     roleList: IRoleList;
     isAssignedRoles: IRole[];
     basePath: string;
     userTypesKodeverk: IKodeverkUserType[];
+    resource: IResource;
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -86,11 +88,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         isAssignedRoles,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
+        resource,
     };
 }
 
 export default function NewAssignmentForRole() {
-    const { isAssignedRoles, roleList } = useLoaderData<LoaderData>();
+    const { isAssignedRoles, roleList, resource } = useLoaderData<LoaderData>();
     const params = useParams<string>();
 
     return (
@@ -103,6 +106,7 @@ export default function NewAssignmentForRole() {
                 totalPages={roleList.totalPages}
                 size={roleList.totalItems}
                 totalItems={roleList.totalItems}
+                resourceStatus={resource.status}
             />
         </Tabs.Panel>
     );

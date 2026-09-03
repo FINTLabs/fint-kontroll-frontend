@@ -15,6 +15,9 @@ const SummaryCreateResource2 = ({ resource }: SummaryCreateResourceProps) => {
     const cleanedApplicationCategory = Array.isArray(resource.applicationCategory)
         ? resource.applicationCategory.filter((r) => r.trim() !== '')
         : [];
+    /*const cleanedApplicationCategory = Array.isArray(resource.applicationCategory)
+        ? resource.applicationCategory.map(Number).filter(Number.isFinite)
+        : [];*/
 
     return (
         <div>

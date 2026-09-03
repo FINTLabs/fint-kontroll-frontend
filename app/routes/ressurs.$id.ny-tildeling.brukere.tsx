@@ -19,6 +19,7 @@ import React from 'react';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
 import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
+import { IResource } from '~/data/types/resourceTypes';
 
 type LoaderData = {
     userList: IUserPage;
@@ -26,6 +27,7 @@ type LoaderData = {
     basePath: string;
     userTypesKodeverk: IKodeverkUserType[];
     validForRoles: string[];
+    resource: IResource;
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -99,11 +101,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
         validForRoles: resource.validForRoles,
+        resource,
     };
 }
 
 export default function NewAssignment() {
-    const { userList, isAssignedUsers, basePath, userTypesKodeverk, validForRoles } =
+    const { userList, isAssignedUsers, basePath, userTypesKodeverk, validForRoles, resource } =
         useLoaderData<LoaderData>();
     const { id } = useParams<string>();
 
@@ -123,6 +126,7 @@ export default function NewAssignment() {
                 totalPages={userList.totalPages}
                 totalItems={userList.totalItems}
                 basePath={basePath}
+                resourceStatus={resource.status}
             />
         </Tabs.Panel>
     );
