@@ -15,6 +15,7 @@ export const translateStatusToLabel = (status: string) => {
         ACTIVE: 'Aktiv',
         DISABLED: 'Deaktivert',
         DELETED: 'Slettet',
+        PENDING_ACTIVE: 'Behandles',
     };
     return labels[status] ?? 'Alle';
 };

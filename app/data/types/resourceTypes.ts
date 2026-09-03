@@ -93,6 +93,7 @@ export interface IResourceForList {
     identityProviderGroupObjectId: string;
     applicationCategory: string[];
     assigned?: boolean;
+    status?: string;
 }
 
 export interface IResourceItem {

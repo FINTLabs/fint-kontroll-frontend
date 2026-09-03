@@ -11,6 +11,7 @@ export interface IApplicationResource {
     validForOrgUnits: IValidForOrgUnits[];
     validForRoles: string[];
     applicationCategory: string[];
+    // applicationCategory: number[];
     hasCost: boolean;
     licenseEnforcement: string;
     unitCost: number | '';

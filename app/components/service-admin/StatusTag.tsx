@@ -19,6 +19,10 @@ export const StatusTag = (prop: { status: string | undefined }) => {
             variant = 'error';
             label = 'Slettet';
             break;
+        case 'PENDING_ACTIVE':
+            variant = 'warning';
+            label = 'Behandles';
+            break;
         default:
             variant = 'neutral';
             label = prop.status;

@@ -17,12 +17,14 @@ import { fetchDeviceGroups } from '~/data/fetch-devices';
 import { IDeviceGroup, IDeviceGroupList } from '~/data/types/deviceTypes';
 import { AssignDeviceGroupTable } from '~/components/assignment/NewAssignmentDeviceGroupTable';
 import { DeviceSearch } from '~/components/device/DeviceSearch';
+import { IResource } from '~/data/types/resourceTypes';
 
 type LoaderData = {
     deviceGroupList: IDeviceGroupList;
     isAssignedDeviceGroup: IDeviceGroup[];
     basePath: string;
     userTypesKodeverk: IKodeverkUserType[];
+    resource: IResource;
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -87,11 +89,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         isAssignedDeviceGroup,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
+        resource,
     };
 }
 
 export default function NewAssignmentForDeviceGroup() {
-    const { isAssignedDeviceGroup, deviceGroupList } = useLoaderData<LoaderData>();
+    const { isAssignedDeviceGroup, deviceGroupList, resource } = useLoaderData<LoaderData>();
     const params = useParams<string>();
 
     return (
@@ -104,6 +107,7 @@ export default function NewAssignmentForDeviceGroup() {
                 totalPages={deviceGroupList.totalPages}
                 size={deviceGroupList.totalItems}
                 totalItems={deviceGroupList.totalItems}
+                resourceStatus={resource.status}
             />
         </Tabs.Panel>
     );

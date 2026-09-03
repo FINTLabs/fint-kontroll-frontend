@@ -1,4 +1,4 @@
-import { HStack, Loader, Tabs, VStack } from '@navikt/ds-react';
+import { HStack, Loader, Tabs, Tag, VStack } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from 'react-router';
 import {
     Link,
@@ -112,6 +112,11 @@ export default function NewAssignment() {
     return (
         <div className={'content'}>
             <TableHeader title={'Ny tildeling'} subTitle={resource.resourceName} />
+            {resource.status === 'PENDING_ACTIVE' && (
+                <Tag size={'small'} data-color="warning">
+                    Behandles
+                </Tag>
+            )}
             <VStack gap="space-12" marginBlock={'space-24 space-0'}>
                 <ResponseAlert
                     responseCode={responseCode}

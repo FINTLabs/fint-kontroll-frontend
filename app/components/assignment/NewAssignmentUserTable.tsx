@@ -18,6 +18,7 @@ interface AssignUserTableProps {
     currentPage: number;
     totalItems: number;
     basePath?: string;
+    resourceStatus?: string;
 }
 
 export const AssignUserTable = ({
@@ -28,6 +29,7 @@ export const AssignUserTable = ({
     currentPage,
     basePath,
     totalItems,
+    resourceStatus,
 }: AssignUserTableProps) => {
     const { userTypesKodeverk } = useLoaderData<typeof loader>();
     const [searchParams] = useSearchParams();
@@ -70,13 +72,15 @@ export const AssignUserTable = ({
                                         <Tag
                                             variant="success"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             Er tildelt
                                         </Tag>
                                     ) : (
                                         <AssignButton
                                             id={`assignUser-${user.id}`}
                                             url={`${getResourceConfirmUserAssignmentUrl(Number(resourceId), user.id, user.organisationUnitId)}?page=${searchParams.get('page') === null ? 0 : searchParams.get('page')}&search=${searchParams.get('search') === null ? '' : searchParams.get('search')}`}
+                                            resourceStatus={resourceStatus}
                                         />
                                     )}
                                 </Table.DataCell>

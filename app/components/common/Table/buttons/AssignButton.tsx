@@ -8,13 +8,20 @@ type SeeInfoButtonProps = {
     url: string;
     title?: string;
     size?: 'small' | 'medium' | 'xsmall';
+    resourceStatus?: string;
 };
 
-export const AssignButton = ({ id, url, title = 'Tildel', size = 'small' }: SeeInfoButtonProps) => {
+export const AssignButton = ({
+    id,
+    url,
+    title = 'Tildel',
+    size = 'small',
+    resourceStatus,
+}: SeeInfoButtonProps) => {
     const navigate = useNavigate();
     const navigation = useNavigation();
     const isLoading = useMemo(
-        () => navigation.state === 'loading' && navigation.location.pathname.endsWith(url),
+        () => navigation.state === 'loading' && navigation.location?.pathname.endsWith(url),
         [navigation, url]
     );
 
@@ -28,7 +35,9 @@ export const AssignButton = ({ id, url, title = 'Tildel', size = 'small' }: SeeI
             variant={'secondary'}
             role="link"
             loading={isLoading}
-            size={size}>
+            size={size}
+            disabled={resourceStatus === 'PENDING_ACTIVE'}
+        >
             {title}
         </Button>
     );

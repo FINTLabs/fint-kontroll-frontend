@@ -106,6 +106,7 @@ export default function ResourceById() {
             <VStack gap="space-12">
                 <InfoBox
                     title={resource.resourceName}
+                    tagText={resource.status}
                     info={[
                         {
                             label: 'Applikasjonskategori',
