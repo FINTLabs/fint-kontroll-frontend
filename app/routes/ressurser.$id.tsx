@@ -192,11 +192,11 @@ export default function ResourceById() {
                             label="Grupper"
                             icon={<PersonGroupIcon fontSize="1.2rem" />}
                         />
-                        <Tabs.Tab
+                        {/* <Tabs.Tab
                             value="maskingruppe-tildelinger"
                             label="Maskingrupper"
                             icon={<MonitorIcon fontSize="1.2rem" />}
-                        />
+                        />*/}
                     </Tabs.List>
 
                     {loading && !fetching && (

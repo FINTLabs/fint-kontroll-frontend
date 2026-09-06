@@ -142,12 +142,12 @@ export default function NewAssignment() {
                             icon={<PersonGroupIcon fontSize="1.2rem" />}
                             id="role-tab"
                         />
-                        <Tabs.Tab
+                        {/*<Tabs.Tab
                             value="maskingrupper"
                             label="Maskingrupper"
                             icon={<MonitorIcon fontSize="1.2rem" />}
                             id="device-tab"
-                        />
+                        />*/}
                     </Tabs.List>
                     {loading && !fetching && (
                         <HStack margin={'space-12'} width="100%" justify="center">
