@@ -46,6 +46,8 @@ export const getResourceUserAssignmentsUrl = (id: number): string =>
     `/ressurser/${id}/bruker-tildelinger`;
 export const getResourceRoleAssignmentsUrl = (id: number): string =>
     `/ressurser/${id}/gruppe-tildelinger`;
+export const getResourceDeviceGroupAssignmentsUrl = (id: number): string =>
+    `/ressurser/${id}/maskingruppe-tildelinger`;
 export const getResourceDeleteUserAssignmentUrl = (id: number, assignmentRef: number): string =>
     `/ressurser/${id}/bruker-tildelinger/${assignmentRef}/slett`;
 export const getResourceDeleteRoleAssignmentUrl = (
