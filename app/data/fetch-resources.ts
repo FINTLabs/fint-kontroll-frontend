@@ -67,52 +67,32 @@ export const createResource = async (
     status: string
 ) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`;
-    logger.debug(
-        'POST CREATE RESOURCE to ',
+
+    const body = {
+        resourceId,
+        resourceName,
+        resourceType,
+        platform,
+        accessType,
+        resourceLimit,
+        resourceOwnerOrgUnitId,
+        resourceOwnerOrgUnitName,
+        validForRoles,
+        applicationCategory,
+        hasCost,
+        licenseEnforcement,
+        unitCost,
+        status,
+    };
+
+    logger.debug('POST CREATE RESOURCE to', url, 'with body', JSON.stringify(body));
+
+    return await sendRequest({
         url,
-        ' with body ',
-        JSON.stringify({
-            resourceId: resourceId,
-            resourceName: resourceName,
-            resourceType: resourceType,
-            platform: platform,
-            accessType: accessType,
-            resourceLimit: resourceLimit,
-            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForRoles: validForRoles,
-            applicationCategory: applicationCategory,
-            hasCost: hasCost,
-            licenseEnforcement: licenseEnforcement,
-            unitCost: unitCost,
-            status: status,
-        })
-    );
-    const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? '',
-            'content-type': 'application/json',
-        },
         method: 'POST',
-        body: JSON.stringify({
-            resourceId: resourceId,
-            resourceName: resourceName,
-            resourceType: resourceType,
-            platform: platform,
-            accessType: accessType,
-            resourceLimit: resourceLimit,
-            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForRoles: validForRoles,
-            applicationCategory: applicationCategory,
-            hasCost: hasCost,
-            licenseEnforcement: licenseEnforcement,
-            unitCost: unitCost,
-            status: status,
-        }),
+        token,
+        body,
     });
-    logger.debug('(((Response from CREATE Resource)))', url, response.status);
-    return response;
 };
 
 export const updateResource = async (
@@ -135,59 +115,35 @@ export const updateResource = async (
     status: string
 ) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1`;
-    logger.debug(
-        'EDIT CREATE RESOURCE to ',
-        url,
-        ' with body ',
-        JSON.stringify({
-            id: id,
-            resourceId: resourceId,
-            resourceName: resourceName,
-            resourceType: resourceType,
-            platform: platform,
-            accessType: accessType,
-            resourceLimit: resourceLimit,
-            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForOrgUnits: validForOrgUnits,
-            validForRoles: validForRoles,
-            applicationCategory: applicationCategory,
-            hasCost: hasCost,
-            licenseEnforcement: licenseEnforcement,
-            unitCost: unitCost,
-            status: status,
-        })
-    );
-    const validForOrg = validForOrgUnits.length > 0 ? validForOrgUnits : [];
-    const response = await fetch(url, {
-        headers: {
-            Authorization: token ?? '',
-            'content-type': 'application/json',
-        },
-        method: 'PUT',
-        body: JSON.stringify({
-            id: id,
-            resourceId: resourceId,
-            resourceName: resourceName,
-            resourceType: resourceType,
-            platform: platform,
-            accessType: accessType,
-            resourceLimit: resourceLimit,
-            resourceOwnerOrgUnitId: resourceOwnerOrgUnitId,
-            resourceOwnerOrgUnitName: resourceOwnerOrgUnitName,
-            validForOrgUnits: validForOrg,
-            validForRoles: validForRoles,
-            applicationCategory: applicationCategory,
-            hasCost: hasCost,
-            licenseEnforcement: licenseEnforcement,
-            unitCost: unitCost,
-            status: status,
-        }),
-    });
-    logger.debug('Response from EDIT Resource', url, response.status);
-    return response;
-};
 
+    const body = {
+        id,
+        resourceId,
+        resourceName,
+        resourceType,
+        platform,
+        accessType,
+        resourceLimit,
+        resourceOwnerOrgUnitId,
+        resourceOwnerOrgUnitName,
+        validForOrgUnits: validForOrgUnits.length > 0 ? validForOrgUnits : [],
+        validForRoles,
+        applicationCategory,
+        hasCost,
+        licenseEnforcement,
+        unitCost,
+        status,
+    };
+
+    logger.debug('PUT UPDATE RESOURCE to', url, 'with body', JSON.stringify(body));
+
+    return await sendRequest({
+        url,
+        method: 'PUT',
+        token,
+        body,
+    });
+};
 export const deleteResource = async (token: string | null, request: Request, id: string) => {
     const url = `${RESOURCE_API_URL}${BASE_PATH}/api/resources/v1/${id}`;
     return sendRequest({

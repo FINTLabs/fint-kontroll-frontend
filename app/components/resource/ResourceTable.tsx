@@ -1,4 +1,4 @@
-import { Table } from '@navikt/ds-react';
+import { Table, Tag } from '@navikt/ds-react';
 import React from 'react';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
@@ -27,11 +27,15 @@ export const ResourceTable = ({
                     <Table.Row>
                         <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Applikasjonstype</Table.HeaderCell>
+                        <Table.HeaderCell scope="col"></Table.HeaderCell>
                         {hasAccessToResourceDetails && (
                             <Table.HeaderCell
                                 scope="col"
                                 align="right"
-                                aria-label={'Se mer informasjon'}></Table.HeaderCell>
+                                aria-label={'Se mer informasjon'}
+                            >
+                                Se mer info.
+                            </Table.HeaderCell>
                         )}
                     </Table.Row>
                 </Table.Header>
@@ -45,6 +49,18 @@ export const ResourceTable = ({
                                 <Table.DataCell>
                                     {resource.applicationCategory?.filter(Boolean).join(', ')}
                                 </Table.DataCell>
+                                <Table.DataCell>
+                                    {resource.status === 'PENDING_ACTIVE' && (
+                                        <Tag
+                                            variant="warning"
+                                            size="small"
+                                            className="navds-tag-in-table ml-4"
+                                        >
+                                            Behandles
+                                        </Tag>
+                                    )}
+                                </Table.DataCell>
+
                                 {hasAccessToResourceDetails && (
                                     <Table.DataCell align="right">
                                         <GoToButton

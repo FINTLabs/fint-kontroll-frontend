@@ -6,6 +6,11 @@ export interface IDeviceGroup {
     orgUnitId: string;
     deviceType: string;
     platform: string;
+    createdDate: Date;
+    modifiedDate: Date;
+    noOfMembers: number;
+    assignmentRef: number;
+    assigned?: boolean;
 }
 
 export interface IDeviceGroupList {
@@ -35,4 +40,11 @@ export interface IDeviceItemList {
     currentPage: number;
     size: string;
     members: IDeviceItem[];
+}
+
+export interface IAssignedDevices {
+    totalElements: number;
+    totalPages?: number;
+    currentPage: number;
+    deviceGroupAssignments: IDeviceGroup[];
 }

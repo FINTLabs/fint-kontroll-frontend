@@ -13,6 +13,7 @@ import { assignmentHandlers } from './handlers/assignmentHandler';
 import { applicationCategoriesHandlers } from './handlers/kodeverkHandlers';
 import { menuHandlers } from './handlers/menuHandlers';
 import { accessHandlers } from './handlers/accessHandlers';
+import { deviceHandlers } from './handlers/deviceHandlers';
 
 export const handlers = [
     // Common handlers
@@ -254,4 +255,5 @@ export const handlers = [
     ...applicationCategoriesHandlers,
     ...menuHandlers,
     ...accessHandlers,
+    ...deviceHandlers,
 ];

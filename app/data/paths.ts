@@ -29,7 +29,17 @@ export const getRoleNewAssignmentUrl = (id: number): string => `/gruppe/${id}/ny
 export const DEVICES = '/digitale-enheter';
 export const getDeviceGroupByIdUrl = (id: number): string => `/digitale-enheter/${id}/info`;
 export const getDeviceGroupNewAssignmentUrl = (id: number): string =>
-    `/digitale-enheter/${id}/ny-tildeling`;
+    `/digital-enhet/${id}/ny-tildeling`;
+export const getConfirmDeviceGroupAssignmentUrl = (
+    id: number,
+    resourceId: number,
+    orgId: string
+): string => `/digital-enhet/${id}/ny-tildeling/ressurs/${resourceId}/org/${orgId}/tildel`;
+export const getDeviceGroupAssignmentsUrl = (id: number): string =>
+    `/digitale-enheter/${id}/tildelinger`;
+
+export const getDeleteDeviceGroupAssignmentUrl = (id: number, assignmentRef: number): string =>
+    `/digitale-enheter/${id}/tildelinger/${assignmentRef}/slett`;
 
 export const RESOURCES = '/ressurser';
 export const getResourceUserAssignmentsUrl = (id: number): string =>
@@ -42,11 +52,17 @@ export const getResourceDeleteRoleAssignmentUrl = (
     id: number,
     assignmentRef: number | undefined
 ): string => `/ressurser/${id}/gruppe-tildelinger/${assignmentRef}/slett`;
+export const getResourceDeleteDeviceGroupAssignmentUrl = (
+    id: number,
+    assignmentRef: number | undefined
+): string => `/ressurser/${id}/maskingruppe-tildelinger/${assignmentRef}/slett`;
 export const getResourceNewAssignmentUrl = (id: number): string => `/ressurs/${id}/ny-tildeling`;
 export const getResourceNewUserAssignmentUrl = (id: number): string =>
     `/ressurs/${id}/ny-tildeling/brukere`;
 export const getResourceNewRoleAssignmentUrl = (id: number): string =>
     `/ressurs/${id}/ny-tildeling/grupper`;
+export const getResourceNewDeviceGroupAssignmentUrl = (id: number): string =>
+    `/ressurs/${id}/ny-tildeling/maskingrupper`;
 export const getResourceConfirmUserAssignmentUrl = (
     id: number,
     userId: number,
@@ -57,6 +73,11 @@ export const getResourceConfirmRoleAssignmentUrl = (
     roleId: number,
     orgId: string
 ): string => `/ressurs/${id}/ny-tildeling/grupper/${roleId}/org/${orgId}/tildel`;
+export const getResourceConfirmDeviceGroupAssignmentUrl = (
+    id: number,
+    deviceGroupId: number,
+    orgId: string
+): string => `/ressurs/${id}/ny-tildeling/maskingrupper/${deviceGroupId}/org/${orgId}/tildel`;
 
 export const SYSTEM_ADMIN_DEFINE_ROLE = '/system-admin/definer-rolle/sa';
 export const SYSTEM_ADMIN_FEATURE_TO_ROLE = '/system-admin/knytt-rettigheter-til-rolle/sa';

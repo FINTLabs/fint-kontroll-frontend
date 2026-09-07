@@ -2,19 +2,19 @@ import { Link, LoaderFunctionArgs, useLoaderData, useRouteError } from 'react-ro
 import { fetchAllOrgUnits, fetchResources } from '~/data/fetch-resources';
 import { BASE_PATH } from '../../environment';
 import { HStack, VStack } from '@navikt/ds-react';
-import { fetchAssignedResourcesRole, fetchRoleById } from '~/data/fetch-roles';
 import React from 'react';
-import { AssignResourceToRoleTable } from '~/components/role/AssignResourceToRoleTable';
 import { ResourceSearch } from '~/components/resource/ResourceSearch';
-import { ResponseAlert } from '~/components/common/ResponseAlert';
 import { FilterByApplicationCategory } from '~/components/common/filter/FilterByApplicationCategory';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { TableHeaderLayout } from '~/components/common/Table/Header/TableHeaderLayout';
-import { getRoleMembersUrl, getRoleNewAssignmentUrl, ROLES } from '~/data/paths';
+import { DEVICES, getDeviceGroupByIdUrl, getDeviceGroupNewAssignmentUrl } from '~/data/paths';
 import { IResourceAssignment, IResourceForList } from '~/data/types/resourceTypes';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { fetchApplicationCategories } from '~/data/fetch-kodeverk';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
+import { fetchAssignedResourcesDeviceGroups, fetchDeviceGroupById } from '~/data/fetch-devices';
+import { AssignResourceToDeviceTable } from '~/components/device/AssignResourceToDeviceTable';
+import { ResponseAlert } from '~/components/common/ResponseAlert';
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const url = new URL(request.url);
@@ -25,7 +25,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const applicationcategory = url.searchParams.get('applicationcategory') ?? '';
     const accessType = url.searchParams.get('accesstype') ?? '';
 
-    const role = await fetchRoleById(request, params.id);
+    const deviceGroup = await fetchDeviceGroupById(request, params.id);
     const resourceList = await fetchResources(
         request,
         size,
@@ -33,20 +33,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         search,
         orgUnits,
         applicationcategory,
-        accessType,
-        role.roleType
+        accessType
     );
 
     const filter = resourceList.resources.map((value) => `&resourcefilter=${value.id}`).join('');
 
     const [orgUnitTree, assignedResourceList, applicationCategoriesKodeverk] = await Promise.all([
         fetchAllOrgUnits(request),
-        fetchAssignedResourcesRole(request, params.id, size, '0', 'ALLTYPES', filter),
+        fetchAssignedResourcesDeviceGroups(request, params.id, size, '0', 'ALLTYPES', filter),
         fetchApplicationCategories(request),
     ]);
 
     const assignedResourcesMap: Map<number, IResourceAssignment> = new Map(
-        assignedResourceList.resources.map((resource) => [resource.resourceRef, resource])
+        assignedResourceList.resources.map((resource) => [resource.id, resource])
     );
     const isAssignedResources: IResourceForList[] = resourceList.resources.map((resource) => {
         return {
@@ -57,12 +56,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     return {
         responseCode: url.searchParams.get('responseCode') ?? undefined,
+        correlationId: url.searchParams.get('correlationId') ?? '',
         size,
         resourceList,
         orgUnitList: orgUnitTree.orgUnits,
         assignedResourceList,
         isAssignedResources,
-        role,
+        deviceGroup,
         applicationCategories: applicationCategoriesKodeverk.map((ac) => ac.name),
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
     };
@@ -73,15 +73,15 @@ export const handle = {
     breadcrumb: ({ params }) => (
         <HStack align={'start'}>
             <HStack justify={'center'} align={'center'}>
-                <Link to={ROLES} className={'breadcrumb-link'}>
-                    Grupper
+                <Link to={DEVICES} className={'breadcrumb-link'}>
+                    Maskingrupper
                 </Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem" />
-                <Link to={getRoleMembersUrl(params.id)} className={'breadcrumb-link'}>
-                    Gruppeinfo
+                <Link to={getDeviceGroupByIdUrl(params.id)} className={'breadcrumb-link'}>
+                    info
                 </Link>
                 <ArrowRightIcon title="a11y-title" fontSize="1.5rem" />
-                <Link to={getRoleNewAssignmentUrl(params.id)} className={'breadcrumb-link'}>
+                <Link to={getDeviceGroupNewAssignmentUrl(params.id)} className={'breadcrumb-link'}>
                     Ny tildeling
                 </Link>
             </HStack>
@@ -90,33 +90,43 @@ export const handle = {
 };
 
 export default function NewAssignmentForDevice() {
-    const { resourceList, isAssignedResources, responseCode, role, size, applicationCategories } =
-        useLoaderData<typeof loader>();
+    const {
+        resourceList,
+        isAssignedResources,
+        responseCode,
+        deviceGroup,
+        size,
+        applicationCategories,
+        correlationId,
+        basePath,
+    } = useLoaderData<typeof loader>();
 
     return (
-        <div>
+        <div className={'content'}>
             <TableHeaderLayout
                 title={'Ny tildeling'}
-                subTitle={role.roleName}
+                subTitle={deviceGroup.name}
                 FilterComponents={
                     <FilterByApplicationCategory applicationCategories={applicationCategories} />
                 }
                 SearchComponent={<ResourceSearch />}
             />
-            <VStack gap="4">
+            <VStack gap="space-12">
                 <ResponseAlert
                     responseCode={responseCode}
+                    correlationId={correlationId}
+                    basepath={basePath}
                     successText={'Tildelingen var vellykket!'}
                     deleteText={'Tildelingen ble slettet!'}
                 />
 
-                <AssignResourceToRoleTable
+                <AssignResourceToDeviceTable
                     isAssignedResources={isAssignedResources}
                     size={size}
-                    roleId={role.id}
+                    deviceGroupId={deviceGroup.id}
                     currentPage={resourceList.currentPage}
                     totalPages={resourceList.totalPages}
-                    orgId={role.organisationUnitId}
+                    orgId={deviceGroup.orgUnitId}
                     totalItems={resourceList.totalItems}
                 />
             </VStack>

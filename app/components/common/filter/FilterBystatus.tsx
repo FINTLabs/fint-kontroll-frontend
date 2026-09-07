@@ -22,11 +22,13 @@ export const FilterByStatus = () => {
             id={'select-status'}
             label={'Filter etter status'}
             onChange={(e) => setStatusFilter(e.target.value)}
-            value={String(searchParams.get('status')) ?? ''}>
+            value={String(searchParams.get('status')) ?? ''}
+        >
             <option value={''}>Alle</option>
             <option value={'ACTIVE'}>Aktiv</option>
             <option value={'DISABLED'}>Deaktivert</option>
             <option value={'DELETED'}>Slettet</option>
+            <option value={'PENDING_ACTIVE'}>Behandles</option>
         </Select>
     );
 };

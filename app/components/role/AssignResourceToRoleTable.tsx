@@ -39,6 +39,7 @@ export const AssignResourceToRoleTable = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope="col">Ressurs</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'center'}></Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'center'}>
                             Tildelinger
                         </Table.HeaderCell>
@@ -55,17 +56,30 @@ export const AssignResourceToRoleTable = ({
                                     {resource.resourceName}{' '}
                                 </Table.HeaderCell>
                                 <Table.DataCell align={'center'}>
+                                    {resource.status === 'PENDING_ACTIVE' && (
+                                        <Tag
+                                            variant="warning"
+                                            size="small"
+                                            className="navds-tag-in-table ml-4"
+                                        >
+                                            Behandles
+                                        </Tag>
+                                    )}
+                                </Table.DataCell>
+                                <Table.DataCell align={'center'}>
                                     {resource.assigned ? (
                                         <Tag
                                             variant="success"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             Er tildelt
                                         </Tag>
                                     ) : (
                                         <AssignButton
                                             id={`assignResource-${resource.id}`}
                                             url={`${getConfirmRoleAssignmentUrl(roleId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                            resourceStatus={resource.status}
                                         />
                                     )}
                                 </Table.DataCell>

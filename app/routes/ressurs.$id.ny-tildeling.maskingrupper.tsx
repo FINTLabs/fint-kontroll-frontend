@@ -1,12 +1,8 @@
 import { Tabs } from '@navikt/ds-react';
 import type { LoaderFunctionArgs } from 'react-router';
 import { Link, useLoaderData, useParams, useRouteError } from 'react-router';
-import { IRole, IRoleList } from '~/data/types/userTypes';
-import { AssignRoleTable } from '~/components/assignment/NewAssignmentRoleTable';
-import { fetchRoles } from '~/data/fetch-roles';
-import { fetchAssignedRoles } from '~/data/fetch-assignments';
+import { fetchAssignedDevices } from '~/data/fetch-assignments';
 import { BASE_PATH } from '../../environment';
-import { RoleSearch } from '~/components/role/RoleSearch';
 import { TableToolbar } from '~/components/common/Table/Header/TableToolbar';
 import { fetchAllOrgUnits, fetchResourceById } from '~/data/fetch-resources';
 import { fetchUserTypes } from '~/data/fetch-kodeverk';
@@ -17,11 +13,15 @@ import React from 'react';
 import { getSizeCookieFromRequestHeader } from '~/utils/cookieHelpers';
 import { getOrgUnitAndAllNestedChildren } from '~/components/common/orgUnits/utils';
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { fetchDeviceGroups } from '~/data/fetch-devices';
+import { IDeviceGroup, IDeviceGroupList } from '~/data/types/deviceTypes';
+import { AssignDeviceGroupTable } from '~/components/assignment/NewAssignmentDeviceGroupTable';
+import { DeviceSearch } from '~/components/device/DeviceSearch';
 import { IResource } from '~/data/types/resourceTypes';
 
 type LoaderData = {
-    roleList: IRoleList;
-    isAssignedRoles: IRole[];
+    deviceGroupList: IDeviceGroupList;
+    isAssignedDeviceGroup: IDeviceGroup[];
     basePath: string;
     userTypesKodeverk: IKodeverkUserType[];
     resource: IResource;
@@ -53,59 +53,60 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         ? []
         : validOrgUnitsExpanded.map((ou) => ou.organisationUnitId);
 
-    const roleList = await fetchRoles(
+    const deviceGroupList = await fetchDeviceGroups(
         request,
         size,
         page,
         search,
         orgUnits,
-        validOrgUnitIds,
-        resource.validForRoles
+        validOrgUnitIds
     );
 
     let filter = '';
-    roleList.roles.forEach((value) => {
-        filter += `&rolefilter=${value.id}`;
+    deviceGroupList.deviceGroups.forEach((value) => {
+        filter += `&devicegroupfilter=${value.id}`;
     });
 
-    const [assignedRolesList, userTypesKodeverk] = await Promise.all([
-        fetchAssignedRoles(request, params.id, size, '0', '', orgUnits, filter),
+    const [assignedDeviceGroupList, userTypesKodeverk] = await Promise.all([
+        fetchAssignedDevices(request, params.id, size, '0', '', orgUnits, filter),
         fetchUserTypes(request),
     ]);
 
-    const assignedRolesMap: Map<number, IRole> = new Map(
-        assignedRolesList.roles.map((role) => [role.id, role])
+    const assignedDeviceMap: Map<number, IDeviceGroup> = new Map(
+        assignedDeviceGroupList.deviceGroupAssignments.map((role) => [role.id, role])
     );
-    const isAssignedRoles: IRole[] = roleList.roles.map((role) => {
-        return {
-            ...role,
-            assigned: assignedRolesMap.has(role.id),
-        };
-    });
+    const isAssignedDeviceGroup: IDeviceGroup[] = deviceGroupList.deviceGroups.map(
+        (deviceGroup) => {
+            return {
+                ...deviceGroup,
+                assigned: assignedDeviceMap.has(deviceGroup.id),
+            };
+        }
+    );
 
     return {
-        roleList,
-        isAssignedRoles,
+        deviceGroupList,
+        isAssignedDeviceGroup,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         userTypesKodeverk,
         resource,
     };
 }
 
-export default function NewAssignmentForRole() {
-    const { isAssignedRoles, roleList, resource } = useLoaderData<LoaderData>();
+export default function NewAssignmentForDeviceGroup() {
+    const { isAssignedDeviceGroup, deviceGroupList, resource } = useLoaderData<LoaderData>();
     const params = useParams<string>();
 
     return (
-        <Tabs.Panel value="grupper">
-            <TableToolbar SearchComponent={<RoleSearch />} />
-            <AssignRoleTable
-                isAssignedRoles={isAssignedRoles}
+        <Tabs.Panel value="maskingrupper">
+            <TableToolbar SearchComponent={<DeviceSearch />} />
+            <AssignDeviceGroupTable
+                isAssignedDeviceGroup={isAssignedDeviceGroup}
                 resourceId={params.id}
-                currentPage={roleList.currentPage}
-                totalPages={roleList.totalPages}
-                size={roleList.totalItems}
-                totalItems={roleList.totalItems}
+                currentPage={deviceGroupList.currentPage}
+                totalPages={deviceGroupList.totalPages}
+                size={deviceGroupList.totalItems}
+                totalItems={deviceGroupList.totalItems}
                 resourceStatus={resource.status}
             />
         </Tabs.Panel>
@@ -114,8 +115,8 @@ export default function NewAssignmentForRole() {
 
 export const handle = {
     breadcrumb: ({ params }: BreadcrumbParams) => (
-        <Link to={`/assignment/resource/${params.id}/role`} className={'breadcrumb-link'}>
-            Gruppetildeling
+        <Link to={`/assignment/resource/${params.id}/devicegroup`} className={'breadcrumb-link'}>
+            Maskingruppetildeling
         </Link>
     ),
 };

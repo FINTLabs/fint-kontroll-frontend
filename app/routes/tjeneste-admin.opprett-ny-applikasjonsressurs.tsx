@@ -33,7 +33,8 @@ export const handle = {
                 <ArrowRightIcon fontSize="1.5rem" />
                 <Link
                     to={SERVICE_ADMIN_NEW_APPLICATION_RESOURCE_CREATE}
-                    className={'breadcrumb-link'}>
+                    className={'breadcrumb-link'}
+                >
                     Ny ressurs
                 </Link>
             </HStack>
@@ -110,6 +111,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const resourceOwnerOrgUnitName = data.get('resourceOwnerOrgUnitName') as string;
     const validForRoles = String(data.get('validForRoles')).split(',') ?? [];
     const applicationCategory = String(data.get('applicationCategory')).split(',') ?? [];
+    //const applicationCategory = data.getAll('applicationCategory').map(Number);
     const hasCost = data.get('hasCost') === 'true';
     const licenseEnforcement = data.get('licenseEnforcement') as string;
     const unitCost = data.get('unitCost') as string;

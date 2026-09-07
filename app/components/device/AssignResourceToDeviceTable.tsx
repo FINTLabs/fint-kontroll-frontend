@@ -1,10 +1,10 @@
-import { Button, Table, Tag } from '@navikt/ds-react';
+import { Table, Tag } from '@navikt/ds-react';
 import React from 'react';
 import { Outlet, useSearchParams } from 'react-router';
 import { TableSkeleton } from '~/components/common/Table/TableSkeleton';
 import { TablePagination } from '~/components/common/Table/TablePagination';
 import { useLoadingState } from '~/utils/customHooks';
-import { getConfirmRoleAssignmentUrl } from '~/data/paths';
+import { getConfirmDeviceGroupAssignmentUrl } from '~/data/paths';
 import { IResourceForList } from '~/data/types/resourceTypes';
 import { prepareQueryParams } from '~/utils/searchParamsHelpers';
 import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
@@ -12,7 +12,7 @@ import { AssignButton } from '~/components/common/Table/buttons/AssignButton';
 interface AssignResourceToDeviceTableProps {
     isAssignedResources: IResourceForList[];
     size: string;
-    roleId: number;
+    deviceGroupId: number;
     totalPages?: number;
     currentPage: number;
     orgId: string;
@@ -22,7 +22,7 @@ interface AssignResourceToDeviceTableProps {
 export const AssignResourceToDeviceTable = ({
     isAssignedResources,
     size,
-    roleId,
+    deviceGroupId,
     totalPages,
     currentPage,
     orgId,
@@ -59,15 +59,15 @@ export const AssignResourceToDeviceTable = ({
                                         <Tag
                                             variant="success"
                                             size="small"
-                                            className="navds-tag-in-table">
+                                            className="navds-tag-in-table"
+                                        >
                                             Er tildelt
                                         </Tag>
                                     ) : (
-                                        <Button>Button</Button>
-                                        /*<AssignButton
+                                        <AssignButton
                                             id={`assignResource-${resource.id}`}
-                                            url={`${getConfirmRoleAssignmentUrl(roleId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
-                                        />*/
+                                            url={`${getConfirmDeviceGroupAssignmentUrl(deviceGroupId, resource.id, orgId)}${prepareQueryParams(searchParams)}`}
+                                        />
                                     )}
                                 </Table.DataCell>
                             </Table.Row>

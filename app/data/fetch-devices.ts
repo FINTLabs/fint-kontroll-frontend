@@ -1,21 +1,24 @@
 import { fetchData } from '~/data/helpers';
-import { BASE_PATH, DEVICE_API_URL } from '../../environment';
-import {
-    IDeviceGroup,
-    IDeviceGroupList,
-    IDeviceItem,
-    IDeviceItemList,
-} from '~/data/types/deviceTypes';
+import { ASSIGNMENT_API_URL, BASE_PATH, DEVICE_API_URL } from '../../environment';
+import { IDeviceGroup, IDeviceGroupList, IDeviceItemList } from '~/data/types/deviceTypes';
+import { IAssignedResourcesList } from '~/data/types/resourceTypes';
 
 export const fetchDeviceGroups = async (
     request: Request,
     size: string,
-    page: string
+    page: string,
+    search: string,
+    orgUnits: string[],
+    validOrgUnitIds: string[] = []
 ): Promise<IDeviceGroupList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
+    const orgUnitsFilter = orgUnits?.length > 0 ? `&orgUnits=${orgUnits.join(',')}` : '';
+    const validOrgUnitsFilter =
+        validOrgUnitIds.length > 0 ? `&validorgunits=${validOrgUnitIds.join(',')}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups?${sizeFilter}${pageFilter}${searchFilter}${orgUnitsFilter}${validOrgUnitsFilter}`,
         request
     );
 };
@@ -30,12 +33,27 @@ export const fetchDeviceMembersById = async (
     request: Request,
     id: string | undefined,
     size: string,
-    page: string
+    page: string,
+    search: string
 ): Promise<IDeviceItemList> => {
     const sizeFilter = size ? `&size=${size}` : '';
     const pageFilter = page ? `&page=${page}` : '';
+    const searchFilter = search ? `&search=${search}` : '';
     return fetchData(
-        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups/${id}/members?${sizeFilter}${pageFilter}`,
+        `${DEVICE_API_URL}${BASE_PATH}/api/devicegroups/${id}/members?${sizeFilter}${pageFilter}${searchFilter}`,
         request
     );
 };
+
+export const fetchAssignedResourcesDeviceGroups = async (
+    request: Request,
+    id: string | undefined,
+    size: string,
+    page: string,
+    resourceType: string,
+    resourceFilter: string
+): Promise<IAssignedResourcesList> =>
+    fetchData(
+        `${ASSIGNMENT_API_URL}${BASE_PATH}/api/assignments/devicegroup/${id}/resources?size=${size}&page=${page}&resourceType=${resourceType}${resourceFilter}`,
+        request
+    );
