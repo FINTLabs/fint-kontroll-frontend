@@ -76,6 +76,11 @@ patches:
       - op: add
         path: "/spec/env/-"
         value:
+          name: DEVICE_API_URL
+          value: http://fint-kontroll-device-catalog:8080
+      - op: add
+        path: "/spec/env/-"
+        value:
           name: LOG_LEVEL
           value: info
     target:
