@@ -15,7 +15,7 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Cache node_modules
         uses: actions/cache@v5
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       -   name: Checkout
-          uses: actions/checkout@v5
+          uses: actions/checkout@v7
       -   name: Cypress run
           uses: cypress-io/github-action@v7
           env:
@@ -87,7 +87,7 @@ jobs:
 #            environment: api
 #            org: ofk-no
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           node-version: "22.x"
@@ -153,7 +153,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Get environment
         uses: actions/github-script@v8
