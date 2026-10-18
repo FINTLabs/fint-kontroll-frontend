@@ -43,7 +43,7 @@ jobs:
 #          node-version: "22.x"
 #
 #      - name: Cache node_modules
-#        uses: actions/cache@v4
+#        uses: actions/cache@v5
 #        with:
 #          path: ./node_modules
 #          key: modules-${{ hashFiles('package-lock.json') }}
@@ -93,7 +93,7 @@ jobs:
           node-version: "22.x"
 
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
@@ -126,7 +126,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Cache static files
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./build
