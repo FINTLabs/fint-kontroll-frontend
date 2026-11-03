@@ -22,4 +22,6 @@ spec:
     enabled: true
     middlewares:
       - fint-kontroll-sso
-  env: []
+  env:
+    - name: MAINTANCE_MODE
+      value: false
