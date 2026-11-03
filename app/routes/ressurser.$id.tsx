@@ -110,7 +110,9 @@ export default function ResourceById() {
                     info={[
                         {
                             label: 'Applikasjonskategori',
-                            value: resource.applicationCategory.join(', '),
+                            value: resource.applicationCategory
+                                ?.map((category) => category.name)
+                                .join(', '),
                         },
                         /* { label: 'Ressurstype', value: resource.resourceType },*/
                         { label: 'Ressurseier', value: resource.resourceOwnerOrgUnitName },

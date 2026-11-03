@@ -108,7 +108,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     const validForRoles = String(data.get('validForRoles')).split(',') ?? [];
-    const applicationCategory = String(data.get('applicationCategory')).split(',') ?? [];
+    const applicationCategory = data.getAll('applicationCategory').map(Number);
     const hasCost = data.get('hasCost') === 'true';
     const licenseEnforcement = data.get('licenseEnforcement') as string;
     const unitCost = data.get('unitCost') as string;

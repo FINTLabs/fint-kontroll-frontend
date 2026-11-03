@@ -120,30 +120,33 @@ export default function ApplicationResourceData({
                             </HStack>
                         }
                         description={'(Valgfritt)'}
-                        value={newApplicationResource.applicationCategory || []}
-                        onChange={(value: string[]) => {
-                            setNewApplicationResource((prevState) => {
-                                return {
-                                    ...prevState,
-                                    applicationCategory: value,
-                                };
-                            });
+                        value={
+                            newApplicationResource.applicationCategory?.map(
+                                (category) => category.id
+                            ) ?? []
+                        }
+                        onChange={(value: number[]) => {
+                            setNewApplicationResource((prevState) => ({
+                                ...prevState,
+                                applicationCategory: value.map((id) => {
+                                    const category = applicationCategories?.find(
+                                        (category) => category.id === id
+                                    );
+
+                                    return category!;
+                                }),
+                            }));
                         }}
                     >
-                        {applicationCategories?.map((category) => {
-                            return (
-                                <Checkbox key={category.id} value={category.name}>
-                                    {category.name}
-                                </Checkbox>
-                                /*<Checkbox
-                                    key={category.id}
-                                    value={category.id}
-                                    name="applicationCategory"
-                                >
-                                    {category.name}
-                                </Checkbox>*/
-                            );
-                        })}
+                        {applicationCategories?.map((category) => (
+                            <Checkbox
+                                key={category.id}
+                                value={category.id}
+                                name="applicationCategory"
+                            >
+                                {category.name}
+                            </Checkbox>
+                        ))}
                     </CheckboxGroup>
                 </li>
                 <li>

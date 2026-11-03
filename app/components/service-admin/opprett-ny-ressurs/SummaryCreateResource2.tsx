@@ -13,11 +13,10 @@ const SummaryCreateResource2 = ({ resource }: SummaryCreateResourceProps) => {
         : [];
 
     const cleanedApplicationCategory = Array.isArray(resource.applicationCategory)
-        ? resource.applicationCategory.filter((r) => r.trim() !== '')
+        ? resource.applicationCategory.filter(
+              (category) => category.id != null && category.name?.trim() !== ''
+          )
         : [];
-    /*const cleanedApplicationCategory = Array.isArray(resource.applicationCategory)
-        ? resource.applicationCategory.map(Number).filter(Number.isFinite)
-        : [];*/
 
     return (
         <div>
@@ -68,7 +67,9 @@ const SummaryCreateResource2 = ({ resource }: SummaryCreateResourceProps) => {
                         <FormSummary.Label>Applikasjonskategori</FormSummary.Label>
                         <FormSummary.Value>
                             {cleanedApplicationCategory.length > 0 ? (
-                                cleanedApplicationCategory.join(', ')
+                                cleanedApplicationCategory
+                                    .map((category) => category.name)
+                                    .join(', ')
                             ) : (
                                 <Detail>Ingen applikasjonskategori valgt</Detail>
                             )}

@@ -10,8 +10,7 @@ export interface IApplicationResource {
     resourceOwnerOrgUnitName: string;
     validForOrgUnits: IValidForOrgUnits[];
     validForRoles: string[];
-    applicationCategory: string[];
-    // applicationCategory: number[];
+    applicationCategory: IApplicationCategory[];
     hasCost: boolean;
     licenseEnforcement: string;
     unitCost: number | '';
@@ -28,4 +27,10 @@ export interface IValidForOrgUnits {
     resourceLimit?: number | null;
     topOrgunit?: boolean;
     isChecked?: boolean;
+}
+
+export interface IApplicationCategory {
+    name: string;
+    id: number;
+    description: string;
 }
