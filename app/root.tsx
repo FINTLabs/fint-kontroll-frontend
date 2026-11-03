@@ -64,19 +64,19 @@ export function useNonce() {
 export async function loader({ request, context }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
     const source = await fetchResourceDataSource(request);
-    const maintanceMode = process.env.MAINTANCE_MODE === 'true' || false;
+    const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' || false;
 
     return {
         me,
         source,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         cspNonce: context.cspNonce,
-        maintanceMode,
+        maintenanceMode: maintenanceMode,
     };
 }
 
 export default function App() {
-    const { me, source, basePath, maintanceMode } = useLoaderData<typeof loader>();
+    const { me, source, basePath, maintenanceMode } = useLoaderData<typeof loader>();
     const matches = useMatches();
     const nonce = useNonce();
     return (
@@ -87,7 +87,7 @@ export default function App() {
                 <link rel="icon" type="image/svg+xml" href={`${basePath}/Novari_Favikon.svg`} />
             </head>
             <body>
-                {maintanceMode ? (
+                {maintenanceMode ? (
                     <MaintenancePage />
                 ) : (
                     <Theme className={'novari'}>
