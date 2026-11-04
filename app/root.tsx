@@ -10,6 +10,7 @@ import {
     useLoaderData,
     useMatches,
     useRouteError,
+    useRouteLoaderData,
 } from 'react-router';
 import '@navikt/ds-css';
 import { fetchMeInfo } from '~/data/fetch-me-info';
@@ -22,13 +23,11 @@ import { NovariIKS } from '~/components/images/NovariIKS';
 import { ErrorMessage } from '~/components/common/ErrorMessage';
 import { IMeInfo } from '~/data/types/userTypes';
 import { fetchResourceDataSource } from '~/data/fetch-kodeverk';
-import '@navikt/ds-css';
 import '~/tailwind.css';
 import themeUrl from '~/novari-theme.css?url';
 import styles from '~/styles/main.css?url';
 import meStyles from '~/components/app-bar/appBar.css?url';
-import { useRouteLoaderData } from 'react-router';
-import theme from 'tailwindcss/defaultTheme';
+import { MaintenancePage } from '~/components/common/MaintenancePage';
 
 export const meta: MetaFunction = () => {
     return [
@@ -65,17 +64,19 @@ export function useNonce() {
 export async function loader({ request, context }: LoaderFunctionArgs) {
     const me = await fetchMeInfo(request);
     const source = await fetchResourceDataSource(request);
+    const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' || false;
 
     return {
         me,
         source,
         basePath: BASE_PATH === '/' ? '' : BASE_PATH,
         cspNonce: context.cspNonce,
+        maintenanceMode: maintenanceMode,
     };
 }
 
 export default function App() {
-    const { me, source, basePath } = useLoaderData<typeof loader>();
+    const { me, source, basePath, maintenanceMode } = useLoaderData<typeof loader>();
     const matches = useMatches();
     const nonce = useNonce();
     return (
@@ -86,41 +87,54 @@ export default function App() {
                 <link rel="icon" type="image/svg+xml" href={`${basePath}/Novari_Favikon.svg`} />
             </head>
             <body>
-                <Theme className={'novari'}>
-                    <Layout me={me} basePath={basePath} source={source}>
-                        {matches.find((match) => {
-                            // @ts-ignore
-                            return match.handle?.breadcrumb;
-                        }) && (
-                            <HStack paddingBlock={'space-4'}>
-                                {matches
-                                    .filter((match: any) => match.handle && match.handle.breadcrumb)
-                                    .map((match: any, index) => (
-                                        <span key={index}>{match.handle.breadcrumb(match)}</span>
-                                    ))
-                                    // Use reducer to add separator between each breadcrumb element
-                                    .reduce(
-                                        (acc: ReactElement[], curr: ReactElement, index, array) => {
-                                            if (index < array.length - 1) {
-                                                return acc.concat(
-                                                    curr,
-                                                    <ArrowRightIcon
-                                                        key={`sep-${index}`}
-                                                        title="a11y-title"
-                                                        fontSize="1.5rem"
-                                                    />
-                                                );
-                                            } else {
-                                                return acc.concat(curr);
-                                            }
-                                        },
-                                        []
-                                    )}
-                            </HStack>
-                        )}
-                        <Outlet />
-                    </Layout>
-                </Theme>
+                {maintenanceMode ? (
+                    <MaintenancePage />
+                ) : (
+                    <Theme className={'novari'}>
+                        <Layout me={me} basePath={basePath} source={source}>
+                            {matches.find((match) => {
+                                // @ts-ignore
+                                return match.handle?.breadcrumb;
+                            }) && (
+                                <HStack paddingBlock={'space-4'}>
+                                    {matches
+                                        .filter(
+                                            (match: any) => match.handle && match.handle.breadcrumb
+                                        )
+                                        .map((match: any, index) => (
+                                            <span key={index}>
+                                                {match.handle.breadcrumb(match)}
+                                            </span>
+                                        ))
+                                        // Use reducer to add separator between each breadcrumb element
+                                        .reduce(
+                                            (
+                                                acc: ReactElement[],
+                                                curr: ReactElement,
+                                                index,
+                                                array
+                                            ) => {
+                                                if (index < array.length - 1) {
+                                                    return acc.concat(
+                                                        curr,
+                                                        <ArrowRightIcon
+                                                            key={`sep-${index}`}
+                                                            title="a11y-title"
+                                                            fontSize="1.5rem"
+                                                        />
+                                                    );
+                                                } else {
+                                                    return acc.concat(curr);
+                                                }
+                                            },
+                                            []
+                                        )}
+                                </HStack>
+                            )}
+                            <Outlet />
+                        </Layout>
+                    </Theme>
+                )}
                 <ScrollRestoration getKey={(location) => location.pathname} nonce={nonce} />
                 <Scripts nonce={nonce} />
             </body>
