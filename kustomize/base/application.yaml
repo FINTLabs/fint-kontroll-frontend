@@ -24,4 +24,4 @@ spec:
       - fint-kontroll-sso
   env:
     - name: MAINTENANCE_MODE
-      value: "true"
+      value: "false"
