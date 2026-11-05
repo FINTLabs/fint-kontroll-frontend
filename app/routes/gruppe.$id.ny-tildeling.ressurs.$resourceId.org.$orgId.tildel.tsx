@@ -104,7 +104,8 @@ export default function AssignResourceToRole() {
                 size: 'small',
                 closeButton: false,
             }}
-            width="medium">
+            width="medium"
+        >
             <Modal.Body>
                 <VStack gap="space-12">
                     <BodyShort>{resource.resourceName}</BodyShort>
@@ -121,7 +122,8 @@ export default function AssignResourceToRole() {
                                     <CheckboxGroup
                                         legend="Transportmiddel"
                                         hideLegend
-                                        onChange={() => setChecked((x) => !x)}>
+                                        onChange={() => setChecked((x) => !x)}
+                                    >
                                         <Checkbox value="public">
                                             Jeg bekrefter at jeg har fått nødvendig godkjenning.
                                         </Checkbox>
@@ -148,7 +150,8 @@ export default function AssignResourceToRole() {
                         navigate(
                             `${getRoleNewAssignmentUrl(Number(params.id))}${prepareQueryParams(searchParams)}`
                         )
-                    }>
+                    }
+                >
                     Avbryt
                 </Button>
             </Modal.Footer>

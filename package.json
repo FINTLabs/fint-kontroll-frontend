@@ -24,23 +24,23 @@
         "format:check": "prettier --check ."
     },
     "dependencies": {
-        "@navikt/ds-css": "^8.9.0",
-        "@navikt/ds-react": "^8.9.0",
+        "@navikt/ds-css": "^8.21.0",
+        "@navikt/ds-react": "^8.21.0",
         "@react-router/express": "7.18.2",
         "@react-router/node": "7.18.2",
-        "express": "^4.22.2",
+        "express": "^4.22.3",
         "express-prometheus-middleware": "^1.2.0",
         "helmet": "^8.2.0",
         "isbot": "^5.1.17",
         "log4js": "^6.9.1",
-        "morgan": "^1.10.0",
+        "morgan": "^1.12.1",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "react-router": "7.18.2"
     },
     "devDependencies": {
-        "@navikt/aksel": "^8.9.0",
-        "@navikt/aksel-stylelint": "^8.9.0",
+        "@navikt/aksel": "^8.21.0",
+        "@navikt/aksel-stylelint": "^8.21.0",
         "@react-router/dev": "7.18.2",
         "@react-router/fs-routes": "7.18.2",
         "@types/react": "^19.2.14",
@@ -61,7 +61,7 @@
         "prettier": "^3.6.2",
         "tailwindcss": "^3.4.14",
         "typescript": "^5.4.5",
-        "vite": "7.3.5",
+        "vite": "7.3.7",
         "vite-tsconfig-paths": "^4.3.2"
     },
     "engines": {
