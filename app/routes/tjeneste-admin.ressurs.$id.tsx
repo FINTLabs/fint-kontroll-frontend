@@ -92,7 +92,8 @@ export default function ResourceById() {
                                 variant={'secondary'}
                                 iconPosition="right"
                                 icon={<PencilIcon aria-hidden />}
-                                onClick={() => navigate(getEditResourceUrl(resource.id))}>
+                                onClick={() => navigate(getEditResourceUrl(resource.id))}
+                            >
                                 Rediger ressurs
                             </Button>
                         </HStack>
@@ -112,7 +113,9 @@ export default function ResourceById() {
                         info={[
                             {
                                 label: 'Applikasjonskategori',
-                                value: resource.applicationCategory.join(', '),
+                                value: resource.applicationCategory
+                                    ?.map((category) => category.name)
+                                    .join(', '),
                             },
                             /*{
                                 label: 'Ressurstype',
@@ -185,7 +188,8 @@ export default function ResourceById() {
                                     icon={<PencilIcon aria-hidden />}
                                     onClick={() =>
                                         navigate(getEditValidForOrgUnitsUrl(resource.id))
-                                    }>
+                                    }
+                                >
                                     Legg til org.enheter
                                 </Button>
                             </HStack>
@@ -216,7 +220,8 @@ export default function ResourceById() {
                                 variant={'secondary'}
                                 iconPosition="right"
                                 icon={<PencilIcon aria-hidden />}
-                                onClick={() => navigate(getEditValidForOrgUnitsUrl(resource.id))}>
+                                onClick={() => navigate(getEditValidForOrgUnitsUrl(resource.id))}
+                            >
                                 Endre eller legg til org.enheter
                             </Button>
                         </HStack>

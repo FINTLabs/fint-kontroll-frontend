@@ -246,15 +246,14 @@ export const ResourceForm: React.FC<ResourseFormProps> = ({
                         id="validForRoles"
                         value={newResource.validForRoles.join(',')}
                     />
-                    {/*{newResource.applicationCategory.map((id) => (
-                        <input key={id} type="hidden" name="applicationCategory" value={id} />
-                    ))}*/}
-                    <input
-                        type="hidden"
-                        name="applicationCategory"
-                        id="applicationCategory"
-                        value={newResource.applicationCategory.join(',')}
-                    />
+                    {newResource.applicationCategory.map((category) => (
+                        <input
+                            key={category.id}
+                            type="hidden"
+                            name="applicationCategory"
+                            value={category.id}
+                        />
+                    ))}
                     <input
                         type="hidden"
                         name="hasCost"

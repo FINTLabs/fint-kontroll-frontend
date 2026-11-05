@@ -110,8 +110,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const resourceOwnerOrgUnitId = data.get('resourceOwnerOrgUnitId') as string;
     const resourceOwnerOrgUnitName = data.get('resourceOwnerOrgUnitName') as string;
     const validForRoles = String(data.get('validForRoles')).split(',') ?? [];
-    const applicationCategory = String(data.get('applicationCategory')).split(',') ?? [];
-    //const applicationCategory = data.getAll('applicationCategory').map(Number);
+    const applicationCategory = data.getAll('applicationCategory').map(Number);
     const hasCost = data.get('hasCost') === 'true';
     const licenseEnforcement = data.get('licenseEnforcement') as string;
     const unitCost = data.get('unitCost') as string;

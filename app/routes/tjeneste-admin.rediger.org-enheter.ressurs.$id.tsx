@@ -127,7 +127,9 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     const validForRoles = String(data.get('validForRoles')).split(',') ?? [];
-    const applicationCategory = String(data.get('applicationCategory')).split(',') ?? [];
+    const applicationCategory = data.get('applicationCategory')
+        ? String(data.get('applicationCategory')).split(',').map(Number)
+        : [];
     const hasCost = data.get('hasCost') === 'true';
     const licenseEnforcement = data.get('licenseEnforcement') as string;
     const unitCost = data.get('unitCost') as string;
@@ -199,6 +201,7 @@ export default function EditOrgUnitsForResource() {
         validForOrgUnits: resource.validForOrgUnits,
         validForRoles: resource.validForRoles,
         applicationCategory: resource.applicationCategory,
+        /* applicationCategory: resource.applicationCategory.map((category) => category.id),*/
         hasCost: resource.hasCost,
         licenseEnforcement: resource.licenseEnforcement,
         unitCost: resource.unitCost,
@@ -251,13 +254,15 @@ export default function EditOrgUnitsForResource() {
                     padding={'space-24'}
                     borderWidth="1"
                     borderColor="neutral-subtle"
-                    borderRadius={'8'}>
+                    borderRadius={'8'}
+                >
                     {selectedValidForOrgUnits.length > 0 && (
                         <Box
                             paddingBlock={'space-0 space-12'}
                             borderWidth={'0 0 1 0'}
                             borderColor={'neutral-subtle'}
-                            marginBlock={'space-0 space-12'}>
+                            marginBlock={'space-0 space-12'}
+                        >
                             <VStack>
                                 <BodyShort>
                                     {selectedValidForOrgUnits.length} enheter valgt.
@@ -296,7 +301,8 @@ export default function EditOrgUnitsForResource() {
                     <Button
                         type="button"
                         variant="secondary"
-                        onClick={() => navigate(SERVICE_ADMIN)}>
+                        onClick={() => navigate(SERVICE_ADMIN)}
+                    >
                         Avbryt
                     </Button>
                     <Form
@@ -308,7 +314,8 @@ export default function EditOrgUnitsForResource() {
                             } else {
                                 setErrorMessage(null);
                             }
-                        }}>
+                        }}
+                    >
                         <input type="hidden" name="id" id="id" value={newResource.id} />
                         <input
                             type="hidden"
@@ -372,12 +379,14 @@ export default function EditOrgUnitsForResource() {
                             id="validForRoles"
                             value={newResource.validForRoles.join(',')}
                         />
-                        <input
-                            type="hidden"
-                            name="applicationCategory"
-                            id="applicationCategory"
-                            value={newResource.applicationCategory.join(',')}
-                        />
+                        {resource.applicationCategory.map((category) => (
+                            <input
+                                key={category.id}
+                                type="hidden"
+                                name="applicationCategory"
+                                value={category.id}
+                            />
+                        ))}
                         <input
                             type="hidden"
                             name="hasCost"

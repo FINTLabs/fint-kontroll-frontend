@@ -1,4 +1,5 @@
 import { IUnitItem } from '~/data/types/orgUnitTypes';
+import { IApplicationCategory } from '~/components/service-admin/types';
 
 export interface IResourceModuleUsersPage {
     totalItems: number;
@@ -141,7 +142,7 @@ export interface IResource {
     resourceOwnerOrgUnitName: string;
     validForOrgUnits: IResourceItem[];
     validForRoles: string[];
-    applicationCategory: string[];
+    applicationCategory: IApplicationCategory[];
     licenseEnforcement: string;
     hasCost: boolean;
     unitCost: number;
