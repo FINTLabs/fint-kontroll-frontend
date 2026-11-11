@@ -112,6 +112,9 @@ export const resourceHandlers = [
                         resourceName: 'Solid Works Edu',
                         resourceType: 'ApplicationResource',
                         resourceLimit: 50,
+                        applicationCategory: ['Fysisk rom'],
+                        status: 'ACTIVE',
+                        resourceUsage: 6,
                     },
                 ],
             });
@@ -138,6 +141,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: [],
                     resourceLimit: 25,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
                 {
                     id: 62,
@@ -146,6 +151,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: ['Pedagogisk programvare', 'Fagsystemer'],
                     resourceLimit: 50,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
                 {
                     id: 53,
@@ -154,6 +161,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: ['', 'Pedagogisk programvare'],
                     resourceLimit: 10000,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
                 {
                     id: 44,
@@ -162,6 +171,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: ['Pedagogisk programvare'],
                     resourceLimit: 25,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
                 {
                     id: 61,
@@ -170,6 +181,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: ['Pedagogisk programvare'],
                     resourceLimit: 50,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
                 {
                     id: 66,
@@ -178,6 +191,8 @@ export const resourceHandlers = [
                     resourceType: 'ApplicationResource',
                     applicationCategory: ['Pedagogisk programvare'],
                     resourceLimit: 50,
+                    status: 'ACTIVE',
+                    resourceUsage: 6,
                 },
             ],
         });
@@ -230,8 +245,17 @@ export const resourceHandlers = [
                 },
             ],
             validForRoles: ['STUDENT', 'EMPLOYEESTAFF', 'Ukjent'],
-            applicationCategory: ['Pedagogisk programvare'],
+            applicationCategory: [
+                {
+                    name: 'Faggrupper',
+                    id: 2,
+                    description: '',
+                },
+            ],
             basePath: '/fintlabs-no',
+            licenseEnforcement: 'FREEALL',
+            hasCost: false,
+            resourceUsage: 0,
         });
     }),
 

@@ -105,7 +105,8 @@ export interface IResourceItem {
     orgUnitName: string;
     resourceLimit: number | null;
     topOrgunit: boolean;
-    assignedResources?: number; // NEW
+    assignedResources?: number;
+    resourceUsage: number;
 }
 
 export interface IResourceAdminItem {
@@ -150,6 +151,7 @@ export interface IResource {
     statusChanged?: string;
     createdBy?: string;
     dateCreated?: string;
+    resourceUsage: number;
 }
 
 // ----

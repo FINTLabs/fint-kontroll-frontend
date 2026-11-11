@@ -13,15 +13,17 @@ export const ResourceLicenseTable = ({ resource }: { resource: IResource }) => {
                     <Table.HeaderCell
                         scope="col"
                         align={'center'}
-                        style={{ color: 'var(--red-primary)' }}>
+                        style={{ color: 'var(--red-primary)' }}
+                    >
                         Maks antall lisenser
                     </Table.HeaderCell>
-                    <Table.HeaderCell
+                    {/*<Table.HeaderCell
                         scope="col"
                         align={'center'}
-                        style={{ color: 'var(--red-primary)' }}>
+                        style={{ color: 'var(--red-primary)' }}
+                    >
                         Antall brukte lisenser
-                    </Table.HeaderCell>
+                    </Table.HeaderCell>*/}
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -43,11 +45,11 @@ export const ResourceLicenseTable = ({ resource }: { resource: IResource }) => {
                                     {resourceItem.resourceLimit}
                                 </BodyShort>
                             </Table.DataCell>
-                            <Table.DataCell align={'center'}>
+                            {/*<Table.DataCell align={'center'}>
                                 <BodyShort textColor={'subtle'} style={{ wordBreak: 'break-word' }}>
-                                    {resourceItem.assignedResources}{' '}
+                                    {resourceItem.resourceUsage}{' '}
                                 </BodyShort>
-                            </Table.DataCell>
+                            </Table.DataCell>*/}
                         </Table.Row>
                     ))}
             </Table.Body>

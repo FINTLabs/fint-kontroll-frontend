@@ -119,14 +119,36 @@ export default function ResourceById() {
                         {
                             label: (
                                 <HStack gap="space-12">
-                                    Antall lisenser
+                                    Antall anskaffede lisenser
                                     <HelpText title="Antall lisenser" placement="top">
                                         Dette viser hvor mange lisenser som er anskaffet i avtalen
                                         totalt.
                                     </HelpText>
                                 </HStack>
                             ),
-                            value: resource.resourceLimit.toString(),
+                            value:
+                                resource.resourceLimit === 0 &&
+                                resource.licenseEnforcement !== 'HARDSTOP' &&
+                                resource.licenseEnforcement !== 'FLOATING'
+                                    ? 'Fri bruk'
+                                    : resource.resourceLimit.toString(),
+                        },
+                        {
+                            label: (
+                                <HStack gap="space-12">
+                                    Antall brukte lisenser
+                                    <HelpText title="Antall anskaffede lisenser" placement="top">
+                                        Dette viser hvor mange lisenser som er brukt av det totale
+                                        antallet som er anskaffet i avtalen.
+                                    </HelpText>
+                                </HStack>
+                            ),
+                            value:
+                                resource.resourceUsage.toLocaleString() +
+                                (resource.licenseEnforcement === 'FLOATING' ||
+                                resource.licenseEnforcement === 'HARDSTOP'
+                                    ? '/' + resource.resourceLimit.toString()
+                                    : ''),
                         },
                         {
                             label: 'Gyldig for',
