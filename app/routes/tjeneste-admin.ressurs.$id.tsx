@@ -134,11 +134,22 @@ export default function ResourceById() {
                                     .join(', '),
                             },
                             {
-                                label: 'Totalt antall lisenser',
+                                label: 'Antall anskaffede lisenser',
                                 value:
-                                    resource.resourceLimit != null
-                                        ? resource.resourceLimit.toLocaleString()
-                                        : '',
+                                    resource.resourceLimit === 0 &&
+                                    resource.licenseEnforcement !== 'HARDSTOP' &&
+                                    resource.licenseEnforcement !== 'FLOATING'
+                                        ? 'Fri bruk'
+                                        : resource.resourceLimit.toString(),
+                            },
+                            {
+                                label: 'Antall brukte lisenser',
+                                value:
+                                    resource.resourceUsage.toLocaleString() +
+                                    (resource.licenseEnforcement === 'FLOATING' ||
+                                    resource.licenseEnforcement === 'HARDSTOP'
+                                        ? '/' + resource.resourceLimit.toString()
+                                        : ''),
                             },
                             {
                                 label: 'Kostnad pr. ressurs',
